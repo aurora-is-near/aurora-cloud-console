@@ -12,7 +12,9 @@ const Heading = ({
   const Tag = tag
 
   return (
-    <Tag className="text-2xl leading-7 font-bold text-gray-900">{children}</Tag>
+    <Tag className="text-2xl leading-7 font-bold text-gray-900 tracking-[-1px]">
+      {children}
+    </Tag>
   )
 }
 

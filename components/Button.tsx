@@ -2,12 +2,14 @@ import { ReactNode } from "react"
 import clsx from "clsx"
 
 const Button = ({
+  style = "primary",
   children,
   loading,
   disabled,
   fullWidth,
   ...rest
 }: {
+  style?: "primary" | "secondary"
   children: ReactNode
   loading?: boolean
   disabled?: boolean
@@ -26,8 +28,12 @@ const Button = ({
   return (
     <button
       className={clsx(
-        "relative justify-center rounded-lg bg-green-500 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm hover:bg-green-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 disabled:opacity-80",
+        "relative justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-80",
         {
+          "bg-green-500 text-gray-900 hover:bg-green-400 focus-visible:outline-green-500":
+            style === "primary",
+          "bg-gray-200 text-gray-900 hover:bg-gray-300 focus-visible:outline-gray-600":
+            style === "secondary",
           "w-full": fullWidth,
         }
       )}
