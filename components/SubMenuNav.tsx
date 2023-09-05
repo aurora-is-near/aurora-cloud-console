@@ -5,6 +5,7 @@ import { SubMenuButton } from "./MenuButtons"
 import { useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import { SubrouteKeys, subrouteMap } from "@/constants/navigation"
+import Heading from "./Heading"
 
 const SubMenuNav = () => {
   const [route] = useSelectedLayoutSegments()
@@ -14,7 +15,7 @@ const SubMenuNav = () => {
 
   return (
     <>
-      <h1 className="font-bold text-2xl leading-7">{heading}</h1>
+      <Heading>{heading}</Heading>
 
       <nav className="flex flex-1 flex-col gap-y-4">
         <ul role="list" className="space-y-4">

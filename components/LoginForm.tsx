@@ -78,7 +78,7 @@ const LoginForm = () => {
         </div>
       </div>
 
-      <Button loading={isSubmitting} type="submit">
+      <Button loading={isSubmitting} type="submit" fullWidth>
         Sign in
       </Button>
 
