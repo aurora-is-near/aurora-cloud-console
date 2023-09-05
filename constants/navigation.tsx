@@ -1,17 +1,18 @@
 import {
-  AdjustmentsHorizontalIcon,
   CreditCardIcon,
-  IdentificationIcon,
   InformationCircleIcon,
   LockClosedIcon,
   UserIcon,
   Cog6ToothIcon,
+  HomeIcon,
+  UsersIcon,
 } from "@heroicons/react/24/outline"
 import { Borealis, Silos } from "@/components/icons"
 
 export const mainNavigation = [
   { name: "Borealis", href: "/borealis/deals", icon: <Borealis /> },
   { name: "Silos", href: "/silos", icon: <Silos /> },
+  { name: "Users", href: "/users", icon: <UsersIcon /> },
 ]
 
 export const mainExtraNavigation = [
@@ -23,14 +24,9 @@ export type SubrouteKeys = "borealis" | "silos" | "settings"
 export const subrouteMap = {
   borealis: [
     {
-      name: "Deals",
+      name: "Summary",
       href: "/borealis/deals",
-      icon: <AdjustmentsHorizontalIcon />,
-    },
-    {
-      name: "Users",
-      href: "/borealis/users",
-      icon: <IdentificationIcon />,
+      icon: <HomeIcon />,
     },
   ],
   silos: [],

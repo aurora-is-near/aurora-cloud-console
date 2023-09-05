@@ -61,7 +61,7 @@ const SubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
         current
           ? "bg-gray-100 text-gray-900"
           : "text-gray-500 hover:text-gray-900 hover:bg-gray-100",
-        "group flex items-center gap-x-2.5 rounded-lg py-3 px-3.5 text-base leading-4 font-semibold"
+        "group flex items-center gap-x-2.5 rounded-lg py-3 px-3.5 text-base leading-4 font-medium"
       )}
     >
       {icon}

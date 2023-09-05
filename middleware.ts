@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server"
 import { Database } from "./types/supabase"
 
 const unauthenticatedRoutes = ["/login"]
-const authenticatedRoutes = ["/borealis/deals", "/silos", "/settings"]
+const authenticatedRoutes = ["/borealis", "/silos", "/users", "/settings"]
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
