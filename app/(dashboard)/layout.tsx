@@ -1,10 +1,10 @@
 import { ReactNode } from "react"
 import { UserProvider } from "@/utils/UserContext"
 import { Toaster } from "react-hot-toast"
-import MobileMenu from "@/components/MobileMenu"
-import MainMenu from "@/components/MainMenu"
-import SubMenuNav from "@/components/SubMenuNav"
-import PlanLimit from "@/components/PlanLimit"
+import MainMenu from "@/components/menu/MainMenu"
+import MobileMenu from "@/components/menu/MobileMenu"
+import SubMenuNav from "@/components/menu/SubMenuNav"
+import PlanLimit from "./PlanLimit"
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (

@@ -3,8 +3,8 @@
 import { Database } from "@/types/supabase"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useForm, SubmitHandler } from "react-hook-form"
-import Button from "./Button"
 import { CheckCircleIcon } from "@heroicons/react/20/solid"
+import Button from "@/components/Button"
 
 type Inputs = {
   email: string

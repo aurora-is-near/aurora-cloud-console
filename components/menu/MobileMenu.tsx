@@ -9,11 +9,11 @@ import {
   mainNavigation,
   subrouteMap,
 } from "@/constants/navigation"
-import { AuroraTriangle } from "./icons"
 import { MobileMainMenuButton, MobileSubMenuButton } from "./MenuButtons"
 import { useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import SignoutButton from "./SignoutButton"
+import { AuroraTriangle } from "../icons"
 
 const navigation = [...mainNavigation, ...mainExtraNavigation]
 

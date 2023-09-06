@@ -1,6 +1,6 @@
 import { AuroraTriangle } from "@/components/icons"
-import { MainMenuButton } from "@/components/MenuButtons"
 import { mainExtraNavigation, mainNavigation } from "@/constants/navigation"
+import { MainMenuButton } from "./MenuButtons"
 
 export default function MainMenu() {
   return (

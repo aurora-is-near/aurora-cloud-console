@@ -5,7 +5,7 @@ import { SubMenuButton } from "./MenuButtons"
 import { useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import { SubrouteKeys, subrouteMap } from "@/constants/navigation"
-import Heading from "./Heading"
+import Heading from "../Heading"
 
 const SubMenuNav = () => {
   const [route] = useSelectedLayoutSegments()

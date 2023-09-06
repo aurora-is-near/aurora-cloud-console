@@ -5,7 +5,6 @@ import {
   InformationCircleIcon,
   PencilIcon,
 } from "@heroicons/react/20/solid"
-import Button from "./Button"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
@@ -13,6 +12,7 @@ import { Database } from "@/types/supabase"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { UserInfo } from "@/types/types"
+import Button from "@/components/Button"
 
 // Track if the toast for email change has been shown already
 let alerted = false
