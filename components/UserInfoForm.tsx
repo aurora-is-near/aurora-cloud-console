@@ -1,0 +1,243 @@
+"use client"
+
+import {
+  CheckIcon,
+  InformationCircleIcon,
+  PencilIcon,
+} from "@heroicons/react/20/solid"
+import Button from "./Button"
+import { useForm, SubmitHandler } from "react-hook-form"
+import { useEffect, useState } from "react"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { Database } from "@/types/supabase"
+import { usePathname, useRouter } from "next/navigation"
+import toast from "react-hot-toast"
+import { UserInfo } from "@/types/types"
+
+// Track if the toast for email change has been shown already
+let alerted = false
+
+type Inputs = {
+  name?: string
+  email?: string
+}
+
+const UserInfoForm = ({
+  info,
+  hasPendingEmailChange,
+}: {
+  info: UserInfo
+  hasPendingEmailChange: boolean
+}) => {
+  const [showForm, setShowForm] = useState(false)
+  const toggleForm = () => setShowForm((prev) => !prev)
+  const router = useRouter()
+  const pathname = usePathname()
+
+  // Handle coming back to page from email change confirmation
+  useEffect(() => {
+    if (alerted || !pathname || !router) return
+
+    const fragment = window.location.hash.substring(1)
+    if (!fragment) return
+
+    const params = new URLSearchParams(fragment)
+
+    const message = params.get("message")
+    if (message) {
+      // Show toast with prompt to open second email
+      toast.success(message)
+      router.replace(pathname)
+      alerted = true
+    }
+
+    const accessToken = params.get("access_token")
+    if (accessToken) {
+      // Session is gone, refresh to direct to login page
+      router.refresh()
+    }
+  }, [pathname, router])
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<Inputs>({
+    defaultValues: {
+      name: info.name || "",
+      email: info.email,
+    },
+  })
+
+  const updateUser: SubmitHandler<Inputs> = async ({ name, email }) => {
+    if (
+      (!name && !email) ||
+      (name === info.name && email === info.email) ||
+      (!name && email === info.email) ||
+      (name === info.name && !email)
+    ) {
+      return toggleForm()
+    }
+
+    try {
+      if (email !== info.email) {
+        const supabase = createClientComponentClient<Database>()
+
+        const { error } = await supabase.auth.updateUser(
+          { email: email },
+          {
+            emailRedirectTo: location.origin + "/settings/account",
+          }
+        )
+
+        if (error) throw "Email change failed."
+      }
+
+      if (name !== info.name) {
+        const res = await fetch("/api/user", {
+          method: "PATCH",
+          body: JSON.stringify({
+            newName: name,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        })
+
+        if (!res.ok) throw "Name update failed."
+      }
+
+      setShowForm(false)
+      router.refresh()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
+    <div className="mt-7 px-6 py-7 bg-white shadow rounded-md">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg leading-none font-medium">
+          Personal information
+        </h3>
+        <div className="flex gap-3">
+          {showForm ? (
+            <>
+              <Button
+                style="secondary"
+                onClick={toggleForm}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </Button>
+              <Button onClick={handleSubmit(updateUser)} loading={isSubmitting}>
+                <CheckIcon className="w-5 h-5" />
+                <span>Save</span>
+              </Button>
+            </>
+          ) : (
+            <Button style="secondary" onClick={toggleForm}>
+              <PencilIcon className="w-5 h-5" />
+              <span>Edit</span>
+            </Button>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-7">
+        {showForm ? (
+          <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
+            <div className="sm:grid sm:grid-cols-2 h-9 items-center">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium leading-none text-gray-500"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                autoComplete="name"
+                {...register("name")}
+              />
+            </div>
+            <div className="sm:grid sm:grid-cols-2 h-9 items-center">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-none text-gray-500"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                autoComplete="email"
+                {...register("email")}
+              />
+            </div>
+
+            <div className="rounded-md bg-blue-50 p-4">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <InformationCircleIcon
+                    className="h-5 w-5 text-blue-400"
+                    aria-hidden="true"
+                  />
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-sm text-blue-700">
+                    Updating your email requires confirmation through links sent
+                    to both the old and the new email addresses.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
+        ) : (
+          <dl className="space-y-4">
+            <div className="sm:grid sm:grid-cols-2 h-9 items-center">
+              <dt className="text-sm font-medium leading-none text-gray-500">
+                Name
+              </dt>
+              <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
+                {info?.name || "-"}
+              </dd>
+            </div>
+            <div className="sm:grid sm:grid-cols-2 h-9 items-center">
+              <dt className="text-sm font-medium leading-none text-gray-500">
+                Email
+              </dt>
+              <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
+                {info?.email}
+              </dd>
+            </div>
+
+            {hasPendingEmailChange && (
+              <div className="rounded-md bg-blue-50 p-4">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <InformationCircleIcon
+                      className="h-5 w-5 text-blue-400"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div className="ml-3 flex-1">
+                    <p className="text-sm text-blue-700">
+                      You have requested an email change. Please confirm it
+                      through the links sent to both the old and the new email
+                      addresses.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </dl>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default UserInfoForm
