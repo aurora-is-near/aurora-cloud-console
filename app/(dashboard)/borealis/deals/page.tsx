@@ -3,6 +3,7 @@ import Contact from "@/app/(dashboard)/borealis/deals/Contact"
 import DealItem from "@/app/(dashboard)/borealis/deals/DealItem"
 import Heading from "@/components/Heading"
 import { Deal } from "@/types/types"
+import Charts from "./Charts"
 
 const deals: Deal[] = [
   {
@@ -19,18 +20,20 @@ const deals: Deal[] = [
 
 const Page = () => {
   return (
-    <>
-      <section className="flex justify-between">
-        <Heading tag="h2">Summary</Heading>
+    <div className="space-y-12">
+      <section>
+        <div className="flex justify-between">
+          <Heading tag="h2">Summary</Heading>
 
-        <div className="flex space-x-2.5">
-          <Button style="secondary">All time</Button>
-          <Button style="transparent">1w</Button>
-          <Button style="transparent">1m</Button>
-          <Button style="transparent">3m</Button>
+          <div className="flex space-x-2.5">
+            <Button style="secondary">All time</Button>
+            <Button style="transparent">1w</Button>
+            <Button style="transparent">1m</Button>
+            <Button style="transparent">3m</Button>
+          </div>
         </div>
 
-        {/* charts */}
+        <Charts />
       </section>
 
       <section>
@@ -42,10 +45,10 @@ const Page = () => {
             ))}
           </ul>
         </div>
-
-        <Contact />
       </section>
-    </>
+
+      <Contact />
+    </div>
   )
 }
 

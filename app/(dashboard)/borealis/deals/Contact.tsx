@@ -5,7 +5,7 @@ import { LifebuoyIcon } from "@heroicons/react/24/outline"
 
 const Contact = () => {
   return (
-    <div className="mt-12 p-5 sm:p-6 rounded-md border border-gray-200 bg-gray-100 flex justify-between sm:items-center items-start gap-3 sm:gap-5">
+    <section className="p-5 sm:p-6 rounded-md border border-gray-200 bg-gray-100 flex justify-between sm:items-center items-start gap-3 sm:gap-5">
       <LifebuoyIcon className="h-8 w-8 sm:h-11 sm:w-11 text-gray-500 flex-shrink-0" />
       <div className="flex-1 flex items-start gap-y-3 sm:items-center justify-between sm:flex-row flex-col">
         <div>
@@ -25,7 +25,7 @@ const Contact = () => {
           Contact us
         </Button>
       </div>
-    </div>
+    </section>
   )
 }
 
