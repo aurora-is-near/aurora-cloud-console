@@ -12,7 +12,7 @@ const Contact = () => {
           <p className="font-medium leading-none text-base text-gray-900">
             Need help setting up deals?
           </p>
-          <p className="mt-2 text-gray-500 text-sm leading-5 ">
+          <p className="mt-2 text-gray-500 text-sm leading-5">
             Reach out to our support team to get assistance.
           </p>
         </div>

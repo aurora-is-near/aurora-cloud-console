@@ -4,7 +4,7 @@ export type UserInfo = {
 }
 
 export type Deal = {
-  id: number
+  id: string
   name: string
   created_at: string
 }
