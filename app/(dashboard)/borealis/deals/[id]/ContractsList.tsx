@@ -8,7 +8,11 @@ const ContractsList = async ({ dealId }: { dealId: string }) => {
   if (!deal) throw `Deal with id ${dealId} not found.`
 
   return (
-    <Card className="divide-y divide-gray-200" tag="ul" role="list">
+    <Card
+      className="border-t border-gray-200 divide-y divide-gray-200"
+      tag="ul"
+      role="list"
+    >
       {deal.contracts.map((contract) => (
         <ContractItem key={contract.address} {...contract} />
       ))}

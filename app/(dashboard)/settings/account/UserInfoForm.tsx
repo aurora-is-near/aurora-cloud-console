@@ -13,6 +13,7 @@ import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { UserInfo } from "@/types/types"
 import Button from "@/components/Button"
+import Card from "@/components/Card"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -115,36 +116,31 @@ const UserInfoForm = ({
   }
 
   return (
-    <div className="mt-7 px-6 py-7 bg-white shadow rounded-md">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg leading-none font-medium">
-          Personal information
-        </h3>
-        <div className="flex gap-3">
-          {showForm ? (
-            <>
-              <Button
-                style="secondary"
-                onClick={toggleForm}
-                disabled={isSubmitting}
-              >
-                Cancel
-              </Button>
-              <Button onClick={handleSubmit(updateUser)} loading={isSubmitting}>
-                <CheckIcon className="w-5 h-5" />
-                <span>Save</span>
-              </Button>
-            </>
-          ) : (
-            <Button style="secondary" onClick={toggleForm}>
-              <PencilIcon className="w-5 h-5" />
-              <span>Edit</span>
+    <Card>
+      <Card.Title tag="h3">Personal information</Card.Title>
+      <Card.Actions>
+        {showForm ? (
+          <>
+            <Button
+              style="secondary"
+              onClick={toggleForm}
+              disabled={isSubmitting}
+            >
+              Cancel
             </Button>
-          )}
-        </div>
-      </div>
-
-      <div className="mt-7">
+            <Button onClick={handleSubmit(updateUser)} loading={isSubmitting}>
+              <CheckIcon className="w-5 h-5" />
+              <span>Save</span>
+            </Button>
+          </>
+        ) : (
+          <Button style="secondary" onClick={toggleForm}>
+            <PencilIcon className="w-5 h-5" />
+            <span>Edit</span>
+          </Button>
+        )}
+      </Card.Actions>
+      <div className="px-6 pb-7">
         {showForm ? (
           <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
             <div className="sm:grid sm:grid-cols-2 h-9 items-center">
@@ -236,7 +232,7 @@ const UserInfoForm = ({
           </dl>
         )}
       </div>
-    </div>
+    </Card>
   )
 }
 

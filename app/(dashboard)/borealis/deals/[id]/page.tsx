@@ -24,20 +24,16 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
       </section>
 
       <Card tag="section">
-        <header className="flex justify-between items-start p-6 border-b border-gray-200">
-          <div>
-            <h2 className="text-lg leading-none text-gray-900 font-medium">
-              Contracts
-            </h2>
-            <p className="mt-2 text-gray-500 text-sm leading-5">
-              List of target contracts to benefit from this deal.
-            </p>
-          </div>
+        <Card.Title>Contracts</Card.Title>
+        <Card.Subtitle>
+          List of target contracts to benefit from this deal.
+        </Card.Subtitle>
+        <Card.Actions>
           <Button>
             <PlusIcon className="h-5 w-5" />
             Add contract
           </Button>
-        </header>
+        </Card.Actions>
 
         <ContractsList dealId={id} />
       </Card>
