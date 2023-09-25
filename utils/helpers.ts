@@ -1,3 +1,5 @@
+import { Children, ReactNode, isValidElement } from "react"
+
 export const capitalizeFirstLetter = (string: string) => {
   if (!string || typeof string !== "string") {
     return ""
@@ -17,3 +19,9 @@ export const midTruncate = (value = "", maxLength = 16) => {
     value.length - backChars
   )}`
 }
+
+export const findChild = (children: ReactNode, displayName: string) =>
+  Children.toArray(children).find(
+    (child) =>
+      isValidElement(child) && (child.type as any).displayName === displayName
+  )

@@ -29,12 +29,14 @@ const ContractItem = ({ address, name }: { address: string; name: string }) => {
           onClick={() => console.log("edit contract")}
           className="text-gray-500 hover:text-gray-900"
         >
+          <span className="sr-only">Edit contract</span>
           <PencilSquareIcon className="h-5 w-5" />
         </button>
         <button
           onClick={() => console.log("delete contract")}
           className="text-gray-500 hover:text-gray-900"
         >
+          <span className="sr-only">Remove contract</span>
           <XMarkIcon className="h-5 w-5" />
         </button>
       </div>

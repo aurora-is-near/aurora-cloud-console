@@ -3,8 +3,14 @@ export type UserInfo = {
   name: string | null
 }
 
+type Contract = {
+  address: string
+  name: string
+}
+
 export type Deal = {
+  contracts: Contract[]
+  created_at: string
   id: string
   name: string
-  created_at: string
 }

@@ -1,11 +1,6 @@
 import { Children, ReactNode, isValidElement } from "react"
 import clsx from "clsx"
-
-const findChild = (children: ReactNode, displayName: string) =>
-  Children.toArray(children).find(
-    (child) =>
-      isValidElement(child) && (child.type as any).displayName === displayName
-  )
+import { findChild } from "@/utils/helpers"
 
 const Title = ({
   children,
@@ -32,11 +27,13 @@ Actions.displayName = "Actions"
 
 const Card = ({
   className,
+  bgClassName = "bg-white",
   tag: Tag = "div",
   children,
   ...rest
 }: {
   className?: string
+  bgClassName?: string
   tag?: keyof JSX.IntrinsicElements
   children: ReactNode
   [key: string]: unknown
@@ -59,7 +56,11 @@ const Card = ({
 
   return (
     <Tag
-      className={clsx("overflow-hidden rounded-md bg-white shadow", className)}
+      className={clsx(
+        "overflow-hidden rounded-md shadow",
+        className,
+        bgClassName
+      )}
       {...rest}
     >
       {(title || subtitle || actions) && (

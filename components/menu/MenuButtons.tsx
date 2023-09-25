@@ -43,8 +43,8 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
 }
 
 const SubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
-  const [route, subroute] = useSelectedLayoutSegments()
-  const current = href.includes(route + "/" + subroute)
+  const [route, subroute, id] = useSelectedLayoutSegments()
+  const current = href === "/" + route + "/" + subroute + (id ? "/" + id : "")
 
   icon = generateIcon(
     icon,

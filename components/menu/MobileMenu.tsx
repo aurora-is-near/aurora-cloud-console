@@ -2,7 +2,11 @@
 
 import { Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
+import {
+  Bars3Icon,
+  ClipboardDocumentCheckIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline"
 import {
   SubrouteKeys,
   mainExtraNavigation,
@@ -14,15 +18,17 @@ import { useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
+import useDeals from "@/hooks/useDeals"
 
 const navigation = [...mainNavigation, ...mainExtraNavigation]
 
 const SubrouteMenu = () => {
   const [route] = useSelectedLayoutSegments()
   const subroutes = subrouteMap[route as SubrouteKeys] ?? []
+  const deals = useDeals()
 
   return (
-    <nav className="mt-6 flex-1 pt-6 border-t border-gray-800">
+    <nav className="mt-6 flex-1 pt-6 border-t border-gray-800 space-y-2">
       <ul role="list" className="space-y-2">
         {subroutes.map((item) => (
           <li key={item.name}>
@@ -30,6 +36,20 @@ const SubrouteMenu = () => {
           </li>
         ))}
       </ul>
+
+      {route === "borealis" && deals.length > 0 ? (
+        <ul role="list" className="space-y-2">
+          {deals.map((deal) => (
+            <li key={deal.id}>
+              <MobileSubMenuButton
+                href={"/borealis/deals/" + deal.id}
+                name={deal.name}
+                icon={<ClipboardDocumentCheckIcon />}
+              />
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </nav>
   )
 }

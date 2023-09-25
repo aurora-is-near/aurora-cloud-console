@@ -1,6 +1,6 @@
-import "../styles/globals.css"
 import { circular } from "@/styles/fonts/fonts"
 import type { Metadata } from "next"
+import "../styles/globals.css"
 
 export const metadata: Metadata = {
   title: "Aurora Cloud Console",

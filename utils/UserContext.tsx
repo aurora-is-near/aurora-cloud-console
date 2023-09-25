@@ -4,7 +4,7 @@ import { ReactNode, createContext, useContext } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { Database } from "@/types/supabase"
-import useSWR from "swr"
+import { useQuery } from "@tanstack/react-query"
 
 type User = { email: string; name: string | null } | null | undefined
 
@@ -19,9 +19,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
 
-  const { data: user } = useSWR(
-    "user",
-    async () =>
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    refetchOnWindowFocus: false,
+    queryFn: async () =>
       supabase
         .from("users")
         .select("email, name")
@@ -31,10 +32,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
           if (response.error) throw response.error
           return response.data
         }),
-    {
-      revalidateOnFocus: false,
-    }
-  )
+  })
 
   const signOut = async () => {
     await supabase.auth.signOut()
