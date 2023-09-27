@@ -14,3 +14,8 @@ export type Deal = {
   id: string
   name: string
 }
+
+export type Silo = {
+  href: string
+  name: string
+}

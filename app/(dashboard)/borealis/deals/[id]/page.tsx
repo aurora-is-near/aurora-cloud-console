@@ -1,5 +1,5 @@
 import Heading from "@/components/Heading"
-import Charts from "../Charts"
+import Charts from "../../../../../components/Charts"
 import ToggleDeal from "../ToggleDeal"
 import Card from "@/components/Card"
 import { getDealById } from "@/mockApi"
@@ -10,11 +10,12 @@ import AccessSelector from "./AccessSelector"
 import AccessLists from "./AccessLists"
 import RulesList from "./RulesList"
 import { CheckIcon, LifebuoyIcon } from "@heroicons/react/24/outline"
+import { notFound } from "next/navigation"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const deal = await getDealById(id)
 
-  if (!deal) throw `Deal with id ${id} not found.`
+  if (!deal) notFound()
 
   return (
     <>

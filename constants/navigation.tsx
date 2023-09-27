@@ -29,7 +29,13 @@ export const subrouteMap = {
       icon: <HomeIcon />,
     },
   ],
-  silos: [],
+  silos: [
+    {
+      name: "Summary",
+      href: "/silos",
+      icon: <HomeIcon />,
+    },
+  ],
   settings: [
     {
       name: "Billing",

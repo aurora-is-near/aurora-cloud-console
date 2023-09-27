@@ -1,8 +1,8 @@
 import { Suspense } from "react"
-import Contact from "@/app/(dashboard)/borealis/deals/Contact"
+import Contact from "@/components/Contact"
 import Heading from "@/components/Heading"
-import Charts from "./Charts"
 import DealsList from "./DealsList"
+import Charts from "@/components/Charts"
 
 const Page = () => {
   return (

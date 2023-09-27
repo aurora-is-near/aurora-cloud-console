@@ -9,6 +9,7 @@ type MenuButtonProps = {
   href: string
   name: string
   icon: ReactNode
+  disabled?: boolean
 }
 
 const generateIcon = (icon: ReactNode, className: string) => {
@@ -33,7 +34,7 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
         current
           ? "bg-green-500 text-gray-900"
           : "text-gray-400 hover:text-white hover:bg-gray-800",
-        "group flex rounded-lg p-3 text-sm leading-6 font-semibold"
+        "group flex rounded-lg p-3 text-sm leading-6 font-semibold items-center justify-center"
       )}
     >
       {icon}
@@ -42,9 +43,11 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
   )
 }
 
-const SubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
+const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
   const [route, subroute, id] = useSelectedLayoutSegments()
-  const current = href === "/" + route + "/" + subroute + (id ? "/" + id : "")
+  const current =
+    href ===
+    "/" + route + (subroute ? "/" + subroute : "") + (id ? "/" + id : "")
 
   icon = generateIcon(
     icon,
@@ -54,6 +57,21 @@ const SubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
     )
   )
 
+  const commonClasses =
+    "w-full flex items-center gap-x-2.5 rounded-lg py-3 px-3.5 text-base leading-4 font-medium"
+
+  if (disabled) {
+    return (
+      <button
+        disabled
+        className={clsx(commonClasses, "text-gray-500 opacity-50")}
+      >
+        {icon}
+        <span>{name}</span>
+      </button>
+    )
+  }
+
   return (
     <Link
       href={href}
@@ -61,7 +79,8 @@ const SubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
         current
           ? "bg-gray-100 text-gray-900"
           : "text-gray-500 hover:text-gray-900 hover:bg-gray-100",
-        "group flex items-center gap-x-2.5 rounded-lg py-3 px-3.5 text-base leading-4 font-medium"
+        commonClasses,
+        "group"
       )}
     >
       {icon}

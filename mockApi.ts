@@ -31,14 +31,35 @@ const deals = [
   },
 ]
 
-export const getDealById = async (id: string) => {
-  // await new Promise((r) => setTimeout(r, 2000))
+const silos = [
+  {
+    name: "Silo 1",
+    href: "silo-1",
+  },
+  {
+    name: "Silo 2",
+    href: "silo-2",
+  },
+]
 
+const sleep = async () => new Promise((r) => setTimeout(r, 2000))
+
+export const getDealById = async (id: string) => {
+  // await sleep()
   return deals.find((deal) => deal.id === id)
 }
 
 export const getDeals = async () => {
-  // await new Promise((r) => setTimeout(r, 2000))
-
+  // await sleep()
   return deals
+}
+
+export const getSiloById = async (id: string) => {
+  // await sleep()
+  return silos.find((silo) => silo.href === id)
+}
+
+export const getSilos = async () => {
+  // await sleep()
+  return silos
 }
