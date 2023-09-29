@@ -4,10 +4,11 @@ import confirmUser from "@/utils/confirmUser"
 
 export async function PATCH(request: NextRequest) {
   const id = await confirmUser()
+  const supabase = serverSupabase()
 
   const { newName } = await request.json()
 
-  const { error } = await serverSupabase
+  const { error } = await supabase
     .from("users")
     .update({ name: newName })
     .eq("id", id)

@@ -1,6 +1,6 @@
 import Heading from "@/components/Heading"
 import UserInfoForm from "./UserInfoForm"
-import { serverSupabase } from "@/utils/serverSupabase"
+import serverSupabase from "@/utils/serverSupabase"
 
 const Page = async () => {
   const supabase = serverSupabase()
