@@ -90,8 +90,8 @@ const TabCharts = ({
                 </div>
                 <div className="px-1 pb-1">
                   <div className="bg-gray-50 w-full h-9 rounded-b-sm flex space-x-6 items-center px-5">
-                    {legend.map((item, i) => (
-                      <div key={item} className="flex items-center space-x-2">
+                    {legend.map((text, i) => (
+                      <div key={text} className="flex items-center space-x-2">
                         <div
                           className={clsx("h-2.5 w-2.5 rounded-sm", {
                             "bg-green-400": i === 0,
@@ -101,7 +101,7 @@ const TabCharts = ({
                           })}
                         />
                         <span className="text-xs text-gray-900 leading-3 font-medium">
-                          {item}
+                          {text}
                         </span>
                       </div>
                     ))}

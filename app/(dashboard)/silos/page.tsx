@@ -38,6 +38,7 @@ const Page = () => {
           title="Latency"
           subtitle="Last 24 hours"
           className="col-span-2"
+          legend={["10%", "25%", "50%", "100%"]}
         />
         <Chart title="RPC Requests" />
         <Chart title="Failure rate" />

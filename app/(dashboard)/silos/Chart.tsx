@@ -4,10 +4,12 @@ const Chart = ({
   title,
   subtitle,
   className,
+  legend,
 }: {
   title: string
   subtitle?: string
   className?: string
+  legend?: string[]
 }) => {
   return (
     <div className={clsx("border bg-white rounded-md", className)}>
@@ -25,34 +27,27 @@ const Chart = ({
 
         <div className="w-full bg-gray-200 h-44 rounded-md" />
       </div>
-      <div className="px-1 pb-1">
-        <div className="bg-gray-50 w-full h-9 rounded-b-sm flex space-x-6 items-center px-5">
-          <div className="flex items-center space-x-2">
-            <div className="h-2.5 w-2.5 rounded-sm bg-green-400" />
-            <span className="text-xs text-gray-900 leading-3 font-medium">
-              10%
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="h-2.5 w-2.5 rounded-sm bg-cyan-400" />
-            <span className="text-xs text-gray-900 leading-3 font-medium">
-              25%
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="h-2.5 w-2.5 rounded-sm bg-orange-400" />
-            <span className="text-xs text-gray-900 leading-3 font-medium">
-              50%
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="h-2.5 w-2.5 rounded-sm bg-purple-400" />
-            <span className="text-xs text-gray-900 leading-3 font-medium">
-              100%
-            </span>
+      {legend && legend.length > 0 ? (
+        <div className="px-1 pb-1">
+          <div className="bg-gray-50 w-full h-9 rounded-b-sm flex space-x-6 items-center px-5">
+            {legend.map((text, i) => (
+              <div key={text} className="flex items-center space-x-2">
+                <div
+                  className={clsx("h-2.5 w-2.5 rounded-sm", {
+                    "bg-green-400": i === 0,
+                    "bg-cyan-400": i === 1,
+                    "bg-orange-400": i === 2,
+                    "bg-purple-400": i === 3,
+                  })}
+                />
+                <span className="text-xs text-gray-900 leading-3 font-medium">
+                  {text}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
+      ) : null}
     </div>
   )
 }
