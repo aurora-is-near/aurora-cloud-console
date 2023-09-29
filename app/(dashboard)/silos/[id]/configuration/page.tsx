@@ -15,7 +15,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
     <div className="space-y-5">
       <BreadcrumbHeading titles={[silo.name, "Configuration"]} />
 
-      <Card>
+      <Card tag="section">
         <Card.Title tag="h4">Silo configuration</Card.Title>
 
         <InfoList>
@@ -62,7 +62,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
         </InfoList>
       </Card>
 
-      <Card>
+      <Card tag="section">
         <Card.Title tag="h4">Relayer</Card.Title>
 
         <InfoList>
@@ -81,7 +81,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
         </InfoList>
       </Card>
 
-      <Card>
+      <Card tag="section">
         <Card.Title tag="h4">Token & gas</Card.Title>
 
         <InfoList>
@@ -104,7 +104,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
         </InfoList>
       </Card>
 
-      <Card>
+      <Card tag="section">
         <Card.Title tag="h4">Permissions</Card.Title>
 
         <InfoList>

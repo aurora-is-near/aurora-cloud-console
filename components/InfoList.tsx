@@ -1,6 +1,7 @@
 import { ReactNode } from "react"
 import { InformationCircleIcon } from "@heroicons/react/20/solid"
 import CopyButton from "./CopyButton"
+import clsx from "clsx"
 
 const Tooltip = ({ text }: { text: string }) => (
   <div className="h-5 w-5 relative flex items-center justify-center group cursor-pointer">
@@ -42,8 +43,16 @@ const Item = ({
 )
 Item.displayName = "Item"
 
-const InfoList = ({ children }: { children: ReactNode }) => {
-  return <dl className="px-6 pb-7 space-y-3.5">{children}</dl>
+const InfoList = ({
+  children,
+  className,
+}: {
+  children: ReactNode
+  className?: string
+}) => {
+  return (
+    <dl className={clsx("px-6 pb-5 space-y-3.5", className)}>{children}</dl>
+  )
 }
 
 InfoList.Item = Item
