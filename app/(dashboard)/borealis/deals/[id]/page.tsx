@@ -11,7 +11,7 @@ import RulesList from "./RulesList"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { notFound } from "next/navigation"
 import Contact from "@/components/Contact"
-import Charts from "@/components/Charts"
+import TabCharts from "@/components/TabCharts"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const deal = await getDealById(id)
@@ -22,7 +22,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
     <>
       <div className="space-y-5">
         <section>
-          <Charts
+          <TabCharts
             tabs={[
               {
                 title: "Transactions volume",
@@ -48,7 +48,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
               <ToggleDeal dealId={id} />
               <Heading tag="h2">{deal.name}</Heading>
             </div>
-          </Charts>
+          </TabCharts>
         </section>
 
         <Card tag="section">

@@ -2,13 +2,13 @@ import { Suspense } from "react"
 import Contact from "@/components/Contact"
 import Heading from "@/components/Heading"
 import DealsList from "./DealsList"
-import Charts from "@/components/Charts"
+import TabCharts from "@/components/TabCharts"
 
 const Page = () => {
   return (
     <div className="space-y-12">
       <section>
-        <Charts
+        <TabCharts
           tabs={[
             {
               title: "Transactions volume",
@@ -31,7 +31,7 @@ const Page = () => {
           ]}
         >
           <Heading tag="h2">Summary</Heading>
-        </Charts>
+        </TabCharts>
       </section>
 
       <section>

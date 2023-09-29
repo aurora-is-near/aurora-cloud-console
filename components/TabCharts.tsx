@@ -33,7 +33,7 @@ const options = [
   },
 ]
 
-const Charts = ({
+const TabCharts = ({
   children,
   tabs,
 }: {
@@ -116,4 +116,4 @@ const Charts = ({
   )
 }
 
-export default Charts
+export default TabCharts

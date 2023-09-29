@@ -1,4 +1,4 @@
-import Charts from "@/components/Charts"
+import TabCharts from "@/components/TabCharts"
 import Heading from "@/components/Heading"
 import { getSiloById } from "@/mockApi"
 import { notFound } from "next/navigation"
@@ -13,7 +13,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
   return (
     <div className="space-y-5">
       <section>
-        <Charts
+        <TabCharts
           tabs={[
             {
               title: "Transactions volume",
@@ -36,7 +36,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
           ]}
         >
           <Heading tag="h2">{silo.name}</Heading>
-        </Charts>
+        </TabCharts>
       </section>
 
       <section className="grid grid-cols-2 gap-y-5 gap-x-2.5">

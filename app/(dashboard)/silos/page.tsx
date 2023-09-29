@@ -1,13 +1,13 @@
 import Heading from "@/components/Heading"
 import Contact from "@/components/Contact"
-import Charts from "@/components/Charts"
+import TabCharts from "@/components/TabCharts"
 import Chart from "./Chart"
 
 const Page = () => {
   return (
     <div className="space-y-5">
       <section>
-        <Charts
+        <TabCharts
           tabs={[
             {
               title: "Total transactions",
@@ -30,7 +30,7 @@ const Page = () => {
           ]}
         >
           <Heading tag="h2">Summary</Heading>
-        </Charts>
+        </TabCharts>
       </section>
 
       <section className="grid grid-cols-2 gap-y-5 gap-x-2.5">
