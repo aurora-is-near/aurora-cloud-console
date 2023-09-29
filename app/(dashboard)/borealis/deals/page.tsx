@@ -8,7 +8,28 @@ const Page = () => {
   return (
     <div className="space-y-12">
       <section>
-        <Charts>
+        <Charts
+          tabs={[
+            {
+              title: "Transactions volume",
+              value: "88,989",
+              chart: "",
+              legend: ["A very big deal", "Another deal"],
+            },
+            {
+              title: "Total wallets",
+              value: "12,832",
+              chart: "",
+              legend: ["A very big deal", "Another deal"],
+            },
+            {
+              title: "Avg transactions per wallet",
+              value: "1.34",
+              chart: "",
+              legend: ["A very big deal", "Another deal"],
+            },
+          ]}
+        >
           <Heading tag="h2">Summary</Heading>
         </Charts>
       </section>

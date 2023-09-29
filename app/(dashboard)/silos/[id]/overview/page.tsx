@@ -13,7 +13,28 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
   return (
     <div className="space-y-5">
       <section>
-        <Charts>
+        <Charts
+          tabs={[
+            {
+              title: "Transactions volume",
+              value: "24,083",
+              chart: "",
+              legend: ["A very big deal", "Another deal"],
+            },
+            {
+              title: "Total wallets",
+              value: "3,932",
+              chart: "",
+              legend: ["A very big deal", "Another deal"],
+            },
+            {
+              title: "Avg transactions per wallet",
+              value: "1.03",
+              chart: "",
+              legend: ["A very big deal", "Another deal"],
+            },
+          ]}
+        >
           <Heading tag="h2">{silo.name}</Heading>
         </Charts>
       </section>
