@@ -1,11 +1,9 @@
 import Heading from "@/components/Heading"
-import { Database } from "@/types/supabase"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
-import { cookies } from "next/headers"
 import UserInfoForm from "./UserInfoForm"
+import { serverSupabase } from "@/utils/serverSupabase"
 
 const Page = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const supabase = serverSupabase()
 
   const {
     data: { user },
