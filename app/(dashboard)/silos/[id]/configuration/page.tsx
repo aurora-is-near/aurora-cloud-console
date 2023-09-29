@@ -1,10 +1,9 @@
+import BreadcrumbHeading from "@/components/BreadcrumbHeading"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
-import Heading from "@/components/Heading"
 import InfoList from "@/components/InfoList"
 import { getSiloById } from "@/mockApi"
 import { PlusIcon } from "@heroicons/react/20/solid"
-import { ChevronRightIcon } from "@heroicons/react/24/outline"
 import { notFound } from "next/navigation"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
@@ -14,13 +13,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <div className="space-y-5">
-      <div className="flex gap-x-1.5 items-center">
-        <Heading tag="h2" className="!text-gray-500">
-          {silo.name}
-        </Heading>
-        <ChevronRightIcon className="w-5 h-5 text-gray-500" />
-        <Heading tag="h3">Configuration</Heading>
-      </div>
+      <BreadcrumbHeading titles={[silo.name, "Configuration"]} />
 
       <Card>
         <Card.Title tag="h4">Silo configuration</Card.Title>

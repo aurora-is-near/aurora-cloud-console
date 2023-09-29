@@ -18,19 +18,19 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
             {
               title: "Transactions volume",
               value: "24,083",
-              chart: "",
+              chart: <></>,
               legend: ["A very big deal", "Another deal"],
             },
             {
               title: "Total wallets",
               value: "3,932",
-              chart: "",
+              chart: <></>,
               legend: ["A very big deal", "Another deal"],
             },
             {
               title: "Avg transactions per wallet",
               value: "1.03",
-              chart: "",
+              chart: <></>,
               legend: ["A very big deal", "Another deal"],
             },
           ]}

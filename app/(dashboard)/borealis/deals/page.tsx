@@ -13,19 +13,19 @@ const Page = () => {
             {
               title: "Transactions volume",
               value: "88,989",
-              chart: "",
+              chart: <></>,
               legend: ["A very big deal", "Another deal"],
             },
             {
               title: "Total wallets",
               value: "12,832",
-              chart: "",
+              chart: <></>,
               legend: ["A very big deal", "Another deal"],
             },
             {
               title: "Avg transactions per wallet",
               value: "1.34",
-              chart: "",
+              chart: <></>,
               legend: ["A very big deal", "Another deal"],
             },
           ]}

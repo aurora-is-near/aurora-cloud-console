@@ -10,7 +10,7 @@ import clsx from "clsx"
 type TabType = {
   title: string
   value: string
-  chart: string
+  chart: ReactNode
   legend: string[]
 }
 
@@ -67,7 +67,14 @@ const TabCharts = ({
       </div>
       <div className="mt-6">
         <Tab.Group>
-          <Tab.List className="grid grid-cols-3 gap-x-2.5 -mb-px relative z-10">
+          <Tab.List
+            className={clsx("grid gap-x-2.5 -mb-px relative z-10", {
+              "grid-cols-1": tabs.length === 1,
+              "grid-cols-2": tabs.length === 2,
+              "grid-cols-3": tabs.length === 3,
+              "grid-cols-4": tabs.length === 4,
+            })}
+          >
             {tabs.map(({ title, value }) => (
               <Tab
                 key={title}
