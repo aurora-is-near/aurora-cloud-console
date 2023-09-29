@@ -22,7 +22,7 @@ const Page = () => {
         <Chart title="Failure rate" />
       </section>
 
-      <Contact />
+      <Contact text="Need help setting up a silo?" />
     </div>
   )
 }

@@ -45,10 +45,10 @@ const Button = forwardRef<Ref, Props>(
     )
 
     const classes = clsx(
-      "relative justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-80",
+      "relative flex items-center justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-80",
       {
-        "px-2.5 py-[3px]": size === "sm",
-        "px-3 py-1.5": size === "md",
+        "px-2.5 h-8": size === "sm",
+        "px-3 h-9": size === "md",
         "shadow-sm": ["primary", "secondary"].includes(style),
         "bg-green-500 text-gray-900 hover:bg-green-400 focus-visible:outline-green-500":
           style === "primary",

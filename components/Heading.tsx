@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import clsx from "clsx"
 
-type HeadingTags = "h1" | "h2"
+type HeadingTags = "h1" | "h2" | "h3"
 
 const Heading = ({
   children,

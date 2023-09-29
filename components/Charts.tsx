@@ -31,12 +31,12 @@ const Charts = ({ children }: { children: ReactNode }) => {
 
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-start">
         {children}
 
         <RadioGroup value={startDate} onChange={setStartDate}>
           <RadioGroup.Label className="sr-only">
-            Choose a memory option
+            Choose a date range
           </RadioGroup.Label>
           <div className="flex space-x-2.5">
             {options.map((option) => (
@@ -79,7 +79,7 @@ const Charts = ({ children }: { children: ReactNode }) => {
               </div>
             </Tab>
           </Tab.List>
-          <Tab.Panels className="rounded-b-md bg-white shadow border border-gray-200">
+          <Tab.Panels className="rounded-b-md bg-white border border-gray-200">
             <Tab.Panel>
               <div className="px-6 pt-5 pb-6">
                 <div className="w-full bg-gray-200 h-44 rounded-md" />

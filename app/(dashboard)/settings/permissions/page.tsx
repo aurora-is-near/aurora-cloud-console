@@ -1,5 +1,6 @@
 import Button from "@/components/Button"
 import Heading from "@/components/Heading"
+import Table from "@/components/Table"
 import { PaperAirplaneIcon } from "@heroicons/react/20/solid"
 import { TrashIcon } from "@heroicons/react/24/outline"
 
@@ -59,56 +60,23 @@ const Page = () => {
         </div>
       </div>
 
-      <div className="mt-7 flow-root">
-        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-white">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm leading-none font-medium text-gray-900 sm:pl-6"
-                    >
-                      Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm leading-none font-medium text-gray-900"
-                    >
-                      Email
-                    </th>
-                    <th
-                      scope="col"
-                      className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                    >
-                      <span className="sr-only">Edit</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {people.map((person) => (
-                    <tr key={person.email}>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm leading-none font-medium text-gray-900 sm:pl-6">
-                        {person.name}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm leading-none text-gray-500">
-                        {person.email}
-                      </td>
-                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 sm:pr-6 flex items-center justify-end">
-                        <button className="text-gray-900 hover:text-red-500 text-right">
-                          <span className="sr-only">Remove {person.email}</span>
-                          <TrashIcon className="w-5 h-5" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Table className="mt-7">
+        <Table.TH>Name</Table.TH>
+        <Table.TH>Email</Table.TH>
+        <Table.TH hidden>Edit</Table.TH>
+        {people.map((person) => (
+          <Table.TR key={person.email}>
+            <Table.TD dark>{person.name}</Table.TD>
+            <Table.TD>{person.email}</Table.TD>
+            <Table.TD align="right">
+              <button className="text-gray-900 hover:text-red-500">
+                <span className="sr-only">Remove {person.email}</span>
+                <TrashIcon className="w-5 h-5" />
+              </button>
+            </Table.TD>
+          </Table.TR>
+        ))}
+      </Table>
     </>
   )
 }

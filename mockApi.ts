@@ -35,31 +35,44 @@ const silos = [
   {
     name: "Silo 1",
     href: "silo-1",
+    tokens: [
+      {
+        name: "AURORA",
+        address: "0x8f16e84e93B649590319c8329728b7A39915cEd5",
+        type: "ERC-20",
+      },
+      {
+        name: "USDC",
+        address: "0xBf2686935B77Fe1Afb6468a98D06ABE2Bf906f94",
+        type: "ERC-20",
+      },
+    ],
   },
   {
     name: "Silo 2",
     href: "silo-2",
+    tokens: [],
   },
 ]
 
-const sleep = async () => new Promise((r) => setTimeout(r, 2000))
+const sleep = async () => new Promise((r) => setTimeout(r, 0))
 
 export const getDealById = async (id: string) => {
-  // await sleep()
+  await sleep()
   return deals.find((deal) => deal.id === id)
 }
 
 export const getDeals = async () => {
-  // await sleep()
+  await sleep()
   return deals
 }
 
 export const getSiloById = async (id: string) => {
-  // await sleep()
+  await sleep()
   return silos.find((silo) => silo.href === id)
 }
 
 export const getSilos = async () => {
-  // await sleep()
+  await sleep()
   return silos
 }

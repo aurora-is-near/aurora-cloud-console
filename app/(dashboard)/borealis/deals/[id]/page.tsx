@@ -1,5 +1,4 @@
 import Heading from "@/components/Heading"
-import Charts from "../../../../../components/Charts"
 import ToggleDeal from "../ToggleDeal"
 import Card from "@/components/Card"
 import { getDealById } from "@/mockApi"
@@ -9,8 +8,10 @@ import ContractsList from "./ContractsList"
 import AccessSelector from "./AccessSelector"
 import AccessLists from "./AccessLists"
 import RulesList from "./RulesList"
-import { CheckIcon, LifebuoyIcon } from "@heroicons/react/24/outline"
+import { CheckIcon } from "@heroicons/react/24/outline"
 import { notFound } from "next/navigation"
+import Contact from "@/components/Contact"
+import Charts from "@/components/Charts"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const deal = await getDealById(id)
@@ -75,24 +76,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
           <RulesList />
         </Card>
 
-        <Card
-          tag="section"
-          bgClassName="bg-gray-100"
-          className="border flex justify-between items-center p-6"
-        >
-          <div className="flex items-center space-x-5">
-            <LifebuoyIcon className="w-11 h-11 text-gray-500" />
-            <div>
-              <h3 className="text-base leading-none text-gray-900 font-medium">
-                Need help setting up a plan?
-              </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Reach out to our support team to get assistance.
-              </p>
-            </div>
-          </div>
-          <Button style="border">Contact Us</Button>
-        </Card>
+        <Contact />
       </div>
 
       <div className="fixed lg:ml-[368px] inset-x-0 bottom-0 bg-white px-8 py-5 flex items-center justify-between border-t">

@@ -1,4 +1,3 @@
-import Card from "@/components/Card"
 import { getDealById } from "@/mockApi"
 import ContractItem from "./ContractItem"
 
@@ -8,15 +7,14 @@ const ContractsList = async ({ dealId }: { dealId: string }) => {
   if (!deal) throw `Deal with id ${dealId} not found.`
 
   return (
-    <Card
+    <ul
       className="border-t border-gray-200 divide-y divide-gray-200"
-      tag="ul"
       role="list"
     >
       {deal.contracts.map((contract) => (
         <ContractItem key={contract.address} {...contract} />
       ))}
-    </Card>
+    </ul>
   )
 }
 

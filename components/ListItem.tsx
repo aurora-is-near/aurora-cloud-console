@@ -1,5 +1,6 @@
-import { findChild } from "@/utils/helpers"
-import { ReactNode } from "react"
+import { Children, ReactNode, isValidElement } from "react"
+import { findChildren } from "@/utils/helpers"
+import clsx from "clsx"
 
 const Title = ({
   children,
@@ -7,7 +8,7 @@ const Title = ({
 }: {
   children: ReactNode
   tag?: keyof JSX.IntrinsicElements
-}) => <Tag className="w-64 text-gray-900 text-sm leading-none">{children}</Tag>
+}) => <Tag className="text-gray-900 text-sm leading-none">{children}</Tag>
 Title.displayName = "Title"
 
 const Subtitle = ({ children }: { children: ReactNode }) => (
@@ -26,17 +27,27 @@ const ListItem = ({
   className?: string
   children: ReactNode
 }) => {
-  const title = findChild(children, "Title")
-  const subtitle = findChild(children, "Subtitle")
-  const actions = findChild(children, "Actions")
+  const actions = findChildren(children, "Actions")
+  const otherChildren = Children.toArray(children)
+    .filter(isValidElement)
+    .filter((child) => {
+      const { displayName } = child.type as any
+      return displayName !== "Actions"
+    })
+
+  const hasOtherChildren = otherChildren.length > 0
 
   return (
-    <li className="flex items-center justify-between px-6 py-[18px]">
-      <div className="flex space-x-6">
-        {title}
-        {subtitle}
+    <li className="items-center justify-between px-6 py-[18px] grid grid-cols-4 gap-x-6">
+      {otherChildren}
+      <div
+        className={clsx(
+          "flex items-center justify-end",
+          hasOtherChildren ? "col-span-1" : "col-span-2"
+        )}
+      >
+        {actions}
       </div>
-      {actions}
     </li>
   )
 }

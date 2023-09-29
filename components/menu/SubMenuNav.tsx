@@ -44,7 +44,7 @@ const siloLinks = [
   { name: "Overview", href: "overview", icon: <Silos /> },
   {
     name: "Configuration",
-    href: "configure",
+    href: "configuration",
     icon: <WrenchIcon />,
   },
   {
@@ -65,20 +65,14 @@ const siloLinks = [
 ]
 
 const SiloMenu = () => {
-  const [option, setOption] = useState("Select silo")
+  const [option, setOption] = useState("")
   const silos = useSilos()
   const router = useRouter()
-  const [, id] = useSelectedLayoutSegments()
+  const [, id, subroute] = useSelectedLayoutSegments()
 
   useEffect(() => {
-    setOption(id || "Select silo")
+    setOption(id ?? "Select silo")
   }, [id])
-
-  useEffect(() => {
-    if (!option) return
-    if (option === "Select silo") return router.push("/silos")
-    return router.push(`/silos/${option}/overview`)
-  }, [option, router])
 
   if (!silos.length) return null
 
@@ -93,7 +87,13 @@ const SiloMenu = () => {
           name="silo"
           className="block w-full rounded-md border-0 py-4 pl-3 pr-8 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-green-600 leading-none"
           value={option}
-          onChange={(e) => setOption(e.target.value)}
+          onChange={(e) =>
+            router.push(
+              `/silos/${e.target.value}${
+                subroute ? `/${subroute}` : "/overview"
+              }`
+            )
+          }
         >
           <option disabled>Select silo</option>
           {silos.map((silo) => (

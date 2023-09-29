@@ -20,8 +20,8 @@ export const midTruncate = (value = "", maxLength = 16) => {
   )}`
 }
 
-export const findChild = (children: ReactNode, displayName: string) =>
-  Children.toArray(children).find(
+export const findChildren = (children: ReactNode, displayName: string) =>
+  Children.toArray(children).filter(
     (child) =>
       isValidElement(child) && (child.type as any).displayName === displayName
   )

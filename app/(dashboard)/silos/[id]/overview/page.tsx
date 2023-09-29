@@ -1,12 +1,36 @@
+import Charts from "@/components/Charts"
+import Heading from "@/components/Heading"
 import { getSiloById } from "@/mockApi"
 import { notFound } from "next/navigation"
+import Chart from "../../Chart"
+import Contact from "@/components/Contact"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const silo = await getSiloById(id)
 
   if (!silo) notFound()
 
-  return <div>Overview page</div>
+  return (
+    <div className="space-y-5">
+      <section>
+        <Charts>
+          <Heading tag="h2">{silo.name}</Heading>
+        </Charts>
+      </section>
+
+      <section className="grid grid-cols-2 gap-y-5 gap-x-2.5">
+        <Chart
+          title="Latency"
+          subtitle="Last 24 hours"
+          className="col-span-2"
+        />
+        <Chart title="RPC Requests" />
+        <Chart title="Failure rate" />
+      </section>
+
+      <Contact text="Need help setting up a silo?" />
+    </div>
+  )
 }
 
 export default Page

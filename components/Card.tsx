@@ -1,6 +1,6 @@
 import { Children, ReactNode, isValidElement } from "react"
 import clsx from "clsx"
-import { findChild } from "@/utils/helpers"
+import { findChildren } from "@/utils/helpers"
 
 const Title = ({
   children,
@@ -38,9 +38,9 @@ const Card = ({
   children: ReactNode
   [key: string]: unknown
 }) => {
-  const title = findChild(children, "Title")
-  const subtitle = findChild(children, "Subtitle")
-  const actions = findChild(children, "Actions")
+  const title = findChildren(children, "Title")
+  const subtitle = findChildren(children, "Subtitle")
+  const actions = findChildren(children, "Actions")
   const content = Children.toArray(children)
     .filter(isValidElement)
     .filter((child) => {
@@ -57,7 +57,7 @@ const Card = ({
   return (
     <Tag
       className={clsx(
-        "overflow-hidden rounded-md shadow",
+        "overflow-hidden rounded-md border",
         className,
         bgClassName
       )}
