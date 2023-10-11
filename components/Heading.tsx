@@ -1,15 +1,17 @@
 import { ReactNode } from "react"
 import clsx from "clsx"
 
-type HeadingTags = "h1" | "h2" | "h3"
+type HeadingTags = "h1" | "h2" | "h3" | "span"
 
 const Heading = ({
   children,
   className,
+  textColorClassName = "text-gray-900",
   tag = "h1",
 }: {
   children: ReactNode
   className?: string
+  textColorClassName?: string
   tag?: HeadingTags
 }) => {
   const Tag = tag
@@ -17,7 +19,8 @@ const Heading = ({
   return (
     <Tag
       className={clsx(
-        "text-2xl leading-7 font-bold text-gray-900 tracking-[-1px]",
+        "text-2xl leading-7 font-bold tracking-[-1px]",
+        textColorClassName,
         className
       )}
     >

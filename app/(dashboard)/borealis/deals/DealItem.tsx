@@ -1,13 +1,7 @@
 import { Deal } from "@/types/types"
 import Button from "@/components/Button"
 import ToggleDeal from "./ToggleDeal"
-
-const formatDate = (date: Date): string =>
-  new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }).format(date)
+import { formatDate } from "@/utils/helpers"
 
 const DealItem = ({ id, name, created_at }: Deal) => (
   <li className="p-5 sm:p-6 flex justify-between sm:items-center items-start gap-5">

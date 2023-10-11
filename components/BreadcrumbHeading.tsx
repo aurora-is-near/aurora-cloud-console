@@ -12,7 +12,7 @@ const BreadcrumbHeading = ({ titles }: { titles: [string, string] }) => {
           <>
             <Heading
               tag={isFirst ? "h2" : "h3"}
-              className={clsx({ "!text-gray-500": isFirst })}
+              textColorClassName={clsx({ "text-gray-500": isFirst })}
             >
               {title}
             </Heading>

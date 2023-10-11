@@ -1,3 +1,5 @@
+import { mockUsers } from "./mockUsers"
+
 const deals = [
   {
     id: "uuid-1",
@@ -75,4 +77,30 @@ export const getSiloById = async (id: string) => {
 export const getSilos = async () => {
   await sleep()
   return silos
+}
+
+export const getUsers = async ({
+  startAt,
+  limit,
+  search,
+}: {
+  startAt?: number
+  limit?: number
+  search?: string
+}) => {
+  await sleep()
+
+  let users = mockUsers
+
+  if (search) {
+    users = users.filter((user) =>
+      user.address.toLowerCase().includes(search.toLowerCase())
+    )
+  }
+
+  if (typeof startAt !== "undefined" && limit) {
+    users = users.slice(startAt, startAt + limit)
+  }
+
+  return users
 }
