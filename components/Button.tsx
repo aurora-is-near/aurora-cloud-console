@@ -5,7 +5,7 @@ import clsx from "clsx"
 import Link from "next/link"
 
 type Props = {
-  style?: "primary" | "secondary" | "transparent" | "border"
+  style?: "primary" | "secondary" | "transparent" | "border" | "destructive"
   size?: "sm" | "md"
   className?: string
   children: ReactNode
@@ -45,7 +45,7 @@ const Button = forwardRef<Ref, Props>(
     )
 
     const classes = clsx(
-      "relative flex items-center justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50",
+      "relative flex items-center justify-center rounded-md text-sm font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50",
       {
         "px-2.5 h-8": size === "sm",
         "px-3 h-9": size === "md",
@@ -58,10 +58,13 @@ const Button = forwardRef<Ref, Props>(
           style === "transparent",
         "border border-gray-400 focus-visible:outline-gray-600":
           style === "border",
+        "bg-rose-500 text-white focus-visible:outline-rose-500":
+          style === "destructive",
         "hover:bg-green-400": style === "primary" && !disabled,
         "hover:bg-gray-300": style === "secondary" && !disabled,
         "hover:bg-gray-200": style === "transparent" && !disabled,
         "hover:border-gray-600": style === "border" && !disabled,
+        "hover:bg-rose-600": style === "destructive" && !disabled,
         "w-full": fullWidth,
       },
       className

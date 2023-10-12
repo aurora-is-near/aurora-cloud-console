@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <MainMenu />
         <MobileMenu />
 
-        <aside className="bg-white fixed inset-y-0 left-20 hidden w-72 overflow-y-auto border-r border-gray-200 p-6 lg:flex grow flex-col gap-y-7">
+        <aside className="fixed inset-y-0 flex-col hidden p-6 overflow-y-auto bg-white border-r border-gray-200 left-20 w-72 lg:flex grow gap-y-7">
           <SubMenuNav />
           <PlanLimit />
         </aside>

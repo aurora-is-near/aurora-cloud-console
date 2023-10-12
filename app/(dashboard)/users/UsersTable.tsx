@@ -3,6 +3,7 @@ import Table from "@/components/Table"
 import { getUsers } from "@/mockApi"
 import { formatDate, formatTimeAgo, midTruncate } from "@/utils/helpers"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline"
+import DropdownMenu from "./DropdownMenu"
 
 const UsersTable = async ({
   searchParams,
@@ -50,22 +51,21 @@ const UsersTable = async ({
         <Table.TH>Transactions</Table.TH>
         <Table.TH>Last transaction</Table.TH>
         <Table.TH hidden>Options</Table.TH>
-
-        {users.map((user) => {
-          return (
-            <Table.TR key={user.address}>
-              <Table.TD>{midTruncate(user.address, 24)}</Table.TD>
-              <Table.TD>{formatDate(new Date(user.createdAt))}</Table.TD>
-              <Table.TD>{user.transactions}</Table.TD>
-              <Table.TD>
-                {formatTimeAgo(new Date(user.lastTransactionDate))}
-              </Table.TD>
-              <Table.TD>x</Table.TD>
-            </Table.TR>
-          )
-        })}
+        {users.map((user) => (
+          <Table.TR key={user.address}>
+            <Table.TD>{midTruncate(user.address, 24)}</Table.TD>
+            <Table.TD>{formatDate(new Date(user.createdAt))}</Table.TD>
+            <Table.TD>{user.transactions}</Table.TD>
+            <Table.TD>
+              {formatTimeAgo(new Date(user.lastTransactionDate))}
+            </Table.TD>
+            <Table.TD align="right">
+              <DropdownMenu address={user.address} />
+            </Table.TD>
+          </Table.TR>
+        ))}
       </Table>
-      <div className="mt-6 flex items-center justify-between">
+      <div className="flex items-center justify-between mt-6">
         <PreviousPage page={page} currentSearchParams={currentSearchParams} />
         <p className="text-sm text-gray-600">
           Showing{" "}

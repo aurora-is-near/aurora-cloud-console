@@ -57,7 +57,8 @@ const silos = [
   },
 ]
 
-const sleep = async () => new Promise((r) => setTimeout(r, 0))
+export const sleep = async (ms: number = 1000) =>
+  new Promise((r) => setTimeout(r, ms))
 
 export const getDealById = async (id: string) => {
   await sleep()

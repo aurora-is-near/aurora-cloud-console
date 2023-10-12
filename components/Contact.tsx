@@ -9,14 +9,14 @@ const Contact = ({
   text?: string
 }) => {
   return (
-    <section className="p-5 sm:p-6 rounded-md border border-gray-200 bg-gray-100 flex justify-between sm:items-center items-start gap-3 sm:gap-5">
-      <LifebuoyIcon className="h-8 w-8 sm:h-11 sm:w-11 text-gray-500 flex-shrink-0" />
-      <div className="flex-1 flex items-start gap-y-3 sm:items-center justify-between sm:flex-row flex-col">
+    <section className="flex items-start justify-between gap-3 p-5 bg-gray-100 border border-gray-200 rounded-md sm:p-6 sm:items-center sm:gap-5">
+      <LifebuoyIcon className="flex-shrink-0 w-8 h-8 text-gray-500 sm:h-11 sm:w-11" />
+      <div className="flex flex-col items-start justify-between flex-1 gap-y-3 sm:items-center sm:flex-row">
         <div>
-          <p className="font-medium leading-none text-base text-gray-900">
+          <p className="text-base font-medium leading-none text-gray-900">
             {text}
           </p>
-          <p className="mt-2 text-gray-500 text-sm leading-5">
+          <p className="mt-2 text-sm leading-5 text-gray-500">
             Reach out to our support team to get assistance.
           </p>
         </div>
