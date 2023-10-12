@@ -45,7 +45,7 @@ const UsersTable = async ({
 
   return (
     <>
-      <Table className="mt-7">
+      <Table>
         <Table.TH>Wallet</Table.TH>
         <Table.TH>Date added</Table.TH>
         <Table.TH>Transactions</Table.TH>

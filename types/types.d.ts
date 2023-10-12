@@ -19,3 +19,8 @@ export type Silo = {
   href: string
   name: string
 }
+
+export type List = {
+  href: string
+  name: string
+}

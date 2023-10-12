@@ -17,8 +17,9 @@ import useDeals from "@/hooks/useDeals"
 import useSilos from "@/hooks/useSilos"
 import { useEffect, useState } from "react"
 import { Silos } from "../icons"
+import useUserLists from "@/hooks/useUserLists"
 
-const MenuDivider = () => <div className="h-px bg-gray-200 w-full" />
+const MenuDivider = () => <div className="w-full h-px bg-gray-200" />
 
 const BorealisMenu = () => {
   const deals = useDeals()
@@ -85,7 +86,7 @@ const SiloMenu = () => {
         <select
           id="silo"
           name="silo"
-          className="block w-full rounded-md border-0 py-4 pl-3 pr-8 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-green-600 leading-none"
+          className="block w-full py-4 pl-3 pr-8 leading-none text-gray-900 border-0 rounded-md ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-green-600"
           value={option}
           onChange={(e) =>
             router.push(
@@ -119,9 +120,30 @@ const SiloMenu = () => {
   )
 }
 
+const UsersMenu = () => {
+  const lists = useUserLists()
+
+  if (!lists.length) return null
+
+  return (
+    <ul role="list" className="space-y-4">
+      {lists?.map((list) => (
+        <li key={list.href}>
+          <SubMenuButton
+            href={"/users/" + list.href}
+            name={list.name}
+            icon={<ClipboardDocumentCheckIcon />}
+          />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 const menuMap = {
   borealis: <BorealisMenu />,
   silos: <SiloMenu />,
+  users: <UsersMenu />,
   settings: null,
 }
 
@@ -136,7 +158,7 @@ const SubMenuNav = () => {
     <>
       <Heading>{heading}</Heading>
 
-      <nav className="flex flex-1 flex-col gap-y-4">
+      <nav className="flex flex-col flex-1 gap-y-4">
         <ul role="list" className="space-y-4">
           {subroutes.map((item) => (
             <li key={item.name}>

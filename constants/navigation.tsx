@@ -6,6 +6,7 @@ import {
   Cog6ToothIcon,
   HomeIcon,
   UsersIcon,
+  NoSymbolIcon,
 } from "@heroicons/react/24/outline"
 import { Borealis, Silos } from "@/components/icons"
 
@@ -19,7 +20,7 @@ export const mainExtraNavigation = [
   { name: "Settings", href: "/settings/billing", icon: <Cog6ToothIcon /> },
 ]
 
-export type SubrouteKeys = "borealis" | "silos" | "settings"
+export type SubrouteKeys = "borealis" | "silos" | "users" | "settings"
 
 export const subrouteMap = {
   borealis: [
@@ -34,6 +35,18 @@ export const subrouteMap = {
       name: "Summary",
       href: "/silos",
       icon: <HomeIcon />,
+    },
+  ],
+  users: [
+    {
+      name: "All users",
+      href: "/users",
+      icon: <UsersIcon />,
+    },
+    {
+      name: "Blocked",
+      href: "/users/blocked",
+      icon: <NoSymbolIcon />,
     },
   ],
   settings: [

@@ -57,6 +57,17 @@ const silos = [
   },
 ]
 
+const lists = [
+  {
+    name: "Premium Subscribers",
+    href: "premium-subscribers",
+  },
+  {
+    name: "Basic Subscribers",
+    href: "basic-subscribers",
+  },
+]
+
 export const sleep = async (ms: number = 1000) =>
   new Promise((r) => setTimeout(r, ms))
 
@@ -78,6 +89,16 @@ export const getSiloById = async (id: string) => {
 export const getSilos = async () => {
   await sleep()
   return silos
+}
+
+export const getUserLists = async () => {
+  await sleep()
+  return lists
+}
+
+export const getUserListByName = async (name: string) => {
+  await sleep()
+  return lists.find((list) => list.href === name)
 }
 
 export const getUsers = async ({
