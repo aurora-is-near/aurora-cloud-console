@@ -13,6 +13,7 @@ import { notFound } from "next/navigation"
 import Contact from "@/components/Contact"
 import TabCharts from "@/components/TabCharts"
 import AddContractButton from "./AddContractButton"
+import AddListButton from "./AddListButton"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const deal = await getDealById(id)
@@ -70,10 +71,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
             Select which users should benefit from this plan.
           </Card.Subtitle>
           <Card.Actions>
-            <Button>
-              <PlusIcon className="w-5 h-5" />
-              Add list
-            </Button>
+            <AddListButton />
           </Card.Actions>
 
           <AccessSelector />

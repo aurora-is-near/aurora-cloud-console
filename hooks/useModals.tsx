@@ -7,6 +7,7 @@ export enum Modals {
   BlockAddress = "blockUser",
   DeleteAddress = "deleteUser",
   AddContract = "addContract",
+  AddList = "addList",
 }
 
 type ModalsContextType = {
