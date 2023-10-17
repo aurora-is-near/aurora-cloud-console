@@ -26,6 +26,23 @@ export const findChildren = (children: ReactNode, displayName: string) =>
       isValidElement(child) && (child.type as any).displayName === displayName
   )
 
+export const findOtherChildren = (
+  children: ReactNode,
+  displayNames: string[]
+) =>
+  Children.toArray(children)
+    .filter(isValidElement)
+    .filter((child) => {
+      const { displayName } = child.type as any
+      if (
+        typeof displayName === "string" &&
+        displayNames.includes(displayName)
+      ) {
+        return false
+      }
+      return true
+    })
+
 export const formatDate = (date: Date): string =>
   new Intl.DateTimeFormat("en-US", {
     year: "numeric",

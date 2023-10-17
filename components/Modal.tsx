@@ -26,7 +26,7 @@ const Modal = ({
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <div className="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75" />
+        <div className="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75 backdrop-blur-sm" />
       </Transition.Child>
 
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">

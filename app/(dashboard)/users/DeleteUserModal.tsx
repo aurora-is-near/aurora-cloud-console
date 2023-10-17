@@ -5,31 +5,28 @@ import Modal from "@/components/Modal"
 import { useTransition } from "react"
 import { deleteUser } from "./actions/delete-user"
 import { useQueryState } from "next-usequerystate"
+import { Modals, useModals } from "@/hooks/useModals"
 
-const DeleteUserModal = ({
-  isOpen,
-  close,
-}: {
-  isOpen: boolean
-  close: () => void
-}) => {
+const DeleteUserModal = () => {
+  const { activeModal, closeModal } = useModals()
   const [isPending, startTransition] = useTransition()
   const [address, setAddress] = useQueryState("address")
+  const isOpen = activeModal === Modals.DeleteAddress
 
-  const closeModal = () => {
+  const close = () => {
     setAddress(null)
-    close()
+    closeModal()
   }
 
   const handleDeleteUser = async () => {
     if (!address) return
 
     await deleteUser(address)
-    closeModal()
+    close()
   }
 
   return (
-    <Modal title="Delete address" open={isOpen} close={closeModal}>
+    <Modal title="Delete address" open={isOpen} close={close}>
       <p className="text-sm leading-5 text-gray-500">
         You are about to delete this address. It will also be removed from
         associated deals. Are you sure you want to proceed?

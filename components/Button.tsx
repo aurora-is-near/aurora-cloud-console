@@ -44,6 +44,8 @@ const Button = forwardRef<Ref, Props>(
       </div>
     )
 
+    const isDisabled = disabled || loading
+
     const classes = clsx(
       "relative flex items-center justify-center rounded-md text-sm font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50",
       {
@@ -60,11 +62,11 @@ const Button = forwardRef<Ref, Props>(
           style === "border",
         "bg-rose-500 text-white focus-visible:outline-rose-500":
           style === "destructive",
-        "hover:bg-green-400": style === "primary" && !disabled,
-        "hover:bg-gray-300": style === "secondary" && !disabled,
-        "hover:bg-gray-200": style === "transparent" && !disabled,
-        "hover:border-gray-600": style === "border" && !disabled,
-        "hover:bg-rose-600": style === "destructive" && !disabled,
+        "hover:bg-green-400": style === "primary" && !isDisabled,
+        "hover:bg-gray-300": style === "secondary" && !isDisabled,
+        "hover:bg-gray-200": style === "transparent" && !isDisabled,
+        "hover:border-gray-600": style === "border" && !isDisabled,
+        "hover:bg-rose-600": style === "destructive" && !isDisabled,
         "w-full": fullWidth,
       },
       className
@@ -100,7 +102,7 @@ const Button = forwardRef<Ref, Props>(
       <button
         onClick={onClick}
         className={classes}
-        disabled={disabled || loading}
+        disabled={isDisabled}
         ref={ref as React.Ref<HTMLButtonElement>}
         {...rest}
       >

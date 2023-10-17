@@ -1,6 +1,6 @@
-import { Children, ReactNode, isValidElement } from "react"
+import { ReactNode } from "react"
 import clsx from "clsx"
-import { findChildren } from "@/utils/helpers"
+import { findChildren, findOtherChildren } from "@/utils/helpers"
 
 const Title = ({
   children,
@@ -9,14 +9,14 @@ const Title = ({
   children: ReactNode
   tag?: keyof JSX.IntrinsicElements
 }) => (
-  <Tag className="text-lg leading-none text-gray-900 font-medium">
+  <Tag className="text-lg font-medium leading-none text-gray-900">
     {children}
   </Tag>
 )
 Title.displayName = "Title"
 
 const Subtitle = ({ children }: { children: ReactNode }) => (
-  <p className="mt-2 text-gray-500 text-sm leading-5">{children}</p>
+  <p className="mt-2 text-sm leading-5 text-gray-500">{children}</p>
 )
 Subtitle.displayName = "Subtitle"
 
@@ -41,18 +41,7 @@ const Card = ({
   const title = findChildren(children, "Title")
   const subtitle = findChildren(children, "Subtitle")
   const actions = findChildren(children, "Actions")
-  const content = Children.toArray(children)
-    .filter(isValidElement)
-    .filter((child) => {
-      const { displayName } = child.type as any
-      if (
-        typeof displayName === "string" &&
-        ["Title", "Subtitle", "Actions"].includes(displayName)
-      ) {
-        return false
-      }
-      return true
-    })
+  const content = findOtherChildren(children, ["Title", "Subtitle", "Actions"])
 
   return (
     <Tag
@@ -64,7 +53,7 @@ const Card = ({
       {...rest}
     >
       {(title || subtitle || actions) && (
-        <header className="flex justify-between items-start p-6">
+        <header className="flex items-start justify-between p-6">
           <div className="self-center">
             {title}
             {subtitle}

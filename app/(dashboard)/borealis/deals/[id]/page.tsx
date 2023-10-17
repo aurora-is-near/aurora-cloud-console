@@ -12,6 +12,7 @@ import { CheckIcon } from "@heroicons/react/24/outline"
 import { notFound } from "next/navigation"
 import Contact from "@/components/Contact"
 import TabCharts from "@/components/TabCharts"
+import AddContractButton from "./AddContractButton"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const deal = await getDealById(id)
@@ -44,7 +45,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
               },
             ]}
           >
-            <div className="space-x-4 flex items-center">
+            <div className="flex items-center space-x-4">
               <ToggleDeal dealId={id} />
               <Heading tag="h2">{deal.name}</Heading>
             </div>
@@ -57,10 +58,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
             List of target contracts to benefit from this deal.
           </Card.Subtitle>
           <Card.Actions>
-            <Button>
-              <PlusIcon className="h-5 w-5" />
-              Add contract
-            </Button>
+            <AddContractButton />
           </Card.Actions>
 
           <ContractsList dealId={id} />
@@ -73,7 +71,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
           </Card.Subtitle>
           <Card.Actions>
             <Button>
-              <PlusIcon className="h-5 w-5" />
+              <PlusIcon className="w-5 h-5" />
               Add list
             </Button>
           </Card.Actions>
@@ -89,7 +87,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
           </Card.Subtitle>
           <Card.Actions>
             <Button>
-              <PlusIcon className="h-5 w-5" />
+              <PlusIcon className="w-5 h-5" />
               Add rule
             </Button>
           </Card.Actions>

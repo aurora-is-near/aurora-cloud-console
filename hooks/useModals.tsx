@@ -1,43 +1,45 @@
 "use client"
 
-import BlockUserModal from "@/app/(dashboard)/users/BlockUserModal"
-import DeleteUserModal from "@/app/(dashboard)/users/DeleteUserModal"
-import { useQueryState } from "next-usequerystate"
 import { ReactNode, createContext, useContext } from "react"
+import { useQueryState } from "next-usequerystate"
 
 export enum Modals {
   BlockAddress = "blockUser",
   DeleteAddress = "deleteUser",
+  AddContract = "addContract",
 }
 
 type ModalsContextType = {
+  activeModal: Modals | null
   openModal: (modal: Modals) => void
   closeModal: () => void
 }
 
 const ModalsContext = createContext<ModalsContextType>({} as ModalsContextType)
 
+function validateModal(value: string | null): Modals | null {
+  if (Object.values(Modals).includes(value as Modals)) {
+    return value as Modals
+  }
+  return null
+}
+
 export function ModalsProvider({ children }: { children: ReactNode }) {
-  const [activeModal, setActiveModal] = useQueryState("modal")
-  const openModal = (modal: Modals) => setActiveModal(modal)
-  const closeModal = () => setActiveModal(null)
+  const [queryModal, setQueryModal] = useQueryState("modal")
+  const activeModal = validateModal(queryModal)
+
+  const openModal = (modal: Modals) => setQueryModal(modal)
+  const closeModal = () => setQueryModal(null)
 
   return (
     <ModalsContext.Provider
       value={{
+        activeModal,
         openModal,
         closeModal,
       }}
     >
       {children}
-      <BlockUserModal
-        isOpen={activeModal === Modals.BlockAddress}
-        close={closeModal}
-      />
-      <DeleteUserModal
-        isOpen={activeModal === Modals.DeleteAddress}
-        close={closeModal}
-      />
     </ModalsContext.Provider>
   )
 }

@@ -5,31 +5,28 @@ import Modal from "@/components/Modal"
 import { useTransition } from "react"
 import { blockUser } from "./actions/block-user"
 import { useQueryState } from "next-usequerystate"
+import { Modals, useModals } from "@/hooks/useModals"
 
-const BlockUserModal = ({
-  isOpen,
-  close,
-}: {
-  isOpen: boolean
-  close: () => void
-}) => {
+const BlockUserModal = () => {
+  const { activeModal, closeModal } = useModals()
   const [isPending, startTransition] = useTransition()
   const [address, setAddress] = useQueryState("address")
+  const isOpen = activeModal === Modals.BlockAddress
 
-  const closeModal = () => {
+  const close = () => {
     setAddress(null)
-    close()
+    closeModal()
   }
 
   const handleBlockUser = async () => {
     if (!address) return
 
     await blockUser(address)
-    closeModal()
+    close()
   }
 
   return (
-    <Modal title="Block address" open={isOpen} close={closeModal}>
+    <Modal title="Block address" open={isOpen} close={close}>
       <p className="text-sm leading-5 text-gray-500">
         You are about to block this address. It will also be removed from
         associated deals. Are you sure you want to proceed?
