@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 duration: 5000,
               }}
             />
-            <div className="relative px-8 pt-6 pb-[132px]">{children}</div>
+            <div className="relative px-4 py-6 md:px-6 lg:px-8">{children}</div>
           </div>
         </main>
       </div>

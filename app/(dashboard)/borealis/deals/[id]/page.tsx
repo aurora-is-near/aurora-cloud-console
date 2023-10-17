@@ -96,7 +96,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
         <Contact />
       </div>
 
-      <div className="fixed lg:ml-[368px] inset-x-0 bottom-0 bg-white px-8 py-5 flex items-center justify-between border-t">
+      {/* <div className="fixed lg:ml-[368px] inset-x-0 bottom-0 bg-white px-8 py-5 flex items-center justify-between border-t">
         <Button style="secondary">Reset</Button>
         <div className="text-sm text-gray-500">
           Last update: Jun 16, 2023 at 11:25
@@ -105,7 +105,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
           <CheckIcon className="w-5 h-5" />
           Save changes
         </Button>
-      </div>
+      </div> */}
     </>
   )
 }

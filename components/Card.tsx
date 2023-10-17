@@ -9,14 +9,14 @@ const Title = ({
   children: ReactNode
   tag?: keyof JSX.IntrinsicElements
 }) => (
-  <Tag className="text-lg font-medium leading-none text-gray-900">
+  <Tag className="text-base font-medium !leading-none text-gray-900 sm:text-lg">
     {children}
   </Tag>
 )
 Title.displayName = "Title"
 
 const Subtitle = ({ children }: { children: ReactNode }) => (
-  <p className="mt-2 text-sm leading-5 text-gray-500">{children}</p>
+  <p className="mt-1 text-sm leading-5 text-gray-500 sm:mt-2">{children}</p>
 )
 Subtitle.displayName = "Subtitle"
 
@@ -53,8 +53,8 @@ const Card = ({
       {...rest}
     >
       {(title || subtitle || actions) && (
-        <header className="flex items-start justify-between p-6">
-          <div className="self-center">
+        <header className="flex flex-col items-start justify-between px-4 py-5 gap-y-3 sm:gap-y-0 sm:flex-row sm:px-5 md:px-6 sm:py-6">
+          <div className="sm:self-center">
             {title}
             {subtitle}
           </div>

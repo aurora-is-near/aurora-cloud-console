@@ -45,7 +45,7 @@ const TabCharts = ({
 
   return (
     <>
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col items-start justify-between gap-4 md:flex-row">
         {children}
 
         <RadioGroup value={startDate} onChange={setStartDate}>
@@ -78,9 +78,9 @@ const TabCharts = ({
             {tabs.map(({ title, value }) => (
               <Tab
                 key={title}
-                className="rounded-t-md border border-gray-200 ui-selected:bg-white ui-selected:border-b-white ui-not-selected:bg-gray-50 text-left py-5 px-6"
+                className="px-6 py-5 text-left border border-gray-200 rounded-t-md ui-selected:bg-white ui-selected:border-b-white ui-not-selected:bg-gray-50"
               >
-                <div className="font-medium text-gray-500 text-sm leading-none">
+                <div className="text-sm font-medium leading-none text-gray-500">
                   {title}
                 </div>
                 <div className="text-gray-900 text-4xl font-bold mt-1.5">
@@ -89,14 +89,14 @@ const TabCharts = ({
               </Tab>
             ))}
           </Tab.List>
-          <Tab.Panels className="rounded-b-md bg-white border border-gray-200">
+          <Tab.Panels className="bg-white border border-gray-200 rounded-b-md">
             {tabs.map(({ title, chart, legend }) => (
               <Tab.Panel key={title}>
                 <div className="px-6 pt-5 pb-6">
-                  <div className="w-full bg-gray-200 h-44 rounded-md" />
+                  <div className="w-full bg-gray-200 rounded-md h-44" />
                 </div>
                 <div className="px-1 pb-1">
-                  <div className="bg-gray-50 w-full h-9 rounded-b-sm flex space-x-6 items-center px-5">
+                  <div className="flex items-center w-full px-5 space-x-6 rounded-b-sm bg-gray-50 h-9">
                     {legend.map((text, i) => (
                       <div key={text} className="flex items-center space-x-2">
                         <div
@@ -107,7 +107,7 @@ const TabCharts = ({
                             "bg-purple-400": i === 3,
                           })}
                         />
-                        <span className="text-xs text-gray-900 leading-3 font-medium">
+                        <span className="text-xs font-medium leading-3 text-gray-900">
                           {text}
                         </span>
                       </div>

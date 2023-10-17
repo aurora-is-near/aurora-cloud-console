@@ -20,12 +20,12 @@ const AccessSelector = () => {
   const [selected, setSelected] = useState(options[0])
 
   return (
-    <div className="px-6 pb-6">
+    <div className="px-4 pb-4 sm:pb-5 md:pb-6 sm:px-5 md:px-6">
       <RadioGroup value={selected} onChange={setSelected}>
         <RadioGroup.Label className="sr-only">
           Select user access type
         </RadioGroup.Label>
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid sm:grid-cols-2 gap-2.5">
           {options.map((plan) => (
             <RadioGroup.Option
               key={plan.title}
@@ -44,13 +44,13 @@ const AccessSelector = () => {
             >
               <RadioGroup.Label
                 as="p"
-                className="font-medium text-sm leading-none text-gray-900"
+                className="text-sm font-medium leading-none text-gray-900"
               >
                 {plan.title}
               </RadioGroup.Label>
               <RadioGroup.Description
                 as="span"
-                className="mt-1 text-sm text-gray-500 max-w-xs"
+                className="max-w-xs mt-1 text-sm text-gray-500"
               >
                 {plan.description}
               </RadioGroup.Description>

@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { Children, ReactNode } from "react"
 import { findChildren, findOtherChildren } from "@/utils/helpers"
 import clsx from "clsx"
 
@@ -29,16 +29,26 @@ const ListItem = ({
 }) => {
   const actions = findChildren(children, "Actions")
   const otherChildren = findOtherChildren(children, ["Actions"])
+  const amountOfChildren = Children.count(children)
 
   return (
-    <li className="items-center justify-between px-6 py-[18px] grid grid-cols-4 gap-x-6">
+    <li
+      className={clsx(
+        "items-center justify-between grid gap-4 md:gap-6 px-4 sm:px-5 md:px-6 py-4 md:py-[18px]",
+        {
+          "grid-cols-1": amountOfChildren === 1,
+          "grid-cols-2": amountOfChildren === 2,
+          "grid-cols-2 sm:grid-cols-3": amountOfChildren === 3,
+          "grid-cols-2 md:grid-cols-4": amountOfChildren === 4,
+        }
+      )}
+    >
       {otherChildren}
       <div
-        className={clsx("flex items-center justify-end", {
-          "col-span-3": otherChildren.length === 1,
-          "col-span-2": otherChildren.length === 2,
-          "col-span-1": otherChildren.length === 3,
-        })}
+        className={clsx(
+          "flex items-center",
+          amountOfChildren === 3 ? "sm:justify-end" : "justify-end"
+        )}
       >
         {actions}
       </div>
