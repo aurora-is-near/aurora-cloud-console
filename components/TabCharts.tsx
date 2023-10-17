@@ -38,8 +38,13 @@ const TabCharts = ({
   tabs,
 }: {
   children: ReactNode
-  tabs: TabType[]
+  tabs:
+    | [TabType]
+    | [TabType, TabType]
+    | [TabType, TabType, TabType]
+    | [TabType, TabType, TabType, TabType] // 1-4 tabs
 }) => {
+  const [selectedIndex, setSelectedIndex] = useState(0)
   const [startDate, setStartDate] = useState(options[0])
   const startAt = startDate?.startDate
 
@@ -65,10 +70,33 @@ const TabCharts = ({
           </div>
         </RadioGroup>
       </div>
-      <div className="mt-6">
-        <Tab.Group>
+      <div className="mt-4 md:mt-6">
+        <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+          <div className="block px-4 pt-5 pb-3 bg-white border-t sm:hidden border-x rounded-t-md">
+            <label htmlFor="silo" className="sr-only">
+              Select tab
+            </label>
+            <select
+              id="silo"
+              name="silo"
+              className="block w-full py-4 pl-3 pr-8 leading-none text-gray-900 border-0 rounded-md ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-green-600"
+              onChange={(e) => setSelectedIndex(Number(e.target.value))}
+              value={selectedIndex}
+            >
+              {tabs.map(({ title }, index) => (
+                <option key={title} value={index}>
+                  {title}
+                </option>
+              ))}
+            </select>
+
+            <div className="mt-3 text-3xl font-bold text-gray-900">
+              {tabs[selectedIndex].value}
+            </div>
+          </div>
+
           <Tab.List
-            className={clsx("grid gap-x-2.5 -mb-px relative z-10", {
+            className={clsx("hidden sm:grid gap-x-2.5 -mb-px relative z-10", {
               "grid-cols-1": tabs.length === 1,
               "grid-cols-2": tabs.length === 2,
               "grid-cols-3": tabs.length === 3,
@@ -78,7 +106,7 @@ const TabCharts = ({
             {tabs.map(({ title, value }) => (
               <Tab
                 key={title}
-                className="px-6 py-5 text-left border border-gray-200 rounded-t-md ui-selected:bg-white ui-selected:border-b-white ui-not-selected:bg-gray-50"
+                className="px-4 py-5 text-left border border-gray-200 sm:px-5 md:px-6 rounded-t-md ui-selected:bg-white ui-selected:border-b-white ui-not-selected:bg-gray-50"
               >
                 <div className="text-sm font-medium leading-none text-gray-500">
                   {title}
@@ -92,7 +120,7 @@ const TabCharts = ({
           <Tab.Panels className="bg-white border border-gray-200 rounded-b-md">
             {tabs.map(({ title, chart, legend }) => (
               <Tab.Panel key={title}>
-                <div className="px-6 pt-5 pb-6">
+                <div className="px-4 pt-5 pb-5 md:pb-6 sm:px-5 md:px-6">
                   <div className="w-full bg-gray-200 rounded-md h-44" />
                 </div>
                 <div className="px-1 pb-1">
