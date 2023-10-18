@@ -1,11 +1,12 @@
 "use client"
 
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 
 const SearchInput = ({ search }: { search?: string }) => {
   const router = useRouter()
+  const pathname = usePathname()
 
   const [isPending, startTransition] = useTransition()
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>()
@@ -45,7 +46,7 @@ const SearchInput = ({ search }: { search?: string }) => {
             const id = setTimeout(() => {
               startTransition(() => {
                 const value = event.target.value
-                router.push(`/users${value ? `?search=${value}` : ""}`)
+                router.push(`${pathname}${value ? `?search=${value}` : ""}`)
                 setTimeoutId(undefined)
               })
             }, 500)

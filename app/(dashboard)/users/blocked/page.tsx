@@ -22,24 +22,26 @@ const Page = ({
 
   return (
     <div className="space-y-6">
-      <header className="flex items-center justify-between">
+      <header className="flex space-y-3 md:space-y-0 md:flex-row flex-col md:items-center md:justify-between lg:flex-col lg:space-y-3 xl:flex-row xl:space-y-0 lg:items-start xl:items-center xl:justify-between">
         <div className="flex space-x-3.5">
           <Heading tag="h2">Blocked users</Heading>
           <Heading tag="span" textColorClassName="text-gray-400">
             324
           </Heading>
         </div>
-        <div className="flex space-x-3">
+        <div className="flex items-start sm:flex-row flex-col-reverse gap-3">
           <SearchInput search={search} />
 
-          <Button style="secondary">
-            <ArrowDownCircleIcon className="w-5 h-5" />
-            <span>Export</span>
-          </Button>
-          <Button>
-            <Cog8ToothIcon className="w-5 h-5" />
-            <span>Manage</span>
-          </Button>
+          <div className="flex space-x-3">
+            <Button style="secondary">
+              <ArrowDownCircleIcon className="w-5 h-5" />
+              <span>Export</span>
+            </Button>
+            <Button>
+              <Cog8ToothIcon className="w-5 h-5" />
+              <span>Manage</span>
+            </Button>
+          </div>
         </div>
       </header>
 
