@@ -33,11 +33,11 @@ const Page = () => {
         </TabCharts>
       </section>
 
-      <section className="grid grid-cols-2 gap-y-5 gap-x-2.5">
+      <section className="grid md:grid-cols-2 gap-y-5 gap-x-2.5">
         <Chart
           title="Latency"
           subtitle="Last 24 hours"
-          className="col-span-2"
+          className="md:col-span-2"
           legend={["10%", "25%", "50%", "100%"]}
         />
         <Chart title="RPC Requests" />

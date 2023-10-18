@@ -6,7 +6,7 @@ import TabCharts from "@/components/TabCharts"
 
 const Page = () => {
   return (
-    <div className="space-y-12">
+    <div className="space-y-8 sm:space-y-10 md:space-y-12">
       <section>
         <TabCharts
           tabs={[
@@ -35,7 +35,7 @@ const Page = () => {
       </section>
 
       <section>
-        <Heading tag="h2" className="mb-7">
+        <Heading tag="h2" className="mb-4 sm:mb-5 md:mb-7">
           Deals
         </Heading>
 

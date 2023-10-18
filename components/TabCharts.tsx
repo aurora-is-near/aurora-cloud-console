@@ -106,12 +106,12 @@ const TabCharts = ({
             {tabs.map(({ title, value }) => (
               <Tab
                 key={title}
-                className="px-4 py-5 text-left border border-gray-200 sm:px-5 md:px-6 rounded-t-md ui-selected:bg-white ui-selected:border-b-white ui-not-selected:bg-gray-50"
+                className="px-4 py-4 md:py-5 text-left border border-gray-200 sm:px-5 md:px-6 rounded-t-md ui-selected:bg-white ui-selected:border-b-white ui-not-selected:bg-gray-50"
               >
                 <div className="text-sm font-medium leading-none text-gray-500">
                   {title}
                 </div>
-                <div className="text-gray-900 text-4xl font-bold mt-1.5">
+                <div className="text-gray-900 text-3xl md:text-4xl font-bold mt-1.5">
                   {value}
                 </div>
               </Tab>
