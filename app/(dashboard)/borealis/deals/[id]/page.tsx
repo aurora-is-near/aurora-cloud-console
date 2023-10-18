@@ -22,7 +22,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <>
-      <div className="space-y-5">
+      <div className="space-y-4 sm:space-y-5">
         <section>
           <TabCharts
             tabs={[

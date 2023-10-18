@@ -45,11 +45,7 @@ const Card = ({
 
   return (
     <Tag
-      className={clsx(
-        "overflow-hidden rounded-md border",
-        className,
-        bgClassName
-      )}
+      className={clsx("rounded-md border", className, bgClassName)}
       {...rest}
     >
       {(title || subtitle || actions) && (

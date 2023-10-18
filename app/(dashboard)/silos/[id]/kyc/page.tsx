@@ -4,7 +4,7 @@ import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
 import TabCharts from "@/components/TabCharts"
 import { getSiloById } from "@/mockApi"
-import { Cog6ToothIcon, PlusIcon } from "@heroicons/react/20/solid"
+import { Cog6ToothIcon } from "@heroicons/react/20/solid"
 import { notFound } from "next/navigation"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
@@ -13,7 +13,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
   if (!silo) notFound()
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 sm:space-y-5">
       <section>
         <TabCharts
           tabs={[

@@ -12,7 +12,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
   if (!silo) notFound()
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 sm:space-y-5">
       <BreadcrumbHeading titles={[silo.name, "Configuration"]} />
 
       <Card tag="section">

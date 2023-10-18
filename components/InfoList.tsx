@@ -27,12 +27,12 @@ const Item = ({
   action?: ReactNode
   showCopyButton?: boolean
 }) => (
-  <div className="sm:grid sm:grid-cols-2 items-center">
-    <div className="flex items-center sm:py-2 gap-x-0.5">
+  <div className="sm:grid sm:grid-cols-5 items-center">
+    <div className="sm:col-span-2 flex items-center sm:py-2 gap-x-0.5">
       <dt className="text-sm font-medium leading-5 text-gray-500">{term}</dt>
       {explainer ? <Tooltip text={explainer} /> : null}
     </div>
-    <div className="flex items-center mt-2 sm:mt-0">
+    <div className="sm:col-span-3 flex flex-col items-start gap-y-1 sm:gap-y-0 sm:flex-row sm:items-center">
       <div className="flex items-center flex-1 gap-x-2.5">
         <dd className="text-sm leading-5 text-gray-900 py-2">{description}</dd>
         {showCopyButton ? <CopyButton value={description} /> : null}
@@ -49,11 +49,16 @@ const InfoList = ({
 }: {
   children: ReactNode
   className?: string
-}) => {
-  return (
-    <dl className={clsx("px-6 pb-5 space-y-3.5", className)}>{children}</dl>
-  )
-}
+}) => (
+  <dl
+    className={clsx(
+      "px-4 sm:px-5 md:px-6 pb-5 space-y-4 sm:space-y-3.5",
+      className
+    )}
+  >
+    {children}
+  </dl>
+)
 
 InfoList.Item = Item
 
