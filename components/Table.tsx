@@ -73,7 +73,7 @@ const TR = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <tr>
-      {tds.map((td, i) => {
+      {tds?.map((td, i) => {
         const isFirst = i === 0
         const isLast = i === tds.length - 1
 
@@ -105,7 +105,7 @@ const Table = ({
             <table className="min-w-full divide-y divide-gray-300">
               <thead className="bg-white">
                 <tr>
-                  {ths.map((th, i) => {
+                  {ths?.map((th, i) => {
                     const isFirst = i === 0
                     const isLast = i === ths.length - 1
 
