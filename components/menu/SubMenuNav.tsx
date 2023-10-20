@@ -18,11 +18,21 @@ import useSilos from "@/hooks/useSilos"
 import { useEffect, useState } from "react"
 import { Silos } from "../icons"
 import useUserLists from "@/hooks/useUserLists"
+import Loader from "../Loader"
+
+const NavLoader = () => (
+  <>
+    <Loader className="rounded-lg h-12" />
+    <Loader className="rounded-lg h-12" />
+  </>
+)
 
 const MenuDivider = () => <div className="w-full h-px bg-gray-200" />
 
 const BorealisMenu = () => {
-  const deals = useDeals()
+  const { deals, loading } = useDeals()
+
+  if (loading) return <NavLoader />
 
   if (!deals.length) return null
 
@@ -67,13 +77,15 @@ const siloLinks = [
 
 const SiloMenu = () => {
   const [option, setOption] = useState("")
-  const silos = useSilos()
+  const { loading, silos } = useSilos()
   const router = useRouter()
   const [, id, subroute] = useSelectedLayoutSegments()
 
   useEffect(() => {
     setOption(id ?? "Select silo")
   }, [id])
+
+  if (loading) return <NavLoader />
 
   if (!silos.length) return null
 
@@ -121,7 +133,9 @@ const SiloMenu = () => {
 }
 
 const UsersMenu = () => {
-  const lists = useUserLists()
+  const { lists, loading } = useUserLists()
+
+  if (loading) return <NavLoader />
 
   if (!lists.length) return null
 

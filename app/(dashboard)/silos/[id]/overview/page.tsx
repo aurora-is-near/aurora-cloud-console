@@ -1,43 +1,15 @@
-import TabCharts from "@/components/TabCharts"
-import Heading from "@/components/Heading"
-import { getSiloById } from "@/mockApi"
-import { notFound } from "next/navigation"
 import Chart from "../../Chart"
 import Contact from "@/components/Contact"
+import { Suspense } from "react"
+import ChartsLoader from "@/components/ChartsLoader"
+import Charts from "./Charts"
 
-const Page = async ({ params: { id } }: { params: { id: string } }) => {
-  const silo = await getSiloById(id)
-
-  if (!silo) notFound()
-
+const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
     <div className="space-y-4 sm:space-y-5">
-      <section>
-        <TabCharts
-          tabs={[
-            {
-              title: "Transactions volume",
-              value: "24,083",
-              chart: <></>,
-              legend: ["A very big deal", "Another deal"],
-            },
-            {
-              title: "Total wallets",
-              value: "3,932",
-              chart: <></>,
-              legend: ["A very big deal", "Another deal"],
-            },
-            {
-              title: "Avg transactions per wallet",
-              value: "1.03",
-              chart: <></>,
-              legend: ["A very big deal", "Another deal"],
-            },
-          ]}
-        >
-          <Heading tag="h2">{silo.name}</Heading>
-        </TabCharts>
-      </section>
+      <Suspense fallback={<ChartsLoader />}>
+        <Charts siloId={id} />
+      </Suspense>
 
       <section className="grid md:grid-cols-2 gap-y-5 gap-x-2.5">
         <Chart

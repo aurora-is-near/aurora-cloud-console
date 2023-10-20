@@ -1,19 +1,17 @@
 import Card from "@/components/Card"
-import { getSiloById } from "@/mockApi"
-import { notFound } from "next/navigation"
 import TransactionAccessList from "./TransactionAccessList"
 import DeployAccessList from "./DeployAccessList"
 import AddListButton from "./AddListButton"
-import BreadcrumbHeading from "@/components/BreadcrumbHeading"
+import { Suspense } from "react"
+import Header from "./Header"
+import Loader from "@/components/Loader"
 
-const Page = async ({ params: { id } }: { params: { id: string } }) => {
-  const silo = await getSiloById(id)
-
-  if (!silo) notFound()
-
+const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
     <div className="space-y-4 sm:space-y-5">
-      <BreadcrumbHeading titles={[silo.name, "Permissions"]} />
+      <Suspense fallback={<Loader className="h-7 sm:h-8 rounded-md !mt-0" />}>
+        <Header siloId={id} />
+      </Suspense>
 
       <Card tag="section">
         <Card.Title tag="h4">Transactions access</Card.Title>

@@ -1,39 +1,17 @@
-import BreadcrumbHeading from "@/components/BreadcrumbHeading"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
-import TabCharts from "@/components/TabCharts"
-import { getSiloById } from "@/mockApi"
 import { Cog6ToothIcon } from "@heroicons/react/20/solid"
-import { notFound } from "next/navigation"
+import Charts from "./Charts"
+import { Suspense } from "react"
+import ChartsLoader from "@/components/ChartsLoader"
 
-const Page = async ({ params: { id } }: { params: { id: string } }) => {
-  const silo = await getSiloById(id)
-
-  if (!silo) notFound()
-
+const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
     <div className="space-y-4 sm:space-y-5">
-      <section>
-        <TabCharts
-          tabs={[
-            {
-              title: "KYC",
-              value: "2,778",
-              chart: <></>,
-              legend: ["Success", "Rejection"],
-            },
-            {
-              title: "KYB",
-              value: "1,201",
-              chart: <></>,
-              legend: ["Success", "Rejection"],
-            },
-          ]}
-        >
-          <BreadcrumbHeading titles={[silo.name, "KYC"]} />
-        </TabCharts>
-      </section>
+      <Suspense fallback={<ChartsLoader />}>
+        <Charts siloId={id} />
+      </Suspense>
 
       <Card tag="section">
         <Card.Title tag="h4">Settings</Card.Title>

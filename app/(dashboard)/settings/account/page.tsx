@@ -20,7 +20,7 @@ const Page = async () => {
   if (!data) throw "No user data found."
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 sm:space-y-5">
       <Heading tag="h2">Account</Heading>
       <UserInfoForm info={data} hasPendingEmailChange={!!user.new_email} />
     </div>

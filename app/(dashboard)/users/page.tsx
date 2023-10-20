@@ -5,6 +5,7 @@ import { ArrowDownCircleIcon } from "@heroicons/react/24/outline"
 import SearchInput from "./SearchInput"
 import UsersTable from "./UsersTable"
 import { Suspense } from "react"
+import TableLoader from "@/components/TableLoader"
 
 const Page = ({
   searchParams,
@@ -46,7 +47,7 @@ const Page = ({
       </header>
 
       <section>
-        <Suspense fallback={<div>loading...</div>}>
+        <Suspense fallback={<TableLoader />}>
           <UsersTable searchParams={searchParams} />
         </Suspense>
       </section>

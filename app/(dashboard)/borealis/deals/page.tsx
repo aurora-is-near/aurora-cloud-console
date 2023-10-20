@@ -3,6 +3,7 @@ import Contact from "@/components/Contact"
 import Heading from "@/components/Heading"
 import DealsList from "./DealsList"
 import TabCharts from "@/components/TabCharts"
+import Loader from "@/components/Loader"
 
 const Page = () => {
   return (
@@ -39,7 +40,7 @@ const Page = () => {
           Deals
         </Heading>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader className="rounded-md sm:h-[92px] h-32" />}>
           <DealsList />
         </Suspense>
       </section>

@@ -5,7 +5,7 @@ import { PencilIcon } from "@heroicons/react/20/solid"
 
 const Page = () => {
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 sm:space-y-5">
       <Heading tag="h2">Company</Heading>
 
       <Card>

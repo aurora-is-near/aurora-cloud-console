@@ -1,19 +1,16 @@
-import BreadcrumbHeading from "@/components/BreadcrumbHeading"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
-import { getSiloById } from "@/mockApi"
 import { PlusIcon } from "@heroicons/react/20/solid"
-import { notFound } from "next/navigation"
+import { Suspense } from "react"
+import Header from "./Header"
 
-const Page = async ({ params: { id } }: { params: { id: string } }) => {
-  const silo = await getSiloById(id)
-
-  if (!silo) notFound()
-
+const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
     <div className="space-y-4 sm:space-y-5">
-      <BreadcrumbHeading titles={[silo.name, "Configuration"]} />
+      <Suspense>
+        <Header siloId={id} />
+      </Suspense>
 
       <Card tag="section">
         <Card.Title tag="h4">Silo configuration</Card.Title>
