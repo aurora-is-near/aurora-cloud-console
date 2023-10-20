@@ -25,7 +25,7 @@ const navigation = [...mainNavigation, ...mainExtraNavigation]
 const SubrouteMenu = () => {
   const [route] = useSelectedLayoutSegments()
   const subroutes = subrouteMap[route as SubrouteKeys] ?? []
-  const deals = useDeals()
+  const { deals } = useDeals()
 
   return (
     <nav className="mt-6 flex-1 pt-6 border-t border-gray-800 space-y-2">
