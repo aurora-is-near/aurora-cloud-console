@@ -1,3 +1,5 @@
+import { Database } from "./supabase"
+
 export type UserInfo = {
   email: string
   name: string | null
@@ -24,3 +26,5 @@ export type List = {
   href: string
   name: string
 }
+
+export type User = Database['public']['Tables']['users']['Row']

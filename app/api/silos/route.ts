@@ -1,12 +1,9 @@
-import { NextRequest, NextResponse } from "next/server"
-import confirmUser from "@/utils/confirmUser"
+import { NextResponse } from "next/server"
 import { getSilos } from "@/mockApi"
+import { apiRequestHandler } from "@/utils/api"
 
-export async function GET(request: NextRequest) {
-  const id = await confirmUser()
-
+export const GET = apiRequestHandler(async () => {
   // TODO: Query the actual user's company's silos
-
   const silos = await getSilos()
 
   try {
@@ -17,4 +14,4 @@ export async function GET(request: NextRequest) {
       { status: error.status || 500 }
     )
   }
-}
+})

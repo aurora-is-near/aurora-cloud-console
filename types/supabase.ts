@@ -35,43 +35,37 @@ export interface Database {
       }
       users: {
         Row: {
+          api_key: string
           company_id: string | null
-          confirmed_at: string | null
           created_at: string
           email: string
-          id: string
+          id: number
           name: string | null
-          type: Database["public"]["Enums"]["user_type"] | null
+          user_guid: string
         }
         Insert: {
+          api_key: string
           company_id?: string | null
-          confirmed_at?: string | null
-          created_at: string
+          created_at?: string
           email: string
-          id: string
+          id?: number
           name?: string | null
-          type?: Database["public"]["Enums"]["user_type"] | null
+          user_guid: string
         }
         Update: {
+          api_key?: string
           company_id?: string | null
-          confirmed_at?: string | null
           created_at?: string
           email?: string
-          id?: string
+          id?: number
           name?: string | null
-          type?: Database["public"]["Enums"]["user_type"] | null
+          user_guid?: string
         }
         Relationships: [
           {
             foreignKeyName: "users_company_id_fkey"
             columns: ["company_id"]
             referencedRelation: "companies"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "users_id_fkey"
-            columns: ["id"]
-            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]

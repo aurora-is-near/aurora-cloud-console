@@ -1,17 +1,24 @@
-import { NextRequest, NextResponse } from "next/server"
-import serverSupabase from "@/utils/serverSupabase"
-import confirmUser from "@/utils/confirmUser"
+import { NextResponse } from "next/server"
+import { adminSupabase } from "@/utils/supabase"
+import { NextApiRequest, NextApiResponse } from "next"
+import { ApiRequestContext, apiRequestHandler, getErrorResponse } from "@/utils/api"
 
-export async function PATCH(request: NextRequest) {
-  const id = await confirmUser()
-  const supabase = serverSupabase()
+export const PATCH = apiRequestHandler(async (
+  req: NextApiRequest,
+  _res: NextApiResponse,
+  ctx: ApiRequestContext
+) => {
+  const supabase = adminSupabase()
+  const { newName } = await req.body;
 
-  const { newName } = await request.json()
+  if (!ctx.user) {
+    return getErrorResponse(401)
+  }
 
   const { error } = await supabase
     .from("users")
     .update({ name: newName })
-    .eq("id", id)
+    .eq("user_guid", ctx.user.user_guid)
 
   if (error) throw error
 
@@ -23,4 +30,4 @@ export async function PATCH(request: NextRequest) {
       { status: error.status || 500 }
     )
   }
-}
+})
