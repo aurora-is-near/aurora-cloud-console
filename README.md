@@ -34,11 +34,15 @@ To learn more about Next.js, take a look at the following resources:
 We use [Supabase Auth](https://supabase.com/docs/guides/auth) for handling
 authentication for both the dashboard and the API routes.
 
-A unique API key is generated whenever a user is created, via Postgres triggers
-(see below). This key can be used when accessing the API routes at `/api/*`
-directly.
+## API keys
 
-### API
+A user can generate an API key via the settings section of the dashboard. These
+keys can be given read and/or write permissions.
+
+Note that if a valid session cookie is included with the request we assume the
+user is logged in via the dashboard and should be given write permissions.
+
+## API handlers
 
 All API request handlers that deal with private data should be wrapped with the
 `apiRequestHandler()` function. This function calls the given handler,
