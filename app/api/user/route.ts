@@ -30,9 +30,7 @@ export const GET = apiRequestHandler(async (
   _res: NextResponse,
   ctx: ApiRequestContext
 ) => {
-  if (!ctx.user) {
-    abortIfUnauthorised(ctx)
-  }
+  abortIfUnauthorised(ctx)
 
   return NextResponse.json<User>(ctx.user)
 })
