@@ -1,11 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next"
 import { getUser } from "./auth"
+import { NextRequest, NextResponse } from "next/server"
 import { User } from "@/types/types"
 import httpStatus from "http-status"
 import { toError } from "./errors"
 import { isAbortError } from "./abort"
 import { kebabCase } from "change-case"
-import { NextResponse } from "next/server"
 
 export type ApiRequestContext = {
   user: User | null
@@ -16,8 +15,8 @@ export type AuthorisedApiRequestContext = Omit<ApiRequestContext, 'user'> & {
 }
 
 type ApiRequestHandler<Body = unknown> = (
-  req: NextApiRequest,
-  res: NextApiResponse,
+  req: NextRequest,
+  res: NextResponse,
   context: ApiRequestContext
 ) => Promise<Body>
 
@@ -63,7 +62,7 @@ const getErrorResponse = (error: unknown) => {
  */
 export const apiRequestHandler = <Body = unknown>(
   handler: ApiRequestHandler<Body>
-) => async (req: NextApiRequest, res: NextApiResponse) => {
+) => async (req: NextRequest, res: NextResponse) => {
   const user = await getUser()
   let data: Body
 

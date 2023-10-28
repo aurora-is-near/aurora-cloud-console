@@ -49,14 +49,13 @@ This context object can be used within the handler. For example, when updating
 private data for a given user:
 
 ```ts
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { adminSupabase } from "@/utils/supabase"
-import { NextApiRequest, NextApiResponse } from "next"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 
 export const PATCH = apiRequestHandler(async (
-  req: NextApiRequest,
-  _res: NextApiResponse,
+  req: NextRequest,
+  _res: NextResponse,
   ctx: ApiRequestContext
 ) => {
   const supabase = adminSupabase()
