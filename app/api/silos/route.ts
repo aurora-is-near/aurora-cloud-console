@@ -1,12 +1,11 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getSilos } from "@/mockApi"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { abortIfUnauthorised } from "@/utils/abort"
-import { NextApiRequest, NextApiResponse } from "next"
 
 export const GET = apiRequestHandler(async (
-  _req: NextApiRequest,
-  _res: NextApiResponse,
+  _req: NextRequest,
+  _res: NextResponse,
   ctx: ApiRequestContext
 ) => {
   abortIfUnauthorised(ctx)
