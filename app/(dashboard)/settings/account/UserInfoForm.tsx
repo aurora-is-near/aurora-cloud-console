@@ -13,7 +13,8 @@ import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
-import useCurrentUser from "@/hooks/useCurrentUser"
+import useCurrentUser, { CURRENT_USER_QUERY_KEY } from "@/hooks/useCurrentUser"
+import { useQueryClient } from "@tanstack/react-query"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -33,6 +34,7 @@ const UserInfoForm = ({
   const router = useRouter()
   const pathname = usePathname()
   const { user } = useCurrentUser()
+  const queryClient = useQueryClient()
 
   // Handle coming back to page from email change confirmation
   useEffect(() => {
@@ -107,6 +109,7 @@ const UserInfoForm = ({
         if (!res.ok) throw "Name update failed."
       }
 
+      queryClient.invalidateQueries(CURRENT_USER_QUERY_KEY)
       setShowForm(false)
       router.refresh()
     } catch (error) {
