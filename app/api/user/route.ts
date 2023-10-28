@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server"
 import { adminSupabase } from "@/utils/supabase"
 import { NextApiRequest, NextApiResponse } from "next"
-import { ApiRequestContext, apiRequestHandler, getErrorResponse } from "@/utils/api"
+import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { abortIfUnauthorised } from "@/utils/abort"
 
 export const PATCH = apiRequestHandler(async (
   req: NextApiRequest,
@@ -9,11 +10,9 @@ export const PATCH = apiRequestHandler(async (
   ctx: ApiRequestContext
 ) => {
   const supabase = adminSupabase()
-  const { newName } = await req.body;
+  const { newName } = await req.body
 
-  if (!ctx.user) {
-    return getErrorResponse(401)
-  }
+  abortIfUnauthorised(ctx)
 
   const { error } = await supabase
     .from("users")
@@ -22,12 +21,5 @@ export const PATCH = apiRequestHandler(async (
 
   if (error) throw error
 
-  try {
-    return NextResponse.json({ status: "OK" })
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Something went wrong." },
-      { status: error.status || 500 }
-    )
-  }
+  return NextResponse.json({ status: "OK" })
 })
