@@ -1,17 +1,17 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getSilos } from "@/mockApi"
-import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { abortIfUnauthorised } from "@/utils/abort"
 
-export const GET = apiRequestHandler(async () => {
+export const GET = apiRequestHandler(async (
+  _req: NextRequest,
+  _res: NextResponse,
+  ctx: ApiRequestContext
+) => {
+  abortIfUnauthorised(ctx)
+
   // TODO: Query the actual user's company's silos
   const silos = await getSilos()
 
-  try {
-    return NextResponse.json(silos)
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message || "Something went wrong." },
-      { status: error.status || 500 }
-    )
-  }
+  return NextResponse.json(silos)
 })
