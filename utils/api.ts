@@ -14,7 +14,7 @@ export type AuthorisedApiRequestContext = Omit<ApiRequestContext, 'user'> & {
   user: User
 }
 
-type ApiRequestHandler = (
+type ApiRequestHandler<Body = unknown> = (
   req: NextRequest,
   res: NextResponse,
   context: ApiRequestContext
@@ -60,8 +60,8 @@ const getErrorResponse = (error: unknown) => {
 /**
  * Confirm that the user is logged in based on a session cookie or API key.
  */
-export const apiRequestHandler = (
-  handler: ApiRequestHandler
+export const apiRequestHandler = <Body = unknown>(
+  handler: ApiRequestHandler<Body>
 ) => async (req: NextRequest, res: NextResponse) => {
   const user = await getUser()
   let data: Body
