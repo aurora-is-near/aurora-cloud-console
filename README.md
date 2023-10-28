@@ -51,6 +51,7 @@ private data for a given user:
 ```ts
 import { NextRequest, NextResponse } from "next/server"
 import { adminSupabase } from "@/utils/supabase"
+import { abortIfUnauthorised } from "@/utils/abort"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 
 export const PATCH = apiRequestHandler(async (
@@ -59,12 +60,10 @@ export const PATCH = apiRequestHandler(async (
   ctx: ApiRequestContext
 ) => {
   const supabase = adminSupabase()
-  const { newName } = await req.body;
+  const { newName } = await req.json();
 
-  // Respond with a 401 if not authenticated
-  if (!ctx.user) {
-    return getErrorResponse(401)
-  }
+  // Respond with a 401 if not authorised
+  abortIfUnauthorised(ctx)
 
   const { error } = await supabase
     .from("users")
