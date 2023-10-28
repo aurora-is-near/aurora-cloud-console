@@ -11,9 +11,9 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "@/types/supabase"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
-import { UserInfo } from "@/types/types"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
+import useCurrentUser from "@/hooks/useCurrentUser"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -24,16 +24,15 @@ type Inputs = {
 }
 
 const UserInfoForm = ({
-  info,
   hasPendingEmailChange,
 }: {
-  info: UserInfo
   hasPendingEmailChange: boolean
 }) => {
   const [showForm, setShowForm] = useState(false)
   const toggleForm = () => setShowForm((prev) => !prev)
   const router = useRouter()
   const pathname = usePathname()
+  const { user } = useCurrentUser()
 
   // Handle coming back to page from email change confirmation
   useEffect(() => {
@@ -65,23 +64,23 @@ const UserInfoForm = ({
     formState: { isSubmitting },
   } = useForm<Inputs>({
     defaultValues: {
-      name: info.name || "",
-      email: info.email,
+      name: user?.name || "",
+      email: user?.email,
     },
   })
 
   const updateUser: SubmitHandler<Inputs> = async ({ name, email }) => {
     if (
       (!name && !email) ||
-      (name === info.name && email === info.email) ||
-      (!name && email === info.email) ||
-      (name === info.name && !email)
+      (name === user?.name && email === user?.email) ||
+      (!name && email === user?.email) ||
+      (name === user?.name && !email)
     ) {
       return toggleForm()
     }
 
     try {
-      if (email !== info.email) {
+      if (email !== user?.email) {
         const supabase = createClientComponentClient<Database>()
 
         const { error } = await supabase.auth.updateUser(
@@ -94,7 +93,7 @@ const UserInfoForm = ({
         if (error) throw "Email change failed."
       }
 
-      if (name !== info.name) {
+      if (name !== user?.name) {
         const res = await fetch("/api/user", {
           method: "PATCH",
           body: JSON.stringify({
@@ -198,7 +197,7 @@ const UserInfoForm = ({
                 Name
               </dt>
               <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
-                {info?.name || "-"}
+                {user?.name || "-"}
               </dd>
             </div>
             <div className="sm:grid sm:grid-cols-2 h-9 items-center">
@@ -206,7 +205,7 @@ const UserInfoForm = ({
                 Email
               </dt>
               <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
-                {info?.email}
+                {user?.email}
               </dd>
             </div>
 
