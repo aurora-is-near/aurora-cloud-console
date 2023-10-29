@@ -6,10 +6,10 @@ import { Modals, useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { API_KEY_SCOPES } from "@/constants/scopes"
-import { ApiScope, PublicApiScope } from "@/types/types"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { PublicApiScope } from "@/types/types"
+import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
-import { getQueryKey } from "@/utils/api/query-keys"
+import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 
 type Inputs = Record<PublicApiScope, boolean> & {
   description: string
@@ -17,7 +17,6 @@ type Inputs = Record<PublicApiScope, boolean> & {
 
 const AddApiKeyModal = () => {
   const { activeModal, closeModal } = useModals()
-  const queryClient = useQueryClient()
   const isOpen = activeModal === Modals.AddApiKey
   const {
     register,
@@ -25,27 +24,27 @@ const AddApiKeyModal = () => {
     formState: { isSubmitting, errors },
   } = useForm<Inputs>()
 
+  const getApiKeysUpdater = useOptimisticUpdater('getApiKeys')
   const { mutate } = useMutation({
-    mutationFn: async (data: Inputs) => {
-      const { description, ...scopes } = data
-
-      return apiClient.createApiKey({
-        description,
-        scopes: Object
-          .entries(scopes)
-          .filter(([, value]) => value)
-          .map(([key]) => key)
-          .filter((key): key is PublicApiScope => !!key)
-      })
-    },
-    onSuccess: () => {
+    mutationFn: apiClient.createApiKey,
+    onSuccess: (data) => {
       closeModal()
-      queryClient.invalidateQueries({ queryKey: getQueryKey('getApiKeys') })
+      getApiKeysUpdater.insert(data)
     },
+    onSettled: getApiKeysUpdater.invalidate,
   })
 
   const addApiKey: SubmitHandler<Inputs> = async (data) => {
-    mutate(data)
+    const { description, ...scopes } = data
+
+    mutate({
+      description,
+      scopes: Object
+        .entries(scopes)
+        .filter(([, value]) => value)
+        .map(([key]) => key)
+        .filter((key): key is PublicApiScope => !!key)
+    })
   }
 
   return (

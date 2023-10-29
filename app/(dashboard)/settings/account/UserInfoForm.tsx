@@ -40,6 +40,8 @@ const UserInfoForm = ({
   const { mutate: updateCurrentUser } = useMutation({
     mutationFn: apiClient.updateCurrentUser,
     onMutate: getCurrentUserUpdater.update,
+    onError: getCurrentUserUpdater.revert,
+    onSettled: getCurrentUserUpdater.invalidate,
   })
 
   // Handle coming back to page from email change confirmation

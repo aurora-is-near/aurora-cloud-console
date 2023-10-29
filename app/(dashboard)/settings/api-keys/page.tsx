@@ -21,6 +21,8 @@ const Page = () => {
         apiKeys?.filter((apiKey) => apiKey.id !== id) || []
       )
     },
+    onError: getApiKeysUpdater.revert,
+    onSettled: getApiKeysUpdater.invalidate,
   });
 
   const onRemoveApiKeyClick = (id: number) => {
