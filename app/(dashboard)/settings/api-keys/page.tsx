@@ -8,9 +8,10 @@ import { useApiKeys } from "@/utils/api/queries"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import Loader from "@/components/Loader"
 
 const Page = () => {
-  const { data: apiKeys } = useApiKeys()
+  const { data: apiKeys, isInitialLoading } = useApiKeys()
   const getApiKeysUpdater = useOptimisticUpdater('getApiKeys')
 
   const { mutate: deleteApiKey } = useMutation({
@@ -30,37 +31,45 @@ const Page = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-7">
         <Heading tag="h2">API Keys</Heading>
         <div className="flex items-center gap-3">
           <AddApiKeyButton />
         </div>
       </div>
 
-      <Table className="mt-7">
-        <Table.TH>Key</Table.TH>
-        <Table.TH>Description</Table.TH>
-        <Table.TH>Scopes</Table.TH>
-        <Table.TH hidden>Edit</Table.TH>
-        {apiKeys?.map((apiKey) => (
-          <Table.TR key={apiKey.id}>
-            <Table.TD dark>{apiKey.key}</Table.TD>
-            <Table.TD dark>{apiKey.description}</Table.TD>
-            <Table.TD>{apiKey.scopes.join(', ')}</Table.TD>
-            <Table.TD align="right">
-              <button
-                className="text-gray-900 hover:text-red-500"
-                onClick={() => {
-                  onRemoveApiKeyClick(apiKey.id)
-                }}
-              >
-                <span className="sr-only">Remove API key</span>
-                <TrashIcon className="w-5 h-5" />
-              </button>
-            </Table.TD>
-          </Table.TR>
-        ))}
-      </Table>
+      {isInitialLoading ? (
+        <>
+          <Loader className="rounded-lg h-12" />
+          <Loader className="rounded-lg h-12" />
+        </>
+      ) : (
+        <Table>
+          <Table.TH>Key</Table.TH>
+          <Table.TH>Description</Table.TH>
+          <Table.TH>Scopes</Table.TH>
+          <Table.TH hidden>Edit</Table.TH>
+          {apiKeys?.map((apiKey) => (
+            <Table.TR key={apiKey.id}>
+              <Table.TD dark>{apiKey.key}</Table.TD>
+              <Table.TD dark>{apiKey.description}</Table.TD>
+              <Table.TD>{apiKey.scopes.join(', ')}</Table.TD>
+              <Table.TD align="right">
+                <button
+                  className="text-gray-900 hover:text-red-500"
+                  onClick={() => {
+                    onRemoveApiKeyClick(apiKey.id)
+                  }}
+                >
+                  <span className="sr-only">Remove API key</span>
+                  <TrashIcon className="w-5 h-5" />
+                </button>
+              </Table.TD>
+            </Table.TR>
+          ))}
+        </Table>
+      )}
+
     </>
   )
 }
