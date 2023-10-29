@@ -2,26 +2,24 @@
 
 import Heading from "@/components/Heading"
 import Table from "@/components/Table"
-import useApiKeys, { API_KEYS_QUERY_KEY } from "@/hooks/useApiKeys"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import AddApiKeyButton from "./AddApiKeyButton"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useApiKeys } from "@/utils/api/queries"
+import { useMutation } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
+import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 
 const Page = () => {
-  const { apiKeys } = useApiKeys()
-  const queryClient = useQueryClient()
+  const { data: apiKeys } = useApiKeys()
+  const getApiKeysUpdater = useOptimisticUpdater('getApiKeys')
 
   const { mutate: deleteApiKey } = useMutation({
-    mutationFn: async (id: number) => {
-      const res = await fetch(`/api/admin/api-keys/${id}`, {
-        method: "DELETE",
-      })
-
-      if (!res.ok) throw "Delete failed."
+    mutationFn: apiClient.deleteApiKey,
+    onMutate: (id) => {
+      getApiKeysUpdater.replace(
+        apiKeys?.filter((apiKey) => apiKey.id !== id) || []
+      )
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: API_KEYS_QUERY_KEY })
-    }
   });
 
   const onRemoveApiKeyClick = (id: number) => {
@@ -44,7 +42,7 @@ const Page = () => {
         <Table.TH>Description</Table.TH>
         <Table.TH>Scopes</Table.TH>
         <Table.TH hidden>Edit</Table.TH>
-        {apiKeys.map((apiKey) => (
+        {apiKeys?.map((apiKey) => (
           <Table.TR key={apiKey.id}>
             <Table.TD dark>{apiKey.key}</Table.TD>
             <Table.TD dark>{apiKey.description}</Table.TD>

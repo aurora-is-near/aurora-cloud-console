@@ -18,14 +18,14 @@ import { useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
-import useDeals from "@/hooks/useDeals"
+import { useDeals } from "@/utils/api/queries"
 
 const navigation = [...mainNavigation, ...mainExtraNavigation]
 
 const SubrouteMenu = () => {
   const [route] = useSelectedLayoutSegments()
   const subroutes = subrouteMap[route as SubrouteKeys] ?? []
-  const { deals } = useDeals()
+  const { data: deals } = useDeals()
 
   return (
     <nav className="mt-6 flex-1 pt-6 border-t border-gray-800 space-y-2">
@@ -37,7 +37,7 @@ const SubrouteMenu = () => {
         ))}
       </ul>
 
-      {route === "borealis" && deals.length > 0 ? (
+      {route === "borealis" && !!deals?.length ? (
         <ul role="list" className="space-y-2">
           {deals.map((deal) => (
             <li key={deal.id}>

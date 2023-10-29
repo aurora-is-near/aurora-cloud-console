@@ -6,9 +6,10 @@ import { Modals, useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { API_KEY_SCOPES } from "@/constants/scopes"
-import { PublicApiScope } from "@/types/types"
+import { ApiScope, PublicApiScope } from "@/types/types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { API_KEYS_QUERY_KEY } from "@/hooks/useApiKeys"
+import { apiClient } from "@/utils/api/client"
+import { getQueryKey } from "@/utils/api/query-keys"
 
 type Inputs = Record<PublicApiScope, boolean> & {
   description: string
@@ -27,25 +28,19 @@ const AddApiKeyModal = () => {
   const { mutate } = useMutation({
     mutationFn: async (data: Inputs) => {
       const { description, ...scopes } = data
-      const res = await fetch("/api/admin/api-keys", {
-        method: "PUT",
-        body: JSON.stringify({
-          description,
-          scopes: Object
-            .entries(scopes)
-            .filter(([, value]) => value)
-            .map(([key]) => key),
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
-      })
 
-      if (!res.ok) throw "Name update failed."
+      return apiClient.createApiKey({
+        description,
+        scopes: Object
+          .entries(scopes)
+          .filter(([, value]) => value)
+          .map(([key]) => key)
+          .filter((key): key is PublicApiScope => !!key)
+      })
     },
     onSuccess: () => {
       closeModal()
-      queryClient.invalidateQueries({ queryKey: API_KEYS_QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: getQueryKey('getApiKeys') })
     },
   })
 

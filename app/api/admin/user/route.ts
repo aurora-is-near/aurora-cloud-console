@@ -7,11 +7,11 @@ export const PATCH = apiRequestHandler(["admin"], async (
   req: NextRequest,
   ctx: ApiRequestContext
 ) => {
-  const { newName } = await req.json();
+  const { name } = await req.json();
   const supabase = adminSupabase()
   const { error } = await supabase
     .from("users")
-    .update({ name: newName })
+    .update({ name })
     .eq("user_id", ctx.user.user_id)
 
   if (error) throw error

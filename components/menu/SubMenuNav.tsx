@@ -13,12 +13,10 @@ import {
   StopCircleIcon,
   WrenchIcon,
 } from "@heroicons/react/24/outline"
-import useDeals from "@/hooks/useDeals"
-import useSilos from "@/hooks/useSilos"
 import { useEffect, useState } from "react"
 import { Silos } from "../icons"
-import useUserLists from "@/hooks/useUserLists"
 import Loader from "../Loader"
+import { useDeals, useSilos, useUsers } from "@/utils/api/queries"
 
 const NavLoader = () => (
   <>
@@ -30,11 +28,11 @@ const NavLoader = () => (
 const MenuDivider = () => <div className="w-full h-px bg-gray-200" />
 
 const BorealisMenu = () => {
-  const { deals, loading } = useDeals()
+  const { data: deals, isInitialLoading } = useDeals()
 
-  if (loading) return <NavLoader />
+  if (isInitialLoading) return <NavLoader />
 
-  if (!deals.length) return null
+  if (!deals?.length) return null
 
   return (
     <ul role="list" className="space-y-4">
@@ -77,7 +75,7 @@ const siloLinks = [
 
 const SiloMenu = () => {
   const [option, setOption] = useState("")
-  const { loading, silos } = useSilos()
+  const { isInitialLoading, data: silos } = useSilos()
   const router = useRouter()
   const [, id, subroute] = useSelectedLayoutSegments()
 
@@ -85,9 +83,9 @@ const SiloMenu = () => {
     setOption(id ?? "Select silo")
   }, [id])
 
-  if (loading) return <NavLoader />
+  if (isInitialLoading) return <NavLoader />
 
-  if (!silos.length) return null
+  if (!silos?.length) return null
 
   return (
     <>
@@ -133,19 +131,19 @@ const SiloMenu = () => {
 }
 
 const UsersMenu = () => {
-  const { lists, loading } = useUserLists()
+  const { data: users, isInitialLoading } = useUsers()
 
-  if (loading) return <NavLoader />
+  if (isInitialLoading) return <NavLoader />
 
-  if (!lists.length) return null
+  if (!users?.length) return null
 
   return (
     <ul role="list" className="space-y-4">
-      {lists?.map((list) => (
-        <li key={list.href}>
+      {users?.map((user) => (
+        <li key={user.href}>
           <SubMenuButton
-            href={"/users/" + list.href}
-            name={list.name}
+            href={"/users/" + user.href}
+            name={user.name}
             icon={<ClipboardDocumentCheckIcon />}
           />
         </li>
