@@ -18,7 +18,7 @@ export const GET = apiRequestHandler(['admin'], async (
   return NextResponse.json<Database['public']['Tables']['api_keys']['Row'][]>(data)
 })
 
-export const PUT = apiRequestHandler(['admin'], async (
+export const POST = apiRequestHandler(['admin'], async (
   req: NextRequest,
   ctx: ApiRequestContext
 ) => {

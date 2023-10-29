@@ -1,13 +1,12 @@
 "use client"
 
-import { Deal } from "@/types/types"
+import { apiClient } from "@/utils/api/client"
 import { useQuery } from "@tanstack/react-query"
 
 const useDeals = () => {
   const { data: deals, isInitialLoading } = useQuery({
     queryKey: ["deals"],
-    queryFn: async (): Promise<Deal[]> =>
-      await fetch("/api/borealis/deals").then((res) => res.json()),
+    queryFn: apiClient.getDeals,
   })
 
   return { loading: isInitialLoading, deals: deals || [] }

@@ -1,13 +1,12 @@
 "use client"
 
-import { List } from "@/types/types"
+import { apiClient } from "@/utils/api/client"
 import { useQuery } from "@tanstack/react-query"
 
 const useUserLists = () => {
   const { data: lists, isInitialLoading } = useQuery({
     queryKey: ["lists"],
-    queryFn: async (): Promise<List[]> =>
-      await fetch("/api/lists").then((res) => res.json()),
+    queryFn: apiClient.getLists,
   })
 
   return { loading: isInitialLoading, lists: lists || [] }

@@ -13,8 +13,8 @@ import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
-import useCurrentUser, { CURRENT_USER_QUERY_KEY } from "@/hooks/useCurrentUser"
-import { useQueryClient } from "@tanstack/react-query"
+import { useCurrentUser } from "@/utils/api/queries"
+import { useUpdateCurrentUser } from "@/utils/api/mutations"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -33,8 +33,8 @@ const UserInfoForm = ({
   const toggleForm = () => setShowForm((prev) => !prev)
   const router = useRouter()
   const pathname = usePathname()
-  const { user } = useCurrentUser()
-  const queryClient = useQueryClient()
+  const { data: user } = useCurrentUser()
+  const { mutate: updateCurrentUser } = useUpdateCurrentUser()
 
   // Handle coming back to page from email change confirmation
   useEffect(() => {
@@ -96,20 +96,9 @@ const UserInfoForm = ({
       }
 
       if (name !== user?.name) {
-        const res = await fetch("/api/admin/user", {
-          method: "PATCH",
-          body: JSON.stringify({
-            newName: name,
-          }),
-          headers: {
-            "Content-type": "application/json",
-          },
-        })
-
-        if (!res.ok) throw "Name update failed."
+        updateCurrentUser({ newName: name })
       }
 
-      queryClient.invalidateQueries({ queryKey: CURRENT_USER_QUERY_KEY })
       setShowForm(false)
       router.refresh()
     } catch (error) {
