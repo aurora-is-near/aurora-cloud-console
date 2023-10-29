@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { abortIfUnauthorised } from "@/utils/abort"
 import { adminSupabase } from "@/utils/supabase"
 
 export const DELETE = apiRequestHandler(['admin'], async (

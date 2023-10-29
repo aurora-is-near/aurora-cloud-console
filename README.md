@@ -43,7 +43,7 @@ key can be used to make requests to the `/api/*` endpoints defined in this repo.
 
 Each key can be assigned a set of scopes. Before we perform a particular action
 we should validate that the given API key includes the required scope(s) for that
-action. This can be done via the `abortIfUnauthorised()` function (see below).
+action. This can be done via the `apiRequestHandler()` function (see below).
 
 The scopes are defined as an enum, which can be updated via the
 [SQL Editor](https://supabase.com/dashboard/project/xqharbhfobwuhpcdsapg/sql) in
@@ -57,9 +57,9 @@ which is a special scope that authorises the user to do everything.
 ## API handlers
 
 All API request handlers should be wrapped with the `apiRequestHandler()`
-function. This function calls the given handler,
-attaching a context object that includes the user object from the `public.users`
-table. It is called with that handler and any required scope(s), for example:
+function. This function calls the given handler, attaching a context object that
+includes the user object from the `public.users` table. It is called with that
+handler and any required scope(s), for example:
 
 ```ts
 import { NextRequest, NextResponse } from "next/server"
