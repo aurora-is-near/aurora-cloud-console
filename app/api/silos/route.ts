@@ -5,10 +5,9 @@ import { abortIfUnauthorised } from "@/utils/abort"
 
 export const GET = apiRequestHandler(async (
   _req: NextRequest,
-  _res: NextResponse,
   ctx: ApiRequestContext
 ) => {
-  abortIfUnauthorised(ctx)
+  abortIfUnauthorised(ctx, ['silos:read'])
 
   // TODO: Query the actual user's company's silos
   const silos = await getSilos()

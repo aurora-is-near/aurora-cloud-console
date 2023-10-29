@@ -2,7 +2,7 @@ import { Database } from "@/types/supabase"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import { cookies, headers } from "next/headers"
 import { adminSupabase } from "./supabase"
-import { User } from "@/types/types"
+import { ApiUser } from "@/types/types"
 
 /**
  * Get the API key from the current request.
@@ -19,12 +19,22 @@ const getApiKey = () => {
   return authorization.substring(scheme.length, authorization.length)
 }
 
+const getUserById = async (userId: string) => {
+  const { data } = await adminSupabase()
+    .from('users')
+    .select()
+    .eq('user_id', userId)
+    .single()
+
+  return data
+}
+
 /**
  * Get the public user object associated with the given API key.
  *
  * This is used for requests made to the ACC API directly.
  */
-const getUserFromApiKey = async (): Promise<User | null> => {
+const getUserFromApiKey = async (): Promise<ApiUser | null> => {
   const apiKey = getApiKey()
 
   if (!apiKey) {
@@ -32,14 +42,17 @@ const getUserFromApiKey = async (): Promise<User | null> => {
   }
 
   const supabase = adminSupabase()
-  const { data, error } = await supabase
-    .from('users')
-    .select()
-    .eq('api_key', apiKey)
+  const { error, data } = await supabase
+    .from('api_keys')
+    .select(`
+      user_id,
+      scopes (scope)
+    `)
+    .eq('key', apiKey)
     .single()
 
-  if (error) {
-    console.warn(`Error fetching user GUID from API key: ${error.message}`)
+  if (!data) {
+    console.warn(`Invalid API key: ${error.message}`)
 
     return null
   }
@@ -48,7 +61,16 @@ const getUserFromApiKey = async (): Promise<User | null> => {
     return null
   }
 
-  return data
+  const user = await getUserById(data.user_id)
+
+  if (!user) {
+    return null
+  }
+
+  return {
+    ...user,
+    scopes: data.scopes,
+  }
 }
 
 /**
@@ -56,24 +78,29 @@ const getUserFromApiKey = async (): Promise<User | null> => {
  *
  * This is used for requests coming from the ACC frontend.
  */
-const getUserFromSessionCookie = async (): Promise<User | null> => {
+const getUserFromSessionCookie = async (): Promise<ApiUser | null> => {
   const supabase = createRouteHandlerClient<Database>({ cookies })
 
   const {
-    data: { user },
+    data: { user: authUser },
   } = await supabase.auth.getUser()
 
-  if (!user?.id) {
+  if (!authUser?.id) {
     return null
   }
 
-  const { data: publicUser } = await adminSupabase()
-    .from('users')
-    .select()
-    .eq('user_guid', user.id)
-    .single()
+  const user = await getUserById(authUser.id)
 
-  return publicUser
+  if (!user) {
+    return null
+  }
+
+  // If authenticated using a valid session cookie e assume the user is logged
+  // in via the dashboard and should be given write permissions.
+  return {
+    ...user,
+    scopes: ['admin'],
+  }
 }
 
 /**

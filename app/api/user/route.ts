@@ -6,18 +6,17 @@ import { User } from "@/types/types"
 
 export const PATCH = apiRequestHandler(async (
   req: NextRequest,
-  _res: NextResponse,
   ctx: ApiRequestContext
 ) => {
-  const supabase = adminSupabase()
   const { newName } = await req.json();
 
-  abortIfUnauthorised(ctx)
+  abortIfUnauthorised(ctx, ["admin"])
 
+  const supabase = adminSupabase()
   const { error } = await supabase
     .from("users")
     .update({ name: newName })
-    .eq("user_guid", ctx.user.user_guid)
+    .eq("user_id", ctx.user.user_id)
 
   if (error) throw error
 
@@ -27,10 +26,9 @@ export const PATCH = apiRequestHandler(async (
 
 export const GET = apiRequestHandler(async (
   _req: NextRequest,
-  _res: NextResponse,
   ctx: ApiRequestContext
 ) => {
-  abortIfUnauthorised(ctx)
+  abortIfUnauthorised(ctx, ["admin"])
 
   return NextResponse.json<User>(ctx.user)
 })

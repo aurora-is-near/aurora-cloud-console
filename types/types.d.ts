@@ -28,3 +28,10 @@ export type List = {
 }
 
 export type User = Database['public']['Tables']['users']['Row']
+
+export type PublicApiScope = Database["public"]["Enums"]["api_key_scopes"]
+export type ApiScope = PublicApiScope | 'admin'
+
+export type ApiUser = User & {
+  scopes: ApiScopes[]
+}

@@ -109,7 +109,7 @@ const UserInfoForm = ({
         if (!res.ok) throw "Name update failed."
       }
 
-      queryClient.invalidateQueries(CURRENT_USER_QUERY_KEY)
+      queryClient.invalidateQueries({ queryKey: CURRENT_USER_QUERY_KEY })
       setShowForm(false)
       router.refresh()
     } catch (error) {

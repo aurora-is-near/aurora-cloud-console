@@ -1,5 +1,6 @@
 import httpStatus from 'http-status'
 import { ApiRequestContext, AuthorisedApiRequestContext } from './api'
+import { ApiScope } from '@/types/types'
 
 export type AbortOptions = {
   type?: string
@@ -46,9 +47,18 @@ export const abort = (
 }
 
 export function abortIfUnauthorised(
-  ctx: ApiRequestContext
+  ctx: ApiRequestContext,
+  scopes: ApiScope[]
 ): asserts ctx is AuthorisedApiRequestContext {
   if (!ctx.user) {
     abort(401)
+  }
+
+  if (
+    !!scopes?.length &&
+    !scopes.every(scope => ctx.user?.scopes.includes(scope)) &&
+    !ctx.user?.scopes.includes('admin')
+  ) {
+    abort(403)
   }
 }
