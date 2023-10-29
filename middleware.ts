@@ -1,26 +1,10 @@
-import { Session, createMiddlewareClient } from "@supabase/auth-helpers-nextjs"
+import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { Database } from "./types/supabase"
 
 const unauthenticatedRoutes = ["/login"]
 const authenticatedRoutes = ["/borealis", "/silos", "/users", "/settings"]
-
-const redirectToLogin = (req: NextRequest) => {
-  return NextResponse.redirect(new URL("/login", req.url))
-}
-
-const redirectToBorealisDeals = (req: NextRequest) => {
-  return NextResponse.redirect(new URL("/borealis/deals", req.url))
-}
-
-const handleHomeRoute = (req: NextRequest, session: Session | null) => {
-  if (session) {
-    return redirectToBorealisDeals(req)
-  }
-
-  return redirectToLogin(req)
-}
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
@@ -32,22 +16,24 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession()
 
-  if (pathname === "/") {
-    return handleHomeRoute(req, session)
+  if (pathname === "/" && session) {
+    return NextResponse.redirect(new URL("/borealis/deals", req.url))
   }
+  if (pathname === "/" && !session)
+    return NextResponse.redirect(new URL("/login", req.url))
 
   if (
     session &&
     unauthenticatedRoutes.some((route) => pathname.startsWith(route))
   ) {
-    return redirectToBorealisDeals(req)
+    return NextResponse.redirect(new URL("/borealis/deals", req.url))
   }
 
   if (
     !session &&
     authenticatedRoutes.some((route) => pathname.startsWith(route))
   ) {
-    return redirectToLogin(req)
+    return NextResponse.redirect(new URL("/login", req.url))
   }
 
   return res
