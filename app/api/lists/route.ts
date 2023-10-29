@@ -1,14 +1,8 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { getUserLists } from "@/mockApi"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { abortIfUnauthorised } from "@/utils/abort"
+import { apiRequestHandler } from "@/utils/api"
 
-export const GET = apiRequestHandler(async (
-  _req: NextRequest,
-  ctx: ApiRequestContext
-) => {
-  abortIfUnauthorised(ctx, ['users:read'])
-
+export const GET = apiRequestHandler(['users:read'], async () => {
   // TODO: Query the actual user's company's userlists
   const lists = await getUserLists()
 

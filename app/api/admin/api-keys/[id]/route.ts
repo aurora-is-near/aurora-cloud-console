@@ -3,13 +3,11 @@ import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { abortIfUnauthorised } from "@/utils/abort"
 import { adminSupabase } from "@/utils/supabase"
 
-export const DELETE = apiRequestHandler(async (
-  req: NextRequest,
+export const DELETE = apiRequestHandler(['admin'], async (
+  _req: NextRequest,
   ctx: ApiRequestContext
 ) => {
   const apiKeyId = ctx.params.id
-
-  abortIfUnauthorised(ctx, ['admin'])
 
   const supabase = adminSupabase()
   const { error } = await supabase

@@ -56,30 +56,22 @@ which is a special scope that authorises the user to do everything.
 
 ## API handlers
 
-All API request handlers that deal with private data should be wrapped with the
-`apiRequestHandler()` function. This function calls the given handler,
+All API request handlers should be wrapped with the `apiRequestHandler()`
+function. This function calls the given handler,
 attaching a context object that includes the user object from the `public.users`
-table.
-
-This context object can be used within the handler. For example, when updating
-private data for a given user:
+table. It is called with that handler and any required scope(s), for example:
 
 ```ts
 import { NextRequest, NextResponse } from "next/server"
 import { adminSupabase } from "@/utils/supabase"
-import { abortIfUnauthorised } from "@/utils/abort"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 
-export const PATCH = apiRequestHandler(async (
+export const PATCH = apiRequestHandler(["admin"], async (
   req: NextRequest,
-  _res: NextResponse,
   ctx: ApiRequestContext
 ) => {
-  const supabase = adminSupabase()
   const { newName } = await req.json();
-
-  // Respond with a 401 if not authorised
-  abortIfUnauthorised(ctx, ['user:write'])
+  const supabase = adminSupabase()
 
   const { error } = await supabase
     .from("users")

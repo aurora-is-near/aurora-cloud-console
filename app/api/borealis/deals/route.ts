@@ -1,14 +1,8 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { getDeals } from "@/mockApi"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { abortIfUnauthorised } from "@/utils/abort"
+import { apiRequestHandler } from "@/utils/api"
 
-export const GET = apiRequestHandler(async (
-  _req: NextRequest,
-  ctx: ApiRequestContext
-) => {
-  abortIfUnauthorised(ctx, ['deals:read'])
-
+export const GET = apiRequestHandler(['deals:read'], async () => {
   // TODO: Query the actual user's company's deals
   const deals = await getDeals()
 

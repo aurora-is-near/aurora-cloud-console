@@ -1,9 +1,9 @@
 import { getUser } from "./auth"
 import { NextRequest, NextResponse } from "next/server"
-import { ApiUser } from "@/types/types"
+import { ApiScope, ApiUser } from "@/types/types"
 import httpStatus from "http-status"
 import { toError } from "./errors"
-import { isAbortError } from "./abort"
+import { abortIfUnauthorised, isAbortError } from "./abort"
 import { kebabCase } from "change-case"
 
 type BaseApiRequestContext = {
@@ -13,7 +13,7 @@ type BaseApiRequestContext = {
 }
 
 export type ApiRequestContext = BaseApiRequestContext & {
-  user: ApiUser | null
+  user: ApiUser
 }
 
 export type AuthorisedApiRequestContext = Omit<ApiRequestContext, 'user'> & {
@@ -66,10 +66,13 @@ const getErrorResponse = (error: unknown) => {
  * Confirm that the user is logged in based on a session cookie or API key.
  */
 export const apiRequestHandler = <Body = unknown>(
+  scopes: ApiScope[],
   handler: ApiRequestHandler<Body>
 ) => async (req: NextRequest, ctx: BaseApiRequestContext) => {
   const user = await getUser()
   let data: Body
+
+  abortIfUnauthorised(user, scopes)
 
   try {
     data = await handler(req, { ...ctx, user })

@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { abortIfUnauthorised } from "@/utils/abort"
 import { Database } from "@/types/supabase"
 import { adminSupabase } from "@/utils/supabase"
 
-export const GET = apiRequestHandler(async (
+export const GET = apiRequestHandler(['admin'], async (
   _req: NextRequest,
   ctx: ApiRequestContext
 ) => {
-  abortIfUnauthorised(ctx, ['admin'])
-
   const supabase = adminSupabase()
   const { data, error } = await supabase
     .from("api_keys")
@@ -21,13 +18,11 @@ export const GET = apiRequestHandler(async (
   return NextResponse.json<Database['public']['Tables']['api_keys']['Row'][]>(data)
 })
 
-export const PUT = apiRequestHandler(async (
+export const PUT = apiRequestHandler(['admin'], async (
   req: NextRequest,
   ctx: ApiRequestContext
 ) => {
   const body = await req.json()
-
-  abortIfUnauthorised(ctx, ['admin'])
 
   const supabase = adminSupabase()
   const { error } = await supabase
