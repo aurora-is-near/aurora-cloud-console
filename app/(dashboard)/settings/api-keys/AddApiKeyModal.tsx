@@ -27,7 +27,7 @@ const AddApiKeyModal = () => {
   const { mutate } = useMutation({
     mutationFn: async (data: Inputs) => {
       const { description, ...scopes } = data
-      const res = await fetch("/api/settings/api-keys", {
+      const res = await fetch("/api/admin/api-keys", {
         method: "PUT",
         body: JSON.stringify({
           description,

@@ -9,7 +9,7 @@ const useApiKeys = () => {
   const { data, isInitialLoading } = useQuery({
     queryKey: API_KEYS_QUERY_KEY,
     queryFn: async (): Promise<Database['public']['Tables']['api_keys']['Row'][]> =>
-      await fetch("/api/settings/api-keys").then((res) => res.json()),
+      await fetch("/api/admin/api-keys").then((res) => res.json()),
   })
 
   return { loading: isInitialLoading, apiKeys: data ?? [] }

@@ -96,7 +96,7 @@ const UserInfoForm = ({
       }
 
       if (name !== user?.name) {
-        const res = await fetch("/api/user", {
+        const res = await fetch("/api/admin/user", {
           method: "PATCH",
           body: JSON.stringify({
             newName: name,

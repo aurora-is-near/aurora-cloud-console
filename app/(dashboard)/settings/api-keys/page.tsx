@@ -13,7 +13,7 @@ const Page = () => {
 
   const { mutate: deleteApiKey } = useMutation({
     mutationFn: async (id: number) => {
-      const res = await fetch(`/api/settings/api-keys/${id}`, {
+      const res = await fetch(`/api/admin/api-keys/${id}`, {
         method: "DELETE",
       })
 
