@@ -22,7 +22,7 @@ export const apiClient = {
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 
   createApiKey: async (
-    data: Partial<Pick<ApiKey, 'description' | 'scopes'>>,
+    data: Partial<Pick<ApiKey, 'note' | 'scopes'>>,
   ) => request<ApiKey>("/api/admin/api-keys", {
     method: "POST",
     body: JSON.stringify(data),

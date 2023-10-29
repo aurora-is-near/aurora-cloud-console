@@ -64,6 +64,12 @@ const getUserFromApiKey = async (): Promise<ApiUser | null> => {
     return null
   }
 
+  // Set the last used timestamp for the API key asynchronously.
+  void supabase
+    .from('api_keys')
+    .update({ last_used_at: new Date().toISOString() })
+    .eq('key', apiKey)
+
   return {
     ...user,
     scopes: data.scopes,

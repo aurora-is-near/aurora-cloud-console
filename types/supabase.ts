@@ -12,25 +12,28 @@ export interface Database {
       api_keys: {
         Row: {
           created_at: string
-          description: string | null
           id: number
           key: string
+          last_used_at: string | null
+          note: string | null
           scopes: Database["public"]["Enums"]["api_key_scopes"][]
           user_id: string
         }
         Insert: {
           created_at?: string
-          description?: string | null
           id?: number
           key?: string
+          last_used_at?: string | null
+          note?: string | null
           scopes: Database["public"]["Enums"]["api_key_scopes"][]
           user_id: string
         }
         Update: {
           created_at?: string
-          description?: string | null
           id?: number
           key?: string
+          last_used_at?: string | null
+          note?: string | null
           scopes?: Database["public"]["Enums"]["api_key_scopes"][]
           user_id?: string
         }

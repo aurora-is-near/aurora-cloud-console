@@ -28,7 +28,7 @@ export const POST = apiRequestHandler(['admin'], async (
   const { data, error } = await supabase
     .from("api_keys")
     .insert({
-      description: body.description,
+      description: body.note,
       scopes: body.scopes,
       user_id: ctx.user.user_id,
     })

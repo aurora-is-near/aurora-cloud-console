@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import Loader from "@/components/Loader"
+import { relativeTime } from "human-date"
 
 const Page = () => {
   const { data: apiKeys, isInitialLoading } = useApiKeys()
@@ -48,14 +49,16 @@ const Page = () => {
       ) : (
         <Table>
           <Table.TH>Key</Table.TH>
-          <Table.TH>Description</Table.TH>
+          <Table.TH>Note</Table.TH>
           <Table.TH>Scopes</Table.TH>
+          <Table.TH>Last Used</Table.TH>
           <Table.TH hidden>Edit</Table.TH>
           {apiKeys?.map((apiKey) => (
             <Table.TR key={apiKey.id}>
               <Table.TD dark>{apiKey.key}</Table.TD>
-              <Table.TD dark>{apiKey.description}</Table.TD>
+              <Table.TD dark>{apiKey.note}</Table.TD>
               <Table.TD>{apiKey.scopes.join(', ')}</Table.TD>
+              <Table.TD>{apiKey.last_used_at ? relativeTime(apiKey.last_used_at) : 'Never'}</Table.TD>
               <Table.TD align="right">
                 <button
                   className="text-gray-900 hover:text-red-500"
