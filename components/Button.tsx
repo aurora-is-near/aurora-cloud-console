@@ -33,7 +33,7 @@ const Button = forwardRef<Ref, Props>(
       href,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const spinner = (
       <div className="absolute transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
@@ -69,7 +69,7 @@ const Button = forwardRef<Ref, Props>(
         "hover:bg-rose-600": style === "destructive" && !isDisabled,
         "w-full": fullWidth,
       },
-      className
+      className,
     )
 
     const content = (
@@ -109,7 +109,7 @@ const Button = forwardRef<Ref, Props>(
         {content}
       </button>
     )
-  }
+  },
 )
 Button.displayName = "Button"
 

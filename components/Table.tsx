@@ -54,7 +54,7 @@ const TD = ({
         "pl-4 pr-3 sm:pl-6": isFirst,
         "pl-3 pr-4 sm:pr-6": isLast,
         "px-3": !isFirst && !isLast,
-      }
+      },
     )}
   >
     <div

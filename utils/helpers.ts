@@ -16,14 +16,14 @@ export const midTruncate = (value = "", maxLength = 16) => {
   var backChars = Math.floor(charsToShow / 2)
 
   return `${value.substring(0, frontChars)}…${value.substring(
-    value.length - backChars
+    value.length - backChars,
   )}`
 }
 
 export const findChildren = (children: ReactNode, displayName: string) => {
   const foundChildren = Children.toArray(children).filter(
     (child) =>
-      isValidElement(child) && (child.type as any).displayName === displayName
+      isValidElement(child) && (child.type as any).displayName === displayName,
   )
 
   return foundChildren.length ? foundChildren : null
@@ -31,7 +31,7 @@ export const findChildren = (children: ReactNode, displayName: string) => {
 
 export const findOtherChildren = (
   children: ReactNode,
-  displayNames: string[]
+  displayNames: string[],
 ) =>
   Children.toArray(children)
     .filter(isValidElement)

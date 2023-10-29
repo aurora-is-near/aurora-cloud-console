@@ -21,7 +21,7 @@ const Heading = ({
       className={clsx(
         "text-xl sm:text-2xl leading-7 font-bold tracking-[-1px]",
         textColorClassName,
-        className
+        className,
       )}
     >
       {children}

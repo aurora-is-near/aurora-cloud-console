@@ -40,14 +40,14 @@ const ListItem = ({
           "grid-cols-2": amountOfChildren === 2,
           "grid-cols-2 sm:grid-cols-3": amountOfChildren === 3,
           "grid-cols-2 md:grid-cols-4": amountOfChildren === 4,
-        }
+        },
       )}
     >
       {otherChildren}
       <div
         className={clsx(
           "flex items-center",
-          amountOfChildren === 3 ? "sm:justify-end" : "justify-end"
+          amountOfChildren === 3 ? "sm:justify-end" : "justify-end",
         )}
       >
         {actions}

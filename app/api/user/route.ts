@@ -20,7 +20,7 @@ export async function PATCH(request: NextRequest) {
   } catch (error: any) {
     return NextResponse.json(
       { error: error.message || "Something went wrong." },
-      { status: error.status || 500 }
+      { status: error.status || 500 },
     )
   }
 }

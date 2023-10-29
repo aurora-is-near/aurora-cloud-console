@@ -34,7 +34,7 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
         current
           ? "bg-green-500 text-gray-900"
           : "text-gray-400 hover:text-white hover:bg-gray-800",
-        "group flex rounded-lg p-3 text-sm leading-6 font-semibold items-center justify-center"
+        "group flex rounded-lg p-3 text-sm leading-6 font-semibold items-center justify-center",
       )}
     >
       {icon}
@@ -53,8 +53,8 @@ const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
     icon,
     clsx(
       current ? "text-gray-900" : "text-gray-500 group-hover:text-gray-900",
-      "w-6 h-6 shrink-0"
-    )
+      "w-6 h-6 shrink-0",
+    ),
   )
 
   const commonClasses =
@@ -80,7 +80,7 @@ const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
           ? "bg-gray-100 text-gray-900"
           : "text-gray-500 hover:text-gray-900 hover:bg-gray-100",
         commonClasses,
-        "group"
+        "group",
       )}
     >
       {icon}
@@ -102,7 +102,7 @@ const MobileMainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
         current
           ? "bg-green-500 text-gray-900"
           : "text-gray-400 hover:text-white hover:bg-gray-800 bg-gray-800",
-        "group flex rounded-lg gap-x-3 p-3 text-sm leading-6 font-semibold"
+        "group flex rounded-lg gap-x-3 p-3 text-sm leading-6 font-semibold",
       )}
     >
       {icon}
@@ -117,7 +117,7 @@ const MobileSubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
 
   icon = generateIcon(
     icon,
-    clsx(current ? "text-white" : "text-gray-500", "w-5 h-5 shrink-0")
+    clsx(current ? "text-white" : "text-gray-500", "w-5 h-5 shrink-0"),
   )
 
   return (
@@ -125,7 +125,7 @@ const MobileSubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
       href={href}
       className={clsx(
         current ? "bg-gray-800 text-white" : "text-gray-500",
-        "group flex items-center gap-x-2.5 rounded-lg py-3 px-3 text-base leading-4 font-semibold"
+        "group flex items-center gap-x-2.5 rounded-lg py-3 px-3 text-base leading-4 font-semibold",
       )}
     >
       {icon}

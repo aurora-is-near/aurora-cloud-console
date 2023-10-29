@@ -43,7 +43,7 @@ const DropdownMenu = ({ address }: { address: string }) => {
                   onClick={() => setModalParams(Modals.BlockAddress)}
                   className={clsx(
                     "flex w-full items-center p-2.5 text-sm space-x-1",
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                   )}
                 >
                   <XCircleIcon className="w-5 h-5" />
@@ -57,7 +57,7 @@ const DropdownMenu = ({ address }: { address: string }) => {
                   onClick={() => setModalParams(Modals.DeleteAddress)}
                   className={clsx(
                     "flex w-full items-center p-2.5 text-sm space-x-1",
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                   )}
                 >
                   <TrashIcon className="w-5 h-5" />

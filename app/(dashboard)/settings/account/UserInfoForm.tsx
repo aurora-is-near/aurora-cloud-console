@@ -88,7 +88,7 @@ const UserInfoForm = ({
           { email: email },
           {
             emailRedirectTo: location.origin + "/settings/account",
-          }
+          },
         )
 
         if (error) throw "Email change failed."
