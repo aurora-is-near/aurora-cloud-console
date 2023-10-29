@@ -44,10 +44,7 @@ const getUserFromApiKey = async (): Promise<ApiUser | null> => {
   const supabase = adminSupabase()
   const { error, data } = await supabase
     .from('api_keys')
-    .select(`
-      user_id,
-      scopes (scope)
-    `)
+    .select('user_id, scopes')
     .eq('key', apiKey)
     .single()
 
