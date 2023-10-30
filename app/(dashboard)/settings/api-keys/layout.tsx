@@ -1,10 +1,12 @@
 import { ReactNode } from "react"
-import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
+import AddApiKeyModal from "./AddApiKeyModal"
+import EditApiKeyModal from "./EditApiKeyModal"
 
 const Layout = ({ children }: { children: ReactNode }) => (
   <>
     {children}
-    <AddOrEditApiKeyModal />
+    <AddApiKeyModal />
+    <EditApiKeyModal />
   </>
 )
 

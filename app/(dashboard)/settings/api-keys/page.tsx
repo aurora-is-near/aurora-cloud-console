@@ -32,7 +32,7 @@ const Page = () => {
 
   const onEditApiKeyClick = (id: number) => {
     setId(String(id))
-    openModal(Modals.AddOrEditApiKey)
+    openModal(Modals.EditApiKey)
   }
 
   const onRemoveApiKeyClick = (id: number) => {

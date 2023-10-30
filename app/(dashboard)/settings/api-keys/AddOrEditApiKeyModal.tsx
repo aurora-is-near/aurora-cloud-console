@@ -2,55 +2,40 @@
 
 import Button from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { API_KEY_SCOPES } from "@/constants/scopes"
 import { PublicApiScope } from "@/types/types"
-import { useMutation } from "@tanstack/react-query"
-import { apiClient } from "@/utils/api/client"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { useQueryState } from "next-usequerystate"
-import { useApiKey } from "@/utils/api/queries"
 import { useEffect } from "react"
 
-type Inputs = Record<PublicApiScope, boolean> & {
-  note: string
+type Inputs = Partial<Record<PublicApiScope, boolean>> & {
+  note: string,
 }
 
-const AddOrEditApiKeyModal = () => {
-  const { activeModal, closeModal } = useModals()
-  const [id, setId] = useQueryState("id")
-  const isOpen = activeModal === Modals.AddOrEditApiKey
-  const { data: apiKey } = useApiKey(id ? Number(id) : undefined)
+type AddOrEditApiKeyModalProps = {
+  values?: Inputs
+  onSubmit: (data: {
+    note: string,
+    scopes: PublicApiScope[]
+  }) => void
+  open: boolean
+  afterLeave?: () => void
+}
+
+const AddOrEditApiKeyModal = ({
+  values,
+  onSubmit,
+  open,
+  afterLeave,
+}: AddOrEditApiKeyModalProps) => {
+  const { closeModal } = useModals()
   const {
     register,
-    handleSubmit,
     setValue,
+    handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm<Inputs>()
-
-  const getApiKeyUpdater = useOptimisticUpdater('getApiKey')
-  const getApiKeysUpdater = useOptimisticUpdater('getApiKeys')
-
-  const { mutate: createApiKey } = useMutation({
-    mutationFn: apiClient.createApiKey,
-    onSuccess: (data) => {
-      closeModal()
-      getApiKeysUpdater.insert(data)
-    },
-    onSettled: getApiKeysUpdater.invalidate,
-  })
-
-  const { mutate: updateApiKey } = useMutation({
-    mutationFn: apiClient.updateApiKey,
-    onMutate: getApiKeyUpdater.update,
-    onSuccess: closeModal,
-    onSettled: () => {
-      getApiKeyUpdater.invalidate()
-      getApiKeysUpdater.invalidate()
-    }
-  })
 
   const submitApiKey: SubmitHandler<Inputs> = async (inputs) => {
     const { note, ...scopes } = inputs
@@ -63,33 +48,22 @@ const AddOrEditApiKeyModal = () => {
         .filter((key): key is PublicApiScope => !!key)
     }
 
-    if (id) {
-      updateApiKey({
-        id: Number(id),
-        ...data,
-      })
-
-      return
-    }
-
-    createApiKey(data)
+    onSubmit(data)
   }
 
   useEffect(() => {
-    setValue('note', apiKey?.note ?? "")
+    setValue('note', values?.note ?? "")
     API_KEY_SCOPES.forEach((scope) => {
-      setValue(scope, apiKey?.scopes.includes(scope) ?? false)
+      setValue(scope, !!values?.[scope])
     })
-  }, [apiKey, setValue])
+  }, [values, setValue])
 
   return (
     <SlideOver
-      title={`${id ? 'Edit' : 'Create'} API Key`}
-      open={isOpen}
+      title={`${values ? 'Edit' : 'Create'} API Key`}
+      open={open}
       close={closeModal}
-      afterLeave={() => {
-        setId(null)
-      }}
+      afterLeave={afterLeave}
     >
       <form className="space-y-8" onSubmit={handleSubmit(submitApiKey)}>
         <div>
@@ -122,16 +96,14 @@ const AddOrEditApiKeyModal = () => {
             Scopes
           </h2>
           <div className="space-y-2.5 mt-3">
-            {API_KEY_SCOPES.map((key) => (
+            {API_KEY_SCOPES.map((key: PublicApiScope) => (
               <div key={key}>
                 <label htmlFor={key}>
                   <input
                     id={key}
                     type="checkbox"
                     className="mr-3"
-                    {...register(key, {
-                      value: apiKey?.scopes.includes(key),
-                    })}
+                    {...register(key)}
                   />
                   {key}
                 </label>

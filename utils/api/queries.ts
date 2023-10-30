@@ -2,10 +2,10 @@ import { QueryKey, UseQueryOptions, UseQueryResult, useQuery, useQueryClient } f
 import { apiClient } from "./client";
 import { getQueryKey } from "./query-keys";
 
-type Options<K extends keyof typeof apiClient> = {
-  isSingle?: boolean,
+type Options = {
+  enabled?: boolean,
   id?: number,
-  relatedFunctionName?: K,
+  relatedFunctionName?: keyof typeof apiClient,
 }
 
 export const useApiQuery = <
@@ -16,15 +16,12 @@ export const useApiQuery = <
   TQueryKey extends QueryKey = QueryKey,
 >(
   functionName: K,
-  { isSingle, id, relatedFunctionName }: Options<K> = {},
+  { enabled, id, relatedFunctionName }: Options = {},
 ): UseQueryResult<TQueryFnData, TError> => {
   const queryKey: TQueryKey = getQueryKey(functionName, id);
   const queryClient = useQueryClient();
-  const enabled = !isSingle || typeof id !== "undefined";
 
-  const queryFn = isSingle
-  ? () => apiClient[functionName]({ id })
-  : apiClient[functionName]
+  const queryFn = () => apiClient[functionName]({ id })
 
   const onSuccess = async (data: TQueryFnData) => {
     if (!relatedFunctionName || !Array.isArray(data)) {
@@ -60,7 +57,7 @@ export const useApiKeys = () => useApiQuery('getApiKeys', {
 
 export const useApiKey = (id?: number) => useApiQuery('getApiKey', {
   id,
-  isSingle: true,
+  enabled: typeof id !== "undefined",
 })
 
 export const useSilos = () => useApiQuery('getSilos')
