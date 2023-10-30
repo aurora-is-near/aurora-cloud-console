@@ -1,24 +1,46 @@
-import { useQuery } from "@tanstack/react-query";
+import { QueryKey, UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query";
 import { apiClient } from "./client";
 import { getQueryKey } from "./query-keys";
 
-type ApiClientFunction<TData> = () => Promise<TData>;
+export const useApiListQuery = <
+  K extends keyof typeof apiClient,
+  TQueryFnData = Awaited<ReturnType<typeof apiClient[K]>>,
+  TError = unknown,
+  TData extends TQueryFnData = TQueryFnData,
+  TQueryKey extends QueryKey = QueryKey,
+>(
+  functionName: K,
+): UseQueryResult<TQueryFnData, TError> => {
+  const queryKey: TQueryKey = getQueryKey(functionName);
 
-export const useApiQuery = <TData>(
-  queryFn: ApiClientFunction<TData>,
-) => {
-  const functionName = Object.keys(apiClient).find(
-    (key) => apiClient[key as keyof typeof apiClient] === queryFn
-  ) as keyof typeof apiClient;
-
-  return useQuery<TData>({
-    queryKey: getQueryKey(functionName),
-    queryFn,
-  });
+  return useQuery<TQueryFnData, TError, TData, TQueryKey>({
+    queryKey,
+    queryFn: apiClient[functionName],
+  } as UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>);
 };
 
-export const useCurrentUser = () => useApiQuery(apiClient.getCurrentUser);
-export const useApiKeys = () => useApiQuery(apiClient.getApiKeys);
-export const useSilos = () => useApiQuery(apiClient.getSilos);
-export const useDeals = () => useApiQuery(apiClient.getDeals);
-export const useUsers = () => useApiQuery(apiClient.getUsers);
+export const useApiQuery = <
+  K extends keyof typeof apiClient,
+  TQueryFnData = Awaited<ReturnType<typeof apiClient[K]>>,
+  TError = unknown,
+  TData extends TQueryFnData = TQueryFnData,
+  TQueryKey extends QueryKey = QueryKey,
+>(
+  functionName: K,
+  id?: number,
+) => {
+  const queryKey: TQueryKey = getQueryKey(functionName, id);
+
+  return useQuery<TQueryFnData, TError, TData, TQueryKey>({
+    queryKey,
+    queryFn: () => apiClient[functionName]({ id }),
+    enabled: typeof id !== "undefined",
+  } as UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>);
+};
+
+export const useCurrentUser = () => useApiListQuery('getCurrentUser');
+export const useApiKeys = () => useApiListQuery('getApiKeys');
+export const useApiKey = (id?: number) => useApiQuery('getApiKey', id);
+export const useSilos = () => useApiListQuery('getSilos');
+export const useDeals = () => useApiListQuery('getDeals');
+export const useUsers = () => useApiListQuery('getUsers');

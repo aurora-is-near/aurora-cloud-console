@@ -3,6 +3,7 @@ import Heading from "@/components/Heading"
 import Table from "@/components/Table"
 import { PaperAirplaneIcon } from "@heroicons/react/20/solid"
 import { TrashIcon } from "@heroicons/react/24/outline"
+import TableButton from "@/components/TableButton"
 
 const people = [
   {
@@ -69,10 +70,10 @@ const Page = () => {
             <Table.TD dark>{person.name}</Table.TD>
             <Table.TD>{person.email}</Table.TD>
             <Table.TD align="right">
-              <button className="text-gray-900 hover:text-red-500">
-                <span className="sr-only">Remove {person.email}</span>
-                <TrashIcon className="w-5 h-5" />
-              </button>
+              <TableButton
+                srOnlyText={`Remove ${person.email}`}
+                Icon={TrashIcon}
+              />
             </Table.TD>
           </Table.TR>
         ))}

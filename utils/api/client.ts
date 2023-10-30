@@ -21,6 +21,10 @@ export const apiClient = {
 
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 
+  getApiKey: async (
+    { id }: Partial<Pick<ApiKey, 'id'>>,
+  ) => request<ApiKey>(`/api/admin/api-keys/${id}`),
+
   createApiKey: async (
     data: Partial<Pick<ApiKey, 'note' | 'scopes'>>,
   ) => request<ApiKey>("/api/admin/api-keys", {
@@ -28,7 +32,19 @@ export const apiClient = {
     body: JSON.stringify(data),
   }),
 
-  deleteApiKey: async (id: number) => request(`/api/admin/api-keys/${id}`, {
-    method: "DELETE",
-  }),
+  updateApiKey: async ({
+    id,
+    ...data
+  }: Partial<Pick<ApiKey, 'id' | 'note' | 'scopes'>>) =>
+    request<ApiKey>(`/api/admin/api-keys/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+
+  deleteApiKey: async ({
+    id,
+  }: Partial<Pick<ApiKey, 'id'>>) =>
+    request(`/api/admin/api-keys/${id}`, {
+      method: "DELETE",
+    }),
 }

@@ -10,22 +10,30 @@ import { PublicApiScope } from "@/types/types"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { useQueryState } from "next-usequerystate"
+import { useApiKey } from "@/utils/api/queries"
+import { useEffect } from "react"
 
 type Inputs = Record<PublicApiScope, boolean> & {
   note: string
 }
 
-const AddApiKeyModal = () => {
+const AddOrEditApiKeyModal = () => {
   const { activeModal, closeModal } = useModals()
-  const isOpen = activeModal === Modals.AddApiKey
+  const [id, setId] = useQueryState("id")
+  const isOpen = activeModal === Modals.AddOrEditApiKey
+  const { data: apiKey } = useApiKey(id ? Number(id) : undefined)
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { isSubmitting, errors },
   } = useForm<Inputs>()
 
+  const getApiKeyUpdater = useOptimisticUpdater('getApiKey')
   const getApiKeysUpdater = useOptimisticUpdater('getApiKeys')
-  const { mutate } = useMutation({
+
+  const { mutate: createApiKey } = useMutation({
     mutationFn: apiClient.createApiKey,
     onSuccess: (data) => {
       closeModal()
@@ -34,22 +42,56 @@ const AddApiKeyModal = () => {
     onSettled: getApiKeysUpdater.invalidate,
   })
 
-  const addApiKey: SubmitHandler<Inputs> = async (data) => {
-    const { note, ...scopes } = data
+  const { mutate: updateApiKey } = useMutation({
+    mutationFn: apiClient.updateApiKey,
+    onMutate: getApiKeyUpdater.update,
+    onSuccess: closeModal,
+    onSettled: () => {
+      getApiKeyUpdater.invalidate()
+      getApiKeysUpdater.invalidate()
+    }
+  })
 
-    mutate({
+  const submitApiKey: SubmitHandler<Inputs> = async (inputs) => {
+    const { note, ...scopes } = inputs
+    const data = {
       note,
       scopes: Object
         .entries(scopes)
         .filter(([, value]) => value)
         .map(([key]) => key)
         .filter((key): key is PublicApiScope => !!key)
-    })
+    }
+
+    if (id) {
+      updateApiKey({
+        id: Number(id),
+        ...data,
+      })
+
+      return
+    }
+
+    createApiKey(data)
   }
 
+  useEffect(() => {
+    setValue('note', apiKey?.note ?? "")
+    API_KEY_SCOPES.forEach((scope) => {
+      setValue(scope, apiKey?.scopes.includes(scope) ?? false)
+    })
+  }, [apiKey, setValue])
+
   return (
-    <SlideOver title="Create API Key" open={isOpen} close={closeModal}>
-      <form className="space-y-8" onSubmit={handleSubmit(addApiKey)}>
+    <SlideOver
+      title={`${id ? 'Edit' : 'Create'} API Key`}
+      open={isOpen}
+      close={closeModal}
+      afterLeave={() => {
+        setId(null)
+      }}
+    >
+      <form className="space-y-8" onSubmit={handleSubmit(submitApiKey)}>
         <div>
           <label
             htmlFor="name"
@@ -87,7 +129,9 @@ const AddApiKeyModal = () => {
                     id={key}
                     type="checkbox"
                     className="mr-3"
-                    {...register(key)}
+                    {...register(key, {
+                      value: apiKey?.scopes.includes(key),
+                    })}
                   />
                   {key}
                 </label>
@@ -101,7 +145,7 @@ const AddApiKeyModal = () => {
         <Button style="secondary" onClick={closeModal}>
           Cancel
         </Button>
-        <Button loading={isSubmitting} onClick={handleSubmit(addApiKey)}>
+        <Button loading={isSubmitting} onClick={handleSubmit(submitApiKey)}>
           <CheckIcon className="w-5 h-5" />
           Save
         </Button>
@@ -110,4 +154,4 @@ const AddApiKeyModal = () => {
   )
 }
 
-export default AddApiKeyModal
+export default AddOrEditApiKeyModal

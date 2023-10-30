@@ -11,6 +11,7 @@ export const GET = apiRequestHandler(['admin'], async (
   const { data, error } = await supabase
     .from("api_keys")
     .select()
+    .order("created_at", { ascending: false })
     .eq("user_id", ctx.user.user_id)
 
   if (error) throw error
@@ -28,7 +29,7 @@ export const POST = apiRequestHandler(['admin'], async (
   const { data, error } = await supabase
     .from("api_keys")
     .insert({
-      description: body.note,
+      note: body.note,
       scopes: body.scopes,
       user_id: ctx.user.user_id,
     })

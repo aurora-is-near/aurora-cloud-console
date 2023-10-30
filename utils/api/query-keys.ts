@@ -1,27 +1,16 @@
 "use client"
 
+import { QueryKey } from "@tanstack/react-query";
 import { apiClient } from "./client";
 
-type ApiClientKey = keyof typeof apiClient;
-
-type ApiClientQueryParameters<
-  K extends keyof typeof apiClient
-> = Parameters<typeof apiClient[K]>[0]
-
-type ApiClientQueryKey<
-  K extends ApiClientKey
-> = (string | ApiClientQueryParameters<K>)[]
-
-
-export const getQueryKey = <K extends ApiClientKey>(
+export const getQueryKey = <
+  K extends keyof typeof apiClient,
+  TQueryKey extends QueryKey = QueryKey
+>(
   baseName: K,
-  data?: ApiClientQueryParameters<K>,
-) => {
-  const queryKey: ApiClientQueryKey<K> = [baseName]
+  id?: number,
+): TQueryKey => {
+  const queryKey: QueryKey = [baseName, id].filter(x => x)
 
-  if (data) {
-    queryKey.push(data)
-  }
-
-  return queryKey
+  return queryKey as TQueryKey;
 }

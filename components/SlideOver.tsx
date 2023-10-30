@@ -22,11 +22,13 @@ const SlideOver = ({
   children,
   open,
   close,
+  afterLeave,
 }: {
   title: string
   children: ReactNode
   open: boolean
   close: () => void
+  afterLeave?: () => void
 }) => {
   const actions = findChildren(children, "Actions")
   const content = findOtherChildren(children, ["Actions"])
@@ -57,6 +59,7 @@ const SlideOver = ({
                 leave="transform transition ease-in-out duration-500 sm:duration-700"
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
+                afterLeave={afterLeave}
               >
                 <Dialog.Panel className="w-screen max-w-md pointer-events-auto">
                   <div className="flex flex-col h-full overflow-y-scroll bg-white shadow-xl">

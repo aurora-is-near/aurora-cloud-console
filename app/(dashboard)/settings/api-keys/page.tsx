@@ -2,7 +2,7 @@
 
 import Heading from "@/components/Heading"
 import Table from "@/components/Table"
-import { TrashIcon } from "@heroicons/react/24/outline"
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 import AddApiKeyButton from "./AddApiKeyButton"
 import { useApiKeys } from "@/utils/api/queries"
 import { useMutation } from "@tanstack/react-query"
@@ -10,25 +10,34 @@ import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import Loader from "@/components/Loader"
 import { relativeTime } from "human-date"
+import TableButton from "@/components/TableButton"
+import { Modals, useModals } from "@/hooks/useModals"
+import { useQueryState } from "next-usequerystate"
 
 const Page = () => {
   const { data: apiKeys, isInitialLoading } = useApiKeys()
+  const [, setId] = useQueryState("id")
   const getApiKeysUpdater = useOptimisticUpdater('getApiKeys')
+  const { openModal } = useModals()
 
   const { mutate: deleteApiKey } = useMutation({
     mutationFn: apiClient.deleteApiKey,
-    onMutate: (id) => {
+    onMutate: ({ id }) => {
       getApiKeysUpdater.replace(
         apiKeys?.filter((apiKey) => apiKey.id !== id) || []
       )
     },
-    onError: getApiKeysUpdater.revert,
     onSettled: getApiKeysUpdater.invalidate,
   });
 
+  const onEditApiKeyClick = (id: number) => {
+    setId(String(id))
+    openModal(Modals.AddOrEditApiKey)
+  }
+
   const onRemoveApiKeyClick = (id: number) => {
     if (confirm("Are you sure you want to delete this API key?")) {
-      deleteApiKey(id)
+      deleteApiKey({ id })
     }
   }
 
@@ -60,15 +69,20 @@ const Page = () => {
               <Table.TD>{apiKey.scopes.join(', ')}</Table.TD>
               <Table.TD>{apiKey.last_used_at ? relativeTime(apiKey.last_used_at) : 'Never'}</Table.TD>
               <Table.TD align="right">
-                <button
-                  className="text-gray-900 hover:text-red-500"
+                <TableButton
+                  srOnlyText="Edit API key"
+                  Icon={PencilSquareIcon}
+                  onClick={() => {
+                    onEditApiKeyClick(apiKey.id)
+                  }}
+                />
+                <TableButton
+                  Icon={TrashIcon}
+                  srOnlyText="Remove API key"
                   onClick={() => {
                     onRemoveApiKeyClick(apiKey.id)
                   }}
-                >
-                  <span className="sr-only">Remove API key</span>
-                  <TrashIcon className="w-5 h-5" />
-                </button>
+                />
               </Table.TD>
             </Table.TR>
           ))}

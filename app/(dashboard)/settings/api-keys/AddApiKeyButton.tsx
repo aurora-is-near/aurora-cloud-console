@@ -8,7 +8,7 @@ const AddApiKeyButton = () => {
   const { openModal } = useModals()
 
   return (
-    <Button onClick={() => openModal(Modals.AddApiKey)}>
+    <Button onClick={() => openModal(Modals.AddOrEditApiKey)}>
       <PlusIcon className="w-5 h-5" />
       Create API Key
     </Button>
