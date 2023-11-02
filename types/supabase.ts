@@ -44,7 +44,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       companies: {
@@ -103,7 +103,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "companies"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }

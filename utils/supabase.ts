@@ -12,18 +12,14 @@ export const serverSupabase = cache(() => {
 })
 
 export const adminSupabase = () => {
-  const supabaseUrl = getRequiredEnvVar('NEXT_PUBLIC_SUPABASE_URL')
-  const supabaseKey = getRequiredEnvVar('SUPABASE_SERVICE_ROLE_KEY')
+  const supabaseUrl = getRequiredEnvVar("NEXT_PUBLIC_SUPABASE_URL")
+  const supabaseKey = getRequiredEnvVar("SUPABASE_SERVICE_ROLE_KEY")
 
-  return createClient<Database>(
-    supabaseUrl,
-    supabaseKey,
-    {
-      auth: {
-        persistSession: false,
-        autoRefreshToken: false,
-        detectSessionInUrl: false,
-      },
-    }
-  )
+  return createClient<Database>(supabaseUrl, supabaseKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  })
 }

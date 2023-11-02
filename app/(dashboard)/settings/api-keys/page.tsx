@@ -17,18 +17,18 @@ import { useQueryState } from "next-usequerystate"
 const Page = () => {
   const { data: apiKeys, isInitialLoading } = useApiKeys()
   const [, setId] = useQueryState("id")
-  const getApiKeysUpdater = useOptimisticUpdater('getApiKeys')
+  const getApiKeysUpdater = useOptimisticUpdater("getApiKeys")
   const { openModal } = useModals()
 
   const { mutate: deleteApiKey } = useMutation({
     mutationFn: apiClient.deleteApiKey,
     onMutate: ({ id }) => {
       getApiKeysUpdater.replace(
-        apiKeys?.filter((apiKey) => apiKey.id !== id) || []
+        apiKeys?.filter((apiKey) => apiKey.id !== id) || [],
       )
     },
     onSettled: getApiKeysUpdater.invalidate,
-  });
+  })
 
   const onEditApiKeyClick = (id: number) => {
     setId(String(id))
@@ -66,8 +66,12 @@ const Page = () => {
             <Table.TR key={apiKey.id}>
               <Table.TD dark>{apiKey.key}</Table.TD>
               <Table.TD dark>{apiKey.note}</Table.TD>
-              <Table.TD>{apiKey.scopes.join(', ')}</Table.TD>
-              <Table.TD>{apiKey.last_used_at ? relativeTime(apiKey.last_used_at) : 'Never'}</Table.TD>
+              <Table.TD>{apiKey.scopes.join(", ")}</Table.TD>
+              <Table.TD>
+                {apiKey.last_used_at
+                  ? relativeTime(apiKey.last_used_at)
+                  : "Never"}
+              </Table.TD>
               <Table.TD align="right">
                 <TableButton
                   srOnlyText="Edit API key"
@@ -88,7 +92,6 @@ const Page = () => {
           ))}
         </Table>
       )}
-
     </>
   )
 }

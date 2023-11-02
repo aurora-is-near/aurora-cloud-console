@@ -10,7 +10,7 @@ import { ApiUser } from "@/types/types"
 const getApiKey = () => {
   const headersList = headers()
   const authorization = headersList.get("authorization")
-  const scheme = 'Bearer '
+  const scheme = "Bearer "
 
   if (!authorization?.startsWith(scheme)) {
     return null
@@ -21,9 +21,9 @@ const getApiKey = () => {
 
 const getUserById = async (userId: string) => {
   const { data } = await adminSupabase()
-    .from('users')
+    .from("users")
     .select()
-    .eq('user_id', userId)
+    .eq("user_id", userId)
     .single()
 
   return data
@@ -43,9 +43,9 @@ const getUserFromApiKey = async (): Promise<ApiUser | null> => {
 
   const supabase = adminSupabase()
   const { error, data } = await supabase
-    .from('api_keys')
-    .select('user_id, scopes')
-    .eq('key', apiKey)
+    .from("api_keys")
+    .select("user_id, scopes")
+    .eq("key", apiKey)
     .single()
 
   if (!data) {
@@ -66,9 +66,9 @@ const getUserFromApiKey = async (): Promise<ApiUser | null> => {
 
   // Set the last used timestamp for the API key asynchronously.
   void supabase
-    .from('api_keys')
+    .from("api_keys")
     .update({ last_used_at: new Date().toISOString() })
-    .eq('key', apiKey)
+    .eq("key", apiKey)
 
   return {
     ...user,
@@ -102,7 +102,7 @@ const getUserFromSessionCookie = async (): Promise<ApiUser | null> => {
   // in via the dashboard and should be given write permissions.
   return {
     ...user,
-    scopes: ['admin'],
+    scopes: ["admin"],
   }
 }
 

@@ -27,13 +27,13 @@ export type List = {
   name: string
 }
 
-export type User = Database['public']['Tables']['users']['Row']
+export type User = Database["public"]["Tables"]["users"]["Row"]
 
 export type PublicApiScope = Database["public"]["Enums"]["api_key_scopes"]
 
-export type ApiScope = PublicApiScope | 'admin'
+export type ApiScope = PublicApiScope | "admin"
 
-export type ApiKey = Database['public']['Tables']['api_keys']['Row'];
+export type ApiKey = Database["public"]["Tables"]["api_keys"]["Row"]
 
 export type ApiUser = User & {
   scopes: ApiScopes[]

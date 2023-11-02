@@ -2,7 +2,7 @@
 
 export const request = async <T = unknown>(
   input: RequestInfo | URL,
-  init?: RequestInit
+  init?: RequestInit,
 ) => {
   const res = await fetch(input, {
     ...init,

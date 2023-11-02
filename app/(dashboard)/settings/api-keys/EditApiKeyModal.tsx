@@ -15,10 +15,12 @@ const EditApiKeyModal = () => {
   const { activeModal, closeModal } = useModals()
   const [id, setId] = useQueryState("id")
   const isOpen = activeModal === Modals.EditApiKey
-  const { data: apiKey, isInitialLoading } = useApiKey(id ? Number(id) : undefined)
+  const { data: apiKey, isInitialLoading } = useApiKey(
+    id ? Number(id) : undefined,
+  )
 
-  const getApiKeyUpdater = useOptimisticUpdater('getApiKey')
-  const getApiKeysUpdater = useOptimisticUpdater('getApiKeys')
+  const getApiKeyUpdater = useOptimisticUpdater("getApiKey")
+  const getApiKeysUpdater = useOptimisticUpdater("getApiKeys")
 
   const { mutate: updateApiKey } = useMutation({
     mutationFn: apiClient.updateApiKey,
@@ -27,26 +29,29 @@ const EditApiKeyModal = () => {
     onSettled: () => {
       getApiKeyUpdater.invalidate()
       getApiKeysUpdater.invalidate()
-    }
+    },
   })
 
-  const onSubmit = async (data: {
-    note: string,
-    scopes: PublicApiScope[]
-  }) => {
+  const onSubmit = async (data: { note: string; scopes: PublicApiScope[] }) => {
     updateApiKey({
       id: Number(id),
       ...data,
     })
   }
 
-  const values = useMemo(() => ({
-    note: apiKey?.note ?? "",
-    ...API_KEY_SCOPES.reduce<Partial<Record<PublicApiScope, boolean>>>((acc, scope) => ({
-      ...acc,
-      [scope]: !!apiKey?.scopes.includes(scope)
-    }), {})
-  }), [apiKey]);
+  const values = useMemo(
+    () => ({
+      note: apiKey?.note ?? "",
+      ...API_KEY_SCOPES.reduce<Partial<Record<PublicApiScope, boolean>>>(
+        (acc, scope) => ({
+          ...acc,
+          [scope]: !!apiKey?.scopes.includes(scope),
+        }),
+        {},
+      ),
+    }),
+    [apiKey],
+  )
 
   return (
     <AddOrEditApiKeyModal

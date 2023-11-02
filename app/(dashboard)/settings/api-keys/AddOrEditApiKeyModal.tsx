@@ -10,15 +10,12 @@ import { PublicApiScope } from "@/types/types"
 import { useEffect } from "react"
 
 type Inputs = Partial<Record<PublicApiScope, boolean>> & {
-  note: string,
+  note: string
 }
 
 type AddOrEditApiKeyModalProps = {
   values?: Inputs
-  onSubmit: (data: {
-    note: string,
-    scopes: PublicApiScope[]
-  }) => void
+  onSubmit: (data: { note: string; scopes: PublicApiScope[] }) => void
   open: boolean
   afterLeave?: () => void
 }
@@ -41,18 +38,17 @@ const AddOrEditApiKeyModal = ({
     const { note, ...scopes } = inputs
     const data = {
       note,
-      scopes: Object
-        .entries(scopes)
+      scopes: Object.entries(scopes)
         .filter(([, value]) => value)
         .map(([key]) => key)
-        .filter((key): key is PublicApiScope => !!key)
+        .filter((key): key is PublicApiScope => !!key),
     }
 
     onSubmit(data)
   }
 
   useEffect(() => {
-    setValue('note', values?.note ?? "")
+    setValue("note", values?.note ?? "")
     API_KEY_SCOPES.forEach((scope) => {
       setValue(scope, !!values?.[scope])
     })
@@ -60,7 +56,7 @@ const AddOrEditApiKeyModal = ({
 
   return (
     <SlideOver
-      title={`${values ? 'Edit' : 'Create'} API Key`}
+      title={`${values ? "Edit" : "Create"} API Key`}
       open={open}
       close={closeModal}
       afterLeave={afterLeave}
@@ -90,9 +86,7 @@ const AddOrEditApiKeyModal = ({
           )}
         </div>
         <div>
-          <h2
-            className="block text-sm font-medium leading-none text-gray-900"
-          >
+          <h2 className="block text-sm font-medium leading-none text-gray-900">
             Scopes
           </h2>
           <div className="space-y-2.5 mt-3">

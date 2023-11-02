@@ -36,7 +36,7 @@ const UserInfoForm = ({
   const router = useRouter()
   const pathname = usePathname()
   const { data: user } = useCurrentUser()
-  const getCurrentUserUpdater = useOptimisticUpdater('getCurrentUser')
+  const getCurrentUserUpdater = useOptimisticUpdater("getCurrentUser")
   const { mutate: updateCurrentUser } = useMutation({
     mutationFn: apiClient.updateCurrentUser,
     onMutate: getCurrentUserUpdater.update,
