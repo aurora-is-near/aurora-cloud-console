@@ -70,3 +70,5 @@ export const useSilos = () => useApiQuery("getSilos")
 export const useDeals = () => useApiQuery("getDeals")
 
 export const useUsers = () => useApiQuery("getUsers")
+
+export const useTransactions = () => useApiQuery("getTransactions")

@@ -1,9 +1,14 @@
+"use client"
+
 import Heading from "@/components/Heading"
 import Contact from "@/components/Contact"
 import TabCharts from "@/components/TabCharts"
 import Chart from "./Chart"
+import { useTransactions } from "../../../utils/api/queries"
 
 const Page = () => {
+  const { data } = useTransactions()
+
   return (
     <div className="space-y-4 sm:space-y-5">
       <section>
@@ -11,13 +16,13 @@ const Page = () => {
           tabs={[
             {
               title: "Total transactions",
-              value: "354,643",
+              value: data?.totalTransactions.toLocaleString(),
               chart: <></>,
               legend: ["Silo 1", "Silo 2"],
             },
             {
               title: "Total wallets",
-              value: "13,838",
+              value: data?.totalWallets.toLocaleString(),
               chart: <></>,
               legend: ["Silo 1", "Silo 2"],
             },

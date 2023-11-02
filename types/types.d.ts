@@ -27,6 +27,11 @@ export type List = {
   name: string
 }
 
+export type Transactions = {
+  totalTransactions: number
+  totalWallets: number
+}
+
 export type User = Database["public"]["Tables"]["users"]["Row"]
 
 export type PublicApiScope = Database["public"]["Enums"]["api_key_scopes"]

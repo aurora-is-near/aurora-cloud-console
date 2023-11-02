@@ -9,7 +9,7 @@ import clsx from "clsx"
 
 type TabType = {
   title: string
-  value: string
+  value?: string
   chart: ReactNode
   legend: string[]
 }
@@ -112,7 +112,7 @@ const TabCharts = ({
                   {title}
                 </div>
                 <div className="text-gray-900 text-3xl md:text-4xl font-bold mt-1.5">
-                  {value}
+                  {value}&nbsp;
                 </div>
               </Tab>
             ))}
