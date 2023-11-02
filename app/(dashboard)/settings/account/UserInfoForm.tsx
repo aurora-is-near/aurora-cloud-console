@@ -11,9 +11,12 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "@/types/supabase"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
-import { UserInfo } from "@/types/types"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
+import { useCurrentUser } from "@/utils/api/queries"
+import { useMutation } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
+import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -24,16 +27,21 @@ type Inputs = {
 }
 
 const UserInfoForm = ({
-  info,
   hasPendingEmailChange,
 }: {
-  info: UserInfo
   hasPendingEmailChange: boolean
 }) => {
   const [showForm, setShowForm] = useState(false)
   const toggleForm = () => setShowForm((prev) => !prev)
   const router = useRouter()
   const pathname = usePathname()
+  const { data: user } = useCurrentUser()
+  const getCurrentUserUpdater = useOptimisticUpdater('getCurrentUser')
+  const { mutate: updateCurrentUser } = useMutation({
+    mutationFn: apiClient.updateCurrentUser,
+    onMutate: getCurrentUserUpdater.update,
+    onSettled: getCurrentUserUpdater.invalidate,
+  })
 
   // Handle coming back to page from email change confirmation
   useEffect(() => {
@@ -63,25 +71,20 @@ const UserInfoForm = ({
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<Inputs>({
-    defaultValues: {
-      name: info.name || "",
-      email: info.email,
-    },
-  })
+  } = useForm<Inputs>()
 
   const updateUser: SubmitHandler<Inputs> = async ({ name, email }) => {
     if (
       (!name && !email) ||
-      (name === info.name && email === info.email) ||
-      (!name && email === info.email) ||
-      (name === info.name && !email)
+      (name === user?.name && email === user?.email) ||
+      (!name && email === user?.email) ||
+      (name === user?.name && !email)
     ) {
       return toggleForm()
     }
 
     try {
-      if (email !== info.email) {
+      if (email !== user?.email) {
         const supabase = createClientComponentClient<Database>()
 
         const { error } = await supabase.auth.updateUser(
@@ -94,18 +97,8 @@ const UserInfoForm = ({
         if (error) throw "Email change failed."
       }
 
-      if (name !== info.name) {
-        const res = await fetch("/api/user", {
-          method: "PATCH",
-          body: JSON.stringify({
-            newName: name,
-          }),
-          headers: {
-            "Content-type": "application/json",
-          },
-        })
-
-        if (!res.ok) throw "Name update failed."
+      if (name !== user?.name) {
+        updateCurrentUser({ name })
       }
 
       setShowForm(false)
@@ -155,7 +148,9 @@ const UserInfoForm = ({
                 id="name"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 autoComplete="name"
-                {...register("name")}
+                {...register("name", {
+                  value: user?.name ?? "",
+                })}
               />
             </div>
             <div className="sm:grid sm:grid-cols-2 h-9 items-center">
@@ -170,7 +165,9 @@ const UserInfoForm = ({
                 id="email"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 autoComplete="email"
-                {...register("email")}
+                {...register("email", {
+                  value: user?.email ?? "",
+                })}
               />
             </div>
 
@@ -198,7 +195,7 @@ const UserInfoForm = ({
                 Name
               </dt>
               <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
-                {info?.name || "-"}
+                {user?.name || "-"}
               </dd>
             </div>
             <div className="sm:grid sm:grid-cols-2 h-9 items-center">
@@ -206,7 +203,7 @@ const UserInfoForm = ({
                 Email
               </dt>
               <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
-                {info?.email}
+                {user?.email}
               </dd>
             </div>
 

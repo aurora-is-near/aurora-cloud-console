@@ -7,6 +7,7 @@ import {
   HomeIcon,
   UsersIcon,
   NoSymbolIcon,
+  KeyIcon,
 } from "@heroicons/react/24/outline"
 import { Borealis, Silos } from "@/components/icons"
 
@@ -69,6 +70,11 @@ export const subrouteMap = {
       name: "Account",
       href: "/settings/account",
       icon: <UserIcon />,
+    },
+    {
+      name: "API Keys",
+      href: "/settings/api-keys",
+      icon: <KeyIcon />,
     },
   ],
 }

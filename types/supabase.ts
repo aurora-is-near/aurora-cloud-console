@@ -9,6 +9,43 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      api_keys: {
+        Row: {
+          created_at: string
+          id: number
+          key: string
+          last_used_at: string | null
+          note: string | null
+          scopes: Database["public"]["Enums"]["api_key_scopes"][]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          key?: string
+          last_used_at?: string | null
+          note?: string | null
+          scopes: Database["public"]["Enums"]["api_key_scopes"][]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          key?: string
+          last_used_at?: string | null
+          note?: string | null
+          scopes?: Database["public"]["Enums"]["api_key_scopes"][]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       companies: {
         Row: {
           created_at: string
@@ -36,42 +73,33 @@ export interface Database {
       users: {
         Row: {
           company_id: string | null
-          confirmed_at: string | null
           created_at: string
           email: string
-          id: string
+          id: number
           name: string | null
-          type: Database["public"]["Enums"]["user_type"] | null
+          user_id: string
         }
         Insert: {
           company_id?: string | null
-          confirmed_at?: string | null
-          created_at: string
+          created_at?: string
           email: string
-          id: string
+          id?: number
           name?: string | null
-          type?: Database["public"]["Enums"]["user_type"] | null
+          user_id: string
         }
         Update: {
           company_id?: string | null
-          confirmed_at?: string | null
           created_at?: string
           email?: string
-          id?: string
+          id?: number
           name?: string | null
-          type?: Database["public"]["Enums"]["user_type"] | null
+          user_id?: string
         }
         Relationships: [
           {
             foreignKeyName: "users_company_id_fkey"
             columns: ["company_id"]
             referencedRelation: "companies"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "users_id_fkey"
-            columns: ["id"]
-            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]
@@ -81,9 +109,21 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_scope_to_api_key_type: {
+        Args: {
+          scope_name: string
+        }
+        Returns: undefined
+      }
+      add_scopes_to_api_key_type: {
+        Args: {
+          scopes_to_add: string[]
+        }
+        Returns: undefined
+      }
     }
     Enums: {
+      api_key_scopes: "deals:read" | "deals:write" | "silos:read" | "users:read"
       user_type: "customer" | "admin"
     }
     CompositeTypes: {
