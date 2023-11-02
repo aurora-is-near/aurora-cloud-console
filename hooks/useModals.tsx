@@ -8,6 +8,8 @@ export enum Modals {
   DeleteAddress = "deleteUser",
   AddContract = "addContract",
   AddList = "addList",
+  AddApiKey = "addApiKey",
+  EditApiKey = "editApiKey",
 }
 
 type ModalsContextType = {
