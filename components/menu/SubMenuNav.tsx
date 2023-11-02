@@ -102,7 +102,7 @@ const SiloMenu = () => {
             router.push(
               `/silos/${e.target.value}${
                 subroute ? `/${subroute}` : "/overview"
-              }`
+              }`,
             )
           }
         >

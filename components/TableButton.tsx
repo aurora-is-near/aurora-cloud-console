@@ -7,7 +7,7 @@ type TableButtonProps = {
 }
 
 const TableButton = ({
-  srOnlyText = 'Remove',
+  srOnlyText = "Remove",
   onClick,
   Icon,
 }: TableButtonProps) => (

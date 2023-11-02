@@ -9,7 +9,7 @@ import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
 
 const AddApiKeyModal = () => {
   const { activeModal, closeModal } = useModals()
-  const getApiKeysUpdater = useOptimisticUpdater('getApiKeys')
+  const getApiKeysUpdater = useOptimisticUpdater("getApiKeys")
 
   const { mutate: createApiKey } = useMutation({
     mutationFn: apiClient.createApiKey,
@@ -20,10 +20,7 @@ const AddApiKeyModal = () => {
     onSettled: getApiKeysUpdater.invalidate,
   })
 
-  const onSubmit = async (data: {
-    note: string,
-    scopes: PublicApiScope[]
-  }) => {
+  const onSubmit = async (data: { note: string; scopes: PublicApiScope[] }) => {
     createApiKey(data)
   }
 

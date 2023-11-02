@@ -38,7 +38,7 @@ const AccessSelector = () => {
                       active,
                     "bg-green-100 border-green-600": checked,
                     "bg-gray-100 border-gray-300": !checked,
-                  }
+                  },
                 )
               }
             >

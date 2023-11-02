@@ -116,7 +116,7 @@ export const getUsers = async ({
 
   if (search) {
     users = users.filter((user) =>
-      user.address.toLowerCase().includes(search.toLowerCase())
+      user.address.toLowerCase().includes(search.toLowerCase()),
     )
   }
 

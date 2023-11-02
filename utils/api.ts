@@ -16,7 +16,7 @@ export type ApiRequestContext = BaseApiRequestContext & {
   user: ApiUser
 }
 
-export type AuthorisedApiRequestContext = Omit<ApiRequestContext, 'user'> & {
+export type AuthorisedApiRequestContext = Omit<ApiRequestContext, "user"> & {
   user: ApiUser
 }
 
@@ -36,8 +36,8 @@ type ApiRequestHandler<Body = unknown> = (
 const getErrorType = (error: unknown, statusCode: number): string => {
   return isAbortError(error) && error.type
     ? error.type
-    : `/probs/${kebabCase(String(httpStatus[statusCode]))}`;
-};
+    : `/probs/${kebabCase(String(httpStatus[statusCode]))}`
+}
 
 /**
  * Get an error response in the format of a RFC7807 problem details object.
@@ -52,12 +52,12 @@ const getErrorResponse = (error: unknown) => {
       type: getErrorType(error, statusCode),
       statusCode,
       message: toError(error).message,
-      details: isAbortError(error) ? error.detail : undefined
+      details: isAbortError(error) ? error.detail : undefined,
     },
-    { status: statusCode }
+    { status: statusCode },
   )
 
-  response.headers.set('Content-Type', 'application/problem+json')
+  response.headers.set("Content-Type", "application/problem+json")
 
   return response
 }
@@ -65,19 +65,18 @@ const getErrorResponse = (error: unknown) => {
 /**
  * Confirm that the user is logged in based on a session cookie or API key.
  */
-export const apiRequestHandler = <Body = unknown>(
-  scopes: ApiScope[],
-  handler: ApiRequestHandler<Body>
-) => async (req: NextRequest, ctx: BaseApiRequestContext) => {
-  const user = await getUser()
-  let data: Body
+export const apiRequestHandler =
+  <Body = unknown>(scopes: ApiScope[], handler: ApiRequestHandler<Body>) =>
+  async (req: NextRequest, ctx: BaseApiRequestContext) => {
+    const user = await getUser()
+    let data: Body
 
-  try {
-    abortIfUnauthorised(user, scopes)
-    data = await handler(req, { ...ctx, user })
-  } catch (error: unknown) {
-    return getErrorResponse(error)
+    try {
+      abortIfUnauthorised(user, scopes)
+      data = await handler(req, { ...ctx, user })
+    } catch (error: unknown) {
+      return getErrorResponse(error)
+    }
+
+    return data
   }
-
-  return data
-}

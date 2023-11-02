@@ -41,9 +41,10 @@ export interface Database {
           {
             foreignKeyName: "api_keys_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       companies: {
@@ -99,9 +100,10 @@ export interface Database {
           {
             foreignKeyName: "users_company_id_fkey"
             columns: ["company_id"]
+            isOneToOne: false
             referencedRelation: "companies"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }

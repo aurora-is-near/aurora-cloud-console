@@ -14,9 +14,7 @@ const Page = async () => {
   return (
     <div className="space-y-4 sm:space-y-5">
       <Heading tag="h2">Account</Heading>
-      <UserInfoForm
-        hasPendingEmailChange={!!authUser.new_email}
-      />
+      <UserInfoForm hasPendingEmailChange={!!authUser.new_email} />
     </div>
   )
 }

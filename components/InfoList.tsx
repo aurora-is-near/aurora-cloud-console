@@ -53,7 +53,7 @@ const InfoList = ({
   <dl
     className={clsx(
       "px-4 sm:px-5 md:px-6 pb-5 space-y-4 sm:space-y-3.5",
-      className
+      className,
     )}
   >
     {children}

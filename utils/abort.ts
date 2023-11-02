@@ -1,5 +1,5 @@
-import httpStatus from 'http-status'
-import { ApiScope, ApiUser } from '@/types/types'
+import httpStatus from "http-status"
+import { ApiScope, ApiUser } from "@/types/types"
 
 export type AbortOptions = {
   type?: string
@@ -25,9 +25,8 @@ export class AbortError extends Error {
   }
 }
 
-export const isAbortError = (error: unknown): error is AbortError => (
-  typeof error === 'object' && !!error && '_is_abort_error' in error
-)
+export const isAbortError = (error: unknown): error is AbortError =>
+  typeof error === "object" && !!error && "_is_abort_error" in error
 
 /**
  * Throw an error with the given status code.
@@ -47,7 +46,7 @@ export const abort = (
 
 export function abortIfUnauthorised(
   user: ApiUser | null,
-  scopes: ApiScope[]
+  scopes: ApiScope[],
 ): asserts user is ApiUser {
   if (!user) {
     abort(401)
@@ -55,8 +54,8 @@ export function abortIfUnauthorised(
 
   if (
     !!scopes?.length &&
-    !scopes.every(scope => user?.scopes.includes(scope)) &&
-    !user?.scopes.includes('admin')
+    !scopes.every((scope) => user?.scopes.includes(scope)) &&
+    !user?.scopes.includes("admin")
   ) {
     abort(403)
   }
