@@ -8,9 +8,9 @@ export const getQueryKey = <
   TQueryKey extends QueryKey = QueryKey,
 >(
   baseName: K,
-  id?: number,
+  params?: any,
 ): TQueryKey => {
-  const queryKey: QueryKey = [baseName, id].filter((x) => x)
+  const queryKey: QueryKey = [baseName, params].filter((x) => x)
 
   return queryKey as TQueryKey
 }

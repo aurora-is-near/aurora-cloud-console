@@ -12,63 +12,58 @@ type TabType = {
   value?: string
   chart: ReactNode
   legend: string[]
+  dateOptions?: {
+    label: string
+  }
 }
 
-const options = [
-  {
-    label: "All time",
-    startDate: null,
-  },
-  {
-    label: "1w",
-    startDate: subDays(new Date(), 7),
-  },
-  {
-    label: "1m",
-    startDate: subMonths(new Date(), 1),
-  },
-  {
-    label: "3m",
-    startDate: subMonths(new Date(), 3),
-  },
-]
-
-const TabCharts = ({
-  children,
-  tabs,
-}: {
+type TabChartsProps<T> = {
   children: ReactNode
   tabs:
     | [TabType]
     | [TabType, TabType]
     | [TabType, TabType, TabType]
     | [TabType, TabType, TabType, TabType] // 1-4 tabs
-}) => {
+  selectedDateOption?: T
+  onDateOptionChange?: (value: T) => void
+  dateOptions?: {
+    label: string
+    value: T
+  }[]
+}
+
+const TabCharts = <T extends unknown>({
+  children,
+  tabs,
+  selectedDateOption,
+  onDateOptionChange,
+  dateOptions,
+}: TabChartsProps<T>) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [startDate, setStartDate] = useState(options[0])
-  const startAt = startDate?.startDate
 
   return (
     <>
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row">
         {children}
 
-        <RadioGroup value={startDate} onChange={setStartDate}>
-          <RadioGroup.Label className="sr-only">
-            Choose a date range
-          </RadioGroup.Label>
-          <div className="flex space-x-2.5">
-            {options.map((option) => (
-              <RadioGroup.Option
-                key={option.label}
-                value={option}
-                className="justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-2.5 py-1.5 ui-checked:bg-gray-200 cursor-pointer"
-              >
-                <RadioGroup.Label as="span">{option.label}</RadioGroup.Label>
-              </RadioGroup.Option>
-            ))}
-          </div>
-        </RadioGroup>
+        {dateOptions && (
+          <RadioGroup value={selectedDateOption} onChange={onDateOptionChange}>
+            <RadioGroup.Label className="sr-only">
+              Choose a date range
+            </RadioGroup.Label>
+            <div className="flex space-x-2.5">
+              {dateOptions.map((option) => (
+                <RadioGroup.Option
+                  key={option.label}
+                  value={option.value}
+                  className="justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-2.5 py-1.5 ui-checked:bg-gray-200 cursor-pointer"
+                >
+                  <RadioGroup.Label as="span">{option.label}</RadioGroup.Label>
+                </RadioGroup.Option>
+              ))}
+            </div>
+          </RadioGroup>
+        )}
       </div>
       <div className="mt-4 md:mt-6">
         <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>

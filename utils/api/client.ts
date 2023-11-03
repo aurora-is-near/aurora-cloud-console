@@ -18,7 +18,8 @@ export const apiClient = {
 
   getDeals: async () => request<Deal[]>("/api/borealis/deals"),
 
-  getTransactions: async () => request<Transactions>("/api/transactions"),
+  getTransactions: async (query: { interval?: string }) =>
+    request<Transactions>("/api/transactions", { query }),
 
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 

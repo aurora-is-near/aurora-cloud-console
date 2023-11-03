@@ -12,6 +12,7 @@ type Options = {
   enabled?: boolean
   id?: number
   relatedFunctionName?: keyof typeof apiClient
+  params?: any
 }
 
 export const useApiQuery = <
@@ -22,12 +23,12 @@ export const useApiQuery = <
   TQueryKey extends QueryKey = QueryKey,
 >(
   functionName: K,
-  { enabled, id, relatedFunctionName }: Options = {},
+  { enabled, relatedFunctionName, params }: Options = {},
 ): UseQueryResult<TQueryFnData, TError> => {
-  const queryKey: TQueryKey = getQueryKey(functionName, id)
+  const queryKey: TQueryKey = getQueryKey(functionName, params)
   const queryClient = useQueryClient()
 
-  const queryFn = () => apiClient[functionName]({ id })
+  const queryFn = () => apiClient[functionName](params)
 
   const onSuccess = async (data: TQueryFnData) => {
     if (!relatedFunctionName || !Array.isArray(data)) {
@@ -61,7 +62,7 @@ export const useApiKeys = () =>
 
 export const useApiKey = (id?: number) =>
   useApiQuery("getApiKey", {
-    id,
+    params: { id },
     enabled: typeof id !== "undefined",
   })
 
@@ -71,4 +72,5 @@ export const useDeals = () => useApiQuery("getDeals")
 
 export const useUsers = () => useApiQuery("getUsers")
 
-export const useTransactions = () => useApiQuery("getTransactions")
+export const useTransactions = (params?: { interval: string | null }) =>
+  useApiQuery("getTransactions", { params })

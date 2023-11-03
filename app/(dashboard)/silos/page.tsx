@@ -18,6 +18,7 @@ import {
 import { useTransactions } from "../../../utils/api/queries"
 import { Line, ChartProps } from "react-chartjs-2"
 import { Transactions } from "../../../types/types"
+import { useState } from "react"
 
 ChartJS.register(
   CategoryScale,
@@ -30,6 +31,24 @@ ChartJS.register(
 )
 
 const COLOURS = ["#4ade80", "#22d3ee", "#fb923c", "#c084fc"]
+const CHART_DATE_OPTIONS = [
+  {
+    label: "All time",
+    value: null,
+  },
+  {
+    label: "1w",
+    value: "1 WEEK",
+  },
+  {
+    label: "1m",
+    value: "1 MONTH",
+  },
+  {
+    label: "3m",
+    value: "3 MONTH",
+  },
+]
 
 const getTotalCount = (
   key: "transactionsCount" | "walletsCount",
@@ -62,13 +81,20 @@ const getLineChartData = (
 })
 
 const Page = () => {
-  const { data } = useTransactions()
+  const [interval, setInterval] = useState<string | null>(
+    CHART_DATE_OPTIONS[0].value,
+  )
+
+  const { data } = useTransactions({ interval })
   const legend = data?.silos.map(({ label }) => label) ?? []
 
   return (
     <div className="space-y-4 sm:space-y-5">
       <section>
         <TabCharts
+          dateOptions={CHART_DATE_OPTIONS}
+          selectedDateOption={interval}
+          onDateOptionChange={setInterval}
           tabs={[
             {
               title: "Total transactions",

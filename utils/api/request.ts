@@ -1,10 +1,20 @@
 "use client"
 
+import qs from "qs"
+import cleanDeep from "clean-deep"
+
 export const request = async <T = unknown>(
   input: RequestInfo | URL,
-  init?: RequestInit,
+  init?: RequestInit & {
+    query?: Record<string, unknown>
+  },
 ) => {
-  const res = await fetch(input, {
+  const cleanQuery = cleanDeep(init?.query ?? {})
+  const url = !!Object.keys(cleanQuery).length
+    ? `${input}?${qs.stringify(cleanQuery)}`
+    : input
+
+  const res = await fetch(url, {
     ...init,
     headers: {
       ...init?.headers,
