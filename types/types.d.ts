@@ -28,8 +28,19 @@ export type List = {
 }
 
 export type Transactions = {
-  totalTransactions: number
-  totalWallets: number
+  silos: {
+    label: string
+    transactionsCount: number
+    walletsCount: number
+    transactionsPerDay: {
+      day: string
+      count: number
+    }[]
+    walletsPerDay: {
+      day: string
+      count: number
+    }[]
+  }[]
 }
 
 export type User = Database["public"]["Tables"]["users"]["Row"]

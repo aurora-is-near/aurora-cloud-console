@@ -120,8 +120,10 @@ const TabCharts = ({
           <Tab.Panels className="bg-white border border-gray-200 rounded-b-md">
             {tabs.map(({ title, chart, legend }) => (
               <Tab.Panel key={title}>
-                <div className="px-4 pt-5 pb-5 md:pb-6 sm:px-5 md:px-6">
-                  <div className="w-full bg-gray-200 rounded-md h-44" />
+                <div className="px-4 pt-5 pb-5 md:pb-6 sm:px-5 md:px-6 h-[400px]">
+                  {chart ?? (
+                    <div className="w-full bg-gray-200 rounded-md h-44" />
+                  )}
                 </div>
                 <div className="px-1 pb-1">
                   <div className="flex items-center w-full px-5 space-x-6 rounded-b-sm bg-gray-50 h-9">

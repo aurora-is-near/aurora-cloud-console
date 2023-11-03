@@ -1,13 +1,69 @@
 "use client"
 
+import "chartjs-adapter-date-fns"
 import Heading from "@/components/Heading"
 import Contact from "@/components/Contact"
 import TabCharts from "@/components/TabCharts"
 import Chart from "./Chart"
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  TimeScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+} from "chart.js"
 import { useTransactions } from "../../../utils/api/queries"
+import { Line, ChartProps } from "react-chartjs-2"
+import { Transactions } from "../../../types/types"
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  TimeScale,
+  Title,
+  Tooltip,
+)
+
+const COLOURS = ["#4ade80", "#22d3ee", "#fb923c", "#c084fc"]
+
+const getTotalCount = (
+  key: "transactionsCount" | "walletsCount",
+  data?: Transactions,
+): string =>
+  data?.silos.reduce((acc, item) => acc + item[key], 0).toLocaleString() ?? ""
+
+const getDates = (
+  key: "transactionsPerDay" | "walletsPerDay",
+  data?: Transactions,
+): string[] =>
+  data?.silos.reduce<string[]>((acc, item) => {
+    acc.push(...item[key].map(({ day }) => day))
+
+    return acc
+  }, []) ?? []
+
+const getLineChartData = (
+  key: "transactionsPerDay" | "walletsPerDay",
+  data?: Transactions,
+) => ({
+  labels: getDates("transactionsPerDay", data),
+  datasets:
+    data?.silos.map((silo, index) => ({
+      label: silo.label,
+      data: silo[key].map(({ count }) => count),
+      borderColor: COLOURS[index % COLOURS.length],
+      backgroundColor: COLOURS[index % COLOURS.length],
+    })) ?? [],
+})
 
 const Page = () => {
   const { data } = useTransactions()
+  const legend = data?.silos.map(({ label }) => label) ?? []
 
   return (
     <div className="space-y-4 sm:space-y-5">
@@ -16,21 +72,53 @@ const Page = () => {
           tabs={[
             {
               title: "Total transactions",
-              value: data?.totalTransactions.toLocaleString(),
-              chart: <></>,
-              legend: ["Silo 1", "Silo 2"],
+              value: getTotalCount("transactionsCount", data),
+              chart: (
+                <Line
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                      x: {
+                        type: "time",
+                        time: {
+                          unit: "month",
+                        },
+                      },
+                    },
+                  }}
+                  data={getLineChartData("transactionsPerDay", data)}
+                />
+              ),
+              legend,
             },
             {
               title: "Total wallets",
-              value: data?.totalWallets.toLocaleString(),
-              chart: <></>,
-              legend: ["Silo 1", "Silo 2"],
+              value: getTotalCount("walletsCount", data),
+              chart: (
+                <Line
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                      x: {
+                        type: "time",
+                        time: {
+                          unit: "month",
+                        },
+                      },
+                    },
+                  }}
+                  data={getLineChartData("walletsPerDay", data)}
+                />
+              ),
+              legend,
             },
             {
               title: "Total balances",
               value: "$2,320,021",
               chart: <></>,
-              legend: ["Silo 1", "Silo 2"],
+              legend,
             },
           ]}
         >
