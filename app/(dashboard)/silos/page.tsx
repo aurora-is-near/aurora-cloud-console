@@ -5,79 +5,17 @@ import Heading from "@/components/Heading"
 import Contact from "@/components/Contact"
 import TabCharts from "@/components/TabCharts"
 import Chart from "./Chart"
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  TimeScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-} from "chart.js"
 import { useTransactions } from "../../../utils/api/queries"
-import { Line, ChartProps } from "react-chartjs-2"
-import { Transactions } from "../../../types/types"
+import { Line } from "react-chartjs-2"
 import { useState } from "react"
+import { CHART_DATE_OPTIONS } from "../../../constants/charts"
+import { getLineChartData } from "../../../utils/charts"
+import { Transactions } from "../../../types/types"
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  TimeScale,
-  Title,
-  Tooltip,
-)
-
-const COLOURS = ["#4ade80", "#22d3ee", "#fb923c", "#c084fc"]
-const CHART_DATE_OPTIONS = [
-  {
-    label: "All time",
-    value: null,
-  },
-  {
-    label: "1w",
-    value: "1 WEEK",
-  },
-  {
-    label: "1m",
-    value: "1 MONTH",
-  },
-  {
-    label: "3m",
-    value: "3 MONTH",
-  },
-]
-
-const getTotalCount = (
+export const getAllSilosTotal = (
   key: "transactionsCount" | "walletsCount",
   data?: Transactions,
 ): number | undefined => data?.silos.reduce((acc, item) => acc + item[key], 0)
-
-const getDates = (
-  key: "transactionsPerDay" | "walletsPerDay",
-  data?: Transactions,
-): string[] =>
-  data?.silos.reduce<string[]>((acc, item) => {
-    acc.push(...item[key].map(({ day }) => day))
-
-    return acc
-  }, []) ?? []
-
-const getLineChartData = (
-  key: "transactionsPerDay" | "walletsPerDay",
-  data?: Transactions,
-) => ({
-  labels: getDates("transactionsPerDay", data),
-  datasets:
-    data?.silos.map((silo, index) => ({
-      label: silo.label,
-      data: silo[key].map(({ count }) => count),
-      borderColor: COLOURS[index % COLOURS.length],
-      backgroundColor: COLOURS[index % COLOURS.length],
-    })) ?? [],
-})
 
 const Page = () => {
   const [interval, setInterval] = useState<string | null>(
@@ -86,10 +24,8 @@ const Page = () => {
 
   const { data } = useTransactions({ interval })
   const legend = data?.silos.map(({ label }) => label) ?? []
-  const transactionsCount = getTotalCount("transactionsCount", data)
-  const walletsCount = getTotalCount("walletsCount", data)
-
-  console.log(transactionsCount, walletsCount)
+  const transactionsCount = getAllSilosTotal("transactionsCount", data)
+  const walletsCount = getAllSilosTotal("walletsCount", data)
 
   return (
     <div className="space-y-4 sm:space-y-5">
