@@ -5,8 +5,8 @@ import { Transactions } from "../../../types/types"
 
 // TODO: replace with actual user's silos
 const SILOS = {
-  "1313161554": "Mainnet",
-  "1313161555": "Testnet",
+  "1313161556": "Mainnet",
+  "1313161557": "Testnet",
 }
 
 const DEFAULT_CHART_INTERVAL = "6 MONTH"
@@ -14,7 +14,7 @@ const DEFAULT_CHART_INTERVAL = "6 MONTH"
 const getWhereClause = (chainId: string, interval: string | null) => `
   WHERE chain_id = '${chainId}'${
     interval
-      ? ` AND "req_time" BETWEEN NOW() - INTERVAL '${interval}' AND NOW()`
+      ? ` AND "req_time" BETWEEN current_date - INTERVAL '${interval}' AND current_date - 1`
       : ""
   }
 `
