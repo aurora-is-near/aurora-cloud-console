@@ -53,8 +53,7 @@ const CHART_DATE_OPTIONS = [
 const getTotalCount = (
   key: "transactionsCount" | "walletsCount",
   data?: Transactions,
-): string =>
-  data?.silos.reduce((acc, item) => acc + item[key], 0).toLocaleString() ?? ""
+): number | undefined => data?.silos.reduce((acc, item) => acc + item[key], 0)
 
 const getDates = (
   key: "transactionsPerDay" | "walletsPerDay",
@@ -87,6 +86,10 @@ const Page = () => {
 
   const { data } = useTransactions({ interval })
   const legend = data?.silos.map(({ label }) => label) ?? []
+  const transactionsCount = getTotalCount("transactionsCount", data)
+  const walletsCount = getTotalCount("walletsCount", data)
+
+  console.log(transactionsCount, walletsCount)
 
   return (
     <div className="space-y-4 sm:space-y-5">
@@ -98,7 +101,7 @@ const Page = () => {
           tabs={[
             {
               title: "Total transactions",
-              value: getTotalCount("transactionsCount", data),
+              value: transactionsCount?.toLocaleString() ?? "...",
               chart: (
                 <Line
                   options={{
@@ -120,7 +123,7 @@ const Page = () => {
             },
             {
               title: "Total wallets",
-              value: getTotalCount("walletsCount", data),
+              value: walletsCount?.toLocaleString() ?? "...",
               chart: (
                 <Line
                   options={{
@@ -141,8 +144,13 @@ const Page = () => {
               legend,
             },
             {
-              title: "Total balances",
-              value: "$2,320,021",
+              title: "Avg transactions per wallet",
+              value:
+                transactionsCount && walletsCount
+                  ? (transactionsCount / walletsCount)
+                      .toFixed(2)
+                      .toLocaleString()
+                  : "...",
               chart: <></>,
               legend,
             },
