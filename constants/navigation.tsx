@@ -44,11 +44,11 @@ export const subrouteMap = {
       href: "/users",
       icon: <UsersIcon />,
     },
-    {
-      name: "Blocked",
-      href: "/users/blocked",
-      icon: <NoSymbolIcon />,
-    },
+    // {
+    //   name: "Blocked",
+    //   href: "/users/blocked",
+    //   icon: <NoSymbolIcon />,
+    // },
   ],
   settings: [
     {
