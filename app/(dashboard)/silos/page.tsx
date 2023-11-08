@@ -32,7 +32,7 @@ ChartJS.register(
   Tooltip,
 )
 
-export const getAllSilosTotal = (
+const getAllSilosTotal = (
   key: "transactionsCount" | "walletsCount",
   data?: Transactions,
 ): number | undefined => data?.silos.reduce((acc, item) => acc + item[key], 0)
