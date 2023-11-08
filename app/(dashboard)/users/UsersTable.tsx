@@ -5,7 +5,6 @@ import Table from "@/components/Table"
 import { formatDate, formatTimeAgo, midTruncate } from "@/utils/helpers"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline"
 import DropdownMenu from "./DropdownMenu"
-import { useUsers } from "../../../utils/api/queries"
 import { Users } from "../../../types/types"
 import { useSearchParams } from "next/navigation"
 
@@ -14,7 +13,6 @@ const PER_PAGE = 20
 type UsersTableProps = {
   users: Users["users"]
   total: number
-  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 const UsersTable = ({ users, total }: UsersTableProps) => {

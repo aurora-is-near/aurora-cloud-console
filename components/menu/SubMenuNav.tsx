@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from "react"
 import { Silos } from "../icons"
 import Loader from "../Loader"
-import { useDeals, useSilos, useUsers } from "@/utils/api/queries"
+import { useDeals, useSilos, useUserDeals } from "@/utils/api/queries"
 
 const NavLoader = () => (
   <>
@@ -131,19 +131,19 @@ const SiloMenu = () => {
 }
 
 const UsersMenu = () => {
-  const { data: users, isInitialLoading } = useUsers()
+  const { data, isInitialLoading } = useUserDeals()
 
   if (isInitialLoading) return <NavLoader />
 
-  if (!users?.length) return null
+  if (!data?.deals.length) return null
 
   return (
     <ul role="list" className="space-y-4">
-      {users?.map((user) => (
-        <li key={user.href}>
+      {data.deals?.map((deal) => (
+        <li key={deal.id}>
           <SubMenuButton
-            href={"/users/" + user.href}
-            name={user.name}
+            href={`/users/${deal.slug}`}
+            name={deal.name}
             icon={<ClipboardDocumentCheckIcon />}
           />
         </li>

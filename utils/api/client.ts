@@ -1,6 +1,14 @@
 "use client"
 
-import { Silo, Deal, ApiKey, User, Transactions, Users } from "@/types/types"
+import {
+  Silo,
+  Deal,
+  ApiKey,
+  User,
+  Transactions,
+  Users,
+  UserDeals,
+} from "@/types/types"
 import { request } from "./request"
 
 export const apiClient = {
@@ -14,8 +22,13 @@ export const apiClient = {
 
   getSilos: async () => request<Silo[]>("/api/silos"),
 
-  getUsers: async (query: { limit?: number; offset?: number }) =>
-    request<Users>("/api/users", { query }),
+  getUsers: async (query: {
+    limit?: number
+    offset?: number
+    dealId?: string
+  }) => request<Users>("/api/users", { query }),
+
+  getUserDeals: async () => request<UserDeals>("/api/users/deals"),
 
   getDeals: async () => request<Deal[]>("/api/borealis/deals"),
 

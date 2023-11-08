@@ -43,14 +43,26 @@ export type Transactions = {
   }[]
 }
 
+export type UserDetails = {
+  walletAddress: string
+  transactionsCount: number
+  createdAt: string
+  lastTransactionAt: string
+}
+
 export type Users = {
   total: number
-  users: {
-    walletAddress: string
-    transactionsCount: number
-    createdAt: string
-    lastTransactionAt: string
-  }[]
+  users: UserDetails[]
+}
+
+export type UserDeal = {
+  id: string
+  name: string
+  slug: string
+}
+
+export type UserDeals = {
+  deals: UserDeal[]
 }
 
 export type User = Database["public"]["Tables"]["users"]["Row"]

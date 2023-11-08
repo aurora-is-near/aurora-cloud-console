@@ -14,11 +14,14 @@ export const GET = apiRequestHandler(
     const { searchParams } = req.nextUrl
     const limit = searchParams.get("limit") ?? 20
     const offset = searchParams.get("offset") ?? 0
+    const dealId = searchParams.get("dealId")
 
     const fromClause = "FROM tx_traces"
-    const whereClause = `WHERE chain_id IN ('${Object.keys(SILOS).join(
-      "','",
-    )}')`
+    let whereClause = `WHERE chain_id IN ('${Object.keys(SILOS).join("','")}')`
+
+    if (dealId) {
+      whereClause += ` AND deal = '${dealId}'`
+    }
 
     const results = await Promise.all([
       query<{
@@ -53,8 +56,6 @@ export const GET = apiRequestHandler(
         `,
       ),
     ])
-
-    console.log(results[1])
 
     return NextResponse.json({
       total: results[0].rows[0].count,
