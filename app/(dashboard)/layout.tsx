@@ -1,30 +1,10 @@
 import { ReactNode } from "react"
 import { Toaster } from "react-hot-toast"
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  TimeScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-} from "chart.js"
 import MainMenu from "@/components/menu/MainMenu"
 import MobileMenu from "@/components/menu/MobileMenu"
 import SubMenuNav from "@/components/menu/SubMenuNav"
 import PlanLimit from "./PlanLimit"
 import Providers from "./Providers"
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  TimeScale,
-  Title,
-  Tooltip,
-)
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (

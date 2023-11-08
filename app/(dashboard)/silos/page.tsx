@@ -1,6 +1,16 @@
 "use client"
 
 import "chartjs-adapter-date-fns"
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  TimeScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+} from "chart.js"
 import Heading from "@/components/Heading"
 import Contact from "@/components/Contact"
 import TabCharts from "@/components/TabCharts"
@@ -11,6 +21,16 @@ import { useState } from "react"
 import { CHART_DATE_OPTIONS } from "../../../constants/charts"
 import { getLineChartData } from "../../../utils/charts"
 import { Transactions } from "../../../types/types"
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  TimeScale,
+  Title,
+  Tooltip,
+)
 
 export const getAllSilosTotal = (
   key: "transactionsCount" | "walletsCount",
