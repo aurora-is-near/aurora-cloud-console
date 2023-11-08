@@ -34,6 +34,7 @@ const deals = [
 const silos = [
   {
     name: "Silo 1",
+    chainId: "1313161556",
     href: "silo-1",
     tokens: [
       {
@@ -51,6 +52,7 @@ const silos = [
   {
     name: "Silo 2",
     href: "silo-2",
+    chainId: "1313161557",
     tokens: [],
   },
 ]
@@ -74,6 +76,5 @@ export const getSiloById = async (id: string) => {
 }
 
 export const getSilos = async () => {
-  await sleep()
   return silos
 }

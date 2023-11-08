@@ -78,5 +78,8 @@ export const useUsers = (params?: {
 
 export const useUserDeals = () => useApiQuery("getUserDeals")
 
+export const useUsersExport = (params?: { dealId?: string }) =>
+  useApiQuery("getUsersExport", { params })
+
 export const useTransactions = (params?: { interval: string | null }) =>
   useApiQuery("getTransactions", { params })

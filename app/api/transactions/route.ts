@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { query } from "../../../utils/proxy-db"
+import { query } from "../../../utils/proxy-db/query"
 import { Transactions } from "../../../types/types"
-
-// TODO: replace with actual user's silos
-const SILOS = {
-  "1313161556": "Silo 1",
-  "1313161557": "Silo 2",
-}
+import { getSilos } from "../../../mockApi"
 
 const DEFAULT_CHART_INTERVAL = "6 MONTH"
 
@@ -78,17 +73,19 @@ const querySilo = async (chainId: string, interval: string | null) => {
 export const GET = apiRequestHandler(
   ["transactions:read"],
   async (req: NextRequest) => {
+    const silos = await getSilos()
+    const siloChainIds = silos.map((silo) => silo.chainId)
     const interval = req.nextUrl.searchParams.get("interval")
     const results = await Promise.all(
-      Object.keys(SILOS).map((chainId) => querySilo(chainId, interval)),
+      siloChainIds.map((chainId) => querySilo(chainId, interval)),
     )
 
     return NextResponse.json<Transactions>({
-      silos: Object.values(SILOS).map((label, siloIndex) => {
+      silos: silos.map((silo, siloIndex) => {
         const siloResults = results[siloIndex]
 
         return {
-          label,
+          label: silo.name,
           transactionsCount: siloResults[0].rows[0].count,
           walletsCount: siloResults[1].rows[0].count,
           transactionsPerDay: siloResults[2].rows,

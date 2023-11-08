@@ -30,6 +30,9 @@ export const apiClient = {
 
   getUserDeals: async () => request<UserDeals>("/api/users/deals"),
 
+  getUsersExport: async (query: { dealId?: string }) =>
+    request<Users>("/api/users/export", { query }),
+
   getDeals: async () => request<Deal[]>("/api/borealis/deals"),
 
   getTransactions: async (query: { interval?: string }) =>

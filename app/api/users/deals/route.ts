@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { query } from "../../../../utils/proxy-db"
+import { query } from "../../../../utils/proxy-db/query"
 import { UserDeals } from "../../../../types/types"
 import { capitalCase } from "change-case"
 

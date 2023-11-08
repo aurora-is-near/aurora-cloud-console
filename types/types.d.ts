@@ -50,6 +50,13 @@ export type UserDetails = {
   lastTransactionAt: string
 }
 
+export type UserDetailsQuery = {
+  wallet_address: string
+  transactions_count: number
+  created_at: string
+  last_transaction_at: string
+}
+
 export type Users = {
   total: number
   users: UserDetails[]
