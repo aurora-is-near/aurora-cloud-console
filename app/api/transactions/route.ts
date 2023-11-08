@@ -5,8 +5,8 @@ import { Transactions } from "../../../types/types"
 
 // TODO: replace with actual user's silos
 const SILOS = {
-  "1313161556": "Mainnet",
-  "1313161557": "Testnet",
+  "1313161556": "Silo 1",
+  "1313161557": "Silo 2",
 }
 
 const DEFAULT_CHART_INTERVAL = "6 MONTH"
