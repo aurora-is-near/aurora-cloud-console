@@ -1,3 +1,5 @@
+"use client"
+
 import Button from "@/components/Button"
 import Heading from "@/components/Heading"
 import { Cog8ToothIcon } from "@heroicons/react/20/solid"
@@ -6,12 +8,23 @@ import SearchInput from "./SearchInput"
 import UsersTable from "./UsersTable"
 import { Suspense } from "react"
 import TableLoader from "@/components/TableLoader"
+import { useUsers } from "../../../utils/api/queries"
+
+const PER_PAGE = 20
 
 const Page = ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) => {
+  const page =
+    typeof searchParams.page === "string" ? Number(searchParams.page) : 1
+
+  const { data, isLoading } = useUsers({
+    limit: PER_PAGE,
+    offset: (page - 1) * PER_PAGE,
+  })
+
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined
 
@@ -27,7 +40,7 @@ const Page = ({
         <div className="flex space-x-3.5">
           <Heading tag="h2">All users</Heading>
           <Heading tag="span" textColorClassName="text-gray-400">
-            5,423
+            {data?.total.toLocaleString()}
           </Heading>
         </div>
         <div className="flex items-start sm:flex-row flex-col-reverse gap-3">
@@ -47,9 +60,11 @@ const Page = ({
       </header>
 
       <section>
-        <Suspense fallback={<TableLoader />}>
-          <UsersTable searchParams={searchParams} />
-        </Suspense>
+        {!data || isLoading ? (
+          <TableLoader />
+        ) : (
+          <UsersTable users={data.users} total={data.total} />
+        )}
       </section>
     </div>
   )

@@ -43,6 +43,16 @@ export type Transactions = {
   }[]
 }
 
+export type Users = {
+  total: number
+  users: {
+    walletAddress: string
+    transactionsCount: number
+    createdAt: string
+    lastTransactionAt: string
+  }[]
+}
+
 export type User = Database["public"]["Tables"]["users"]["Row"]
 
 export type PublicApiScope = Database["public"]["Enums"]["api_key_scopes"]
