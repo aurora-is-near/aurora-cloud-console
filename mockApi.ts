@@ -1,3 +1,5 @@
+import { Silo } from "./types/types"
+
 const deals = [
   {
     id: "uuid-1",
@@ -31,11 +33,11 @@ const deals = [
   },
 ]
 
-const silos = [
+const silos: Silo[] = [
   {
+    id: "silo-1",
     name: "Silo 1",
     chainId: "1313161556",
-    href: "silo-1",
     tokens: [
       {
         name: "AURORA",
@@ -50,8 +52,8 @@ const silos = [
     ],
   },
   {
+    id: "silo-2",
     name: "Silo 2",
-    href: "silo-2",
     chainId: "1313161557",
     tokens: [],
   },
@@ -72,7 +74,7 @@ export const getDeals = async () => {
 
 export const getSiloById = async (id: string) => {
   await sleep()
-  return silos.find((silo) => silo.href === id)
+  return silos.find((silo) => silo.id === id)
 }
 
 export const getSilos = async () => {

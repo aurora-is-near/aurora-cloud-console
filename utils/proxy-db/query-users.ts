@@ -20,7 +20,7 @@ const getWhereClause = (chainIds: string[], params: Params) => {
 }
 
 export const queryUsers = async (chainIds: string[], params: Params) => {
-  const { limit, offset = 0 } = params
+  const { limit, offset } = params
   const whereClause = getWhereClause(chainIds, params)
 
   return query<UserDetailsQuery>(

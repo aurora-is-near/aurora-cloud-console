@@ -1,15 +1,22 @@
+"use client"
+
 import Chart from "../../Chart"
 import Contact from "@/components/Contact"
-import { Suspense } from "react"
-import ChartsLoader from "@/components/ChartsLoader"
-import Charts from "./Charts"
+import { useSilo, useSiloTransactions } from "../../../../../utils/api/queries"
+import TransactionsCharts from "../../TransactionsCharts"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
+  const { data: silo } = useSilo(id)
+  const { data: transactions } = useSiloTransactions(id)
+
   return (
     <div className="space-y-4 sm:space-y-5">
-      <Suspense fallback={<ChartsLoader />}>
-        <Charts siloId={id} />
-      </Suspense>
+      <section>
+        <TransactionsCharts
+          title={silo?.name ?? ""}
+          transactions={transactions}
+        />
+      </section>
 
       <section className="grid md:grid-cols-2 gap-y-5 gap-x-2.5">
         <Chart

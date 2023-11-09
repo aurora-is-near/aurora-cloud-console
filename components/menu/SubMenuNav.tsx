@@ -108,7 +108,7 @@ const SiloMenu = () => {
         >
           <option disabled>Select silo</option>
           {silos.map((silo) => (
-            <option key={silo.href} value={silo.href}>
+            <option key={silo.id} value={silo.id}>
               {silo.name}
             </option>
           ))}

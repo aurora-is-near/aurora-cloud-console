@@ -17,18 +17,21 @@ export type Deal = {
   name: string
 }
 
-export type Silo = {
-  href: string
+export type Token = {
   name: string
+  address: string
+  type: string
 }
 
-export type List = {
-  href: string
+export type Silo = {
+  id: string
   name: string
+  chainId: string
+  tokens: Token[]
 }
 
 export type Transactions = {
-  silos: {
+  items: {
     label: string
     transactionsCount: number
     walletsCount: number

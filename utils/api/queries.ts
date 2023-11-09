@@ -66,6 +66,11 @@ export const useApiKey = (id?: number) =>
     enabled: typeof id !== "undefined",
   })
 
+export const useSilo = (slug: string) =>
+  useApiQuery("getSilo", {
+    params: { slug },
+  })
+
 export const useSilos = () => useApiQuery("getSilos")
 
 export const useDeals = () => useApiQuery("getDeals")
@@ -83,3 +88,8 @@ export const useUsersExport = (params?: { dealId?: string }) =>
 
 export const useTransactions = (params?: { interval: string | null }) =>
   useApiQuery("getTransactions", { params })
+
+export const useSiloTransactions = (slug: string) =>
+  useApiQuery("getSiloTransactions", {
+    params: { slug },
+  })

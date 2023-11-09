@@ -20,6 +20,9 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
+  getSilo: async ({ slug }: { slug: string }) =>
+    request<Silo>(`/api/silos/${slug}`),
+
   getSilos: async () => request<Silo[]>("/api/silos"),
 
   getUsers: async (query: {
@@ -37,6 +40,9 @@ export const apiClient = {
 
   getTransactions: async (query: { interval?: string }) =>
     request<Transactions>("/api/transactions", { query }),
+
+  getSiloTransactions: async (query: { slug: string }) =>
+    request<Transactions>(`/api/transactions/silos/${query.slug}`),
 
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 
