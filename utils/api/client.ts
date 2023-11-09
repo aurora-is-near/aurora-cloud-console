@@ -10,6 +10,7 @@ import {
   UserDeals,
 } from "@/types/types"
 import { request } from "./request"
+import { query } from "../proxy-db/query"
 
 export const apiClient = {
   getCurrentUser: async () => request<User>("/api/admin/user"),
@@ -20,8 +21,7 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
-  getSilo: async ({ slug }: { slug: string }) =>
-    request<Silo>(`/api/silos/${slug}`),
+  getSilo: async ({ id }: { id: string }) => request<Silo>(`/api/silos/${id}`),
 
   getSilos: async () => request<Silo[]>("/api/silos"),
 
@@ -41,8 +41,13 @@ export const apiClient = {
   getTransactions: async (query: { interval?: string }) =>
     request<Transactions>("/api/transactions", { query }),
 
-  getSiloTransactions: async (query: { slug: string }) =>
-    request<Transactions>(`/api/transactions/silos/${query.slug}`),
+  getSiloTransactions: async ({
+    id,
+    ...query
+  }: {
+    id: string
+    interval?: string
+  }) => request<Transactions>(`/api/transactions/silos/${id}`, { query }),
 
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 

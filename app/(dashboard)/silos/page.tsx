@@ -7,12 +7,10 @@ import { useTransactions } from "../../../utils/api/queries"
 import { useState } from "react"
 import { CHART_DATE_OPTIONS } from "../../../constants/charts"
 import TransactionsCharts from "./TransactionsCharts"
+import { useChartInterval } from "../../../hooks/useChartInterval"
 
 const Page = () => {
-  const [interval, setInterval] = useState<string | null>(
-    CHART_DATE_OPTIONS[0].value,
-  )
-
+  const [interval, setInterval] = useChartInterval()
   const { data } = useTransactions({ interval })
 
   return (

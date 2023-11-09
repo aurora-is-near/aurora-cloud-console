@@ -4,10 +4,14 @@ import Chart from "../../Chart"
 import Contact from "@/components/Contact"
 import { useSilo, useSiloTransactions } from "../../../../../utils/api/queries"
 import TransactionsCharts from "../../TransactionsCharts"
+import { useState } from "react"
+import { CHART_DATE_OPTIONS } from "../../../../../constants/charts"
+import { useChartInterval } from "../../../../../hooks/useChartInterval"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
-  const { data: silo } = useSilo(id)
-  const { data: transactions } = useSiloTransactions(id)
+  const [interval, setInterval] = useChartInterval()
+  const { data: silo } = useSilo({ id })
+  const { data: transactions } = useSiloTransactions({ id, interval })
 
   return (
     <div className="space-y-4 sm:space-y-5">
@@ -15,6 +19,8 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         <TransactionsCharts
           title={silo?.name ?? ""}
           transactions={transactions}
+          interval={interval}
+          setInterval={setInterval}
         />
       </section>
 
