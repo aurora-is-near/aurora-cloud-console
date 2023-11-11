@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getSilos } from "@/mockApi"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { notFound } from "next/navigation"
 import { Silo } from "../../../../types/types"
+import { abort } from "../../../../utils/abort"
 
 export const GET = apiRequestHandler(
   ["silos:read"],
@@ -11,7 +11,7 @@ export const GET = apiRequestHandler(
     const silo = silos.find((silo) => silo.id === ctx.params.id)
 
     if (!silo) {
-      notFound()
+      abort(404)
     }
 
     return NextResponse.json<Silo>(silo)
