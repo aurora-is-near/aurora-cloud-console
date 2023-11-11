@@ -9,6 +9,8 @@ const pool = new Pool({
   database: process.env.PROXY_DB_DATABASE,
 })
 
+const SLOW_QUERY_THRESHOLD = 2000
+
 export const query = async <TRow extends QueryResultRow>(
   text: string,
   params?: string[],
@@ -25,7 +27,7 @@ export const query = async <TRow extends QueryResultRow>(
 
   const duration = Date.now() - start
 
-  if (duration >= 1000) {
+  if (duration >= SLOW_QUERY_THRESHOLD) {
     console.warn(`Proxy DB slow query detected: ${duration}ms\n${text}`)
   }
 
