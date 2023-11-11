@@ -31,102 +31,39 @@ ChartJS.register(
   Tooltip,
 )
 
-type TransactionsChartsTypeWithoutId = "deals" | "silos"
-type TransactionsChartsTypeWithId = "deal" | "silo"
-type TransactionsChartsType =
-  | TransactionsChartsTypeWithId
-  | TransactionsChartsTypeWithoutId
-
-type TransactionsChartsProps =
-  | { type: TransactionsChartsTypeWithId; id: string }
-  | { type: TransactionsChartsTypeWithoutId; id?: never }
+type TransactionsChartsProps = {
+  title: string
+  transactions?: Transactions
+  interval?: string | null
+  setInterval?: (value: string | null) => void
+}
 
 const getTotalCount = (
   key: "transactionsCount" | "walletsCount",
   data?: Transactions,
 ): number | undefined => data?.items.reduce((acc, item) => acc + item[key], 0)
 
-const getTransactions = async (
-  type: TransactionsChartsType,
-  id?: string,
-  interval?: string,
-): Promise<Transactions> => {
-  if (type === "deals") {
-    return apiClient.getDealsTransactions({ interval })
-  }
-
-  if (type === "silos") {
-    return apiClient.getSilosTransactions({ interval })
-  }
-
-  if (typeof id !== "string") {
-    throw new Error(`Invalid id "${id}" for type "${type}"`)
-  }
-
-  if (type === "deal") {
-    return apiClient.getDealTransactions({ id, interval })
-  }
-
-  if (type === "silo") {
-    return apiClient.getSiloTransactions({ id, interval })
-  }
-
-  throw new Error(`Invalid type: ${type}`)
-}
-
-const getTitle = async (
-  type: TransactionsChartsType,
-  id?: string,
-): Promise<string> => {
-  if (["deals", "silos"].includes(type)) {
-    return "Summary"
-  }
-
-  if (typeof id !== "string") {
-    throw new Error(`Invalid id "${id}" for type "${type}"`)
-  }
-
-  if (type === "deal") {
-    return (await apiClient.getDeal({ id })).name
-  }
-
-  if (type === "silo") {
-    return (await apiClient.getSilo({ id })).name
-  }
-
-  throw new Error(`Invalid type: ${type}`)
-}
-
-const TransactionsCharts = ({ id, type }: TransactionsChartsProps) => {
-  const [selectedDateOption, setSelectedDateOption] = useState(
-    CHART_DATE_OPTIONS[0].value,
-  )
-
-  const interval = selectedDateOption ?? undefined
-  const { data: transactions, isLoading: isTransactionsLoading } = useQuery({
-    queryKey: ["transactions", type, interval, id],
-    queryFn: () => getTransactions(type, id, interval),
-  })
-
-  const { data: title } = useQuery({
-    queryKey: ["title", type, id],
-    queryFn: () => getTitle(type, id),
-  })
-
+const TransactionsCharts = ({
+  title,
+  transactions,
+  interval,
+  setInterval,
+}: TransactionsChartsProps) => {
   const legend = transactions?.items.map(({ label }) => label) ?? []
   const transactionsCount = getTotalCount("transactionsCount", transactions)
   const walletsCount = getTotalCount("walletsCount", transactions)
+  const isLoading = !transactions
 
   return (
     <TabCharts
       dateOptions={CHART_DATE_OPTIONS}
-      selectedDateOption={selectedDateOption}
-      onDateOptionChange={setSelectedDateOption}
+      selectedDateOption={interval}
+      onDateOptionChange={setInterval}
       tabs={[
         {
           title: "Total transactions",
           value: transactionsCount?.toLocaleString() ?? "...",
-          chart: isTransactionsLoading ? null : (
+          chart: isLoading ? null : (
             <Line
               options={{
                 responsive: true,
@@ -148,7 +85,7 @@ const TransactionsCharts = ({ id, type }: TransactionsChartsProps) => {
         {
           title: "Total wallets",
           value: walletsCount?.toLocaleString() ?? "...",
-          chart: isTransactionsLoading ? null : (
+          chart: isLoading ? null : (
             <Line
               options={{
                 responsive: true,

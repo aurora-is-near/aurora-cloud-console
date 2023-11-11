@@ -1,12 +1,28 @@
+"use client"
+
 import Chart from "../../Chart"
 import Contact from "@/components/Contact"
 import TransactionsCharts from "../../TransactionsCharts"
+import { useChartInterval } from "../../../../../hooks/useChartInterval"
+import { useSilo, useSiloTransactions } from "../../../../../utils/api/queries"
+import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
+  const [interval, setInterval] = useChartInterval()
+  const { data: silo, error } = useSilo({ id })
+  const { data: transactions } = useSiloTransactions({ id, interval })
+
+  useNotFoundError(error)
+
   return (
     <div className="space-y-4 sm:space-y-5">
       <section>
-        <TransactionsCharts type="silo" id={id} />
+        <TransactionsCharts
+          title={silo?.name ?? ""}
+          transactions={transactions}
+          interval={interval}
+          setInterval={setInterval}
+        />
       </section>
 
       <section className="grid md:grid-cols-2 gap-y-5 gap-x-2.5">

@@ -1,3 +1,5 @@
+"use client"
+
 import Card from "@/components/Card"
 import Button from "@/components/Button"
 import { PlusIcon } from "@heroicons/react/20/solid"
@@ -9,13 +11,27 @@ import Contact from "@/components/Contact"
 import AddContractButton from "./AddContractButton"
 import AddListButton from "./AddListButton"
 import TransactionsCharts from "../../../silos/TransactionsCharts"
+import { useChartInterval } from "../../../../../hooks/useChartInterval"
+import { useDeal, useDealTransactions } from "../../../../../utils/api/queries"
+import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
+  const [interval, setInterval] = useChartInterval()
+  const { data: silo, error } = useDeal({ id })
+  const { data: transactions } = useDealTransactions({ id, interval })
+
+  useNotFoundError(error)
+
   return (
     <>
       <div className="space-y-4 sm:space-y-5">
         <section>
-          <TransactionsCharts type="deal" id={id} />
+          <TransactionsCharts
+            title={silo?.name ?? ""}
+            interval={interval}
+            setInterval={setInterval}
+            transactions={transactions}
+          />
         </section>
 
         <Card tag="section">
