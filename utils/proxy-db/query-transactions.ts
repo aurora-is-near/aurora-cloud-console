@@ -8,8 +8,11 @@ type Params = {
 const FROM_CLAUSE = "FROM tx_traces"
 const DEFAULT_CHART_INTERVAL = "6 MONTH"
 
-const getWhereClause = (chainId: string, { interval, dealId }: Params) => {
-  let whereClause = `WHERE chain_id = '${chainId}'`
+const getWhereClause = (chainIds: string[], { interval, dealId }: Params) => {
+  let whereClause =
+    chainIds.length === 1
+      ? `WHERE chain_id = '${chainIds[0]}'`
+      : `WHERE chain_id IN ('${chainIds.join("','")}')`
 
   if (interval) {
     whereClause += ` AND "req_time" BETWEEN current_date - INTERVAL '${interval}' AND current_date - 1`
@@ -22,10 +25,10 @@ const getWhereClause = (chainId: string, { interval, dealId }: Params) => {
   return whereClause
 }
 
-export const queryTransactions = async (chainId: string, params: Params) => {
+export const queryTransactions = async (chainIds: string[], params: Params) => {
   const { interval, ...restParams } = params
-  const countWhereClause = getWhereClause(chainId, restParams)
-  const chartWhereClause = getWhereClause(chainId, {
+  const countWhereClause = getWhereClause(chainIds, restParams)
+  const chartWhereClause = getWhereClause(chainIds, {
     ...restParams,
     interval: interval ?? DEFAULT_CHART_INTERVAL,
   })

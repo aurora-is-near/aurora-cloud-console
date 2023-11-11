@@ -73,6 +73,9 @@ export const useSilo = (params: { id: string }) =>
 
 export const useSilos = () => useApiQuery("getSilos")
 
+export const useDeal = (params: { id: string }) =>
+  useApiQuery("getDeal", { params })
+
 export const useDeals = () => useApiQuery("getDeals")
 
 export const useUsers = (params?: {
@@ -81,18 +84,29 @@ export const useUsers = (params?: {
   dealId?: string
 }) => useApiQuery("getUsers", { params })
 
-export const useUserDeals = () => useApiQuery("getUserDeals")
-
 export const useUsersExport = (params?: { dealId?: string }) =>
   useApiQuery("getUsersExport", { params })
 
-export const useTransactions = (params?: { interval: string | null }) =>
-  useApiQuery("getTransactions", { params })
+export const useSilosTransactions = (params?: { interval: string | null }) =>
+  useApiQuery("getSilosTransactions", { params })
 
 export const useSiloTransactions = (params: {
   id: string
   interval?: string | null
 }) =>
   useApiQuery("getSiloTransactions", {
+    params,
+  })
+
+export const useDealTransactions = (params: {
+  id: string
+  interval?: string | null
+}) =>
+  useApiQuery("getDealTransactions", {
+    params,
+  })
+
+export const useDealsTransactions = (params: { interval?: string | null }) =>
+  useApiQuery("getDealsTransactions", {
     params,
   })

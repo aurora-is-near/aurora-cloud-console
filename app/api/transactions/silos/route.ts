@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { Transactions } from "../../../types/types"
-import { getSilos } from "../../../mockApi"
-import { queryTransactions } from "../../../utils/proxy-db/query-transactions"
+import { Transactions } from "../../../../types/types"
+import { getSilos } from "../../../../mockApi"
+import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
@@ -11,7 +11,7 @@ export const GET = apiRequestHandler(
     const siloChainIds = silos.map((silo) => silo.chainId)
     const interval = req.nextUrl.searchParams.get("interval")
     const results = await Promise.all(
-      siloChainIds.map((chainId) => queryTransactions(chainId, { interval })),
+      siloChainIds.map((chainId) => queryTransactions([chainId], { interval })),
     )
 
     return NextResponse.json<Transactions>({

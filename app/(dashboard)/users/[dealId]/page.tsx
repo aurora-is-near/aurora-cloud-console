@@ -2,12 +2,15 @@
 
 import { useParams, notFound } from "next/navigation"
 import UsersList from "../UsersList"
-import { useUserDeals } from "../../../../utils/api/queries"
+import { useDeals } from "../../../../utils/api/queries"
 
 const Page = () => {
   const params = useParams()
-  const { data } = useUserDeals()
-  const deal = data?.deals?.find((deal) => deal.slug === params.slug)
+  const { data } = useDeals()
+
+  const deal = data?.deals?.find(
+    (deal) => encodeURIComponent(deal.id) === params.dealId,
+  )
 
   if (data && !deal) {
     notFound()

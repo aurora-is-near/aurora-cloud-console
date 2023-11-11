@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from "react"
 import { Silos } from "../icons"
 import Loader from "../Loader"
-import { useDeals, useSilos, useUserDeals } from "@/utils/api/queries"
+import { useDeals, useSilos } from "@/utils/api/queries"
 
 const NavLoader = () => (
   <>
@@ -28,18 +28,18 @@ const NavLoader = () => (
 const MenuDivider = () => <div className="w-full h-px bg-gray-200" />
 
 const BorealisMenu = () => {
-  const { data: deals, isInitialLoading } = useDeals()
+  const { data, isInitialLoading } = useDeals()
 
   if (isInitialLoading) return <NavLoader />
 
-  if (!deals?.length) return null
+  if (!data?.deals.length) return null
 
   return (
     <ul role="list" className="space-y-4">
-      {deals?.map((deal) => (
+      {data.deals.map((deal) => (
         <li key={deal.id}>
           <SubMenuButton
-            href={"/borealis/deals/" + deal.id}
+            href={`/borealis/deals/${encodeURIComponent(deal.id)}`}
             name={deal.name}
             icon={<ClipboardDocumentCheckIcon />}
           />
@@ -131,18 +131,18 @@ const SiloMenu = () => {
 }
 
 const UsersMenu = () => {
-  const { data, isInitialLoading } = useUserDeals()
+  const { data, isInitialLoading } = useDeals()
 
   if (isInitialLoading) return <NavLoader />
 
-  if (!data?.deals.length) return null
+  if (!data?.deals?.length) return null
 
   return (
     <ul role="list" className="space-y-4">
-      {data.deals?.map((deal) => (
+      {data.deals.map((deal) => (
         <li key={deal.id}>
           <SubMenuButton
-            href={`/users/${deal.slug}`}
+            href={`/users/${encodeURIComponent(deal.id)}`}
             name={deal.name}
             icon={<ClipboardDocumentCheckIcon />}
           />

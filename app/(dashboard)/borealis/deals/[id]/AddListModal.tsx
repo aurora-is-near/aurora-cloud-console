@@ -6,7 +6,6 @@ import { Modals, useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { addList as addListAction } from "./actions/add-list"
-import { sleep } from "@/mockApi"
 import { useParams } from "next/navigation"
 
 type Inputs = {
@@ -26,8 +25,6 @@ const AddListModal = () => {
   const { id } = useParams()
 
   const addList: SubmitHandler<Inputs> = async ({ name, address }) => {
-    console.log(name, address)
-    await sleep()
     const res = await addListAction(id as string, name, address)
 
     // TODO: check response, show error or success

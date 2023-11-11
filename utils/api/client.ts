@@ -7,10 +7,9 @@ import {
   User,
   Transactions,
   Users,
-  UserDeals,
+  Deals,
 } from "@/types/types"
 import { request } from "./request"
-import { query } from "../proxy-db/query"
 
 export const apiClient = {
   getCurrentUser: async () => request<User>("/api/admin/user"),
@@ -31,15 +30,15 @@ export const apiClient = {
     dealId?: string
   }) => request<Users>("/api/users", { query }),
 
-  getUserDeals: async () => request<UserDeals>("/api/users/deals"),
-
   getUsersExport: async (query: { dealId?: string }) =>
     request<Users>("/api/users/export", { query }),
 
-  getDeals: async () => request<Deal[]>("/api/borealis/deals"),
+  getDeals: async () => request<Deals>("/api/deals"),
 
-  getTransactions: async (query: { interval?: string }) =>
-    request<Transactions>("/api/transactions", { query }),
+  getDeal: async ({ id }: { id: string }) => request<Deal>(`/api/deals/${id}`),
+
+  getSilosTransactions: async (query?: { interval?: string }) =>
+    request<Transactions>("/api/transactions/silos", { query }),
 
   getSiloTransactions: async ({
     id,
@@ -48,6 +47,17 @@ export const apiClient = {
     id: string
     interval?: string
   }) => request<Transactions>(`/api/transactions/silos/${id}`, { query }),
+
+  getDealsTransactions: async (query?: { interval?: string }) =>
+    request<Transactions>("/api/transactions/deals", { query }),
+
+  getDealTransactions: async ({
+    id,
+    ...query
+  }: {
+    id: string
+    interval?: string
+  }) => request<Transactions>(`/api/transactions/deals/${id}`, { query }),
 
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 

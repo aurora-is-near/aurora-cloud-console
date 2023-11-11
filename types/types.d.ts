@@ -65,14 +65,8 @@ export type Users = {
   users: UserDetails[]
 }
 
-export type UserDeal = {
-  id: string
-  name: string
-  slug: string
-}
-
-export type UserDeals = {
-  deals: UserDeal[]
+export type Deals = {
+  deals: Deal[]
 }
 
 export type User = Database["public"]["Tables"]["users"]["Row"]

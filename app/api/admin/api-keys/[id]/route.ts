@@ -4,7 +4,7 @@ import { adminSupabase } from "@/utils/supabase"
 
 export const GET = apiRequestHandler(
   ["admin"],
-  async (req: NextRequest, ctx: ApiRequestContext) => {
+  async (_req: NextRequest, ctx: ApiRequestContext) => {
     const apiKeyId = ctx.params.id
 
     const supabase = adminSupabase()

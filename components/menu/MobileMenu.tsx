@@ -25,7 +25,7 @@ const navigation = [...mainNavigation, ...mainExtraNavigation]
 const SubrouteMenu = () => {
   const [route] = useSelectedLayoutSegments()
   const subroutes = subrouteMap[route as SubrouteKeys] ?? []
-  const { data: deals } = useDeals()
+  const { data } = useDeals()
 
   return (
     <nav className="mt-6 flex-1 pt-6 border-t border-gray-800 space-y-2">
@@ -37,9 +37,9 @@ const SubrouteMenu = () => {
         ))}
       </ul>
 
-      {route === "borealis" && !!deals?.length ? (
+      {route === "borealis" && !!data?.deals.length ? (
         <ul role="list" className="space-y-2">
-          {deals.map((deal) => (
+          {data.deals.map((deal) => (
             <li key={deal.id}>
               <MobileSubMenuButton
                 href={"/borealis/deals/" + deal.id}

@@ -1,9 +1,10 @@
-import { Silo } from "./types/types"
+import { Deal, Silo } from "./types/types"
 
-const deals = [
+// The `id` maps to a column in the Proxy DB test data.
+const deals: Deal[] = [
   {
-    id: "uuid-1",
-    name: "A very big deal",
+    id: "basic plan",
+    name: "Basic Plan",
     created_at: "2023-06-03T12:00:00.000Z",
     contracts: [
       {
@@ -17,8 +18,8 @@ const deals = [
     ],
   },
   {
-    id: "uuid-2",
-    name: "Another deal",
+    id: "premium plan",
+    name: "Premium Plan",
     created_at: "2023-05-23T12:00:00.000Z",
     contracts: [
       {
@@ -59,21 +60,15 @@ const silos: Silo[] = [
   },
 ]
 
-export const sleep = async (ms: number = 2500) =>
-  new Promise((r) => setTimeout(r, ms))
-
 export const getDealById = async (id: string) => {
-  await sleep()
   return deals.find((deal) => deal.id === id)
 }
 
 export const getDeals = async () => {
-  await sleep()
   return deals
 }
 
 export const getSiloById = async (id: string) => {
-  await sleep()
   return silos.find((silo) => silo.id === id)
 }
 
