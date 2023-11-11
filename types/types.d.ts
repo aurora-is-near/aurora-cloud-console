@@ -30,20 +30,22 @@ export type Silo = {
   tokens: Token[]
 }
 
-export type Transactions = {
-  items: {
-    label: string
-    transactionsCount: number
-    walletsCount: number
-    transactionsPerDay: {
-      day: string
-      count: number
-    }[]
-    walletsPerDay: {
-      day: string
-      count: number
-    }[]
+type TransactionChart = {
+  label: string
+  transactionsCount: number
+  walletsCount: number
+  transactionsPerDay: {
+    day: string
+    count: number
   }[]
+  walletsPerDay: {
+    day: string
+    count: number
+  }[]
+}
+
+export type Transactions = {
+  items: TransactionChart[]
 }
 
 export type UserDetails = {

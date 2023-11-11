@@ -5,6 +5,7 @@ import { getSilos } from "../../../../../mockApi"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
 import { query } from "../../../../../utils/proxy-db/query"
 import { abort } from "../../../../../utils/abort"
+import { getTransactionsChart } from "../../../../../utils/transactions"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
@@ -37,15 +38,7 @@ export const GET = apiRequestHandler(
     })
 
     return NextResponse.json<Transactions>({
-      items: [
-        {
-          label: dealsResult.rows[0].deal,
-          transactionsCount: results[0].rows[0].count,
-          walletsCount: results[1].rows[0].count,
-          transactionsPerDay: results[2].rows,
-          walletsPerDay: results[3].rows,
-        },
-      ],
+      items: [getTransactionsChart(dealsResult.rows[0].deal, results)],
     })
   },
 )
