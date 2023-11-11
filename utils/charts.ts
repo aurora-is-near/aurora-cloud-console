@@ -22,6 +22,7 @@ export const getLineChartData = (key: DailyMetricKey, data?: Transactions) => {
         data: silo[key].map(({ count }) => count),
         borderColor: getChartColor(index),
         backgroundColor: getChartColor(index),
+        tension: 0.3,
       })) ?? [],
   }
 }

@@ -1,4 +1,5 @@
 import { Pool, QueryResult, QueryResultRow } from "pg"
+import { toError } from "../errors"
 
 const pool = new Pool({
   host: process.env.PROXY_DB_HOST,
@@ -13,10 +14,20 @@ export const query = async <TRow extends QueryResultRow>(
   params?: string[],
 ): Promise<QueryResult<TRow>> => {
   const start = Date.now()
-  const res = await pool.query<TRow>(text, params)
+  let res
+
+  try {
+    res = await pool.query<TRow>(text, params)
+  } catch (err) {
+    console.error(`Proxy DB query error: ${toError(err).message}'\n${text}`)
+    throw err
+  }
+
   const duration = Date.now() - start
 
-  console.debug(`Proxy DB query (duration: ${duration}ms): ${text}`)
+  if (duration >= 1000) {
+    console.warn(`Proxy DB slow query detected: ${duration}ms\n${text}`)
+  }
 
   return res
 }
