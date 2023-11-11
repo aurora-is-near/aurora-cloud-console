@@ -104,7 +104,7 @@ const TransactionsCharts = ({ id, type }: TransactionsChartsProps) => {
   )
 
   const interval = selectedDateOption ?? undefined
-  const { data: transactions } = useQuery({
+  const { data: transactions, isLoading: isTransactionsLoading } = useQuery({
     queryKey: ["transactions", type, interval, id],
     queryFn: () => getTransactions(type, id, interval),
   })
@@ -127,7 +127,7 @@ const TransactionsCharts = ({ id, type }: TransactionsChartsProps) => {
         {
           title: "Total transactions",
           value: transactionsCount?.toLocaleString() ?? "...",
-          chart: (
+          chart: isTransactionsLoading ? null : (
             <Line
               options={{
                 responsive: true,
@@ -149,7 +149,7 @@ const TransactionsCharts = ({ id, type }: TransactionsChartsProps) => {
         {
           title: "Total wallets",
           value: walletsCount?.toLocaleString() ?? "...",
-          chart: (
+          chart: isTransactionsLoading ? null : (
             <Line
               options={{
                 responsive: true,

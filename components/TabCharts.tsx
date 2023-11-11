@@ -117,7 +117,12 @@ const TabCharts = <T extends unknown>({
               <Tab.Panel key={title}>
                 <div className="px-4 pt-5 pb-5 md:pb-6 sm:px-5 md:px-6 h-[400px]">
                   {chart ?? (
-                    <div className="w-full bg-gray-200 rounded-md h-44" />
+                    <div className="flex h-full w-full items-center justify-center">
+                      <div
+                        className="w-12 h-12 border-2 border-gray-500 rounded-full animate-spin"
+                        style={{ borderRightColor: "transparent" }}
+                      />
+                    </div>
                   )}
                 </div>
                 <div className="px-1 pb-1">
