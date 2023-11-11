@@ -17,10 +17,9 @@ import { Line } from "react-chartjs-2"
 import { CHART_DATE_OPTIONS } from "../../../constants/charts"
 import { getLineChartData } from "../../../utils/charts"
 import { Transactions } from "../../../types/types"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { apiClient } from "../../../utils/api/client"
 import { useQuery } from "@tanstack/react-query"
-import { notFound } from "next/navigation"
 
 ChartJS.register(
   CategoryScale,
