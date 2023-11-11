@@ -15,7 +15,7 @@ const getWhereClause = (chainIds: string[], { interval, dealId }: Params) => {
       : `WHERE chain_id IN ('${chainIds.join("','")}')`
 
   if (interval) {
-    whereClause += ` AND "req_time" BETWEEN current_date - INTERVAL '${interval}' AND current_date - 1`
+    whereClause += ` AND req_time >= current_date - INTERVAL '${interval}' AND req_time < current_date`
   }
 
   if (dealId) {
