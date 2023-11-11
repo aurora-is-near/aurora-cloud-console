@@ -8,7 +8,6 @@ import RulesList from "./RulesList"
 import Contact from "@/components/Contact"
 import AddContractButton from "./AddContractButton"
 import AddListButton from "./AddListButton"
-import ListItemLoader from "@/components/ListItemLoader"
 import TransactionsCharts from "../../../silos/TransactionsCharts"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
