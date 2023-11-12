@@ -36,11 +36,10 @@ const getWhereClause = (chainIds: string[], { interval, dealId }: Params) => {
 }
 
 export const queryTransactions = async (chainIds: string[], params: Params) => {
-  const { interval, ...restParams } = params
-  const countWhereClause = getWhereClause(chainIds, restParams)
+  const countWhereClause = getWhereClause(chainIds, params)
   const chartWhereClause = getWhereClause(chainIds, {
-    ...restParams,
-    interval: interval ?? DEFAULT_CHART_INTERVAL,
+    ...params,
+    interval: params.interval ?? DEFAULT_CHART_INTERVAL,
   })
 
   return Promise.all([
