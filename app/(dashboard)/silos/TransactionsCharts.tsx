@@ -54,6 +54,12 @@ const TransactionsCharts = ({
   const walletsCount = getTotalCount("walletsCount", transactions)
   const isLoading = !transactions
 
+  const walletsPerDayData = getLineChartData("walletsPerDay", transactions)
+  const transactionsPerDayData = getLineChartData(
+    "transactionsPerDay",
+    transactions,
+  )
+
   return (
     <TabCharts
       dateOptions={CHART_DATE_OPTIONS}
@@ -77,7 +83,7 @@ const TransactionsCharts = ({
                   },
                 },
               }}
-              data={getLineChartData("transactionsPerDay", transactions)}
+              data={transactionsPerDayData}
             />
           ),
           legend,
@@ -99,7 +105,7 @@ const TransactionsCharts = ({
                   },
                 },
               }}
-              data={getLineChartData("walletsPerDay", transactions)}
+              data={walletsPerDayData}
             />
           ),
           legend,
@@ -110,7 +116,38 @@ const TransactionsCharts = ({
             transactionsCount && walletsCount
               ? (transactionsCount / walletsCount).toFixed(2).toLocaleString()
               : "...",
-          chart: <></>,
+          chart: isLoading ? null : (
+            <Line
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                  x: {
+                    type: "time",
+                    time: {
+                      unit: "month",
+                    },
+                  },
+                },
+              }}
+              data={{
+                labels: transactionsPerDayData.labels,
+                datasets: transactionsPerDayData.datasets.map(
+                  (dataset, datasetIndex) => ({
+                    ...dataset,
+                    data: dataset.data.map((dailyTx, valueIndex) => {
+                      const dailyWallets =
+                        walletsPerDayData.datasets[datasetIndex].data[
+                          valueIndex
+                        ]
+
+                      return (dailyTx / dailyWallets).toFixed(2)
+                    }),
+                  }),
+                ),
+              }}
+            />
+          ),
           legend,
         },
       ]}
