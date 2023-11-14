@@ -1,36 +1,24 @@
-import Heading from "@/components/Heading"
+"use client"
+
 import Contact from "@/components/Contact"
-import TabCharts from "@/components/TabCharts"
 import Chart from "./Chart"
+import TransactionsCharts from "./TransactionsCharts"
+import { useChartInterval } from "../../../hooks/useChartInterval"
+import { useSilosTransactions } from "../../../utils/api/queries"
 
 const Page = () => {
+  const [interval, setInterval] = useChartInterval()
+  const { data: transactions } = useSilosTransactions({ interval })
+
   return (
     <div className="space-y-4 sm:space-y-5">
       <section>
-        <TabCharts
-          tabs={[
-            {
-              title: "Total transactions",
-              value: "354,643",
-              chart: <></>,
-              legend: ["Silo 1", "Silo 2"],
-            },
-            {
-              title: "Total wallets",
-              value: "13,838",
-              chart: <></>,
-              legend: ["Silo 1", "Silo 2"],
-            },
-            {
-              title: "Total balances",
-              value: "$2,320,021",
-              chart: <></>,
-              legend: ["Silo 1", "Silo 2"],
-            },
-          ]}
-        >
-          <Heading tag="h2">Summary</Heading>
-        </TabCharts>
+        <TransactionsCharts
+          title="Summary"
+          interval={interval}
+          setInterval={setInterval}
+          transactions={transactions}
+        />
       </section>
 
       <section className="grid md:grid-cols-2 gap-y-5 gap-x-2.5">

@@ -125,7 +125,12 @@ export interface Database {
       }
     }
     Enums: {
-      api_key_scopes: "deals:read" | "deals:write" | "silos:read" | "users:read"
+      api_key_scopes:
+        | "deals:read"
+        | "deals:write"
+        | "silos:read"
+        | "users:read"
+        | "transactions:read"
       user_type: "customer" | "admin"
     }
     CompositeTypes: {

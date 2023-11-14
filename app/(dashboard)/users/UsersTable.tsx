@@ -1,47 +1,23 @@
+"use client"
+
 import Button from "@/components/Button"
 import Table from "@/components/Table"
-import { getUsers } from "@/mockApi"
 import { formatDate, formatTimeAgo, midTruncate } from "@/utils/helpers"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline"
 import DropdownMenu from "./DropdownMenu"
+import { Users } from "../../../types/types"
+import { useSearchParams } from "next/navigation"
 
-const UsersTable = async ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) => {
-  const search =
-    typeof searchParams.search === "string" ? searchParams.search : undefined
+const PER_PAGE = 20
 
-  const perPage = 20
-  const userCount = await getUsers({
-    search,
-  })
-  const totalUsers = userCount.length
-  const totalPages = Math.ceil(totalUsers / perPage)
+type UsersTableProps = {
+  users: Users["users"]
+  total: number
+}
 
-  const page =
-    typeof searchParams.page === "string" &&
-    +searchParams.page > 1 &&
-    +searchParams.page <= totalPages
-      ? +searchParams.page
-      : 1
-
-  const users = await getUsers({
-    startAt: (page - 1) * perPage,
-    limit: perPage,
-    search: search,
-  })
-
-  const currentSearchParams = new URLSearchParams()
-
-  if (search) {
-    currentSearchParams.set("search", search)
-  }
-
-  if (page > 1) {
-    currentSearchParams.set("page", `${page}`)
-  }
+const UsersTable = ({ users, total }: UsersTableProps) => {
+  const searchParams = useSearchParams()
+  const page = Number(searchParams.get("page") ?? 1)
 
   return (
     <>
@@ -52,34 +28,31 @@ const UsersTable = async ({
         <Table.TH>Last transaction</Table.TH>
         <Table.TH hidden>Options</Table.TH>
         {users.map((user) => (
-          <Table.TR key={user.address}>
-            <Table.TD>{midTruncate(user.address, 24)}</Table.TD>
+          <Table.TR key={user.walletAddress}>
+            <Table.TD>{midTruncate(user.walletAddress, 24)}</Table.TD>
             <Table.TD>{formatDate(new Date(user.createdAt))}</Table.TD>
-            <Table.TD>{user.transactions}</Table.TD>
+            <Table.TD>{user.transactionsCount}</Table.TD>
             <Table.TD>
-              {formatTimeAgo(new Date(user.lastTransactionDate))}
+              {formatTimeAgo(new Date(user.lastTransactionAt))}
             </Table.TD>
             <Table.TD align="right">
-              <DropdownMenu address={user.address} />
+              <DropdownMenu address={user.walletAddress} />
             </Table.TD>
           </Table.TR>
         ))}
       </Table>
       <div className="flex items-center justify-between mt-6">
-        <PreviousPage page={page} currentSearchParams={currentSearchParams} />
+        <PreviousPage page={page} />
         <p className="text-sm text-gray-600">
           Showing{" "}
-          <span className="font-semibold">{(page - 1) * perPage + 1}</span> to{" "}
+          <span className="font-semibold">{(page - 1) * PER_PAGE + 1}</span> to{" "}
           <span className="font-semibold">
-            {Math.min(page * perPage, totalUsers)}
+            {Math.min(page * PER_PAGE, total)}
           </span>{" "}
-          of <span className="font-semibold">{totalUsers}</span> users
+          of <span className="font-semibold">{total.toLocaleString()}</span>{" "}
+          users
         </p>
-        <NextPage
-          page={page}
-          totalPages={totalPages}
-          currentSearchParams={currentSearchParams}
-        />
+        <NextPage page={page} totalPages={Math.ceil(total / PER_PAGE)} />
       </div>
     </>
   )
@@ -87,19 +60,13 @@ const UsersTable = async ({
 
 export default UsersTable
 
-function PreviousPage({
-  page,
-  currentSearchParams,
-}: {
-  page: number
-  currentSearchParams: URLSearchParams
-}) {
-  const newSearchParams = new URLSearchParams(currentSearchParams)
+function PreviousPage({ page }: { page: number }) {
+  const searchParams = new URLSearchParams(useSearchParams())
 
   if (page > 2) {
-    newSearchParams.set("page", `${page - 1}`)
+    searchParams.set("page", `${page - 1}`)
   } else {
-    newSearchParams.delete("page")
+    searchParams.delete("page")
   }
 
   const active = page > 1
@@ -108,7 +75,7 @@ function PreviousPage({
     <Button
       style="secondary"
       disabled={!active}
-      href={active ? `/users?${newSearchParams}` : undefined}
+      href={active ? `/users?${searchParams}` : undefined}
     >
       <ArrowLeftIcon className="w-5 h-5" />
       <span>Previous</span>
@@ -116,18 +83,10 @@ function PreviousPage({
   )
 }
 
-function NextPage({
-  page,
-  totalPages,
-  currentSearchParams,
-}: {
-  page: number
-  totalPages: number
-  currentSearchParams: URLSearchParams
-}) {
-  const newSearchParams = new URLSearchParams(currentSearchParams)
+function NextPage({ page, totalPages }: { page: number; totalPages: number }) {
+  const searchParams = new URLSearchParams(useSearchParams())
 
-  newSearchParams.set("page", `${page + 1}`)
+  searchParams.set("page", `${page + 1}`)
 
   const active = page < totalPages
 
@@ -135,7 +94,7 @@ function NextPage({
     <Button
       style="secondary"
       disabled={!active}
-      href={active ? `/users?${newSearchParams}` : undefined}
+      href={active ? `/users?${searchParams}` : undefined}
     >
       <span>Next</span>
       <ArrowRightIcon className="w-5 h-5" />

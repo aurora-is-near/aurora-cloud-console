@@ -12,6 +12,7 @@ type Options = {
   enabled?: boolean
   id?: number
   relatedFunctionName?: keyof typeof apiClient
+  params?: any
 }
 
 export const useApiQuery = <
@@ -22,12 +23,12 @@ export const useApiQuery = <
   TQueryKey extends QueryKey = QueryKey,
 >(
   functionName: K,
-  { enabled, id, relatedFunctionName }: Options = {},
+  { enabled, relatedFunctionName, params }: Options = {},
 ): UseQueryResult<TQueryFnData, TError> => {
-  const queryKey: TQueryKey = getQueryKey(functionName, id)
+  const queryKey: TQueryKey = getQueryKey(functionName, params)
   const queryClient = useQueryClient()
 
-  const queryFn = () => apiClient[functionName]({ id })
+  const queryFn = () => apiClient[functionName](params)
 
   const onSuccess = async (data: TQueryFnData) => {
     if (!relatedFunctionName || !Array.isArray(data)) {
@@ -61,12 +62,51 @@ export const useApiKeys = () =>
 
 export const useApiKey = (id?: number) =>
   useApiQuery("getApiKey", {
-    id,
+    params: { id },
     enabled: typeof id !== "undefined",
+  })
+
+export const useSilo = (params: { id: string }) =>
+  useApiQuery("getSilo", {
+    params,
   })
 
 export const useSilos = () => useApiQuery("getSilos")
 
+export const useDeal = (params: { id: string }) =>
+  useApiQuery("getDeal", { params })
+
 export const useDeals = () => useApiQuery("getDeals")
 
-export const useUsers = () => useApiQuery("getUsers")
+export const useUsers = (params?: {
+  limit?: number
+  offset?: number
+  dealId?: string
+}) => useApiQuery("getUsers", { params })
+
+export const useUsersExport = (params?: { dealId?: string }) =>
+  useApiQuery("getUsersExport", { params })
+
+export const useSilosTransactions = (params?: { interval: string | null }) =>
+  useApiQuery("getSilosTransactions", { params })
+
+export const useSiloTransactions = (params: {
+  id: string
+  interval?: string | null
+}) =>
+  useApiQuery("getSiloTransactions", {
+    params,
+  })
+
+export const useDealTransactions = (params: {
+  id: string
+  interval?: string | null
+}) =>
+  useApiQuery("getDealTransactions", {
+    params,
+  })
+
+export const useDealsTransactions = (params: { interval?: string | null }) =>
+  useApiQuery("getDealsTransactions", {
+    params,
+  })

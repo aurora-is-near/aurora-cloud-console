@@ -1,6 +1,14 @@
 "use client"
 
-import { Silo, List, Deal, ApiKey, User } from "@/types/types"
+import {
+  Silo,
+  Deal,
+  ApiKey,
+  User,
+  Transactions,
+  Users,
+  Deals,
+} from "@/types/types"
 import { request } from "./request"
 
 export const apiClient = {
@@ -12,11 +20,44 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
+  getSilo: async ({ id }: { id: string }) => request<Silo>(`/api/silos/${id}`),
+
   getSilos: async () => request<Silo[]>("/api/silos"),
 
-  getUsers: async () => request<List[]>("/api/users"),
+  getUsers: async (query: {
+    limit?: number
+    offset?: number
+    dealId?: string
+  }) => request<Users>("/api/users", { query }),
 
-  getDeals: async () => request<Deal[]>("/api/borealis/deals"),
+  getUsersExport: async (query: { dealId?: string }) =>
+    request<Users>("/api/users/export", { query }),
+
+  getDeals: async () => request<Deals>("/api/deals"),
+
+  getDeal: async ({ id }: { id: string }) => request<Deal>(`/api/deals/${id}`),
+
+  getSilosTransactions: async (query?: { interval?: string }) =>
+    request<Transactions>("/api/transactions/silos", { query }),
+
+  getSiloTransactions: async ({
+    id,
+    ...query
+  }: {
+    id: string
+    interval?: string
+  }) => request<Transactions>(`/api/transactions/silos/${id}`, { query }),
+
+  getDealsTransactions: async (query?: { interval?: string }) =>
+    request<Transactions>("/api/transactions/deals", { query }),
+
+  getDealTransactions: async ({
+    id,
+    ...query
+  }: {
+    id: string
+    interval?: string
+  }) => request<Transactions>(`/api/transactions/deals/${id}`, { query }),
 
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 

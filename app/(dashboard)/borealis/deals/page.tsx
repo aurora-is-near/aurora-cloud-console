@@ -1,38 +1,25 @@
-import { Suspense } from "react"
+"use client"
+
 import Contact from "@/components/Contact"
 import Heading from "@/components/Heading"
 import DealsList from "./DealsList"
-import TabCharts from "@/components/TabCharts"
-import Loader from "@/components/Loader"
+import TransactionsCharts from "../../silos/TransactionsCharts"
+import { useDealsTransactions } from "../../../../utils/api/queries"
+import { useChartInterval } from "../../../../hooks/useChartInterval"
 
 const Page = () => {
+  const [interval, setInterval] = useChartInterval()
+  const { data: transactions } = useDealsTransactions({ interval })
+
   return (
     <div className="space-y-8 sm:space-y-10 md:space-y-12">
       <section>
-        <TabCharts
-          tabs={[
-            {
-              title: "Transactions volume",
-              value: "88,989",
-              chart: <></>,
-              legend: ["A very big deal", "Another deal"],
-            },
-            {
-              title: "Total wallets",
-              value: "12,832",
-              chart: <></>,
-              legend: ["A very big deal", "Another deal"],
-            },
-            {
-              title: "Avg transactions per wallet",
-              value: "1.34",
-              chart: <></>,
-              legend: ["A very big deal", "Another deal"],
-            },
-          ]}
-        >
-          <Heading tag="h2">Summary</Heading>
-        </TabCharts>
+        <TransactionsCharts
+          title="Summary"
+          interval={interval}
+          setInterval={setInterval}
+          transactions={transactions}
+        />
       </section>
 
       <section>
@@ -40,9 +27,7 @@ const Page = () => {
           Deals
         </Heading>
 
-        <Suspense fallback={<Loader className="rounded-md sm:h-[92px] h-32" />}>
-          <DealsList />
-        </Suspense>
+        <DealsList />
       </section>
 
       <Contact />

@@ -6,7 +6,6 @@ import { Modals, useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { addContract as addContractAction } from "./actions/add-contract"
-import { sleep } from "@/mockApi"
 import { useParams } from "next/navigation"
 
 type Inputs = {
@@ -26,8 +25,6 @@ const AddContractModal = () => {
   const { id } = useParams()
 
   const addContract: SubmitHandler<Inputs> = async ({ name, address }) => {
-    console.log(name, address)
-    await sleep()
     const res = await addContractAction(id as string, name, address)
 
     // TODO: check response, show error or success

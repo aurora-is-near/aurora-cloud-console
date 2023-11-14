@@ -33,11 +33,11 @@ export const isAbortError = (error: unknown): error is AbortError =>
  *
  * The error is intended to be picked up by the error handling middleware.
  */
-export const abort = (
+export function abort(
   statusCode: number,
   message?: string,
   abortOptions?: AbortOptions,
-) => {
+): never {
   const errorMessage = String(message || httpStatus[statusCode])
   const error = new AbortError(statusCode, errorMessage, abortOptions)
 

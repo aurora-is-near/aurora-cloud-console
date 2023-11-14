@@ -1,7 +1,11 @@
 "use client"
 
 import { ReactElement, ReactNode, cloneElement, isValidElement } from "react"
-import { useSelectedLayoutSegments } from "next/navigation"
+import {
+  usePathname,
+  useRouter,
+  useSelectedLayoutSegments,
+} from "next/navigation"
 import Link from "next/link"
 import clsx from "clsx"
 

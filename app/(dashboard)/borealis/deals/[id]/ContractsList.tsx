@@ -1,10 +1,19 @@
-import { getDealById } from "@/mockApi"
+"use client"
+
+import ListItemLoader from "../../../../../components/ListItemLoader"
+import { useDeal } from "../../../../../utils/api/queries"
 import ContractItem from "./ContractItem"
 
-const ContractsList = async ({ dealId }: { dealId: string }) => {
-  const deal = await getDealById(dealId)
+type ContractsListProps = {
+  dealId: string
+}
 
-  if (!deal) throw `Deal with id ${dealId} not found.`
+const ContractsList = ({ dealId }: ContractsListProps) => {
+  const { data: deal } = useDeal({ id: dealId })
+
+  if (!deal) {
+    return <ListItemLoader />
+  }
 
   return (
     <ul

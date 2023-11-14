@@ -1,15 +1,20 @@
+"use client"
+
 import Card from "@/components/Card"
 import DealItem from "./DealItem"
-import { getDeals } from "@/mockApi"
+import { useDeals } from "../../../../utils/api/queries"
+import Loader from "../../../../components/Loader"
 
-const DealsList = async () => {
-  const deals = await getDeals()
+const DealsList = () => {
+  const { data, isInitialLoading } = useDeals()
+
+  if (isInitialLoading) {
+    return <Loader className="rounded-md sm:h-[92px] h-32" />
+  }
 
   return (
     <Card className="divide-y divide-gray-200" tag="ul" role="list">
-      {deals.map((deal) => (
-        <DealItem key={deal.id} {...deal} />
-      ))}
+      {data?.deals.map((deal) => <DealItem key={deal.id} {...deal} />)}
     </Card>
   )
 }

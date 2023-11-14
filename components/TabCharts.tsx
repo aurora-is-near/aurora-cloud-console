@@ -9,66 +9,61 @@ import clsx from "clsx"
 
 type TabType = {
   title: string
-  value: string
+  value?: string
   chart: ReactNode
   legend: string[]
+  dateOptions?: {
+    label: string
+  }
 }
 
-const options = [
-  {
-    label: "All time",
-    startDate: null,
-  },
-  {
-    label: "1w",
-    startDate: subDays(new Date(), 7),
-  },
-  {
-    label: "1m",
-    startDate: subMonths(new Date(), 1),
-  },
-  {
-    label: "3m",
-    startDate: subMonths(new Date(), 3),
-  },
-]
-
-const TabCharts = ({
-  children,
-  tabs,
-}: {
+type TabChartsProps<T> = {
   children: ReactNode
   tabs:
     | [TabType]
     | [TabType, TabType]
     | [TabType, TabType, TabType]
     | [TabType, TabType, TabType, TabType] // 1-4 tabs
-}) => {
+  selectedDateOption?: T
+  onDateOptionChange?: (value: T) => void
+  dateOptions?: {
+    label: string
+    value: T
+  }[]
+}
+
+const TabCharts = <T extends unknown>({
+  children,
+  tabs,
+  selectedDateOption,
+  onDateOptionChange,
+  dateOptions,
+}: TabChartsProps<T>) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [startDate, setStartDate] = useState(options[0])
-  const startAt = startDate?.startDate
 
   return (
     <>
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row">
         {children}
 
-        <RadioGroup value={startDate} onChange={setStartDate}>
-          <RadioGroup.Label className="sr-only">
-            Choose a date range
-          </RadioGroup.Label>
-          <div className="flex space-x-2.5">
-            {options.map((option) => (
-              <RadioGroup.Option
-                key={option.label}
-                value={option}
-                className="justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-2.5 py-1.5 ui-checked:bg-gray-200 cursor-pointer"
-              >
-                <RadioGroup.Label as="span">{option.label}</RadioGroup.Label>
-              </RadioGroup.Option>
-            ))}
-          </div>
-        </RadioGroup>
+        {dateOptions && (
+          <RadioGroup value={selectedDateOption} onChange={onDateOptionChange}>
+            <RadioGroup.Label className="sr-only">
+              Choose a date range
+            </RadioGroup.Label>
+            <div className="flex space-x-2.5">
+              {dateOptions.map((option) => (
+                <RadioGroup.Option
+                  key={option.label}
+                  value={option.value}
+                  className="justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-2.5 py-1.5 ui-checked:bg-gray-200 cursor-pointer"
+                >
+                  <RadioGroup.Label as="span">{option.label}</RadioGroup.Label>
+                </RadioGroup.Option>
+              ))}
+            </div>
+          </RadioGroup>
+        )}
       </div>
       <div className="mt-4 md:mt-6">
         <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
@@ -112,7 +107,7 @@ const TabCharts = ({
                   {title}
                 </div>
                 <div className="text-gray-900 text-3xl md:text-4xl font-bold mt-1.5">
-                  {value}
+                  {value}&nbsp;
                 </div>
               </Tab>
             ))}
@@ -120,8 +115,15 @@ const TabCharts = ({
           <Tab.Panels className="bg-white border border-gray-200 rounded-b-md">
             {tabs.map(({ title, chart, legend }) => (
               <Tab.Panel key={title}>
-                <div className="px-4 pt-5 pb-5 md:pb-6 sm:px-5 md:px-6">
-                  <div className="w-full bg-gray-200 rounded-md h-44" />
+                <div className="px-4 pt-5 pb-5 md:pb-6 sm:px-5 md:px-6 h-[400px]">
+                  {chart ?? (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <div
+                        className="w-12 h-12 border-2 border-gray-500 rounded-full animate-spin"
+                        style={{ borderRightColor: "transparent" }}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="px-1 pb-1">
                   <div className="flex items-center w-full px-5 space-x-6 rounded-b-sm bg-gray-50 h-9">

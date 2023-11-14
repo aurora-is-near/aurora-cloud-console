@@ -1,9 +1,10 @@
-import { mockUsers } from "./mockUsers"
+import { Deal, Silo } from "./types/types"
 
-const deals = [
+// The `id` maps to a column in the Proxy DB test data.
+const deals: Deal[] = [
   {
-    id: "uuid-1",
-    name: "A very big deal",
+    id: "basic plan",
+    name: "Basic Plan",
     created_at: "2023-06-03T12:00:00.000Z",
     contracts: [
       {
@@ -17,8 +18,8 @@ const deals = [
     ],
   },
   {
-    id: "uuid-2",
-    name: "Another deal",
+    id: "premium plan",
+    name: "Premium Plan",
     created_at: "2023-05-23T12:00:00.000Z",
     contracts: [
       {
@@ -33,10 +34,11 @@ const deals = [
   },
 ]
 
-const silos = [
+const silos: Silo[] = [
   {
+    id: "silo-1",
     name: "Silo 1",
-    href: "silo-1",
+    chainId: "1313161556",
     tokens: [
       {
         name: "AURORA",
@@ -51,78 +53,25 @@ const silos = [
     ],
   },
   {
+    id: "silo-2",
     name: "Silo 2",
-    href: "silo-2",
+    chainId: "1313161557",
     tokens: [],
   },
 ]
 
-const lists = [
-  {
-    name: "Premium Subscribers",
-    href: "premium-subscribers",
-  },
-  {
-    name: "Basic Subscribers",
-    href: "basic-subscribers",
-  },
-]
-
-export const sleep = async (ms: number = 2500) =>
-  new Promise((r) => setTimeout(r, ms))
-
 export const getDealById = async (id: string) => {
-  await sleep()
   return deals.find((deal) => deal.id === id)
 }
 
 export const getDeals = async () => {
-  await sleep()
   return deals
 }
 
 export const getSiloById = async (id: string) => {
-  await sleep()
-  return silos.find((silo) => silo.href === id)
+  return silos.find((silo) => silo.id === id)
 }
 
 export const getSilos = async () => {
-  await sleep()
   return silos
-}
-
-export const getUserLists = async () => {
-  await sleep()
-  return lists
-}
-
-export const getUserListByName = async (name: string) => {
-  await sleep()
-  return lists.find((list) => list.href === name)
-}
-
-export const getUsers = async ({
-  startAt,
-  limit,
-  search,
-}: {
-  startAt?: number
-  limit?: number
-  search?: string
-}) => {
-  await sleep()
-
-  let users = mockUsers
-
-  if (search) {
-    users = users.filter((user) =>
-      user.address.toLowerCase().includes(search.toLowerCase()),
-    )
-  }
-
-  if (typeof startAt !== "undefined" && limit) {
-    users = users.slice(startAt, startAt + limit)
-  }
-
-  return users
 }
