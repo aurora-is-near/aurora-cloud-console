@@ -7,7 +7,6 @@ import {
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline"
-import { PlusIcon } from "@heroicons/react/20/solid"
 import AddApiKeyButton from "./AddApiKeyButton"
 import { useApiKeys } from "@/utils/api/queries"
 import { useMutation } from "@tanstack/react-query"
@@ -18,7 +17,6 @@ import TableButton from "@/components/TableButton"
 import { Modals, useModals } from "@/hooks/useModals"
 import { useQueryState } from "next-usequerystate"
 import TableLoader from "../../../../components/TableLoader"
-import Button from "../../../../components/Button"
 
 const Page = () => {
   const { data: apiKeys, isInitialLoading } = useApiKeys()
