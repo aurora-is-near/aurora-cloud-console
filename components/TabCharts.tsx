@@ -2,14 +2,14 @@
 
 import { ReactNode } from "react"
 import { Tab } from "@headlessui/react"
-import { subDays, subMonths } from "date-fns"
 import { useState } from "react"
 import { RadioGroup } from "@headlessui/react"
 import clsx from "clsx"
+import NumberEasing from "./NumberEasing"
 
 type TabType = {
   title: string
-  value?: string
+  value?: number
   chart: ReactNode
   legend: string[]
   dateOptions?: {
@@ -106,8 +106,16 @@ const TabCharts = <T extends unknown>({
                 <div className="text-sm font-medium leading-none text-gray-500">
                   {title}
                 </div>
-                <div className="text-gray-900 text-3xl md:text-4xl font-bold mt-1.5">
-                  {value}&nbsp;
+                <div
+                  className={clsx(
+                    "text-gray-900 text-3xl md:text-4xl font-bold mt-1.5",
+                    {
+                      "animate-pulse bg-clip-text text-transparent bg-gray-300":
+                        !value,
+                    },
+                  )}
+                >
+                  <NumberEasing value={value ? value : 0} />
                 </div>
               </Tab>
             ))}

@@ -14,13 +14,13 @@ const Charts = async ({ siloId }: { siloId: string }) => {
         tabs={[
           {
             title: "KYC",
-            value: "2,778",
+            value: 2778,
             chart: <></>,
             legend: ["Success", "Rejection"],
           },
           {
             title: "KYB",
-            value: "1,201",
+            value: 1201,
             chart: <></>,
             legend: ["Success", "Rejection"],
           },

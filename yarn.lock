@@ -1447,6 +1447,11 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
+"@types/eases@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@types/eases/-/eases-1.0.4.tgz#786b4f2fd813e1cfbd42a2034b25d8abe631c353"
+  integrity sha512-Rp44sjeyUE6s4KpaQtPR/d4AqE9ynJ25/OHKAZbNGqvPJOiyfArsjv7JLjpPywL11Wn6paHPna0WQyR5v2+IvQ==
+
 "@types/human-date@^1.4.4":
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/@types/human-date/-/human-date-1.4.4.tgz#7597cb24c8ac649ab6506098103f4e922fe2cee5"
@@ -2277,6 +2282,11 @@ dot-case@^3.0.4:
   dependencies:
     no-case "^3.0.4"
     tslib "^2.0.3"
+
+eases@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/eases/-/eases-1.0.8.tgz#f1f5069a6b6ed2ea510f9c6110398d63efe9aee6"
+  integrity sha512-U8TwgFYPktV07tV9yxoIu9TIWsXHGOuDJNXlyihWEMnGMXaoh2kkfWf0N1itbCjHWrgs+/leubuG7m+OgkfA0Q==
 
 electron-to-chromium@^1.4.477:
   version "1.4.500"
