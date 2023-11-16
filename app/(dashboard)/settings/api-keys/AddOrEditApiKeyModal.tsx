@@ -89,7 +89,7 @@ const AddOrEditApiKeyModal = ({
           <h2 className="block text-sm font-medium leading-none text-gray-900">
             Scopes
           </h2>
-          <div className="space-y-2.5 mt-5">
+          <div className="mt-5 space-y-3">
             {API_KEY_SCOPES.map((key: PublicApiScope) => (
               <div className="relative flex items-start" key={key}>
                 <div className="flex items-center h-6">
@@ -100,11 +100,12 @@ const AddOrEditApiKeyModal = ({
                     {...register(key)}
                   />
                 </div>
-                <div className="ml-3 text-sm leading-6">
-                  <label htmlFor={key} className="font-medium text-gray-900">
-                    {key}
-                  </label>
-                </div>
+                <label
+                  htmlFor={key}
+                  className="ml-3 text-sm leading-6 text-gray-900"
+                >
+                  {key}
+                </label>
               </div>
             ))}
           </div>
