@@ -10,6 +10,7 @@ export enum Modals {
   AddList = "addList",
   AddApiKey = "addApiKey",
   EditApiKey = "editApiKey",
+  Contact = "contact",
 }
 
 type ModalsContextType = {
