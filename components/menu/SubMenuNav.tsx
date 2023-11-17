@@ -20,8 +20,8 @@ import { useDeals, useSilos } from "@/utils/api/queries"
 
 const NavLoader = () => (
   <>
-    <Loader className="rounded-lg h-12" />
-    <Loader className="rounded-lg h-12" />
+    <Loader className="h-12 rounded-lg" />
+    <Loader className="h-12 rounded-lg" />
   </>
 )
 

@@ -1,11 +1,8 @@
-import Button from "@/components/Button"
 import Heading from "@/components/Heading"
 import Table from "@/components/Table"
-import { PaperAirplaneIcon } from "@heroicons/react/20/solid"
-import { TrashIcon } from "@heroicons/react/24/outline"
-import TableButton from "@/components/TableButton"
 import { adminSupabase, serverSupabase } from "@/utils/supabase"
 import { Tables } from "@/types/types"
+import InviteButton from "./InviteButton"
 
 type User = Pick<Tables<"users">, "name" | "email"> & {
   companies: Pick<Tables<"companies">, "id">
@@ -39,28 +36,17 @@ const Page = async () => {
   return (
     <>
       <div className="flex items-center justify-between">
-        <Heading tag="h2">Permissions</Heading>
-
-        <Button>
-          <PaperAirplaneIcon className="w-5 h-5" />
-          <span>Invite</span>
-        </Button>
+        <Heading tag="h2">Team</Heading>
+        <InviteButton />
       </div>
 
       <Table className="mt-7">
         <Table.TH>Name</Table.TH>
         <Table.TH>Email</Table.TH>
-        <Table.TH hidden>Edit</Table.TH>
         {users.map((user) => (
           <Table.TR key={user.email}>
             <Table.TD dark>{user.name}</Table.TD>
             <Table.TD>{user.email}</Table.TD>
-            <Table.TD align="right">
-              <TableButton
-                srOnlyText={`Remove ${user.email}`}
-                Icon={TrashIcon}
-              />
-            </Table.TD>
           </Table.TR>
         ))}
       </Table>
