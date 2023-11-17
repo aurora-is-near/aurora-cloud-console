@@ -4,74 +4,60 @@ import Table from "@/components/Table"
 import { PaperAirplaneIcon } from "@heroicons/react/20/solid"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import TableButton from "@/components/TableButton"
+import { adminSupabase, serverSupabase } from "@/utils/supabase"
+import { Tables } from "@/types/types"
 
-const people = [
-  {
-    name: "Lindsay Walton",
-    email: "lindsay.walton@example.com",
-  },
-  {
-    name: "John Doe",
-    email: "john.doe@example.com",
-  },
-  {
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-  },
-  {
-    name: "Emily Johnson",
-    email: "emily.johnson@example.com",
-  },
-  {
-    name: "Michael Brown",
-    email: "michael.brown@example.com",
-  },
-  {
-    name: "Sophia Williams",
-    email: "sophia.williams@example.com",
-  },
-  {
-    name: "William Davis",
-    email: "william.davis@example.com",
-  },
-]
+type User = Pick<Tables<"users">, "name" | "email"> & {
+  companies: Pick<Tables<"companies">, "id">
+}
 
-const Page = () => {
+const Page = async () => {
+  const supabase = serverSupabase()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) throw new Error("No user found.")
+
+  const { data: company, error: companyError } = await adminSupabase()
+    .from("companies")
+    .select("id, users!inner(user_id)")
+    .eq("users.user_id", user.id)
+    .maybeSingle()
+
+  if (companyError || !company) throw new Error("No company found.")
+
+  const { data: users, error } = await adminSupabase()
+    .from("users")
+    .select("name, email, companies!inner(id))")
+    .eq("companies.id", company.id)
+    .returns<User[]>()
+
+  if (error) throw new Error("No users found.")
+
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <Heading tag="h2">Permissions</Heading>
-        <div className="flex items-center gap-3">
-          <div>
-            <label htmlFor="search" className="sr-only">
-              Email
-            </label>
-            <input
-              type="text"
-              name="search"
-              id="search"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-              placeholder="Search"
-            />
-          </div>
-          <Button>
-            <PaperAirplaneIcon className="w-5 h-5" />
-            <span>Invite</span>
-          </Button>
-        </div>
+
+        <Button>
+          <PaperAirplaneIcon className="w-5 h-5" />
+          <span>Invite</span>
+        </Button>
       </div>
 
       <Table className="mt-7">
         <Table.TH>Name</Table.TH>
         <Table.TH>Email</Table.TH>
         <Table.TH hidden>Edit</Table.TH>
-        {people.map((person) => (
-          <Table.TR key={person.email}>
-            <Table.TD dark>{person.name}</Table.TD>
-            <Table.TD>{person.email}</Table.TD>
+        {users.map((user) => (
+          <Table.TR key={user.email}>
+            <Table.TD dark>{user.name}</Table.TD>
+            <Table.TD>{user.email}</Table.TD>
             <Table.TD align="right">
               <TableButton
-                srOnlyText={`Remove ${person.email}`}
+                srOnlyText={`Remove ${user.email}`}
                 Icon={TrashIcon}
               />
             </Table.TD>

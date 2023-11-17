@@ -71,13 +71,19 @@ export type Deals = {
   deals: Deal[]
 }
 
-export type User = Database["public"]["Tables"]["users"]["Row"]
+export type Tables<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Row"]
 
-export type PublicApiScope = Database["public"]["Enums"]["api_key_scopes"]
+export type Enums<T extends keyof Database["public"]["Enums"]> =
+  Database["public"]["Enums"][T]
+
+export type User = Tables<"users">
+
+export type PublicApiScope = Enums<"api_key_scopes">
 
 export type ApiScope = PublicApiScope | "admin"
 
-export type ApiKey = Database["public"]["Tables"]["api_keys"]["Row"]
+export type ApiKey = Tables<"api_keys">
 
 export type ApiUser = User & {
   scopes: ApiScopes[]
