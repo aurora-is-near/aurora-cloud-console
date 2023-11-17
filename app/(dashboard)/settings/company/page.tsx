@@ -1,47 +1,60 @@
-import Button from "@/components/Button"
-import Card from "@/components/Card"
+import { adminSupabase, serverSupabase } from "@/utils/supabase"
 import Heading from "@/components/Heading"
-import { PencilIcon } from "@heroicons/react/20/solid"
+import Card from "@/components/Card"
 
-const Page = () => {
+const Page = async () => {
+  const supabase = serverSupabase()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) throw new Error("No user found.")
+
+  const { data: company, error } = await adminSupabase()
+    .from("companies")
+    .select("name, website, email, users!inner(*)")
+    .eq("users.user_id", user.id)
+    .maybeSingle()
+
+  if (error) throw new Error("No company found.")
+
   return (
     <div className="space-y-4 sm:space-y-5">
       <Heading tag="h2">Company</Heading>
 
       <Card>
         <Card.Title tag="h3">Company information</Card.Title>
-        <Card.Actions>
-          <Button style="secondary">
-            <PencilIcon className="w-5 h-5" />
-            <span>Edit</span>
-          </Button>
-        </Card.Actions>
-        <dl className="px-6 pb-7 space-y-10">
-          <div className="sm:grid sm:grid-cols-2">
-            <dt className="text-sm font-medium leading-none text-gray-500">
-              Company name
-            </dt>
-            <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
-              Aurora
-            </dd>
-          </div>
-          <div className="sm:grid sm:grid-cols-2">
-            <dt className="text-sm font-medium leading-none text-gray-500">
-              Business website
-            </dt>
-            <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
-              www.auroracloud.dev
-            </dd>
-          </div>
-          <div className="sm:grid sm:grid-cols-2">
-            <dt className="text-sm font-medium leading-none text-gray-500">
-              Support email
-            </dt>
-            <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
-              kenter@auroracloud.dev
-            </dd>
-          </div>
-        </dl>
+        {!company ? (
+          <Card.Subtitle>Company information not found.</Card.Subtitle>
+        ) : (
+          <dl className="px-6 space-y-10 pb-7">
+            <div className="sm:grid sm:grid-cols-2">
+              <dt className="text-sm font-medium leading-none text-gray-500">
+                Company name
+              </dt>
+              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
+                {company.name}
+              </dd>
+            </div>
+            <div className="sm:grid sm:grid-cols-2">
+              <dt className="text-sm font-medium leading-none text-gray-500">
+                Business website
+              </dt>
+              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
+                {company.website}
+              </dd>
+            </div>
+            <div className="sm:grid sm:grid-cols-2">
+              <dt className="text-sm font-medium leading-none text-gray-500">
+                Support email
+              </dt>
+              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
+                {company.email}
+              </dd>
+            </div>
+          </dl>
+        )}
       </Card>
     </div>
   )
