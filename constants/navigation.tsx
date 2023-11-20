@@ -57,9 +57,9 @@ export const subrouteMap = {
       icon: <CreditCardIcon />,
     },
     {
-      name: "Permissions",
-      href: "/settings/permissions",
-      icon: <LockClosedIcon />,
+      name: "Team",
+      href: "/settings/team",
+      icon: <UsersIcon />,
     },
     {
       name: "Company",

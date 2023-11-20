@@ -65,7 +65,7 @@ const TransactionsCharts = ({
       tabs={[
         {
           title: "Total transactions",
-          value: transactionsCount?.toLocaleString() ?? "...",
+          value: transactionsCount,
           chart: isLoading ? null : (
             <Line
               options={{
@@ -87,7 +87,7 @@ const TransactionsCharts = ({
         },
         {
           title: "Total wallets",
-          value: walletsCount?.toLocaleString() ?? "...",
+          value: walletsCount,
           chart: isLoading ? null : (
             <Line
               options={{
@@ -111,8 +111,8 @@ const TransactionsCharts = ({
           title: "Avg transactions per wallet",
           value:
             transactionsCount && walletsCount
-              ? (transactionsCount / walletsCount).toFixed(2).toLocaleString()
-              : "...",
+              ? transactionsCount / walletsCount
+              : undefined,
           chart: isLoading ? null : (
             <Line
               options={{

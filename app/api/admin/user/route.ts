@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { adminSupabase } from "@/utils/supabase"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { User } from "@/types/types"
+import { abort } from "@/utils/abort"
 
 export const PATCH = apiRequestHandler(
   ["admin"],
@@ -19,9 +19,28 @@ export const PATCH = apiRequestHandler(
   },
 )
 
-export const GET = apiRequestHandler(
+export const POST = apiRequestHandler(
   ["admin"],
-  async (_req: NextRequest, ctx: ApiRequestContext) => {
-    return NextResponse.json<User>(ctx.user)
+  async (req: NextRequest, ctx: ApiRequestContext) => {
+    const { user } = ctx
+    const { email, name } = await req.json()
+    const cleanedEmail = email.toLowerCase().trim()
+    const supabase = adminSupabase()
+
+    const { data: existingUser } = await supabase
+      .from("users")
+      .select("id")
+      .ilike("email", `%${cleanedEmail}%`)
+      .maybeSingle()
+
+    if (existingUser) abort(400, "User already exists.")
+
+    const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
+      data: { name, companyId: user.company_id },
+    })
+
+    if (error) throw error
+
+    return NextResponse.json({ status: "OK" })
   },
 )

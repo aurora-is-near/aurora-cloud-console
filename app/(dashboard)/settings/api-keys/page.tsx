@@ -2,17 +2,21 @@
 
 import Heading from "@/components/Heading"
 import Table from "@/components/Table"
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
+import {
+  KeyIcon,
+  PencilSquareIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline"
 import AddApiKeyButton from "./AddApiKeyButton"
 import { useApiKeys } from "@/utils/api/queries"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import Loader from "@/components/Loader"
 import { relativeTime } from "human-date"
 import TableButton from "@/components/TableButton"
 import { Modals, useModals } from "@/hooks/useModals"
 import { useQueryState } from "next-usequerystate"
+import TableLoader from "../../../../components/TableLoader"
 
 const Page = () => {
   const { data: apiKeys, isInitialLoading } = useApiKeys()
@@ -51,11 +55,8 @@ const Page = () => {
       </div>
 
       {isInitialLoading ? (
-        <>
-          <Loader className="rounded-lg h-12" />
-          <Loader className="rounded-lg h-12" />
-        </>
-      ) : (
+        <TableLoader />
+      ) : apiKeys?.length && apiKeys?.length > 0 ? (
         <Table>
           <Table.TH>Key</Table.TH>
           <Table.TH>Note</Table.TH>
@@ -91,6 +92,21 @@ const Page = () => {
             </Table.TR>
           ))}
         </Table>
+      ) : (
+        <div className="text-center flex flex-col items-center">
+          <div className="bg-gray-200 rounded-lg p-3 flex justify-center items-center mx-auto">
+            <KeyIcon className="text-gray-900 w-6 h-6 shrink-0" />
+          </div>
+          <h3 className="mt-4 text-sm font-semibold text-gray-900">
+            No API keys
+          </h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Get started by creating a your first API key.
+          </p>
+          <div className="mt-6">
+            <AddApiKeyButton />
+          </div>
+        </div>
       )}
     </>
   )

@@ -76,7 +76,7 @@ const AddOrEditApiKeyModal = ({
             required
             {...register("note")}
           />
-          <p className="text-gray-500 text-xs mt-2">
+          <p className="mt-2 text-xs text-gray-500">
             What&apos;s this token used for?
           </p>
           {errors.note?.message && (
@@ -89,16 +89,21 @@ const AddOrEditApiKeyModal = ({
           <h2 className="block text-sm font-medium leading-none text-gray-900">
             Scopes
           </h2>
-          <div className="space-y-2.5 mt-3">
+          <div className="mt-5 space-y-3">
             {API_KEY_SCOPES.map((key: PublicApiScope) => (
-              <div key={key}>
-                <label htmlFor={key}>
+              <div className="relative flex items-start" key={key}>
+                <div className="flex items-center h-6">
                   <input
                     id={key}
                     type="checkbox"
-                    className="mr-3"
+                    className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600"
                     {...register(key)}
                   />
+                </div>
+                <label
+                  htmlFor={key}
+                  className="ml-3 text-sm leading-6 text-gray-900"
+                >
                   {key}
                 </label>
               </div>

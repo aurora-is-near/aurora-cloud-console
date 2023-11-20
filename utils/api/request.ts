@@ -5,13 +5,13 @@ import cleanDeep from "clean-deep"
 
 class RequestError extends Error {
   statusCode: number
-
+  responseBody?: string
   _is_request_error: boolean
 
-  constructor(message: string, statusCode: number) {
+  constructor(message: string, statusCode: number, responseBody?: string) {
     super(message)
     this.statusCode = statusCode
-
+    this.responseBody = responseBody
     this._is_request_error = true
   }
 }
@@ -39,9 +39,12 @@ export const request = async <T = unknown>(
   })
 
   if (!res.ok) {
+    const { message } = await res.json().catch(() => undefined)
+
     throw new RequestError(
       `Failed to fetch ${input}: ${res.statusText}`,
       res.status,
+      message,
     )
   }
 

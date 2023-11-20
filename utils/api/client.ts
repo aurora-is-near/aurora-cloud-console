@@ -20,6 +20,12 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
+  inviteUser: async (data: Partial<Pick<User, "email" | "name">>) =>
+    request("/api/admin/user", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
   getSilo: async ({ id }: { id: string }) => request<Silo>(`/api/silos/${id}`),
 
   getSilos: async () => request<Silo[]>("/api/silos"),
@@ -82,5 +88,15 @@ export const apiClient = {
   deleteApiKey: async ({ id }: Partial<Pick<ApiKey, "id">>) =>
     request(`/api/admin/api-keys/${id}`, {
       method: "DELETE",
+    }),
+
+  sendContactMessage: async (data: {
+    subject: string
+    message: string
+    page: string
+  }) =>
+    request("/api/contact", {
+      method: "POST",
+      body: JSON.stringify(data),
     }),
 }

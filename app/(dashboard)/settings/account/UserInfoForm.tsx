@@ -136,7 +136,7 @@ const UserInfoForm = ({
       <div className="px-6 pb-7">
         {showForm ? (
           <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
-            <div className="sm:grid sm:grid-cols-2 h-9 items-center">
+            <div className="items-center sm:grid sm:grid-cols-2 h-9">
               <label
                 htmlFor="name"
                 className="block text-sm font-medium leading-none text-gray-500"
@@ -153,7 +153,7 @@ const UserInfoForm = ({
                 })}
               />
             </div>
-            <div className="sm:grid sm:grid-cols-2 h-9 items-center">
+            <div className="items-center sm:grid sm:grid-cols-2 h-9">
               <label
                 htmlFor="email"
                 className="block text-sm font-medium leading-none text-gray-500"
@@ -171,15 +171,15 @@ const UserInfoForm = ({
               />
             </div>
 
-            <div className="rounded-md bg-blue-50 p-4">
+            <div className="p-4 rounded-md bg-blue-50">
               <div className="flex">
                 <div className="flex-shrink-0">
                   <InformationCircleIcon
-                    className="h-5 w-5 text-blue-400"
+                    className="w-5 h-5 text-blue-400"
                     aria-hidden="true"
                   />
                 </div>
-                <div className="ml-3 flex-1">
+                <div className="flex-1 ml-3">
                   <p className="text-sm text-blue-700">
                     Updating your email requires confirmation through links sent
                     to both the old and the new email addresses.
@@ -190,33 +190,33 @@ const UserInfoForm = ({
           </form>
         ) : (
           <dl className="space-y-4">
-            <div className="sm:grid sm:grid-cols-2 h-9 items-center">
+            <div className="items-center sm:grid sm:grid-cols-2 h-9">
               <dt className="text-sm font-medium leading-none text-gray-500">
                 Name
               </dt>
-              <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
+              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
                 {user?.name || "-"}
               </dd>
             </div>
-            <div className="sm:grid sm:grid-cols-2 h-9 items-center">
+            <div className="items-center sm:grid sm:grid-cols-2 h-9">
               <dt className="text-sm font-medium leading-none text-gray-500">
                 Email
               </dt>
-              <dd className="text-sm leading-none text-gray-900 mt-2 sm:mt-0">
+              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
                 {user?.email}
               </dd>
             </div>
 
             {hasPendingEmailChange && (
-              <div className="rounded-md bg-blue-50 p-4">
+              <div className="p-4 rounded-md bg-blue-50">
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <InformationCircleIcon
-                      className="h-5 w-5 text-blue-400"
+                      className="w-5 h-5 text-blue-400"
                       aria-hidden="true"
                     />
                   </div>
-                  <div className="ml-3 flex-1">
+                  <div className="flex-1 ml-3">
                     <p className="text-sm text-blue-700">
                       You have requested an email change. Please confirm it
                       through the links sent to both the old and the new email

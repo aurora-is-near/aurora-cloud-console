@@ -40,7 +40,7 @@ const LoginForm = () => {
     <div className="flex items-start justify-center text-white">
       <div className="flex-shrink-0">
         <CheckCircleIcon
-          className="h-5 w-5 text-green-400"
+          className="w-5 h-5 text-green-400"
           aria-hidden="true"
         />
       </div>
@@ -84,7 +84,7 @@ const LoginForm = () => {
 
       <div className="h-5">
         {errors.email && (
-          <p className="text-red-500 text-sm text-center">
+          <p className="text-sm text-center text-red-500">
             {errors.email.message}
           </p>
         )}
