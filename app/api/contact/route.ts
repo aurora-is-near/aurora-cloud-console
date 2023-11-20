@@ -10,7 +10,7 @@ export const POST = apiRequestHandler(
     const response = await fetch("https://api.postmarkapp.com/email", {
       method: "POST",
       headers: {
-        "X-Postmark-Server-Token": process.env.POSTMARK_SERVER_TOKEN!,
+        "X-Postmark-Server-Token": process.env.POSTMARK_SERVER_TOKEN,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
