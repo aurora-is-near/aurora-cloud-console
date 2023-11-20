@@ -33,7 +33,7 @@ const InviteModal = () => {
 
   const sendMessage: SubmitHandler<Inputs> = async (data) => {
     try {
-      const res = await fetch(`/api/admin/user/invite`, {
+      const res = await fetch(`/api/admin/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
