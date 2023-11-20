@@ -5,6 +5,8 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { Modals, useModals } from "@/hooks/useModals"
 import Button from "@/components/Button"
 import Modal from "@/components/Modal"
+import { useMutation } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
 
 type Inputs = {
   name: string
@@ -21,7 +23,7 @@ const InviteModal = () => {
     setError,
     reset,
     watch,
-    formState: { isSubmitting, errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<Inputs>()
 
   const email = watch("email")
@@ -31,29 +33,24 @@ const InviteModal = () => {
     setTimeout(() => reset(), 200)
   }
 
-  const sendMessage: SubmitHandler<Inputs> = async (data) => {
-    try {
-      const res = await fetch(`/api/admin/user`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
+  const {
+    mutateAsync: inviteUser,
+    isLoading,
+    isSuccess,
+  } = useMutation({
+    mutationFn: apiClient.inviteUser,
+    onError: (error: any) =>
+      setError("root.serverError", {
+        message:
+          error?.responseBody || "Something went wrong. Please try again.",
+      }),
+  })
 
-      const { message } = await res.json()
-
-      if (!res.ok) throw new Error(message)
-    } catch (error: any) {
-      return setError("root.serverError", {
-        message: error.message,
-      })
-    }
-  }
+  const sendInvite: SubmitHandler<Inputs> = async (data) => inviteUser(data)
 
   return (
     <Modal title="Invite team member" open={isOpen} close={handleClose}>
-      {isSubmitSuccessful ? (
+      {isSuccess ? (
         <div className="flex flex-col items-center justify-center mt-8 text-center">
           <CheckCircleIcon
             className="w-8 h-8 text-green-600"
@@ -81,7 +78,7 @@ const InviteModal = () => {
             An invitation will be sent to the specified email address. The link
             in the email will be valid for 24 hours.
           </p>
-          <form className="mt-4 space-y-6" onSubmit={handleSubmit(sendMessage)}>
+          <form className="mt-4 space-y-6" onSubmit={handleSubmit(sendInvite)}>
             <div>
               <label
                 htmlFor="name"
@@ -128,7 +125,7 @@ const InviteModal = () => {
               )}
             </div>
 
-            <Button type="submit" loading={isSubmitting}>
+            <Button type="submit" loading={isLoading}>
               <PaperAirplaneIcon className="w-5 h-5" />
               Send invitation
             </Button>

@@ -20,6 +20,12 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
+  inviteUser: async (data: Partial<Pick<User, "email" | "name">>) =>
+    request("/api/admin/user", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
   getSilo: async ({ id }: { id: string }) => request<Silo>(`/api/silos/${id}`),
 
   getSilos: async () => request<Silo[]>("/api/silos"),

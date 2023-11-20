@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { adminSupabase } from "@/utils/supabase"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { abort } from "@/utils/abort"
 
 export const PATCH = apiRequestHandler(
   ["admin"],
@@ -32,7 +33,7 @@ export const POST = apiRequestHandler(
       .ilike("email", `%${cleanedEmail}%`)
       .maybeSingle()
 
-    if (existingUser) throw new Error("User already exists.")
+    if (existingUser) abort(400, "User already exists.")
 
     const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
       data: { name, companyId: user.company_id },
