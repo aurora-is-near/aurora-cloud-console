@@ -89,4 +89,14 @@ export const apiClient = {
     request(`/api/admin/api-keys/${id}`, {
       method: "DELETE",
     }),
+
+  sendContactMessage: async (data: {
+    subject: string
+    message: string
+    page: string
+  }) =>
+    request("/api/contact", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
 }

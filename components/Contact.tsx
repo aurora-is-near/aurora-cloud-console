@@ -10,6 +10,8 @@ import { Modals, useModals } from "@/hooks/useModals"
 import Button from "@/components/Button"
 import Modal from "@/components/Modal"
 import { usePathname } from "next/navigation"
+import { useMutation } from "@tanstack/react-query"
+import { apiClient } from "../utils/api/client"
 
 type Inputs = {
   subject: string
@@ -26,7 +28,7 @@ const ContactModal = () => {
     handleSubmit,
     setError,
     reset,
-    formState: { isSubmitting, errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<Inputs>()
 
   const handleClose = () => {
@@ -34,33 +36,29 @@ const ContactModal = () => {
     setTimeout(() => reset(), 200)
   }
 
-  const sendMessage: SubmitHandler<Inputs> = async (data) => {
-    try {
-      const res = await fetch(`/api/contact`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...data, page }),
-      })
+  const {
+    mutateAsync: sendMessage,
+    isLoading,
+    isSuccess,
+  } = useMutation({
+    mutationFn: apiClient.sendContactMessage,
+    onError: (error: any) =>
+      setError("root.serverError", {
+        message:
+          error?.responseBody || "Something went wrong. Please try again.",
+      }),
+  })
 
-      const { message } = await res.json()
-
-      if (!res.ok) throw new Error(message)
-    } catch (error: any) {
-      return setError("root.serverError", {
-        message: error.message,
-      })
-    }
-  }
+  const handleSend: SubmitHandler<Inputs> = async (data) =>
+    sendMessage({ ...data, page })
 
   return (
     <Modal
-      title={isSubmitSuccessful ? "" : "Contact us"}
+      title={isSuccess ? "" : "Contact us"}
       open={isOpen}
       close={closeModal}
     >
-      {isSubmitSuccessful ? (
+      {isSuccess ? (
         <div className="flex flex-col items-center justify-center mt-8 text-center">
           <CheckCircleIcon
             className="w-8 h-8 text-green-600"
@@ -87,7 +85,7 @@ const ContactModal = () => {
             We’re here to help! Fill out this quick form and you’ll hear from us
             within 24 hours.
           </p>
-          <form className="mt-4 space-y-6" onSubmit={handleSubmit(sendMessage)}>
+          <form className="mt-4 space-y-6" onSubmit={handleSubmit(handleSend)}>
             <div>
               <label
                 htmlFor="subject"
@@ -134,7 +132,7 @@ const ContactModal = () => {
                 </p>
               )}
             </div>
-            <Button type="submit" loading={isSubmitting}>
+            <Button type="submit" loading={isLoading}>
               <PaperAirplaneIcon className="w-5 h-5" />
               Send message
             </Button>
