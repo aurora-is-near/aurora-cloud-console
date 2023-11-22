@@ -49,8 +49,8 @@ const Page = () => {
       </section>
       <section className="mt-12">
         <Heading tag="h3">Plan limits</Heading>
-        <div className="mt-5 rounded-lg bg-white shadow px-4 py-5 sm:p-6 overflow-hidden">
-          <div className="flex items-center gap-x-5">
+        <div className="mt-5 rounded-lg bg-white shadow overflow-hidden">
+          <div className="flex items-center gap-x-5 px-4 py-5 sm:p-6">
             <Borealis className="h-9 w-9 flex-shrink-0" />
             <div>
               <h4 className="text-gray-900 font-base leading-none font-medium">
@@ -62,8 +62,13 @@ const Page = () => {
               </p>
             </div>
           </div>
-          <div>
-            <div />
+          <div className="h-2 w-full bg-gray-200">
+            <div
+              className="h-full bg-gray-900"
+              style={{
+                width: `${(planLimit.current / planLimit.max) * 100}%`,
+              }}
+            />
           </div>
         </div>
       </section>
