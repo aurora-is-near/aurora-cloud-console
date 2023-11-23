@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { Transactions } from "../../../../../types/types"
-import { getDealById, getSilos } from "../../../../../mockApi"
+import { getSilos } from "../../../../../mockApi"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
+import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
@@ -12,8 +13,12 @@ export const GET = apiRequestHandler(
     const interval = req.nextUrl.searchParams.get("interval")
     const [silos, deal] = await Promise.all([
       getSilos(),
-      getDealById(ctx.params.id),
+      getDealById(ctx.user, Number(ctx.params.id)),
     ])
+
+    if (!deal) {
+      abort(404)
+    }
 
     if (!deal) {
       abort(404)
@@ -23,7 +28,7 @@ export const GET = apiRequestHandler(
 
     const results = await queryTransactions(chainIds, {
       interval,
-      dealId: ctx.params.id,
+      dealId: deal.key,
     })
 
     return NextResponse.json<Transactions>({

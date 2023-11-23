@@ -5,7 +5,7 @@ import { useDeal } from "../../../../../utils/api/queries"
 import ContractItem from "./ContractItem"
 
 type ContractsListProps = {
-  dealId: string
+  dealId: number
 }
 
 const ContractsList = ({ dealId }: ContractsListProps) => {

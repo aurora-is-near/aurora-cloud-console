@@ -6,6 +6,8 @@ export type UserInfo = {
 }
 
 type Contract = {
+  id: number
+  created_at: string
   address: string
   name: string
 }
@@ -13,8 +15,9 @@ type Contract = {
 export type Deal = {
   contracts: Contract[]
   created_at: string
-  id: string
+  id: number
   name: string
+  key: string
 }
 
 export type Token = {

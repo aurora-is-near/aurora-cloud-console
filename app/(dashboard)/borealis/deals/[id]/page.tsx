@@ -17,7 +17,7 @@ import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [interval, setInterval] = useChartInterval()
-  const { data: silo, error } = useDeal({ id })
+  const { data: silo, error } = useDeal({ id: Number(id) })
   const { data: transactions } = useDealTransactions({ id, interval })
 
   useNotFoundError(error)
@@ -43,7 +43,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             <AddContractButton />
           </Card.Actions>
 
-          <ContractsList dealId={id} />
+          <ContractsList dealId={Number(id)} />
         </Card>
 
         <Card tag="section">

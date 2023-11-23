@@ -14,7 +14,7 @@ const DealsList = () => {
 
   return (
     <Card className="divide-y divide-gray-200" tag="ul" role="list">
-      {data?.deals.map((deal) => <DealItem key={deal.id} {...deal} />)}
+      {data?.deals.map((deal) => <DealItem key={deal.id} deal={deal} />)}
     </Card>
   )
 }

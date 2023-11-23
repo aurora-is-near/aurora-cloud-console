@@ -4,7 +4,7 @@ import { Switch } from "@headlessui/react"
 import clsx from "clsx"
 import React, { useState } from "react"
 
-const ToggleDeal = ({ dealId }: { dealId: string }) => {
+const ToggleDeal = ({ dealId }: { dealId: number }) => {
   const [enabled, setEnabled] = useState(false)
 
   return (

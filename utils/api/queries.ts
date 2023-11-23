@@ -73,7 +73,7 @@ export const useSilo = (params: { id: string }) =>
 
 export const useSilos = () => useApiQuery("getSilos")
 
-export const useDeal = (params: { id: string }) =>
+export const useDeal = (params: { id: number }) =>
   useApiQuery("getDeal", { params })
 
 export const useDeals = () => useApiQuery("getDeals")
@@ -81,10 +81,10 @@ export const useDeals = () => useApiQuery("getDeals")
 export const useUsers = (params?: {
   limit?: number
   offset?: number
-  dealId?: string
+  dealId?: number
 }) => useApiQuery("getUsers", { params })
 
-export const useUsersExport = (params?: { dealId?: string }) =>
+export const useUsersExport = (params?: { dealId?: number }) =>
   useApiQuery("getUsersExport", { params })
 
 export const useSilosTransactions = (params?: { interval: string | null }) =>

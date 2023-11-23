@@ -4,7 +4,7 @@ import { query } from "./query"
 type Params = {
   limit?: number
   offset?: number
-  dealId?: string | null
+  dealKey?: string | null
 }
 
 const FROM_CLAUSE = "FROM tx_traces"
@@ -12,8 +12,8 @@ const FROM_CLAUSE = "FROM tx_traces"
 const getWhereClause = (chainIds: string[], params: Params) => {
   let whereClause = `WHERE chain_id IN ('${chainIds.join("','")}')`
 
-  if (params.dealId) {
-    whereClause += ` AND deal = '${params.dealId}'`
+  if (params.dealKey) {
+    whereClause += ` AND deal = '${params.dealKey}'`
   }
 
   return whereClause
