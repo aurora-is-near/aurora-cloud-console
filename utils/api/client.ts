@@ -8,6 +8,7 @@ import {
   Transactions,
   Users,
   Deals,
+  Contract,
 } from "@/types/types"
 import { request } from "./request"
 
@@ -68,6 +69,15 @@ export const apiClient = {
   toggleDeal: async ({ id, ...data }: Pick<Deal, "id" | "enabled">) =>
     request<Deal>(`/api/deals/${id}/toggle`, {
       method: "PUT",
+      body: JSON.stringify(data),
+    }),
+
+  addContract: async ({
+    id,
+    ...data
+  }: { id: Deal["id"] } & Pick<Contract, "name" | "address">) =>
+    request<Contract>(`/api/deals/${id}/contracts`, {
+      method: "POST",
       body: JSON.stringify(data),
     }),
 

@@ -4,9 +4,11 @@ import Button from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { Modals, useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
-import { SubmitHandler, useForm } from "react-hook-form"
-import { addContract as addContractAction } from "./actions/add-contract"
+import { useForm } from "react-hook-form"
 import { useParams } from "next/navigation"
+import { useMutation } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
+import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 
 type Inputs = {
   name: string
@@ -23,18 +25,20 @@ const AddContractModal = () => {
   } = useForm<Inputs>()
 
   const { id } = useParams()
+  const dealsUpdater = useOptimisticUpdater("getDeals")
+  const { mutate: addContract } = useMutation({
+    mutationFn: apiClient.addContract,
+    onSettled: dealsUpdater.invalidate,
+    onSuccess: closeModal,
+  })
 
-  const addContract: SubmitHandler<Inputs> = async ({ name, address }) => {
-    const res = await addContractAction(id as string, name, address)
-
-    // TODO: check response, show error or success
-
-    closeModal()
+  const onSubmit = (data: Inputs) => {
+    addContract({ id: Number(id), ...data })
   }
 
   return (
     <SlideOver title="Add contract" open={isOpen} close={closeModal}>
-      <form className="space-y-6" onSubmit={handleSubmit(addContract)}>
+      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label
             htmlFor="name"
@@ -87,7 +91,7 @@ const AddContractModal = () => {
         <Button style="secondary" onClick={closeModal}>
           Cancel
         </Button>
-        <Button loading={isSubmitting} onClick={handleSubmit(addContract)}>
+        <Button loading={isSubmitting} onClick={handleSubmit(onSubmit)}>
           <CheckIcon className="w-5 h-5" />
           Save
         </Button>
