@@ -72,13 +72,15 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
-  addContract: async ({
-    id,
-    ...data
-  }: { id: Deal["id"] } & Pick<Contract, "name" | "address">) =>
-    request<Contract>(`/api/deals/${id}/contracts`, {
+  addContract: async (data: Pick<Contract, "deal_id" | "name" | "address">) =>
+    request<Contract>(`/api/contracts`, {
       method: "POST",
       body: JSON.stringify(data),
+    }),
+
+  deleteContract: async ({ id }: Pick<Contract, "id">) =>
+    request(`/api/contracts/${id}`, {
+      method: "DELETE",
     }),
 
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),

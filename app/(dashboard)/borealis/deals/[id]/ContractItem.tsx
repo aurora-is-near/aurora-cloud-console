@@ -4,7 +4,13 @@ import CopyButton from "@/components/CopyButton"
 import { midTruncate } from "@/utils/helpers"
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline"
 
-const ContractItem = ({ address, name }: { address: string; name: string }) => {
+type ContractItemProps = {
+  address: string
+  name: string
+  onDelete: () => void
+}
+
+const ContractItem = ({ address, name, onDelete }: ContractItemProps) => {
   return (
     <li className="flex items-center px-4 sm:px-5 md:px-6 py-4 md:py-[18px] space-x-6">
       <div className="flex flex-col flex-1 space-y-1.5 sm:space-x-6 sm:items-center sm:flex-row sm:space-y-0">
@@ -29,7 +35,7 @@ const ContractItem = ({ address, name }: { address: string; name: string }) => {
           <PencilSquareIcon className="w-5 h-5" />
         </button>
         <button
-          onClick={() => console.log("delete contract")}
+          onClick={onDelete}
           className="p-2 -m-2 text-gray-500 hover:text-gray-900"
         >
           <span className="sr-only">Remove contract</span>

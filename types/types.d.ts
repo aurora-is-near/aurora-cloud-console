@@ -8,6 +8,7 @@ export type UserInfo = {
 type Contract = {
   id: number
   created_at: string
+  deal_id: number
   address: string
   name: string
 }

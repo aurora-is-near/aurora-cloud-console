@@ -33,7 +33,7 @@ const AddContractModal = () => {
   })
 
   const onSubmit = (data: Inputs) => {
-    addContract({ id: Number(id), ...data })
+    addContract({ deal_id: Number(id), ...data })
   }
 
   return (
