@@ -8,7 +8,8 @@ export const getDeals = async (user: ApiUser): Promise<Deal[]> => {
 
   const { data: deals, error: dealsError } = await adminSupabase()
     .from("deals")
-    .select("id, name, created_at, key, deals_contracts!inner(*)")
+    .select("id, name, created_at, key, enabled, deals_contracts!inner(*)")
+    .order("created_at", { ascending: false })
     .eq("company_id", user.company_id)
 
   if (!deals) {
@@ -40,6 +41,7 @@ export const getDeals = async (user: ApiUser): Promise<Deal[]> => {
     name: deal.name,
     created_at: deal.created_at,
     key: deal.key,
+    enabled: deal.enabled,
     contracts: contracts.filter((contract) =>
       deal.deals_contracts
         .map((dealContract) => dealContract.contract_id)

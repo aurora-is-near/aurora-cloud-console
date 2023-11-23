@@ -65,6 +65,12 @@ export const apiClient = {
     interval?: string
   }) => request<Transactions>(`/api/transactions/deals/${id}`, { query }),
 
+  toggleDeal: async ({ id, ...data }: Pick<Deal, "id" | "enabled">) =>
+    request<Deal>(`/api/deals/${id}/toggle`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 
   getApiKey: async ({ id }: Partial<Pick<ApiKey, "id">>) =>

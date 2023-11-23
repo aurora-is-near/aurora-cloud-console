@@ -18,6 +18,7 @@ export type Deal = {
   id: number
   name: string
   key: string
+  enabled: boolean
 }
 
 export type Token = {
