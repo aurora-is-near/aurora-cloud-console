@@ -75,22 +75,33 @@ export interface Database {
         Row: {
           address: string
           created_at: string
+          deal_id: number
           id: number
           name: string
         }
         Insert: {
           address: string
           created_at?: string
+          deal_id: number
           id?: number
           name: string
         }
         Update: {
           address?: string
           created_at?: string
+          deal_id?: number
           id?: number
           name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "contracts_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       deals: {
         Row: {
@@ -123,42 +134,6 @@ export interface Database {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      deals_contracts: {
-        Row: {
-          contract_id: number
-          created_at: string
-          deal_id: number
-          id: number
-        }
-        Insert: {
-          contract_id: number
-          created_at?: string
-          deal_id: number
-          id?: number
-        }
-        Update: {
-          contract_id?: number
-          created_at?: string
-          deal_id?: number
-          id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "deals_contracts_contract_id_fkey"
-            columns: ["contract_id"]
-            isOneToOne: false
-            referencedRelation: "contracts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "deals_contracts_deal_id_fkey"
-            columns: ["deal_id"]
-            isOneToOne: false
-            referencedRelation: "deals"
             referencedColumns: ["id"]
           },
         ]

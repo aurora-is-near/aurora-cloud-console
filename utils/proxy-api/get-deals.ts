@@ -8,7 +8,7 @@ export const getDeals = async (user: ApiUser): Promise<Deal[]> => {
 
   const { data: deals, error: dealsError } = await adminSupabase()
     .from("deals")
-    .select("id, name, created_at, key, enabled, deals_contracts!inner(*)")
+    .select("id, name, created_at, key, enabled")
     .order("created_at", { ascending: false })
     .eq("company_id", user.company_id)
 
@@ -20,17 +20,12 @@ export const getDeals = async (user: ApiUser): Promise<Deal[]> => {
     throw dealsError
   }
 
-  const contractIds = deals
-    ?.map((deal) =>
-      deal.deals_contracts.map((contract) => contract.contract_id),
-    )
-    .flat()
+  const dealIds = deals?.map((deal) => deal.id)
 
-  const uniqueContractIds = [...new Set(contractIds)]
   const { data: contracts, error: contractsError } = await adminSupabase()
     .from("contracts")
     .select("*")
-    .in("id", uniqueContractIds)
+    .in("deal_id", dealIds)
 
   if (contractsError) {
     throw contractsError
@@ -42,10 +37,6 @@ export const getDeals = async (user: ApiUser): Promise<Deal[]> => {
     created_at: deal.created_at,
     key: deal.key,
     enabled: deal.enabled,
-    contracts: contracts.filter((contract) =>
-      deal.deals_contracts
-        .map((dealContract) => dealContract.contract_id)
-        .includes(contract.id),
-    ),
+    contracts: contracts.filter((contract) => contract.deal_id === deal.id),
   }))
 }
