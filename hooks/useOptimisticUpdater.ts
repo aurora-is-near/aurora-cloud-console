@@ -4,9 +4,15 @@ import { getQueryKey } from "../utils/api/query-keys"
 import { apiClient } from "../utils/api/client"
 
 // See https://tanstack.com/query/v4/docs/react/guides/optimistic-updates
-export const useOptimisticUpdater = (operation: keyof typeof apiClient) => {
+export const useOptimisticUpdater = (
+  operation: keyof typeof apiClient,
+  params?: any,
+) => {
   const queryClient = useQueryClient()
-  const queryKey = useMemo(() => getQueryKey(operation), [operation])
+  const queryKey = useMemo(
+    () => getQueryKey(operation, params),
+    [operation, params],
+  )
 
   /**
    * Set the query data for a given query key.
