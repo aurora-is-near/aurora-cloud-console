@@ -36,6 +36,8 @@ export const POST = apiRequestHandler(
     if (existingUser) abort(400, "User already exists.")
 
     const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
+      // TODO: Change URL
+      redirectTo: "https://aurora-cloud-console.vercel.app",
       data: { name, companyId: user.company_id },
     })
 

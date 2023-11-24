@@ -30,13 +30,17 @@ const InviteModal = () => {
 
   const handleClose = () => {
     closeModal()
-    setTimeout(() => reset(), 200)
+    setTimeout(() => {
+      resetMutation()
+      reset()
+    }, 200)
   }
 
   const {
     mutateAsync: inviteUser,
     isLoading,
     isSuccess,
+    reset: resetMutation,
   } = useMutation({
     mutationFn: apiClient.inviteUser,
     onError: (error: any) =>
