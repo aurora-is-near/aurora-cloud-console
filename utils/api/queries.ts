@@ -85,8 +85,16 @@ export const useDeals = () =>
     },
   })
 
-export const useContract = (params: { id?: number } = {}) =>
-  useApiQuery("getContract", {
+export const useDealContracts = (params: { id?: number } = {}) =>
+  useApiQuery("getDealContracts", {
+    params,
+    enabled: typeof params.id !== "undefined",
+  })
+
+export const useDealContract = (
+  params: { id?: number; contractId?: number } = {},
+) =>
+  useApiQuery("getDealContract", {
     params,
     enabled: typeof params.id !== "undefined",
   })

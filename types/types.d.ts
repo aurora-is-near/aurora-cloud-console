@@ -14,7 +14,6 @@ type Contract = {
 }
 
 export type Deal = {
-  contracts: Contract[]
   created_at: string
   id: number
   name: string

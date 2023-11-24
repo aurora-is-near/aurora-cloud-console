@@ -8,31 +8,41 @@ import AddOrEditContractModal, {
   type AddOrEditContractModalInputs,
 } from "./AddOrEditContractModal"
 import { useQueryState } from "next-usequerystate"
-import { useContract } from "@/utils/api/queries"
+import { useDealContract } from "@/utils/api/queries"
+import { useParams } from "next/navigation"
 
 const EditContractModal = () => {
   const { activeModal, closeModal } = useModals()
   const [id, setId] = useQueryState("id")
+  const { id: dealId } = useParams()
   const isOpen = activeModal === Modals.EditContract
-  const contractParams = { id: id ? Number(id) : undefined }
-  const { data: contract } = useContract(contractParams)
+  const contractParams = {
+    id: Number(dealId),
+    contractId: id ? Number(id) : undefined,
+  }
+  const { data: contract } = useDealContract(contractParams)
 
-  const dealUpdater = useOptimisticUpdater("getDeal", contractParams)
-  const dealsUpdater = useOptimisticUpdater("getDeals")
+  const contractUpdater = useOptimisticUpdater(
+    "getDealContract",
+    contractParams,
+  )
 
-  const { mutate: updateContract } = useMutation({
-    mutationFn: apiClient.updateContract,
-    onMutate: dealUpdater.update,
+  const contractsUpdater = useOptimisticUpdater("getDealContracts")
+
+  const { mutate: updateDealContract } = useMutation({
+    mutationFn: apiClient.updateDealContract,
+    onMutate: contractUpdater.update,
     onSuccess: closeModal,
     onSettled: () => {
-      dealUpdater.invalidate()
-      dealsUpdater.invalidate()
+      contractUpdater.invalidate()
+      contractsUpdater.invalidate()
     },
   })
 
   const onSubmit = async (data: AddOrEditContractModalInputs) => {
-    updateContract({
-      id: Number(id),
+    updateDealContract({
+      id: Number(dealId),
+      contractId: Number(id),
       ...data,
     })
   }

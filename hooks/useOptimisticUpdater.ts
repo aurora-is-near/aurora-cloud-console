@@ -4,8 +4,11 @@ import { getQueryKey } from "../utils/api/query-keys"
 import { apiClient } from "../utils/api/client"
 
 // See https://tanstack.com/query/v4/docs/react/guides/optimistic-updates
-export const useOptimisticUpdater = (
-  operation: keyof typeof apiClient,
+export const useOptimisticUpdater = <
+  Operation extends keyof typeof apiClient,
+  Data extends Awaited<ReturnType<(typeof apiClient)[Operation]>>,
+>(
+  operation: Operation,
   params?: any,
 ) => {
   const queryClient = useQueryClient()
@@ -17,8 +20,8 @@ export const useOptimisticUpdater = (
   /**
    * Set the query data for a given query key.
    */
-  const setQueryData = useCallback(
-    async <T = unknown>(updater: Updater<T | undefined, T>) => {
+  const set = useCallback(
+    async <T = Data>(updater: Updater<T | undefined, T>) => {
       await queryClient.cancelQueries({ queryKey })
 
       queryClient.setQueryData(queryKey, updater)
@@ -30,36 +33,36 @@ export const useOptimisticUpdater = (
    * Update a query result optimistically.
    */
   const update = useCallback(
-    async <T = unknown>(newData: T) => {
-      setQueryData((oldData?: Partial<T>) => ({
+    async <T = Data>(newData: T) => {
+      set((oldData?: Partial<T>) => ({
         ...oldData,
         ...newData,
       }))
     },
-    [setQueryData],
+    [set],
   )
 
   /**
    * Replace a query result optimistically.
    */
   const replace = useCallback(
-    async <T = unknown>(newData: T) => {
-      setQueryData(() => newData)
+    async <T = Data>(newData: T) => {
+      set(() => newData)
     },
-    [setQueryData],
+    [set],
   )
 
   /**
    * Replace a query result optimistically.
    */
   const insert = useCallback(
-    async <T = unknown>(newData: T) => {
+    async <T = Data>(newData: T) => {
       const previousData = queryClient.getQueryData(queryKey)
       const previousDataArray = Array.isArray(previousData) ? previousData : []
 
-      setQueryData(() => [newData, ...previousDataArray])
+      set(() => [newData, ...previousDataArray])
     },
-    [queryClient, queryKey, setQueryData],
+    [queryClient, queryKey, set],
   )
 
   /**
@@ -70,6 +73,7 @@ export const useOptimisticUpdater = (
   }, [queryClient, queryKey])
 
   return {
+    set,
     update,
     replace,
     insert,

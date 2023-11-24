@@ -8,7 +8,10 @@ import { NextRequest, NextResponse } from "next/server"
 export const GET = apiRequestHandler(
   ["deals:read"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const contract = await getContract(Number(ctx.params.id))
+    const contract = await getContract(
+      Number(ctx.params.id),
+      Number(ctx.params.contractId),
+    )
 
     return NextResponse.json<Contract>(contract)
   },
@@ -17,7 +20,7 @@ export const GET = apiRequestHandler(
 export const DELETE = apiRequestHandler(
   ["deals:write"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    await deleteContract(Number(ctx.params.id))
+    await deleteContract(Number(ctx.params.id), Number(ctx.params.contractId))
 
     return NextResponse.json({ status: "OK" })
   },
@@ -26,14 +29,14 @@ export const DELETE = apiRequestHandler(
 export const PUT = apiRequestHandler(
   ["deals:write"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    const currentContract = await getContract(Number(ctx.params.id))
     const { name, address } = await req.json()
 
     // When we get to the real proxy API there is no concept of editing, so
     // we have to delete the old contract and add a new one.
-    await deleteContract(Number(ctx.params.id))
-
-    const contract = await addContract(currentContract.deal_id, name, address)
+    const [contract] = await Promise.all([
+      addContract(Number(ctx.params.id), name, address),
+      deleteContract(Number(ctx.params.id), Number(ctx.params.contractId)),
+    ])
 
     return NextResponse.json<Contract>(contract)
   },

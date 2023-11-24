@@ -13,15 +13,15 @@ const AddContractModal = () => {
   const { id } = useParams()
   const { activeModal, closeModal } = useModals()
 
-  const dealsUpdater = useOptimisticUpdater("getDeals")
+  const contractsUpdater = useOptimisticUpdater("getDealContracts")
   const { mutate: addContract } = useMutation({
-    mutationFn: apiClient.addContract,
-    onSettled: dealsUpdater.invalidate,
+    mutationFn: apiClient.addDealContract,
+    onSettled: contractsUpdater.invalidate,
     onSuccess: closeModal,
   })
 
   const onSubmit = (data: AddOrEditContractModalInputs) => {
-    addContract({ deal_id: Number(id), ...data })
+    addContract({ id: Number(id), ...data })
   }
 
   return (
