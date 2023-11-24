@@ -85,6 +85,12 @@ export const useDeals = () =>
     },
   })
 
+export const useContract = (params: { id?: number } = {}) =>
+  useApiQuery("getContract", {
+    params,
+    enabled: typeof params.id !== "undefined",
+  })
+
 export const useUsers = (params?: {
   limit?: number
   offset?: number

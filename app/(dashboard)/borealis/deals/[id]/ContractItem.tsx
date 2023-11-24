@@ -8,9 +8,15 @@ type ContractItemProps = {
   address: string
   name: string
   onDelete: () => void
+  onEdit: () => void
 }
 
-const ContractItem = ({ address, name, onDelete }: ContractItemProps) => {
+const ContractItem = ({
+  address,
+  name,
+  onDelete,
+  onEdit,
+}: ContractItemProps) => {
   return (
     <li className="flex items-center px-4 sm:px-5 md:px-6 py-4 md:py-[18px] space-x-6">
       <div className="flex flex-col flex-1 space-y-1.5 sm:space-x-6 sm:items-center sm:flex-row sm:space-y-0">
@@ -28,7 +34,7 @@ const ContractItem = ({ address, name, onDelete }: ContractItemProps) => {
       </div>
       <div className="flex space-x-4 sm:space-x-5">
         <button
-          onClick={() => console.log("edit contract")}
+          onClick={onEdit}
           className="p-2 -m-2 text-gray-500 hover:text-gray-900"
         >
           <span className="sr-only">Edit contract</span>

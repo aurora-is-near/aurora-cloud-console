@@ -6,13 +6,17 @@ import { useDeal } from "../../../../../utils/api/queries"
 import ContractItem from "./ContractItem"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
+import { Modals, useModals } from "@/hooks/useModals"
+import { useQueryState } from "next-usequerystate"
 
 type ContractsListProps = {
   dealId: number
 }
 
 const ContractsList = ({ dealId }: ContractsListProps) => {
+  const [, setId] = useQueryState("id")
   const { data: deal } = useDeal({ id: dealId })
+  const { openModal } = useModals()
   const getDealUpdater = useOptimisticUpdater("getDeal", { id: dealId })
   const getDealsUpdater = useOptimisticUpdater("getDeals")
 
@@ -41,7 +45,13 @@ const ContractsList = ({ dealId }: ContractsListProps) => {
           key={contract.address}
           address={contract.address}
           name={contract.name}
-          onDelete={() => deleteContract({ id: contract.id })}
+          onDelete={() => {
+            deleteContract({ id: contract.id })
+          }}
+          onEdit={() => {
+            setId(String(contract.id))
+            openModal(Modals.EditContract)
+          }}
         />
       ))}
     </ul>
