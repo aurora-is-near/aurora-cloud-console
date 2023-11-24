@@ -7,6 +7,7 @@ import Button from "@/components/Button"
 import Modal from "@/components/Modal"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
+import { useRouter } from "next/navigation"
 
 type Inputs = {
   name: string
@@ -16,12 +17,13 @@ type Inputs = {
 const InviteModal = () => {
   const { activeModal, closeModal } = useModals()
   const isOpen = activeModal === Modals.InviteTeam
+  const router = useRouter()
 
   const {
     register,
     handleSubmit,
     setError,
-    reset,
+    reset: resetForm,
     watch,
     formState: { errors },
   } = useForm<Inputs>()
@@ -30,9 +32,10 @@ const InviteModal = () => {
 
   const handleClose = () => {
     closeModal()
+    router.refresh()
     setTimeout(() => {
       resetMutation()
-      reset()
+      resetForm()
     }, 200)
   }
 
