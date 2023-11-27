@@ -6,12 +6,14 @@ import { useState } from "react"
 import { RadioGroup } from "@headlessui/react"
 import clsx from "clsx"
 import NumberEasing from "./NumberEasing"
+import TabLegend, { TabLegendProps } from "@/components/TabLegend"
+import { ChartColor } from "@/types/types"
 
 type TabType = {
   title: string
   value?: number
   chart: ReactNode
-  legend: string[]
+  legend: TabLegendProps["legend"]
   dateOptions?: {
     label: string
   }
@@ -30,6 +32,7 @@ type TabChartsProps<T> = {
     label: string
     value: T
   }[]
+  colors?: ChartColor[]
 }
 
 const TabCharts = <T extends unknown>({
@@ -38,6 +41,7 @@ const TabCharts = <T extends unknown>({
   selectedDateOption,
   onDateOptionChange,
   dateOptions,
+  colors,
 }: TabChartsProps<T>) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
 
@@ -134,23 +138,7 @@ const TabCharts = <T extends unknown>({
                   )}
                 </div>
                 <div className="px-1 pb-1">
-                  <div className="flex items-center w-full px-5 space-x-6 rounded-b-sm bg-gray-50 h-9">
-                    {legend.map((text, i) => (
-                      <div key={text} className="flex items-center space-x-2">
-                        <div
-                          className={clsx("h-2.5 w-2.5 rounded-sm", {
-                            "bg-green-400": i === 0,
-                            "bg-cyan-400": i === 1,
-                            "bg-orange-400": i === 2,
-                            "bg-purple-400": i === 3,
-                          })}
-                        />
-                        <span className="text-xs font-medium leading-3 text-gray-900">
-                          {text}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
+                  <TabLegend legend={legend} colors={colors} />
                 </div>
               </Tab.Panel>
             ))}

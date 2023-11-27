@@ -1,4 +1,21 @@
-export const CHART_COLOURS = ["#4ade80", "#22d3ee", "#fb923c", "#c084fc"]
+export const CHART_COLOURS = [
+  "green",
+  "cyan",
+  "orange",
+  "purple",
+  "rose",
+] as const
+
+export const CHART_COLOUR_HEXES: {
+  [x in (typeof CHART_COLOURS)[number]]: string
+} = {
+  green: "#4ade80",
+  cyan: "#22d3ee",
+  orange: "#fb923c",
+  purple: "#c084fc",
+  rose: "#fb7185",
+}
+
 export const CHART_DATE_OPTIONS = [
   {
     label: "All time",

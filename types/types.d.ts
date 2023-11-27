@@ -1,3 +1,4 @@
+import { CHART_COLOURS } from "@/constants/charts"
 import { Database } from "./supabase"
 
 export type UserInfo = {
@@ -92,3 +93,5 @@ export type ApiKey = Tables<"api_keys">
 export type ApiUser = User & {
   scopes: ApiScopes[]
 }
+
+export type ChartColor = (typeof CHART_COLOURS)[number]
