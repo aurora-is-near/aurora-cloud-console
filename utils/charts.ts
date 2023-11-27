@@ -1,5 +1,5 @@
-import { CHART_COLOURS } from "../constants/charts"
-import { Transactions } from "../types/types"
+import { CHART_COLOURS, CHART_COLOUR_HEXES } from "../constants/charts"
+import { ChartColor, Transactions } from "../types/types"
 
 type DailyMetricKey = "transactionsPerDay" | "walletsPerDay"
 
@@ -10,18 +10,36 @@ const getDates = (key: DailyMetricKey, data?: Transactions): string[] =>
     return acc
   }, []) ?? []
 
-const getChartColor = (index: number) =>
-  CHART_COLOURS[index % CHART_COLOURS.length]
+export const getChartColor = <T extends ChartColor>(
+  index: number,
+  fixedColors?: T[],
+): (typeof CHART_COLOUR_HEXES)[T] => {
+  const fixedColor = fixedColors?.[index]
 
-export const getLineChartData = (key: DailyMetricKey, data?: Transactions) => {
+  if (fixedColor) {
+    return CHART_COLOUR_HEXES[fixedColor]
+  }
+
+  const color = CHART_COLOURS[index % CHART_COLOURS.length]
+
+  return CHART_COLOUR_HEXES[color]
+}
+
+export const getLineChartData = (
+  key: DailyMetricKey,
+  data?: Transactions,
+  colors?: ChartColor[],
+) => {
+  console.log(getDates(key, data))
+
   return {
     labels: getDates(key, data),
     datasets:
       data?.items.map((silo, index) => ({
         label: silo.label,
         data: silo[key].map(({ count }) => count),
-        borderColor: getChartColor(index),
-        backgroundColor: getChartColor(index),
+        borderColor: getChartColor(index, colors),
+        backgroundColor: getChartColor(index, colors),
         tension: 0.3,
       })) ?? [],
   }
