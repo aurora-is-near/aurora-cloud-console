@@ -8,6 +8,7 @@ import {
   Transactions,
   Users,
   Deals,
+  Contract,
 } from "@/types/types"
 import { request } from "./request"
 
@@ -64,6 +65,56 @@ export const apiClient = {
     id: string
     interval?: string
   }) => request<Transactions>(`/api/transactions/deals/${id}`, { query }),
+
+  toggleDeal: async ({ id, ...data }: Pick<Deal, "id" | "enabled">) =>
+    request<Deal>(`/api/deals/${id}/toggle`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+
+  getDealContracts: async ({ id }: { id: number }) =>
+    request<Contract[]>(`/api/deals/${id}/contracts`),
+
+  getDealContract: async ({
+    id,
+    contractId,
+  }: {
+    id: number
+    contractId: number
+  }) => request<Contract>(`/api/deals/${id}/contracts/${contractId}`),
+
+  addDealContract: async ({
+    id,
+    ...data
+  }: { id: number } & Pick<Contract, "name" | "address">) =>
+    request<Contract>(`/api/deals/${id}/contracts`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  deleteDealContract: async ({
+    id,
+    contractId,
+  }: {
+    id: number
+    contractId: number
+  }) =>
+    request(`/api/deals/${id}/contracts/${contractId}`, {
+      method: "DELETE",
+    }),
+
+  updateDealContract: async ({
+    id,
+    contractId,
+    ...data
+  }: {
+    id: number
+    contractId: number
+  } & Pick<Contract, "name" | "address">) =>
+    request<Contract>(`/api/deals/${id}/contracts/${contractId}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
 
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 

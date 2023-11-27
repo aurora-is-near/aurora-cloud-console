@@ -15,7 +15,7 @@ const PER_PAGE = 20
 
 type UsersListProps = {
   title: string
-  dealId?: string
+  dealId?: number
 }
 
 const UsersList = ({ title, dealId }: UsersListProps) => {
@@ -33,7 +33,7 @@ const UsersList = ({ title, dealId }: UsersListProps) => {
     const exportSearchParams = new URLSearchParams()
 
     if (dealId) {
-      exportSearchParams.set("dealId", dealId)
+      exportSearchParams.set("dealId", String(dealId))
     }
 
     return `/api/users/export?${exportSearchParams}`

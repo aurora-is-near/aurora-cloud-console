@@ -15,11 +15,10 @@ const EditApiKeyModal = () => {
   const { activeModal, closeModal } = useModals()
   const [id, setId] = useQueryState("id")
   const isOpen = activeModal === Modals.EditApiKey
-  const { data: apiKey, isInitialLoading } = useApiKey(
-    id ? Number(id) : undefined,
-  )
+  const apiKeyId = id ? Number(id) : undefined
+  const { data: apiKey } = useApiKey(apiKeyId)
 
-  const getApiKeyUpdater = useOptimisticUpdater("getApiKey")
+  const getApiKeyUpdater = useOptimisticUpdater("getApiKey", { id: apiKeyId })
   const getApiKeysUpdater = useOptimisticUpdater("getApiKeys")
 
   const { mutate: updateApiKey } = useMutation({

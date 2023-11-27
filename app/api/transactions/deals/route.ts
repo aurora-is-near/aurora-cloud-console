@@ -1,22 +1,22 @@
 import { NextRequest, NextResponse } from "next/server"
-import { apiRequestHandler } from "@/utils/api"
-import { query } from "../../../../utils/proxy-db/query"
+import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { Transactions } from "../../../../types/types"
-import { getDeals, getSilos } from "../../../../mockApi"
+import { getSilos } from "../../../../mockApi"
 import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
 import { getTransactionsChart } from "../../../../utils/transactions"
+import { getDeals } from "@/utils/proxy-api/get-deals"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
-  async (req: NextRequest) => {
+  async (req: NextRequest, ctx: ApiRequestContext) => {
     const interval = req.nextUrl.searchParams.get("interval")
-    const [silos, deals] = await Promise.all([getSilos(), getDeals()])
+    const [silos, deals] = await Promise.all([getSilos(), getDeals(ctx.user)])
 
     const chainIds = silos.map((silo) => silo.chainId)
 
     const results = await Promise.all(
       deals.map((deal) =>
-        queryTransactions(chainIds, { interval, dealId: deal.id }),
+        queryTransactions(chainIds, { interval, dealId: deal.key }),
       ),
     )
 

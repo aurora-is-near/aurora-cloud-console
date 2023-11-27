@@ -1,21 +1,24 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { Transactions } from "../../../../../types/types"
-import { getDealById, getSilos } from "../../../../../mockApi"
+import { getSilos } from "../../../../../mockApi"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
-import { query } from "../../../../../utils/proxy-db/query"
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
+import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const interval = req.nextUrl.searchParams.get("interval")
-    console.log("req", ctx.params.id)
     const [silos, deal] = await Promise.all([
       getSilos(),
-      getDealById(ctx.params.id),
+      getDealById(ctx.user, Number(ctx.params.id)),
     ])
+
+    if (!deal) {
+      abort(404)
+    }
 
     if (!deal) {
       abort(404)
@@ -25,7 +28,7 @@ export const GET = apiRequestHandler(
 
     const results = await queryTransactions(chainIds, {
       interval,
-      dealId: ctx.params.id,
+      dealId: deal.key,
     })
 
     return NextResponse.json<Transactions>({

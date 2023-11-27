@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
-import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { queryUsers } from "../../../../utils/proxy-db/query-users"
 import { getSilos } from "../../../../mockApi"
 import { UserDetailsQuery } from "../../../../types/types"
+import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 
 const HEADERS: (keyof UserDetailsQuery)[] = [
   "wallet_address",
@@ -13,14 +14,17 @@ const HEADERS: (keyof UserDetailsQuery)[] = [
 
 export const GET = apiRequestHandler(
   ["users:read"],
-  async (req: NextRequest) => {
+  async (req: NextRequest, ctx: ApiRequestContext) => {
     const silos = await getSilos()
     const siloChainIds = silos.map((silo) => silo.chainId)
     const { searchParams } = req.nextUrl
     const dealId = searchParams.get("dealId")
+    const dealKey = dealId
+      ? (await getDealById(ctx.user, Number(dealId)))?.key
+      : null
 
     const result = await queryUsers(siloChainIds, {
-      dealId,
+      dealKey,
     })
 
     const csv = [

@@ -1,4 +1,5 @@
 import {
+  QueryClient,
   QueryKey,
   UseQueryOptions,
   UseQueryResult,
@@ -8,10 +9,10 @@ import {
 import { apiClient } from "./client"
 import { getQueryKey } from "./query-keys"
 
-type Options = {
+type Options<TQueryFnData> = {
   enabled?: boolean
   id?: number
-  relatedFunctionName?: keyof typeof apiClient
+  onSuccess?: (queryClient: QueryClient, data: TQueryFnData) => void
   params?: any
 }
 
@@ -23,33 +24,24 @@ export const useApiQuery = <
   TQueryKey extends QueryKey = QueryKey,
 >(
   functionName: K,
-  { enabled, relatedFunctionName, params }: Options = {},
+  { enabled, onSuccess, params }: Options<TQueryFnData> = {},
 ): UseQueryResult<TQueryFnData, TError> => {
   const queryKey: TQueryKey = getQueryKey(functionName, params)
   const queryClient = useQueryClient()
 
   const queryFn = () => apiClient[functionName](params)
 
-  const onSuccess = async (data: TQueryFnData) => {
-    if (!relatedFunctionName || !Array.isArray(data)) {
-      return
+  const handleSuccess = async (data: TQueryFnData) => {
+    if (onSuccess) {
+      onSuccess(queryClient, data)
     }
-
-    // Update the query cache for any related items.
-    data.forEach((item) => {
-      if (typeof item !== "object" || !item.id) {
-        return
-      }
-
-      queryClient.setQueryData(getQueryKey(relatedFunctionName, item.id), item)
-    })
   }
 
   return useQuery<TQueryFnData, TError, TData, TQueryKey>({
     queryKey,
     queryFn,
     enabled,
-    onSuccess,
+    onSuccess: handleSuccess,
   } as UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>)
 }
 
@@ -57,7 +49,13 @@ export const useCurrentUser = () => useApiQuery("getCurrentUser")
 
 export const useApiKeys = () =>
   useApiQuery("getApiKeys", {
-    relatedFunctionName: "getApiKey",
+    onSuccess: async (queryClient, data) => {
+      data.forEach((apiKey) => {
+        const queryKey = getQueryKey("getApiKey", { id: apiKey.id })
+
+        queryClient.setQueryData(queryKey, apiKey)
+      })
+    },
   })
 
 export const useApiKey = (id?: number) =>
@@ -73,18 +71,41 @@ export const useSilo = (params: { id: string }) =>
 
 export const useSilos = () => useApiQuery("getSilos")
 
-export const useDeal = (params: { id: string }) =>
+export const useDeal = (params: { id: number }) =>
   useApiQuery("getDeal", { params })
 
-export const useDeals = () => useApiQuery("getDeals")
+export const useDeals = () =>
+  useApiQuery("getDeals", {
+    onSuccess: async (queryClient, data) => {
+      data.deals.forEach((deal) => {
+        const queryKey = getQueryKey("getDeal", { id: deal.id })
+
+        queryClient.setQueryData(queryKey, deal)
+      })
+    },
+  })
+
+export const useDealContracts = (params: { id?: number } = {}) =>
+  useApiQuery("getDealContracts", {
+    params,
+    enabled: typeof params.id !== "undefined",
+  })
+
+export const useDealContract = (
+  params: { id?: number; contractId?: number } = {},
+) =>
+  useApiQuery("getDealContract", {
+    params,
+    enabled: typeof params.id !== "undefined",
+  })
 
 export const useUsers = (params?: {
   limit?: number
   offset?: number
-  dealId?: string
+  dealId?: number
 }) => useApiQuery("getUsers", { params })
 
-export const useUsersExport = (params?: { dealId?: string }) =>
+export const useUsersExport = (params?: { dealId?: number }) =>
   useApiQuery("getUsersExport", { params })
 
 export const useSilosTransactions = (params?: { interval: string | null }) =>

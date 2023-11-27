@@ -1,17 +1,18 @@
 "use client"
 
 import ListItemLoader from "../../../../../components/ListItemLoader"
-import { useDeal } from "../../../../../utils/api/queries"
+import { useDeal, useDealContracts } from "../../../../../utils/api/queries"
 import ContractItem from "./ContractItem"
 
 type ContractsListProps = {
-  dealId: string
+  dealId: number
 }
 
 const ContractsList = ({ dealId }: ContractsListProps) => {
   const { data: deal } = useDeal({ id: dealId })
+  const { data: contracts } = useDealContracts({ id: dealId })
 
-  if (!deal) {
+  if (!deal || !contracts) {
     return <ListItemLoader />
   }
 
@@ -20,8 +21,8 @@ const ContractsList = ({ dealId }: ContractsListProps) => {
       className="border-t border-gray-200 divide-y divide-gray-200"
       role="list"
     >
-      {deal.contracts.map((contract) => (
-        <ContractItem key={contract.address} {...contract} />
+      {contracts.map((contract) => (
+        <ContractItem key={contract.id} deal={deal} contract={contract} />
       ))}
     </ul>
   )

@@ -71,6 +71,73 @@ export interface Database {
         }
         Relationships: []
       }
+      contracts: {
+        Row: {
+          address: string
+          created_at: string
+          deal_id: number
+          id: number
+          name: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          deal_id: number
+          id?: number
+          name: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          deal_id?: number
+          id?: number
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contracts_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      deals: {
+        Row: {
+          company_id: string
+          created_at: string
+          enabled: boolean
+          id: number
+          key: string
+          name: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          enabled?: boolean
+          id?: number
+          key: string
+          name: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          enabled?: boolean
+          id?: number
+          key?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deals_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           company_id: string | null
