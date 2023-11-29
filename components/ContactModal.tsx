@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { Modals, useModals } from "@/hooks/useModals"
 import Button from "@/components/Button"
 import Modal from "@/components/Modal"
-import { usePathname } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "../utils/api/client"
 
@@ -17,7 +16,6 @@ type Inputs = {
 const ContactModal = () => {
   const { activeModal, closeModal } = useModals()
   const isOpen = activeModal === Modals.Contact
-  const page = usePathname()
 
   const {
     register,
@@ -46,7 +44,10 @@ const ContactModal = () => {
   })
 
   const handleSend: SubmitHandler<Inputs> = async (data) =>
-    sendMessage({ ...data, page })
+    sendMessage({
+      ...data,
+      pageUri: window.location.href.split(/[?#]/)[0],
+    })
 
   return (
     <Modal
