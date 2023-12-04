@@ -4,24 +4,26 @@ import { useState } from "react"
 import { RadioGroup } from "@headlessui/react"
 import clsx from "clsx"
 
-const options = [
-  {
-    title: "Open List",
-    description: "Any wallet address will get free transactions.",
-  },
-  {
-    title: "Whitelist",
-    description:
-      "Only the wallet addresses from the selected segments will get free transactions",
-  },
-]
+type AccessSelectorOption = {
+  title: string
+  description: string
+  showAccessLists: boolean
+}
 
-const AccessSelector = () => {
-  const [selected, setSelected] = useState(options[0])
+type AccessSelectorProps<Option extends AccessSelectorOption> = {
+  selectedOption: Option
+  options: Option[]
+  setSelectedOption: (option: Option) => void
+}
 
+const AccessSelector = <Option extends AccessSelectorOption>({
+  selectedOption,
+  options,
+  setSelectedOption,
+}: AccessSelectorProps<Option>) => {
   return (
     <div className="px-4 pb-4 sm:pb-5 md:pb-6 sm:px-5 md:px-6">
-      <RadioGroup value={selected} onChange={setSelected}>
+      <RadioGroup value={selectedOption} onChange={setSelectedOption}>
         <RadioGroup.Label className="sr-only">
           Select user access type
         </RadioGroup.Label>
