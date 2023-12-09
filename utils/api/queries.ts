@@ -131,3 +131,5 @@ export const useDealsTransactions = (params: { interval?: string | null }) =>
   useApiQuery("getDealsTransactions", {
     params,
   })
+
+export const useTeams = () => useApiQuery("getTeams")

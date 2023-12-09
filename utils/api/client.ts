@@ -9,6 +9,7 @@ import {
   Users,
   Deals,
   Contract,
+  Teams,
 } from "@/types/types"
 import { request } from "./request"
 
@@ -150,4 +151,6 @@ export const apiClient = {
       method: "POST",
       body: JSON.stringify(data),
     }),
+
+  getTeams: async () => request<Teams>("/api/admin/teams"),
 }

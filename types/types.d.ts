@@ -76,6 +76,16 @@ export type Deals = {
   deals: Deal[]
 }
 
+export type Team = {
+  id: number
+  name: string
+  key: string
+}
+
+export type Teams = {
+  teams: Team[]
+}
+
 export type Tables<T extends keyof Database["public"]["Tables"]> =
   Database["public"]["Tables"][T]["Row"]
 
