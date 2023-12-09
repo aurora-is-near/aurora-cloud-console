@@ -3,6 +3,16 @@
 A dump of the Supabase trigger for managing user creation.
 
 ```text
+-- Check if a key exists in the given metadata object
+create or replace function public.has_metadata_key(metadata jsonb, key text)
+returns boolean as $$
+begin
+  return metadata is not null and exists (
+    select 1 from jsonb_object_keys(metadata) as k where k = key
+  );
+end;
+$$ language plpgsql security definer;
+
 -- Handle new auth user creation
 create or replace function public.handle_new_auth_user()
 returns trigger as $$
@@ -19,12 +29,8 @@ begin
   from public.users
   where user_id = new.id::uuid;
 
-  -- Check if the new_team key exists in the metadata
-  if new.raw_user_meta_data is not null and exists (
-    select 1
-    from jsonb_object_keys(new.raw_user_meta_data) as key
-    where key = 'new_team'
-  ) then
+  -- Set the user's initial team
+  if public.has_metadata_key(new.raw_user_meta_data, 'new_team') then
     -- Retrieve team_id from teams where team_key matches new_team value from metadata
     select id into new_team_id
     from public.teams
@@ -37,6 +43,13 @@ begin
       insert into public.users_teams (user_id, team_id)
       values (new_user_id, new_team_id);
     end if;
+  end if;
+
+  -- Set the user's initial name
+  if public.has_metadata_key(new.raw_user_meta_data, 'name') then
+    update public.users
+    set name = (new.raw_user_meta_data->>'name')::text
+    where id = new_user_id;
   end if;
 
   return new;
