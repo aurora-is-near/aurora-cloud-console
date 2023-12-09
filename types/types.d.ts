@@ -79,11 +79,22 @@ export type Deals = {
 export type Team = {
   id: number
   name: string
-  key: string
+  team_key: string
 }
 
 export type Teams = {
   teams: Team[]
+}
+
+export type TeamMember = {
+  id: number
+  name: string | null
+  email: string
+}
+
+export type TeamMembers = {
+  total: number
+  teamMembers: TeamMember[]
 }
 
 export type Tables<T extends keyof Database["public"]["Tables"]> =

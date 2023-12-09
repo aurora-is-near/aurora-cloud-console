@@ -10,6 +10,7 @@ import {
   Deals,
   Contract,
   Teams,
+  TeamMembers,
 } from "@/types/types"
 import { request } from "./request"
 
@@ -152,5 +153,7 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
-  getTeams: async () => request<Teams>("/api/admin/teams"),
+  getTeam: async () => request<Teams>("/api/admin/team"),
+
+  getTeamMembers: async () => request<TeamMembers>("/api/admin/team/members"),
 }
