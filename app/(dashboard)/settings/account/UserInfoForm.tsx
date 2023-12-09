@@ -104,7 +104,7 @@ const UserInfoForm = ({
       setShowForm(false)
       router.refresh()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 

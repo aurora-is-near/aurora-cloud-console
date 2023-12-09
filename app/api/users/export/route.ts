@@ -34,8 +34,6 @@ export const GET = apiRequestHandler(
       ),
     ].join("\n")
 
-    console.log(csv)
-
     return new NextResponse(csv, {
       headers: {
         "content-type": "application/csv",

@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.redirect(new URL("/borealis/deals", request.url))
   } catch (error) {
-    console.log(error)
+    console.error(error)
     const loginUrl = new URL("/login", request.url)
     loginUrl.searchParams.set("error", "login_failed")
     return NextResponse.redirect(loginUrl)
