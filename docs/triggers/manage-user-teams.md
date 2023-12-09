@@ -47,4 +47,29 @@ drop trigger if exists on_users_teams_deleted on public.users_teams;
 create trigger on_users_teams_deleted
   after delete on public.users_teams
   for each row execute procedure public.handle_deleted_users_teams();
+
+
+-- Update all relevant user teams on team_key change
+create or replace function public.update_users_teams_on_team_key_change()
+returns trigger as $$
+declare
+  user_id bigint;
+begin
+  for user_id in (
+    select ut.user_id
+    from users_teams ut
+    where ut.team_id = new.id
+  )
+  loop
+    perform public.update_user_metadata(user_id);
+  end loop;
+  return new;
+end;
+$$ language plpgsql security definer;
+
+-- trigger to execute the function on team_key changes
+drop trigger if exists on_team_key_change_update_users_teams on teams;
+create trigger on_team_key_change_update_users_teams
+  after update of team_key on teams
+  for each row execute procedure public.update_users_teams_on_team_key_change();
 ```
