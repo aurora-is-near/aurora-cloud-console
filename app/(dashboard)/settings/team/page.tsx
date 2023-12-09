@@ -1,7 +1,6 @@
 "use client"
 
 import Heading from "@/components/Heading"
-import Table from "@/components/Table"
 import InviteButton from "./InviteButton"
 import { useTeamMembers } from "@/utils/api/queries"
 import TableLoader from "@/components/TableLoader"
