@@ -49,8 +49,6 @@ export async function middleware(req: NextRequest) {
 
   const teamKey = getTeamKey(req)
 
-  console.log("session", session, session.user.user_metadata)
-
   // Redirect to the unauthorised page if there is not site key or if the user
   // is not a member of the associated team
   if (!teamKey || !session.user.user_metadata.teams.includes(teamKey)) {
