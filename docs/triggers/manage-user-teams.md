@@ -6,15 +6,27 @@ A dump of the Supabase trigger for managing user teams.
 -- Shared function to update a user's teams
 create or replace function public.update_user_metadata(user_id_param bigint)
 returns void as $$
+declare
+  team_keys_agg jsonb;
 begin
+  -- Aggregate team_key values into a variable
+  select jsonb_agg(t.team_key) into team_keys_agg
+  from public.teams t
+  inner join public.users_teams ut ON t.id = ut.team_id
+  where ut.user_id = user_id_param;
+
   update auth.users u
-  set raw_user_meta_data = raw_user_meta_data || jsonb_build_object('teams', (
-    select json_agg(t.team_key)
-    from teams t
-    inner join users_teams ON t.id = users_teams.team_id
-    where users_teams.user_id = user_id_param
-  ))
-  where u.id = (select user_id from users where id = user_id_param);
+  set raw_user_meta_data = (
+    select COALESCE(
+      jsonb_set(
+        COALESCE(u.raw_user_meta_data, '{}'::jsonb),
+        '{teams}',
+        COALESCE(u.raw_user_meta_data->'teams', '[]'::jsonb) || team_keys_agg
+      ),
+      '{}'::jsonb
+    )
+  )
+  where u.id = (select user_id from public.users where id = user_id_param);
 end;
 $$ language plpgsql security definer;
 

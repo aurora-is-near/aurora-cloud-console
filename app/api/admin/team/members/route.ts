@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { adminSupabase } from "@/utils/supabase"
-import { Team, TeamMembers, User, Users } from "@/types/types"
+import { TeamMembers } from "@/types/types"
 import { getTeamKey } from "@/utils/team-key"
 import { abort } from "@/utils/abort"
 
@@ -10,10 +10,8 @@ export const GET = apiRequestHandler(
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const teamKey = getTeamKey(req)
 
-    console.log(teamKey)
-
     if (!teamKey) {
-      abort(404)
+      abort(500, "No team key found")
     }
 
     const supabase = adminSupabase()

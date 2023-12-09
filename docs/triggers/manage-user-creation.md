@@ -3,12 +3,42 @@
 A dump of the Supabase trigger for managing user creation.
 
 ```text
--- inserts a row into public.users
+-- Handle new auth user creation
 create or replace function public.handle_new_auth_user()
 returns trigger as $$
+declare
+  new_user_id bigint;
+  new_team_id bigint;
 begin
+  -- Insert a row into public.users
   insert into public.users (user_id, email, created_at)
   values (new.id::uuid, new.email, new.created_at);
+
+  -- Retrieve user_id from public.users where user_id matches new.id::uuid
+  select id into new_user_id
+  from public.users
+  where user_id = new.id::uuid;
+
+  -- Check if the new_team key exists in the metadata
+  if new.raw_user_meta_data is not null and exists (
+    select 1
+    from jsonb_object_keys(new.raw_user_meta_data) as key
+    where key = 'new_team'
+  ) then
+    -- Retrieve team_id from teams where team_key matches new_team value from metadata
+    select id into new_team_id
+    from public.teams
+    where team_key = (new.raw_user_meta_data->>'new_team');
+
+    if new_team_id is null then
+      raise exception 'new_team_id is null. Cannot proceed with user_team insertion.';
+    else
+      -- Insert into users_teams using the team_id extracted from the metadata
+      insert into public.users_teams (user_id, team_id)
+      values (new_user_id, new_team_id);
+    end if;
+  end if;
+
   return new;
 end;
 $$ language plpgsql security definer;

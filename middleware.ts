@@ -4,9 +4,10 @@ import type { NextRequest } from "next/server"
 import { Database } from "./types/supabase"
 import { getTeamKey } from "@/utils/team-key"
 
-const authCallbackRoute = "/auth/callback"
-const loginRoute = "/login"
-const unauthorisedRoute = "/login/unauthorised"
+const AUTH_CALLBACK_ROUTE = "/auth/callback"
+const LOGIN_ROUTE = "/login"
+const UNAUTHORISED_ROUTE = "/login/unauthorised"
+const ADMIN_EMAIL_DOMAIN = "aurora.dev"
 
 const redirect = (req: NextRequest, res: NextResponse, route: string) => {
   const pathname = req.nextUrl.pathname
@@ -25,7 +26,7 @@ const dealsRedirect = (req: NextRequest, res: NextResponse) =>
   redirect(req, res, "/borealis/deals")
 
 const unauthorisedRedirect = (req: NextRequest, res: NextResponse) =>
-  redirect(req, res, unauthorisedRoute)
+  redirect(req, res, UNAUTHORISED_ROUTE)
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
@@ -38,7 +39,7 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getSession()
 
   // Bail if an auth callback is in progress
-  if (pathname === authCallbackRoute) {
+  if (pathname === AUTH_CALLBACK_ROUTE) {
     return res
   }
 
@@ -49,15 +50,23 @@ export async function middleware(req: NextRequest) {
 
   const teamKey = getTeamKey(req)
 
+  console.log("hello", session)
+
   // Redirect to the unauthorised page if there is not site key or if the user
-  // is not a member of the associated team
-  if (!teamKey || !session.user.user_metadata.teams.includes(teamKey)) {
+  // is not a member of the associated team, or an admin user.
+  if (
+    !teamKey ||
+    !(
+      session.user.user_metadata.teams?.includes(teamKey) ||
+      session.user.email?.split("@")[1] === ADMIN_EMAIL_DOMAIN
+    )
+  ) {
     return unauthorisedRedirect(req, res)
   }
 
   // Finally, redirect to the deals page if the user is logged in and on any
   // of the login pages
-  if (session && pathname.startsWith(loginRoute)) {
+  if (session && pathname.startsWith(LOGIN_ROUTE)) {
     return dealsRedirect(req, res)
   }
 
