@@ -141,21 +141,27 @@ export interface Database {
       teams: {
         Row: {
           created_at: string
+          email: string | null
           id: number
           name: string
           team_key: string
+          website: string | null
         }
         Insert: {
           created_at?: string
+          email?: string | null
           id?: number
           name: string
           team_key: string
+          website?: string | null
         }
         Update: {
           created_at?: string
+          email?: string | null
           id?: number
           name?: string
           team_key?: string
+          website?: string | null
         }
         Relationships: []
       }
@@ -196,15 +202,15 @@ export interface Database {
       }
       users_teams: {
         Row: {
-          team_id: number | null
+          team_id: number
           user_id: number
         }
         Insert: {
-          team_id?: number | null
+          team_id: number
           user_id: number
         }
         Update: {
-          team_id?: number | null
+          team_id?: number
           user_id?: number
         }
         Relationships: [
@@ -218,7 +224,7 @@ export interface Database {
           {
             foreignKeyName: "users_teams_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
@@ -238,6 +244,19 @@ export interface Database {
       add_scopes_to_api_key_type: {
         Args: {
           scopes_to_add: string[]
+        }
+        Returns: undefined
+      }
+      has_metadata_key: {
+        Args: {
+          metadata: Json
+          key: string
+        }
+        Returns: boolean
+      }
+      update_user_metadata: {
+        Args: {
+          user_id_param: number
         }
         Returns: undefined
       }

@@ -17,7 +17,7 @@ export const GET = apiRequestHandler(
     const supabase = adminSupabase()
     const { data: team, error } = await supabase
       .from("teams")
-      .select("id, name, team_key")
+      .select("id, name, website, email, team_key")
       .eq("team_key", teamKey)
       .single()
 

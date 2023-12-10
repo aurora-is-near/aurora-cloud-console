@@ -80,6 +80,8 @@ export type Team = {
   id: number
   name: string
   team_key: string
+  website: string | null
+  email: string | null
 }
 
 export type Teams = {
