@@ -3,10 +3,12 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { Database } from "./types/supabase"
 import { getTeamKey } from "@/utils/team-key"
+import {
+  AUTH_CALLBACK_ROUTE,
+  LOGIN_ROUTE,
+  LOGIN_UNAUTHORISED_ROUTE,
+} from "./constants/routes"
 
-const AUTH_CALLBACK_ROUTE = "/auth/callback"
-const LOGIN_ROUTE = "/login"
-const UNAUTHORISED_ROUTE = "/login/unauthorised"
 const ADMIN_EMAIL_DOMAIN = "aurora.dev"
 
 const redirect = (req: NextRequest, res: NextResponse, route: string) => {
@@ -26,7 +28,7 @@ const dealsRedirect = (req: NextRequest, res: NextResponse) =>
   redirect(req, res, "/borealis/deals")
 
 const unauthorisedRedirect = (req: NextRequest, res: NextResponse) =>
-  redirect(req, res, UNAUTHORISED_ROUTE)
+  redirect(req, res, LOGIN_UNAUTHORISED_ROUTE)
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
@@ -49,8 +51,6 @@ export async function middleware(req: NextRequest) {
   }
 
   const teamKey = getTeamKey(req)
-
-  console.log("hello", session)
 
   // Redirect to the unauthorised page if there is not site key or if the user
   // is not a member of the associated team, or an admin user.

@@ -2,6 +2,7 @@
 
 import { Heading } from "@/app/login/Heading"
 import Button from "@/components/Button"
+import { LOGIN_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -16,7 +17,7 @@ export default function Page() {
   const onGoBackClick = async () => {
     await supabase.auth.signOut()
 
-    router.push("/login")
+    router.push(LOGIN_ROUTE)
   }
 
   const onRefreshClick = async () => {

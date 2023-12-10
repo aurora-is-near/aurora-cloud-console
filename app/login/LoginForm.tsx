@@ -5,6 +5,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { CheckCircleIcon } from "@heroicons/react/20/solid"
 import Button from "@/components/Button"
+import { AUTH_CALLBACK_ROUTE } from "@/constants/routes"
 
 type Inputs = {
   email: string
@@ -25,7 +26,7 @@ const LoginForm = () => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: location.origin + "/auth/callback",
+        emailRedirectTo: `${location.origin}${AUTH_CALLBACK_ROUTE}`,
       },
     })
 
