@@ -1,4 +1,3 @@
-import { AuroraTriangle } from "@/components/icons"
 import LoginForm from "@/app/login/LoginForm"
 import { Heading } from "./Heading"
 

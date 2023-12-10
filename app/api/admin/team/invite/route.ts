@@ -5,6 +5,7 @@ import { abort } from "@/utils/abort"
 import { sendEmail } from "@/utils/email"
 import { Team } from "@/types/types"
 import { getTeam, isTeamMember } from "@/utils/team"
+import { LOGIN_ACCEPT_ROUTE } from "@/constants/routes"
 
 const getUserId = async (email: string) => {
   const cleanedEmail = email.toLowerCase().trim()
@@ -68,7 +69,7 @@ export const POST = apiRequestHandler(
 
     if (!user) {
       const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
-        redirectTo: req.nextUrl.origin,
+        redirectTo: `${req.nextUrl.origin}/${LOGIN_ACCEPT_ROUTE}`,
         data: { name, new_team: ctx.teamKey },
       })
 

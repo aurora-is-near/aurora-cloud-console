@@ -5,6 +5,7 @@ import { Database } from "./types/supabase"
 import { getTeamKey } from "@/utils/team-key"
 import {
   AUTH_CALLBACK_ROUTE,
+  LOGIN_ACCEPT_ROUTE,
   LOGIN_ROUTE,
   LOGIN_UNAUTHORISED_ROUTE,
 } from "./constants/routes"
@@ -41,7 +42,7 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getSession()
 
   // Do nothing if an auth callback is in progress
-  if (pathname === AUTH_CALLBACK_ROUTE) {
+  if ([AUTH_CALLBACK_ROUTE, LOGIN_ACCEPT_ROUTE].includes(pathname)) {
     return res
   }
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { adminSupabase } from "@/utils/supabase"
 import { apiRequestHandler } from "@/utils/api"
+import { LOGIN_ACCEPT_ROUTE } from "@/constants/routes"
 
 export const POST = apiRequestHandler(["admin"], async (req: NextRequest) => {
   const { email } = await req.json()
@@ -9,7 +10,7 @@ export const POST = apiRequestHandler(["admin"], async (req: NextRequest) => {
     email,
     type: "signup",
     options: {
-      emailRedirectTo: req.nextUrl.origin,
+      emailRedirectTo: `${req.nextUrl.origin}/${LOGIN_ACCEPT_ROUTE}`,
     },
   })
 
