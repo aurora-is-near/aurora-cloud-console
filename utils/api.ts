@@ -75,7 +75,7 @@ export const apiRequestHandler =
     let data: Body
 
     try {
-      abortIfUnauthorised(user, scopes)
+      abortIfUnauthorised(user, scopes, teamKey)
       data = await handler(req, { ...ctx, user, teamKey })
     } catch (error: unknown) {
       return getErrorResponse(error)

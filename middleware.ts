@@ -8,8 +8,8 @@ import {
   LOGIN_ROUTE,
   LOGIN_UNAUTHORISED_ROUTE,
 } from "./constants/routes"
-
-const ADMIN_EMAIL_DOMAIN = "aurora.dev"
+import { ADMIN_EMAIL_DOMAIN } from "@/constants/auth"
+import { isAdminUser } from "@/utils/admin"
 
 const redirect = (req: NextRequest, res: NextResponse, route: string) => {
   const pathname = req.nextUrl.pathname
@@ -58,7 +58,7 @@ export async function middleware(req: NextRequest) {
     !teamKey ||
     !(
       session.user.user_metadata.teams?.includes(teamKey) ||
-      session.user.email?.split("@")[1] === ADMIN_EMAIL_DOMAIN
+      isAdminUser(session.user)
     )
   ) {
     return unauthorisedRedirect(req, res)

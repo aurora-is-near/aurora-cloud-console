@@ -1,11 +1,11 @@
-import { ApiUser, Deal } from "@/types/types"
+import { Deal } from "@/types/types"
 import { getDeals } from "@/utils/proxy-api/get-deals"
 
 export const getDealById = async (
-  user: ApiUser,
+  teamKey: string | null,
   dealId: number,
 ): Promise<Deal | null> => {
-  const deals = await getDeals(user)
+  const deals = await getDeals(teamKey)
 
   return deals.find((deal) => deal.id === dealId) ?? null
 }

@@ -20,7 +20,7 @@ export const GET = apiRequestHandler(
     const { searchParams } = req.nextUrl
     const dealId = searchParams.get("dealId")
     const dealKey = dealId
-      ? (await getDealById(ctx.user, Number(dealId)))?.key
+      ? (await getDealById(ctx.teamKey, Number(dealId)))?.key
       : null
 
     const result = await queryUsers(siloChainIds, {

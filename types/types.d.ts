@@ -115,6 +115,7 @@ export type ApiKey = Tables<"api_keys">
 
 export type ApiUser = User & {
   scopes: ApiScopes[]
+  teams: string[]
 }
 
 export type ChartColor = (typeof CHART_COLOURS)[number]

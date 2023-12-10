@@ -13,7 +13,7 @@ export const GET = apiRequestHandler(
     const interval = req.nextUrl.searchParams.get("interval")
     const [silos, deal] = await Promise.all([
       getSilos(),
-      getDealById(ctx.user, Number(ctx.params.id)),
+      getDealById(ctx.teamKey, Number(ctx.params.id)),
     ])
 
     if (!deal) {

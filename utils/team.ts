@@ -16,6 +16,20 @@ export const getTeam = async (teamKey: string): Promise<Team> => {
   return data
 }
 
+export const getUserTeamKeys = async (userId: number) => {
+  const supabase = adminSupabase()
+  const { data, error } = await supabase
+    .from("teams")
+    .select("team_key, users_teams!inner(user_id)")
+    .eq("users_teams.user_id", userId)
+
+  if (error) {
+    throw error
+  }
+
+  return data.map((team) => team.team_key)
+}
+
 export const isTeamMember = async (userId: number, teamId: number) => {
   const supabase = adminSupabase()
   const { data, error } = await supabase

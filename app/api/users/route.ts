@@ -17,7 +17,7 @@ export const GET = apiRequestHandler(
     const offset = searchParams.get("offset") ?? 0
     const dealId = searchParams.get("dealId")
     const dealKey = dealId
-      ? (await getDealById(ctx.user, Number(dealId)))?.key
+      ? (await getDealById(ctx.teamKey, Number(dealId)))?.key
       : null
 
     const results = await Promise.all([

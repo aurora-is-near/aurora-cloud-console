@@ -1,13 +1,13 @@
-import { ApiUser, Deal } from "@/types/types"
+import { Deal } from "@/types/types"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 import { adminSupabase } from "@/utils/supabase"
 
 export const toggleDeal = async (
-  user: ApiUser,
+  teamKey: string | null,
   dealId: number,
   enabled: boolean,
 ): Promise<Deal | null> => {
-  const deal = await getDealById(user, dealId)
+  const deal = await getDealById(teamKey, dealId)
 
   if (!deal) {
     return null
