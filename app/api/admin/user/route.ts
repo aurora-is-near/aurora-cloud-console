@@ -5,38 +5,7 @@ import { abort } from "@/utils/abort"
 import { getTeamKey } from "@/utils/team-key"
 import { sendEmail } from "@/utils/email"
 import { Team } from "@/types/types"
-import { AUTH_CALLBACK_ROUTE, LOGIN_ROUTE } from "@/constants/routes"
-
-const isExistingTeamMember = async (userId: number, teamId: number) => {
-  const supabase = adminSupabase()
-  const { data, error } = await supabase
-    .from("users_teams")
-    .select("user_id")
-    .eq("user_id", userId)
-    .eq("team_id", teamId)
-    .maybeSingle()
-
-  if (error) {
-    throw error
-  }
-
-  return !!data
-}
-
-const getTeam = async (teamKey: string): Promise<Team> => {
-  const supabase = adminSupabase()
-  const { data, error } = await supabase
-    .from("teams")
-    .select("id, name, website, email, team_key")
-    .eq("team_key", teamKey)
-    .single()
-
-  if (error) {
-    throw error
-  }
-
-  return data
-}
+import { getTeam, isTeamMember } from "@/utils/team"
 
 const getUser = async (email: string) => {
   const cleanedEmail = email.toLowerCase().trim()
@@ -132,7 +101,7 @@ export const POST = apiRequestHandler(["admin"], async (req: NextRequest) => {
     abort(404, `Team not found for key: ${teamKey}`)
   }
 
-  if (await isExistingTeamMember(user.id, team.id)) {
+  if (await isTeamMember(user.id, team.id)) {
     abort(400, "User is already a member of this team")
   }
 

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server"
 
-export const getTeamKey = (req: NextRequest) => {
+export const getTeamKey = (req: NextRequest): string | null => {
   const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host")
 
   if (!host) {
@@ -10,7 +10,7 @@ export const getTeamKey = (req: NextRequest) => {
   const hostname = host.split(":")[0]
 
   if (["localhost", "127.0.0.1"].includes(hostname)) {
-    return process.env.DEFAULT_TEAM_KEY
+    return process.env.DEFAULT_TEAM_KEY ?? null
   }
 
   const hostnameParts = hostname.split(".")

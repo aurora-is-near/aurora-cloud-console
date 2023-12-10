@@ -11,7 +11,10 @@ export const GET = apiRequestHandler(
   ["transactions:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const interval = req.nextUrl.searchParams.get("interval")
-    const [silos, deals] = await Promise.all([getSilos(), getDeals(ctx.user)])
+    const [silos, deals] = await Promise.all([
+      getSilos(),
+      getDeals(ctx.teamKey),
+    ])
 
     const silo = silos.find((silo) => silo.id === ctx.params.id)
 

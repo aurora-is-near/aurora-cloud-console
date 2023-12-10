@@ -111,6 +111,7 @@ export interface Database {
           id: number
           key: string
           name: string
+          team_id: number | null
         }
         Insert: {
           company_id: string
@@ -119,6 +120,7 @@ export interface Database {
           id?: number
           key: string
           name: string
+          team_id?: number | null
         }
         Update: {
           company_id?: string
@@ -127,6 +129,7 @@ export interface Database {
           id?: number
           key?: string
           name?: string
+          team_id?: number | null
         }
         Relationships: [
           {
@@ -134,6 +137,13 @@ export interface Database {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deals_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
             referencedColumns: ["id"]
           },
         ]
