@@ -3,6 +3,9 @@ import { adminSupabase } from "@/utils/supabase"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { abort } from "@/utils/abort"
 import { getTeamKey } from "@/utils/team-key"
+import { sendEmail } from "@/utils/email"
+import { Team } from "@/types/types"
+import { AUTH_CALLBACK_ROUTE, LOGIN_ROUTE } from "@/constants/routes"
 
 const isExistingTeamMember = async (userId: number, teamId: number) => {
   const supabase = adminSupabase()
@@ -20,11 +23,11 @@ const isExistingTeamMember = async (userId: number, teamId: number) => {
   return !!data
 }
 
-const getTeam = async (teamKey: string) => {
+const getTeam = async (teamKey: string): Promise<Team> => {
   const supabase = adminSupabase()
   const { data, error } = await supabase
     .from("teams")
-    .select("id, name, team_key")
+    .select("id, name, website, email, team_key")
     .eq("team_key", teamKey)
     .single()
 
@@ -51,6 +54,37 @@ const getUser = async (email: string) => {
   return data
 }
 
+const addUserToTeam = async (
+  userId: number,
+  email: string,
+  team: Team,
+  origin: string,
+) => {
+  const supabase = adminSupabase()
+  const { error } = await supabase
+    .from("users_teams")
+    .insert([{ team_id: team.id, user_id: userId }])
+
+  if (error) {
+    throw error
+  }
+
+  await sendEmail({
+    From: "console@auroracloud.dev",
+    To: email,
+    Subject: `You've been invited to a team on Aurora Cloud Console`,
+    HtmlBody: `
+      <p>Hi there,</p>
+      <p>You've been invited to join the <strong>${team.name}</strong> team on Aurora Cloud Console.</p>
+      <p>
+        <a href="${origin}">
+          Click here to get started
+        </a>
+      </p>
+    `,
+  })
+}
+
 export const PATCH = apiRequestHandler(
   ["admin"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
@@ -67,49 +101,42 @@ export const PATCH = apiRequestHandler(
   },
 )
 
-export const POST = apiRequestHandler(
-  ["admin"],
-  async (req: NextRequest, ctx: ApiRequestContext) => {
-    const { email, name } = await req.json()
-    const cleanedEmail = email.toLowerCase().trim()
-    const supabase = adminSupabase()
-    const teamKey = getTeamKey(req)
+export const POST = apiRequestHandler(["admin"], async (req: NextRequest) => {
+  const { email, name } = await req.json()
+  const cleanedEmail = email.toLowerCase().trim()
+  const supabase = adminSupabase()
+  const teamKey = getTeamKey(req)
 
-    if (!teamKey) {
-      abort(500, "No team key found")
+  if (!teamKey) {
+    abort(500, "No team key found")
+  }
+
+  const user = await getUser(cleanedEmail)
+
+  if (!user) {
+    const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
+      redirectTo: req.nextUrl.origin,
+      data: { name, new_team: teamKey },
+    })
+
+    if (error) {
+      throw error
     }
-
-    const user = await getUser(cleanedEmail)
-
-    if (!user) {
-      const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
-        // TODO: Change URL
-        redirectTo: "https://aurora-cloud-console.vercel.app",
-        data: { name, new_team: teamKey },
-      })
-
-      if (error) {
-        throw error
-      }
-
-      return NextResponse.json({ status: "OK" })
-    }
-
-    const team = await getTeam(teamKey)
-
-    if (!team) {
-      abort(404, `Team not found for key: ${teamKey}`)
-    }
-
-    if (await isExistingTeamMember(user.id, team.id)) {
-      abort(400, "User is already a member of this team")
-    }
-
-    // Add the user to the team if they exist.
-    const { error } = await supabase
-      .from("users_teams")
-      .insert([{ team_id: team.id, user_id: user.id }])
 
     return NextResponse.json({ status: "OK" })
-  },
-)
+  }
+
+  const team = await getTeam(teamKey)
+
+  if (!team) {
+    abort(404, `Team not found for key: ${teamKey}`)
+  }
+
+  if (await isExistingTeamMember(user.id, team.id)) {
+    abort(400, "User is already a member of this team")
+  }
+
+  await addUserToTeam(user.id, cleanedEmail, team, req.nextUrl.origin)
+
+  return NextResponse.json({ status: "OK" })
+})
