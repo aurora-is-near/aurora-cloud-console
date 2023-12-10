@@ -7,7 +7,7 @@ import { sendEmail } from "@/utils/email"
 import { Team } from "@/types/types"
 import { getTeam, isTeamMember } from "@/utils/team"
 
-const getUser = async (email: string) => {
+const getUserId = async (email: string) => {
   const cleanedEmail = email.toLowerCase().trim()
   const supabase = adminSupabase()
   const { data, error } = await supabase
@@ -80,7 +80,7 @@ export const POST = apiRequestHandler(["admin"], async (req: NextRequest) => {
     abort(500, "No team key found")
   }
 
-  const user = await getUser(cleanedEmail)
+  const user = await getUserId(cleanedEmail)
 
   if (!user) {
     const { error } = await supabase.auth.admin.inviteUserByEmail(email, {

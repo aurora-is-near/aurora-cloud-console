@@ -15,7 +15,7 @@ import {
 import { request } from "./request"
 
 export const apiClient = {
-  getCurrentUser: async () => request<User>("/api/admin/user"),
+  getCurrentUser: async () => request<User>("/api/admin/current-user"),
 
   updateCurrentUser: async (data: Partial<Pick<User, "name">>) =>
     request<User>("/api/admin/user", {
@@ -156,4 +156,9 @@ export const apiClient = {
   getTeam: async () => request<Team>("/api/admin/team"),
 
   getTeamMembers: async () => request<TeamMembers>("/api/admin/team/members"),
+
+  deleteTeamMember: async ({ id }: { id: number }) =>
+    request(`/api/admin/team/members/${id}`, {
+      method: "DELETE",
+    }),
 }
