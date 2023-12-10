@@ -65,8 +65,11 @@ export async function middleware(req: NextRequest) {
   }
 
   // Finally, redirect to the deals page if the user is logged in and on any
-  // of the login pages
-  if (session && pathname.startsWith(LOGIN_ROUTE)) {
+  // of the login pages, or the base path.
+  if (
+    session &&
+    ["/", LOGIN_ROUTE, LOGIN_UNAUTHORISED_ROUTE].includes(pathname)
+  ) {
     return dealsRedirect(req, res)
   }
 
