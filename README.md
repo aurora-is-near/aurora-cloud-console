@@ -144,3 +144,10 @@ invite other users to the team.
 
 In development we can set the `DEFAULT_TEAM_KEY` environment variable in order
 to switch between teams (rather than relying on subdomains).
+
+### Admin access
+
+At the time of writing, all email addresses ending with `aurora.dev` are
+provided with admin access to all teams. These users do not need to be invited
+to a team explicitly to be able to view that team's dashboard, although they
+do need to exist in Supabase Auth.
