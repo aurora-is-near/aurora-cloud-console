@@ -24,7 +24,7 @@ export const GET = apiRequestHandler(
 
     const { data: users, error: usersError } = await supabase
       .from("users")
-      .select("id, name, email, users_teams!inner(user_id, is_pending)")
+      .select("id, name, email, users_teams!inner(user_id, confirmed_at)")
       .eq("users_teams.team_id", team.id)
 
     if (usersError) {
@@ -37,7 +37,7 @@ export const GET = apiRequestHandler(
         id: user.id,
         name: user.name,
         email: user.email,
-        isPending: user.users_teams[0].is_pending,
+        isPending: !user.users_teams[0].confirmed_at,
       })),
     })
   },

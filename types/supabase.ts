@@ -212,17 +212,17 @@ export interface Database {
       }
       users_teams: {
         Row: {
-          is_pending: boolean
+          confirmed_at: string | null
           team_id: number
           user_id: number
         }
         Insert: {
-          is_pending?: boolean
+          confirmed_at?: string | null
           team_id: number
           user_id: number
         }
         Update: {
-          is_pending?: boolean
+          confirmed_at?: string | null
           team_id?: number
           user_id?: number
         }

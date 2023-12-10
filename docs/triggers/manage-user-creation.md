@@ -66,10 +66,24 @@ create trigger on_auth_user_created
 -- update a row in public.users when the email is updated
 create or replace function public.handle_updated_auth_user()
 returns trigger as $$
+declare
+  updated_user_id bigint;
 begin
+  -- Get the public user ID linked to the auth user GUID
+  select id into updated_user_id
+  from public.users
+  where user_id = new.id::uuid;
+
+  -- Update the users table
   update public.users
   set email = new.email
-  where user_id = new.id::uuid;
+  where id = updated_user_id;
+
+  -- Update the users_teams table
+  update public.users_teams
+  set confirmed_at = new.confirmed_at
+  where user_id = updated_user_id;
+
   return new;
 end;
 $$ language plpgsql security definer;
