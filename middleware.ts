@@ -35,12 +35,12 @@ export async function middleware(req: NextRequest) {
   const supabase = createMiddlewareClient<Database>({ req, res })
   const pathname = req.nextUrl.pathname
 
-  // Refreshes the session if the session is expired but user has a refresh token
+  // Get or refresh the session
   const {
     data: { session },
   } = await supabase.auth.getSession()
 
-  // Bail if an auth callback is in progress
+  // Do nothing if an auth callback is in progress
   if (pathname === AUTH_CALLBACK_ROUTE) {
     return res
   }
@@ -52,8 +52,8 @@ export async function middleware(req: NextRequest) {
 
   const teamKey = getTeamKey(req)
 
-  // Redirect to the unauthorised page if there is not site key or if the user
-  // is not a member of the associated team, or an admin user.
+  // Redirect to the unauthorised page if there is no team key, or if the user
+  // is not authorised to access that team
   if (
     !teamKey ||
     !(
@@ -65,7 +65,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // Finally, redirect to the deals page if the user is logged in and on any
-  // of the login pages, or the base path.
+  // of the login pages, or the base path
   if (
     session &&
     ["/", LOGIN_ROUTE, LOGIN_UNAUTHORISED_ROUTE].includes(pathname)
