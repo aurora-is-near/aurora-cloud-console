@@ -111,7 +111,7 @@ export interface Database {
           id: number
           key: string
           name: string
-          team_id: number | null
+          team_id: number
         }
         Insert: {
           company_id: string
@@ -120,7 +120,7 @@ export interface Database {
           id?: number
           key: string
           name: string
-          team_id?: number | null
+          team_id: number
         }
         Update: {
           company_id?: string
@@ -129,7 +129,7 @@ export interface Database {
           id?: number
           key?: string
           name?: string
-          team_id?: number | null
+          team_id?: number
         }
         Relationships: [
           {
@@ -212,14 +212,17 @@ export interface Database {
       }
       users_teams: {
         Row: {
+          is_pending: boolean
           team_id: number
           user_id: number
         }
         Insert: {
+          is_pending?: boolean
           team_id: number
           user_id: number
         }
         Update: {
+          is_pending?: boolean
           team_id?: number
           user_id?: number
         }

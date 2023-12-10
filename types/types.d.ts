@@ -92,6 +92,7 @@ export type TeamMember = {
   id: number
   name: string | null
   email: string
+  isPending: boolean
 }
 
 export type TeamMembers = {

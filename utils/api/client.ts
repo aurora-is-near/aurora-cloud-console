@@ -24,7 +24,13 @@ export const apiClient = {
     }),
 
   inviteUser: async (data: Partial<Pick<User, "email" | "name">>) =>
-    request("/api/admin/user", {
+    request("/api/admin/team/invite", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  reinviteUser: async (data: Partial<Pick<User, "email">>) =>
+    request("/api/admin/team/reinvite", {
       method: "POST",
       body: JSON.stringify(data),
     }),

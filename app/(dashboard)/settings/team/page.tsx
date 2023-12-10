@@ -5,6 +5,8 @@ import InviteButton from "./InviteButton"
 import { useTeamMembers } from "@/utils/api/queries"
 import TableLoader from "@/components/TableLoader"
 import { TeamMembersTable } from "@/app/(dashboard)/settings/team/TeamMembersTable"
+import InviteConfirmedModal from "@/app/(dashboard)/settings/team/InviteConfirmedModal"
+import InviteModal from "@/app/(dashboard)/settings/team/InviteModal"
 
 const Page = () => {
   const { data: teamMembers, isInitialLoading } = useTeamMembers()
@@ -21,6 +23,9 @@ const Page = () => {
       ) : (
         <TeamMembersTable teamMembers={teamMembers?.teamMembers ?? []} />
       )}
+
+      <InviteModal />
+      <InviteConfirmedModal />
     </>
   )
 }
