@@ -8,6 +8,7 @@ import Modal from "@/components/Modal"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useRouter } from "next/navigation"
+import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 
 type Inputs = {
   name: string
@@ -18,6 +19,7 @@ const InviteModal = () => {
   const { activeModal, closeModal } = useModals()
   const isOpen = activeModal === Modals.InviteTeam
   const router = useRouter()
+  const getTeamMembersUpdater = useOptimisticUpdater("getTeamMembers")
 
   const {
     register,
@@ -33,6 +35,7 @@ const InviteModal = () => {
   const handleClose = () => {
     closeModal()
     router.refresh()
+    getTeamMembersUpdater.invalidate()
     setTimeout(() => {
       resetMutation()
       resetForm()
