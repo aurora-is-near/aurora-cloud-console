@@ -76,6 +76,30 @@ export type Deals = {
   deals: Deal[]
 }
 
+export type Team = {
+  id: number
+  name: string
+  team_key: string
+  website: string | null
+  email: string | null
+}
+
+export type Teams = {
+  teams: Team[]
+}
+
+export type TeamMember = {
+  id: number
+  name: string | null
+  email: string
+  isPending: boolean
+}
+
+export type TeamMembers = {
+  total: number
+  teamMembers: TeamMember[]
+}
+
 export type Tables<T extends keyof Database["public"]["Tables"]> =
   Database["public"]["Tables"][T]["Row"]
 
@@ -92,6 +116,7 @@ export type ApiKey = Tables<"api_keys">
 
 export type ApiUser = User & {
   scopes: ApiScopes[]
+  teams: string[]
 }
 
 export type ChartColor = (typeof CHART_COLOURS)[number]

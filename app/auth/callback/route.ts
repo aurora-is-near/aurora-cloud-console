@@ -1,3 +1,4 @@
+import { LOGIN_ROUTE } from "@/constants/routes"
 import { Database } from "@/types/supabase"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL("/borealis/deals", request.url))
   } catch (error) {
     console.error(error)
-    const loginUrl = new URL("/login", request.url)
+    const loginUrl = new URL(LOGIN_ROUTE, request.url)
     loginUrl.searchParams.set("error", "login_failed")
     return NextResponse.redirect(loginUrl)
   }

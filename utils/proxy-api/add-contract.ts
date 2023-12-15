@@ -1,5 +1,5 @@
 import { Contract } from "@/types/types"
-import { adminSupabase } from "@/utils/supabase"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 
 export const addContract = async (
   dealId: number,

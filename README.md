@@ -94,3 +94,60 @@ To to this we use the set of
 [Postgres triggers](https://supabase.com/docs/guides/database/postgres/triggers),
 which can be seen in the [SQL Queries](https://supabase.com/dashboard/project/xqharbhfobwuhpcdsapg/sql)
 section of the Subabase UI.
+
+## Muti-site setup
+
+The Aurora Cloud Console implements a teams system based on subdomains. Each
+team is associated with one or more silos and the dashboard for that team
+can be accessed via a unique subdomain. For example, to access the Whitebit
+team we can visit <http://whitebit.aurora-cloud-console.com>.
+
+### User access
+
+When a user is invited to a team we create a row in the `users_teams` table.
+We also set some custom metadata on the Supabase Auth user object, via
+a Postgres trigger. This custom metadata contains all of the teams that the user
+has been granted access to.
+
+For example, if a user is a member of the `aurora` and `whitebit` teams their
+user object might look something like this:
+
+```json
+{
+  "id": "da153a55-00b2-4661-95c3-e79663486b86",
+  "email": "alex.mendes@aurora.dev",
+  "user_metadata": {
+    "teams": [
+      "aurora",
+      "whitebit"
+    ]
+  },
+}
+```
+
+This setup means we can create authentication middleware that check the session
+object to see if a user should be granted access to a team's dashboard.
+
+Users and teams have a many-to-many relationship. Most users will only ever be
+invited to a single team, but could be invited to many.
+
+### Creating a team
+
+To create a new team add a row to the `teams` table. The `team_key` is
+effectively the subdomain from which we want to serve the dashboard for that
+team.
+
+A team should always contain at least one user. This user will be allowed to
+invite other users to the team.
+
+### Local development
+
+In development we can set the `DEFAULT_TEAM_KEY` environment variable in order
+to switch between teams (rather than relying on subdomains).
+
+### Admin access
+
+At the time of writing, all email addresses ending with `aurora.dev` are
+provided with admin access to all teams. These users do not need to be invited
+to a team explicitly to be able to view that team's dashboard, although they
+do need to exist in Supabase Auth.

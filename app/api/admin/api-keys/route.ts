@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { adminSupabase } from "@/utils/supabase"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { ApiKey } from "@/types/types"
 
 export const GET = apiRequestHandler(

@@ -1,15 +1,6 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
-import { cache } from "react"
-import { cookies } from "next/headers"
 import { Database } from "@/types/supabase"
 import { createClient } from "@supabase/supabase-js"
-import { getRequiredEnvVar } from "./env"
-
-export const serverSupabase = cache(() => {
-  const cookieStore = cookies()
-
-  return createServerComponentClient<Database>({ cookies: () => cookieStore })
-})
+import { getRequiredEnvVar } from "../env"
 
 export const adminSupabase = () => {
   const supabaseUrl = getRequiredEnvVar("NEXT_PUBLIC_SUPABASE_URL")

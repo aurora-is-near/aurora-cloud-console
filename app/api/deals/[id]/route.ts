@@ -7,7 +7,7 @@ import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 export const GET = apiRequestHandler(
   ["deals:read"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const deal = await getDealById(ctx.user, Number(ctx.params.id))
+    const deal = await getDealById(ctx.teamKey, Number(ctx.params.id))
 
     if (!deal) {
       abort(404)

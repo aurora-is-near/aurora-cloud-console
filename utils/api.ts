@@ -5,6 +5,7 @@ import httpStatus from "http-status"
 import { toError } from "./errors"
 import { abortIfUnauthorised, isAbortError } from "./abort"
 import { kebabCase } from "change-case"
+import { getTeamKey } from "@/utils/team-key"
 
 type BaseApiRequestContext = {
   params: {
@@ -14,6 +15,7 @@ type BaseApiRequestContext = {
 
 export type ApiRequestContext = BaseApiRequestContext & {
   user: ApiUser
+  teamKey: string | null
 }
 
 export type AuthorisedApiRequestContext = Omit<ApiRequestContext, "user"> & {
@@ -68,12 +70,12 @@ const getErrorResponse = (error: unknown) => {
 export const apiRequestHandler =
   <Body = unknown>(scopes: ApiScope[], handler: ApiRequestHandler<Body>) =>
   async (req: NextRequest, ctx: BaseApiRequestContext) => {
-    const user = await getUser()
+    const [user, teamKey] = await Promise.all([getUser(), getTeamKey(req)])
     let data: Body
 
     try {
-      abortIfUnauthorised(user, scopes)
-      data = await handler(req, { ...ctx, user })
+      abortIfUnauthorised(user, scopes, teamKey)
+      data = await handler(req, { ...ctx, user, teamKey })
     } catch (error: unknown) {
       return getErrorResponse(error)
     }

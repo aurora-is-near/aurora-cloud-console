@@ -1,4 +1,4 @@
-import { adminSupabase } from "@/utils/supabase"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 
 export const deleteContract = async (
   dealId: number,

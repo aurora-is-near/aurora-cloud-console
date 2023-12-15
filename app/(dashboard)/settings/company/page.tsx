@@ -1,23 +1,11 @@
-import { adminSupabase, serverSupabase } from "@/utils/supabase"
+"use client"
+
 import Heading from "@/components/Heading"
 import Card from "@/components/Card"
+import { useTeam } from "@/utils/api/queries"
 
-const Page = async () => {
-  const supabase = serverSupabase()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) throw new Error("No user found.")
-
-  const { data: company, error } = await adminSupabase()
-    .from("companies")
-    .select("name, website, email, users!inner(id)")
-    .eq("users.user_id", user.id)
-    .maybeSingle()
-
-  if (error || !company) throw new Error("No company found.")
+const Page = () => {
+  const { data: team } = useTeam()
 
   return (
     <div className="space-y-4 sm:space-y-5">
@@ -31,7 +19,7 @@ const Page = async () => {
               Company name
             </dt>
             <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-              {company.name}
+              {team?.name}
             </dd>
           </div>
           <div className="sm:grid sm:grid-cols-2">
@@ -39,7 +27,7 @@ const Page = async () => {
               Business website
             </dt>
             <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-              {company.website}
+              {team?.website}
             </dd>
           </div>
           <div className="sm:grid sm:grid-cols-2">
@@ -47,7 +35,7 @@ const Page = async () => {
               Support email
             </dt>
             <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-              {company.email}
+              {team?.email}
             </dd>
           </div>
         </dl>

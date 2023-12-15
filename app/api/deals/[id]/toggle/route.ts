@@ -8,14 +8,14 @@ import { toggleDeal } from "@/utils/proxy-api/toggle-deal"
 export const PUT = apiRequestHandler(
   ["deals:write"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    const deal = await getDealById(ctx.user, Number(ctx.params.id))
+    const deal = await getDealById(ctx.teamKey, Number(ctx.params.id))
     const { enabled } = await req.json()
 
     if (!deal) {
       abort(404)
     }
 
-    await toggleDeal(ctx.user, deal.id, enabled)
+    await toggleDeal(ctx.teamKey, deal.id, enabled)
 
     return NextResponse.json<Deal>(deal)
   },

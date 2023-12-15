@@ -1,16 +1,19 @@
-import { ApiUser, Deal } from "@/types/types"
-import { adminSupabase } from "@/utils/supabase"
+import { Deal } from "@/types/types"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
+import { getTeam } from "@/utils/team"
 
-export const getDeals = async (user: ApiUser): Promise<Deal[]> => {
-  if (!user.company_id) {
+export const getDeals = async (teamKey: string | null): Promise<Deal[]> => {
+  if (!teamKey) {
     return []
   }
+
+  const team = await getTeam(teamKey)
 
   const { data: deals, error: dealsError } = await adminSupabase()
     .from("deals")
     .select("id, name, created_at, key, enabled")
     .order("created_at", { ascending: false })
-    .eq("company_id", user.company_id)
+    .eq("team_id", team.id)
 
   if (!deals) {
     return []

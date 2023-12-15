@@ -1,5 +1,5 @@
 import { Contract } from "@/types/types"
-import { adminSupabase } from "@/utils/supabase"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 
 export const getContracts = async (dealId: number): Promise<Contract[]> => {
   const { data: contracts, error } = await adminSupabase()
