@@ -9,7 +9,6 @@ import { TrashIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import { useMutation } from "@tanstack/react-query"
 import { useQueryState } from "next-usequerystate"
 import { useCallback } from "react"
-import InviteConfirmedModal from "./InviteConfirmedModal"
 
 type TeamMembersTableProps = {
   teamMembers: TeamMember[]
@@ -19,15 +18,18 @@ export const TeamMembersTable = ({ teamMembers }: TeamMembersTableProps) => {
   const getTeamMembersUpdater = useOptimisticUpdater("getTeamMembers")
   const { data: currentUser } = useCurrentUser()
   const { openModal } = useModals()
-  const [, setName] = useQueryState("name")
   const [, setEmail] = useQueryState("email")
 
   const { mutate: deleteTeamMember } = useMutation({
     mutationFn: apiClient.deleteTeamMember,
     onMutate: ({ id }) => {
-      getTeamMembersUpdater.replace(
-        teamMembers?.filter((teamMember) => teamMember.id !== id) || [],
-      )
+      const newTeamMembers =
+        teamMembers?.filter((teamMember) => teamMember.id !== id) || []
+
+      getTeamMembersUpdater.replace({
+        total: newTeamMembers.length,
+        teamMembers: newTeamMembers,
+      })
     },
     onSettled: getTeamMembersUpdater.invalidate,
   })

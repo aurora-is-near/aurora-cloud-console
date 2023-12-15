@@ -46,7 +46,7 @@ export const useOptimisticUpdater = <
    * Replace a query result optimistically.
    */
   const replace = useCallback(
-    async <T = Data>(newData: T) => {
+    async (newData: Data) => {
       set(() => newData)
     },
     [set],
