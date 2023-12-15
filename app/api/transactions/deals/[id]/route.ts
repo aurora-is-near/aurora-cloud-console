@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { Transactions } from "../../../../../types/types"
-import { getSilos } from "../../../../../mockApi"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
+import { getSilos } from "@/utils/proxy-api/get-silos"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const interval = req.nextUrl.searchParams.get("interval")
     const [silos, deal] = await Promise.all([
-      getSilos(),
+      getSilos(ctx.teamKey),
       getDealById(ctx.teamKey, Number(ctx.params.id)),
     ])
 

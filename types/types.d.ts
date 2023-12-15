@@ -29,7 +29,7 @@ export type Token = {
 }
 
 export type Silo = {
-  id: string
+  id: number
   name: string
   chainId: string
   tokens: Token[]

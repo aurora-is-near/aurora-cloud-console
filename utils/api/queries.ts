@@ -37,12 +37,12 @@ export const useApiQuery = <
     }
   }
 
-  return useQuery<TQueryFnData, TError, TData, TQueryKey>({
+  return useQuery<TQueryFnData | undefined, TError, TData, TQueryKey>({
     queryKey,
     queryFn,
     enabled,
     onSuccess: handleSuccess,
-  } as UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>)
+  } as UseQueryOptions<TQueryFnData | undefined, TError, TData, TQueryKey>)
 }
 
 export const useCurrentUser = () => useApiQuery("getCurrentUser")

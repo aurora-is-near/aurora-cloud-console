@@ -44,32 +44,8 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
-      }
-      companies: {
-        Row: {
-          created_at: string
-          email: string | null
-          id: string
-          name: string
-          website: string | null
-        }
-        Insert: {
-          created_at?: string
-          email?: string | null
-          id?: string
-          name: string
-          website?: string | null
-        }
-        Update: {
-          created_at?: string
-          email?: string | null
-          id?: string
-          name?: string
-          website?: string | null
-        }
-        Relationships: []
       }
       contracts: {
         Row: {
@@ -100,12 +76,11 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "deals"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       deals: {
         Row: {
-          company_id: string
           created_at: string
           enabled: boolean
           id: number
@@ -114,7 +89,6 @@ export interface Database {
           team_id: number
         }
         Insert: {
-          company_id: string
           created_at?: string
           enabled?: boolean
           id?: number
@@ -123,7 +97,6 @@ export interface Database {
           team_id: number
         }
         Update: {
-          company_id?: string
           created_at?: string
           enabled?: boolean
           id?: number
@@ -133,19 +106,74 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "deals_company_id_fkey"
-            columns: ["company_id"]
-            isOneToOne: false
-            referencedRelation: "companies"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "deals_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
             referencedColumns: ["id"]
+          }
+        ]
+      }
+      silos: {
+        Row: {
+          chain_id: string
+          created_at: string
+          id: number
+          name: string
+          team_id: number | null
+        }
+        Insert: {
+          chain_id: string
+          created_at?: string
+          id?: number
+          name: string
+          team_id?: number | null
+        }
+        Update: {
+          chain_id?: string
+          created_at?: string
+          id?: number
+          name?: string
+          team_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silos_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      silos_tokens: {
+        Row: {
+          silo_id: number
+          token_id: number
+        }
+        Insert: {
+          silo_id: number
+          token_id: number
+        }
+        Update: {
+          silo_id?: number
+          token_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silos_tokens_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "silos_tokens_token_id_fkey"
+            columns: ["token_id"]
+            isOneToOne: false
+            referencedRelation: "tokens"
+            referencedColumns: ["id"]
+          }
         ]
       }
       teams: {
@@ -175,9 +203,32 @@ export interface Database {
         }
         Relationships: []
       }
+      tokens: {
+        Row: {
+          address: string
+          created_at: string
+          id: number
+          name: string
+          type: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          id?: number
+          name: string
+          type: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          id?: number
+          name?: string
+          type?: string
+        }
+        Relationships: []
+      }
       users: {
         Row: {
-          company_id: string | null
           created_at: string
           email: string
           id: number
@@ -185,7 +236,6 @@ export interface Database {
           user_id: string
         }
         Insert: {
-          company_id?: string | null
           created_at?: string
           email: string
           id?: number
@@ -193,22 +243,13 @@ export interface Database {
           user_id: string
         }
         Update: {
-          company_id?: string | null
           created_at?: string
           email?: string
           id?: number
           name?: string | null
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_company_id_fkey"
-            columns: ["company_id"]
-            isOneToOne: false
-            referencedRelation: "companies"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       users_teams: {
         Row: {
@@ -240,7 +281,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
     }
@@ -296,7 +337,7 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -320,7 +361,7 @@ export type TablesInsert<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
@@ -341,7 +382,7 @@ export type TablesUpdate<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
@@ -362,7 +403,7 @@ export type Enums<
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]

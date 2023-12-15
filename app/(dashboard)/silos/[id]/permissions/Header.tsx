@@ -1,14 +1,14 @@
+"use client"
+
 import BreadcrumbHeading from "@/components/BreadcrumbHeading"
-import { getSiloById } from "@/mockApi"
+import { useSilo } from "@/utils/api/queries"
 import { notFound } from "next/navigation"
 import React from "react"
 
-const Header = async ({ siloId }: { siloId: string }) => {
-  const silo = await getSiloById(siloId)
+const Header = ({ siloId }: { siloId: string }) => {
+  const { data: silo } = useSilo({ id: siloId })
 
-  if (!silo) notFound()
-
-  return <BreadcrumbHeading titles={[silo.name, "Permissions"]} />
+  return <BreadcrumbHeading titles={[silo?.name ?? "", "Permissions"]} />
 }
 
 export default Header
