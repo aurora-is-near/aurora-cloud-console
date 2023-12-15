@@ -5,7 +5,7 @@ import { Database } from "./types/supabase"
 import { getTeamKey } from "@/utils/team-key"
 import {
   AUTH_CALLBACK_ROUTE,
-  LOGIN_ACCEPT_ROUTE,
+  AUTH_ACCEPT_ROUTE,
   LOGIN_ROUTE,
   LOGIN_UNAUTHORISED_ROUTE,
   LOGIN_UNKNOWN_ROUTE,
@@ -52,7 +52,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // Do nothing if an auth callback is in progress
-  if ([AUTH_CALLBACK_ROUTE, LOGIN_ACCEPT_ROUTE].includes(pathname)) {
+  if ([AUTH_CALLBACK_ROUTE, AUTH_ACCEPT_ROUTE].includes(pathname)) {
     return res
   }
 

@@ -90,7 +90,7 @@ const UserInfoForm = ({
         const { error } = await supabase.auth.updateUser(
           { email: email },
           {
-            emailRedirectTo: location.origin + "/settings/account",
+            emailRedirectTo: `${location.origin}/settings/account`,
           },
         )
 
