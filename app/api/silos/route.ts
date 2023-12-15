@@ -1,10 +1,12 @@
-import { NextResponse } from "next/server"
-import { getSilos } from "@/mockApi"
-import { apiRequestHandler } from "@/utils/api"
+import { NextRequest, NextResponse } from "next/server"
+import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { getSilos } from "@/utils/proxy-api/get-silos"
 
-export const GET = apiRequestHandler(["silos:read"], async () => {
-  // TODO: Query the actual user's company's silos
-  const silos = await getSilos()
+export const GET = apiRequestHandler(
+  ["silos:read"],
+  async (_req: NextRequest, ctx: ApiRequestContext) => {
+    const silos = await getSilos(ctx.teamKey)
 
-  return NextResponse.json(silos)
-})
+    return NextResponse.json(silos)
+  },
+)
