@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { adminSupabase } from "@/utils/supabase"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { apiRequestHandler } from "@/utils/api"
 import { LOGIN_ACCEPT_ROUTE } from "@/constants/routes"
 

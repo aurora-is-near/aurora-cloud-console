@@ -1,6 +1,6 @@
 import { Deal } from "@/types/types"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
-import { adminSupabase } from "@/utils/supabase"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 
 export const toggleDeal = async (
   teamKey: string | null,

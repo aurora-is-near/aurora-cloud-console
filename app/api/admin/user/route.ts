@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { adminSupabase } from "@/utils/supabase"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 
 export const PATCH = apiRequestHandler(

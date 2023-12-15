@@ -8,9 +8,10 @@ import {
   LOGIN_ACCEPT_ROUTE,
   LOGIN_ROUTE,
   LOGIN_UNAUTHORISED_ROUTE,
+  LOGIN_UNKNOWN_ROUTE,
 } from "./constants/routes"
-import { ADMIN_EMAIL_DOMAIN } from "@/constants/auth"
 import { isAdminUser } from "@/utils/admin"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 
 const redirect = (req: NextRequest, res: NextResponse, route: string) => {
   const pathname = req.nextUrl.pathname
@@ -31,15 +32,30 @@ const dealsRedirect = (req: NextRequest, res: NextResponse) =>
 const unauthorisedRedirect = (req: NextRequest, res: NextResponse) =>
   redirect(req, res, LOGIN_UNAUTHORISED_ROUTE)
 
+const unknownRedirect = (req: NextRequest, res: NextResponse) =>
+  redirect(req, res, LOGIN_UNKNOWN_ROUTE)
+
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
   const supabase = createMiddlewareClient<Database>({ req, res })
   const pathname = req.nextUrl.pathname
 
-  // Get or refresh the session
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  const [
+    {
+      data: { session },
+    },
+    { data: teamsData },
+  ] = await Promise.all([
+    supabase.auth.getSession(),
+    adminSupabase().from("teams").select("team_key"),
+  ])
+
+  const teamKey = getTeamKey(req)
+  const teamKeys = teamsData?.map((team) => team.team_key) ?? []
+
+  if (!teamKey || !teamKeys.includes(teamKey)) {
+    return unknownRedirect(req, res)
+  }
 
   // Do nothing if an auth callback is in progress
   if ([AUTH_CALLBACK_ROUTE, LOGIN_ACCEPT_ROUTE].includes(pathname)) {
@@ -51,12 +67,9 @@ export async function middleware(req: NextRequest) {
     return loginRedirect(req, res)
   }
 
-  const teamKey = getTeamKey(req)
-
   // Redirect to the unauthorised page if there is no team key, or if the user
   // is not authorised to access that team
   if (
-    !teamKey ||
     !(
       session.user.user_metadata.teams?.includes(teamKey) ||
       isAdminUser(session.user)

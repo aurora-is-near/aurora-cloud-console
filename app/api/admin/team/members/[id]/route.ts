@@ -1,6 +1,6 @@
 import { abort } from "@/utils/abort"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { adminSupabase } from "@/utils/supabase"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { getTeam } from "@/utils/team"
 import { NextRequest, NextResponse } from "next/server"
 

@@ -1,5 +1,5 @@
 import { Deal } from "@/types/types"
-import { adminSupabase } from "@/utils/supabase"
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { getTeam } from "@/utils/team"
 
 export const getDeals = async (teamKey: string | null): Promise<Deal[]> => {

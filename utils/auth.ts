@@ -1,7 +1,7 @@
 import { Database } from "@/types/supabase"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import { cookies, headers } from "next/headers"
-import { adminSupabase } from "./supabase"
+import { adminSupabase } from "./supabase/admin-supabase"
 import { ApiUser } from "@/types/types"
 import { getUserTeamKeys } from "@/utils/team"
 
