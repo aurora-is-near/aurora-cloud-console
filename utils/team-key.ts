@@ -1,23 +1,31 @@
+import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { NextRequest } from "next/server"
 
-export const getTeamKey = (req: NextRequest): string | null => {
+const getSubdomain = (req: NextRequest): string | undefined => {
   const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host")
 
   if (!host) {
-    return null
+    return
   }
 
   const hostname = host.split(":")[0]
-
-  if (["localhost", "127.0.0.1"].includes(hostname)) {
-    return process.env.DEFAULT_TEAM_KEY ?? null
-  }
-
   const hostnameParts = hostname.split(".")
 
   if (hostnameParts.length !== 3) {
-    return null
+    return
   }
 
   return hostnameParts[0]
+}
+
+export const getTeamKey = async (req: NextRequest): Promise<string | null> => {
+  const { data: teams } = await adminSupabase().from("teams").select("team_key")
+  const teamKeys = teams?.map((team) => team.team_key) ?? []
+  const subdomain = getSubdomain(req)
+
+  if (!subdomain || !teamKeys.includes(subdomain)) {
+    return process.env.DEFAULT_TEAM_KEY ?? null
+  }
+
+  return subdomain
 }

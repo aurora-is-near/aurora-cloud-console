@@ -44,16 +44,10 @@ export async function middleware(req: NextRequest) {
     {
       data: { session },
     },
-    { data: teamsData },
-  ] = await Promise.all([
-    supabase.auth.getSession(),
-    adminSupabase().from("teams").select("team_key"),
-  ])
+    teamKey,
+  ] = await Promise.all([supabase.auth.getSession(), getTeamKey(req)])
 
-  const teamKey = getTeamKey(req)
-  const teamKeys = teamsData?.map((team) => team.team_key) ?? []
-
-  if (!teamKey || !teamKeys.includes(teamKey)) {
+  if (!teamKey) {
     return unknownRedirect(req, res)
   }
 

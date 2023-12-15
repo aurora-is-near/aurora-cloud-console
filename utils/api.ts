@@ -70,8 +70,7 @@ const getErrorResponse = (error: unknown) => {
 export const apiRequestHandler =
   <Body = unknown>(scopes: ApiScope[], handler: ApiRequestHandler<Body>) =>
   async (req: NextRequest, ctx: BaseApiRequestContext) => {
-    const user = await getUser()
-    const teamKey = getTeamKey(req)
+    const [user, teamKey] = await Promise.all([getUser(), getTeamKey(req)])
     let data: Body
 
     try {
