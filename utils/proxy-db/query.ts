@@ -13,7 +13,6 @@ export const query = async <TRow extends QueryResultRow>(
   text: string,
   params?: string[],
 ): Promise<QueryResult<TRow>> => {
-  const start = Date.now()
   let res
 
   try {
