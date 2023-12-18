@@ -1,11 +1,16 @@
+"use client"
+
 import Button from "@/components/Button"
 import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
 import { PlusIcon } from "@heroicons/react/20/solid"
 import { Suspense } from "react"
 import Header from "./Header"
+import { useSilo } from "@/utils/api/queries"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
+  const { data: silo } = useSilo({ id })
+
   return (
     <div className="space-y-4 sm:space-y-5">
       <Suspense>
@@ -23,7 +28,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           />
           <InfoList.Item
             term="Chain ID"
-            description="1313161567"
+            description={silo?.chainId}
             explainer="Lorem ipsum dolor sit amet consectetur adipisicing elit."
             showCopyButton
           />

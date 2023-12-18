@@ -23,7 +23,7 @@ const Item = ({
 }: {
   term: string
   explainer?: string
-  description: string
+  description?: string
   action?: ReactNode
   showCopyButton?: boolean
 }) => (
@@ -32,13 +32,17 @@ const Item = ({
       <dt className="text-sm font-medium leading-5 text-gray-500">{term}</dt>
       {explainer ? <Tooltip text={explainer} /> : null}
     </div>
-    <div className="sm:col-span-3 flex flex-col items-start gap-y-1 sm:gap-y-0 sm:flex-row sm:items-center">
-      <div className="flex items-center flex-1 gap-x-2.5">
-        <dd className="text-sm leading-5 text-gray-900 py-2">{description}</dd>
-        {showCopyButton ? <CopyButton value={description} /> : null}
+    {description && (
+      <div className="sm:col-span-3 flex flex-col items-start gap-y-1 sm:gap-y-0 sm:flex-row sm:items-center">
+        <div className="flex items-center flex-1 gap-x-2.5">
+          <dd className="text-sm leading-5 text-gray-900 py-2">
+            {description}
+          </dd>
+          {showCopyButton ? <CopyButton value={description} /> : null}
+        </div>
+        {action}
       </div>
-      {action}
-    </div>
+    )}
   </div>
 )
 Item.displayName = "Item"
