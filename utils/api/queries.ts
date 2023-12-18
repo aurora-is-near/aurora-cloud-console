@@ -96,7 +96,9 @@ export const useDealContract = (
 ) =>
   useApiQuery("getDealContract", {
     params,
-    enabled: typeof params.id !== "undefined",
+    enabled:
+      typeof params.id !== "undefined" &&
+      typeof params.contractId !== "undefined",
   })
 
 export const useUsers = (params?: {
