@@ -2,10 +2,15 @@
 
 import Heading from "@/components/Heading"
 import Card from "@/components/Card"
-import { useTeam } from "@/utils/api/queries"
+import { useQuery } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
+import { getQueryKey } from "@/utils/api/query-keys"
 
 const Page = () => {
-  const { data: team } = useTeam()
+  const { data: team } = useQuery({
+    queryFn: apiClient.getTeam,
+    queryKey: getQueryKey("getTeam"),
+  })
 
   return (
     <div className="space-y-4 sm:space-y-5">

@@ -7,9 +7,11 @@ import { ArrowDownCircleIcon } from "@heroicons/react/24/outline"
 import SearchInput from "./SearchInput"
 import UsersTable from "./UsersTable"
 import TableLoader from "@/components/TableLoader"
-import { useUsers } from "../../../utils/api/queries"
 import { useSearchParams } from "next/navigation"
 import { useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
+import { getQueryKey } from "@/utils/api/query-keys"
 
 const PER_PAGE = 20
 
@@ -22,11 +24,15 @@ const UsersList = ({ title, dealId }: UsersListProps) => {
   const searchParams = useSearchParams()
   const page = Number(searchParams.get("page") ?? 1)
   const search = searchParams.get("search") ?? ""
-
-  const { data, isLoading } = useUsers({
+  const getUsersParams = {
     limit: PER_PAGE,
     offset: (page - 1) * PER_PAGE,
     dealId,
+  }
+
+  const { data, isLoading } = useQuery({
+    queryFn: () => apiClient.getUsers(getUsersParams),
+    queryKey: getQueryKey("getUsers", getUsersParams),
   })
 
   const exportUrl = useMemo(() => {

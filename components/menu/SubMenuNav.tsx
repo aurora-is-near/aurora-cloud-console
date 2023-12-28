@@ -16,7 +16,10 @@ import {
 import { useEffect, useState } from "react"
 import { Silos } from "../icons"
 import Loader from "../Loader"
-import { useDeals, useSilos } from "@/utils/api/queries"
+import { useQuery } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
+import { getQueryKey } from "@/utils/api/query-keys"
+import { useDeals } from "@/hooks/useDeals"
 
 const NavLoader = () => (
   <>
@@ -75,7 +78,11 @@ const siloLinks = [
 
 const SiloMenu = () => {
   const [option, setOption] = useState("")
-  const { isInitialLoading, data: silos } = useSilos()
+  const { isInitialLoading, data: silos } = useQuery({
+    queryFn: () => apiClient.getSilos(),
+    queryKey: getQueryKey("getSilos"),
+  })
+
   const router = useRouter()
   const [, id, subroute] = useSelectedLayoutSegments()
 

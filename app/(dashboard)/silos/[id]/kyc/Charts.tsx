@@ -12,11 +12,13 @@ import {
   Tooltip,
   BarElement,
 } from "chart.js"
-import { useSilo } from "@/utils/api/queries"
 import { useNotFoundError } from "@/hooks/useNotFoundError"
 import { Bar } from "react-chartjs-2"
 import { getChartColor } from "@/utils/charts"
 import { ChartColor } from "@/types/types"
+import { useQuery } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
+import { getQueryKey } from "@/utils/api/query-keys"
 
 ChartJS.register(
   CategoryScale,
@@ -28,7 +30,7 @@ ChartJS.register(
 )
 
 type ChartsProps = {
-  siloId: string
+  siloId: number
 }
 
 const CHART_COLORS: ChartColor[] = ["green", "rose"]
@@ -49,7 +51,10 @@ const LABELS = ["06", "07", "08", "09", "10", "11"]
   .flat()
 
 const Charts = ({ siloId }: ChartsProps) => {
-  const { data: silo, error } = useSilo({ id: siloId })
+  const { data: silo, error } = useQuery({
+    queryFn: () => apiClient.getSilo({ id: siloId }),
+    queryKey: getQueryKey("getSilo", { id: siloId }),
+  })
 
   useNotFoundError(error)
 

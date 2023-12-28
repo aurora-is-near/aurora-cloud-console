@@ -13,10 +13,10 @@ import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
-import { useCurrentUser } from "@/utils/api/queries"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { getQueryKey } from "@/utils/api/query-keys"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -35,7 +35,11 @@ const UserInfoForm = ({
   const toggleForm = () => setShowForm((prev) => !prev)
   const router = useRouter()
   const pathname = usePathname()
-  const { data: user } = useCurrentUser()
+  const { data: user } = useQuery({
+    queryFn: apiClient.getCurrentUser,
+    queryKey: getQueryKey("getCurrentUser"),
+  })
+
   const getCurrentUserUpdater = useOptimisticUpdater("getCurrentUser")
   const { mutate: updateCurrentUser } = useMutation({
     mutationFn: apiClient.updateCurrentUser,

@@ -2,7 +2,7 @@
 
 import { useParams, notFound } from "next/navigation"
 import UsersList from "../UsersList"
-import { useDeals } from "../../../../utils/api/queries"
+import { useDeals } from "@/hooks/useDeals"
 
 const Page = () => {
   const params = useParams()

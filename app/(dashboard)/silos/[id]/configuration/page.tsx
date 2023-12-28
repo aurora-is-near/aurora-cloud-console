@@ -9,7 +9,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
     <div className="space-y-4 sm:space-y-5">
       <Suspense>
-        <Header siloId={id} />
+        <Header siloId={Number(id)} />
       </Suspense>
 
       <Card tag="section">

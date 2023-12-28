@@ -2,14 +2,19 @@
 
 import Heading from "@/components/Heading"
 import InviteButton from "./InviteButton"
-import { useTeamMembers } from "@/utils/api/queries"
 import TableLoader from "@/components/TableLoader"
 import { TeamMembersTable } from "@/app/(dashboard)/settings/team/TeamMembersTable"
 import InviteConfirmedModal from "@/app/(dashboard)/settings/team/InviteConfirmedModal"
 import InviteModal from "@/app/(dashboard)/settings/team/InviteModal"
+import { useQuery } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
+import { getQueryKey } from "@/utils/api/query-keys"
 
 const Page = () => {
-  const { data: teamMembers, isInitialLoading } = useTeamMembers()
+  const { data: teamMembers, isInitialLoading } = useQuery({
+    queryFn: apiClient.getTeamMembers,
+    queryKey: getQueryKey("getTeamMembers"),
+  })
 
   return (
     <>

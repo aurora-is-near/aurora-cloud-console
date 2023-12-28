@@ -4,13 +4,22 @@ import Chart from "../../Chart"
 import Contact from "@/components/Contact"
 import TransactionsCharts from "../../TransactionsCharts"
 import { useChartInterval } from "../../../../../hooks/useChartInterval"
-import { useSilo, useSiloTransactions } from "../../../../../utils/api/queries"
 import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
+import { useQuery } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
+import { getQueryKey } from "@/utils/api/query-keys"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [interval, setInterval] = useChartInterval()
-  const { data: silo, error } = useSilo({ id })
-  const { data: transactions } = useSiloTransactions({ id, interval })
+  const { data: silo, error } = useQuery({
+    queryFn: () => apiClient.getSilo({ id: Number(id) }),
+    queryKey: getQueryKey("getSilo", { id }),
+  })
+
+  const { data: transactions } = useQuery({
+    queryFn: () => apiClient.getSiloTransactions({ interval, id: Number(id) }),
+    queryKey: getQueryKey("getSiloTransactions", { interval, id }),
+  })
 
   useNotFoundError(error)
 

@@ -4,9 +4,9 @@ import { Modals, useModals } from "@/hooks/useModals"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { TeamMember } from "@/types/types"
 import { apiClient } from "@/utils/api/client"
-import { useCurrentUser } from "@/utils/api/queries"
+import { getQueryKey } from "@/utils/api/query-keys"
 import { TrashIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { useQueryState } from "next-usequerystate"
 import { useCallback } from "react"
 
@@ -16,7 +16,11 @@ type TeamMembersTableProps = {
 
 export const TeamMembersTable = ({ teamMembers }: TeamMembersTableProps) => {
   const getTeamMembersUpdater = useOptimisticUpdater("getTeamMembers")
-  const { data: currentUser } = useCurrentUser()
+  const { data: currentUser } = useQuery({
+    queryFn: apiClient.getCurrentUser,
+    queryKey: getQueryKey("getCurrentUser"),
+  })
+
   const { openModal } = useModals()
   const [, setEmail] = useQueryState("email")
 

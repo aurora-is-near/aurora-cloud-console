@@ -4,11 +4,16 @@ import Contact from "@/components/Contact"
 import Chart from "./Chart"
 import TransactionsCharts from "./TransactionsCharts"
 import { useChartInterval } from "../../../hooks/useChartInterval"
-import { useSilosTransactions } from "../../../utils/api/queries"
+import { useQuery } from "@tanstack/react-query"
+import { getQueryKey } from "@/utils/api/query-keys"
+import { apiClient } from "@/utils/api/client"
 
 const Page = () => {
   const [interval, setInterval] = useChartInterval()
-  const { data: transactions } = useSilosTransactions({ interval })
+  const { data: transactions } = useQuery({
+    queryFn: () => apiClient.getSilosTransactions({ interval }),
+    queryKey: getQueryKey("getSilosTransactions", { interval }),
+  })
 
   return (
     <div className="space-y-4 sm:space-y-5">

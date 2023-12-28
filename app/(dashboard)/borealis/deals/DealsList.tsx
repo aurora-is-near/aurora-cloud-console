@@ -2,8 +2,8 @@
 
 import Card from "@/components/Card"
 import DealItem from "./DealItem"
-import { useDeals } from "../../../../utils/api/queries"
 import Loader from "../../../../components/Loader"
+import { useDeals } from "@/hooks/useDeals"
 
 const DealsList = () => {
   const { data, isInitialLoading } = useDeals()

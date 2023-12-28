@@ -12,9 +12,11 @@ import AddContractButton from "./AddContractButton"
 import AddListButton from "./AddListButton"
 import TransactionsCharts from "../../../silos/TransactionsCharts"
 import { useChartInterval } from "../../../../../hooks/useChartInterval"
-import { useDeal, useDealTransactions } from "../../../../../utils/api/queries"
 import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
+import { getQueryKey } from "@/utils/api/query-keys"
 
 const ACCESS_OPTIONS = [
   {
@@ -33,8 +35,15 @@ const ACCESS_OPTIONS = [
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [selectedOption, setSelectedOption] = useState(ACCESS_OPTIONS[0])
   const [interval, setInterval] = useChartInterval()
-  const { data: silo, error } = useDeal({ id: Number(id) })
-  const { data: transactions } = useDealTransactions({ id, interval })
+  const { data: deal, error } = useQuery({
+    queryFn: () => apiClient.getDeal({ id: Number(id) }),
+    queryKey: getQueryKey("getDeal", { id }),
+  })
+
+  const { data: transactions } = useQuery({
+    queryFn: () => apiClient.getDealTransactions({ interval, id: Number(id) }),
+    queryKey: getQueryKey("getDealTransactions", { interval, id }),
+  })
 
   useNotFoundError(error)
 
@@ -43,7 +52,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
       <div className="space-y-4 sm:space-y-5">
         <section>
           <TransactionsCharts
-            title={silo?.name ?? ""}
+            title={deal?.name ?? ""}
             interval={interval}
             setInterval={setInterval}
             transactions={transactions}

@@ -1,15 +1,15 @@
 "use client"
 
 import { Modals, useModals } from "@/hooks/useModals"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import AddOrEditContractModal, {
   type AddOrEditContractModalInputs,
 } from "./AddOrEditContractModal"
 import { useQueryState } from "next-usequerystate"
-import { useDealContract } from "@/utils/api/queries"
 import { useParams } from "next/navigation"
+import { getQueryKey } from "@/utils/api/query-keys"
 
 const EditContractModal = () => {
   const { activeModal, closeModal } = useModals()
@@ -18,9 +18,13 @@ const EditContractModal = () => {
   const isOpen = activeModal === Modals.EditContract
   const contractParams = {
     id: Number(dealId),
-    contractId: id ? Number(id) : undefined,
+    contractId: Number(id),
   }
-  const { data: contract } = useDealContract(contractParams)
+  const { data: contract } = useQuery({
+    queryFn: () => apiClient.getDealContract(contractParams),
+    queryKey: getQueryKey("getDealContract", contractParams),
+    enabled: typeof id !== "undefined",
+  })
 
   const contractUpdater = useOptimisticUpdater(
     "getDealContract",

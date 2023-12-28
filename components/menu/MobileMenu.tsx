@@ -18,7 +18,7 @@ import { useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
-import { useDeals } from "@/utils/api/queries"
+import { useDeals } from "@/hooks/useDeals"
 
 const navigation = [...mainNavigation, ...mainExtraNavigation]
 
