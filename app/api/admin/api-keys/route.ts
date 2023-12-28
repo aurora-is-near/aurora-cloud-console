@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { ApiKey } from "@/types/types"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const GET = apiRequestHandler(
   ["admin"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const supabase = adminSupabase()
+    const supabase = createAdminSupabaseClient()
     const { data, error } = await supabase
       .from("api_keys")
       .select()
@@ -24,7 +24,7 @@ export const POST = apiRequestHandler(
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const body = await req.json()
 
-    const supabase = adminSupabase()
+    const supabase = createAdminSupabaseClient()
     const { data, error } = await supabase
       .from("api_keys")
       .insert({

@@ -77,6 +77,7 @@ export const apiRequestHandler =
       abortIfUnauthorised(user, scopes, teamKey)
       data = await handler(req, { ...ctx, user, teamKey })
     } catch (error: unknown) {
+      console.error(error)
       return getErrorResponse(error)
     }
 

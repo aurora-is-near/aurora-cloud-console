@@ -1,9 +1,9 @@
 import Heading from "@/components/Heading"
 import UserInfoForm from "./UserInfoForm"
-import { serverSupabase } from "@/utils/supabase/server-supabase"
+import { createServerComponentClient } from "@/supabase/create-server-component-client"
 
 const Page = async () => {
-  const supabase = serverSupabase()
+  const supabase = createServerComponentClient()
 
   const {
     data: { user: authUser },

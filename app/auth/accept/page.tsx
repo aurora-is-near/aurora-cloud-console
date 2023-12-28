@@ -1,7 +1,7 @@
 "use client"
 
 import { LOGIN_ROUTE } from "@/constants/routes"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect } from "react"
 

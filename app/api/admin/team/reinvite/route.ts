@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { apiRequestHandler } from "@/utils/api"
 import { AUTH_ACCEPT_ROUTE } from "@/constants/routes"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const POST = apiRequestHandler(["admin"], async (req: NextRequest) => {
   const { email } = await req.json()
-  const supabase = adminSupabase()
+  const supabase = createAdminSupabaseClient()
   const { error } = await supabase.auth.resend({
     email,
     type: "signup",

@@ -7,7 +7,6 @@ import {
 } from "@heroicons/react/20/solid"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useEffect, useState } from "react"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "@/types/supabase"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
@@ -17,6 +16,7 @@ import { useCurrentUser } from "@/utils/api/queries"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { createClientComponentClient } from "@/supabase/create-client-component-client"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -85,7 +85,7 @@ const UserInfoForm = ({
 
     try {
       if (email !== user?.email) {
-        const supabase = createClientComponentClient<Database>()
+        const supabase = createClientComponentClient()
 
         const { error } = await supabase.auth.updateUser(
           { email: email },

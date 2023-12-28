@@ -1,7 +1,5 @@
 import { LOGIN_ROUTE } from "@/constants/routes"
-import { Database } from "@/types/supabase"
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
-import { cookies } from "next/headers"
+import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
@@ -12,7 +10,7 @@ export async function GET(request: NextRequest) {
     if (!code) throw new Error("No code found.")
 
     if (code) {
-      const supabase = createRouteHandlerClient<Database>({ cookies })
+      const supabase = createRouteHandlerClient()
       await supabase.auth.exchangeCodeForSession(code)
     }
 

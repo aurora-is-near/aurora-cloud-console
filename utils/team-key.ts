@@ -1,4 +1,4 @@
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { NextRequest } from "next/server"
 
 const getSubdomain = (req: NextRequest): string | undefined => {
@@ -19,7 +19,10 @@ const getSubdomain = (req: NextRequest): string | undefined => {
 }
 
 export const getTeamKey = async (req: NextRequest): Promise<string | null> => {
-  const { data: teams } = await adminSupabase().from("teams").select("team_key")
+  const { data: teams } = await createAdminSupabaseClient()
+    .from("teams")
+    .select("team_key")
+
   const teamKeys = teams?.map((team) => team.team_key) ?? []
   const subdomain = getSubdomain(req)
 

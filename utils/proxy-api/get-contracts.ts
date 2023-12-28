@@ -1,8 +1,8 @@
 import { Contract } from "@/types/types"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const getContracts = async (dealId: number): Promise<Contract[]> => {
-  const { data: contracts, error } = await adminSupabase()
+  const { data: contracts, error } = await createAdminSupabaseClient()
     .from("contracts")
     .select("*")
     .eq("deal_id", dealId)

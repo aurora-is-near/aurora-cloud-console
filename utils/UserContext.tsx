@@ -1,10 +1,9 @@
 "use client"
 
 import { ReactNode, createContext, useContext } from "react"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
-import { Database } from "@/types/supabase"
 import { useQuery } from "@tanstack/react-query"
+import { createClientComponentClient } from "@/supabase/create-client-component-client"
 
 type User = { email: string; name: string | null } | null | undefined
 
@@ -17,7 +16,7 @@ const UserContext = createContext<UserContext>({} as UserContext)
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createClientComponentClient()
 
   const { data: user } = useQuery({
     queryKey: ["user"],

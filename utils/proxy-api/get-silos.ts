@@ -1,6 +1,6 @@
 import { Silo, Token } from "@/types/types"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { getTeam } from "@/utils/team"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const getSilos = async (teamKey: string | null): Promise<Silo[]> => {
   if (!teamKey) {
@@ -9,7 +9,7 @@ export const getSilos = async (teamKey: string | null): Promise<Silo[]> => {
 
   const team = await getTeam(teamKey)
 
-  const { data: silos, error: silosError } = await adminSupabase()
+  const { data: silos, error: silosError } = await createAdminSupabaseClient()
     .from("silos")
     .select("*")
     .order("created_at", { ascending: false })
@@ -25,7 +25,7 @@ export const getSilos = async (teamKey: string | null): Promise<Silo[]> => {
 
   const siloIds = silos?.map((silo) => silo.id)
 
-  const { data: tokens, error: tokensError } = await adminSupabase()
+  const { data: tokens, error: tokensError } = await createAdminSupabaseClient()
     .from("tokens")
     .select("*, silos_tokens!inner(silo_id)")
     .in("silos_tokens.silo_id", siloIds)

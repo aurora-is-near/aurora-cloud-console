@@ -1,6 +1,6 @@
 import { Deal } from "@/types/types"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { getTeam } from "@/utils/team"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const getDeals = async (teamKey: string | null): Promise<Deal[]> => {
   if (!teamKey) {
@@ -9,7 +9,7 @@ export const getDeals = async (teamKey: string | null): Promise<Deal[]> => {
 
   const team = await getTeam(teamKey)
 
-  const { data: deals, error: dealsError } = await adminSupabase()
+  const { data: deals, error: dealsError } = await createAdminSupabaseClient()
     .from("deals")
     .select("id, name, created_at, key, enabled")
     .order("created_at", { ascending: false })
@@ -25,10 +25,11 @@ export const getDeals = async (teamKey: string | null): Promise<Deal[]> => {
 
   const dealIds = deals?.map((deal) => deal.id)
 
-  const { data: contracts, error: contractsError } = await adminSupabase()
-    .from("contracts")
-    .select("*")
-    .in("deal_id", dealIds)
+  const { data: contracts, error: contractsError } =
+    await createAdminSupabaseClient()
+      .from("contracts")
+      .select("*")
+      .in("deal_id", dealIds)
 
   if (contractsError) {
     throw contractsError
