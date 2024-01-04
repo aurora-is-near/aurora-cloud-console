@@ -1,8 +1,8 @@
 import { abort } from "@/utils/abort"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { getTeam } from "@/utils/team"
 import { NextRequest, NextResponse } from "next/server"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const DELETE = apiRequestHandler(
   ["admin"],
@@ -13,7 +13,7 @@ export const DELETE = apiRequestHandler(
       abort(400, "No team key found")
     }
 
-    const supabase = adminSupabase()
+    const supabase = createAdminSupabaseClient()
     const team = await getTeam(ctx.teamKey)
     const { error } = await supabase
       .from("users_teams")

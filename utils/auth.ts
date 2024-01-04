@@ -1,9 +1,8 @@
-import { Database } from "@/types/supabase"
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
-import { cookies, headers } from "next/headers"
-import { adminSupabase } from "./supabase/admin-supabase"
+import { headers } from "next/headers"
 import { ApiUser } from "@/types/types"
 import { getUserTeamKeys } from "@/utils/team"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
 
 /**
  * Get the API key from the current request.
@@ -21,7 +20,7 @@ const getApiKey = () => {
 }
 
 const getUserById = async (userId: string) => {
-  const { data } = await adminSupabase()
+  const { data } = await createAdminSupabaseClient()
     .from("users")
     .select()
     .eq("user_id", userId)
@@ -42,7 +41,7 @@ const getUserFromApiKey = async (): Promise<ApiUser | null> => {
     return null
   }
 
-  const supabase = adminSupabase()
+  const supabase = createAdminSupabaseClient()
   const { error, data } = await supabase
     .from("api_keys")
     .select("id, user_id, scopes")
@@ -87,7 +86,7 @@ const getUserFromApiKey = async (): Promise<ApiUser | null> => {
  * This is used for requests coming from the ACC frontend.
  */
 const getUserFromSessionCookie = async (): Promise<ApiUser | null> => {
-  const supabase = createRouteHandlerClient<Database>({ cookies })
+  const supabase = createRouteHandlerClient()
 
   const {
     data: { user: authUser },

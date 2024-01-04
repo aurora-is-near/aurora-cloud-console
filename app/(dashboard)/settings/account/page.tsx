@@ -1,12 +1,12 @@
 import Heading from "@/components/Heading"
 import UserInfoForm from "./UserInfoForm"
-import { serverSupabase } from "@/utils/supabase/server-supabase"
+import { createServerComponentClient } from "@/supabase/create-server-component-client"
 import { differenceInHours } from "date-fns"
 
 const PENDING_EMAIL_CHANGE_MAX_HOURS = 24
 
 const Page = async () => {
-  const supabase = serverSupabase()
+  const supabase = createServerComponentClient()
 
   const {
     data: { user: authUser },

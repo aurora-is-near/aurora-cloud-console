@@ -63,7 +63,7 @@ handler and any required scope(s), for example:
 
 ```ts
 import { NextRequest, NextResponse } from "next/server"
-import { adminSupabase } from "@/utils/supabase"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 
 export const PATCH = apiRequestHandler(["admin"], async (
@@ -71,7 +71,7 @@ export const PATCH = apiRequestHandler(["admin"], async (
   ctx: ApiRequestContext
 ) => {
   const { name } = await req.json();
-  const supabase = adminSupabase()
+  const supabase = createAdminSupabaseClient()
 
   const { error } = await supabase
     .from("users")

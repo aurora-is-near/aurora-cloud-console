@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { Team } from "@/types/types"
 import { abort } from "@/utils/abort"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const GET = apiRequestHandler(
   ["admin"],
@@ -11,7 +11,7 @@ export const GET = apiRequestHandler(
       abort(500, "No team key found")
     }
 
-    const supabase = adminSupabase()
+    const supabase = createAdminSupabaseClient()
     const { data: team, error } = await supabase
       .from("teams")
       .select("id, name, website, email, team_key")

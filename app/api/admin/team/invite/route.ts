@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { abort } from "@/utils/abort"
 import { sendEmail } from "@/utils/email"
 import { Team } from "@/types/types"
 import { getTeam, isTeamMember } from "@/utils/team"
 import { AUTH_ACCEPT_ROUTE } from "@/constants/routes"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 const getUserId = async (email: string) => {
   const cleanedEmail = email.toLowerCase().trim()
-  const supabase = adminSupabase()
+  const supabase = createAdminSupabaseClient()
   const { data, error } = await supabase
     .from("users")
     .select("id")
@@ -29,7 +29,7 @@ const addUserToTeam = async (
   team: Team,
   origin: string,
 ) => {
-  const supabase = adminSupabase()
+  const supabase = createAdminSupabaseClient()
   const { error } = await supabase
     .from("users_teams")
     .insert([{ team_id: team.id, user_id: userId }])
@@ -59,7 +59,7 @@ export const POST = apiRequestHandler(
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const { email, name } = await req.json()
     const cleanedEmail = email.toLowerCase().trim()
-    const supabase = adminSupabase()
+    const supabase = createAdminSupabaseClient()
 
     if (!ctx.teamKey) {
       abort(500, "No team key found")

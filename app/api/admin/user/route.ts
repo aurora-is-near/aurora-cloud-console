@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const PATCH = apiRequestHandler(
   ["admin"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const { name } = await req.json()
-    const supabase = adminSupabase()
+    const supabase = createAdminSupabaseClient()
     const { error } = await supabase
       .from("users")
       .update({ name })

@@ -1,8 +1,8 @@
 import { Team } from "@/types/types"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const getTeam = async (teamKey: string): Promise<Team> => {
-  const supabase = adminSupabase()
+  const supabase = createAdminSupabaseClient()
   const { data, error } = await supabase
     .from("teams")
     .select("id, name, website, email, team_key")
@@ -17,7 +17,7 @@ export const getTeam = async (teamKey: string): Promise<Team> => {
 }
 
 export const getUserTeamKeys = async (userId: number) => {
-  const supabase = adminSupabase()
+  const supabase = createAdminSupabaseClient()
   const { data, error } = await supabase
     .from("teams")
     .select("team_key, users_teams!inner(user_id)")
@@ -31,7 +31,7 @@ export const getUserTeamKeys = async (userId: number) => {
 }
 
 export const isTeamMember = async (userId: number, teamId: number) => {
-  const supabase = adminSupabase()
+  const supabase = createAdminSupabaseClient()
   const { data, error } = await supabase
     .from("users_teams")
     .select("user_id")

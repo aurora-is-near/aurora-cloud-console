@@ -1,4 +1,3 @@
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { Database } from "./types/supabase"
@@ -11,7 +10,7 @@ import {
   LOGIN_UNKNOWN_ROUTE,
 } from "./constants/routes"
 import { isAdminUser } from "@/utils/admin"
-import { adminSupabase } from "@/utils/supabase/admin-supabase"
+import { createMiddlewareClient } from "@/supabase/create-middleware-client"
 
 const redirect = (req: NextRequest, res: NextResponse, route: string) => {
   const pathname = req.nextUrl.pathname
@@ -37,7 +36,7 @@ const unknownRedirect = (req: NextRequest, res: NextResponse) =>
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
-  const supabase = createMiddlewareClient<Database>({ req, res })
+  const supabase = createMiddlewareClient(req)
   const pathname = req.nextUrl.pathname
 
   const [
