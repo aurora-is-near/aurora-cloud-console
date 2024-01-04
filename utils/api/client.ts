@@ -152,7 +152,7 @@ export const apiClient = {
   sendContactMessage: async (data: {
     subject: string
     message: string
-    page: string
+    pageUri: string
   }) =>
     request("/api/contact", {
       method: "POST",
