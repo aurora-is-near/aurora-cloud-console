@@ -37,12 +37,12 @@ export const useApiQuery = <
     }
   }
 
-  return useQuery<TQueryFnData, TError, TData, TQueryKey>({
+  return useQuery<TQueryFnData | undefined, TError, TData, TQueryKey>({
     queryKey,
     queryFn,
     enabled,
     onSuccess: handleSuccess,
-  } as UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>)
+  } as UseQueryOptions<TQueryFnData | undefined, TError, TData, TQueryKey>)
 }
 
 export const useCurrentUser = () => useApiQuery("getCurrentUser")
@@ -96,7 +96,9 @@ export const useDealContract = (
 ) =>
   useApiQuery("getDealContract", {
     params,
-    enabled: typeof params.id !== "undefined",
+    enabled:
+      typeof params.id !== "undefined" &&
+      typeof params.contractId !== "undefined",
   })
 
 export const useUsers = (params?: {
@@ -131,3 +133,7 @@ export const useDealsTransactions = (params: { interval?: string | null }) =>
   useApiQuery("getDealsTransactions", {
     params,
   })
+
+export const useTeam = () => useApiQuery("getTeam")
+
+export const useTeamMembers = () => useApiQuery("getTeamMembers")

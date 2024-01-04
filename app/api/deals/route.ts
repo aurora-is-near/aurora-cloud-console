@@ -7,7 +7,7 @@ export const GET = apiRequestHandler(
   ["deals:read"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     return NextResponse.json<Deals>({
-      deals: await getDeals(ctx.user),
+      deals: await getDeals(ctx.teamKey),
     })
   },
 )

@@ -14,8 +14,24 @@ import TransactionsCharts from "../../../silos/TransactionsCharts"
 import { useChartInterval } from "../../../../../hooks/useChartInterval"
 import { useDeal, useDealTransactions } from "../../../../../utils/api/queries"
 import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
+import { useState } from "react"
+
+const ACCESS_OPTIONS = [
+  {
+    title: "Open List",
+    description: "Any wallet address will get free transactions.",
+    showAccessLists: false,
+  },
+  {
+    title: "Whitelist",
+    description:
+      "Only the wallet addresses from the selected segments will get free transactions",
+    showAccessLists: true,
+  },
+]
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
+  const [selectedOption, setSelectedOption] = useState(ACCESS_OPTIONS[0])
   const [interval, setInterval] = useChartInterval()
   const { data: silo, error } = useDeal({ id: Number(id) })
   const { data: transactions } = useDealTransactions({ id, interval })
@@ -55,8 +71,12 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             <AddListButton />
           </Card.Actions>
 
-          <AccessSelector />
-          <AccessLists />
+          <AccessSelector
+            options={ACCESS_OPTIONS}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
+          {selectedOption.showAccessLists && <AccessLists />}
         </Card>
 
         <Card tag="section">

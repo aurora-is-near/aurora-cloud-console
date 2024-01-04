@@ -1,10 +1,9 @@
-import { Database } from "@/types/supabase"
+import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 
 const SignoutButton = () => {
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createClientComponentClient()
   const router = useRouter()
 
   const signOut = async () => {

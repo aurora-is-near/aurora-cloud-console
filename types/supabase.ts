@@ -44,32 +44,8 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
-      }
-      companies: {
-        Row: {
-          created_at: string
-          email: string | null
-          id: string
-          name: string
-          website: string | null
-        }
-        Insert: {
-          created_at?: string
-          email?: string | null
-          id?: string
-          name: string
-          website?: string | null
-        }
-        Update: {
-          created_at?: string
-          email?: string | null
-          id?: string
-          name?: string
-          website?: string | null
-        }
-        Relationships: []
       }
       contracts: {
         Row: {
@@ -100,47 +76,159 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "deals"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       deals: {
         Row: {
-          company_id: string
           created_at: string
           enabled: boolean
           id: number
           key: string
           name: string
+          team_id: number
         }
         Insert: {
-          company_id: string
           created_at?: string
           enabled?: boolean
           id?: number
           key: string
           name: string
+          team_id: number
         }
         Update: {
-          company_id?: string
           created_at?: string
           enabled?: boolean
           id?: number
           key?: string
           name?: string
+          team_id?: number
         }
         Relationships: [
           {
-            foreignKeyName: "deals_company_id_fkey"
-            columns: ["company_id"]
+            foreignKeyName: "deals_team_id_fkey"
+            columns: ["team_id"]
             isOneToOne: false
-            referencedRelation: "companies"
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      silos: {
+        Row: {
+          chain_id: string
+          created_at: string
+          id: number
+          name: string
+          team_id: number | null
+        }
+        Insert: {
+          chain_id: string
+          created_at?: string
+          id?: number
+          name: string
+          team_id?: number | null
+        }
+        Update: {
+          chain_id?: string
+          created_at?: string
+          id?: number
+          name?: string
+          team_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silos_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      silos_tokens: {
+        Row: {
+          silo_id: number
+          token_id: number
+        }
+        Insert: {
+          silo_id: number
+          token_id: number
+        }
+        Update: {
+          silo_id?: number
+          token_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silos_tokens_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "silos_tokens_token_id_fkey"
+            columns: ["token_id"]
+            isOneToOne: false
+            referencedRelation: "tokens"
+            referencedColumns: ["id"]
+          }
         ]
+      }
+      teams: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: number
+          name: string
+          team_key: string
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: number
+          name: string
+          team_key: string
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: number
+          name?: string
+          team_key?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      tokens: {
+        Row: {
+          address: string
+          created_at: string
+          id: number
+          name: string
+          type: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          id?: number
+          name: string
+          type: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          id?: number
+          name?: string
+          type?: string
+        }
+        Relationships: []
       }
       users: {
         Row: {
-          company_id: string | null
           created_at: string
           email: string
           id: number
@@ -148,7 +236,6 @@ export interface Database {
           user_id: string
         }
         Insert: {
-          company_id?: string | null
           created_at?: string
           email: string
           id?: number
@@ -156,21 +243,45 @@ export interface Database {
           user_id: string
         }
         Update: {
-          company_id?: string | null
           created_at?: string
           email?: string
           id?: number
           name?: string | null
           user_id?: string
         }
+        Relationships: []
+      }
+      users_teams: {
+        Row: {
+          confirmed_at: string | null
+          team_id: number
+          user_id: number
+        }
+        Insert: {
+          confirmed_at?: string | null
+          team_id: number
+          user_id: number
+        }
+        Update: {
+          confirmed_at?: string | null
+          team_id?: number
+          user_id?: number
+        }
         Relationships: [
           {
-            foreignKeyName: "users_company_id_fkey"
-            columns: ["company_id"]
+            foreignKeyName: "users_teams_team_id_fkey"
+            columns: ["team_id"]
             isOneToOne: false
-            referencedRelation: "companies"
+            referencedRelation: "teams"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "users_teams_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
     }
@@ -190,6 +301,19 @@ export interface Database {
         }
         Returns: undefined
       }
+      has_metadata_key: {
+        Args: {
+          metadata: Json
+          key: string
+        }
+        Returns: boolean
+      }
+      update_user_metadata: {
+        Args: {
+          user_id_param: number
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       api_key_scopes:
@@ -205,3 +329,83 @@ export interface Database {
     }
   }
 }
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+      Database["public"]["Views"])
+  ? (Database["public"]["Tables"] &
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof Database["public"]["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof Database["public"]["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
+  : never

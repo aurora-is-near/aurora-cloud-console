@@ -1,19 +1,21 @@
+"use client"
+
 import CopyButton from "@/components/CopyButton"
 import Table from "@/components/Table"
-import { getSiloById } from "@/mockApi"
-import { notFound } from "next/navigation"
+import { useNotFoundError } from "@/hooks/useNotFoundError"
+import { useSilo } from "@/utils/api/queries"
 
-const TokensTable = async ({ siloId }: { siloId: string }) => {
-  const silo = await getSiloById(siloId)
+const TokensTable = ({ siloId }: { siloId: string }) => {
+  const { data: silo, error } = useSilo({ id: siloId })
 
-  if (!silo) notFound()
+  useNotFoundError(error)
 
   return (
     <Table className="mt-7">
       <Table.TH>Token</Table.TH>
       <Table.TH>Address</Table.TH>
       <Table.TH>Type</Table.TH>
-      {silo.tokens.map((token) => (
+      {silo?.tokens.map((token) => (
         <Table.TR key={token.address}>
           <Table.TD dark>{token.name}</Table.TD>
           <Table.TD>

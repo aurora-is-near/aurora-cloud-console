@@ -1,13 +1,8 @@
 "use client"
 
-import {
-  CheckIcon,
-  InformationCircleIcon,
-  PencilIcon,
-} from "@heroicons/react/20/solid"
+import { CheckIcon, PencilIcon } from "@heroicons/react/20/solid"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useEffect, useState } from "react"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "@/types/supabase"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
@@ -17,6 +12,8 @@ import { useCurrentUser } from "@/utils/api/queries"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { createClientComponentClient } from "@/supabase/create-client-component-client"
+import { Alert } from "@/components/Alert"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -85,12 +82,12 @@ const UserInfoForm = ({
 
     try {
       if (email !== user?.email) {
-        const supabase = createClientComponentClient<Database>()
+        const supabase = createClientComponentClient()
 
         const { error } = await supabase.auth.updateUser(
           { email: email },
           {
-            emailRedirectTo: location.origin + "/settings/account",
+            emailRedirectTo: `${location.origin}/settings/account`,
           },
         )
 
@@ -104,7 +101,7 @@ const UserInfoForm = ({
       setShowForm(false)
       router.refresh()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
@@ -171,22 +168,10 @@ const UserInfoForm = ({
               />
             </div>
 
-            <div className="p-4 rounded-md bg-blue-50">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <InformationCircleIcon
-                    className="w-5 h-5 text-blue-400"
-                    aria-hidden="true"
-                  />
-                </div>
-                <div className="flex-1 ml-3">
-                  <p className="text-sm text-blue-700">
-                    Updating your email requires confirmation through links sent
-                    to both the old and the new email addresses.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <Alert type="info">
+              Updating your email requires confirmation through links sent to
+              both the old and the new email addresses.
+            </Alert>
           </form>
         ) : (
           <dl className="space-y-4">
@@ -208,23 +193,10 @@ const UserInfoForm = ({
             </div>
 
             {hasPendingEmailChange && (
-              <div className="p-4 rounded-md bg-blue-50">
-                <div className="flex">
-                  <div className="flex-shrink-0">
-                    <InformationCircleIcon
-                      className="w-5 h-5 text-blue-400"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <div className="flex-1 ml-3">
-                    <p className="text-sm text-blue-700">
-                      You have requested an email change. Please confirm it
-                      through the links sent to both the old and the new email
-                      addresses.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <Alert dismissable type="info">
+                You have requested an email change. Please confirm it through
+                the links sent to both the old and the new email addresses.
+              </Alert>
             )}
           </dl>
         )}

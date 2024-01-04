@@ -1,16 +1,19 @@
-import { ApiUser, Deal } from "@/types/types"
-import { adminSupabase } from "@/utils/supabase"
+import { Deal } from "@/types/types"
+import { getTeam } from "@/utils/team"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const getDeals = async (user: ApiUser): Promise<Deal[]> => {
-  if (!user.company_id) {
+export const getDeals = async (teamKey: string | null): Promise<Deal[]> => {
+  if (!teamKey) {
     return []
   }
 
-  const { data: deals, error: dealsError } = await adminSupabase()
+  const team = await getTeam(teamKey)
+
+  const { data: deals, error: dealsError } = await createAdminSupabaseClient()
     .from("deals")
     .select("id, name, created_at, key, enabled")
     .order("created_at", { ascending: false })
-    .eq("company_id", user.company_id)
+    .eq("team_id", team.id)
 
   if (!deals) {
     return []
@@ -22,10 +25,11 @@ export const getDeals = async (user: ApiUser): Promise<Deal[]> => {
 
   const dealIds = deals?.map((deal) => deal.id)
 
-  const { data: contracts, error: contractsError } = await adminSupabase()
-    .from("contracts")
-    .select("*")
-    .in("deal_id", dealIds)
+  const { data: contracts, error: contractsError } =
+    await createAdminSupabaseClient()
+      .from("contracts")
+      .select("*")
+      .in("deal_id", dealIds)
 
   if (contractsError) {
     throw contractsError

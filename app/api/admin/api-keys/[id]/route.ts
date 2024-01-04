@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { adminSupabase } from "@/utils/supabase"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const GET = apiRequestHandler(
   ["admin"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const apiKeyId = ctx.params.id
 
-    const supabase = adminSupabase()
+    const supabase = createAdminSupabaseClient()
     const { data, error } = await supabase
       .from("api_keys")
       .select()
@@ -28,7 +28,7 @@ export const PUT = apiRequestHandler(
     const apiKeyId = ctx.params.id
     const body = await req.json()
 
-    const supabase = adminSupabase()
+    const supabase = createAdminSupabaseClient()
     const { data, error } = await supabase
       .from("api_keys")
       .update({
@@ -51,7 +51,7 @@ export const DELETE = apiRequestHandler(
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const apiKeyId = ctx.params.id
 
-    const supabase = adminSupabase()
+    const supabase = createAdminSupabaseClient()
     const { error } = await supabase
       .from("api_keys")
       .delete()

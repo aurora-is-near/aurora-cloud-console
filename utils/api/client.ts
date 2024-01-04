@@ -9,11 +9,13 @@ import {
   Users,
   Deals,
   Contract,
+  TeamMembers,
+  Team,
 } from "@/types/types"
 import { request } from "./request"
 
 export const apiClient = {
-  getCurrentUser: async () => request<User>("/api/admin/user"),
+  getCurrentUser: async () => request<User>("/api/admin/current-user"),
 
   updateCurrentUser: async (data: Partial<Pick<User, "name">>) =>
     request<User>("/api/admin/user", {
@@ -22,7 +24,13 @@ export const apiClient = {
     }),
 
   inviteUser: async (data: Partial<Pick<User, "email" | "name">>) =>
-    request("/api/admin/user", {
+    request("/api/admin/team/invite", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  reinviteUser: async (data: Partial<Pick<User, "email">>) =>
+    request("/api/admin/team/reinvite", {
       method: "POST",
       body: JSON.stringify(data),
     }),
@@ -149,5 +157,14 @@ export const apiClient = {
     request("/api/contact", {
       method: "POST",
       body: JSON.stringify(data),
+    }),
+
+  getTeam: async () => request<Team>("/api/admin/team"),
+
+  getTeamMembers: async () => request<TeamMembers>("/api/admin/team/members"),
+
+  deleteTeamMember: async ({ id }: { id: number }) =>
+    request(`/api/admin/team/members/${id}`, {
+      method: "DELETE",
     }),
 }

@@ -30,8 +30,6 @@ export const getLineChartData = (
   data?: Transactions,
   colors?: ChartColor[],
 ) => {
-  console.log(getDates(key, data))
-
   return {
     labels: getDates(key, data),
     datasets:

@@ -1,10 +1,10 @@
-import { adminSupabase } from "@/utils/supabase"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const deleteContract = async (
   dealId: number,
   contractId: number,
 ): Promise<void> => {
-  const { error } = await adminSupabase()
+  const { error } = await createAdminSupabaseClient()
     .from("contracts")
     .delete()
     .eq("deal_id", dealId)

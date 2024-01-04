@@ -1,5 +1,6 @@
 import httpStatus from "http-status"
 import { ApiScope, ApiUser } from "@/types/types"
+import { isAdminUser } from "@/utils/admin"
 
 export type AbortOptions = {
   type?: string
@@ -47,9 +48,14 @@ export function abort(
 export function abortIfUnauthorised(
   user: ApiUser | null,
   scopes: ApiScope[],
+  teamKey: string | null,
 ): asserts user is ApiUser {
   if (!user) {
     abort(401)
+  }
+
+  if (isAdminUser(user)) {
+    return
   }
 
   if (
@@ -57,6 +63,10 @@ export function abortIfUnauthorised(
     !scopes.every((scope) => user?.scopes.includes(scope)) &&
     !user?.scopes.includes("admin")
   ) {
+    abort(403)
+  }
+
+  if (teamKey && !user.teams.includes(teamKey)) {
     abort(403)
   }
 }

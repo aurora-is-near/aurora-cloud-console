@@ -1,19 +1,19 @@
-import { ApiUser, Deal } from "@/types/types"
+import { Deal } from "@/types/types"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
-import { adminSupabase } from "@/utils/supabase"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const toggleDeal = async (
-  user: ApiUser,
+  teamKey: string | null,
   dealId: number,
   enabled: boolean,
 ): Promise<Deal | null> => {
-  const deal = await getDealById(user, dealId)
+  const deal = await getDealById(teamKey, dealId)
 
   if (!deal) {
     return null
   }
 
-  const { error } = await adminSupabase()
+  const { error } = await createAdminSupabaseClient()
     .from("deals")
     .update({ enabled })
     .eq("id", dealId)

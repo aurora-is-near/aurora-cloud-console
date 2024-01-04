@@ -1,45 +1,16 @@
 import { NextRequest, NextResponse } from "next/server"
-import { adminSupabase } from "@/utils/supabase"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { abort } from "@/utils/abort"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const PATCH = apiRequestHandler(
   ["admin"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const { name } = await req.json()
-    const supabase = adminSupabase()
+    const supabase = createAdminSupabaseClient()
     const { error } = await supabase
       .from("users")
       .update({ name })
       .eq("user_id", ctx.user.user_id)
-
-    if (error) throw error
-
-    return NextResponse.json({ status: "OK" })
-  },
-)
-
-export const POST = apiRequestHandler(
-  ["admin"],
-  async (req: NextRequest, ctx: ApiRequestContext) => {
-    const { user } = ctx
-    const { email, name } = await req.json()
-    const cleanedEmail = email.toLowerCase().trim()
-    const supabase = adminSupabase()
-
-    const { data: existingUser } = await supabase
-      .from("users")
-      .select("id")
-      .ilike("email", `%${cleanedEmail}%`)
-      .maybeSingle()
-
-    if (existingUser) abort(400, "User already exists.")
-
-    const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
-      // TODO: Change URL
-      redirectTo: "https://aurora-cloud-console.vercel.app",
-      data: { name, companyId: user.company_id },
-    })
 
     if (error) throw error
 
