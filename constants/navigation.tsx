@@ -7,6 +7,7 @@ import {
   UsersIcon,
   KeyIcon,
   SquaresPlusIcon,
+  AdjustmentsHorizontalIcon,
 } from "@heroicons/react/24/outline"
 import { Borealis, Silos } from "@/components/icons"
 
@@ -15,6 +16,10 @@ export const mainNavigation = [
   { name: "Silos", href: "/silos", icon: <Silos /> },
   { name: "Users", href: "/users", icon: <UsersIcon /> },
   { name: "Services", href: "/services", icon: <SquaresPlusIcon /> },
+]
+
+export const mainAdminNavigation = [
+  { name: "Admin", href: "/admin/teams", icon: <AdjustmentsHorizontalIcon /> },
 ]
 
 export const mainExtraNavigation = [

@@ -1,6 +1,7 @@
 "use client"
 
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 import { API_KEY_SCOPES } from "@/constants/scopes"
 import { PublicApiScope } from "@/types/types"
 import { useMutation } from "@tanstack/react-query"

@@ -1,9 +1,10 @@
 "use client"
 
 import { LifebuoyIcon } from "@heroicons/react/24/outline"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
 import Button from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
+import { Modals } from "@/utils/modals"
 
 const Contact = ({
   text = "Need help setting up deals?",

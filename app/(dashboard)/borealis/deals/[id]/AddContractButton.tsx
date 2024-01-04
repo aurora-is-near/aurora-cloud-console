@@ -1,7 +1,8 @@
 "use client"
 
 import Button from "@/components/Button"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 import { PlusIcon } from "@heroicons/react/20/solid"
 
 const AddContractButton = () => {

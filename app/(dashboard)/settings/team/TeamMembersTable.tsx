@@ -1,6 +1,7 @@
 import Table from "@/components/Table"
 import TableButton from "@/components/TableButton"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { TeamMember } from "@/types/types"
 import { apiClient } from "@/utils/api/client"

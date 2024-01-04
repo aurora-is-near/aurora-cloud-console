@@ -1,8 +1,9 @@
 import ListItem from "@/components/ListItem"
 import { Cog6ToothIcon } from "@heroicons/react/24/outline"
 import ManageListModal from "./ManageListModal"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
 import { useQueryState } from "next-usequerystate"
+import { Modals } from "@/utils/modals"
 
 type AccessListItem = {
   id: string

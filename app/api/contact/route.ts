@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { ApiUser } from "@/types/types"
 import { abort } from "@/utils/abort"
-import { adminSupabase } from "@/utils/supabase"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 const getEnvVar = (name: string) => {
   const value = process.env[name]
@@ -19,7 +19,8 @@ const getCompany = async (companyId: string | null) => {
     return null
   }
 
-  const { data } = await adminSupabase()
+  const supabase = createAdminSupabaseClient()
+  const { data } = await supabase
     .from("companies")
     .select()
     .eq("id", companyId)

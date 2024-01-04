@@ -5,7 +5,8 @@ import Modal from "@/components/Modal"
 import { useTransition } from "react"
 import { deleteUser } from "./actions/delete-user"
 import { useQueryState } from "next-usequerystate"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 
 const DeleteUserModal = () => {
   const { activeModal, closeModal } = useModals()

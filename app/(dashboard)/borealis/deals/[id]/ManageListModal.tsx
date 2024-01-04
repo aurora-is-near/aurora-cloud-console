@@ -2,7 +2,8 @@
 
 import Button from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { TrashIcon } from "@heroicons/react/20/solid"
