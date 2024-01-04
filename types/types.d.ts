@@ -22,12 +22,6 @@ export type Deal = {
   enabled: boolean
 }
 
-export type Token = {
-  name: string
-  address: string
-  type: string
-}
-
 export type Silo = {
   id: number
   name: string
@@ -113,6 +107,8 @@ export type PublicApiScope = Enums<"api_key_scopes">
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
+
+export type Token = Tables<"tokens">
 
 export type ApiUser = User & {
   scopes: ApiScopes[]

@@ -2,6 +2,8 @@ import Table from "@/components/Table"
 import Heading from "@/components/Heading"
 import { formatDate } from "@/utils/helpers"
 import { getTokens } from "@/actions/admin/get-tokens"
+import TableButton from "@/components/TableButton"
+import { PencilSquareIcon } from "@heroicons/react/24/outline"
 
 const Page = async () => {
   const tokens = await getTokens()
@@ -21,12 +23,20 @@ const Page = async () => {
             <Table.TH>Address</Table.TH>
             <Table.TH>Type</Table.TH>
             <Table.TH>Created</Table.TH>
+            <Table.TH hidden>Actions</Table.TH>
             {tokens.map((token) => (
               <Table.TR key={token.id}>
                 <Table.TD>{token.name}</Table.TD>
                 <Table.TD>{token.address}</Table.TD>
                 <Table.TD>{token.type}</Table.TD>
                 <Table.TD>{formatDate(new Date(token.created_at))}</Table.TD>
+                <Table.TD align="right">
+                  <TableButton
+                    Icon={PencilSquareIcon}
+                    srOnlyText={`Edit ${token.name}`}
+                    href={`/admin/tokens/${token.id}`}
+                  />
+                </Table.TD>
               </Table.TR>
             ))}
           </Table>
