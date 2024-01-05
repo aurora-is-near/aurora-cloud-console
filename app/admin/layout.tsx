@@ -3,14 +3,23 @@ import { Toaster } from "react-hot-toast"
 import MainMenu from "@/components/menu/MainMenu"
 import MobileMenu from "@/components/menu/MobileMenu"
 import SubMenuNav from "@/components/menu/SubMenuNav"
-import { mainExtraNavigation, mainNavigation } from "@/constants/navigation"
+import { notFound } from "next/navigation"
+import { isAdmin } from "@/actions/admin/is-admin"
+import {
+  mainAdminExtraNavigation,
+  mainAdminNavigation,
+} from "@/constants/navigation"
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default async function Layout({ children }: { children: ReactNode }) {
+  if (!(await isAdmin())) {
+    notFound()
+  }
+
   return (
     <div>
       <MainMenu
-        mainMenuItems={mainNavigation}
-        extraMenuItems={mainExtraNavigation}
+        mainMenuItems={mainAdminNavigation}
+        extraMenuItems={mainAdminExtraNavigation}
       />
       <MobileMenu />
 
