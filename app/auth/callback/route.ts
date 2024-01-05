@@ -1,5 +1,6 @@
 import { LOGIN_ROUTE } from "@/constants/routes"
 import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
+import { isAdminSubdomain } from "@/utils/admin"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
@@ -14,7 +15,11 @@ export async function GET(request: NextRequest) {
       await supabase.auth.exchangeCodeForSession(code)
     }
 
-    return NextResponse.redirect(new URL("/borealis/deals", request.url))
+    const redirectRoute = isAdminSubdomain(request)
+      ? "/teams"
+      : "/borealis/deals"
+
+    return NextResponse.redirect(new URL(redirectRoute, request.url))
   } catch (error) {
     console.error(error)
     const loginUrl = new URL(LOGIN_ROUTE, request.url)
