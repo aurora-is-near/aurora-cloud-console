@@ -3,7 +3,6 @@ import { Toaster } from "react-hot-toast"
 import MainMenu from "@/components/menu/MainMenu"
 import MobileMenu from "@/components/menu/MobileMenu"
 import SubMenuNav from "@/components/menu/SubMenuNav"
-import PlanLimit from "./PlanLimit"
 import Providers from "./Providers"
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -15,7 +14,6 @@ export default function Layout({ children }: { children: ReactNode }) {
 
         <aside className="fixed inset-y-0 flex-col hidden p-6 overflow-y-auto bg-white border-r border-gray-200 left-20 w-72 lg:flex grow gap-y-7">
           <SubMenuNav />
-          <PlanLimit />
         </aside>
 
         <main className="lg:pl-20">
