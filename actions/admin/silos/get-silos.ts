@@ -9,11 +9,11 @@ export const getSilos = async (teamKey?: string | null): Promise<Silo[]> => {
 
   const silosQuery = supabase
     .from("silos")
-    .select("*")
+    .select("*, teams!inner(team_key)")
     .order("created_at", { ascending: false })
 
   if (teamKey) {
-    silosQuery.eq("team_key", (await getTeam(teamKey)).id)
+    silosQuery.eq("teams.team_key", (await getTeam(teamKey)).id)
   }
 
   const { data: silos, error: silosError } = await silosQuery
