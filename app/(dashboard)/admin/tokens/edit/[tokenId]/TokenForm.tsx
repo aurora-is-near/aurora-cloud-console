@@ -8,11 +8,10 @@ import { CheckIcon } from "@heroicons/react/24/outline"
 import { updateToken } from "@/actions/admin/update-token"
 import { useState } from "react"
 import { Alert } from "@/components/Alert"
+import { createToken } from "@/actions/admin/create-token"
 
 type TokenFormProps = {
-  token: Token
-  address: string
-  type: string
+  token?: Token
 }
 
 type Inputs = {
@@ -23,12 +22,19 @@ type Inputs = {
 
 export const TokenForm = ({ token }: TokenFormProps) => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
-  const update: SubmitHandler<Inputs> = async ({ name }) => {
+  const update: SubmitHandler<Inputs> = async (inputs: Inputs) => {
     setSuccessMessage(null)
 
-    await updateToken(token.id, { name })
+    if (token) {
+      await updateToken(token.id, inputs)
+      setSuccessMessage("Token updated")
 
-    setSuccessMessage("Token updated")
+      return
+    }
+
+    const newToken = await createToken(inputs)
+
+    window.location.href = `/admin/tokens?new_token=${newToken?.id}`
   }
 
   const {
@@ -55,7 +61,7 @@ export const TokenForm = ({ token }: TokenFormProps) => {
             register={register}
             error={errors.name}
             registerOptions={{
-              value: token.name,
+              value: token?.name ?? "",
               required: "Name is required",
             }}
           />
@@ -69,7 +75,7 @@ export const TokenForm = ({ token }: TokenFormProps) => {
             register={register}
             error={errors.address}
             registerOptions={{
-              value: token.address,
+              value: token?.address ?? "",
               required: "Address is required",
             }}
           />
@@ -83,7 +89,7 @@ export const TokenForm = ({ token }: TokenFormProps) => {
             register={register}
             error={errors.type}
             registerOptions={{
-              value: token.type,
+              value: token?.type ?? "",
               required: "Type is required",
             }}
           />

@@ -3,10 +3,20 @@ import Heading from "@/components/Heading"
 import { formatDate } from "@/utils/helpers"
 import { getTokens } from "@/actions/admin/get-tokens"
 import TableButton from "@/components/TableButton"
-import { PencilSquareIcon } from "@heroicons/react/24/outline"
+import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
+import Button from "@/components/Button"
+import { RemoveTokenButton } from "@/app/(dashboard)/admin/tokens/RemoveTokenButton"
+import { Alert } from "@/components/Alert"
 
-const Page = async () => {
+const Page = async ({
+  searchParams,
+}: {
+  searchParams: { new_token?: string }
+}) => {
   const tokens = await getTokens()
+  const newToken = tokens.find(
+    (token) => token.id === Number(searchParams["new_token"]),
+  )
 
   return (
     <div className="space-y-6">
@@ -14,7 +24,19 @@ const Page = async () => {
         <div className="flex space-x-3.5">
           <Heading tag="h2">Tokens</Heading>
         </div>
+        <div className="flex items-start sm:flex-row flex-col-reverse gap-3">
+          <Button href="/admin/tokens/add">
+            <PlusCircleIcon className="w-5 h-5" />
+            <span>Add token</span>
+          </Button>
+        </div>
       </header>
+
+      {newToken && (
+        <Alert dismissable type="success" className="mb-6">
+          Token created: {newToken.name}
+        </Alert>
+      )}
 
       <section>
         {
@@ -31,11 +53,14 @@ const Page = async () => {
                 <Table.TD>{token.type}</Table.TD>
                 <Table.TD>{formatDate(new Date(token.created_at))}</Table.TD>
                 <Table.TD align="right">
-                  <TableButton
-                    Icon={PencilSquareIcon}
-                    srOnlyText={`Edit ${token.name}`}
-                    href={`/admin/tokens/${token.id}`}
-                  />
+                  <div className="flex gap-x-3">
+                    <TableButton
+                      Icon={PencilSquareIcon}
+                      srOnlyText={`Edit ${token.name}`}
+                      href={`/admin/tokens/edit/${token.id}`}
+                    />
+                    <RemoveTokenButton token={token} />
+                  </div>
                 </Table.TD>
               </Table.TR>
             ))}

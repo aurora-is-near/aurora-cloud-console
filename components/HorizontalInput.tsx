@@ -27,10 +27,10 @@ export const HorizontalInput = <Inputs extends Record<string, unknown>>({
   error,
   ...restProps
 }: HorizontalInputProps<Inputs>) => (
-  <div className="items-center sm:grid sm:grid-cols-2 h-9">
+  <div className="sm:grid sm:grid-cols-2 min-h-9">
     <label
       htmlFor={id}
-      className="block text-sm font-medium leading-none text-gray-500"
+      className="py-1.5 block text-sm font-medium leading-none text-gray-500"
     >
       {label}
     </label>

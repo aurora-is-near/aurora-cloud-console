@@ -2,7 +2,7 @@ import Heading from "@/components/Heading"
 import { getToken } from "@/actions/admin/get-token"
 import { notFound } from "next/navigation"
 import Card from "@/components/Card"
-import { TokenForm } from "@/app/(dashboard)/admin/tokens/[tokenId]/TokenForm"
+import { TokenForm } from "@/app/(dashboard)/admin/tokens/edit/[tokenId]/TokenForm"
 
 const Page = async ({
   params: { tokenId },
