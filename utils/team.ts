@@ -5,7 +5,7 @@ export const getTeam = async (teamKey: string): Promise<Team> => {
   const supabase = createAdminSupabaseClient()
   const { data, error } = await supabase
     .from("teams")
-    .select("id, name, website, email, team_key")
+    .select()
     .eq("team_key", teamKey)
     .single()
 

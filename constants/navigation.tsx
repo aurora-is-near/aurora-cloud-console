@@ -7,18 +7,37 @@ import {
   UsersIcon,
   KeyIcon,
   SquaresPlusIcon,
+  PlusCircleIcon,
+  UserGroupIcon,
+  ArrowRightOnRectangleIcon,
+  CurrencyDollarIcon,
 } from "@heroicons/react/24/outline"
 import { Borealis, Silos } from "@/components/icons"
 
-export const mainNavigation = [
+export type MenuItem = {
+  name: string
+  href: string
+  icon: JSX.Element
+}
+
+export const mainNavigation: MenuItem[] = [
   { name: "Borealis", href: "/borealis/deals", icon: <Borealis /> },
   { name: "Silos", href: "/silos", icon: <Silos /> },
   { name: "Users", href: "/users", icon: <UsersIcon /> },
   { name: "Services", href: "/services", icon: <SquaresPlusIcon /> },
 ]
 
-export const mainExtraNavigation = [
+export const mainAdminNavigation: MenuItem[] = [
+  { name: "Teams", href: "/admin/teams", icon: <UserGroupIcon /> },
+  { name: "Tokens", href: "/admin/tokens", icon: <CurrencyDollarIcon /> },
+]
+
+export const mainExtraNavigation: MenuItem[] = [
   { name: "Settings", href: "/settings/billing", icon: <Cog6ToothIcon /> },
+]
+
+export const mainAdminExtraNavigation: MenuItem[] = [
+  { name: "Log out", href: "/logout", icon: <ArrowRightOnRectangleIcon /> },
 ]
 
 export type SubrouteKeys = "borealis" | "silos" | "users" | "settings"
@@ -44,11 +63,6 @@ export const subrouteMap = {
       href: "/users",
       icon: <UsersIcon />,
     },
-    // {
-    //   name: "Blocked",
-    //   href: "/users/blocked",
-    //   icon: <NoSymbolIcon />,
-    // },
   ],
   settings: [
     {
@@ -81,6 +95,30 @@ export const subrouteMap = {
     {
       name: "All services",
       href: "/services",
+    },
+  ],
+  teams: [
+    {
+      name: "All teams",
+      href: "/admin/teams",
+      icon: <UserGroupIcon />,
+    },
+    {
+      name: "Add team",
+      href: "/admin/teams/add",
+      icon: <PlusCircleIcon />,
+    },
+  ],
+  tokens: [
+    {
+      name: "All tokens",
+      href: "/admin/tokens",
+      icon: <CurrencyDollarIcon />,
+    },
+    {
+      name: "Add token",
+      href: "/admin/tokens/add",
+      icon: <PlusCircleIcon />,
     },
   ],
 }

@@ -7,10 +7,13 @@ import { capitalizeFirstLetter } from "@/utils/helpers"
 import { SubrouteKeys, subrouteMap } from "@/constants/navigation"
 import Heading from "../Heading"
 import {
+  CircleStackIcon,
   ClipboardDocumentCheckIcon,
+  CurrencyDollarIcon,
   LockClosedIcon,
   ShieldCheckIcon,
   StopCircleIcon,
+  UserGroupIcon,
   WrenchIcon,
 } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
@@ -152,10 +155,30 @@ const UsersMenu = () => {
   )
 }
 
+const AdminMenu = () => (
+  <ul role="list" className="space-y-4">
+    <li>
+      <SubMenuButton
+        href={"/admin/teams"}
+        name={"Teams"}
+        icon={<UserGroupIcon />}
+      />
+    </li>
+    <li>
+      <SubMenuButton
+        href={"/admin/tokens"}
+        name={"Tokens"}
+        icon={<CurrencyDollarIcon />}
+      />
+    </li>
+  </ul>
+)
+
 const menuMap = {
   borealis: <BorealisMenu />,
   silos: <SiloMenu />,
   users: <UsersMenu />,
+  admin: <AdminMenu />,
   settings: null,
 }
 

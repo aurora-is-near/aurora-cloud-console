@@ -3,7 +3,6 @@
 import { CheckIcon, PencilIcon } from "@heroicons/react/20/solid"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useEffect, useState } from "react"
-import { Database } from "@/types/supabase"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Button from "@/components/Button"
@@ -14,6 +13,7 @@ import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { Alert } from "@/components/Alert"
+import { HorizontalInput } from "@/components/HorizontalInput"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -133,40 +133,27 @@ const UserInfoForm = ({
       <div className="px-6 pb-7">
         {showForm ? (
           <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
-            <div className="items-center sm:grid sm:grid-cols-2 h-9">
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium leading-none text-gray-500"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-                autoComplete="name"
-                {...register("name", {
-                  value: user?.name ?? "",
-                })}
-              />
-            </div>
-            <div className="items-center sm:grid sm:grid-cols-2 h-9">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-none text-gray-500"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-                autoComplete="email"
-                {...register("email", {
-                  value: user?.email ?? "",
-                })}
-              />
-            </div>
+            <HorizontalInput
+              id="name"
+              name="name"
+              label="Name"
+              autoComplete="name"
+              register={register}
+              registerOptions={{
+                value: user?.name ?? "",
+              }}
+            />
+
+            <HorizontalInput
+              id="email"
+              name="email"
+              label="Email"
+              autoComplete="email"
+              register={register}
+              registerOptions={{
+                value: user?.email ?? "",
+              }}
+            />
 
             <Alert type="info">
               Updating your email requires confirmation through links sent to

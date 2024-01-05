@@ -2,7 +2,8 @@
 
 import { CheckCircleIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 import Button from "@/components/Button"
 import Modal from "@/components/Modal"
 import { useMutation } from "@tanstack/react-query"

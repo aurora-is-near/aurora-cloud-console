@@ -1,7 +1,8 @@
 "use client"
 
 import CopyButton from "@/components/CopyButton"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Contract, Deal } from "@/types/types"
 import { apiClient } from "@/utils/api/client"

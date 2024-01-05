@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/outline"
 import {
   SubrouteKeys,
+  mainAdminNavigation,
   mainExtraNavigation,
   mainNavigation,
   subrouteMap,
@@ -19,8 +20,18 @@ import { capitalizeFirstLetter } from "@/utils/helpers"
 import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
 import { useDeals } from "@/utils/api/queries"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { AdminContext } from "@/providers/AdminProvider"
 
-const navigation = [...mainNavigation, ...mainExtraNavigation]
+const getNavigation = (isAdmin: boolean) => {
+  const navigation = [...mainNavigation]
+
+  if (isAdmin) {
+    navigation.push(...mainAdminNavigation)
+  }
+
+  return [...navigation, ...mainExtraNavigation]
+}
 
 const SubrouteMenu = () => {
   const [route] = useSelectedLayoutSegments()
@@ -57,6 +68,8 @@ const SubrouteMenu = () => {
 export default function MobileMenu() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [route, subroute] = useSelectedLayoutSegments()
+  const { isAdmin } = useRequiredContext(AdminContext)
+  const navigation = getNavigation(isAdmin)
   const isSettingsRoute = route === "settings"
 
   useEffect(() => setMenuOpen(false), [route, subroute])

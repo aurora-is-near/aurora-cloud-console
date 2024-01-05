@@ -6,6 +6,7 @@ type TableButtonProps = {
   onClick?: () => void
   Icon: ComponentType<{ className?: string }>
   disabled?: boolean
+  href?: string
 }
 
 const TableButton = ({
@@ -13,20 +14,26 @@ const TableButton = ({
   onClick,
   Icon,
   disabled,
-}: TableButtonProps) => (
-  <button
-    type="button"
-    className={clsx(
-      disabled
-        ? "text-gray-300 cursor-not-allowed"
-        : "text-gray-900 hover:text-red-500",
-    )}
-    onClick={onClick}
-    disabled={disabled}
-  >
-    <span className="sr-only">{srOnlyText}</span>
-    <Icon className="w-5 h-5" />
-  </button>
-)
+  href,
+}: TableButtonProps) => {
+  const Component = href ? "a" : "button"
+
+  return (
+    <Component
+      type={href ? undefined : "button"}
+      href={href}
+      className={clsx(
+        disabled
+          ? "text-gray-300 cursor-not-allowed"
+          : "text-gray-900 hover:text-red-500",
+      )}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      <span className="sr-only">{srOnlyText}</span>
+      <Icon className="w-5 h-5" />
+    </Component>
+  )
+}
 
 export default TableButton

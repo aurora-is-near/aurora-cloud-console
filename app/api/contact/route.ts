@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { ApiUser } from "@/types/types"
 import { abort } from "@/utils/abort"
-import { adminSupabase } from "@/utils/supabase"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { getTeam } from "@/actions/admin/teams/get-team"
 
 const getEnvVar = (name: string) => {
   const value = process.env[name]
@@ -14,15 +15,12 @@ const getEnvVar = (name: string) => {
   return value
 }
 
-const getCompany = async (companyId: string | null) => {
-  if (!companyId) {
-    return null
-  }
-
-  const { data } = await adminSupabase()
-    .from("companies")
-    .select()
-    .eq("id", companyId)
+const getUserTeam = async (userId: number) => {
+  const supabase = createAdminSupabaseClient()
+  const { data } = await supabase
+    .from("teams")
+    .select("*, users_teams!inner(user_id)")
+    .eq("users_teams.user_id", userId)
     .single()
 
   return data
@@ -46,7 +44,7 @@ const submitForm = async (
     return
   }
 
-  const company = await getCompany(user.company_id)
+  const team = await getUserTeam(user.id)
 
   const res = await fetch(
     `https://api.hsforms.com/submissions/v3/integration/secure/submit/${portalId}/${contactFormGuid}`,
@@ -73,12 +71,12 @@ const submitForm = async (
           {
             objectTypeId: "0-2",
             name: "name",
-            value: company?.name,
+            value: team?.name,
           },
           {
             objectTypeId: "0-2",
             name: "domain",
-            value: company?.website,
+            value: team?.website,
           },
           {
             objectTypeId: "0-1",

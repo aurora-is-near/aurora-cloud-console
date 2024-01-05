@@ -2,7 +2,8 @@
 
 import { PaperAirplaneIcon } from "@heroicons/react/20/solid"
 import Button from "@/components/Button"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 
 const InviteButton = () => {
   const { openModal } = useModals()

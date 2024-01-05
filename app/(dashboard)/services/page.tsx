@@ -3,7 +3,8 @@
 import Button from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
 import Heading from "@/components/Heading"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 import Image from "next/image"
 
 const services = [

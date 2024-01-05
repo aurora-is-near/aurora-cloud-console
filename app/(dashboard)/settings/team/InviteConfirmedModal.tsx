@@ -1,7 +1,8 @@
 "use client"
 
 import { CheckCircleIcon } from "@heroicons/react/24/outline"
-import { Modals, useModals } from "@/hooks/useModals"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 import Button from "@/components/Button"
 import Modal from "@/components/Modal"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"

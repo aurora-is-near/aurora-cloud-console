@@ -22,12 +22,6 @@ export type Deal = {
   enabled: boolean
 }
 
-export type Token = {
-  name: string
-  address: string
-  type: string
-}
-
 export type Silo = {
   id: number
   name: string
@@ -76,14 +70,6 @@ export type Deals = {
   deals: Deal[]
 }
 
-export type Team = {
-  id: number
-  name: string
-  team_key: string
-  website: string | null
-  email: string | null
-}
-
 export type Teams = {
   teams: Team[]
 }
@@ -100,8 +86,9 @@ export type TeamMembers = {
   teamMembers: TeamMember[]
 }
 
-export type Tables<T extends keyof Database["public"]["Tables"]> =
-  Database["public"]["Tables"][T]["Row"]
+export type TableName = keyof Database["public"]["Tables"]
+
+export type Tables<T extends TableName> = Database["public"]["Tables"][T]["Row"]
 
 export type Enums<T extends keyof Database["public"]["Enums"]> =
   Database["public"]["Enums"][T]
@@ -113,6 +100,10 @@ export type PublicApiScope = Enums<"api_key_scopes">
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
+
+export type Token = Tables<"tokens">
+
+export type Team = Tables<"teams">
 
 export type ApiUser = User & {
   scopes: ApiScopes[]
