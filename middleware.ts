@@ -8,6 +8,7 @@ import {
   LOGIN_ROUTE,
   LOGIN_UNAUTHORISED_ROUTE,
   LOGIN_UNKNOWN_ROUTE,
+  LOGOUT_ROUTE,
 } from "./constants/routes"
 import { isAdminSubdomain, isAdminUser } from "@/utils/admin"
 import { createMiddlewareClient } from "@/supabase/create-middleware-client"
@@ -68,8 +69,10 @@ export async function middleware(req: NextRequest) {
     return unknownRedirect(req, res)
   }
 
-  // Do nothing if an auth callback is in progress
-  if ([AUTH_CALLBACK_ROUTE, AUTH_ACCEPT_ROUTE].includes(pathname)) {
+  // Do nothing if an auth callback or logout is in progress
+  if (
+    [AUTH_CALLBACK_ROUTE, AUTH_ACCEPT_ROUTE, LOGOUT_ROUTE].includes(pathname)
+  ) {
     return res
   }
 
