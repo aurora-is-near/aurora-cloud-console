@@ -3,7 +3,7 @@ import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { queryUsers } from "../../../../utils/proxy-db/query-users"
 import { UserDetailsQuery } from "../../../../types/types"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
-import { getSilos } from "@/utils/proxy-api/get-silos"
+import { getSilos } from "@/actions/admin/silos/get-silos"
 
 const HEADERS: (keyof UserDetailsQuery)[] = [
   "wallet_address",

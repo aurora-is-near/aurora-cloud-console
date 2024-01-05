@@ -1,8 +1,8 @@
 import Heading from "@/components/Heading"
 import { notFound } from "next/navigation"
 import Card from "@/components/Card"
-import { getSilo } from "@/actions/admin/silos/get-silo"
 import { SiloForm } from "@/app/admin/silos/SiloForm"
+import { getSilo } from "@/actions/admin/silos/get-silo"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {
   const silo = await getSilo(id)

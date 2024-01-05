@@ -5,7 +5,7 @@ import {
   queryUsers,
 } from "../../../utils/proxy-db/query-users"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
-import { getSilos } from "@/utils/proxy-api/get-silos"
+import { getSilos } from "@/actions/admin/silos/get-silos"
 
 export const GET = apiRequestHandler(
   ["users:read"],

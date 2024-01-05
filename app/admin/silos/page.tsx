@@ -2,7 +2,6 @@ import Table from "@/components/Table"
 import Heading from "@/components/Heading"
 import { formatDate } from "@/utils/helpers"
 import { getSilos } from "@/actions/admin/silos/get-silos"
-
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 import { Alert } from "@/components/Alert"
@@ -50,7 +49,7 @@ const Page = async ({
             {silos.map((silo) => (
               <Table.TR key={silo.id}>
                 <Table.TD>{silo.name}</Table.TD>
-                <Table.TD>{silo.team_id}</Table.TD>
+                <Table.TD>{silo.team?.name}</Table.TD>
                 <Table.TD>{silo.chain_id}</Table.TD>
                 <Table.TD>{formatDate(new Date(silo.created_at))}</Table.TD>
                 <Table.TD align="right">

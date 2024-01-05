@@ -100,6 +100,7 @@ export type Team = Tables<"teams">
 
 export type Silo = Tables<"silos"> & {
   tokens: Tables<"tokens">[]
+  team: Tables<"teams"> | null
 }
 
 export type ApiUser = User & {

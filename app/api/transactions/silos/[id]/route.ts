@@ -5,7 +5,7 @@ import { queryTransactions } from "../../../../../utils/proxy-db/query-transacti
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
 import { getDeals } from "@/utils/proxy-api/get-deals"
-import { getSilos } from "@/utils/proxy-api/get-silos"
+import { getSilos } from "@/actions/admin/silos/get-silos"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
