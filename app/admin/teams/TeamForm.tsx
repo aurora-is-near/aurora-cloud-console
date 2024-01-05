@@ -6,7 +6,7 @@ import { updateTeam } from "@/actions/admin/teams/update-team"
 import { useState } from "react"
 import { Alert } from "@/components/Alert"
 import { createTeam } from "@/actions/admin/teams/create-team"
-import { HorizontalForm } from "@/components/HorizontalFormInputs"
+import { HorizontalForm } from "@/components/HorizontalForm"
 
 type TeamFormProps = {
   team?: Team

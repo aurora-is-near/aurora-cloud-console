@@ -1,12 +1,12 @@
 import { HorizontalInputWrapper } from "@/components/HorizontalInputWrapper"
-import { Input, InputProps } from "@/components/Input"
+import { SelectInput, SelectInputProps } from "@/components/SelectInput"
 
-type HorizontalInputProps<Inputs extends Record<string, unknown>> =
-  InputProps<Inputs> & {
+type HorizontalSelectInputProps<Inputs extends Record<string, unknown>> =
+  SelectInputProps<Inputs> & {
     label: string
   }
 
-export const HorizontalInput = <Inputs extends Record<string, unknown>>({
+export const HorizontalSelectInput = <Inputs extends Record<string, unknown>>({
   id,
   name,
   className,
@@ -15,9 +15,9 @@ export const HorizontalInput = <Inputs extends Record<string, unknown>>({
   registerOptions,
   errors,
   ...restProps
-}: HorizontalInputProps<Inputs>) => (
+}: HorizontalSelectInputProps<Inputs>) => (
   <HorizontalInputWrapper id={id} inputName={name} label={label}>
-    <Input
+    <SelectInput
       id={id}
       name={name}
       register={register}

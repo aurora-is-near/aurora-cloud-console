@@ -6,7 +6,7 @@ import { updateToken } from "@/actions/admin/tokens/update-token"
 import { useState } from "react"
 import { Alert } from "@/components/Alert"
 import { createToken } from "@/actions/admin/tokens/create-token"
-import { HorizontalForm } from "@/components/HorizontalFormInputs"
+import { HorizontalForm } from "@/components/HorizontalForm"
 
 type TokenFormProps = {
   token?: Token
