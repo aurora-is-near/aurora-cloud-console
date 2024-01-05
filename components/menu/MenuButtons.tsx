@@ -8,7 +8,7 @@ import clsx from "clsx"
 type MenuButtonProps = {
   href: string
   name: string
-  icon: ReactNode
+  icon?: ReactNode
   disabled?: boolean
 }
 

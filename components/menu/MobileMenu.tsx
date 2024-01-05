@@ -7,35 +7,19 @@ import {
   ClipboardDocumentCheckIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline"
-import {
-  SubrouteKeys,
-  mainAdminNavigation,
-  mainExtraNavigation,
-  mainNavigation,
-  subrouteMap,
-} from "@/constants/navigation"
+import { MenuItem } from "@/constants/navigation"
 import { MobileMainMenuButton, MobileSubMenuButton } from "./MenuButtons"
-import { useSelectedLayoutSegments } from "next/navigation"
+import { usePathname, useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
 import { useDeals } from "@/utils/api/queries"
-import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { AdminContext } from "@/providers/AdminProvider"
-
-const getNavigation = (isAdmin: boolean) => {
-  const navigation = [...mainNavigation]
-
-  if (isAdmin) {
-    navigation.push(...mainAdminNavigation)
-  }
-
-  return [...navigation, ...mainExtraNavigation]
-}
+import { getSubroutes } from "@/utils/menu"
 
 const SubrouteMenu = () => {
+  const pathname = usePathname()
   const [route] = useSelectedLayoutSegments()
-  const subroutes = subrouteMap[route as SubrouteKeys] ?? []
+  const subroutes = getSubroutes(pathname, route)
   const { data } = useDeals()
 
   return (
@@ -48,7 +32,9 @@ const SubrouteMenu = () => {
         ))}
       </ul>
 
-      {route === "borealis" && !!data?.deals.length ? (
+      {route === "borealis" &&
+      !!data?.deals.length &&
+      !pathname.startsWith("/admin") ? (
         <ul role="list" className="space-y-2">
           {data.deals.map((deal) => (
             <li key={deal.id}>
@@ -65,11 +51,13 @@ const SubrouteMenu = () => {
   )
 }
 
-export default function MobileMenu() {
+type MobileMenuProps = {
+  menuItems: MenuItem[]
+}
+
+export default function MobileMenu({ menuItems }: MobileMenuProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [route, subroute] = useSelectedLayoutSegments()
-  const { isAdmin } = useRequiredContext(AdminContext)
-  const navigation = getNavigation(isAdmin)
   const isSettingsRoute = route === "settings"
 
   useEffect(() => setMenuOpen(false), [route, subroute])
@@ -136,7 +124,7 @@ export default function MobileMenu() {
 
                   <nav className="mt-6">
                     <ul role="list" className="grid grid-cols-2 gap-2">
-                      {navigation.map((item) => (
+                      {menuItems.map((item) => (
                         <li key={item.name}>
                           <MobileMainMenuButton {...item} />
                         </li>

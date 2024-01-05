@@ -24,7 +24,7 @@ export const GET = apiRequestHandler(
 
     const results = await Promise.all(
       deals.map((deal) =>
-        queryTransactions([silo.chainId], { interval, dealId: deal.key }),
+        queryTransactions([silo.chain_id], { interval, dealId: deal.key }),
       ),
     )
 

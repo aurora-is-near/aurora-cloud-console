@@ -47,8 +47,10 @@ export const getSilos = async (teamKey: string | null): Promise<Silo[]> => {
 
   return silos?.map((silo) => ({
     id: silo.id,
+    created_at: silo.created_at,
+    team_id: silo.team_id,
     name: silo.name,
-    chainId: silo.chain_id,
+    chain_id: silo.chain_id,
     tokens: tokensBySiloId[silo.id] ?? [],
   }))
 }

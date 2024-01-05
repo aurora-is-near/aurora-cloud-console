@@ -16,7 +16,7 @@ export const GET = apiRequestHandler(
   ["users:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const silos = await getSilos(ctx.teamKey)
-    const siloChainIds = silos.map((silo) => silo.chainId)
+    const siloChainIds = silos.map((silo) => silo.chain_id)
     const { searchParams } = req.nextUrl
     const dealId = searchParams.get("dealId")
     const dealKey = dealId

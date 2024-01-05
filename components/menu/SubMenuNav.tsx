@@ -2,15 +2,18 @@
 
 import SignoutButton from "./SignoutButton"
 import { SubMenuButton } from "./MenuButtons"
-import { useRouter, useSelectedLayoutSegments } from "next/navigation"
+import {
+  usePathname,
+  useRouter,
+  useSelectedLayoutSegments,
+} from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
-import { SubrouteKeys, subrouteMap } from "@/constants/navigation"
 import Heading from "../Heading"
 import {
-  CircleStackIcon,
   ClipboardDocumentCheckIcon,
   CurrencyDollarIcon,
   LockClosedIcon,
+  PlusCircleIcon,
   ShieldCheckIcon,
   StopCircleIcon,
   UserGroupIcon,
@@ -20,6 +23,7 @@ import { useEffect, useState } from "react"
 import { Silos } from "../icons"
 import Loader from "../Loader"
 import { useDeals, useSilos } from "@/utils/api/queries"
+import { getSubroutes } from "@/utils/menu"
 
 const NavLoader = () => (
   <>
@@ -155,20 +159,54 @@ const UsersMenu = () => {
   )
 }
 
-const AdminMenu = () => (
+const AdminTeams = () => (
   <ul role="list" className="space-y-4">
     <li>
       <SubMenuButton
-        href={"/admin/teams"}
-        name={"Teams"}
+        href="/admin/teams"
+        name="All teams"
         icon={<UserGroupIcon />}
       />
     </li>
     <li>
       <SubMenuButton
-        href={"/admin/tokens"}
-        name={"Tokens"}
+        href="/admin/teams/add"
+        name="Add team"
+        icon={<PlusCircleIcon />}
+      />
+    </li>
+  </ul>
+)
+
+const AdminTokens = () => (
+  <ul role="list" className="space-y-4">
+    <li>
+      <SubMenuButton
+        href="/admin/tokens"
+        name="All tokens"
         icon={<CurrencyDollarIcon />}
+      />
+    </li>
+    <li>
+      <SubMenuButton
+        href="/admin/tokens/add"
+        name="Add token"
+        icon={<PlusCircleIcon />}
+      />
+    </li>
+  </ul>
+)
+
+const AdminSilos = () => (
+  <ul role="list" className="space-y-4">
+    <li>
+      <SubMenuButton href="/admin/silos" name="All silos" icon={<Silos />} />
+    </li>
+    <li>
+      <SubMenuButton
+        href="/admin/silos/add"
+        name="Add silo"
+        icon={<PlusCircleIcon />}
       />
     </li>
   </ul>
@@ -178,15 +216,30 @@ const menuMap = {
   borealis: <BorealisMenu />,
   silos: <SiloMenu />,
   users: <UsersMenu />,
-  admin: <AdminMenu />,
   settings: null,
 }
 
+const adminMenuMap = {
+  teams: <AdminTeams />,
+  tokens: <AdminTokens />,
+  silos: <AdminSilos />,
+}
+
+const getSubMenu = (pathname: string, route: string) => {
+  if (pathname.startsWith("/admin")) {
+    return adminMenuMap[route as keyof typeof adminMenuMap]
+  }
+
+  return menuMap[route as keyof typeof menuMap]
+}
+
 const SubMenuNav = () => {
+  const pathname = usePathname()
   const [route] = useSelectedLayoutSegments()
+  const subroutes = getSubroutes(pathname, route)
   const heading = capitalizeFirstLetter(route)
-  const subroutes = subrouteMap[route as SubrouteKeys] ?? []
-  const subMenu = menuMap[route as SubrouteKeys]
+  const subMenu = getSubMenu(pathname, route)
+
   const isSettingsRoute = route === "settings"
 
   return (
