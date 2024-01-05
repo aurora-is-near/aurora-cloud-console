@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from "react"
 import {
-  FieldError,
+  FieldErrors,
   Path,
   RegisterOptions,
   UseFormRegister,
@@ -14,7 +14,7 @@ type HorizontalInputProps<Inputs extends Record<string, unknown>> =
     className?: string
     register?: UseFormRegister<Inputs>
     registerOptions?: RegisterOptions<Inputs, Path<Inputs>>
-    error?: FieldError
+    errors?: FieldErrors<Inputs>
   }
 
 export const HorizontalInput = <Inputs extends Record<string, unknown>>({
@@ -24,7 +24,7 @@ export const HorizontalInput = <Inputs extends Record<string, unknown>>({
   label,
   register,
   registerOptions,
-  error,
+  errors,
   ...restProps
 }: HorizontalInputProps<Inputs>) => (
   <div className="sm:grid sm:grid-cols-2 min-h-9">
@@ -42,9 +42,9 @@ export const HorizontalInput = <Inputs extends Record<string, unknown>>({
         {...restProps}
         {...register?.(name, registerOptions)}
       />
-      {!!error && (
+      {!!errors?.[name]?.message && (
         <p className="mt-1.5 text-sm font-medium text-red-500">
-          {error.message}
+          {errors[name]?.message?.toString()}
         </p>
       )}
     </div>
