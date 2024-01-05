@@ -9,7 +9,7 @@ import {
   LOGIN_UNAUTHORISED_ROUTE,
   LOGIN_UNKNOWN_ROUTE,
 } from "./constants/routes"
-import { isAdminUser } from "@/utils/admin"
+import { isAdminSubdomain, isAdminUser } from "@/utils/admin"
 import { createMiddlewareClient } from "@/supabase/create-middleware-client"
 import { Session } from "@supabase/supabase-js"
 
@@ -34,18 +34,6 @@ const unauthorisedRedirect = (req: NextRequest, res: NextResponse) =>
 
 const unknownRedirect = (req: NextRequest, res: NextResponse) =>
   redirect(req, res, LOGIN_UNKNOWN_ROUTE)
-
-const isAdminSubdomain = (req: NextRequest) => {
-  const host = req.headers.get("host")
-
-  if (!host?.includes(".")) {
-    return null
-  }
-
-  const [subdomain] = host.split(".")
-
-  return subdomain === "admin"
-}
 
 const rewriteAdminSubdomain = (req: NextRequest, session: Session) => {
   const res = NextResponse.next()
