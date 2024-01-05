@@ -2,8 +2,8 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const deleteToken = async (tokenId: number) => {
+export const deleteTeam = async (id: number) => {
   const supabase = createAdminSupabaseClient()
 
-  await supabase.from("tokens").delete().eq("id", tokenId)
+  await supabase.from("teams").delete().eq("id", id)
 }

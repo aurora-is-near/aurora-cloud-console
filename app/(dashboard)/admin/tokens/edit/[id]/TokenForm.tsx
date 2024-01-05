@@ -5,10 +5,10 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { Token } from "@/types/types"
 import Button from "@/components/Button"
 import { CheckIcon } from "@heroicons/react/24/outline"
-import { updateToken } from "@/actions/admin/update-token"
+import { updateToken } from "@/actions/admin/tokens/update-token"
 import { useState } from "react"
 import { Alert } from "@/components/Alert"
-import { createToken } from "@/actions/admin/create-token"
+import { createToken } from "@/actions/admin/tokens/create-token"
 
 type TokenFormProps = {
   token?: Token
