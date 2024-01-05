@@ -11,6 +11,7 @@ import {
 } from "./constants/routes"
 import { isAdminUser } from "@/utils/admin"
 import { createMiddlewareClient } from "@/supabase/create-middleware-client"
+import { Session } from "@supabase/supabase-js"
 
 const redirect = (req: NextRequest, res: NextResponse, route: string) => {
   const pathname = req.nextUrl.pathname
@@ -34,6 +35,35 @@ const unauthorisedRedirect = (req: NextRequest, res: NextResponse) =>
 const unknownRedirect = (req: NextRequest, res: NextResponse) =>
   redirect(req, res, LOGIN_UNKNOWN_ROUTE)
 
+const isAdminSubdomain = (req: NextRequest) => {
+  const host = req.headers.get("host")
+
+  if (!host?.includes(".")) {
+    return null
+  }
+
+  const [subdomain] = host.split(".")
+
+  return subdomain === "admin"
+}
+
+const rewriteAdminSubdomain = (req: NextRequest, session: Session) => {
+  const res = NextResponse.next()
+  const { pathname } = req.nextUrl
+
+  if (!isAdminUser(session.user)) {
+    return unauthorisedRedirect(req, res)
+  }
+
+  if (pathname.startsWith("/admin")) {
+    return redirect(req, res, pathname.replace(/^\/admin/, ""))
+  }
+
+  return NextResponse.rewrite(
+    new URL(`/admin${req.nextUrl.pathname.replace(/^\/admin/, "")}`, req.url),
+  )
+}
+
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
   const supabase = createMiddlewareClient(req)
@@ -46,7 +76,7 @@ export async function middleware(req: NextRequest) {
     teamKey,
   ] = await Promise.all([supabase.auth.getSession(), getTeamKey(req)])
 
-  if (!teamKey) {
+  if (!teamKey && !isAdminSubdomain(req)) {
     return unknownRedirect(req, res)
   }
 
@@ -58,6 +88,12 @@ export async function middleware(req: NextRequest) {
   // Redirect to the login page if the user is not logged in
   if (!session) {
     return loginRedirect(req, res)
+  }
+
+  // Rewrite admin subdomain to /admin
+  // e.g. https://admin.auroracloud.dev/teams > /admin/teams
+  if (isAdminSubdomain(req)) {
+    return rewriteAdminSubdomain(req, session)
   }
 
   // Redirect to the unauthorised page if there is no team key, or if the user
