@@ -11,6 +11,7 @@ import {
   Contract,
   TeamMembers,
   Team,
+  SiloWithRelationships,
 } from "@/types/types"
 import { request } from "./request"
 
@@ -35,9 +36,10 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
-  getSilo: async ({ id }: { id: string }) => request<Silo>(`/api/silos/${id}`),
+  getSilo: async ({ id }: { id: string }) =>
+    request<SiloWithRelationships>(`/api/silos/${id}`),
 
-  getSilos: async () => request<Silo[]>("/api/silos"),
+  getSilos: async () => request<SiloWithRelationships[]>("/api/silos"),
 
   getUsers: async (query: {
     limit?: number

@@ -3,20 +3,20 @@ import { formatDate } from "@/utils/helpers"
 import { getSilos } from "@/actions/admin/silos/get-silos"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
-import { Alert } from "@/components/Alert"
 import TableButton from "@/components/TableButton"
 import { RemoveSiloButton } from "@/app/admin/silos/RemoveSiloButton"
 import { AdminPage } from "@/components/AdminPage"
+import { AdminAlert } from "@/components/AdminAlert"
 
 const Page = async ({
   searchParams,
 }: {
-  searchParams: { new_silo?: string }
+  searchParams: {
+    id?: string
+    operation?: string
+  }
 }) => {
   const silos = await getSilos()
-  const newSilo = silos.find(
-    (silo) => silo.id === Number(searchParams["new_silo"]),
-  )
 
   return (
     <AdminPage
@@ -28,11 +28,7 @@ const Page = async ({
         </Button>
       }
     >
-      {newSilo && (
-        <Alert dismissable type="success" className="mb-6">
-          Silo created: {newSilo.name}
-        </Alert>
-      )}
+      <AdminAlert items={silos} itemName="Silo" searchParams={searchParams} />
 
       <section>
         {

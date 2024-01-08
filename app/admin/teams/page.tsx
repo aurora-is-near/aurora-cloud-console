@@ -8,6 +8,7 @@ import { Alert } from "@/components/Alert"
 import TableButton from "@/components/TableButton"
 import { RemoveTeamButton } from "@/app/admin/teams/RemoveTeamButton"
 import { AdminPage } from "@/components/AdminPage"
+import { AdminAlert } from "@/components/AdminAlert"
 
 const Page = async ({
   searchParams,
@@ -15,9 +16,6 @@ const Page = async ({
   searchParams: { new_team?: string }
 }) => {
   const teams = await getTeams()
-  const newTeam = teams.find(
-    (team) => team.id === Number(searchParams["new_team"]),
-  )
 
   return (
     <AdminPage
@@ -29,11 +27,7 @@ const Page = async ({
         </Button>
       }
     >
-      {newTeam && (
-        <Alert dismissable type="success" className="mb-6">
-          Team created: {newTeam.name}
-        </Alert>
-      )}
+      <AdminAlert items={teams} itemName="Team" searchParams={searchParams} />
 
       <section>
         {

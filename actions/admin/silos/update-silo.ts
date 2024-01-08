@@ -5,7 +5,7 @@ import { Silo } from "@/types/types"
 
 export const updateSilo = async (
   id: number,
-  inputs: Omit<Silo, "id" | "created_at">,
+  inputs: Omit<Silo, "id" | "created_at" | "team" | "tokens">,
 ) => {
   const supabase = createAdminSupabaseClient()
   const { data } = await supabase

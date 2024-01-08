@@ -98,7 +98,9 @@ export type Token = Tables<"tokens">
 
 export type Team = Tables<"teams">
 
-export type Silo = Tables<"silos"> & {
+export type Silo = Tables<"silos">
+
+export type SiloWithRelationships = Tables<"silos"> & {
   tokens: Tables<"tokens">[]
   team: Tables<"teams"> | null
 }

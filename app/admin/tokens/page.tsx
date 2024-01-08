@@ -5,8 +5,8 @@ import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 import { RemoveTokenButton } from "@/app/admin/tokens/RemoveTokenButton"
-import { Alert } from "@/components/Alert"
 import { AdminPage } from "@/components/AdminPage"
+import { AdminAlert } from "@/components/AdminAlert"
 
 const Page = async ({
   searchParams,
@@ -28,11 +28,7 @@ const Page = async ({
         </Button>
       }
     >
-      {newToken && (
-        <Alert dismissable type="success" className="mb-6">
-          Token created: {newToken.name}
-        </Alert>
-      )}
+      <AdminAlert items={tokens} itemName="Token" searchParams={searchParams} />
 
       <section>
         {

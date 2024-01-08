@@ -14,7 +14,8 @@ import { HorizontalSelectInput } from "@/components/HorizontalSelectInput"
 type SharedInputProps<Inputs extends Record<string, unknown>> = {
   name: Path<Inputs>
   label: string
-  value: PathValue<Inputs, Path<Inputs>>
+  value?: PathValue<Inputs, Path<Inputs>>
+  defaultValue?: PathValue<Inputs, Path<Inputs>>
 }
 
 type InputProps<Inputs extends Record<string, unknown>> =
@@ -29,7 +30,7 @@ type SelectInputProps<Inputs extends Record<string, unknown>> =
     > & {
       options: {
         label: string
-        value: string
+        value: string | number
       }[]
     }
 
@@ -37,7 +38,7 @@ type Input<Inputs extends Record<string, unknown>> =
   | InputProps<Inputs>
   | SelectInputProps<Inputs>
 
-type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
+export type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
   submitHandler: SubmitHandler<Inputs>
   inputs: Input<Inputs>[]
 }

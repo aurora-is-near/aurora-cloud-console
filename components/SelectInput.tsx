@@ -19,7 +19,7 @@ export type SelectInputProps<Inputs extends Record<string, unknown>> =
     errors?: FieldErrors<Inputs>
     options: {
       label: string
-      value: string
+      value: string | number
     }[]
   }
 
