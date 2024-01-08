@@ -21,7 +21,9 @@ export default async function Layout({ children }: { children: ReactNode }) {
         mainMenuItems={mainAdminNavigation}
         extraMenuItems={mainAdminExtraNavigation}
       />
-      <MobileMenu />
+      <MobileMenu
+        menuItems={[...mainAdminNavigation, ...mainAdminExtraNavigation]}
+      />
 
       <aside className="fixed inset-y-0 flex-col hidden p-6 overflow-y-auto bg-white border-r border-gray-200 left-20 w-72 lg:flex grow gap-y-7">
         <SubMenuNav />

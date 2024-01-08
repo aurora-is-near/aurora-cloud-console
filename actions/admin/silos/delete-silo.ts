@@ -2,9 +2,8 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const getSilos = async () => {
+export const deleteSilo = async (id: number) => {
   const supabase = createAdminSupabaseClient()
-  const { data } = await supabase.from("silos").select("*")
 
-  return data ?? []
+  await supabase.from("silos").delete().eq("id", id)
 }

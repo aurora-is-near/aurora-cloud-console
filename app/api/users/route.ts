@@ -5,13 +5,13 @@ import {
   queryUsers,
 } from "../../../utils/proxy-db/query-users"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
-import { getSilos } from "@/utils/proxy-api/get-silos"
+import { getSilos } from "@/actions/admin/silos/get-silos"
 
 export const GET = apiRequestHandler(
   ["users:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const silos = await getSilos(ctx.teamKey)
-    const siloChainIds = silos.map((silo) => silo.chainId)
+    const siloChainIds = silos.map((silo) => silo.chain_id)
     const { searchParams } = req.nextUrl
     const limit = searchParams.get("limit") ?? 20
     const offset = searchParams.get("offset") ?? 0

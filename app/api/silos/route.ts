@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { getSilos } from "@/utils/proxy-api/get-silos"
+import { getSilos } from "@/actions/admin/silos/get-silos"
 
 export const GET = apiRequestHandler(
   ["silos:read"],

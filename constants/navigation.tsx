@@ -7,7 +7,6 @@ import {
   UsersIcon,
   KeyIcon,
   SquaresPlusIcon,
-  PlusCircleIcon,
   UserGroupIcon,
   ArrowRightOnRectangleIcon,
   CurrencyDollarIcon,
@@ -18,6 +17,11 @@ export type MenuItem = {
   name: string
   href: string
   icon: JSX.Element
+  disabled?: boolean
+}
+
+export type SubMenuItem = Omit<MenuItem, "icon"> & {
+  icon?: JSX.Element
 }
 
 export const mainNavigation: MenuItem[] = [
@@ -30,6 +34,7 @@ export const mainNavigation: MenuItem[] = [
 export const mainAdminNavigation: MenuItem[] = [
   { name: "Teams", href: "/admin/teams", icon: <UserGroupIcon /> },
   { name: "Tokens", href: "/admin/tokens", icon: <CurrencyDollarIcon /> },
+  { name: "Silos", href: "/admin/silos", icon: <Silos /> },
 ]
 
 export const mainExtraNavigation: MenuItem[] = [
@@ -40,9 +45,7 @@ export const mainAdminExtraNavigation: MenuItem[] = [
   { name: "Log out", href: "/logout", icon: <ArrowRightOnRectangleIcon /> },
 ]
 
-export type SubrouteKeys = "borealis" | "silos" | "users" | "settings"
-
-export const subrouteMap = {
+export const subrouteMap: Record<string, SubMenuItem[]> = {
   borealis: [
     {
       name: "Summary",
@@ -95,30 +98,6 @@ export const subrouteMap = {
     {
       name: "All services",
       href: "/services",
-    },
-  ],
-  teams: [
-    {
-      name: "All teams",
-      href: "/admin/teams",
-      icon: <UserGroupIcon />,
-    },
-    {
-      name: "Add team",
-      href: "/admin/teams/add",
-      icon: <PlusCircleIcon />,
-    },
-  ],
-  tokens: [
-    {
-      name: "All tokens",
-      href: "/admin/tokens",
-      icon: <CurrencyDollarIcon />,
-    },
-    {
-      name: "Add token",
-      href: "/admin/tokens/add",
-      icon: <PlusCircleIcon />,
     },
   ],
 }

@@ -5,7 +5,7 @@ import { queryTransactions } from "../../../../../utils/proxy-db/query-transacti
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
 import { getDeals } from "@/utils/proxy-api/get-deals"
-import { getSilos } from "@/utils/proxy-api/get-silos"
+import { getSilos } from "@/actions/admin/silos/get-silos"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
@@ -24,7 +24,7 @@ export const GET = apiRequestHandler(
 
     const results = await Promise.all(
       deals.map((deal) =>
-        queryTransactions([silo.chainId], { interval, dealId: deal.key }),
+        queryTransactions([silo.chain_id], { interval, dealId: deal.key }),
       ),
     )
 

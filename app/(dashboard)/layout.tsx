@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         mainMenuItems={mainNavigation}
         extraMenuItems={mainExtraNavigation}
       />
-      <MobileMenu />
+      <MobileMenu menuItems={[...mainNavigation, ...mainExtraNavigation]} />
 
       <aside className="fixed inset-y-0 flex-col hidden p-6 overflow-y-auto bg-white border-r border-gray-200 left-20 w-72 lg:flex grow gap-y-7">
         <SubMenuNav />

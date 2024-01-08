@@ -22,13 +22,6 @@ export type Deal = {
   enabled: boolean
 }
 
-export type Silo = {
-  id: number
-  name: string
-  chainId: string
-  tokens: Token[]
-}
-
 type TransactionChart = {
   label: string
   transactionsCount: number
@@ -104,6 +97,13 @@ export type ApiKey = Tables<"api_keys">
 export type Token = Tables<"tokens">
 
 export type Team = Tables<"teams">
+
+export type Silo = Tables<"silos">
+
+export type SiloWithRelationships = Tables<"silos"> & {
+  tokens: Tables<"tokens">[]
+  team: Tables<"teams"> | null
+}
 
 export type ApiUser = User & {
   scopes: ApiScopes[]

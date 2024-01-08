@@ -4,7 +4,7 @@ import { Transactions } from "../../../../types/types"
 import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
 import { getTransactionsChart } from "../../../../utils/transactions"
 import { getDeals } from "@/utils/proxy-api/get-deals"
-import { getSilos } from "@/utils/proxy-api/get-silos"
+import { getSilos } from "@/actions/admin/silos/get-silos"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
@@ -15,7 +15,7 @@ export const GET = apiRequestHandler(
       getDeals(ctx.teamKey),
     ])
 
-    const chainIds = silos.map((silo) => silo.chainId)
+    const chainIds = silos.map((silo) => silo.chain_id)
 
     const results = await Promise.all(
       deals.map((deal) =>
