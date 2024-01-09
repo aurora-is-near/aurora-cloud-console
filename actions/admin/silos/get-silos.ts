@@ -15,7 +15,7 @@ export const getSilos = async (
     .order("created_at", { ascending: false })
 
   if (teamKey) {
-    silosQuery.eq("teams.team_key", (await getTeam(teamKey)).id)
+    silosQuery.eq("teams.team_key", teamKey)
   }
 
   const { data: silos, error: silosError } = await silosQuery
