@@ -7,6 +7,22 @@ import { getTransactionsChart } from "../../../../../utils/transactions"
 import { getDeals } from "@/utils/proxy-api/get-deals"
 import { getSilos } from "@/actions/admin/silos/get-silos"
 
+/**
+ * @swagger
+ * /api/transactions/silos/{id}:
+ *   get:
+ *     tags: [Transactions]
+ *     description: Returns the hello world
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Hello World!
+ */
 export const GET = apiRequestHandler(
   ["transactions:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {

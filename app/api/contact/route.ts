@@ -3,7 +3,6 @@ import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { ApiUser } from "@/types/types"
 import { abort } from "@/utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { getTeam } from "@/actions/admin/teams/get-team"
 
 const getEnvVar = (name: string) => {
   const value = process.env[name]
