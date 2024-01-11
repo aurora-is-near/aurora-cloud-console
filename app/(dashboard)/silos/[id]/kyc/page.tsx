@@ -17,21 +17,15 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         <Card.Title tag="h4">Settings</Card.Title>
 
         <InfoList>
-          <InfoList.Item
-            term="KYC status"
-            description="Enabled"
-            explainer="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-          />
+          <InfoList.Item term="KYC status" description="Enabled" />
           <InfoList.Item
             term="KYC link"
             description="business.auroracloud.dev"
-            explainer="Lorem ipsum dolor sit amet consectetur adipisicing elit."
             showCopyButton
           />
           <InfoList.Item
             term="KYC admin"
             description="kycplatform.com"
-            explainer="Lorem ipsum dolor sit amet consectetur adipisicing elit."
             showCopyButton
           />
         </InfoList>
@@ -53,26 +47,13 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           <InfoList.Item
             term="Countries allowed"
             description="Belarus, Canada, China, Russia, Ukraine, United Kingdom, United States"
-            explainer="Lorem ipsum dolor sit amet consectetur adipisicing elit."
           />
-          <InfoList.Item
-            term="Age"
-            description="over 18 years old"
-            explainer="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-          />
-          <InfoList.Item
-            term="Accredited investor"
-            description="True"
-            explainer="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-          />
+          <InfoList.Item term="Age" description="over 18 years old" />
+          <InfoList.Item term="Accredited investor" description="True" />
         </InfoList>
 
         <InfoList className="pt-5">
-          <InfoList.Item
-            term="Number of matches"
-            description="~456 users"
-            explainer="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-          />
+          <InfoList.Item term="Number of matches" description="~456 users" />
         </InfoList>
       </Card>
     </div>
