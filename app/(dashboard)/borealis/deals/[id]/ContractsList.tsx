@@ -1,7 +1,7 @@
 "use client"
 
 import ListItemLoader from "../../../../../components/ListItemLoader"
-import { useDeal, useDealContracts } from "../../../../../utils/api/queries"
+import { useApiQuery } from "../../../../../utils/api/queries"
 import ContractItem from "./ContractItem"
 
 type ContractsListProps = {
@@ -9,8 +9,10 @@ type ContractsListProps = {
 }
 
 const ContractsList = ({ dealId }: ContractsListProps) => {
-  const { data: deal } = useDeal({ id: dealId })
-  const { data: contracts } = useDealContracts({ id: dealId })
+  const { data: deal } = useApiQuery("getDeal", { params: { id: dealId } })
+  const { data: contracts } = useApiQuery("getDealContracts", {
+    params: { id: dealId },
+  })
 
   if (!deal || !contracts) {
     return <ListItemLoader />

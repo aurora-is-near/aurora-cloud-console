@@ -2,14 +2,14 @@
 
 import Heading from "@/components/Heading"
 import InviteButton from "./InviteButton"
-import { useTeamMembers } from "@/utils/api/queries"
 import TableLoader from "@/components/TableLoader"
 import { TeamMembersTable } from "@/app/(dashboard)/settings/team/TeamMembersTable"
 import InviteConfirmedModal from "@/app/(dashboard)/settings/team/InviteConfirmedModal"
 import InviteModal from "@/app/(dashboard)/settings/team/InviteModal"
+import { useApiQuery } from "@/utils/api/queries"
 
 const Page = () => {
-  const { data: teamMembers, isInitialLoading } = useTeamMembers()
+  const { data: teamMembers, isInitialLoading } = useApiQuery("getTeamMembers")
 
   return (
     <>

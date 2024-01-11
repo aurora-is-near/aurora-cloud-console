@@ -4,13 +4,15 @@ import Chart from "../../Chart"
 import Contact from "@/components/Contact"
 import TransactionsCharts from "../../TransactionsCharts"
 import { useChartInterval } from "../../../../../hooks/useChartInterval"
-import { useSilo, useSiloTransactions } from "../../../../../utils/api/queries"
+import { useApiQuery } from "../../../../../utils/api/queries"
 import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [interval, setInterval] = useChartInterval()
-  const { data: silo, error } = useSilo({ id })
-  const { data: transactions } = useSiloTransactions({ id, interval })
+  const { data: silo, error } = useApiQuery("getSilo", { params: { id } })
+  const { data: transactions } = useApiQuery("getSiloTransactions", {
+    params: { id, interval },
+  })
 
   useNotFoundError(error)
 

@@ -2,7 +2,7 @@
 
 import Card from "@/components/Card"
 import DealItem from "./DealItem"
-import { useDeals } from "../../../../utils/api/queries"
+import { useDeals } from "@/hooks/useDeals"
 import Loader from "../../../../components/Loader"
 
 const DealsList = () => {

@@ -3,10 +3,12 @@
 import CopyButton from "@/components/CopyButton"
 import Table from "@/components/Table"
 import { useNotFoundError } from "@/hooks/useNotFoundError"
-import { useSiloTokens } from "@/utils/api/queries"
+import { useApiQuery } from "@/utils/api/queries"
 
 const TokensTable = ({ siloId }: { siloId: string }) => {
-  const { data: tokens, error } = useSiloTokens({ id: siloId })
+  const { data: tokens, error } = useApiQuery("getSiloTokens", {
+    params: { id: siloId },
+  })
 
   useNotFoundError(error)
 

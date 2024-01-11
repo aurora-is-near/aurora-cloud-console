@@ -4,12 +4,14 @@ import Contact from "@/components/Contact"
 import Heading from "@/components/Heading"
 import DealsList from "./DealsList"
 import TransactionsCharts from "../../silos/TransactionsCharts"
-import { useDealsTransactions } from "../../../../utils/api/queries"
+import { useApiQuery } from "../../../../utils/api/queries"
 import { useChartInterval } from "../../../../hooks/useChartInterval"
 
 const Page = () => {
   const [interval, setInterval] = useChartInterval()
-  const { data: transactions } = useDealsTransactions({ interval })
+  const { data: transactions } = useApiQuery("getDealsTransactions", {
+    params: { interval },
+  })
 
   return (
     <div className="space-y-8 sm:space-y-10 md:space-y-12">

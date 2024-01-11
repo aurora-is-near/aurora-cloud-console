@@ -2,14 +2,14 @@
 
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
-import { useDeal } from "@/utils/api/queries"
+import { useApiQuery } from "@/utils/api/queries"
 import { Switch } from "@headlessui/react"
 import { useMutation } from "@tanstack/react-query"
 import clsx from "clsx"
 import React from "react"
 
 const ToggleDeal = ({ dealId }: { dealId: number }) => {
-  const { data: deal } = useDeal({ id: dealId })
+  const { data: deal } = useApiQuery("getDeal", { params: { id: dealId } })
   const dealUpdater = useOptimisticUpdater("getDeal", { id: dealId })
   const dealsUpdater = useOptimisticUpdater("getDeals")
 
