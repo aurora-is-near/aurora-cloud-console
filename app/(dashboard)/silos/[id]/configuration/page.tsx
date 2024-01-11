@@ -24,7 +24,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           <InfoList.Item
             term="Chain ID"
             description="1313161567"
-            explainer="EIP-155 standard field to protect against transaction replay attack."
+            explainer="EIP-155 standard field to protect against transaction replay attacks."
             showCopyButton
           />
           <InfoList.Item
