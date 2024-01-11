@@ -13,8 +13,8 @@ import { usePathname, useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
-import { useDeals } from "@/utils/api/queries"
 import { getSubroutes } from "@/utils/menu"
+import { useDeals } from "@/hooks/useDeals"
 
 const SubrouteMenu = () => {
   const pathname = usePathname()

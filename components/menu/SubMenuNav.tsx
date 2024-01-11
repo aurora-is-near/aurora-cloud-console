@@ -22,8 +22,9 @@ import {
 import { useEffect, useState } from "react"
 import { Silos } from "../icons"
 import Loader from "../Loader"
-import { useDeals, useSilos } from "@/utils/api/queries"
 import { getSubroutes } from "@/utils/menu"
+import { useDeals } from "@/hooks/useDeals"
+import { useSilos } from "@/hooks/useSilos"
 
 const NavLoader = () => (
   <>

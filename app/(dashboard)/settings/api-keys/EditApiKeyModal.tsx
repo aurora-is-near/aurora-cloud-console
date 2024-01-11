@@ -8,7 +8,7 @@ import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { useQueryState } from "next-usequerystate"
-import { useApiKey } from "@/utils/api/queries"
+import { useApiQuery } from "@/utils/api/queries"
 import { useMemo } from "react"
 import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
 
@@ -17,7 +17,10 @@ const EditApiKeyModal = () => {
   const [id, setId] = useQueryState("id")
   const isOpen = activeModal === Modals.EditApiKey
   const apiKeyId = id ? Number(id) : undefined
-  const { data: apiKey } = useApiKey(apiKeyId)
+  const { data: apiKey } = useApiQuery("getApiKey", {
+    params: { id: apiKeyId },
+    enabled: !!apiKeyId,
+  })
 
   const getApiKeyUpdater = useOptimisticUpdater("getApiKey", { id: apiKeyId })
   const getApiKeysUpdater = useOptimisticUpdater("getApiKeys")

@@ -2,10 +2,10 @@
 
 import Heading from "@/components/Heading"
 import Card from "@/components/Card"
-import { useTeam } from "@/utils/api/queries"
+import { useApiQuery } from "@/utils/api/queries"
 
 const Page = () => {
-  const { data: team } = useTeam()
+  const { data: team } = useApiQuery("getTeam")
 
   return (
     <div className="space-y-4 sm:space-y-5">

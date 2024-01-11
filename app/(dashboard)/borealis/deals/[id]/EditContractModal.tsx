@@ -9,7 +9,7 @@ import AddOrEditContractModal, {
   type AddOrEditContractModalInputs,
 } from "./AddOrEditContractModal"
 import { useQueryState } from "next-usequerystate"
-import { useDealContract } from "@/utils/api/queries"
+import { useApiQuery } from "@/utils/api/queries"
 import { useParams } from "next/navigation"
 
 const EditContractModal = () => {
@@ -21,7 +21,11 @@ const EditContractModal = () => {
     id: Number(dealId),
     contractId: id ? Number(id) : undefined,
   }
-  const { data: contract } = useDealContract(contractParams)
+
+  const { data: contract } = useApiQuery("getDealContract", {
+    params: contractParams,
+    enabled: !!(id && dealId),
+  })
 
   const contractUpdater = useOptimisticUpdater(
     "getDealContract",

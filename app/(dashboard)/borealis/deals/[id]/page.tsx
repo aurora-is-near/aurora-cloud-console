@@ -12,7 +12,7 @@ import AddContractButton from "./AddContractButton"
 import AddListButton from "./AddListButton"
 import TransactionsCharts from "../../../silos/TransactionsCharts"
 import { useChartInterval } from "../../../../../hooks/useChartInterval"
-import { useDeal, useDealTransactions } from "../../../../../utils/api/queries"
+import { useApiQuery } from "../../../../../utils/api/queries"
 import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
 import { useState } from "react"
 
@@ -33,8 +33,13 @@ const ACCESS_OPTIONS = [
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [selectedOption, setSelectedOption] = useState(ACCESS_OPTIONS[0])
   const [interval, setInterval] = useChartInterval()
-  const { data: silo, error } = useDeal({ id: Number(id) })
-  const { data: transactions } = useDealTransactions({ id, interval })
+  const { data: silo, error } = useApiQuery("getDeal", {
+    params: { id: Number(id) },
+  })
+
+  const { data: transactions } = useApiQuery("getDealTransactions", {
+    params: { id, interval },
+  })
 
   useNotFoundError(error)
 
