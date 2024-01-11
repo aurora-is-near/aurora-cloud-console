@@ -20,6 +20,7 @@ DECLARE
     'deals:write',
     'silos:read',
     'users:read',
+    'users:write',
     'transactions:read'
   ];
 BEGIN
