@@ -100,10 +100,6 @@ export type Team = Tables<"teams">
 
 export type Silo = Tables<"silos">
 
-export type SiloWithRelationships = Tables<"silos"> & {
-  tokens: Tables<"tokens">[]
-}
-
 export type ApiUser = User & {
   scopes: ApiScopes[]
   teams: string[]

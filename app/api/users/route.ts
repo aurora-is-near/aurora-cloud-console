@@ -5,9 +5,9 @@ import {
   queryUsers,
 } from "../../../utils/proxy-db/query-users"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
-import { getSilos } from "@/actions/admin/silos/get-silos"
 import { getTeam } from "@/utils/team"
 import { abort } from "@/utils/abort"
+import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 
 export const GET = apiRequestHandler(
   ["users:read"],
@@ -18,7 +18,7 @@ export const GET = apiRequestHandler(
 
     const [team, silos] = await Promise.all([
       getTeam(ctx.teamKey),
-      getSilos(ctx.teamKey),
+      getTeamSilos(ctx.teamKey),
     ])
 
     const siloChainIds = silos.map((silo) => silo.chain_id)

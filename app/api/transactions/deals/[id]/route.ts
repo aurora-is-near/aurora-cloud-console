@@ -5,8 +5,8 @@ import { queryTransactions } from "../../../../../utils/proxy-db/query-transacti
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
-import { getSilos } from "@/actions/admin/silos/get-silos"
 import { getTeam } from "@/utils/team"
+import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
@@ -19,7 +19,7 @@ export const GET = apiRequestHandler(
 
     const [team, silos, deal] = await Promise.all([
       getTeam(ctx.teamKey),
-      getSilos(ctx.teamKey),
+      getTeamSilos(ctx.teamKey),
       getDealById(ctx.teamKey, Number(ctx.params.id)),
     ])
 
