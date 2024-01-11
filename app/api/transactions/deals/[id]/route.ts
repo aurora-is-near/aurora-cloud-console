@@ -5,14 +5,21 @@ import { queryTransactions } from "../../../../../utils/proxy-db/query-transacti
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
-import { getSilos } from "@/actions/admin/silos/get-silos"
+import { getTeam } from "@/utils/team"
+import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const interval = req.nextUrl.searchParams.get("interval")
-    const [silos, deal] = await Promise.all([
-      getSilos(ctx.teamKey),
+
+    if (!ctx.teamKey) {
+      abort(500, "No team key found")
+    }
+
+    const [team, silos, deal] = await Promise.all([
+      getTeam(ctx.teamKey),
+      getTeamSilos(ctx.teamKey),
       getDealById(ctx.teamKey, Number(ctx.params.id)),
     ])
 
@@ -26,10 +33,14 @@ export const GET = apiRequestHandler(
 
     const chainIds = silos.map((silo) => silo.chain_id)
 
-    const results = await queryTransactions(chainIds, {
-      interval,
-      dealId: deal.key,
-    })
+    const results = await queryTransactions(
+      team.transaction_database,
+      chainIds,
+      {
+        interval,
+        dealId: deal.key,
+      },
+    )
 
     return NextResponse.json<Transactions>({
       items: [getTransactionsChart(deal.name, results)],

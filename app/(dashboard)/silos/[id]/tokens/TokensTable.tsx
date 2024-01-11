@@ -3,10 +3,10 @@
 import CopyButton from "@/components/CopyButton"
 import Table from "@/components/Table"
 import { useNotFoundError } from "@/hooks/useNotFoundError"
-import { useSilo } from "@/utils/api/queries"
+import { useSiloTokens } from "@/utils/api/queries"
 
 const TokensTable = ({ siloId }: { siloId: string }) => {
-  const { data: silo, error } = useSilo({ id: siloId })
+  const { data: tokens, error } = useSiloTokens({ id: siloId })
 
   useNotFoundError(error)
 
@@ -15,7 +15,7 @@ const TokensTable = ({ siloId }: { siloId: string }) => {
       <Table.TH>Token</Table.TH>
       <Table.TH>Address</Table.TH>
       <Table.TH>Type</Table.TH>
-      {silo?.tokens.map((token) => (
+      {tokens?.map((token) => (
         <Table.TR key={token.address}>
           <Table.TD dark>{token.name}</Table.TD>
           <Table.TD>

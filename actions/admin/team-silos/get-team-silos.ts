@@ -3,13 +3,16 @@
 import { Silo } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const getSilos = async (): Promise<Silo[]> => {
+export const getTeamSilos = async (teamKey: string): Promise<Silo[]> => {
   const supabase = createAdminSupabaseClient()
-
   const { data: silos } = await supabase
     .from("silos")
-    .select("*, teams!inner(team_key)")
+    .select("*, teams(team_key)")
     .order("created_at", { ascending: false })
 
-  return silos ?? []
+  return (
+    silos?.filter((silo) =>
+      silo.teams.some((team) => team.team_key === teamKey),
+    ) ?? []
+  )
 }

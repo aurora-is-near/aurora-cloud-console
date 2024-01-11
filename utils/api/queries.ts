@@ -69,6 +69,11 @@ export const useSilo = (params: { id: string }) =>
     params,
   })
 
+export const useSiloTokens = (params: { id: string }) =>
+  useApiQuery("getSiloTokens", {
+    params,
+  })
+
 export const useSilos = () => useApiQuery("getSilos")
 
 export const useDeal = (params: { id: number }) =>

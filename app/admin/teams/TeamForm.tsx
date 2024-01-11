@@ -4,6 +4,7 @@ import { Team } from "@/types/types"
 import { updateTeam } from "@/actions/admin/teams/update-team"
 import { createTeam } from "@/actions/admin/teams/create-team"
 import { AdminForm } from "@/components/AdminForm"
+import { PROXY_DATABASES } from "@/constants/databases"
 
 type TeamFormProps = {
   team?: Team
@@ -44,6 +45,16 @@ export const TeamForm = ({ team }: TeamFormProps) => {
           defaultValue: team?.website ?? "",
           autoComplete: "website",
           required: true,
+        },
+        {
+          name: "transaction_database",
+          label: "Transaction Database",
+          defaultValue: team?.transaction_database ?? "",
+          autoComplete: "website",
+          options: PROXY_DATABASES.map((db) => ({
+            label: db,
+            value: db,
+          })),
         },
       ]}
     />

@@ -1,3 +1,4 @@
+import { ProxyDatabase } from "@/types/types"
 import { query } from "./query"
 
 type Params = {
@@ -35,7 +36,11 @@ const getWhereClause = (chainIds: string[], { interval, dealId }: Params) => {
   return whereClause
 }
 
-export const queryTransactions = async (chainIds: string[], params: Params) => {
+export const queryTransactions = async (
+  database: ProxyDatabase,
+  chainIds: string[],
+  params: Params,
+) => {
   const countWhereClause = getWhereClause(chainIds, params)
   const chartWhereClause = getWhereClause(chainIds, {
     ...params,
@@ -46,6 +51,7 @@ export const queryTransactions = async (chainIds: string[], params: Params) => {
     query<{
       count: number
     }>(
+      database,
       `
         SELECT count("id")::int
         ${FROM_CLAUSE}
@@ -55,6 +61,7 @@ export const queryTransactions = async (chainIds: string[], params: Params) => {
     query<{
       count: number
     }>(
+      database,
       `
         SELECT count(*)::int
         FROM (
@@ -68,6 +75,7 @@ export const queryTransactions = async (chainIds: string[], params: Params) => {
       day: string
       count: number
     }>(
+      database,
       `
         SELECT date_trunc('day', "req_time") as "day", count(id)::int as count
         ${FROM_CLAUSE}
@@ -80,6 +88,7 @@ export const queryTransactions = async (chainIds: string[], params: Params) => {
       day: string
       count: number
     }>(
+      database,
       `
         SELECT date_trunc('day', "req_time") as "day", count(DISTINCT "from")::int as count
         ${FROM_CLAUSE}
