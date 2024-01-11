@@ -4,18 +4,18 @@ import { getTeams } from "@/actions/admin/teams/get-teams"
 
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
-import { Alert } from "@/components/Alert"
 import TableButton from "@/components/TableButton"
 import { RemoveTeamButton } from "@/app/admin/teams/RemoveTeamButton"
 import { AdminPage } from "@/components/AdminPage"
 import { AdminAlert } from "@/components/AdminAlert"
+import { getTeamsSilos } from "@/actions/admin/team-silos/get-teams-silos"
 
 const Page = async ({
   searchParams,
 }: {
   searchParams: { new_team?: string }
 }) => {
-  const teams = await getTeams()
+  const [teams, teamsSilos] = await Promise.all([getTeams(), getTeamsSilos()])
 
   return (
     <AdminPage
@@ -36,7 +36,8 @@ const Page = async ({
             <Table.TH>Key</Table.TH>
             <Table.TH>Website</Table.TH>
             <Table.TH>Email</Table.TH>
-            <Table.TH>Created at</Table.TH>
+            <Table.TH align="center">Silos</Table.TH>
+            <Table.TH align="center">Created at</Table.TH>
             <Table.TH hidden>Actions</Table.TH>
             {teams.map((team) => (
               <Table.TR key={team.id}>
@@ -44,7 +45,12 @@ const Page = async ({
                 <Table.TD>{team.team_key}</Table.TD>
                 <Table.TD>{team.website}</Table.TD>
                 <Table.TD>{team.email}</Table.TD>
-                <Table.TD>{formatDate(new Date(team.created_at))}</Table.TD>
+                <Table.TD align="center">
+                  {teamsSilos[team.team_key]?.length ?? 0}
+                </Table.TD>
+                <Table.TD align="center">
+                  {formatDate(new Date(team.created_at))}
+                </Table.TD>
                 <Table.TD align="right">
                   <div className="flex gap-x-3">
                     <TableButton
