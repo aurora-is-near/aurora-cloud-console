@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { Transactions } from "../../../../../types/types"
+import { SiloTransactionCharts } from "../../../../../types/types"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
@@ -38,10 +38,11 @@ export const GET = apiRequestHandler(
       ),
     )
 
-    return NextResponse.json<Transactions>({
-      items: deals.map((deal, dealIndex) =>
-        getTransactionsChart(deal.name, results[dealIndex]),
-      ),
+    return NextResponse.json<SiloTransactionCharts>({
+      items: deals.map((deal, dealIndex) => ({
+        siloId: silo.id,
+        chart: getTransactionsChart(deal.name, results[dealIndex]),
+      })),
     })
   },
 )

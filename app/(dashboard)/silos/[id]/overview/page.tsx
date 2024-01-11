@@ -9,9 +9,12 @@ import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [interval, setInterval] = useChartInterval()
-  const { data: silo, error } = useApiQuery("getSilo", { params: { id } })
+  const { data: silo, error } = useApiQuery("getSilo", {
+    params: { id: Number(id) },
+  })
+
   const { data: transactions } = useApiQuery("getSiloTransactions", {
-    params: { id, interval },
+    params: { id: Number(id), interval },
   })
 
   useNotFoundError(error)
@@ -21,7 +24,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
       <section>
         <TransactionsCharts
           title={silo?.name ?? ""}
-          transactions={transactions}
+          charts={transactions?.items.map((item) => item.chart)}
           interval={interval}
           setInterval={setInterval}
         />

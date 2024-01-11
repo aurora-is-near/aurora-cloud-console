@@ -19,7 +19,7 @@ const EditContractModal = () => {
   const isOpen = activeModal === Modals.EditContract
   const contractParams = {
     id: Number(dealId),
-    contractId: id ? Number(id) : undefined,
+    contractId: Number(id),
   }
 
   const { data: contract } = useApiQuery("getDealContract", {

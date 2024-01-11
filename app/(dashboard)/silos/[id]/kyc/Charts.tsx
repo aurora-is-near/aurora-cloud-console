@@ -28,7 +28,7 @@ ChartJS.register(
 )
 
 type ChartsProps = {
-  siloId: string
+  siloId: number
 }
 
 const CHART_COLORS: ChartColor[] = ["green", "rose"]

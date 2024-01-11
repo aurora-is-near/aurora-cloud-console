@@ -5,7 +5,7 @@ import Table from "@/components/Table"
 import { useNotFoundError } from "@/hooks/useNotFoundError"
 import { useApiQuery } from "@/utils/api/queries"
 
-const TokensTable = ({ siloId }: { siloId: string }) => {
+const TokensTable = ({ siloId }: { siloId: number }) => {
   const { data: tokens, error } = useApiQuery("getSiloTokens", {
     params: { id: siloId },
   })

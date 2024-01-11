@@ -10,11 +10,11 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
       <Suspense
         fallback={<Loader className="h-[76px] sm:h-9 rounded-md !mt-0" />}
       >
-        <Header siloId={id} />
+        <Header siloId={Number(id)} />
       </Suspense>
 
       <Suspense fallback={<TableLoader />}>
-        <TokensTable siloId={id} />
+        <TokensTable siloId={Number(id)} />
       </Suspense>
     </div>
   )

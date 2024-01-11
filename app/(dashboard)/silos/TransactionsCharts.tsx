@@ -16,7 +16,7 @@ import TabCharts from "@/components/TabCharts"
 import { Line } from "react-chartjs-2"
 import { CHART_DATE_OPTIONS } from "../../../constants/charts"
 import { getLineChartData } from "../../../utils/charts"
-import { Transactions } from "../../../types/types"
+import { TransactionChart } from "../../../types/types"
 
 ChartJS.register(
   CategoryScale,
@@ -30,32 +30,29 @@ ChartJS.register(
 
 type TransactionsChartsProps = {
   title: string
-  transactions?: Transactions
+  charts?: TransactionChart[]
   interval?: string | null
   setInterval?: (value: string | null) => void
 }
 
 const getTotalCount = (
   key: "transactionsCount" | "walletsCount",
-  data?: Transactions,
-): number | undefined => data?.items.reduce((acc, item) => acc + item[key], 0)
+  charts?: TransactionChart[],
+): number | undefined => charts?.reduce((acc, item) => acc + item[key], 0) ?? 0
 
 const TransactionsCharts = ({
   title,
-  transactions,
+  charts,
   interval,
   setInterval,
 }: TransactionsChartsProps) => {
-  const legend = transactions?.items.map(({ label }) => label) ?? []
-  const transactionsCount = getTotalCount("transactionsCount", transactions)
-  const walletsCount = getTotalCount("walletsCount", transactions)
-  const isLoading = !transactions
+  const legend = charts?.map(({ label }) => label) ?? []
+  const transactionsCount = getTotalCount("transactionsCount", charts)
+  const walletsCount = getTotalCount("walletsCount", charts)
+  const isLoading = !charts
 
-  const walletsPerDayData = getLineChartData("walletsPerDay", transactions)
-  const transactionsPerDayData = getLineChartData(
-    "transactionsPerDay",
-    transactions,
-  )
+  const walletsPerDayData = getLineChartData("walletsPerDay", charts)
+  const transactionsPerDayData = getLineChartData("transactionsPerDay", charts)
 
   return (
     <TabCharts

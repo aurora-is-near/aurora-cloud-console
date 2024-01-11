@@ -5,13 +5,14 @@ import {
   Deal,
   ApiKey,
   User,
-  Transactions,
   Users,
   Deals,
   Contract,
   TeamMembers,
   Team,
   Token,
+  SiloTransactionCharts,
+  DealTransactionCharts,
 } from "@/types/types"
 import { request } from "./request"
 
@@ -36,47 +37,49 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
-  getSilo: async ({ id }: { id: string }) => request<Silo>(`/api/silos/${id}`),
+  getSilo: async ({ id }: { id: number }) => request<Silo>(`/api/silos/${id}`),
 
   getSilos: async () => request<Silo[]>("/api/silos"),
 
-  getSiloTokens: async ({ id }: { id: string }) =>
+  getSiloTokens: async ({ id }: { id: number }) =>
     request<Token[]>(`/api/silos/${id}/tokens`),
 
   getUsers: async (query: {
     limit?: number
     offset?: number
-    dealId?: string
+    dealId?: number
   }) => request<Users>("/api/users", { query }),
 
-  getUsersExport: async (query: { dealId?: string }) =>
+  getUsersExport: async (query: { dealId?: number }) =>
     request<Users>("/api/users/export", { query }),
 
   getDeals: async () => request<Deals>("/api/deals"),
 
-  getDeal: async ({ id }: { id: string }) => request<Deal>(`/api/deals/${id}`),
+  getDeal: async ({ id }: { id: number }) => request<Deal>(`/api/deals/${id}`),
 
-  getSilosTransactions: async (query?: { interval?: string }) =>
-    request<Transactions>("/api/transactions/silos", { query }),
+  getSilosTransactions: async (query?: { interval?: string | null }) =>
+    request<SiloTransactionCharts>("/api/transactions/silos", { query }),
 
   getSiloTransactions: async ({
     id,
     ...query
   }: {
-    id: string
-    interval?: string
-  }) => request<Transactions>(`/api/transactions/silos/${id}`, { query }),
+    id: number
+    interval?: string | null
+  }) =>
+    request<SiloTransactionCharts>(`/api/transactions/silos/${id}`, { query }),
 
-  getDealsTransactions: async (query?: { interval?: string }) =>
-    request<Transactions>("/api/transactions/deals", { query }),
+  getDealsTransactions: async (query?: { interval?: string | null }) =>
+    request<DealTransactionCharts>("/api/transactions/deals", { query }),
 
   getDealTransactions: async ({
     id,
     ...query
   }: {
-    id: string
-    interval?: string
-  }) => request<Transactions>(`/api/transactions/deals/${id}`, { query }),
+    id: number
+    interval?: string | null
+  }) =>
+    request<DealTransactionCharts>(`/api/transactions/deals/${id}`, { query }),
 
   toggleDeal: async ({ id, ...data }: Pick<Deal, "id" | "enabled">) =>
     request<Deal>(`/api/deals/${id}/toggle`, {
@@ -172,3 +175,5 @@ export const apiClient = {
       method: "DELETE",
     }),
 }
+
+export type ApiClient = typeof apiClient
