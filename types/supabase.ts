@@ -44,7 +44,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       contracts: {
@@ -76,7 +76,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "deals"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       deals: {
@@ -111,7 +111,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "teams"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       silos: {
@@ -120,31 +120,20 @@ export interface Database {
           created_at: string
           id: number
           name: string
-          team_id: number | null
         }
         Insert: {
           chain_id: string
           created_at?: string
           id?: number
           name: string
-          team_id?: number | null
         }
         Update: {
           chain_id?: string
           created_at?: string
           id?: number
           name?: string
-          team_id?: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "silos_team_id_fkey"
-            columns: ["team_id"]
-            isOneToOne: false
-            referencedRelation: "teams"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       silos_tokens: {
         Row: {
@@ -173,7 +162,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "tokens"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       teams: {
@@ -183,6 +172,7 @@ export interface Database {
           id: number
           name: string
           team_key: string
+          transaction_database: string
           website: string | null
         }
         Insert: {
@@ -191,6 +181,7 @@ export interface Database {
           id?: number
           name: string
           team_key: string
+          transaction_database: string
           website?: string | null
         }
         Update: {
@@ -199,9 +190,40 @@ export interface Database {
           id?: number
           name?: string
           team_key?: string
+          transaction_database?: string
           website?: string | null
         }
         Relationships: []
+      }
+      teams_silos: {
+        Row: {
+          silo_id: number
+          team_id: number
+        }
+        Insert: {
+          silo_id: number
+          team_id?: number
+        }
+        Update: {
+          silo_id?: number
+          team_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teams_silos_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "teams_silos_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: true
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       tokens: {
         Row: {
@@ -281,7 +303,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
     }
@@ -322,6 +344,7 @@ export interface Database {
         | "silos:read"
         | "users:read"
         | "transactions:read"
+        | "users:write"
       user_type: "customer" | "admin"
     }
     CompositeTypes: {
@@ -337,7 +360,7 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -361,7 +384,7 @@ export type TablesInsert<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
@@ -382,7 +405,7 @@ export type TablesUpdate<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
@@ -403,7 +426,7 @@ export type Enums<
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]

@@ -4,6 +4,8 @@ import { queryUsers } from "../../../../utils/proxy-db/query-users"
 import { UserDetailsQuery } from "../../../../types/types"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 import { getSilos } from "@/actions/admin/silos/get-silos"
+import { getTeam } from "@/utils/team"
+import { abort } from "@/utils/abort"
 
 const HEADERS: (keyof UserDetailsQuery)[] = [
   "wallet_address",
@@ -15,7 +17,15 @@ const HEADERS: (keyof UserDetailsQuery)[] = [
 export const GET = apiRequestHandler(
   ["users:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    const silos = await getSilos(ctx.teamKey)
+    if (!ctx.teamKey) {
+      abort(500, "No team key found")
+    }
+
+    const [team, silos] = await Promise.all([
+      getTeam(ctx.teamKey),
+      getSilos(ctx.teamKey),
+    ])
+
     const siloChainIds = silos.map((silo) => silo.chain_id)
     const { searchParams } = req.nextUrl
     const dealId = searchParams.get("dealId")
@@ -23,7 +33,7 @@ export const GET = apiRequestHandler(
       ? (await getDealById(ctx.teamKey, Number(dealId)))?.key
       : null
 
-    const result = await queryUsers(siloChainIds, {
+    const result = await queryUsers(team.transaction_database, siloChainIds, {
       dealKey,
     })
 

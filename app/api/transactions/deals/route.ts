@@ -5,12 +5,20 @@ import { queryTransactions } from "../../../../utils/proxy-db/query-transactions
 import { getTransactionsChart } from "../../../../utils/transactions"
 import { getDeals } from "@/utils/proxy-api/get-deals"
 import { getSilos } from "@/actions/admin/silos/get-silos"
+import { abort } from "@/utils/abort"
+import { getTeam } from "@/utils/team"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const interval = req.nextUrl.searchParams.get("interval")
-    const [silos, deals] = await Promise.all([
+
+    if (!ctx.teamKey) {
+      abort(500, "No team key found")
+    }
+
+    const [team, silos, deals] = await Promise.all([
+      getTeam(ctx.teamKey),
       getSilos(ctx.teamKey),
       getDeals(ctx.teamKey),
     ])
@@ -19,7 +27,10 @@ export const GET = apiRequestHandler(
 
     const results = await Promise.all(
       deals.map((deal) =>
-        queryTransactions(chainIds, { interval, dealId: deal.key }),
+        queryTransactions(team.transaction_database, chainIds, {
+          interval,
+          dealId: deal.key,
+        }),
       ),
     )
 

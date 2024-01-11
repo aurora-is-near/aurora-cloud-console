@@ -6,11 +6,21 @@ import {
 } from "../../../utils/proxy-db/query-users"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 import { getSilos } from "@/actions/admin/silos/get-silos"
+import { getTeam } from "@/utils/team"
+import { abort } from "@/utils/abort"
 
 export const GET = apiRequestHandler(
   ["users:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    const silos = await getSilos(ctx.teamKey)
+    if (!ctx.teamKey) {
+      abort(500, "No team key found")
+    }
+
+    const [team, silos] = await Promise.all([
+      getTeam(ctx.teamKey),
+      getSilos(ctx.teamKey),
+    ])
+
     const siloChainIds = silos.map((silo) => silo.chain_id)
     const { searchParams } = req.nextUrl
     const limit = searchParams.get("limit") ?? 20
@@ -21,8 +31,10 @@ export const GET = apiRequestHandler(
       : null
 
     const results = await Promise.all([
-      queryUserWalletCount(siloChainIds, { dealKey }),
-      queryUsers(siloChainIds, {
+      queryUserWalletCount(team.transaction_database, siloChainIds, {
+        dealKey,
+      }),
+      queryUsers(team.transaction_database, siloChainIds, {
         limit: Number(limit),
         offset: Number(offset),
         dealKey,

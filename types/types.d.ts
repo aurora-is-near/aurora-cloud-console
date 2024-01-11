@@ -102,7 +102,6 @@ export type Silo = Tables<"silos">
 
 export type SiloWithRelationships = Tables<"silos"> & {
   tokens: Tables<"tokens">[]
-  team: Tables<"teams"> | null
 }
 
 export type ApiUser = User & {
@@ -111,3 +110,5 @@ export type ApiUser = User & {
 }
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
+
+export type ProxyDatabase = (typeof DATABASES)[number]

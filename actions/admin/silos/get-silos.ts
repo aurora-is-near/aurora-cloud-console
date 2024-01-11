@@ -1,7 +1,6 @@
 "use server"
 
-import { Silo, SiloWithRelationships, Team, Token } from "@/types/types"
-import { getTeam } from "@/utils/team"
+import { SiloWithRelationships, Team, Token } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const getSilos = async (
@@ -46,29 +45,8 @@ export const getSilos = async (
     {},
   )
 
-  const { data: teams, error: teamsError } = await supabase
-    .from("teams")
-    .select("*")
-    .in(
-      "id",
-      silos.map((silo) => silo.team_id),
-    )
-
-  if (teamsError) {
-    throw teamsError
-  }
-
-  const teamsBySiloId = teams.reduce<Record<string, Team>>(
-    (acc, team) => ({
-      ...acc,
-      [team.id]: team,
-    }),
-    {},
-  )
-
   return silos?.map((silo) => ({
     ...silo,
     tokens: tokensBySiloId[silo.id] ?? [],
-    team: silo.team_id ? teamsBySiloId[silo.team_id] : null,
   }))
 }
