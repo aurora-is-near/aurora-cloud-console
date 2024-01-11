@@ -1,18 +1,21 @@
 import {
-  QueryClient,
   QueryKey,
   UseQueryOptions,
   UseQueryResult,
   useQuery,
-  useQueryClient,
 } from "@tanstack/react-query"
 import { ApiClient, apiClient } from "./client"
 import { getQueryKey } from "./query-keys"
 
-type Options<TQueryFnData, K extends keyof ApiClient> = {
+type Options<
+  K extends keyof ApiClient,
+  TQueryFnData = Awaited<ReturnType<ApiClient[K]>>,
+  TError = unknown,
+  TData extends TQueryFnData = TQueryFnData,
+  TQueryKey extends QueryKey = QueryKey,
+> = UseQueryOptions<TQueryFnData, TError, TData, TQueryKey> & {
   enabled?: boolean
   id?: number
-  onSuccess?: (queryClient: QueryClient, data: TQueryFnData) => void
   params?: Parameters<ApiClient[K]>[0]
 }
 
@@ -24,23 +27,17 @@ export const useApiQuery = <
   TQueryKey extends QueryKey = QueryKey,
 >(
   functionName: K,
-  { enabled, onSuccess, params }: Options<TQueryFnData, K> = {},
+  {
+    params,
+    ...restOptions
+  }: Options<K, TQueryFnData, TError, TData, TQueryKey> = {},
 ): UseQueryResult<TQueryFnData, TError> => {
   const queryKey: TQueryKey = getQueryKey(functionName, params)
-  const queryClient = useQueryClient()
-
   const queryFn = () => apiClient[functionName](params as any)
 
-  const handleSuccess = async (data: TQueryFnData) => {
-    if (onSuccess) {
-      onSuccess(queryClient, data)
-    }
-  }
-
   return useQuery<TQueryFnData, TError, TData, TQueryKey>({
+    ...restOptions,
     queryKey,
     queryFn,
-    enabled,
-    onSuccess: handleSuccess,
   } as UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>)
 }
