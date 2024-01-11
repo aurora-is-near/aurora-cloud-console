@@ -1,6 +1,7 @@
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
 import Heading from "./Heading"
 import clsx from "clsx"
+import { Fragment } from "react"
 
 const BreadcrumbHeading = ({ titles }: { titles: [string, string] }) => {
   return (
@@ -9,7 +10,7 @@ const BreadcrumbHeading = ({ titles }: { titles: [string, string] }) => {
         const isFirst = index === 0
 
         return (
-          <>
+          <Fragment key={title}>
             <Heading
               tag={isFirst ? "h2" : "h3"}
               textColorClassName={clsx({ "text-gray-500": isFirst })}
@@ -19,7 +20,7 @@ const BreadcrumbHeading = ({ titles }: { titles: [string, string] }) => {
             {isFirst ? (
               <ChevronRightIcon className="w-5 h-5 text-gray-500" />
             ) : null}
-          </>
+          </Fragment>
         )
       })}
     </div>
