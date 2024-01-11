@@ -38,7 +38,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
   })
 
   const { data: transactions } = useApiQuery("getDealTransactions", {
-    params: { id, interval },
+    params: { id: Number(id), interval },
   })
 
   useNotFoundError(error)
@@ -51,7 +51,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
             title={silo?.name ?? ""}
             interval={interval}
             setInterval={setInterval}
-            transactions={transactions}
+            charts={transactions?.items.map((item) => item.chart)}
           />
         </section>
 

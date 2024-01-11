@@ -1,11 +1,11 @@
 import { CHART_COLOURS, CHART_COLOUR_HEXES } from "../constants/charts"
-import { ChartColor, Transactions } from "../types/types"
+import { ChartColor, TransactionChart } from "../types/types"
 
 type DailyMetricKey = "transactionsPerDay" | "walletsPerDay"
 
-const getDates = (key: DailyMetricKey, data?: Transactions): string[] =>
-  data?.items.reduce<string[]>((acc, item) => {
-    acc.push(...item[key].map(({ day }) => day))
+const getDates = (key: DailyMetricKey, charts?: TransactionChart[]): string[] =>
+  charts?.reduce<string[]>((acc, chart) => {
+    acc.push(...chart[key].map(({ day }) => day))
 
     return acc
   }, []) ?? []
@@ -27,15 +27,15 @@ export const getChartColor = <T extends ChartColor>(
 
 export const getLineChartData = (
   key: DailyMetricKey,
-  data?: Transactions,
+  charts?: TransactionChart[],
   colors?: ChartColor[],
 ) => {
   return {
-    labels: getDates(key, data),
+    labels: getDates(key, charts),
     datasets:
-      data?.items.map((silo, index) => ({
-        label: silo.label,
-        data: silo[key].map(({ count }) => count),
+      charts?.map((chart, index) => ({
+        label: chart.label,
+        data: chart[key].map(({ count }) => count),
         borderColor: getChartColor(index, colors),
         backgroundColor: getChartColor(index, colors),
         tension: 0.3,

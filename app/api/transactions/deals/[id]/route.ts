@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { Transactions } from "../../../../../types/types"
+import { DealTransactionCharts } from "../../../../../types/types"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
@@ -42,8 +42,13 @@ export const GET = apiRequestHandler(
       },
     )
 
-    return NextResponse.json<Transactions>({
-      items: [getTransactionsChart(deal.name, results)],
+    return NextResponse.json<DealTransactionCharts>({
+      items: [
+        {
+          dealId: deal.id,
+          chart: getTransactionsChart(deal.name, results),
+        },
+      ],
     })
   },
 )

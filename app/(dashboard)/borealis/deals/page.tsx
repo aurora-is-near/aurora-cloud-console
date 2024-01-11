@@ -6,12 +6,11 @@ import DealsList from "./DealsList"
 import TransactionsCharts from "../../silos/TransactionsCharts"
 import { useApiQuery } from "../../../../utils/api/queries"
 import { useChartInterval } from "../../../../hooks/useChartInterval"
+import { useDealsTransactions } from "@/hooks/useDealsTransactions"
 
 const Page = () => {
   const [interval, setInterval] = useChartInterval()
-  const { data: transactions } = useApiQuery("getDealsTransactions", {
-    params: { interval },
-  })
+  const { data: transactions } = useDealsTransactions({ interval })
 
   return (
     <div className="space-y-8 sm:space-y-10 md:space-y-12">
@@ -20,7 +19,7 @@ const Page = () => {
           title="Summary"
           interval={interval}
           setInterval={setInterval}
-          transactions={transactions}
+          charts={transactions?.items.map((item) => item.chart)}
         />
       </section>
 

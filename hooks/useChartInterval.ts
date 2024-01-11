@@ -1,13 +1,11 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import { CHART_DATE_OPTIONS } from "../constants/charts"
 
-type Interval = string | null
-
 export const useChartInterval = (): [
-  Interval,
-  Dispatch<SetStateAction<Interval>>,
+  string | null,
+  Dispatch<SetStateAction<string | null>>,
 ] => {
-  const [interval, setInterval] = useState<Interval>(
+  const [interval, setInterval] = useState<string | null>(
     CHART_DATE_OPTIONS[0].value,
   )
 

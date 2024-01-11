@@ -5,7 +5,7 @@ import Button from "@/components/Button"
 import { useApiQuery } from "@/utils/api/queries"
 import { PlusIcon } from "@heroicons/react/20/solid"
 
-const Header = ({ siloId }: { siloId: string }) => {
+const Header = ({ siloId }: { siloId: number }) => {
   const { data: silo } = useApiQuery("getSilo", { params: { id: siloId } })
 
   return (

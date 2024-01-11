@@ -36,8 +36,18 @@ type TransactionChart = {
   }[]
 }
 
-export type Transactions = {
-  items: TransactionChart[]
+export type SiloTransactionCharts = {
+  items: {
+    siloId: number
+    chart: TransactionChart
+  }[]
+}
+
+export type DealTransactionCharts = {
+  items: {
+    dealId: number
+    chart: TransactionChart
+  }[]
 }
 
 export type UserDetails = {
