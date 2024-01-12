@@ -12,6 +12,7 @@ export const updateTeam = async (
     .from("teams")
     .update(inputs)
     .eq("id", id)
+    .select()
     .single()
 
   return data

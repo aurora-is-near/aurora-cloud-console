@@ -12,6 +12,7 @@ type SiloFormProps = {
 export const SiloForm = ({ silo }: SiloFormProps) => {
   return (
     <AdminForm
+      itemName="Silo"
       item={silo}
       updateItem={updateSilo}
       createItem={createSilo}

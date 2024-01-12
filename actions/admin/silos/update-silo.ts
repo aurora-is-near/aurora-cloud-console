@@ -12,6 +12,7 @@ export const updateSilo = async (
     .from("silos")
     .update(inputs)
     .eq("id", id)
+    .select()
     .single()
 
   return data

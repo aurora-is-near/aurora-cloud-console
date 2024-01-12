@@ -5,6 +5,7 @@ import { updateTeam } from "@/actions/admin/teams/update-team"
 import { createTeam } from "@/actions/admin/teams/create-team"
 import { AdminForm } from "@/components/AdminForm"
 import { PROXY_DATABASES } from "@/constants/databases"
+import { SelectInputOption } from "@/components/SelectInput"
 
 type TeamFormProps = {
   team?: Team
@@ -13,6 +14,7 @@ type TeamFormProps = {
 export const TeamForm = ({ team }: TeamFormProps) => {
   return (
     <AdminForm
+      itemName="Team"
       item={team}
       updateItem={updateTeam}
       createItem={createTeam}
@@ -48,9 +50,15 @@ export const TeamForm = ({ team }: TeamFormProps) => {
         },
         {
           name: "transaction_database",
-          label: "Transaction Database",
-          defaultValue: team?.transaction_database ?? "",
-          autoComplete: "website",
+          label: "Transaction database",
+          getValue: (option?: SelectInputOption) => option?.value,
+          defaultValue: team?.transaction_database
+            ? {
+                label: team.transaction_database,
+                value: team.transaction_database,
+              }
+            : undefined,
+
           options: PROXY_DATABASES.map((db) => ({
             label: db,
             value: db,

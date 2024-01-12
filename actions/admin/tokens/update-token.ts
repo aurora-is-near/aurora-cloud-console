@@ -12,6 +12,7 @@ export const updateToken = async (
     .from("tokens")
     .update(inputs)
     .eq("id", tokenId)
+    .select()
     .single()
 
   return data

@@ -12,6 +12,7 @@ type TokenFormProps = {
 export const TokenForm = ({ token }: TokenFormProps) => {
   return (
     <AdminForm
+      itemName="Token"
       item={token}
       updateItem={updateToken}
       createItem={createToken}
