@@ -16,7 +16,7 @@ export const SiloForm = ({ silo }: SiloFormProps) => {
       item={silo}
       updateItem={updateSilo}
       createItem={createSilo}
-      href="/admin/silos"
+      nextPath="/admin/silos"
       inputs={[
         {
           name: "name",

@@ -4,6 +4,7 @@ import { Token } from "@/types/types"
 import { updateToken } from "@/actions/admin/tokens/update-token"
 import { createToken } from "@/actions/admin/tokens/create-token"
 import { AdminForm } from "@/components/AdminForm"
+import toast from "react-hot-toast"
 
 type TokenFormProps = {
   token?: Token
@@ -16,7 +17,7 @@ export const TokenForm = ({ token }: TokenFormProps) => {
       item={token}
       updateItem={updateToken}
       createItem={createToken}
-      href="/admin/tokens"
+      nextPath="/admin/tokens"
       inputs={[
         {
           name: "name",

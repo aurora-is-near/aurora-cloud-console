@@ -6,10 +6,7 @@ import {
   HorizontalForm,
   HorizontalFormProps,
 } from "@/components/HorizontalForm"
-import { AdminAlert } from "@/components/AdminAlert"
 import toast from "react-hot-toast"
-import { Alert } from "@/components/Alert"
-import { useState } from "react"
 
 type AdminFormProps<
   Inputs extends Record<string, unknown>,
@@ -19,7 +16,7 @@ type AdminFormProps<
   item?: Item | null
   updateItem: (id: number, inputs: Inputs) => Promise<Item>
   createItem: (inputs: Inputs) => Promise<Item>
-  href: string
+  nextPath: string
   inputs: HorizontalFormProps<Inputs>["inputs"]
 }
 
@@ -31,7 +28,7 @@ export const AdminForm = <
   item,
   updateItem,
   createItem,
-  href,
+  nextPath,
   inputs,
 }: AdminFormProps<Inputs, Item>) => {
   const update: SubmitHandler<Inputs> = async (inputs: Inputs) => {
@@ -44,7 +41,7 @@ export const AdminForm = <
 
     const newItem = await createItem(inputs)
 
-    window.location.href = `${href}?operation=created&id=${newItem?.id}`
+    window.location.href = `${nextPath}?new=${newItem?.id}`
   }
 
   return (

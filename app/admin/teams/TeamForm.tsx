@@ -18,7 +18,7 @@ export const TeamForm = ({ team }: TeamFormProps) => {
       item={team}
       updateItem={updateTeam}
       createItem={createTeam}
-      href="/admin/teams"
+      nextPath="/admin/teams"
       inputs={[
         {
           name: "name",

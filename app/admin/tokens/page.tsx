@@ -6,60 +6,54 @@ import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 import { RemoveTokenButton } from "@/app/admin/tokens/RemoveTokenButton"
 import { AdminPage } from "@/components/AdminPage"
-import { AdminAlert } from "@/components/AdminAlert"
+import { AdminToast } from "@/components/AdminToast"
 
-const Page = async ({
-  searchParams,
-}: {
-  searchParams: { new_token?: string }
-}) => {
+const Page = async () => {
   const tokens = await getTokens()
-  const newToken = tokens.find(
-    (token) => token.id === Number(searchParams["new_token"]),
-  )
 
   return (
-    <AdminPage
-      title="Tokens"
-      actions={
-        <Button href="/admin/tokens/add">
-          <PlusCircleIcon className="w-5 h-5" />
-          <span>Add token</span>
-        </Button>
-      }
-    >
-      <AdminAlert items={tokens} itemName="Token" searchParams={searchParams} />
-
-      <section>
-        {
-          <Table>
-            <Table.TH>Name</Table.TH>
-            <Table.TH>Address</Table.TH>
-            <Table.TH>Type</Table.TH>
-            <Table.TH>Created</Table.TH>
-            <Table.TH hidden>Actions</Table.TH>
-            {tokens.map((token) => (
-              <Table.TR key={token.id}>
-                <Table.TD>{token.name}</Table.TD>
-                <Table.TD>{token.address}</Table.TD>
-                <Table.TD>{token.type}</Table.TD>
-                <Table.TD>{formatDate(new Date(token.created_at))}</Table.TD>
-                <Table.TD align="right">
-                  <div className="flex gap-x-3">
-                    <TableButton
-                      Icon={PencilSquareIcon}
-                      srOnlyText={`Edit ${token.name}`}
-                      href={`/admin/tokens/edit/${token.id}`}
-                    />
-                    <RemoveTokenButton token={token} />
-                  </div>
-                </Table.TD>
-              </Table.TR>
-            ))}
-          </Table>
+    <>
+      <AdminPage
+        title="Tokens"
+        actions={
+          <Button href="/admin/tokens/add">
+            <PlusCircleIcon className="w-5 h-5" />
+            <span>Add token</span>
+          </Button>
         }
-      </section>
-    </AdminPage>
+      >
+        <section>
+          {
+            <Table>
+              <Table.TH>Name</Table.TH>
+              <Table.TH>Address</Table.TH>
+              <Table.TH>Type</Table.TH>
+              <Table.TH>Created</Table.TH>
+              <Table.TH hidden>Actions</Table.TH>
+              {tokens.map((token) => (
+                <Table.TR key={token.id}>
+                  <Table.TD>{token.name}</Table.TD>
+                  <Table.TD>{token.address}</Table.TD>
+                  <Table.TD>{token.type}</Table.TD>
+                  <Table.TD>{formatDate(new Date(token.created_at))}</Table.TD>
+                  <Table.TD align="right">
+                    <div className="flex gap-x-3">
+                      <TableButton
+                        Icon={PencilSquareIcon}
+                        srOnlyText={`Edit ${token.name}`}
+                        href={`/admin/tokens/edit/${token.id}`}
+                      />
+                      <RemoveTokenButton token={token} />
+                    </div>
+                  </Table.TD>
+                </Table.TR>
+              ))}
+            </Table>
+          }
+        </section>
+      </AdminPage>
+      <AdminToast items={tokens} itemName="Token" />
+    </>
   )
 }
 

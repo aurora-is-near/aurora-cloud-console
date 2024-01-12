@@ -42,7 +42,7 @@ export const TeamSilosForm = ({
   return (
     <AdminForm
       itemName="Team silos"
-      href="/admin/teams"
+      nextPath="/admin/teams"
       item={teamId ? { id: teamId, teamSilos } : undefined}
       updateItem={updateItem}
       createItem={createItem}
