@@ -41,7 +41,7 @@ export const AdminForm = <
 
     const newItem = await createItem(inputs)
 
-    window.location.href = `${nextPath}?new=${newItem?.id}`
+    window.location.href = `${nextPath}?operation=created`
   }
 
   return (

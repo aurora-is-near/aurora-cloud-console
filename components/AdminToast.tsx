@@ -1,30 +1,27 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 
-type AdminToastProps<Item extends { id: number; name: string }> = {
-  items: Item[]
+type AdminToastProps = {
   itemName: string
 }
 
-export const AdminToast = <Item extends { id: number; name: string }>({
-  items,
-  itemName,
-}: AdminToastProps<Item>) => {
+export const AdminToast = ({ itemName }: AdminToastProps) => {
+  const wasShown = useRef(false)
   const searchParams = useSearchParams()
-  const modifiedItem = items.find(
-    (item) => item?.id === Number(searchParams.get("new")),
-  )
 
   useEffect(() => {
-    if (!modifiedItem) {
+    const operation = searchParams.get("operation")
+
+    if (!operation || wasShown.current) {
       return
     }
 
-    toast.success(`${itemName} created`)
-  }, [itemName, modifiedItem])
+    toast.success(`${itemName} ${operation}`)
+    wasShown.current = true
+  }, [itemName, searchParams, wasShown])
 
   return null
 }

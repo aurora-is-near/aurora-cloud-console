@@ -62,7 +62,7 @@ const Page = async () => {
           }
         </section>
       </AdminPage>
-      <AdminToast items={teams} itemName="Team" />
+      <AdminToast itemName="Team" />
     </>
   )
 }

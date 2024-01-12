@@ -52,7 +52,7 @@ const Page = async () => {
           }
         </section>
       </AdminPage>
-      <AdminToast items={tokens} itemName="Token" />
+      <AdminToast itemName="Token" />
     </>
   )
 }

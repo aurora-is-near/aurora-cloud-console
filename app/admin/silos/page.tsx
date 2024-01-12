@@ -50,7 +50,7 @@ const Page = async () => {
           }
         </section>
       </AdminPage>
-      <AdminToast items={silos} itemName="Silo" />
+      <AdminToast itemName="Silo" />
     </>
   )
 }

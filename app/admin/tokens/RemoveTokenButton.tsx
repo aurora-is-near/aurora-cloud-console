@@ -18,7 +18,7 @@ export const RemoveTokenButton = async ({ token }: RemoveTokenButtonProps) => {
     }
 
     deleteToken(token.id)
-    window.location.reload()
+    window.location.href = `${window.location.pathname}?operation=deleted`
   }
 
   return (
