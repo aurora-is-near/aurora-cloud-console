@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { InformationCircleIcon } from "@heroicons/react/20/solid"
-import CopyButton from "./CopyButton"
 import clsx from "clsx"
+import CopyButton from "./CopyButton"
 
 const Tooltip = ({ text }: { text: string }) => (
   <div className="h-5 w-5 relative flex items-center justify-center group cursor-pointer">

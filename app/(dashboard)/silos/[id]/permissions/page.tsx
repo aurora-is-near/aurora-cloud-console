@@ -1,10 +1,10 @@
+import { Suspense } from "react"
 import Card from "@/components/Card"
+import Loader from "@/components/Loader"
 import TransactionAccessList from "./TransactionAccessList"
 import DeployAccessList from "./DeployAccessList"
 import AddListButton from "./AddListButton"
-import { Suspense } from "react"
 import Header from "./Header"
-import Loader from "@/components/Loader"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (

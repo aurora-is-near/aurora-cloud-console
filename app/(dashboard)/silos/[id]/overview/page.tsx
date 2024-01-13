@@ -1,12 +1,12 @@
 "use client"
 
-import Chart from "../../Chart"
+import { useQuery } from "@tanstack/react-query"
 import Contact from "@/components/Contact"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import Chart from "../../Chart"
 import TransactionsCharts from "../../TransactionsCharts"
 import { useChartInterval } from "../../../../../hooks/useChartInterval"
 import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [interval, setInterval] = useChartInterval()

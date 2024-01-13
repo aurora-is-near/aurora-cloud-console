@@ -1,7 +1,6 @@
 "use client"
 
-import { Database } from "@/types/supabase"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import { CheckCircleIcon } from "@heroicons/react/20/solid"
 import Button from "@/components/Button"
 import { AUTH_CALLBACK_ROUTE } from "@/constants/routes"
@@ -26,12 +25,12 @@ const LoginForm = () => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${location.origin}${AUTH_CALLBACK_ROUTE}`,
+        emailRedirectTo: `${window.location.origin}${AUTH_CALLBACK_ROUTE}`,
       },
     })
 
     if (error) {
-      return setError("email", {
+      setError("email", {
         message: error.message,
       })
     }
@@ -50,6 +49,7 @@ const LoginForm = () => {
         <p className="mt-2 text-sm text-gray-400">
           Didn’t receive it?{" "}
           <button
+            type="button"
             className="underline hover:text-white"
             onClick={() => reset(undefined, { keepValues: true })}
           >

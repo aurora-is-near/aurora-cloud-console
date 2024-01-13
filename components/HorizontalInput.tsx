@@ -1,6 +1,6 @@
+import { FieldErrors } from "react-hook-form"
 import { HorizontalInputWrapper } from "@/components/HorizontalInputWrapper"
 import { Input, InputProps } from "@/components/Input"
-import { FieldErrors } from "react-hook-form"
 
 type HorizontalInputProps<Inputs extends Record<string, unknown>> =
   InputProps<Inputs> & {

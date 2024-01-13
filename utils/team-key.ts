@@ -1,18 +1,18 @@
-import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { NextRequest } from "next/server"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-const getSubdomain = (req: NextRequest): string | undefined => {
+const getSubdomain = (req: NextRequest): string | null => {
   const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host")
 
   if (!host) {
-    return
+    return null
   }
 
   const hostname = host.split(":")[0]
   const hostnameParts = hostname.split(".")
 
   if (hostnameParts.length !== 3) {
-    return
+    return null
   }
 
   return hostnameParts[0]

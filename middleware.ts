@@ -1,21 +1,20 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { Database } from "./types/supabase"
+import { Session } from "@supabase/supabase-js"
 import { getTeamKey } from "@/utils/team-key"
+import { isAdminSubdomain, isAdminUser } from "@/utils/admin"
+import { createMiddlewareClient } from "@/supabase/create-middleware-client"
 import {
-  AUTH_CALLBACK_ROUTE,
   AUTH_ACCEPT_ROUTE,
+  AUTH_CALLBACK_ROUTE,
   LOGIN_ROUTE,
   LOGIN_UNAUTHORISED_ROUTE,
   LOGIN_UNKNOWN_ROUTE,
   LOGOUT_ROUTE,
 } from "./constants/routes"
-import { isAdminSubdomain, isAdminUser } from "@/utils/admin"
-import { createMiddlewareClient } from "@/supabase/create-middleware-client"
-import { Session } from "@supabase/supabase-js"
 
 const redirect = (req: NextRequest, res: NextResponse, route: string) => {
-  const pathname = req.nextUrl.pathname
+  const { pathname } = req.nextUrl
 
   if (pathname === route) {
     return res
@@ -56,7 +55,7 @@ const rewriteAdminSubdomain = (req: NextRequest, session: Session) => {
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
   const supabase = createMiddlewareClient(req)
-  const pathname = req.nextUrl.pathname
+  const { pathname } = req.nextUrl
 
   const [
     {

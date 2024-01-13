@@ -1,6 +1,6 @@
+import { addDays } from "date-fns"
 import Heading from "@/components/Heading"
 import { Borealis } from "@/components/icons"
-import { addDays } from "date-fns"
 
 const planDetails = [
   {

@@ -2,11 +2,11 @@
 
 import { CheckCircleIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { useMutation } from "@tanstack/react-query"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import Button from "@/components/Button"
 import Modal from "@/components/Modal"
-import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "../utils/api/client"
 
 type Inputs = {
@@ -72,7 +72,7 @@ const ContactModal = () => {
             onClick={handleClose}
             size="sm"
             className="mt-4"
-            style="secondary"
+            type="secondary"
           >
             Close
           </Button>

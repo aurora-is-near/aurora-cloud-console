@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import {
-  queryUserWalletCount,
-  queryUsers,
-} from "../../../utils/proxy-db/query-users"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 import { getTeam } from "@/utils/team"
 import { abort } from "@/utils/abort"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import {
+  queryUsers,
+  queryUserWalletCount,
+} from "../../../utils/proxy-db/query-users"
 
 export const GET = apiRequestHandler(
   ["users:read"],

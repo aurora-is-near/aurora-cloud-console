@@ -1,9 +1,9 @@
 "use client"
 
+import { SubmitHandler } from "react-hook-form"
 import { Token } from "@/types/types"
 import { updateToken } from "@/actions/admin/tokens/update-token"
 import { createToken } from "@/actions/admin/tokens/create-token"
-import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
 
 type TokenFormProps = {

@@ -8,5 +8,5 @@ export const getSubroutes = (
     return []
   }
 
-  return subrouteMap[route as keyof typeof subrouteMap] ?? []
+  return subrouteMap[route] ?? []
 }

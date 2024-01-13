@@ -1,6 +1,6 @@
-import { ReactElement, ReactNode, cloneElement } from "react"
-import { findChildren } from "@/utils/helpers"
+import { cloneElement, ReactElement, ReactNode } from "react"
 import clsx from "clsx"
+import { findChildren } from "@/utils/helpers"
 
 const TH = ({
   children,
@@ -78,7 +78,7 @@ const TR = ({ children }: { children: React.ReactNode }) => {
         const isFirst = i === 0
         const isLast = i === tds.length - 1
 
-        return cloneElement(td as ReactElement<any>, {
+        return cloneElement(td as ReactElement, {
           isFirst,
           isLast,
         })
@@ -110,7 +110,7 @@ const Table = ({
                     const isFirst = i === 0
                     const isLast = i === ths.length - 1
 
-                    return cloneElement(th as ReactElement<any>, {
+                    return cloneElement(th as ReactElement, {
                       isFirst,
                       isLast,
                     })

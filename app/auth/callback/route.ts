@@ -1,14 +1,16 @@
+import { NextRequest, NextResponse } from "next/server"
 import { LOGIN_ROUTE } from "@/constants/routes"
 import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
 import { isAdminSubdomain } from "@/utils/admin"
-import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
   try {
     const requestUrl = new URL(request.url)
     const code = requestUrl.searchParams.get("code")
 
-    if (!code) throw new Error("No code found.")
+    if (!code) {
+      throw new Error("No code found.")
+    }
 
     if (code) {
       const supabase = createRouteHandlerClient()

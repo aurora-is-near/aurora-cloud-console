@@ -1,14 +1,10 @@
 "use client"
 
-import SignoutButton from "./SignoutButton"
-import { SubMenuButton } from "./MenuButtons"
 import {
   usePathname,
   useRouter,
   useSelectedLayoutSegments,
 } from "next/navigation"
-import { capitalizeFirstLetter } from "@/utils/helpers"
-import Heading from "../Heading"
 import {
   ClipboardDocumentCheckIcon,
   CurrencyDollarIcon,
@@ -20,11 +16,15 @@ import {
   WrenchIcon,
 } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
-import { Silos } from "../icons"
-import Loader from "../Loader"
+import { capitalizeFirstLetter } from "@/utils/helpers"
 import { getSubroutes } from "@/utils/menu"
 import { useDeals } from "@/hooks/useDeals"
 import { useSilos } from "@/hooks/useSilos"
+import { Silos } from "../icons"
+import Heading from "../Heading"
+import Loader from "../Loader"
+import { SubMenuButton } from "./MenuButtons"
+import SignoutButton from "./SignoutButton"
 
 const NavLoader = () => (
   <>
@@ -38,12 +38,16 @@ const MenuDivider = () => <div className="w-full h-px bg-gray-200" />
 const BorealisMenu = () => {
   const { data, isLoading } = useDeals()
 
-  if (isLoading) return <NavLoader />
+  if (isLoading) {
+    return <NavLoader />
+  }
 
-  if (!data?.deals.length) return null
+  if (!data?.deals.length) {
+    return null
+  }
 
   return (
-    <ul role="list" className="space-y-4">
+    <ul className="space-y-4">
       {data.deals.map((deal) => (
         <li key={deal.id}>
           <SubMenuButton
@@ -91,9 +95,13 @@ const SiloMenu = () => {
     setOption(id ?? "Select silo")
   }, [id])
 
-  if (isLoading) return <NavLoader />
+  if (isLoading) {
+    return <NavLoader />
+  }
 
-  if (!silos?.length) return null
+  if (!silos?.length) {
+    return null
+  }
 
   return (
     <>
@@ -122,11 +130,10 @@ const SiloMenu = () => {
           ))}
         </select>
       </div>
-      <ul role="list" className="space-y-4">
+      <ul className="space-y-4">
         {siloLinks?.map((link) => (
           <li key={link.href}>
             <SubMenuButton
-              disabled={!id}
               href={`/silos/${id}/${link.href}`}
               name={link.name}
               icon={link.icon}
@@ -141,12 +148,16 @@ const SiloMenu = () => {
 const UsersMenu = () => {
   const { data, isLoading } = useDeals()
 
-  if (isLoading) return <NavLoader />
+  if (isLoading) {
+    return <NavLoader />
+  }
 
-  if (!data?.deals?.length) return null
+  if (!data?.deals?.length) {
+    return null
+  }
 
   return (
-    <ul role="list" className="space-y-4">
+    <ul className="space-y-4">
       {data.deals.map((deal) => (
         <li key={deal.id}>
           <SubMenuButton
@@ -161,7 +172,7 @@ const UsersMenu = () => {
 }
 
 const AdminTeams = () => (
-  <ul role="list" className="space-y-4">
+  <ul className="space-y-4">
     <li>
       <SubMenuButton
         href="/admin/teams"
@@ -180,7 +191,7 @@ const AdminTeams = () => (
 )
 
 const AdminTokens = () => (
-  <ul role="list" className="space-y-4">
+  <ul className="space-y-4">
     <li>
       <SubMenuButton
         href="/admin/tokens"
@@ -199,7 +210,7 @@ const AdminTokens = () => (
 )
 
 const AdminSilos = () => (
-  <ul role="list" className="space-y-4">
+  <ul className="space-y-4">
     <li>
       <SubMenuButton href="/admin/silos" name="All silos" icon={<Silos />} />
     </li>
@@ -248,7 +259,7 @@ const SubMenuNav = () => {
       <Heading>{heading}</Heading>
 
       <nav className="flex flex-col flex-1 gap-y-4">
-        <ul role="list" className="space-y-4">
+        <ul className="space-y-4">
           {subroutes.map((item) => (
             <li key={item.name}>
               <SubMenuButton {...item} />

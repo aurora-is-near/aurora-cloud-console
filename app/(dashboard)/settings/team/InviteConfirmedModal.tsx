@@ -1,12 +1,12 @@
 "use client"
 
 import { CheckCircleIcon } from "@heroicons/react/24/outline"
+import { useQueryState } from "next-usequerystate"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import Button from "@/components/Button"
 import Modal from "@/components/Modal"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { useQueryState } from "next-usequerystate"
 
 const InviteConfirmedModal = () => {
   const { activeModal, closeModal } = useModals()
@@ -37,7 +37,7 @@ const InviteConfirmedModal = () => {
           onClick={handleClose}
           size="sm"
           className="mt-4"
-          style="secondary"
+          type="secondary"
         >
           Close
         </Button>

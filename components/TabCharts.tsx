@@ -1,13 +1,11 @@
 "use client"
 
-import { ReactNode } from "react"
-import { Tab } from "@headlessui/react"
-import { useState } from "react"
-import { RadioGroup } from "@headlessui/react"
+import { ReactNode, useState } from "react"
+import { RadioGroup, Tab } from "@headlessui/react"
 import clsx from "clsx"
-import NumberEasing from "./NumberEasing"
 import TabLegend, { TabLegendProps } from "@/components/TabLegend"
 import { ChartColor } from "@/types/types"
+import NumberEasing from "./NumberEasing"
 
 type TabType = {
   title: string
@@ -35,7 +33,7 @@ type TabChartsProps<T> = {
   colors?: ChartColor[]
 }
 
-const TabCharts = <T extends unknown>({
+const TabCharts = <T extends string | null>({
   children,
   tabs,
   selectedDateOption,
@@ -119,7 +117,7 @@ const TabCharts = <T extends unknown>({
                     },
                   )}
                 >
-                  <NumberEasing value={value ? value : 0} />
+                  <NumberEasing value={value || 0} />
                 </div>
               </Tab>
             ))}

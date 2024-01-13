@@ -1,5 +1,5 @@
-import { getToken } from "@/actions/admin/tokens/get-token"
 import { notFound } from "next/navigation"
+import { getToken } from "@/actions/admin/tokens/get-token"
 import Card from "@/components/Card"
 import { TokenForm } from "@/app/admin/tokens/TokenForm"
 import { AdminPage } from "@/components/AdminPage"

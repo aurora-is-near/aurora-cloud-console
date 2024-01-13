@@ -1,11 +1,11 @@
 "use client"
 
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { apiClient } from "@/utils/api/client"
 import { Switch } from "@headlessui/react"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import React from "react"
+import { apiClient } from "@/utils/api/client"
+import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 
 const ToggleDeal = ({ dealId }: { dealId: number }) => {

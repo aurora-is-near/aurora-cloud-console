@@ -1,4 +1,4 @@
-import { CHART_COLOURS, CHART_COLOUR_HEXES } from "../constants/charts"
+import { CHART_COLOUR_HEXES, CHART_COLOURS } from "../constants/charts"
 import { ChartColor, TransactionChart } from "../types/types"
 
 type DailyMetricKey = "transactionsPerDay" | "walletsPerDay"

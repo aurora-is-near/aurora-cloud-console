@@ -1,12 +1,12 @@
 "use client"
 
-import Button from "@/components/Button"
-import Modal from "@/components/Modal"
 import { useTransition } from "react"
-import { blockUser } from "./actions/block-user"
 import { useQueryState } from "next-usequerystate"
+import Modal from "@/components/Modal"
+import Button from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
+import { blockUser } from "./actions/block-user"
 
 const BlockUserModal = () => {
   const { activeModal, closeModal } = useModals()
@@ -20,7 +20,9 @@ const BlockUserModal = () => {
   }
 
   const handleBlockUser = async () => {
-    if (!address) return
+    if (!address) {
+      return
+    }
 
     await blockUser(address)
     close()
@@ -34,7 +36,7 @@ const BlockUserModal = () => {
       </p>
       <Button
         className="mt-4"
-        style="destructive"
+        type="destructive"
         loading={isPending}
         onClick={() => {
           startTransition(() => {

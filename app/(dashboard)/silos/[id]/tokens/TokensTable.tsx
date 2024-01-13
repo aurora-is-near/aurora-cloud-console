@@ -1,10 +1,10 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
 import CopyButton from "@/components/CopyButton"
 import Table from "@/components/Table"
 import { useNotFoundError } from "@/hooks/useNotFoundError"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
 
 const TokensTable = ({ siloId }: { siloId: number }) => {
   const { data: tokens, error } = useQuery(

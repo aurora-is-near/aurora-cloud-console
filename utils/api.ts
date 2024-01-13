@@ -1,11 +1,11 @@
-import { getUser } from "./auth"
 import { NextRequest, NextResponse } from "next/server"
-import { ApiScope, ApiUser } from "@/types/types"
 import httpStatus from "http-status"
+import { kebabCase } from "change-case"
+import { ApiScope, ApiUser } from "@/types/types"
+import { getTeamKey } from "@/utils/team-key"
 import { toError } from "./errors"
 import { abortIfUnauthorised, isAbortError } from "./abort"
-import { kebabCase } from "change-case"
-import { getTeamKey } from "@/utils/team-key"
+import { getUser } from "./auth"
 
 type BaseApiRequestContext = {
   params: {

@@ -1,15 +1,15 @@
 "use client"
 
-import Button from "@/components/Button"
-import SlideOver from "@/components/SlideOver"
-import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { TrashIcon } from "@heroicons/react/20/solid"
 import { useQueryState } from "next-usequerystate"
-import { accessLists } from "./AccessLists"
 import { useEffect } from "react"
+import Button from "@/components/Button"
+import SlideOver from "@/components/SlideOver"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
+import { accessLists } from "./AccessLists"
 
 type Inputs = {
   name: string
@@ -37,10 +37,12 @@ const ManageListModal = () => {
 
   useEffect(() => {
     const list = accessLists.find((list) => list.id === listId)
-    if (list) setValue("name", list.name)
+    if (list) {
+      setValue("name", list.name)
+    }
   }, [listId, setValue])
 
-  const addList: SubmitHandler<Inputs> = async ({ name }) => {
+  const addList: SubmitHandler<Inputs> = async () => {
     // const res = await addListAction(id as string, name)
 
     // TODO: check response, show error or success
@@ -53,7 +55,7 @@ const ManageListModal = () => {
 
     if (confirmed) {
       // TODO:
-      console.log("delete list id: " + listId)
+      console.log(`delete list id: ${listId}`)
     }
   }
 
@@ -114,12 +116,12 @@ const ManageListModal = () => {
       </div>
       <SlideOver.Actions>
         <div className="flex items-center justify-between flex-1">
-          <Button style="secondary" onClick={deleteList}>
+          <Button type="secondary" onClick={deleteList}>
             <TrashIcon className="w-5 h-5 text-gray-900" />
             Delete
           </Button>
           <div className="flex items-center gap-3">
-            <Button style="secondary" onClick={handleCloseModal}>
+            <Button type="secondary" onClick={handleCloseModal}>
               Cancel
             </Button>
             <Button loading={isSubmitting} onClick={handleSubmit(addList)}>

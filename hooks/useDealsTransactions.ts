@@ -1,8 +1,8 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useEffect } from "react"
 import { DealTransactionCharts } from "@/types/types"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getQueryKey } from "@/utils/api/query-keys"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
-import { useEffect } from "react"
 
 export const useDealsTransactions = (params: { interval: string | null }) => {
   const queryClient = useQueryClient()

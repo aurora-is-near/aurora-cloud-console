@@ -1,11 +1,11 @@
 "use client"
 
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 import { Heading } from "@/app/login/Heading"
 import Button from "@/components/Button"
 import { LOGIN_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
 
 type NotAllowedProps = {
   title: string

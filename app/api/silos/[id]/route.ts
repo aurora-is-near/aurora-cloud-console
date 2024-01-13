@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { Silo } from "../../../../types/types"
 import { abort } from "../../../../utils/abort"
-import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 
 export const GET = apiRequestHandler(
   ["silos:read"],

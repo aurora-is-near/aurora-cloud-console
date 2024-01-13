@@ -2,7 +2,7 @@
 
 import { QueryClient } from "@tanstack/react-query"
 import { ReactNode } from "react"
-import { get, set, del } from "idb-keyval"
+import { del, get, set } from "idb-keyval"
 import {
   PersistedClient,
   Persister,
@@ -29,7 +29,7 @@ const persister: Persister = {
     await set(INDEXED_DB_KEY, client)
   },
   restoreClient: async () => {
-    return await get<PersistedClient>(INDEXED_DB_KEY)
+    return get<PersistedClient>(INDEXED_DB_KEY)
   },
   removeClient: async () => {
     await del(INDEXED_DB_KEY)

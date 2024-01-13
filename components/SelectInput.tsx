@@ -4,16 +4,16 @@ import { useEffect, useState } from "react"
 import {
   Path,
   RegisterOptions,
-  UseFormRegister,
   useFormContext,
+  UseFormRegister,
 } from "react-hook-form"
 import Select, {
   ClearIndicatorProps,
+  components,
   DropdownIndicatorProps,
   MultiValue,
   MultiValueRemoveProps,
   SingleValue,
-  components,
 } from "react-select"
 
 export type SelectInputOption = {

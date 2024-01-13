@@ -1,4 +1,4 @@
-import { Children, ReactNode, isValidElement } from "react"
+import { Children, isValidElement, ReactNode } from "react"
 
 export const capitalizeFirstLetter = (string: string) => {
   if (!string || typeof string !== "string") {
@@ -8,12 +8,16 @@ export const capitalizeFirstLetter = (string: string) => {
 }
 
 export const midTruncate = (value = "", maxLength = 16) => {
-  if (!value) return value
-  if (value.length <= maxLength) return value
+  if (!value) {
+    return value
+  }
+  if (value.length <= maxLength) {
+    return value
+  }
 
-  var charsToShow = maxLength - 3
-  var frontChars = Math.ceil(charsToShow / 2)
-  var backChars = Math.floor(charsToShow / 2)
+  const charsToShow = maxLength - 3
+  const frontChars = Math.ceil(charsToShow / 2)
+  const backChars = Math.floor(charsToShow / 2)
 
   return `${value.substring(0, frontChars)}…${value.substring(
     value.length - backChars,

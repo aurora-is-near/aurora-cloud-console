@@ -1,9 +1,9 @@
-import ListItem from "@/components/ListItem"
 import { Cog6ToothIcon } from "@heroicons/react/24/outline"
-import ManageListModal from "./ManageListModal"
-import { useModals } from "@/hooks/useModals"
 import { useQueryState } from "next-usequerystate"
+import { useModals } from "@/hooks/useModals"
+import ListItem from "@/components/ListItem"
 import { Modals } from "@/utils/modals"
+import ManageListModal from "./ManageListModal"
 
 type AccessListItem = {
   id: string
@@ -41,6 +41,7 @@ const AccessList = ({ list }: { list: AccessListItem }) => {
       </ListItem.Subtitle>
       <ListItem.Actions>
         <button
+          type="button"
           className="text-gray-500 hover:text-gray-900"
           onClick={handleOpenModal}
         >

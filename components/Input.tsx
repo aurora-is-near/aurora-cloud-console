@@ -1,10 +1,5 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from "react"
-import {
-  FieldErrors,
-  Path,
-  RegisterOptions,
-  UseFormRegister,
-} from "react-hook-form"
+import { Path, RegisterOptions, UseFormRegister } from "react-hook-form"
 
 export type InputProps<Inputs extends Record<string, unknown>> =
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {

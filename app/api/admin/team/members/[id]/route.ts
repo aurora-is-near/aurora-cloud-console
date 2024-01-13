@@ -1,7 +1,7 @@
+import { NextRequest, NextResponse } from "next/server"
 import { abort } from "@/utils/abort"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { getTeam } from "@/utils/team"
-import { NextRequest, NextResponse } from "next/server"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const DELETE = apiRequestHandler(

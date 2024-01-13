@@ -1,5 +1,8 @@
 "use client"
 
+import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline"
+import { useMutation } from "@tanstack/react-query"
+import { useQueryState } from "next-usequerystate"
 import CopyButton from "@/components/CopyButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
@@ -7,9 +10,6 @@ import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Contract, Deal } from "@/types/types"
 import { apiClient } from "@/utils/api/client"
 import { midTruncate } from "@/utils/helpers"
-import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { useMutation } from "@tanstack/react-query"
-import { useQueryState } from "next-usequerystate"
 
 type ContractItemProps = {
   deal: Deal
@@ -60,6 +60,7 @@ const ContractItem = ({ deal, contract }: ContractItemProps) => {
       </div>
       <div className="flex space-x-4 sm:space-x-5">
         <button
+          type="button"
           onClick={onEdit}
           className="p-2 -m-2 text-gray-500 hover:text-gray-900"
         >
@@ -67,6 +68,7 @@ const ContractItem = ({ deal, contract }: ContractItemProps) => {
           <PencilSquareIcon className="w-5 h-5" />
         </button>
         <button
+          type="button"
           onClick={onDelete}
           className="p-2 -m-2 text-gray-500 hover:text-gray-900"
         >

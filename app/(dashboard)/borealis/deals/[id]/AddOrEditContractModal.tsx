@@ -1,11 +1,11 @@
 "use client"
 
-import Button from "@/components/Button"
-import SlideOver from "@/components/SlideOver"
-import { useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { useForm } from "react-hook-form"
 import { useEffect } from "react"
+import Button from "@/components/Button"
+import SlideOver from "@/components/SlideOver"
+import { useModals } from "@/hooks/useModals"
 
 export type AddOrEditContractModalInputs = {
   name: string
@@ -92,10 +92,10 @@ const AddOrEditContractModal = ({
             </p>
           )}
         </div>
-        <button className="hidden" />
+        <button type="button" className="hidden" />
       </form>
       <SlideOver.Actions>
-        <Button style="secondary" onClick={closeModal}>
+        <Button type="secondary" onClick={closeModal}>
           Cancel
         </Button>
         <Button loading={isSubmitting} onClick={handleSubmit(onSubmit)}>

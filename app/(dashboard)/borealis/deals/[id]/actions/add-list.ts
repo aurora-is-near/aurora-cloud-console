@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache"
 
-export async function addList(id: string, name: string, address: string) {
+export async function addList(id: string) {
   // TODO: Add list
   revalidatePath(`/borealis/deals/[${id}]`)
 

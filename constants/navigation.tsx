@@ -1,15 +1,15 @@
 import {
-  CreditCardIcon,
-  InformationCircleIcon,
-  UserIcon,
+  ArrowRightOnRectangleIcon,
   Cog6ToothIcon,
+  CreditCardIcon,
+  CurrencyDollarIcon,
   HomeIcon,
-  UsersIcon,
+  InformationCircleIcon,
   KeyIcon,
   SquaresPlusIcon,
   UserGroupIcon,
-  ArrowRightOnRectangleIcon,
-  CurrencyDollarIcon,
+  UserIcon,
+  UsersIcon,
 } from "@heroicons/react/24/outline"
 import { Borealis, Silos } from "@/components/icons"
 

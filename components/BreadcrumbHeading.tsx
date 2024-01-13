@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
-import Heading from "./Heading"
 import clsx from "clsx"
 import { Fragment } from "react"
+import Heading from "./Heading"
 
 const BreadcrumbHeading = ({ titles }: { titles: [string, string] }) => {
   return (

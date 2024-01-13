@@ -1,9 +1,9 @@
+import { NextRequest, NextResponse } from "next/server"
 import { Contract } from "@/types/types"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { addContract } from "@/utils/proxy-api/add-contract"
 import { deleteContract } from "@/utils/proxy-api/delete-contract"
 import { getContract } from "@/utils/proxy-api/get-contract"
-import { NextRequest, NextResponse } from "next/server"
 
 export const GET = apiRequestHandler(
   ["deals:read"],

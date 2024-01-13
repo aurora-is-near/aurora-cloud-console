@@ -1,7 +1,5 @@
-import { TeamForm } from "@/app/admin/teams/TeamForm"
-import Card from "@/components/Card"
-import Heading from "@/components/Heading"
 import { ReactNode } from "react"
+import Heading from "@/components/Heading"
 
 type AdminPageProps = {
   title: string

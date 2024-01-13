@@ -1,16 +1,16 @@
 "use client"
 
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { useQueryState } from "next-usequerystate"
+import { useParams } from "next/navigation"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { useMutation, useQuery } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 import AddOrEditContractModal, {
   type AddOrEditContractModalInputs,
 } from "./AddOrEditContractModal"
-import { useQueryState } from "next-usequerystate"
-import { useParams } from "next/navigation"
-import { getQueryFnAndKey } from "@/utils/api/queries"
 
 const EditContractModal = () => {
   const { activeModal, closeModal } = useModals()

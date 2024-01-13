@@ -1,7 +1,6 @@
 import Card from "@/components/Card"
 import { SiloForm } from "@/app/admin/silos/SiloForm"
 import { AdminPage } from "@/components/AdminPage"
-import { getTeams } from "@/actions/admin/teams/get-teams"
 
 const Page = async () => {
   return (

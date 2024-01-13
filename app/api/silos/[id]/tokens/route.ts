@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { Token } from "../../../../../types/types"
-import { abort } from "../../../../../utils/abort"
 import { getSilo } from "@/actions/admin/silos/get-silo"
 import { getSiloTokens } from "@/actions/admin/silo-tokens/get-silo-tokens"
+import { Token } from "../../../../../types/types"
+import { abort } from "../../../../../utils/abort"
 
 export const GET = apiRequestHandler(
   ["silos:read"],

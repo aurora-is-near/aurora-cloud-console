@@ -1,5 +1,5 @@
-import { AuroraTriangle } from "@/components/icons"
 import type { Metadata } from "next"
+import { AuroraTriangle } from "@/components/icons"
 
 export const metadata: Metadata = {
   title: "Aurora Cloud Console",

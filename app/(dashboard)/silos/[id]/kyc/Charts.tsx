@@ -1,23 +1,23 @@
 "use client"
 
 import "chartjs-adapter-date-fns"
-import BreadcrumbHeading from "@/components/BreadcrumbHeading"
-import TabCharts from "@/components/TabCharts"
 import {
-  Chart as ChartJS,
+  BarElement,
   CategoryScale,
-  TimeScale,
+  Chart as ChartJS,
   LinearScale,
+  TimeScale,
   Title,
   Tooltip,
-  BarElement,
 } from "chart.js"
-import { useNotFoundError } from "@/hooks/useNotFoundError"
 import { Bar } from "react-chartjs-2"
+import { useQuery } from "@tanstack/react-query"
+import BreadcrumbHeading from "@/components/BreadcrumbHeading"
+import TabCharts from "@/components/TabCharts"
+import { useNotFoundError } from "@/hooks/useNotFoundError"
 import { getChartColor } from "@/utils/charts"
 import { ChartColor } from "@/types/types"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
 
 ChartJS.register(
   CategoryScale,

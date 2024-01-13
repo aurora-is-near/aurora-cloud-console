@@ -1,13 +1,11 @@
 "use client"
 
+import { CheckIcon } from "@heroicons/react/24/outline"
+import { SubmitHandler, useForm } from "react-hook-form"
 import Button from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { CheckIcon } from "@heroicons/react/24/outline"
-import { SubmitHandler, useForm } from "react-hook-form"
-import { addList as addListAction } from "./actions/add-list"
-import { useParams } from "next/navigation"
 
 type Inputs = {
   name: string
@@ -23,11 +21,7 @@ const AddListModal = () => {
     formState: { isSubmitting, errors },
   } = useForm<Inputs>()
 
-  const { id } = useParams()
-
-  const addList: SubmitHandler<Inputs> = async ({ name, address }) => {
-    const res = await addListAction(id as string, name, address)
-
+  const addList: SubmitHandler<Inputs> = async () => {
     // TODO: check response, show error or success
 
     closeModal()
@@ -82,10 +76,10 @@ const AddListModal = () => {
             </p>
           )}
         </div>
-        <button className="hidden" />
+        <button type="button" className="hidden" />
       </form>
       <SlideOver.Actions>
-        <Button style="secondary" onClick={closeModal}>
+        <Button type="secondary" onClick={closeModal}>
           Cancel
         </Button>
         <Button loading={isSubmitting} onClick={handleSubmit(addList)}>

@@ -1,8 +1,8 @@
 "use client"
 
-import { useParams, notFound } from "next/navigation"
-import UsersList from "../UsersList"
+import { notFound, useParams } from "next/navigation"
 import { useDeals } from "@/hooks/useDeals"
+import UsersList from "../UsersList"
 
 const Page = () => {
   const params = useParams()

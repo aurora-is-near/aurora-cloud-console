@@ -1,10 +1,10 @@
 "use client"
 
 import Contact from "@/components/Contact"
+import { useSilosTransactions } from "@/hooks/useSilosTransactions"
 import Chart from "./Chart"
 import TransactionsCharts from "./TransactionsCharts"
 import { useChartInterval } from "../../../hooks/useChartInterval"
-import { useSilosTransactions } from "@/hooks/useSilosTransactions"
 
 const Page = () => {
   const [interval, setInterval] = useChartInterval()

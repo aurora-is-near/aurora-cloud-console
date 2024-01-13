@@ -14,7 +14,7 @@ export class AbortError extends Error {
 
   type?: string
 
-  _is_abort_error: boolean
+  isAbortError: boolean
 
   constructor(statusCode: number, message: string, options?: AbortOptions) {
     super(message)
@@ -22,12 +22,12 @@ export class AbortError extends Error {
     this.type = options?.type
     this.detail = options?.detail
 
-    this._is_abort_error = true
+    this.isAbortError = true
   }
 }
 
 export const isAbortError = (error: unknown): error is AbortError =>
-  typeof error === "object" && !!error && "_is_abort_error" in error
+  typeof error === "object" && !!error && "isAbortError" in error
 
 /**
  * Throw an error with the given status code.

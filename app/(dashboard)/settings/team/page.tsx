@@ -1,13 +1,13 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
 import Heading from "@/components/Heading"
-import InviteButton from "./InviteButton"
 import TableLoader from "@/components/TableLoader"
 import { TeamMembersTable } from "@/app/(dashboard)/settings/team/TeamMembersTable"
 import InviteConfirmedModal from "@/app/(dashboard)/settings/team/InviteConfirmedModal"
 import InviteModal from "@/app/(dashboard)/settings/team/InviteModal"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
+import InviteButton from "./InviteButton"
 
 const Page = () => {
   const { data: teamMembers, isLoading } = useQuery(

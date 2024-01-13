@@ -29,7 +29,7 @@ const Contact = ({
           <Button
             className="flex-shrink-0"
             onClick={() => openModal(Modals.Contact)}
-            style="border"
+            type="border"
             size="sm"
           >
             Contact us

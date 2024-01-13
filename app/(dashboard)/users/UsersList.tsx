@@ -1,16 +1,16 @@
 "use client"
 
-import Button from "@/components/Button"
-import Heading from "@/components/Heading"
 import { Cog8ToothIcon } from "@heroicons/react/20/solid"
 import { ArrowDownCircleIcon } from "@heroicons/react/24/outline"
-import SearchInput from "./SearchInput"
-import UsersTable from "./UsersTable"
-import TableLoader from "@/components/TableLoader"
 import { useSearchParams } from "next/navigation"
 import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
+import TableLoader from "@/components/TableLoader"
+import Heading from "@/components/Heading"
+import Button from "@/components/Button"
 import { getQueryFnAndKey } from "@/utils/api/queries"
+import UsersTable from "./UsersTable"
+import SearchInput from "./SearchInput"
 
 const PER_PAGE = 20
 
@@ -55,7 +55,7 @@ const UsersList = ({ title, dealId }: UsersListProps) => {
           <SearchInput search={search} />
 
           <div className="flex space-x-3">
-            <Button style="secondary" href={exportUrl} download="export.csv">
+            <Button type="secondary" href={exportUrl} download="export.csv">
               <ArrowDownCircleIcon className="w-5 h-5" />
               <span>Export</span>
             </Button>

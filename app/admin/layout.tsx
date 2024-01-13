@@ -1,9 +1,9 @@
 import { ReactNode } from "react"
 import { Toaster } from "react-hot-toast"
+import { notFound } from "next/navigation"
 import MainMenu from "@/components/menu/MainMenu"
 import MobileMenu from "@/components/menu/MobileMenu"
 import SubMenuNav from "@/components/menu/SubMenuNav"
-import { notFound } from "next/navigation"
 import { isAdmin } from "@/actions/admin/is-admin"
 import {
   mainAdminExtraNavigation,

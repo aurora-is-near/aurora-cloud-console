@@ -1,12 +1,12 @@
 "use client"
 
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline"
+import { useSearchParams } from "next/navigation"
 import Button from "@/components/Button"
 import Table from "@/components/Table"
 import { formatDate, formatTimeAgo, midTruncate } from "@/utils/helpers"
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline"
 import DropdownMenu from "./DropdownMenu"
 import { Users } from "../../../types/types"
-import { useSearchParams } from "next/navigation"
 
 const PER_PAGE = 20
 
@@ -60,7 +60,7 @@ const UsersTable = ({ users, total }: UsersTableProps) => {
 
 export default UsersTable
 
-function PreviousPage({ page }: { page: number }) {
+const PreviousPage = ({ page }: { page: number }) => {
   const searchParams = new URLSearchParams(useSearchParams())
 
   if (page > 2) {
@@ -73,7 +73,7 @@ function PreviousPage({ page }: { page: number }) {
 
   return (
     <Button
-      style="secondary"
+      type="secondary"
       disabled={!active}
       href={active ? `/users?${searchParams}` : undefined}
     >
@@ -83,7 +83,13 @@ function PreviousPage({ page }: { page: number }) {
   )
 }
 
-function NextPage({ page, totalPages }: { page: number; totalPages: number }) {
+const NextPage = ({
+  page,
+  totalPages,
+}: {
+  page: number
+  totalPages: number
+}) => {
   const searchParams = new URLSearchParams(useSearchParams())
 
   searchParams.set("page", `${page + 1}`)
@@ -92,7 +98,7 @@ function NextPage({ page, totalPages }: { page: number; totalPages: number }) {
 
   return (
     <Button
-      style="secondary"
+      type="secondary"
       disabled={!active}
       href={active ? `/users?${searchParams}` : undefined}
     >

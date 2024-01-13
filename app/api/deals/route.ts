@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { Deals } from "../../../types/types"
 import { getDeals } from "@/utils/proxy-api/get-deals"
+import { Deals } from "../../../types/types"
 
 export const GET = apiRequestHandler(
   ["deals:read"],

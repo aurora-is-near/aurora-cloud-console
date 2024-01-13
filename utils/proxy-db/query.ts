@@ -1,7 +1,7 @@
 import { Pool, QueryResult, QueryResultRow } from "pg"
+import { ProxyDatabase } from "@/types/types"
 import { toError } from "../errors"
 import { PROXY_DATABASES } from "../../constants/databases"
-import { ProxyDatabase } from "@/types/types"
 
 const pools = PROXY_DATABASES.reduce<{ [x: string]: Pool }>(
   (acc, database) => ({

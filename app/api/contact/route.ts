@@ -3,7 +3,6 @@ import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { ApiUser } from "@/types/types"
 import { abort } from "@/utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { getTeam } from "@/actions/admin/teams/get-team"
 
 const getEnvVar = (name: string) => {
   const value = process.env[name]
@@ -97,8 +96,6 @@ const submitForm = async (
   )
 
   const data = await res.json()
-
-  console.log(data)
 
   // https://legacydocs.hubspot.com/docs/faq/api-error-responses
   if (res.status >= 400 && res.status < 600) {

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { queryUsers } from "../../../../utils/proxy-db/query-users"
-import { UserDetailsQuery } from "../../../../types/types"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 import { getTeam } from "@/utils/team"
 import { abort } from "@/utils/abort"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { UserDetailsQuery } from "../../../../types/types"
+import { queryUsers } from "../../../../utils/proxy-db/query-users"
 
 const HEADERS: (keyof UserDetailsQuery)[] = [
   "wallet_address",

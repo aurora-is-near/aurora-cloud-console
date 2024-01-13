@@ -1,9 +1,9 @@
 "use client"
 
+import { useMutation } from "@tanstack/react-query"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { PublicApiScope } from "@/types/types"
-import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"

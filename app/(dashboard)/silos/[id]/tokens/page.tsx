@@ -1,8 +1,8 @@
-import TokensTable from "./TokensTable"
 import { Suspense } from "react"
 import TableLoader from "@/components/TableLoader"
-import Header from "./Header"
 import Loader from "@/components/Loader"
+import Header from "./Header"
+import TokensTable from "./TokensTable"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   return (

@@ -45,7 +45,7 @@ const SearchInput = ({ search }: { search?: string }) => {
 
             const id = setTimeout(() => {
               startTransition(() => {
-                const value = event.target.value
+                const { value } = event.target
                 router.push(`${pathname}${value ? `?search=${value}` : ""}`)
                 setTimeoutId(undefined)
               })

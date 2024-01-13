@@ -1,9 +1,9 @@
 "use client"
 
+import { SubmitHandler } from "react-hook-form"
 import { Silo } from "@/types/types"
 import { updateSilo } from "@/actions/admin/silos/update-silo"
 import { createSilo } from "@/actions/admin/silos/create-silo"
-import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
 
 type SiloFormProps = {

@@ -1,7 +1,7 @@
 import { Deal } from "@/types/types"
 import Button from "@/components/Button"
-import ToggleDeal from "./ToggleDeal"
 import { formatDate } from "@/utils/helpers"
+import ToggleDeal from "./ToggleDeal"
 
 type DealItemProps = {
   deal: Deal
@@ -18,7 +18,7 @@ const DealItem = ({ deal }: DealItemProps) => (
           Created at {formatDate(new Date(deal.created_at))}
         </p>
       </div>
-      <Button href={`/borealis/deals/${deal.id}`} style="border" size="sm">
+      <Button href={`/borealis/deals/${deal.id}`} type="border" size="sm">
         View
       </Button>
     </div>

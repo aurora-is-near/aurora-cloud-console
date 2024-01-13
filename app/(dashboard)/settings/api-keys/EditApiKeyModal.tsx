@@ -1,16 +1,16 @@
 "use client"
 
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { useQueryState } from "next-usequerystate"
+import { useMemo } from "react"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { API_KEY_SCOPES } from "@/constants/scopes"
 import { PublicApiScope } from "@/types/types"
-import { useMutation, useQuery } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { useQueryState } from "next-usequerystate"
-import { useMemo } from "react"
-import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
 import { getQueryFnAndKey } from "@/utils/api/queries"
+import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
 
 const EditApiKeyModal = () => {
   const { activeModal, closeModal } = useModals()

@@ -1,5 +1,6 @@
 "use client"
 
+import { SubmitHandler } from "react-hook-form"
 import { Silo, Team } from "@/types/types"
 import { updateTeam } from "@/actions/admin/teams/update-team"
 import { createTeam } from "@/actions/admin/teams/create-team"
@@ -7,7 +8,6 @@ import { PROXY_DATABASES } from "@/constants/databases"
 import { SelectInputOption } from "@/components/SelectInput"
 import { setTeamSilos } from "@/actions/admin/team-silos/set-team-silos"
 import { HorizontalForm } from "@/components/HorizontalForm"
-import { SubmitHandler } from "react-hook-form"
 
 type TeamFormProps = {
   team?: Team

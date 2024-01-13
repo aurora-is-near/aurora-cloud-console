@@ -1,3 +1,7 @@
+import { PaperAirplaneIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { useQueryState } from "next-usequerystate"
+import { useCallback } from "react"
 import Table from "@/components/Table"
 import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
@@ -5,10 +9,6 @@ import { Modals } from "@/utils/modals"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { TeamMember } from "@/types/types"
 import { apiClient } from "@/utils/api/client"
-import { TrashIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { useQueryState } from "next-usequerystate"
-import { useCallback } from "react"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 
 type TeamMembersTableProps = {

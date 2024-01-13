@@ -1,8 +1,8 @@
 "use client"
 
 import Card from "@/components/Card"
-import DealItem from "./DealItem"
 import { useDeals } from "@/hooks/useDeals"
+import DealItem from "./DealItem"
 import Loader from "../../../../components/Loader"
 
 const DealsList = () => {

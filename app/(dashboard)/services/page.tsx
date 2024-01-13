@@ -1,11 +1,11 @@
 "use client"
 
+import Image from "next/image"
 import Button from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
 import Heading from "@/components/Heading"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import Image from "next/image"
 
 const services = [
   {
@@ -94,7 +94,7 @@ const Page = () => {
                   <p className="text-sm mt-1.5 text-gray-500">{description}</p>
                 </div>
                 <Button
-                  style="border"
+                  type="border"
                   size="sm"
                   className="flex-shrink-0"
                   onClick={() => openModal(Modals.Contact)}

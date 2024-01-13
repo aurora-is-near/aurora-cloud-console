@@ -1,14 +1,13 @@
 "use client"
 
 import {
-  InformationCircleIcon,
-  XMarkIcon,
-  XCircleIcon,
   CheckCircleIcon,
+  InformationCircleIcon,
+  XCircleIcon,
+  XMarkIcon,
 } from "@heroicons/react/20/solid"
 import clsx from "clsx"
-import { ForwardRefExoticComponent, ReactNode, useState } from "react"
-import { SVGProps } from "react"
+import { ForwardRefExoticComponent, ReactNode, SVGProps, useState } from "react"
 
 type AlertType = "error" | "info" | "success"
 

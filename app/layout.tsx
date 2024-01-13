@@ -1,5 +1,5 @@
-import { circular } from "@/styles/fonts/fonts"
 import type { Metadata } from "next"
+import { circular } from "@/styles/fonts/fonts"
 import "../styles/globals.css"
 import Providers from "@/app/Providers"
 

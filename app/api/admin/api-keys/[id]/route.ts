@@ -16,7 +16,9 @@ export const GET = apiRequestHandler(
       .select()
       .single()
 
-    if (error) throw error
+    if (error) {
+      throw error
+    }
 
     return NextResponse.json(data)
   },
@@ -40,7 +42,9 @@ export const PUT = apiRequestHandler(
       .select()
       .single()
 
-    if (error) throw error
+    if (error) {
+      throw error
+    }
 
     return NextResponse.json(data)
   },
@@ -58,7 +62,9 @@ export const DELETE = apiRequestHandler(
       .eq("id", apiKeyId)
       .eq("user_id", ctx.user.user_id)
 
-    if (error) throw error
+    if (error) {
+      throw error
+    }
 
     return NextResponse.json({ status: "OK" })
   },

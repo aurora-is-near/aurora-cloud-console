@@ -1,11 +1,11 @@
 "use client"
 
-import { ReactNode, forwardRef } from "react"
+import { forwardRef, ReactNode } from "react"
 import clsx from "clsx"
 import Link from "next/link"
 
 type Props = {
-  style?: "primary" | "secondary" | "transparent" | "border" | "destructive"
+  type?: "primary" | "secondary" | "transparent" | "border" | "destructive"
   size?: "sm" | "md"
   className?: string
   children: ReactNode
@@ -22,7 +22,7 @@ type Ref = HTMLButtonElement | HTMLAnchorElement
 const Button = forwardRef<Ref, Props>(
   (
     {
-      style = "primary",
+      type = "primary",
       size = "md",
       className,
       children,
@@ -51,22 +51,21 @@ const Button = forwardRef<Ref, Props>(
       {
         "px-2.5 h-8": size === "sm",
         "px-3 h-9": size === "md",
-        "shadow-sm": ["primary", "secondary"].includes(style),
+        "shadow-sm": ["primary", "secondary"].includes(type),
         "bg-green-500 text-gray-900 focus-visible:outline-green-500":
-          style === "primary",
+          type === "primary",
         "bg-gray-200 text-gray-900 focus-visible:outline-gray-600":
-          style === "secondary",
-        "bg-transparent focus-visible:outline-gray-600":
-          style === "transparent",
+          type === "secondary",
+        "bg-transparent focus-visible:outline-gray-600": type === "transparent",
         "border border-gray-400 focus-visible:outline-gray-600":
-          style === "border",
+          type === "border",
         "bg-rose-500 text-white focus-visible:outline-rose-500":
-          style === "destructive",
-        "hover:bg-green-400": style === "primary" && !isDisabled,
-        "hover:bg-gray-300": style === "secondary" && !isDisabled,
-        "hover:bg-gray-200": style === "transparent" && !isDisabled,
-        "hover:border-gray-600": style === "border" && !isDisabled,
-        "hover:bg-rose-600": style === "destructive" && !isDisabled,
+          type === "destructive",
+        "hover:bg-green-400": type === "primary" && !isDisabled,
+        "hover:bg-gray-300": type === "secondary" && !isDisabled,
+        "hover:bg-gray-200": type === "transparent" && !isDisabled,
+        "hover:border-gray-600": type === "border" && !isDisabled,
+        "hover:bg-rose-600": type === "destructive" && !isDisabled,
         "w-full": fullWidth,
       },
       className,
@@ -100,6 +99,7 @@ const Button = forwardRef<Ref, Props>(
 
     return (
       <button
+        type="button"
         onClick={onClick}
         className={classes}
         disabled={isDisabled}

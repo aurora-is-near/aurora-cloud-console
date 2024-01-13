@@ -4,10 +4,10 @@ import { Fragment } from "react"
 import { Menu, Transition } from "@headlessui/react"
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
 import { TrashIcon, XCircleIcon } from "@heroicons/react/20/solid"
-import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
 import clsx from "clsx"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
 
 const DropdownMenu = ({ address }: { address: string }) => {
   const [, setAddress] = useQueryState("address")

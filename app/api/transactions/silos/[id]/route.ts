@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { getDeals } from "@/utils/proxy-api/get-deals"
+import { getTeam } from "@/utils/team"
+import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { SiloTransactionCharts } from "../../../../../types/types"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
-import { getDeals } from "@/utils/proxy-api/get-deals"
-import { getTeam } from "@/utils/team"
-import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],

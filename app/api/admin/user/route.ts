@@ -12,7 +12,9 @@ export const PATCH = apiRequestHandler(
       .update({ name })
       .eq("user_id", ctx.user.user_id)
 
-    if (error) throw error
+    if (error) {
+      throw error
+    }
 
     return NextResponse.json({ status: "OK" })
   },

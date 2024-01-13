@@ -7,14 +7,14 @@ import {
   ClipboardDocumentCheckIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline"
-import { MenuItem } from "@/constants/navigation"
-import { MobileMainMenuButton, MobileSubMenuButton } from "./MenuButtons"
 import { usePathname, useSelectedLayoutSegments } from "next/navigation"
+import { MenuItem } from "@/constants/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
-import SignoutButton from "./SignoutButton"
-import { AuroraTriangle } from "../icons"
 import { getSubroutes } from "@/utils/menu"
 import { useDeals } from "@/hooks/useDeals"
+import { MobileMainMenuButton, MobileSubMenuButton } from "./MenuButtons"
+import SignoutButton from "./SignoutButton"
+import { AuroraTriangle } from "../icons"
 
 const SubrouteMenu = () => {
   const pathname = usePathname()
@@ -24,7 +24,7 @@ const SubrouteMenu = () => {
 
   return (
     <nav className="mt-6 flex-1 pt-6 border-t border-gray-800 space-y-2">
-      <ul role="list" className="space-y-2">
+      <ul className="space-y-2">
         {subroutes.map((item) => (
           <li key={item.name}>
             <MobileSubMenuButton {...item} />
@@ -35,11 +35,11 @@ const SubrouteMenu = () => {
       {route === "borealis" &&
       !!data?.deals.length &&
       !pathname.startsWith("/admin") ? (
-        <ul role="list" className="space-y-2">
+        <ul className="space-y-2">
           {data.deals.map((deal) => (
             <li key={deal.id}>
               <MobileSubMenuButton
-                href={"/borealis/deals/" + deal.id}
+                href={`/borealis/deals/${deal.id}`}
                 name={deal.name}
                 icon={<ClipboardDocumentCheckIcon />}
               />
@@ -123,7 +123,7 @@ export default function MobileMenu({ menuItems }: MobileMenuProps) {
                   </div>
 
                   <nav className="mt-6">
-                    <ul role="list" className="grid grid-cols-2 gap-2">
+                    <ul className="grid grid-cols-2 gap-2">
                       {menuItems.map((item) => (
                         <li key={item.name}>
                           <MobileMainMenuButton {...item} />

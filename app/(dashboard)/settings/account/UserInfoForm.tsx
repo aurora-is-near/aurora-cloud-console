@@ -1,14 +1,14 @@
 "use client"
 
 import { CheckIcon, PencilIcon } from "@heroicons/react/20/solid"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useMutation, useQuery } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
@@ -42,10 +42,14 @@ const UserInfoForm = ({
 
   // Handle coming back to page from email change confirmation
   useEffect(() => {
-    if (alerted || !pathname || !router) return
+    if (alerted || !pathname || !router) {
+      return
+    }
 
     const fragment = window.location.hash.substring(1)
-    if (!fragment) return
+    if (!fragment) {
+      return
+    }
 
     const params = new URLSearchParams(fragment)
 
@@ -77,7 +81,9 @@ const UserInfoForm = ({
       (!name && email === user?.email) ||
       (name === user?.name && !email)
     ) {
-      return toggleForm()
+      toggleForm()
+
+      return
     }
 
     try {
@@ -85,13 +91,15 @@ const UserInfoForm = ({
         const supabase = createClientComponentClient()
 
         const { error } = await supabase.auth.updateUser(
-          { email: email },
+          { email },
           {
-            emailRedirectTo: `${location.origin}/settings/account`,
+            emailRedirectTo: `${window.location.origin}/settings/account`,
           },
         )
 
-        if (error) throw "Email change failed."
+        if (error) {
+          throw "Email change failed."
+        }
       }
 
       if (name !== user?.name) {
@@ -112,7 +120,7 @@ const UserInfoForm = ({
         {showForm ? (
           <>
             <Button
-              style="secondary"
+              type="secondary"
               onClick={toggleForm}
               disabled={isSubmitting}
             >
@@ -124,7 +132,7 @@ const UserInfoForm = ({
             </Button>
           </>
         ) : (
-          <Button style="secondary" onClick={toggleForm}>
+          <Button type="secondary" onClick={toggleForm}>
             <PencilIcon className="w-5 h-5" />
             <span>Edit</span>
           </Button>

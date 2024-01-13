@@ -1,9 +1,9 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
 import Heading from "@/components/Heading"
 import Card from "@/components/Card"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
 
 const Page = () => {
   const { data: team } = useQuery(getQueryFnAndKey("getTeam"))

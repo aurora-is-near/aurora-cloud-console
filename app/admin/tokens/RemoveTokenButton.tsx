@@ -1,9 +1,9 @@
 "use client"
 
+import { TrashIcon } from "@heroicons/react/24/outline"
 import { deleteToken } from "@/actions/admin/tokens/delete-token"
 import TableButton from "@/components/TableButton"
 import { Token } from "@/types/types"
-import { TrashIcon } from "@heroicons/react/24/outline"
 
 type RemoveTokenButtonProps = {
   token: Token

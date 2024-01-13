@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactElement, ReactNode, cloneElement, isValidElement } from "react"
+import { cloneElement, isValidElement, ReactElement, ReactNode } from "react"
 import { useSelectedLayoutSegments } from "next/navigation"
 import Link from "next/link"
 import clsx from "clsx"
@@ -9,12 +9,11 @@ type MenuButtonProps = {
   href: string
   name: string
   icon?: ReactNode
-  disabled?: boolean
 }
 
 const generateIcon = (icon: ReactNode, className: string) => {
   return isValidElement(icon)
-    ? cloneElement(icon as ReactElement<any>, {
+    ? cloneElement(icon as ReactElement, {
         className,
         "aria-hidden": true,
       })
@@ -23,7 +22,7 @@ const generateIcon = (icon: ReactNode, className: string) => {
 
 const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
   const [route] = useSelectedLayoutSegments()
-  const current = href.startsWith("/" + route)
+  const current = href.startsWith(`/${route}`)
 
   icon = generateIcon(icon, "w-6 h-6 shrink-0")
 
@@ -46,8 +45,7 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
 const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
   const [route, subroute, id] = useSelectedLayoutSegments()
   const current =
-    href ===
-    "/" + route + (subroute ? "/" + subroute : "") + (id ? "/" + id : "")
+    href === `/${route}${subroute ? `/${subroute}` : ""}${id ? `/${id}` : ""}`
 
   icon = generateIcon(
     icon,
@@ -64,6 +62,7 @@ const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
     return (
       <button
         disabled
+        type="button"
         className={clsx(commonClasses, "text-gray-500 opacity-50")}
       >
         {icon}
@@ -91,7 +90,7 @@ const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
 
 const MobileMainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
   const [route] = useSelectedLayoutSegments()
-  const current = href.startsWith("/" + route)
+  const current = href.startsWith(`/${route}`)
 
   icon = generateIcon(icon, "w-6 h-6 shrink-0")
 
@@ -113,7 +112,7 @@ const MobileMainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
 
 const MobileSubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
   const [route, subroute] = useSelectedLayoutSegments()
-  const current = href.includes(route + "/" + subroute)
+  const current = href.includes(`${route}/${subroute}`)
 
   icon = generateIcon(
     icon,

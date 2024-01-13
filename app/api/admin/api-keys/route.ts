@@ -13,7 +13,9 @@ export const GET = apiRequestHandler(
       .order("created_at", { ascending: false })
       .eq("user_id", ctx.user.user_id)
 
-    if (error) throw error
+    if (error) {
+      throw error
+    }
 
     return NextResponse.json<ApiKey[]>(data)
   },
@@ -35,7 +37,9 @@ export const POST = apiRequestHandler(
       .select()
       .single()
 
-    if (error) throw error
+    if (error) {
+      throw error
+    }
 
     return NextResponse.json(data)
   },
