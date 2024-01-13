@@ -118,20 +118,35 @@ export interface Database {
         Row: {
           chain_id: string
           created_at: string
+          engine_account: string
+          engine_version: string
+          genesis: string
           id: number
           name: string
+          network: string
+          rpc_url: string
         }
         Insert: {
           chain_id: string
           created_at?: string
+          engine_account: string
+          engine_version: string
+          genesis: string
           id?: number
           name: string
+          network?: string
+          rpc_url?: string
         }
         Update: {
           chain_id?: string
           created_at?: string
+          engine_account?: string
+          engine_version?: string
+          genesis?: string
           id?: number
           name?: string
+          network?: string
+          rpc_url?: string
         }
         Relationships: []
       }
@@ -219,7 +234,7 @@ export interface Database {
           {
             foreignKeyName: "teams_silos_team_id_fkey"
             columns: ["team_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "teams"
             referencedColumns: ["id"]
           }
