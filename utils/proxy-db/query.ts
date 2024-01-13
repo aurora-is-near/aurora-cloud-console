@@ -17,14 +17,6 @@ const pools = PROXY_DATABASES.reduce<{ [x: string]: Pool }>(
   {},
 )
 
-const fakeProxyDbPool = new Pool({
-  host: process.env.PROXY_DB_HOST,
-  port: Number(process.env.PROXY_DB_PORT),
-  user: process.env.PROXY_DB_USER,
-  password: process.env.PROXY_DB_PASSWORD,
-  database: "aurora_transaction_database_seed",
-})
-
 export const query = async <TRow extends QueryResultRow>(
   database: ProxyDatabase,
   text: string,
@@ -38,6 +30,8 @@ export const query = async <TRow extends QueryResultRow>(
     console.error(`Proxy DB query error: ${toError(err).message}'\n${text}`)
     throw err
   }
+
+  console.log(text)
 
   return res
 }
