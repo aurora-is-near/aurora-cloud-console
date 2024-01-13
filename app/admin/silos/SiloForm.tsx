@@ -53,9 +53,10 @@ export const SiloForm = ({ silo }: SiloFormProps) => {
         {
           name: "network",
           label: "Network",
-          defaultValue: isNetworkOption(silo?.network)
-            ? getNetworkOption(silo.network)
-            : getNetworkOption("public"),
+          defaultValue:
+            silo && isNetworkOption(silo.network)
+              ? getNetworkOption(silo.network)
+              : getNetworkOption("public"),
           autoComplete: "network",
           required: true,
           getValue: (option?: SelectInputOption) => option?.value ?? "public",
