@@ -33,7 +33,7 @@ const ContactModal = () => {
 
   const {
     mutateAsync: sendMessage,
-    isLoading,
+    isPending,
     isSuccess,
   } = useMutation({
     mutationFn: apiClient.sendContactMessage,
@@ -130,7 +130,7 @@ const ContactModal = () => {
                 </p>
               )}
             </div>
-            <Button type="submit" loading={isLoading}>
+            <Button type="submit" loading={isPending}>
               <PaperAirplaneIcon className="w-5 h-5" />
               Send message
             </Button>

@@ -4,18 +4,24 @@ import Chart from "../../Chart"
 import Contact from "@/components/Contact"
 import TransactionsCharts from "../../TransactionsCharts"
 import { useChartInterval } from "../../../../../hooks/useChartInterval"
-import { useApiQuery } from "../../../../../utils/api/queries"
 import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import { useQuery } from "@tanstack/react-query"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [interval, setInterval] = useChartInterval()
-  const { data: silo, error } = useApiQuery("getSilo", {
-    params: { id: Number(id) },
-  })
+  const { data: silo, error } = useQuery(
+    getQueryFnAndKey("getSilo", {
+      id: Number(id),
+    }),
+  )
 
-  const { data: transactions } = useApiQuery("getSiloTransactions", {
-    params: { id: Number(id), interval },
-  })
+  const { data: transactions } = useQuery(
+    getQueryFnAndKey("getSiloTransactions", {
+      id: Number(id),
+      interval,
+    }),
+  )
 
   useNotFoundError(error)
 

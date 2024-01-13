@@ -1,24 +1,29 @@
 import { SiloTransactionCharts } from "@/types/types"
-import { useApiQuery } from "@/utils/api/queries"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getQueryKey } from "@/utils/api/query-keys"
-import { useQueryClient } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useEffect } from "react"
 
 export const useSilosTransactions = (params: { interval: string | null }) => {
   const queryClient = useQueryClient()
+  const query = useQuery(getQueryFnAndKey("getSilosTransactions", params))
 
-  return useApiQuery("getSilosTransactions", {
-    params,
-    onSuccess: async (data) => {
-      data.items.forEach((item) => {
-        const queryKey = getQueryKey("getSiloTransactions", {
-          id: item.siloId,
-          interval: params.interval,
-        })
+  useEffect(() => {
+    if (!query.data) {
+      return
+    }
 
-        const siloTransactions: SiloTransactionCharts = { items: [item] }
-
-        queryClient.setQueryData(queryKey, siloTransactions)
+    query.data.items.forEach((item) => {
+      const queryKey = getQueryKey("getSiloTransactions", {
+        id: item.siloId,
+        interval: params.interval,
       })
-    },
-  })
+
+      const siloTransactions: SiloTransactionCharts = { items: [item] }
+
+      queryClient.setQueryData(queryKey, siloTransactions)
+    })
+  }, [params.interval, query.data, queryClient])
+
+  return query
 }

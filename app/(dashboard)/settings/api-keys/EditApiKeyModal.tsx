@@ -4,21 +4,21 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { API_KEY_SCOPES } from "@/constants/scopes"
 import { PublicApiScope } from "@/types/types"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { useQueryState } from "next-usequerystate"
-import { useApiQuery } from "@/utils/api/queries"
 import { useMemo } from "react"
 import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 
 const EditApiKeyModal = () => {
   const { activeModal, closeModal } = useModals()
   const [id, setId] = useQueryState("id")
   const isOpen = activeModal === Modals.EditApiKey
   const apiKeyId = id ? Number(id) : undefined
-  const { data: apiKey } = useApiQuery("getApiKey", {
-    params: { id: apiKeyId },
+  const { data: apiKey } = useQuery({
+    ...getQueryFnAndKey("getApiKey", { id: apiKeyId }),
     enabled: !!apiKeyId,
   })
 

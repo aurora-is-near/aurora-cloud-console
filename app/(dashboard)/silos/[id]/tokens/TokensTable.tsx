@@ -3,12 +3,15 @@
 import CopyButton from "@/components/CopyButton"
 import Table from "@/components/Table"
 import { useNotFoundError } from "@/hooks/useNotFoundError"
-import { useApiQuery } from "@/utils/api/queries"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import { useQuery } from "@tanstack/react-query"
 
 const TokensTable = ({ siloId }: { siloId: number }) => {
-  const { data: tokens, error } = useApiQuery("getSiloTokens", {
-    params: { id: siloId },
-  })
+  const { data: tokens, error } = useQuery(
+    getQueryFnAndKey("getSiloTokens", {
+      id: siloId,
+    }),
+  )
 
   useNotFoundError(error)
 

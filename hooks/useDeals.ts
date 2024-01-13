@@ -1,17 +1,23 @@
-import { useApiQuery } from "@/utils/api/queries"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getQueryKey } from "@/utils/api/query-keys"
-import { useQueryClient } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useEffect } from "react"
 
 export const useDeals = () => {
   const queryClient = useQueryClient()
+  const query = useQuery(getQueryFnAndKey("getDeals"))
 
-  return useApiQuery("getDeals", {
-    onSuccess: async (data) => {
-      data.deals.forEach((deal) => {
-        const queryKey = getQueryKey("getDeal", { id: deal.id })
+  useEffect(() => {
+    if (!query.data) {
+      return
+    }
 
-        queryClient.setQueryData(queryKey, deal)
-      })
-    },
-  })
+    query.data.deals.forEach((deal) => {
+      const queryKey = getQueryKey("getDeal", { id: deal.id })
+
+      queryClient.setQueryData(queryKey, deal)
+    })
+  }, [query.data, queryClient])
+
+  return query
 }

@@ -6,10 +6,13 @@ import TableLoader from "@/components/TableLoader"
 import { TeamMembersTable } from "@/app/(dashboard)/settings/team/TeamMembersTable"
 import InviteConfirmedModal from "@/app/(dashboard)/settings/team/InviteConfirmedModal"
 import InviteModal from "@/app/(dashboard)/settings/team/InviteModal"
-import { useApiQuery } from "@/utils/api/queries"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import { useQuery } from "@tanstack/react-query"
 
 const Page = () => {
-  const { data: teamMembers, isInitialLoading } = useApiQuery("getTeamMembers")
+  const { data: teamMembers, isLoading } = useQuery(
+    getQueryFnAndKey("getTeamMembers"),
+  )
 
   return (
     <>
@@ -18,7 +21,7 @@ const Page = () => {
         <InviteButton />
       </div>
 
-      {isInitialLoading ? (
+      {isLoading ? (
         <TableLoader />
       ) : (
         <TeamMembersTable teamMembers={teamMembers?.teamMembers ?? []} />

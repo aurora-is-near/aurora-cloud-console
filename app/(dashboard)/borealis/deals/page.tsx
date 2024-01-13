@@ -4,7 +4,6 @@ import Contact from "@/components/Contact"
 import Heading from "@/components/Heading"
 import DealsList from "./DealsList"
 import TransactionsCharts from "../../silos/TransactionsCharts"
-import { useApiQuery } from "../../../../utils/api/queries"
 import { useChartInterval } from "../../../../hooks/useChartInterval"
 import { useDealsTransactions } from "@/hooks/useDealsTransactions"
 
