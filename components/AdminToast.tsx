@@ -1,7 +1,7 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import toast from "react-hot-toast"
 
 type AdminToastProps = {

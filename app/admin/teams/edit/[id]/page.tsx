@@ -2,7 +2,6 @@ import { notFound } from "next/navigation"
 import { getTeam } from "@/actions/admin/teams/get-team"
 import { AdminPage } from "@/components/AdminPage"
 import { TeamDetailsCard } from "@/app/admin/teams/TeamDetailsCard"
-import { TeamSilosCard } from "@/app/admin/teams/TeamSilosCard"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { getSilos } from "@/actions/admin/silos/get-silos"
 
@@ -19,12 +18,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <AdminPage title={team.name}>
-      <TeamDetailsCard team={team} />
-      <TeamSilosCard
-        teamId={team.id}
-        teamSilos={teamSilos}
-        allSilos={allSilos}
-      />
+      <TeamDetailsCard team={team} teamSilos={teamSilos} allSilos={allSilos} />
     </AdminPage>
   )
 }

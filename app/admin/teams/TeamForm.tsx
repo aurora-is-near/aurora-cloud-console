@@ -1,24 +1,54 @@
 "use client"
 
-import { Team } from "@/types/types"
+import { Silo, Team } from "@/types/types"
 import { updateTeam } from "@/actions/admin/teams/update-team"
 import { createTeam } from "@/actions/admin/teams/create-team"
-import { AdminForm } from "@/components/AdminForm"
 import { PROXY_DATABASES } from "@/constants/databases"
 import { SelectInputOption } from "@/components/SelectInput"
+import { setTeamSilos } from "@/actions/admin/team-silos/set-team-silos"
+import { HorizontalForm } from "@/components/HorizontalForm"
+import { SubmitHandler } from "react-hook-form"
 
 type TeamFormProps = {
   team?: Team
+  teamSilos?: Silo[]
+  allSilos: Silo[]
 }
 
-export const TeamForm = ({ team }: TeamFormProps) => {
+type Inputs = Omit<Team, "id" | "created_at"> & { siloIds?: number[] }
+
+const getSiloOptions = (silos: Silo[]) =>
+  silos.map((silo) => ({
+    label: `${silo.name} (${silo.chain_id})`,
+    value: silo.id,
+  }))
+
+export const TeamForm = ({ team, teamSilos, allSilos }: TeamFormProps) => {
+  const submitHandler: SubmitHandler<Inputs> = async ({
+    siloIds,
+    ...teamInputs
+  }: Inputs) => {
+    if (team) {
+      await Promise.all([
+        updateTeam(team.id, teamInputs),
+        setTeamSilos(team.id, siloIds ?? []),
+      ])
+
+      window.location.href = "/admin/teams?operation=updated"
+
+      return
+    }
+
+    const newTeam = await createTeam(teamInputs)
+
+    await setTeamSilos(newTeam.id, siloIds ?? [])
+
+    window.location.href = "/admin/teams?operation=created"
+  }
+
   return (
-    <AdminForm
-      itemName="Team"
-      item={team}
-      updateItem={updateTeam}
-      createItem={createTeam}
-      nextPath="/admin/teams"
+    <HorizontalForm
+      submitHandler={submitHandler}
       inputs={[
         {
           name: "name",
@@ -63,6 +93,14 @@ export const TeamForm = ({ team }: TeamFormProps) => {
             label: db,
             value: db,
           })),
+        },
+        {
+          name: "siloIds",
+          label: "Silos",
+          isMulti: true,
+          defaultValue: getSiloOptions(teamSilos ?? []),
+          options: getSiloOptions(allSilos),
+          getValue: (options) => options.map((option) => option.value),
         },
       ]}
     />

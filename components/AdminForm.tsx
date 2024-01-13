@@ -1,7 +1,6 @@
 "use client"
 
 import { SubmitHandler } from "react-hook-form"
-import { Token } from "@/types/types"
 import {
   HorizontalForm,
   HorizontalFormProps,
@@ -10,19 +9,19 @@ import toast from "react-hot-toast"
 
 type AdminFormProps<
   Inputs extends Record<string, unknown>,
-  Item extends ({ id: number } & Record<string, unknown>) | null,
+  Item extends { id: number } & Record<string, unknown>,
 > = {
   itemName: string
   item?: Item | null
   updateItem: (id: number, inputs: Inputs) => Promise<Item>
   createItem: (inputs: Inputs) => Promise<Item>
-  nextPath: string
+  nextPath?: string
   inputs: HorizontalFormProps<Inputs>["inputs"]
 }
 
 export const AdminForm = <
   Inputs extends Record<string, unknown>,
-  Item extends ({ id: number } & Record<string, unknown>) | null,
+  Item extends { id: number } & Record<string, unknown>,
 >({
   itemName,
   item,
@@ -41,7 +40,9 @@ export const AdminForm = <
 
     const newItem = await createItem(inputs)
 
-    window.location.href = `${nextPath}?operation=created`
+    if (nextPath) {
+      window.location.href = `${nextPath}?operation=created&id=${newItem.id}`
+    }
   }
 
   return (
