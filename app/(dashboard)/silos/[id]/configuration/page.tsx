@@ -4,8 +4,17 @@ import InfoList from "@/components/InfoList"
 import { PlusIcon } from "@heroicons/react/20/solid"
 import { Suspense } from "react"
 import Header from "./Header"
+import { getSilo } from "@/actions/admin/silos/get-silo"
+import { notFound } from "next/navigation"
+import { sentenceCase } from "change-case"
 
-const Page = ({ params: { id } }: { params: { id: string } }) => {
+const Page = async ({ params: { id } }: { params: { id: string } }) => {
+  const silo = await getSilo(Number(id))
+
+  if (!silo) {
+    notFound()
+  }
+
   return (
     <div className="space-y-4 sm:space-y-5">
       <Suspense>
@@ -18,34 +27,34 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         <InfoList>
           <InfoList.Item
             term="Network"
-            description="Public"
+            description={sentenceCase(silo.network)}
             explainer="Aurora Chains can be either public, permissioned, or private."
           />
           <InfoList.Item
             term="Chain ID"
-            description="1313161567"
+            description={silo.chain_id}
             explainer="EIP-155 standard field to protect against transaction replay attacks."
             showCopyButton
           />
           <InfoList.Item
             term="Genesis"
-            description="1695870567776"
+            description={silo.genesis}
             showCopyButton
           />
           <InfoList.Item
             term="Engine account"
-            description="silo-1.aurora-silo-dev.near"
+            description={silo.engine_account}
             explainer="EVM contract account on the Near blockchain."
             showCopyButton
           />
           <InfoList.Item
             term="Engine version"
-            description="2.0.22"
+            description={silo.engine_version}
             explainer="The version of the Aurora Engine used to power your chain."
           />
           <InfoList.Item
             term="RPC URL"
-            description="silo01.aurora.dev"
+            description={silo.rpc_url}
             explainer="Use this endpoint to access the network."
             showCopyButton
             action={

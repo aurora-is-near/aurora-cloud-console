@@ -5,12 +5,26 @@ import { updateSilo } from "@/actions/admin/silos/update-silo"
 import { createSilo } from "@/actions/admin/silos/create-silo"
 import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
+import { SelectInputOption } from "@/components/SelectInput"
+import { sentenceCase } from "change-case"
 
 type SiloFormProps = {
   silo?: Silo
 }
 
 type Inputs = Omit<Silo, "id" | "created_at">
+
+const NETWORK_OPTIONS = ["public", "permissioned", "private"] as const
+
+type NetworkOption = (typeof NETWORK_OPTIONS)[number]
+
+const getNetworkOption = (value: NetworkOption): SelectInputOption => ({
+  label: sentenceCase(value),
+  value,
+})
+
+const isNetworkOption = (value?: string): value is NetworkOption =>
+  !!value && NETWORK_OPTIONS.includes(value as NetworkOption)
 
 export const SiloForm = ({ silo }: SiloFormProps) => {
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
@@ -37,10 +51,53 @@ export const SiloForm = ({ silo }: SiloFormProps) => {
           required: true,
         },
         {
+          name: "network",
+          label: "Network",
+          defaultValue: isNetworkOption(silo?.network)
+            ? getNetworkOption(silo.network)
+            : getNetworkOption("public"),
+          autoComplete: "network",
+          required: true,
+          getValue: (option?: SelectInputOption) => option?.value ?? "public",
+          options: [
+            getNetworkOption("public"),
+            getNetworkOption("permissioned"),
+            getNetworkOption("private"),
+          ],
+        },
+        {
           name: "chain_id",
           label: "Chain ID",
           defaultValue: silo?.chain_id ?? "",
           autoComplete: "chain_id",
+          required: true,
+        },
+        {
+          name: "genesis",
+          label: "Genesis",
+          defaultValue: silo?.genesis ?? "",
+          autoComplete: "genesis",
+          required: true,
+        },
+        {
+          name: "engine_account",
+          label: "Engine account",
+          defaultValue: silo?.engine_account ?? "",
+          autoComplete: "engine_account",
+          required: true,
+        },
+        {
+          name: "engine_version",
+          label: "Engine version",
+          defaultValue: silo?.engine_version ?? "",
+          autoComplete: "engine_version",
+          required: true,
+        },
+        {
+          name: "rpc_url",
+          label: "RPC URL",
+          defaultValue: silo?.rpc_url ?? "",
+          autoComplete: "rpc_url",
           required: true,
         },
       ]}
