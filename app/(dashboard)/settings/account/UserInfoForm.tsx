@@ -8,7 +8,6 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { Database } from "@/types/supabase"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Button from "@/components/Button"
@@ -85,7 +84,7 @@ const UserInfoForm = ({
 
     try {
       if (email !== user?.email) {
-        const supabase = createClientComponentClient<Database>()
+        const supabase = createClientComponentClient()
 
         const { error } = await supabase.auth.updateUser(
           { email: email },
@@ -104,7 +103,7 @@ const UserInfoForm = ({
       setShowForm(false)
       router.refresh()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 

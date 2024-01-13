@@ -68,9 +68,7 @@ const Page = () => {
               <Table.TD dark>{apiKey.note}</Table.TD>
               <Table.TD>{apiKey.scopes.join(", ")}</Table.TD>
               <Table.TD>
-                {apiKey.last_used_at
-                  ? relativeTime(apiKey.last_used_at)
-                  : "Never"}
+                {apiKey.lastUsedAt ? relativeTime(apiKey.lastUsedAt) : "Never"}
               </Table.TD>
               <Table.TD align="right">
                 <TableButton

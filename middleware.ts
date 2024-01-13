@@ -1,14 +1,13 @@
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { Database } from "./types/supabase"
 
 const unauthenticatedRoutes = ["/login"]
 const authenticatedRoutes = ["/borealis", "/silos", "/users", "/settings"]
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
-  const supabase = createMiddlewareClient<Database>({ req, res })
+  const supabase = createMiddlewareClient({ req, res })
   const pathname = req.nextUrl.pathname
 
   // Refreshes the session if the session is expired but user has a refresh token

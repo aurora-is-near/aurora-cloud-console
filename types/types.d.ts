@@ -1,4 +1,4 @@
-import { Database } from "./supabase"
+import { User } from "@prisma/client"
 
 export type UserInfo = {
   email: string
@@ -71,13 +71,7 @@ export type Deals = {
   deals: Deal[]
 }
 
-export type User = Database["public"]["Tables"]["users"]["Row"]
-
-export type PublicApiScope = Database["public"]["Enums"]["api_key_scopes"]
-
 export type ApiScope = PublicApiScope | "admin"
-
-export type ApiKey = Database["public"]["Tables"]["api_keys"]["Row"]
 
 export type ApiUser = User & {
   scopes: ApiScopes[]

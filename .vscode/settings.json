@@ -5,8 +5,12 @@
   "files.insertFinalNewline": true,
   "editor.formatOnSave": false, // This makes sure we don't have conflicts between eslint and prettier.
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.fixAll.markdownlint": true
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.markdownlint": "explicit"
+  },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma",
+    "editor.formatOnSave": true
   },
   "editor.rulers": [80],
   "eslint.validate": [

@@ -1,21 +1,21 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { adminSupabase } from "@/utils/supabase"
-import { ApiKey } from "@/types/types"
+import { prisma } from "../../../../utils/prisma"
+import { ApiKey } from "@prisma/client"
 
 export const GET = apiRequestHandler(
   ["admin"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const supabase = adminSupabase()
-    const { data, error } = await supabase
-      .from("api_keys")
-      .select()
-      .order("created_at", { ascending: false })
-      .eq("user_id", ctx.user.user_id)
+    const apiKey = await prisma.apiKey.findMany({
+      where: {
+        userId: ctx.user.userId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    })
 
-    if (error) throw error
-
-    return NextResponse.json<ApiKey[]>(data)
+    return NextResponse.json<ApiKey[]>(apiKey)
   },
 )
 
@@ -24,19 +24,14 @@ export const POST = apiRequestHandler(
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const body = await req.json()
 
-    const supabase = adminSupabase()
-    const { data, error } = await supabase
-      .from("api_keys")
-      .insert({
+    const apiKey = await prisma.apiKey.create({
+      data: {
         note: body.note,
         scopes: body.scopes,
-        user_id: ctx.user.user_id,
-      })
-      .select()
-      .single()
+        userId: ctx.user.userId,
+      },
+    })
 
-    if (error) throw error
-
-    return NextResponse.json(data)
+    return NextResponse.json(apiKey)
   },
 )

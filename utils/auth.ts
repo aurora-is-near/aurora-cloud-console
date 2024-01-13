@@ -1,8 +1,7 @@
-import { Database } from "@/types/supabase"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import { cookies, headers } from "next/headers"
-import { adminSupabase } from "./supabase"
 import { ApiUser } from "@/types/types"
+import { prisma } from "./prisma"
 
 /**
  * Get the API key from the current request.
@@ -19,15 +18,12 @@ const getApiKey = () => {
   return authorization.substring(scheme.length, authorization.length)
 }
 
-const getUserById = async (userId: string) => {
-  const { data } = await adminSupabase()
-    .from("users")
-    .select()
-    .eq("user_id", userId)
-    .single()
-
-  return data
-}
+const getUserById = async (userId: string) =>
+  prisma.user.findFirst({
+    where: {
+      userId,
+    },
+  })
 
 /**
  * Get the public user object associated with the given API key.
@@ -35,44 +31,43 @@ const getUserById = async (userId: string) => {
  * This is used for requests made to the ACC API directly.
  */
 const getUserFromApiKey = async (): Promise<ApiUser | null> => {
-  const apiKey = getApiKey()
+  const key = getApiKey()
+
+  if (!key) {
+    return null
+  }
+
+  const apiKey = await prisma.apiKey.findFirst({
+    where: {
+      key,
+    },
+  })
 
   if (!apiKey) {
-    return null
-  }
-
-  const supabase = adminSupabase()
-  const { error, data } = await supabase
-    .from("api_keys")
-    .select("user_id, scopes")
-    .eq("key", apiKey)
-    .single()
-
-  if (!data) {
-    console.warn(`Invalid API key: ${error.message}`)
+    console.warn("Invalid API key")
 
     return null
   }
 
-  if (!data) {
-    return null
-  }
-
-  const user = await getUserById(data.user_id)
+  const user = await getUserById(apiKey.userId)
 
   if (!user) {
     return null
   }
 
   // Set the last used timestamp for the API key asynchronously.
-  void supabase
-    .from("api_keys")
-    .update({ last_used_at: new Date().toISOString() })
-    .eq("key", apiKey)
+  void prisma.apiKey.update({
+    where: {
+      id: apiKey.id,
+    },
+    data: {
+      lastUsedAt: new Date().toISOString(),
+    },
+  })
 
   return {
     ...user,
-    scopes: data.scopes,
+    scopes: apiKey.scopes,
   }
 }
 
@@ -82,7 +77,7 @@ const getUserFromApiKey = async (): Promise<ApiUser | null> => {
  * This is used for requests coming from the ACC frontend.
  */
 const getUserFromSessionCookie = async (): Promise<ApiUser | null> => {
-  const supabase = createRouteHandlerClient<Database>({ cookies })
+  const supabase = createRouteHandlerClient({ cookies })
 
   const {
     data: { user: authUser },

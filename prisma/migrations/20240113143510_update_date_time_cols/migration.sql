@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "ApiKey" ALTER COLUMN "lastUsedAt" SET DATA TYPE TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE "UserTeam" ALTER COLUMN "confirmedAt" SET DATA TYPE TIMESTAMP(3);

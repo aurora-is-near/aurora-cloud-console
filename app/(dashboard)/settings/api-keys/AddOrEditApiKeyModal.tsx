@@ -6,16 +6,16 @@ import { useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { API_KEY_SCOPES } from "@/constants/scopes"
-import { PublicApiScope } from "@/types/types"
 import { useEffect } from "react"
+import { ApiKeyScope } from "@prisma/client"
 
-type Inputs = Partial<Record<PublicApiScope, boolean>> & {
+type Inputs = Partial<Record<ApiKeyScope, boolean>> & {
   note: string
 }
 
 type AddOrEditApiKeyModalProps = {
   values?: Inputs
-  onSubmit: (data: { note: string; scopes: PublicApiScope[] }) => void
+  onSubmit: (data: { note: string; scopes: ApiKeyScope[] }) => void
   open: boolean
   afterLeave?: () => void
 }
@@ -41,7 +41,7 @@ const AddOrEditApiKeyModal = ({
       scopes: Object.entries(scopes)
         .filter(([, value]) => value)
         .map(([key]) => key)
-        .filter((key): key is PublicApiScope => !!key),
+        .filter((key): key is ApiKeyScope => !!key),
     }
 
     onSubmit(data)
@@ -90,7 +90,7 @@ const AddOrEditApiKeyModal = ({
             Scopes
           </h2>
           <div className="space-y-2.5 mt-3">
-            {API_KEY_SCOPES.map((key: PublicApiScope) => (
+            {API_KEY_SCOPES.map((key: ApiKeyScope) => (
               <div key={key}>
                 <label htmlFor={key}>
                   <input

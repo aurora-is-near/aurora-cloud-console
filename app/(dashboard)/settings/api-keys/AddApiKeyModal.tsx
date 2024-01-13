@@ -1,11 +1,11 @@
 "use client"
 
 import { Modals, useModals } from "@/hooks/useModals"
-import { PublicApiScope } from "@/types/types"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
+import { ApiKeyScope } from "@prisma/client"
 
 const AddApiKeyModal = () => {
   const { activeModal, closeModal } = useModals()
@@ -20,7 +20,7 @@ const AddApiKeyModal = () => {
     onSettled: getApiKeysUpdater.invalidate,
   })
 
-  const onSubmit = async (data: { note: string; scopes: PublicApiScope[] }) => {
+  const onSubmit = async (data: { note: string; scopes: ApiKeyScope[] }) => {
     createApiKey(data)
   }
 

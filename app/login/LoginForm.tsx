@@ -1,6 +1,5 @@
 "use client"
 
-import { Database } from "@/types/supabase"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { CheckCircleIcon } from "@heroicons/react/20/solid"
@@ -11,7 +10,7 @@ type Inputs = {
 }
 
 const LoginForm = () => {
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createClientComponentClient()
 
   const {
     register,

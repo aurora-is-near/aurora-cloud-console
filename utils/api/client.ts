@@ -1,15 +1,8 @@
 "use client"
 
-import {
-  Silo,
-  Deal,
-  ApiKey,
-  User,
-  Transactions,
-  Users,
-  Deals,
-} from "@/types/types"
+import { Silo, Deal, Transactions, Users, Deals } from "@/types/types"
 import { request } from "./request"
+import { ApiKey, User } from "@prisma/client"
 
 export const apiClient = {
   getCurrentUser: async () => request<User>("/api/admin/user"),

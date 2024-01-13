@@ -1,0 +1,117 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model ApiKey {
+  id         Int           @id @default(autoincrement())
+  createdAt  DateTime      @default(now())
+  userId     String        @db.Uuid
+  key        String        @default(dbgenerated("md5((random())::text)"))
+  scopes     ApiKeyScope[]
+  note       String?
+  lastUsedAt DateTime?
+}
+
+model Contract {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name      String
+  address   String
+  dealId    Int
+  deal      Deal     @relation(fields: [dealId], references: [id], onDelete: Cascade)
+}
+
+model Deal {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  enabled   Boolean    @default(false)
+  name      String
+  key       String
+  teamId    Int
+  contracts Contract[]
+  team      Team       @relation(fields: [teamId], references: [id])
+}
+
+model Silo {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  name      String
+  chainId   String
+  tokens    SiloToken[]
+  teams     TeamSilo[]
+}
+
+model SiloToken {
+  silo    Silo  @relation(fields: [siloId], references: [id])
+  siloId  Int
+  token   Token @relation(fields: [tokenId], references: [id])
+  tokenId Int
+
+  @@id([siloId, tokenId])
+}
+
+model Team {
+  id                  Int        @id @default(autoincrement())
+  createdAt           DateTime   @default(now())
+  teamKey             String     @unique
+  name                String
+  website             String?
+  email               String?
+  transactionDatabase String
+  deals               Deal[]
+  users               UserTeam[]
+  silos               TeamSilo[]
+}
+
+model TeamSilo {
+  team   Team @relation(fields: [teamId], references: [id])
+  teamId Int
+  silo   Silo @relation(fields: [siloId], references: [id])
+  siloId Int
+
+  @@id([teamId, siloId])
+}
+
+model Token {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  name      String
+  address   String
+  type      String
+  silos     SiloToken[]
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  userId    String     @db.Uuid
+  email     String
+  name      String?
+  teams     UserTeam[]
+}
+
+model UserTeam {
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  team        Team      @relation(fields: [teamId], references: [id])
+  teamId      Int
+  confirmedAt DateTime?
+
+  @@id([userId, teamId])
+}
+
+enum ApiKeyScope {
+  DEALS_READ        @map("deals:read")
+  DEALS_WRITE       @map("deals:write")
+  SILOS_READ        @map("silos:read")
+  USERS_READ        @map("users:read")
+  TRANSACTIONS_READ @map("transactions:read")
+  USERS_WRITE       @map("users:write")
+}
