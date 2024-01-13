@@ -17,6 +17,7 @@
     "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.33.1",
     "@tanstack/react-query": "^5.17.10",
+    "@tanstack/react-query-persist-client": "^5.17.10",
     "@types/pg": "^8.10.7",
     "change-case": "^5.1.2",
     "chart.js": "^4.4.0",
@@ -29,6 +30,7 @@
     "eslint-config-next": "^14.0.4",
     "http-status": "^1.7.3",
     "human-date": "^1.4.0",
+    "idb-keyval": "^6.2.1",
     "next": "^14.0.4",
     "next-usequerystate": "^1.8.2",
     "pg": "^8.11.3",
@@ -39,7 +41,8 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.3",
     "react-hot-toast": "^2.4.1",
-    "react-select": "^5.8.0"
+    "react-select": "^5.8.0",
+    "timestring": "^7.0.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
@@ -51,6 +54,7 @@
     "@types/react": "18.2.21",
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-dom": "18.2.7",
+    "@types/timestring": "^6.0.5",
     "autoprefixer": "10.4.15",
     "encoding": "^0.1.13",
     "eslint-config-prettier": "^9.0.0",
