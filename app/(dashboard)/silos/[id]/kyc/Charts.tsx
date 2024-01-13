@@ -16,7 +16,8 @@ import { useNotFoundError } from "@/hooks/useNotFoundError"
 import { Bar } from "react-chartjs-2"
 import { getChartColor } from "@/utils/charts"
 import { ChartColor } from "@/types/types"
-import { useApiQuery } from "@/utils/api/queries"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import { useQuery } from "@tanstack/react-query"
 
 ChartJS.register(
   CategoryScale,
@@ -49,9 +50,11 @@ const LABELS = ["06", "07", "08", "09", "10", "11"]
   .flat()
 
 const Charts = ({ siloId }: ChartsProps) => {
-  const { data: silo, error } = useApiQuery("getSilo", {
-    params: { id: siloId },
-  })
+  const { data: silo, error } = useQuery(
+    getQueryFnAndKey("getSilo", {
+      id: siloId,
+    }),
+  )
 
   useNotFoundError(error)
 

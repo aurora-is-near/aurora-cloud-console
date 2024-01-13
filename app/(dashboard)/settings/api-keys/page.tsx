@@ -21,7 +21,7 @@ import { getQueryKey } from "@/utils/api/query-keys"
 import { useApiKeys } from "@/hooks/useApiKeys"
 
 const Page = () => {
-  const { data: apiKeys, isInitialLoading } = useApiKeys()
+  const { data: apiKeys, isLoading } = useApiKeys()
   const [, setId] = useQueryState("id")
   const getApiKeysUpdater = useOptimisticUpdater("getApiKeys")
   const { openModal } = useModals()
@@ -56,7 +56,7 @@ const Page = () => {
         </div>
       </div>
 
-      {isInitialLoading ? (
+      {isLoading ? (
         <TableLoader />
       ) : apiKeys?.length && apiKeys?.length > 0 ? (
         <Table>

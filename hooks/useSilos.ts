@@ -1,17 +1,23 @@
-import { useApiQuery } from "@/utils/api/queries"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getQueryKey } from "@/utils/api/query-keys"
-import { useQueryClient } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useEffect } from "react"
 
 export const useSilos = () => {
   const queryClient = useQueryClient()
+  const query = useQuery(getQueryFnAndKey("getSilos"))
 
-  return useApiQuery("getSilos", {
-    onSuccess: async (data) => {
-      data.forEach((silo) => {
-        const queryKey = getQueryKey("getSilo", { id: silo.id })
+  useEffect(() => {
+    if (!query.data) {
+      return
+    }
 
-        queryClient.setQueryData(queryKey, silo)
-      })
-    },
-  })
+    query.data.forEach((silo) => {
+      const queryKey = getQueryKey("getSilo", { id: silo.id })
+
+      queryClient.setQueryData(queryKey, silo)
+    })
+  }, [query.data, queryClient])
+
+  return query
 }

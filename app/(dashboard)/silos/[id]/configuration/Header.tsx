@@ -1,10 +1,11 @@
 "use client"
 
 import BreadcrumbHeading from "@/components/BreadcrumbHeading"
-import { useApiQuery } from "@/utils/api/queries"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import { useQuery } from "@tanstack/react-query"
 
 const Header = ({ siloId }: { siloId: number }) => {
-  const { data: silo } = useApiQuery("getSilo", { params: { id: siloId } })
+  const { data: silo } = useQuery(getQueryFnAndKey("getSilo", { id: siloId }))
 
   return <BreadcrumbHeading titles={[silo?.name ?? "", "Configuration"]} />
 }

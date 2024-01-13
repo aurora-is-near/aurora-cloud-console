@@ -45,7 +45,7 @@ const InviteModal = () => {
 
   const {
     mutateAsync: inviteUser,
-    isLoading,
+    isPending,
     isSuccess,
     reset: resetMutation,
   } = useMutation({
@@ -132,7 +132,7 @@ const InviteModal = () => {
           )}
         </div>
 
-        <Button type="submit" loading={isLoading}>
+        <Button type="submit" loading={isPending}>
           <PaperAirplaneIcon className="w-5 h-5" />
           Send invitation
         </Button>

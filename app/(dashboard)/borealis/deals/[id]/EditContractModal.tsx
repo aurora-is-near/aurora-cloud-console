@@ -2,15 +2,15 @@
 
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import AddOrEditContractModal, {
   type AddOrEditContractModalInputs,
 } from "./AddOrEditContractModal"
 import { useQueryState } from "next-usequerystate"
-import { useApiQuery } from "@/utils/api/queries"
 import { useParams } from "next/navigation"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 
 const EditContractModal = () => {
   const { activeModal, closeModal } = useModals()
@@ -22,8 +22,8 @@ const EditContractModal = () => {
     contractId: Number(id),
   }
 
-  const { data: contract } = useApiQuery("getDealContract", {
-    params: contractParams,
+  const { data: contract } = useQuery({
+    ...getQueryFnAndKey("getDealContract", contractParams),
     enabled: !!(id && dealId),
   })
 

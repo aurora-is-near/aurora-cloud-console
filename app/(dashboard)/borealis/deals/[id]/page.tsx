@@ -12,9 +12,10 @@ import AddContractButton from "./AddContractButton"
 import AddListButton from "./AddListButton"
 import TransactionsCharts from "../../../silos/TransactionsCharts"
 import { useChartInterval } from "../../../../../hooks/useChartInterval"
-import { useApiQuery } from "../../../../../utils/api/queries"
 import { useNotFoundError } from "../../../../../hooks/useNotFoundError"
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 
 const ACCESS_OPTIONS = [
   {
@@ -33,13 +34,13 @@ const ACCESS_OPTIONS = [
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   const [selectedOption, setSelectedOption] = useState(ACCESS_OPTIONS[0])
   const [interval, setInterval] = useChartInterval()
-  const { data: silo, error } = useApiQuery("getDeal", {
-    params: { id: Number(id) },
-  })
+  const { data: silo, error } = useQuery(
+    getQueryFnAndKey("getDeal", { id: Number(id) }),
+  )
 
-  const { data: transactions } = useApiQuery("getDealTransactions", {
-    params: { id: Number(id), interval },
-  })
+  const { data: transactions } = useQuery(
+    getQueryFnAndKey("getDealTransactions", { id: Number(id), interval }),
+  )
 
   useNotFoundError(error)
 

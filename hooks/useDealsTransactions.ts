@@ -1,24 +1,29 @@
 import { DealTransactionCharts } from "@/types/types"
-import { useApiQuery } from "@/utils/api/queries"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getQueryKey } from "@/utils/api/query-keys"
-import { useQueryClient } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useEffect } from "react"
 
 export const useDealsTransactions = (params: { interval: string | null }) => {
   const queryClient = useQueryClient()
+  const query = useQuery(getQueryFnAndKey("getDealsTransactions", params))
 
-  return useApiQuery("getDealsTransactions", {
-    params,
-    onSuccess: async (data) => {
-      data.items.forEach((item) => {
-        const queryKey = getQueryKey("getDealTransactions", {
-          id: item.dealId,
-          interval: params.interval,
-        })
+  useEffect(() => {
+    if (!query.data) {
+      return
+    }
 
-        const dealTransactions: DealTransactionCharts = { items: [item] }
-
-        queryClient.setQueryData(queryKey, dealTransactions)
+    query.data.items.forEach((item) => {
+      const queryKey = getQueryKey("getDealTransactions", {
+        id: item.dealId,
+        interval: params.interval,
       })
-    },
+
+      const dealTransactions: DealTransactionCharts = { items: [item] }
+
+      queryClient.setQueryData(queryKey, dealTransactions)
+    })
   })
+
+  return query
 }

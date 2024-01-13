@@ -7,8 +7,8 @@ import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Button from "@/components/Button"
 import Card from "@/components/Card"
-import { useApiQuery } from "@/utils/api/queries"
-import { useMutation } from "@tanstack/react-query"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
@@ -32,7 +32,7 @@ const UserInfoForm = ({
   const toggleForm = () => setShowForm((prev) => !prev)
   const router = useRouter()
   const pathname = usePathname()
-  const { data: user } = useApiQuery("getCurrentUser")
+  const { data: user } = useQuery(getQueryFnAndKey("getCurrentUser"))
   const getCurrentUserUpdater = useOptimisticUpdater("getCurrentUser")
   const { mutate: updateCurrentUser } = useMutation({
     mutationFn: apiClient.updateCurrentUser,

@@ -6,9 +6,9 @@ import { useDeals } from "@/hooks/useDeals"
 import Loader from "../../../../components/Loader"
 
 const DealsList = () => {
-  const { data, isInitialLoading } = useDeals()
+  const { data, isLoading } = useDeals()
 
-  if (isInitialLoading) {
+  if (isLoading) {
     return <Loader className="rounded-md sm:h-[92px] h-32" />
   }
 

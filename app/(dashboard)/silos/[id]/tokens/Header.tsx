@@ -2,11 +2,12 @@
 
 import BreadcrumbHeading from "@/components/BreadcrumbHeading"
 import Button from "@/components/Button"
-import { useApiQuery } from "@/utils/api/queries"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 import { PlusIcon } from "@heroicons/react/20/solid"
+import { useQuery } from "@tanstack/react-query"
 
 const Header = ({ siloId }: { siloId: number }) => {
-  const { data: silo } = useApiQuery("getSilo", { params: { id: siloId } })
+  const { data: silo } = useQuery(getQueryFnAndKey("getSilo", { id: siloId }))
 
   return (
     <header className="flex items-start sm:justify-between sm:items-center sm:flex-row flex-col gap-3">

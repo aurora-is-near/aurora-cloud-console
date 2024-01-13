@@ -36,9 +36,9 @@ const NavLoader = () => (
 const MenuDivider = () => <div className="w-full h-px bg-gray-200" />
 
 const BorealisMenu = () => {
-  const { data, isInitialLoading } = useDeals()
+  const { data, isLoading } = useDeals()
 
-  if (isInitialLoading) return <NavLoader />
+  if (isLoading) return <NavLoader />
 
   if (!data?.deals.length) return null
 
@@ -83,7 +83,7 @@ const siloLinks = [
 
 const SiloMenu = () => {
   const [option, setOption] = useState("")
-  const { isInitialLoading, data: silos } = useSilos()
+  const { isLoading, data: silos } = useSilos()
   const router = useRouter()
   const [, id, subroute] = useSelectedLayoutSegments()
 
@@ -91,7 +91,7 @@ const SiloMenu = () => {
     setOption(id ?? "Select silo")
   }, [id])
 
-  if (isInitialLoading) return <NavLoader />
+  if (isLoading) return <NavLoader />
 
   if (!silos?.length) return null
 
@@ -139,9 +139,9 @@ const SiloMenu = () => {
 }
 
 const UsersMenu = () => {
-  const { data, isInitialLoading } = useDeals()
+  const { data, isLoading } = useDeals()
 
-  if (isInitialLoading) return <NavLoader />
+  if (isLoading) return <NavLoader />
 
   if (!data?.deals?.length) return null
 

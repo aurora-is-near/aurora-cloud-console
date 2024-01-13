@@ -1,18 +1,21 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
 import ListItemLoader from "../../../../../components/ListItemLoader"
-import { useApiQuery } from "../../../../../utils/api/queries"
 import ContractItem from "./ContractItem"
+import { apiClient } from "@/utils/api/client"
+import { getQueryKey } from "@/utils/api/query-keys"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 
 type ContractsListProps = {
   dealId: number
 }
 
 const ContractsList = ({ dealId }: ContractsListProps) => {
-  const { data: deal } = useApiQuery("getDeal", { params: { id: dealId } })
-  const { data: contracts } = useApiQuery("getDealContracts", {
-    params: { id: dealId },
-  })
+  const { data: deal } = useQuery(getQueryFnAndKey("getDeal", { id: dealId }))
+  const { data: contracts } = useQuery(
+    getQueryFnAndKey("getDealContracts", { id: dealId }),
+  )
 
   if (!deal || !contracts) {
     return <ListItemLoader />
