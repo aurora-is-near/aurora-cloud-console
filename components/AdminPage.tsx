@@ -20,6 +20,6 @@ export const AdminPage = ({ actions, children, title }: AdminPageProps) => (
       </div>
     </header>
 
-    {children}
+    <div className="space-y-10">{children}</div>
   </div>
 )

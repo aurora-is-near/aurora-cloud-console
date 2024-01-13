@@ -6,58 +6,52 @@ import Button from "@/components/Button"
 import TableButton from "@/components/TableButton"
 import { RemoveSiloButton } from "@/app/admin/silos/RemoveSiloButton"
 import { AdminPage } from "@/components/AdminPage"
-import { AdminAlert } from "@/components/AdminAlert"
+import { AdminToast } from "@/components/AdminToast"
 
-const Page = async ({
-  searchParams,
-}: {
-  searchParams: {
-    id?: string
-    operation?: string
-  }
-}) => {
+const Page = async () => {
   const silos = await getSilos()
 
   return (
-    <AdminPage
-      title="Silos"
-      actions={
-        <Button href="/admin/silos/add">
-          <PlusCircleIcon className="w-5 h-5" />
-          <span>Add silo</span>
-        </Button>
-      }
-    >
-      <AdminAlert items={silos} itemName="Silo" searchParams={searchParams} />
-
-      <section>
-        {
-          <Table>
-            <Table.TH>Name</Table.TH>
-            <Table.TH>Chain ID</Table.TH>
-            <Table.TH>Created at</Table.TH>
-            <Table.TH hidden>Actions</Table.TH>
-            {silos.map((silo) => (
-              <Table.TR key={silo.id}>
-                <Table.TD>{silo.name}</Table.TD>
-                <Table.TD>{silo.chain_id}</Table.TD>
-                <Table.TD>{formatDate(new Date(silo.created_at))}</Table.TD>
-                <Table.TD align="right">
-                  <div className="flex gap-x-3">
-                    <TableButton
-                      Icon={PencilSquareIcon}
-                      srOnlyText={`Edit ${silo.name}`}
-                      href={`/admin/silos/edit/${silo.id}`}
-                    />
-                    <RemoveSiloButton silo={silo} />
-                  </div>
-                </Table.TD>
-              </Table.TR>
-            ))}
-          </Table>
+    <>
+      <AdminPage
+        title="Silos"
+        actions={
+          <Button href="/admin/silos/add">
+            <PlusCircleIcon className="w-5 h-5" />
+            <span>Add silo</span>
+          </Button>
         }
-      </section>
-    </AdminPage>
+      >
+        <section>
+          {
+            <Table>
+              <Table.TH>Name</Table.TH>
+              <Table.TH>Chain ID</Table.TH>
+              <Table.TH>Created at</Table.TH>
+              <Table.TH hidden>Actions</Table.TH>
+              {silos.map((silo) => (
+                <Table.TR key={silo.id}>
+                  <Table.TD>{silo.name}</Table.TD>
+                  <Table.TD>{silo.chain_id}</Table.TD>
+                  <Table.TD>{formatDate(new Date(silo.created_at))}</Table.TD>
+                  <Table.TD align="right">
+                    <div className="flex gap-x-3">
+                      <TableButton
+                        Icon={PencilSquareIcon}
+                        srOnlyText={`Edit ${silo.name}`}
+                        href={`/admin/silos/edit/${silo.id}`}
+                      />
+                      <RemoveSiloButton silo={silo} />
+                    </div>
+                  </Table.TD>
+                </Table.TR>
+              ))}
+            </Table>
+          }
+        </section>
+      </AdminPage>
+      <AdminToast itemName="Silo" />
+    </>
   )
 }
 

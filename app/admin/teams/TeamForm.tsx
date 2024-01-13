@@ -1,22 +1,54 @@
 "use client"
 
-import { Team } from "@/types/types"
+import { Silo, Team } from "@/types/types"
 import { updateTeam } from "@/actions/admin/teams/update-team"
 import { createTeam } from "@/actions/admin/teams/create-team"
-import { AdminForm } from "@/components/AdminForm"
 import { PROXY_DATABASES } from "@/constants/databases"
+import { SelectInputOption } from "@/components/SelectInput"
+import { setTeamSilos } from "@/actions/admin/team-silos/set-team-silos"
+import { HorizontalForm } from "@/components/HorizontalForm"
+import { SubmitHandler } from "react-hook-form"
 
 type TeamFormProps = {
   team?: Team
+  teamSilos?: Silo[]
+  allSilos: Silo[]
 }
 
-export const TeamForm = ({ team }: TeamFormProps) => {
+type Inputs = Omit<Team, "id" | "created_at"> & { siloIds?: number[] }
+
+const getSiloOptions = (silos: Silo[]) =>
+  silos.map((silo) => ({
+    label: `${silo.name} (${silo.chain_id})`,
+    value: silo.id,
+  }))
+
+export const TeamForm = ({ team, teamSilos, allSilos }: TeamFormProps) => {
+  const submitHandler: SubmitHandler<Inputs> = async ({
+    siloIds,
+    ...teamInputs
+  }: Inputs) => {
+    if (team) {
+      await Promise.all([
+        updateTeam(team.id, teamInputs),
+        setTeamSilos(team.id, siloIds ?? []),
+      ])
+
+      window.location.href = "/admin/teams?operation=updated"
+
+      return
+    }
+
+    const newTeam = await createTeam(teamInputs)
+
+    await setTeamSilos(newTeam.id, siloIds ?? [])
+
+    window.location.href = "/admin/teams?operation=created"
+  }
+
   return (
-    <AdminForm
-      item={team}
-      updateItem={updateTeam}
-      createItem={createTeam}
-      href="/admin/teams"
+    <HorizontalForm
+      submitHandler={submitHandler}
       inputs={[
         {
           name: "name",
@@ -48,13 +80,27 @@ export const TeamForm = ({ team }: TeamFormProps) => {
         },
         {
           name: "transaction_database",
-          label: "Transaction Database",
-          defaultValue: team?.transaction_database ?? "",
-          autoComplete: "website",
+          label: "Transaction database",
+          getValue: (option?: SelectInputOption) => option?.value,
+          defaultValue: team?.transaction_database
+            ? {
+                label: team.transaction_database,
+                value: team.transaction_database,
+              }
+            : undefined,
+
           options: PROXY_DATABASES.map((db) => ({
             label: db,
             value: db,
           })),
+        },
+        {
+          name: "siloIds",
+          label: "Silos",
+          isMulti: true,
+          defaultValue: getSiloOptions(teamSilos ?? []),
+          options: getSiloOptions(allSilos),
+          getValue: (options) => options.map((option) => option.value),
         },
       ]}
     />

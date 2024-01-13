@@ -1,11 +1,16 @@
 import { notFound } from "next/navigation"
-import Card from "@/components/Card"
 import { getTeam } from "@/actions/admin/teams/get-team"
-import { TeamForm } from "@/app/admin/teams/TeamForm"
 import { AdminPage } from "@/components/AdminPage"
+import { TeamDetailsCard } from "@/app/admin/teams/TeamDetailsCard"
+import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getSilos } from "@/actions/admin/silos/get-silos"
 
-const Page = async ({ params: { id } }: { params: { id: number } }) => {
-  const team = await getTeam(id)
+const Page = async ({ params: { id } }: { params: { id: string } }) => {
+  const [team, teamSilos, allSilos] = await Promise.all([
+    getTeam(Number(id)),
+    getTeamSilos(Number(id)),
+    getSilos(),
+  ])
 
   if (!team) {
     notFound()
@@ -13,12 +18,7 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
 
   return (
     <AdminPage title={team.name}>
-      <Card>
-        <Card.Title tag="h3">Team details</Card.Title>
-        <div className="px-6 pb-7">
-          <TeamForm team={team} />
-        </div>
-      </Card>
+      <TeamDetailsCard team={team} teamSilos={teamSilos} allSilos={allSilos} />
     </AdminPage>
   )
 }

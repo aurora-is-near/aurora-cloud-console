@@ -16,7 +16,7 @@ export const RemoveTeamButton = async ({ team }: RemoveTeamButtonProps) => {
     }
 
     deleteTeam(team.id)
-    window.location.reload()
+    window.location.href = `${window.location.pathname}?operation=deleted`
   }
 
   return (

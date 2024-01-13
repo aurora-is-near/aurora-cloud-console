@@ -10,7 +10,7 @@ const TH = ({
   isLast = false,
 }: {
   children: React.ReactNode
-  align?: "left" | "right"
+  align?: "left" | "right" | "center"
   hidden?: boolean
   isFirst?: boolean
   isLast?: boolean
@@ -20,6 +20,7 @@ const TH = ({
     className={clsx("py-3.5 text-sm leading-none font-medium text-gray-900", {
       "text-right": align === "right",
       "text-left": align === "left",
+      "text-center": align === "center",
       "pl-4 pr-3 sm:pl-6": isFirst,
       "pl-3 pr-4 sm:pr-6": isLast,
       "px-3": !isFirst && !isLast,
@@ -40,7 +41,7 @@ const TD = ({
 }: {
   children: React.ReactNode
   dark?: boolean
-  align?: "left" | "right"
+  align?: "left" | "right" | "center"
   isFirst?: boolean
   isLast?: boolean
 }) => (
@@ -49,8 +50,6 @@ const TD = ({
       "whitespace-nowrap px-3 py-4 text-sm leading-none",
       dark ? "font-medium text-gray-900" : "text-gray-500",
       {
-        "text-right": align === "right",
-        "text-left": align === "left",
         "pl-4 pr-3 sm:pl-6": isFirst,
         "pl-3 pr-4 sm:pr-6": isLast,
         "px-3": !isFirst && !isLast,
@@ -60,6 +59,8 @@ const TD = ({
     <div
       className={clsx("flex items-center gap-x-2.5", {
         "justify-end": align === "right",
+        "justify-start": align === "left",
+        "justify-center": align === "center",
       })}
     >
       {children}

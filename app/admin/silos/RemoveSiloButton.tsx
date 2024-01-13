@@ -16,7 +16,7 @@ export const RemoveSiloButton = async ({ silo }: RemoveSiloButtonProps) => {
     }
 
     deleteSilo(silo.id)
-    window.location.reload()
+    window.location.href = `${window.location.pathname}?operation=deleted`
   }
 
   return (

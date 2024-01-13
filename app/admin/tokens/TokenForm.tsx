@@ -3,19 +3,31 @@
 import { Token } from "@/types/types"
 import { updateToken } from "@/actions/admin/tokens/update-token"
 import { createToken } from "@/actions/admin/tokens/create-token"
-import { AdminForm } from "@/components/AdminForm"
+import { SubmitHandler } from "react-hook-form"
+import { HorizontalForm } from "@/components/HorizontalForm"
 
 type TokenFormProps = {
   token?: Token
 }
 
+type Inputs = Omit<Token, "id" | "created_at">
+
 export const TokenForm = ({ token }: TokenFormProps) => {
+  const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
+    if (token) {
+      await updateToken(token.id, inputs)
+      window.location.href = "/admin/token?operation=updated"
+
+      return
+    }
+
+    await createToken(inputs)
+    window.location.href = "/admin/token?operation=created"
+  }
+
   return (
-    <AdminForm
-      item={token}
-      updateItem={updateToken}
-      createItem={createToken}
-      href="/admin/tokens"
+    <HorizontalForm
+      submitHandler={submitHandler}
       inputs={[
         {
           name: "name",

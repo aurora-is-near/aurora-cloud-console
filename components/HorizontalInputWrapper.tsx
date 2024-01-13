@@ -1,4 +1,4 @@
-import { Input, InputProps } from "@/components/Input"
+import clsx from "clsx"
 import { ReactNode } from "react"
 import { FieldErrors, Path } from "react-hook-form"
 
@@ -8,6 +8,7 @@ type HorizontalInputWrapperProps<Inputs extends Record<string, unknown>> = {
   label: string
   children: ReactNode
   errors?: FieldErrors<Inputs>
+  className?: string
 }
 
 export const HorizontalInputWrapper = <Inputs extends Record<string, unknown>>({
@@ -16,11 +17,12 @@ export const HorizontalInputWrapper = <Inputs extends Record<string, unknown>>({
   label,
   children,
   errors,
+  className,
 }: HorizontalInputWrapperProps<Inputs>) => (
-  <div className="sm:grid sm:grid-cols-2 min-h-9">
+  <div className={clsx("sm:grid sm:grid-cols-2 min-h-9", className)}>
     <label
       htmlFor={id}
-      className="py-1.5 block text-sm font-medium leading-none text-gray-500"
+      className="py-2 block text-sm font-medium leading-none text-gray-500"
     >
       {label}
     </label>
