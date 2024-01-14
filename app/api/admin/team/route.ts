@@ -3,6 +3,7 @@ import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { Team } from "@/types/types"
 import { abort } from "@/utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const GET = apiRequestHandler(
   ["admin"],
@@ -12,16 +13,14 @@ export const GET = apiRequestHandler(
     }
 
     const supabase = createAdminSupabaseClient()
-    const { data: team, error } = await supabase
+    const result = await supabase
       .from("teams")
       .select()
       .eq("team_key", ctx.teamKey)
       .single()
 
-    if (error) {
-      throw error
-    }
+    assertValidSupabaseResult(result)
 
-    return NextResponse.json<Team>(team)
+    return NextResponse.json<Team>(result.data)
   },
 )

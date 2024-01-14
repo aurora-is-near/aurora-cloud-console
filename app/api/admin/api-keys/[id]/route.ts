@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import {
+  assertNonNullSupabaseResult,
+  assertValidSupabaseResult,
+} from "@/utils/supabase"
 
 export const GET = apiRequestHandler(
   ["admin"],
@@ -8,7 +12,7 @@ export const GET = apiRequestHandler(
     const apiKeyId = ctx.params.id
 
     const supabase = createAdminSupabaseClient()
-    const { data, error } = await supabase
+    const result = await supabase
       .from("api_keys")
       .select()
       .eq("id", apiKeyId)
@@ -16,9 +20,9 @@ export const GET = apiRequestHandler(
       .select()
       .single()
 
-    if (error) throw error
+    assertValidSupabaseResult(result)
 
-    return NextResponse.json(data)
+    return NextResponse.json(result.data)
   },
 )
 
@@ -29,7 +33,7 @@ export const PUT = apiRequestHandler(
     const body = await req.json()
 
     const supabase = createAdminSupabaseClient()
-    const { data, error } = await supabase
+    const result = await supabase
       .from("api_keys")
       .update({
         note: body.note,
@@ -40,9 +44,10 @@ export const PUT = apiRequestHandler(
       .select()
       .single()
 
-    if (error) throw error
+    assertValidSupabaseResult(result)
+    assertNonNullSupabaseResult(result)
 
-    return NextResponse.json(data)
+    return NextResponse.json(result.data)
   },
 )
 
@@ -52,13 +57,13 @@ export const DELETE = apiRequestHandler(
     const apiKeyId = ctx.params.id
 
     const supabase = createAdminSupabaseClient()
-    const { error } = await supabase
+    const result = await supabase
       .from("api_keys")
       .delete()
       .eq("id", apiKeyId)
       .eq("user_id", ctx.user.user_id)
 
-    if (error) throw error
+    assertValidSupabaseResult(result)
 
     return NextResponse.json({ status: "OK" })
   },

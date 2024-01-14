@@ -2,20 +2,24 @@ import { NextRequest, NextResponse } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { ApiKey } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import {
+  assertNonNullSupabaseResult,
+  assertValidSupabaseResult,
+} from "@/utils/supabase"
 
 export const GET = apiRequestHandler(
   ["admin"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
-    const { data, error } = await supabase
+    const result = await supabase
       .from("api_keys")
       .select()
       .order("created_at", { ascending: false })
       .eq("user_id", ctx.user.user_id)
 
-    if (error) throw error
+    assertValidSupabaseResult(result)
 
-    return NextResponse.json<ApiKey[]>(data)
+    return NextResponse.json<ApiKey[]>(result.data)
   },
 )
 
@@ -25,7 +29,7 @@ export const POST = apiRequestHandler(
     const body = await req.json()
 
     const supabase = createAdminSupabaseClient()
-    const { data, error } = await supabase
+    const result = await supabase
       .from("api_keys")
       .insert({
         note: body.note,
@@ -35,8 +39,9 @@ export const POST = apiRequestHandler(
       .select()
       .single()
 
-    if (error) throw error
+    assertValidSupabaseResult(result)
+    assertNonNullSupabaseResult(result)
 
-    return NextResponse.json(data)
+    return NextResponse.json(result.data)
   },
 )

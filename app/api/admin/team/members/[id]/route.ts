@@ -3,6 +3,7 @@ import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { getTeam } from "@/utils/team"
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const DELETE = apiRequestHandler(
   ["admin"],
@@ -15,16 +16,14 @@ export const DELETE = apiRequestHandler(
 
     const supabase = createAdminSupabaseClient()
     const team = await getTeam(ctx.teamKey)
-    const { error } = await supabase
+    const result = await supabase
       .from("users_teams")
       .delete()
       .filter("user_id", "eq", apiKeyId)
       .eq("user_id", apiKeyId)
       .eq("team_id", team.id)
 
-    if (error) {
-      throw error
-    }
+    assertValidSupabaseResult(result)
 
     return NextResponse.json({ status: "OK" })
   },

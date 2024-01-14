@@ -2,24 +2,19 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Silo } from "@/types/types"
+import {
+  assertNonNullSupabaseResult,
+  assertValidSupabaseResult,
+} from "@/utils/supabase"
 
 export const createSilo = async (
   inputs: Omit<Silo, "id" | "created_at">,
 ): Promise<Silo> => {
   const supabase = createAdminSupabaseClient()
-  const { data, error } = await supabase
-    .from("silos")
-    .insert(inputs)
-    .select()
-    .single()
+  const result = await supabase.from("silos").insert(inputs).select().single()
 
-  if (error) {
-    throw error
-  }
+  assertValidSupabaseResult(result)
+  assertNonNullSupabaseResult(result)
 
-  if (!data) {
-    throw new Error("No data returned when creating silo")
-  }
-
-  return data
+  return result.data
 }

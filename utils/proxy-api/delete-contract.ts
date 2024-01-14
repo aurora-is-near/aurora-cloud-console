@@ -1,16 +1,15 @@
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const deleteContract = async (
   dealId: number,
   contractId: number,
 ): Promise<void> => {
-  const { error } = await createAdminSupabaseClient()
+  const result = await createAdminSupabaseClient()
     .from("contracts")
     .delete()
     .eq("deal_id", dealId)
     .eq("id", contractId)
 
-  if (error) {
-    throw error
-  }
+  assertValidSupabaseResult(result)
 }

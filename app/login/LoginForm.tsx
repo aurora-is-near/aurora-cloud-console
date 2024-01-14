@@ -31,7 +31,7 @@ const LoginForm = () => {
     })
 
     if (error) {
-      return setError("email", {
+      setError("email", {
         message: error.message,
       })
     }

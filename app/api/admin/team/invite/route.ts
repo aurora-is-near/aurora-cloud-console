@@ -6,21 +6,20 @@ import { Team } from "@/types/types"
 import { getTeam, isTeamMember } from "@/utils/team"
 import { AUTH_ACCEPT_ROUTE } from "@/constants/routes"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 const getUserId = async (email: string) => {
   const cleanedEmail = email.toLowerCase().trim()
   const supabase = createAdminSupabaseClient()
-  const { data, error } = await supabase
+  const result = await supabase
     .from("users")
     .select("id")
     .ilike("email", `%${cleanedEmail}%`)
     .maybeSingle()
 
-  if (error) {
-    throw error
-  }
+  assertValidSupabaseResult(result)
 
-  return data
+  return result.data
 }
 
 const addUserToTeam = async (
@@ -30,13 +29,11 @@ const addUserToTeam = async (
   origin: string,
 ) => {
   const supabase = createAdminSupabaseClient()
-  const { error } = await supabase
+  const result = await supabase
     .from("users_teams")
     .insert([{ team_id: team.id, user_id: userId }])
 
-  if (error) {
-    throw error
-  }
+  assertValidSupabaseResult(result)
 
   await sendEmail({
     From: "console@auroracloud.dev",

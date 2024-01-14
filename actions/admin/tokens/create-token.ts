@@ -2,24 +2,19 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Token } from "@/types/types"
+import {
+  assertNonNullSupabaseResult,
+  assertValidSupabaseResult,
+} from "@/utils/supabase"
 
 export const createToken = async (
   inputs: Omit<Token, "id" | "created_at">,
 ): Promise<Token> => {
   const supabase = createAdminSupabaseClient()
-  const { data, error } = await supabase
-    .from("tokens")
-    .insert(inputs)
-    .select()
-    .single()
+  const result = await supabase.from("tokens").insert(inputs).select().single()
 
-  if (error) {
-    throw error
-  }
+  assertValidSupabaseResult(result)
+  assertNonNullSupabaseResult(result)
 
-  if (!data) {
-    throw new Error("No data returned when creating token")
-  }
-
-  return data
+  return result.data
 }
