@@ -23,7 +23,7 @@ export const GET = apiRequestHandler(
     const interval = req.nextUrl.searchParams.get("interval")
     const results = await Promise.all(
       siloChainIds.map((chainId) =>
-        queryTransactions(team.transaction_database, [chainId], { interval }),
+        queryTransactions(team.is_demo_account, [chainId], { interval }),
       ),
     )
 

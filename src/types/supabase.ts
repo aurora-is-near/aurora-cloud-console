@@ -81,26 +81,29 @@ export interface Database {
       }
       deals: {
         Row: {
+          borealis_deal_id: string
           created_at: string
+          demo_key: string
           enabled: boolean
           id: number
-          key: string
           name: string
           team_id: number
         }
         Insert: {
+          borealis_deal_id?: string
           created_at?: string
+          demo_key: string
           enabled?: boolean
           id?: number
-          key: string
           name: string
           team_id: number
         }
         Update: {
+          borealis_deal_id?: string
           created_at?: string
+          demo_key?: string
           enabled?: boolean
           id?: number
-          key?: string
           name?: string
           team_id?: number
         }
@@ -182,30 +185,33 @@ export interface Database {
       }
       teams: {
         Row: {
+          borealis_customer_id: string
           created_at: string
           email: string | null
           id: number
+          is_demo_account: boolean
           name: string
           team_key: string
-          transaction_database: string
           website: string | null
         }
         Insert: {
+          borealis_customer_id?: string
           created_at?: string
           email?: string | null
           id?: number
+          is_demo_account?: boolean
           name: string
           team_key: string
-          transaction_database: string
           website?: string | null
         }
         Update: {
+          borealis_customer_id?: string
           created_at?: string
           email?: string | null
           id?: number
+          is_demo_account?: boolean
           name?: string
           team_key?: string
-          transaction_database?: string
           website?: string | null
         }
         Relationships: []

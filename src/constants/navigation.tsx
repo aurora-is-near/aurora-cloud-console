@@ -10,6 +10,7 @@ import {
   UserGroupIcon,
   ArrowRightOnRectangleIcon,
   CurrencyDollarIcon,
+  TicketIcon,
 } from "@heroicons/react/24/outline"
 import { Borealis, Silos } from "@/components/icons"
 
@@ -35,6 +36,7 @@ export const mainAdminNavigation: MenuItem[] = [
   { name: "Teams", href: "/admin/teams", icon: <UserGroupIcon /> },
   { name: "Tokens", href: "/admin/tokens", icon: <CurrencyDollarIcon /> },
   { name: "Silos", href: "/admin/silos", icon: <Silos /> },
+  { name: "Deals", href: "/admin/deals", icon: <TicketIcon /> },
 ]
 
 export const mainExtraNavigation: MenuItem[] = [

@@ -12,6 +12,7 @@ import Button from "@/components/Button"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { DetailedHTMLProps, InputHTMLAttributes } from "react"
 import { HorizontalSelectInput } from "@/components/HorizontalSelectInput"
+import { HorizontalToggleInput } from "@/components/HorizontalToggleInput"
 
 type SharedInputProps<Inputs extends Record<string, unknown>> = {
   name: Path<Inputs>
@@ -22,6 +23,15 @@ type SharedInputProps<Inputs extends Record<string, unknown>> = {
 type InputProps<Inputs extends Record<string, unknown>> =
   SharedInputProps<Inputs> &
     DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+
+type ToggleInputProps<Inputs extends Record<string, unknown>> =
+  SharedInputProps<Inputs> &
+    DetailedHTMLProps<
+      InputHTMLAttributes<HTMLInputElement>,
+      HTMLInputElement
+    > & {
+      type: "toggle"
+    }
 
 type SelectInputOption = {
   label: string
@@ -49,6 +59,7 @@ type SelectInputProps<Inputs extends Record<string, unknown>> = Omit<
 type Input<Inputs extends Record<string, unknown>> =
   | InputProps<Inputs>
   | SelectInputProps<Inputs>
+  | ToggleInputProps<Inputs>
 
 export type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
   submitHandler: SubmitHandler<Inputs>
@@ -58,6 +69,10 @@ export type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
 const isSelectInput = <Inputs extends Record<string, unknown>>(
   input: Input<Record<string, unknown>>,
 ): input is SelectInputProps<Inputs> => "options" in input
+
+const isToggleInput = <Inputs extends Record<string, unknown>>(
+  input: Input<Record<string, unknown>>,
+): input is ToggleInputProps<Inputs> => input.type === "toggle"
 
 export const HorizontalForm = <Inputs extends Record<string, unknown>>({
   inputs,
@@ -87,6 +102,16 @@ export const HorizontalForm = <Inputs extends Record<string, unknown>>({
                   ? `${inputProps.label} is required`
                   : undefined,
               },
+            }
+
+            if (isToggleInput(inputProps)) {
+              return (
+                <HorizontalToggleInput
+                  key={inputProps.name}
+                  {...commonProps}
+                  {...inputProps}
+                />
+              )
             }
 
             if (isSelectInput(inputProps)) {
