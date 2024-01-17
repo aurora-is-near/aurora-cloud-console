@@ -1,16 +1,16 @@
 "use server"
 
-import { Silo } from "@/types/types"
+import { Deal } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const getSilo = async (id: number): Promise<Silo | null> => {
+export const getDeal = async (id: number): Promise<Deal | null> => {
   const supabase = createAdminSupabaseClient()
 
-  const { data: silo } = await supabase
-    .from("silos")
+  const { data: deal } = await supabase
+    .from("deals")
     .select("*")
     .eq("id", id)
     .single()
 
-  return silo
+  return deal
 }

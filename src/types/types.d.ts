@@ -14,14 +14,6 @@ type Contract = {
   name: string
 }
 
-export type Deal = {
-  created_at: string
-  id: number
-  name: string
-  key: string
-  enabled: boolean
-}
-
 type TransactionChart = {
   label: string
   transactionsCount: number
@@ -109,6 +101,8 @@ export type Token = Tables<"tokens">
 export type Team = Tables<"teams">
 
 export type Silo = Tables<"silos">
+
+export type Deal = Tables<"deals">
 
 export type ApiUser = User & {
   scopes: ApiScopes[]

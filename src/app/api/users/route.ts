@@ -8,6 +8,7 @@ import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 import { getTeam } from "@/utils/team"
 import { abort } from "@/utils/abort"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 
 export const GET = apiRequestHandler(
   ["users:read"],
@@ -26,15 +27,13 @@ export const GET = apiRequestHandler(
     const limit = searchParams.get("limit") ?? 20
     const offset = searchParams.get("offset") ?? 0
     const dealId = searchParams.get("dealId")
-    const dealKey = dealId
-      ? (await getDealById(ctx.teamKey, Number(dealId)))?.key
-      : null
+    const dealKey = dealId ? await getDealKey(Number(dealId)) : null
 
     const results = await Promise.all([
-      queryUserWalletCount(team.transaction_database, siloChainIds, {
+      queryUserWalletCount(team.is_demo_account, siloChainIds, {
         dealKey,
       }),
-      queryUsers(team.transaction_database, siloChainIds, {
+      queryUsers(team.is_demo_account, siloChainIds, {
         limit: Number(limit),
         offset: Number(offset),
         dealKey,

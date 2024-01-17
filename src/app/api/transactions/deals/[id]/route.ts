@@ -7,6 +7,7 @@ import { getTransactionsChart } from "../../../../../utils/transactions"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 import { getTeam } from "@/utils/team"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
@@ -33,14 +34,10 @@ export const GET = apiRequestHandler(
 
     const chainIds = silos.map((silo) => silo.chain_id)
 
-    const results = await queryTransactions(
-      team.transaction_database,
-      chainIds,
-      {
-        interval,
-        dealId: deal.key,
-      },
-    )
+    const results = await queryTransactions(team.is_demo_account, chainIds, {
+      interval,
+      dealId: await getDealKey(deal.id),
+    })
 
     return NextResponse.json<DealTransactionCharts>({
       items: [

@@ -11,7 +11,7 @@ export const getDeals = async (teamKey: string | null): Promise<Deal[]> => {
 
   const { data: deals, error: dealsError } = await createAdminSupabaseClient()
     .from("deals")
-    .select("id, name, created_at, key, enabled")
+    .select("*")
     .order("created_at", { ascending: false })
     .eq("team_id", team.id)
 
@@ -39,8 +39,10 @@ export const getDeals = async (teamKey: string | null): Promise<Deal[]> => {
     id: deal.id,
     name: deal.name,
     created_at: deal.created_at,
-    key: deal.key,
+    demo_key: deal.demo_key,
     enabled: deal.enabled,
     contracts: contracts.filter((contract) => contract.deal_id === deal.id),
+    borealis_deal_id: deal.borealis_deal_id,
+    team_id: deal.team_id,
   }))
 }

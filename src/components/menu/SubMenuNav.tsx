@@ -16,6 +16,7 @@ import {
   PlusCircleIcon,
   ShieldCheckIcon,
   StopCircleIcon,
+  TicketIcon,
   UserGroupIcon,
   WrenchIcon,
 } from "@heroicons/react/24/outline"
@@ -213,6 +214,25 @@ const AdminSilos = () => (
   </ul>
 )
 
+const AdminDeals = () => (
+  <ul role="list" className="space-y-4">
+    <li>
+      <SubMenuButton
+        href="/admin/deals"
+        name="All deals"
+        icon={<TicketIcon />}
+      />
+    </li>
+    <li>
+      <SubMenuButton
+        href="/admin/deals/add"
+        name="Add deal"
+        icon={<PlusCircleIcon />}
+      />
+    </li>
+  </ul>
+)
+
 const menuMap = {
   borealis: <BorealisMenu />,
   silos: <SiloMenu />,
@@ -224,6 +244,7 @@ const adminMenuMap = {
   teams: <AdminTeams />,
   tokens: <AdminTokens />,
   silos: <AdminSilos />,
+  deals: <AdminDeals />,
 }
 
 const getSubMenu = (pathname: string, route: string) => {

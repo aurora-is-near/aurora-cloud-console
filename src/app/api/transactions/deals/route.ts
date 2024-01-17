@@ -7,6 +7,7 @@ import { getDeals } from "@/utils/proxy-api/get-deals"
 import { abort } from "@/utils/abort"
 import { getTeam } from "@/utils/team"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
@@ -26,10 +27,10 @@ export const GET = apiRequestHandler(
     const chainIds = silos.map((silo) => silo.chain_id)
 
     const results = await Promise.all(
-      deals.map((deal) =>
-        queryTransactions(team.transaction_database, chainIds, {
+      deals.map(async (deal) =>
+        queryTransactions(team.is_demo_account, chainIds, {
           interval,
-          dealId: deal.key,
+          dealId: await getDealKey(deal.id),
         }),
       ),
     )

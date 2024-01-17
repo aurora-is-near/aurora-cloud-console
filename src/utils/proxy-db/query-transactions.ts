@@ -37,7 +37,7 @@ const getWhereClause = (chainIds: string[], { interval, dealId }: Params) => {
 }
 
 export const queryTransactions = async (
-  database: ProxyDatabase,
+  isDemoAccount: boolean,
   chainIds: string[],
   params: Params,
 ) => {
@@ -51,7 +51,7 @@ export const queryTransactions = async (
     query<{
       count: number
     }>(
-      database,
+      isDemoAccount,
       `
         SELECT count("id")::int
         ${FROM_CLAUSE}
@@ -61,7 +61,7 @@ export const queryTransactions = async (
     query<{
       count: number
     }>(
-      database,
+      isDemoAccount,
       `
         SELECT count(*)::int
         FROM (
@@ -75,7 +75,7 @@ export const queryTransactions = async (
       day: string
       count: number
     }>(
-      database,
+      isDemoAccount,
       `
         SELECT date_trunc('day', "req_time") as "day", count(id)::int as count
         ${FROM_CLAUSE}
@@ -88,7 +88,7 @@ export const queryTransactions = async (
       day: string
       count: number
     }>(
-      database,
+      isDemoAccount,
       `
         SELECT date_trunc('day', "req_time") as "day", count(DISTINCT "from")::int as count
         ${FROM_CLAUSE}

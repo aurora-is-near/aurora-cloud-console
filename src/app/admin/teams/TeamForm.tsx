@@ -79,28 +79,19 @@ export const TeamForm = ({ team, teamSilos, allSilos }: TeamFormProps) => {
           required: true,
         },
         {
-          name: "transaction_database",
-          label: "Transaction database",
-          getValue: (option?: SelectInputOption) => option?.value,
-          defaultValue: team?.transaction_database
-            ? {
-                label: team.transaction_database,
-                value: team.transaction_database,
-              }
-            : undefined,
-
-          options: PROXY_DATABASES.map((db) => ({
-            label: db,
-            value: db,
-          })),
-        },
-        {
           name: "siloIds",
           label: "Silos",
           isMulti: true,
           defaultValue: getSiloOptions(teamSilos ?? []),
           options: getSiloOptions(allSilos),
           getValue: (options) => options.map((option) => option.value),
+        },
+        {
+          name: "is_demo_account",
+          type: "toggle",
+          label: "Demo account",
+          getValue: (option?: SelectInputOption) => option?.value,
+          defaultChecked: !!team?.is_demo_account,
         },
       ]}
     />
