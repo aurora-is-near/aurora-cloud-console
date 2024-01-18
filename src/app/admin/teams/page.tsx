@@ -27,6 +27,7 @@ const Page = async () => {
         <section>
           {
             <Table>
+              <Table.TH>ID</Table.TH>
               <Table.TH>Name</Table.TH>
               <Table.TH>Key</Table.TH>
               <Table.TH>Website</Table.TH>
@@ -36,6 +37,7 @@ const Page = async () => {
               <Table.TH hidden>Actions</Table.TH>
               {teams.map((team) => (
                 <Table.TR key={team.id}>
+                  <Table.TD>{team.id}</Table.TD>
                   <Table.TD>{team.name}</Table.TD>
                   <Table.TD>{team.team_key}</Table.TD>
                   <Table.TD>{team.website}</Table.TD>

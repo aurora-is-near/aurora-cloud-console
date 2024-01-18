@@ -44,7 +44,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       contracts: {
@@ -76,32 +76,29 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "deals"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       deals: {
         Row: {
-          borealis_deal_id: string
           created_at: string
-          demo_key: string
+          demo_key: string | null
           enabled: boolean
           id: number
           name: string
           team_id: number
         }
         Insert: {
-          borealis_deal_id?: string
           created_at?: string
-          demo_key: string
+          demo_key?: string | null
           enabled?: boolean
           id?: number
           name: string
           team_id: number
         }
         Update: {
-          borealis_deal_id?: string
           created_at?: string
-          demo_key?: string
+          demo_key?: string | null
           enabled?: boolean
           id?: number
           name?: string
@@ -114,7 +111,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "teams"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       silos: {
@@ -180,12 +177,11 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "tokens"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       teams: {
         Row: {
-          borealis_customer_id: string
           created_at: string
           email: string | null
           id: number
@@ -195,7 +191,6 @@ export interface Database {
           website: string | null
         }
         Insert: {
-          borealis_customer_id?: string
           created_at?: string
           email?: string | null
           id?: number
@@ -205,7 +200,6 @@ export interface Database {
           website?: string | null
         }
         Update: {
-          borealis_customer_id?: string
           created_at?: string
           email?: string | null
           id?: number
@@ -243,7 +237,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "teams"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
       tokens: {
@@ -324,7 +318,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
     }
@@ -381,7 +375,7 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -405,7 +399,7 @@ export type TablesInsert<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
@@ -426,7 +420,7 @@ export type TablesUpdate<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
@@ -447,7 +441,7 @@ export type Enums<
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
