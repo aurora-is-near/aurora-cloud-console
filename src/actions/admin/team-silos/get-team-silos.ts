@@ -10,7 +10,7 @@ export const getTeamSilos = async (
   const { data: silos } = await supabase
     .from("silos")
     .select("*, teams(id, team_key)")
-    .order("created_at", { ascending: false })
+    .order("created_at", { ascending: true })
 
   return (
     silos?.filter((silo) =>

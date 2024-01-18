@@ -5,7 +5,10 @@ import { Token } from "@/types/types"
 
 export const getTokens = async (): Promise<Token[]> => {
   const supabase = createAdminSupabaseClient()
-  const { data } = await supabase.from("tokens").select("*")
+  const { data } = await supabase
+    .from("tokens")
+    .select("*")
+    .order("created_at", { ascending: true })
 
   return data ?? []
 }

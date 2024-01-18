@@ -14,7 +14,7 @@ export const GET = apiRequestHandler(
     const result = await supabase
       .from("api_keys")
       .select()
-      .order("created_at", { ascending: false })
+      .order("created_at", { ascending: true })
       .eq("user_id", ctx.user.user_id)
 
     assertValidSupabaseResult(result)

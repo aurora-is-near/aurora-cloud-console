@@ -25,15 +25,17 @@ const Page = async () => {
         <section>
           {
             <Table>
+              <Table.TH>ID</Table.TH>
               <Table.TH>Name</Table.TH>
-              <Table.TH>Borealis Customer ID</Table.TH>
+              <Table.TH align="center">Enabled</Table.TH>
               <Table.TH align="center">Team ID</Table.TH>
-              <Table.TH align="center">Created</Table.TH>
+              <Table.TH align="center">Created at</Table.TH>
               <Table.TH hidden>Actions</Table.TH>
               {deals.map((deal) => (
                 <Table.TR key={deal.id}>
+                  <Table.TD>{deal.id}</Table.TD>
                   <Table.TD>{deal.name}</Table.TD>
-                  <Table.TD>{deal.borealis_deal_id}</Table.TD>
+                  <Table.TD align="center">{String(deal.enabled)}</Table.TD>
                   <Table.TD align="center">{deal.team_id}</Table.TD>
                   <Table.TD align="center">
                     {formatDate(new Date(deal.created_at))}

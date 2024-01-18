@@ -5,7 +5,10 @@ import { Team } from "@/types/types"
 
 export const getTeams = async (): Promise<Team[]> => {
   const supabase = createAdminSupabaseClient()
-  const { data } = await supabase.from("teams").select("*")
+  const { data } = await supabase
+    .from("teams")
+    .select("*")
+    .order("created_at", { ascending: true })
 
   return data ?? []
 }

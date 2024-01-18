@@ -25,6 +25,7 @@ const Page = async () => {
         <section>
           {
             <Table>
+              <Table.TH>ID</Table.TH>
               <Table.TH>Name</Table.TH>
               <Table.TH>Address</Table.TH>
               <Table.TH>Type</Table.TH>
@@ -32,6 +33,7 @@ const Page = async () => {
               <Table.TH hidden>Actions</Table.TH>
               {tokens.map((token) => (
                 <Table.TR key={token.id}>
+                  <Table.TD>{token.id}</Table.TD>
                   <Table.TD>{token.name}</Table.TD>
                   <Table.TD>{token.address}</Table.TD>
                   <Table.TD>{token.type}</Table.TD>

@@ -25,12 +25,14 @@ const Page = async () => {
         <section>
           {
             <Table>
+              <Table.TH>ID</Table.TH>
               <Table.TH>Name</Table.TH>
               <Table.TH>Chain ID</Table.TH>
               <Table.TH>Created at</Table.TH>
               <Table.TH hidden>Actions</Table.TH>
               {silos.map((silo) => (
                 <Table.TR key={silo.id}>
+                  <Table.TD>{silo.id}</Table.TD>
                   <Table.TD>{silo.name}</Table.TD>
                   <Table.TD>{silo.chain_id}</Table.TD>
                   <Table.TD>{formatDate(new Date(silo.created_at))}</Table.TD>

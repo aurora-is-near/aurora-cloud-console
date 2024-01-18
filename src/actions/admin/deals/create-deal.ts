@@ -15,8 +15,8 @@ type ProxyApiDealInputs = {
 }
 
 const getBody = (
-  customerId: string,
-  dealId: string,
+  customerId: number,
+  dealId: number,
   { userTtl = 31536000, userPrepaidTtl = 0 }: ProxyApiDealInputs = {},
 ) => {
   const operations: ProxyApiOperation[] = [
@@ -282,20 +282,17 @@ export const createDeal = async (
   const result = await supabase
     .from("deals")
     .insert(inputs)
-    .select("*, teams!inner(borealis_customer_id)")
+    .select("*, teams!inner(id)")
     .single()
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 
-  if (!result.data.teams?.borealis_customer_id) {
-    throw new Error("No borealis_customer_id found")
+  if (!result.data.teams) {
+    throw new Error("No team found")
   }
 
-  const body = getBody(
-    result.data.teams.borealis_customer_id,
-    result.data.borealis_deal_id,
-  )
+  const body = getBody(result.data.teams.id, result.data.id)
 
   await proxyApiClient.update(body)
 
