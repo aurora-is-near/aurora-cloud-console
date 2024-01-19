@@ -3,7 +3,7 @@ import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { Deal } from "../../../../../types/types"
 import { abort } from "../../../../../utils/abort"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
-import { toggleDeal } from "@/utils/proxy-api/toggle-deal"
+import { enableDeal } from "@/actions/admin/deals/enable-deal"
 
 export const PUT = apiRequestHandler(
   ["deals:write"],
@@ -15,7 +15,7 @@ export const PUT = apiRequestHandler(
       abort(404)
     }
 
-    await toggleDeal(ctx.teamKey, deal.id, enabled)
+    await enableDeal(deal.id, enabled)
 
     return NextResponse.json<Deal>(deal)
   },

@@ -81,8 +81,8 @@ export const apiClient = {
   }) =>
     request<DealTransactionCharts>(`/api/transactions/deals/${id}`, { query }),
 
-  toggleDeal: async ({ id, ...data }: Pick<Deal, "id" | "enabled">) =>
-    request<Deal>(`/api/deals/${id}/toggle`, {
+  enableDeal: async ({ id, ...data }: Pick<Deal, "id" | "enabled">) =>
+    request<Deal>(`/api/deals/${id}/enable`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
