@@ -1,9 +1,11 @@
+import { ProxyApiOperation } from "@/types/proxy-api"
+
 const PROXY_API_BASE_URL = "https://aclproxy.aurora.dev"
 
-const request = async (endpoint: string, body: string) => {
+const request = async (endpoint: string, operations: ProxyApiOperation[]) => {
   const { href } = new URL(endpoint, PROXY_API_BASE_URL)
 
-  console.debug("Mock Proxy API request", href, body)
+  console.debug("Mock Proxy API request", href, JSON.stringify(operations))
 
   // const res = await fetch(href, {
   //   method: "POST",
@@ -11,7 +13,7 @@ const request = async (endpoint: string, body: string) => {
   //     "Content-Type": "application/json",
   //     Authorization: `Bearer ${process.env.PROXY_API_TOKEN}`,
   //   },
-  //   body,
+  //   body: JSON.stringify(operations),
   // })
 
   // if (!res.ok) {
@@ -22,6 +24,8 @@ const request = async (endpoint: string, body: string) => {
 }
 
 export const proxyApiClient = {
-  view: (body: string) => request("/aclproxy/v1/view", body),
-  update: (body: string) => request("/aclproxy/v1/update", body),
+  view: (operations: ProxyApiOperation[]) =>
+    request("/aclproxy/v1/view", operations),
+  update: (operations: ProxyApiOperation[]) =>
+    request("/aclproxy/v1/update", operations),
 }

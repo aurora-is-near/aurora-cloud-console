@@ -13,8 +13,8 @@ const ToggleDeal = ({ dealId }: { dealId: number }) => {
   const dealUpdater = useOptimisticUpdater("getDeal", { id: dealId })
   const dealsUpdater = useOptimisticUpdater("getDeals")
 
-  const { mutate: toggleDeal } = useMutation({
-    mutationFn: apiClient.toggleDeal,
+  const { mutate: enableDeal } = useMutation({
+    mutationFn: apiClient.enableDeal,
     onMutate: (variables) => {
       dealUpdater.update({ enabled: variables.enabled })
     },
@@ -22,7 +22,7 @@ const ToggleDeal = ({ dealId }: { dealId: number }) => {
   })
 
   const onChange = (enabled: boolean) => {
-    toggleDeal({ id: dealId, enabled })
+    enableDeal({ id: dealId, enabled })
   }
 
   const isEnabled = !!deal?.enabled
