@@ -8,10 +8,6 @@ import { getSiloTokens } from "@/actions/admin/silo-tokens/get-silo-tokens"
 export const GET = apiRequestHandler(
   ["silos:read"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    if (!ctx.team.team_key) {
-      abort(500, "No team key found")
-    }
-
     const silo = await getSilo(Number(ctx.params.id))
 
     if (!silo) {

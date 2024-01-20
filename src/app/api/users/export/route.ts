@@ -3,7 +3,6 @@ import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { queryUsers } from "../../../../utils/proxy-db/query-users"
 import { UserDetailsQuery } from "../../../../types/types"
 import { getTeam } from "@/utils/team"
-import { abort } from "@/utils/abort"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 
@@ -17,10 +16,6 @@ const HEADERS: (keyof UserDetailsQuery)[] = [
 export const GET = apiRequestHandler(
   ["users:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    if (!ctx.team.team_key) {
-      abort(500, "No team key found")
-    }
-
     const [team, silos] = await Promise.all([
       getTeam(ctx.team.team_key),
       getTeamSilos(ctx.team.team_key),

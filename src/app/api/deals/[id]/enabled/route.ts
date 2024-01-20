@@ -32,7 +32,7 @@ export const GET = createApiEndpoint(
     await proxyApiClient.view([
       {
         var_type: "number",
-        key: getDealVarKey(result.data.teams.id, result.data.id, "enabled"),
+        key: getDealVarKey(ctx.team.id, Number(ctx.params.id), "enabled"),
       },
     ])
 
@@ -69,7 +69,7 @@ export const PUT = createApiEndpoint(
       {
         op_type: "set_value",
         var_type: "number",
-        var_key: getDealVarKey(result.data.teams.id, result.data.id, "enabled"),
+        var_key: getDealVarKey(ctx.team.id, Number(ctx.params.id), "enabled"),
         number_value: enabled ? 1 : 0,
       },
     ])

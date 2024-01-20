@@ -4,16 +4,11 @@ import { SiloTransactionCharts } from "../../../../types/types"
 import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
 import { getTransactionsChart } from "../../../../utils/transactions"
 import { getTeam } from "@/utils/team"
-import { abort } from "@/utils/abort"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 
 export const GET = apiRequestHandler(
   ["transactions:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    if (!ctx.team.team_key) {
-      abort(500, "No team key found")
-    }
-
     const [team, silos] = await Promise.all([
       getTeam(ctx.team.team_key),
       getTeamSilos(ctx.team.team_key),

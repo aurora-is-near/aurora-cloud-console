@@ -58,10 +58,6 @@ export const POST = apiRequestHandler(
     const cleanedEmail = email.toLowerCase().trim()
     const supabase = createAdminSupabaseClient()
 
-    if (!ctx.team.team_key) {
-      abort(500, "No team key found")
-    }
-
     const user = await getUserId(cleanedEmail)
 
     if (!user) {

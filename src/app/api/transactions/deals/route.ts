@@ -4,7 +4,6 @@ import { DealTransactionCharts } from "../../../../types/types"
 import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
 import { getTransactionsChart } from "../../../../utils/transactions"
 import { getDeals } from "@/utils/proxy-api/get-deals"
-import { abort } from "@/utils/abort"
 import { getTeam } from "@/utils/team"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
@@ -13,10 +12,6 @@ export const GET = apiRequestHandler(
   ["transactions:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const interval = req.nextUrl.searchParams.get("interval")
-
-    if (!ctx.team.team_key) {
-      abort(500, "No team key found")
-    }
 
     const [team, silos, deals] = await Promise.all([
       getTeam(ctx.team.team_key),
