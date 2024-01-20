@@ -43,9 +43,10 @@ key can be used to make requests to the `/api/*` endpoints defined in this repo.
 
 Each key can be assigned a set of scopes. Before we perform a particular action
 we should validate that the given API key includes the required scope(s) for that
-action. This can be done via the `apiRequestHandler()` function (see below).
+action. Scopes are set against each operation defined in the API contract.
 
-The scopes are defined as an enum, which can be updated via the
+Within the database the scopes are defined as an enum, managed via a Supabase
+trigger. This trigger can be updated via the
 [SQL Editor](https://supabase.com/dashboard/project/xqharbhfobwuhpcdsapg/sql) in
 the Supabase UI. When defining new scopes use the format `<category>:<level>`,
 for example `deals:read` or `deals:write`.
@@ -54,19 +55,20 @@ Note that if a valid session cookie is included with the request we assume the
 user is logged in via the dashboard and should be given `admin` permissions,
 which is a special scope that authorises the user to do everything.
 
-## API handlers
+## API request handlers
 
-All API request handlers should be wrapped with the `apiRequestHandler()`
+All public API request handlers should be wrapped with the `createApiEndpoint()`
 function. This function calls the given handler, attaching a context object that
-includes the user object from the `public.users` table. It is called with that
-handler and any required scope(s), for example:
+includes the user object from the `public.users` table and the `teamKey` associated
+with the current domain. It is called with an operation ID, as defined in the API
+contract, and the handler that operation, for example:
 
 ```ts
 import { NextRequest, NextResponse } from "next/server"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext, createApiEndpoint } from "@/utils/api"
 
-export const PATCH = apiRequestHandler(["admin"], async (
+export const PATCH = createApiEndpoint('updateThing', async (
   req: NextRequest,
   ctx: ApiRequestContext
 ) => {
@@ -80,7 +82,7 @@ export const PATCH = apiRequestHandler(["admin"], async (
 
   if (error) throw error
 
-  return NextResponse.json({ status: "OK" })
+  return { status: "OK" }
 })
 ```
 
