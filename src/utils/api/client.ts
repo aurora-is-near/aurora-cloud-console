@@ -13,6 +13,7 @@ import {
   Token,
   SiloTransactionCharts,
   DealTransactionCharts,
+  DealEnabled,
 } from "@/types/types"
 import { request } from "./request"
 
@@ -57,6 +58,9 @@ export const apiClient = {
 
   getDeal: async ({ id }: { id: number }) => request<Deal>(`/api/deals/${id}`),
 
+  getDealEnabled: async ({ id }: { id: number }) =>
+    request<DealEnabled>(`/api/deals/${id}/enabled`),
+
   getSilosTransactions: async (query?: { interval?: string | null }) =>
     request<SiloTransactionCharts>("/api/transactions/silos", { query }),
 
@@ -81,8 +85,8 @@ export const apiClient = {
   }) =>
     request<DealTransactionCharts>(`/api/transactions/deals/${id}`, { query }),
 
-  enableDeal: async ({ id, ...data }: Pick<Deal, "id" | "enabled">) =>
-    request<Deal>(`/api/deals/${id}/enable`, {
+  enableDeal: async ({ id, ...data }: { id: number; enabled: boolean }) =>
+    request<Deal>(`/api/deals/${id}/enabled`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),

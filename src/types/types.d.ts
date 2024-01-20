@@ -65,6 +65,10 @@ export type Deals = {
   deals: Deal[]
 }
 
+export type DealEnabled = {
+  enabled: boolean
+}
+
 export type Teams = {
   teams: Team[]
 }
@@ -102,10 +106,10 @@ export type Team = Tables<"teams">
 
 export type Silo = Tables<"silos">
 
-export type Deal = Tables<"deals">
+export type Deal = Omit<Tables<"deals">, "enabled">
 
 export type ApiUser = User & {
-  scopes: ApiScopes[]
+  scopes: ApiScope[]
   teams: string[]
 }
 

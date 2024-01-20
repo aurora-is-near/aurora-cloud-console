@@ -1,8 +1,14 @@
-import { ProxyApiOperation } from "@/types/proxy-api"
+import {
+  ProxyApiUpateOperation,
+  ProxyApiViewOperation,
+} from "@/types/proxy-api"
 
 const PROXY_API_BASE_URL = "https://aclproxy.aurora.dev"
 
-const request = async (endpoint: string, operations: ProxyApiOperation[]) => {
+const request = async (
+  endpoint: string,
+  operations: ProxyApiUpateOperation[] | ProxyApiViewOperation[],
+) => {
   const { href } = new URL(endpoint, PROXY_API_BASE_URL)
 
   console.debug("Mock Proxy API request", href, JSON.stringify(operations))
@@ -24,8 +30,8 @@ const request = async (endpoint: string, operations: ProxyApiOperation[]) => {
 }
 
 export const proxyApiClient = {
-  view: (operations: ProxyApiOperation[]) =>
+  view: (operations: ProxyApiViewOperation[]) =>
     request("/aclproxy/v1/view", operations),
-  update: (operations: ProxyApiOperation[]) =>
+  update: (operations: ProxyApiUpateOperation[]) =>
     request("/aclproxy/v1/update", operations),
 }

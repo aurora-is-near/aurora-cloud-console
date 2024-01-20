@@ -1,7 +1,7 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { ProxyApiOperation } from "@/types/proxy-api"
+import { ProxyApiUpateOperation } from "@/types/proxy-api"
 import { Deal } from "@/types/types"
 import { proxyApiClient } from "@/utils/proxy-api/request"
 import {
@@ -14,11 +14,11 @@ type ProxyApiDealInputs = {
   userPrepaidTtl?: number
 }
 
-const getProxyApiOperations = (
+const getProxyApiUpateOperations = (
   customerId: number,
   dealId: number,
   { userTtl = 31536000, userPrepaidTtl = 0 }: ProxyApiDealInputs = {},
-): ProxyApiOperation[] => [
+): ProxyApiUpateOperation[] => [
   {
     // This template will be used for variables that keep total tx count for users of this deal
     op_type: "set_template",
@@ -289,7 +289,7 @@ export const createDeal = async (
   }
 
   await proxyApiClient.update(
-    getProxyApiOperations(result.data.teams.id, result.data.id),
+    getProxyApiUpateOperations(result.data.teams.id, result.data.id),
   )
 
   return result.data
