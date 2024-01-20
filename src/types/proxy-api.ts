@@ -1,3 +1,5 @@
+type ProxyApiVarType = "number" | "string" | "set"
+
 export type ProxyApiVariableOperation = {
   op_type:
     | "set"
@@ -9,7 +11,7 @@ export type ProxyApiVariableOperation = {
     | "insert"
     | "erase"
     | "draw"
-  var_type: "number" | "string" | "set"
+  var_type: ProxyApiVarType
   var_key: string
   template_key?: string
   string_value?: string
@@ -28,6 +30,16 @@ export type ProxyApiTemplateOperation = {
   leak_duration_nano?: string
 }
 
-export type ProxyApiOperation =
+export type ProxyApiUpateOperation =
   | ProxyApiVariableOperation
   | ProxyApiTemplateOperation
+
+export type ProxyApiViewOperation = {
+  var_type: ProxyApiVarType
+  key?: string
+  begin_key?: string
+  end_key?: string
+  keys_only?: boolean
+  limit?: number
+  elements_of_set?: string
+}
