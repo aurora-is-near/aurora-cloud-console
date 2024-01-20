@@ -87,6 +87,16 @@ const getUserFromApiKey = async (): Promise<ApiUser | null> => {
  */
 const getUserFromSessionCookie = async (): Promise<ApiUser | null> => {
   const supabase = createRouteHandlerClient()
+  const headersList = headers()
+  const referer = headersList.get("referer")
+  const host = headersList.get("host")
+
+  // Do not allow the session cookie to be read when called from the API docs
+  // page. This is to replicate the behaviour of the API when called externally
+  // (where there will be no session cookie).
+  if (referer?.includes(`://${host}`) && referer?.endsWith("/api-docs")) {
+    return null
+  }
 
   const {
     data: { user: authUser },
