@@ -14,7 +14,7 @@ type ProxyApiDealInputs = {
   userPrepaidTtl?: number
 }
 
-const getProxyApiUpateOperations = (
+const getProxyApiOperations = (
   customerId: number,
   dealId: number,
   { userTtl = 31536000, userPrepaidTtl = 0 }: ProxyApiDealInputs = {},
@@ -289,7 +289,7 @@ export const createDeal = async (
   }
 
   await proxyApiClient.update(
-    getProxyApiUpateOperations(result.data.teams.id, result.data.id),
+    getProxyApiOperations(result.data.teams.id, result.data.id),
   )
 
   return result.data
