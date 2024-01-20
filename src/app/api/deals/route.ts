@@ -1,13 +1,12 @@
-import { NextRequest, NextResponse } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { Deals } from "../../../types/types"
+import { NextRequest } from "next/server"
+import { ApiRequestContext, createApiEndpoint } from "@/utils/api"
 import { getDeals } from "@/utils/proxy-api/get-deals"
 
-export const GET = apiRequestHandler(
-  ["deals:read"],
+export const GET = createApiEndpoint(
+  "getDeals",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    return NextResponse.json<Deals>({
+    return {
       deals: await getDeals(ctx.teamKey),
-    })
+    }
   },
 )

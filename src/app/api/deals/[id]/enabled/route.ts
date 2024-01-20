@@ -1,6 +1,5 @@
-import { NextRequest, NextResponse } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { Deal, DealEnabled } from "../../../../../types/types"
+import { NextRequest } from "next/server"
+import { ApiRequestContext, createApiEndpoint } from "@/utils/api"
 import { abort } from "../../../../../utils/abort"
 import { proxyApiClient } from "@/utils/proxy-api/request"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
@@ -12,8 +11,8 @@ import {
 const getVarKey = (customerId: number, dealId: number) =>
   `deal::acc::customers::${customerId}::deals::${dealId}::enabled`
 
-export const GET = apiRequestHandler(
-  ["deals:read"],
+export const GET = createApiEndpoint(
+  "getDealEnabled",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
 
@@ -40,12 +39,14 @@ export const GET = apiRequestHandler(
       },
     ])
 
-    return NextResponse.json<DealEnabled>({ enabled: result.data.enabled })
+    return {
+      enabled: result.data.enabled,
+    }
   },
 )
 
-export const PUT = apiRequestHandler(
-  ["deals:write"],
+export const PUT = createApiEndpoint(
+  "updateDealEnabled",
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
     const { enabled } = await req.json()
@@ -74,6 +75,6 @@ export const PUT = apiRequestHandler(
       },
     ])
 
-    return NextResponse.json<Deal>(result.data)
+    return result.data
   },
 )
