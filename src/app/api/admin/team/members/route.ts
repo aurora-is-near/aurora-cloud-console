@@ -7,7 +7,7 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 export const GET = apiRequestHandler(
   ["admin"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    if (!ctx.teamKey) {
+    if (!ctx.team.team_key) {
       abort(500, "No team key found")
     }
 
@@ -15,7 +15,7 @@ export const GET = apiRequestHandler(
     const { data: team, error: teamError } = await supabase
       .from("teams")
       .select("id, name, team_key")
-      .eq("team_key", ctx.teamKey)
+      .eq("team_key", ctx.team.team_key)
       .single()
 
     if (teamError) {

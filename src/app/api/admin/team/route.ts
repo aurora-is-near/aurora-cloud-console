@@ -8,7 +8,7 @@ import { assertValidSupabaseResult } from "@/utils/supabase"
 export const GET = apiRequestHandler(
   ["admin"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    if (!ctx.teamKey) {
+    if (!ctx.team.team_key) {
       abort(500, "No team key found")
     }
 
@@ -16,7 +16,7 @@ export const GET = apiRequestHandler(
     const result = await supabase
       .from("teams")
       .select()
-      .eq("team_key", ctx.teamKey)
+      .eq("team_key", ctx.team.team_key)
       .single()
 
     assertValidSupabaseResult(result)

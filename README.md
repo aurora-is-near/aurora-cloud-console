@@ -59,7 +59,7 @@ which is a special scope that authorises the user to do everything.
 
 All public API request handlers should be wrapped with the `createApiEndpoint()`
 function. This function calls the given handler, attaching a context object that
-includes the user object from the `public.users` table and the `teamKey` associated
+includes the user object from the `public.users` table and the `team` associated
 with the current domain. It is called with an operation ID, as defined in the API
 contract, and the handler that operation, for example:
 

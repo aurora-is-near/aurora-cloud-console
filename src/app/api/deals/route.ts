@@ -6,7 +6,7 @@ export const GET = createApiEndpoint(
   "getDeals",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     return {
-      deals: await getDeals(ctx.teamKey),
+      deals: await getDeals(ctx.team.team_key),
     }
   },
 )

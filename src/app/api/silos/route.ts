@@ -6,11 +6,11 @@ import { abort } from "@/utils/abort"
 export const GET = apiRequestHandler(
   ["silos:read"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    if (!ctx.teamKey) {
+    if (!ctx.team.team_key) {
       abort(500, "No team key found")
     }
 
-    const silos = await getTeamSilos(ctx.teamKey)
+    const silos = await getTeamSilos(ctx.team.team_key)
 
     return NextResponse.json(silos)
   },

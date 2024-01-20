@@ -6,7 +6,7 @@ import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 export const GET = createApiEndpoint(
   "getDeal",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const deal = await getDealById(ctx.teamKey, Number(ctx.params.id))
+    const deal = await getDealById(ctx.team.team_key, Number(ctx.params.id))
 
     if (!deal) {
       abort(404)

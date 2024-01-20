@@ -58,7 +58,7 @@ export const POST = apiRequestHandler(
     const cleanedEmail = email.toLowerCase().trim()
     const supabase = createAdminSupabaseClient()
 
-    if (!ctx.teamKey) {
+    if (!ctx.team.team_key) {
       abort(500, "No team key found")
     }
 
@@ -67,7 +67,7 @@ export const POST = apiRequestHandler(
     if (!user) {
       const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
         redirectTo: `${req.nextUrl.origin}${AUTH_ACCEPT_ROUTE}`,
-        data: { name, new_team: ctx.teamKey },
+        data: { name, new_team: ctx.team.team_key },
       })
 
       if (error) {
@@ -77,10 +77,10 @@ export const POST = apiRequestHandler(
       return NextResponse.json({ status: "OK" })
     }
 
-    const team = await getTeam(ctx.teamKey)
+    const team = await getTeam(ctx.team.team_key)
 
     if (!team) {
-      abort(404, `Team not found for key: ${ctx.teamKey}`)
+      abort(404, `Team not found for key: ${ctx.team.team_key}`)
     }
 
     if (await isTeamMember(user.id, team.id)) {

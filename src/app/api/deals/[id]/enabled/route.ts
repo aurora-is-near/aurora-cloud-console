@@ -8,9 +8,6 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-const getVarKey = (customerId: number, dealId: number) =>
-  `deal::acc::customers::${customerId}::deals::${dealId}::enabled`
-
 export const GET = createApiEndpoint(
   "getDealEnabled",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
@@ -20,7 +17,7 @@ export const GET = createApiEndpoint(
       .from("deals")
       .select("*, teams!inner(id, team_key)")
       .eq("id", Number(ctx.params.id))
-      .eq("teams.team_key", ctx.teamKey)
+      .eq("teams.team_key", ctx.team.team_key)
       .single()
 
     assertValidSupabaseResult(result)
@@ -35,7 +32,7 @@ export const GET = createApiEndpoint(
     await proxyApiClient.view([
       {
         var_type: "number",
-        key: getVarKey(result.data.teams.id, result.data.id),
+        key: getDealVarKey(result.data.teams.id, result.data.id, "enabled"),
       },
     ])
 
@@ -55,7 +52,7 @@ export const PUT = createApiEndpoint(
       .from("deals")
       .update({ enabled })
       .eq("id", Number(ctx.params.id))
-      .eq("teams.team_key", ctx.teamKey)
+      .eq("teams.team_key", ctx.team.team_key)
       .select("*, teams!inner(id, team_key)")
       .single()
 
@@ -66,11 +63,13 @@ export const PUT = createApiEndpoint(
       abort(500, "No team found")
     }
 
+    // TODO: Use this instead of the ACC column (which should be deleted
+    // when the proxy API is ready)
     await proxyApiClient.update([
       {
         op_type: "set_value",
         var_type: "number",
-        var_key: getVarKey(result.data.teams.id, result.data.id),
+        var_key: getDealVarKey(result.data.teams.id, result.data.id, "enabled"),
         number_value: enabled ? 1 : 0,
       },
     ])

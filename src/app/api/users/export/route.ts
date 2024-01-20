@@ -17,13 +17,13 @@ const HEADERS: (keyof UserDetailsQuery)[] = [
 export const GET = apiRequestHandler(
   ["users:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    if (!ctx.teamKey) {
+    if (!ctx.team.team_key) {
       abort(500, "No team key found")
     }
 
     const [team, silos] = await Promise.all([
-      getTeam(ctx.teamKey),
-      getTeamSilos(ctx.teamKey),
+      getTeam(ctx.team.team_key),
+      getTeamSilos(ctx.team.team_key),
     ])
 
     const siloChainIds = silos.map((silo) => silo.chain_id)

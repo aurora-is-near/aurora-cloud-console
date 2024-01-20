@@ -1,16 +1,12 @@
 import { getUser } from "./auth"
 import { NextRequest, NextResponse } from "next/server"
-import { ApiScope, ApiUser } from "@/types/types"
+import { ApiScope, ApiUser, Team } from "@/types/types"
 import httpStatus from "http-status"
 import { toError } from "./errors"
 import { abortIfUnauthorised, isAbortError } from "./abort"
 import { kebabCase } from "change-case"
-import { getTeamKey } from "@/utils/team-key"
-import {
-  ApiOperation,
-  ApiResponse,
-  ApiResponseBody,
-} from "@/types/api-contract"
+import { getCurrentTeam } from "@/utils/current-team"
+import { ApiOperation, ApiResponseBody } from "@/types/api-contract"
 import { contract } from "@/api-contract"
 
 type BaseApiRequestContext = {
@@ -21,7 +17,7 @@ type BaseApiRequestContext = {
 
 export type ApiRequestContext = BaseApiRequestContext & {
   user: ApiUser
-  teamKey: string
+  team: Team
 }
 
 export type AuthorisedApiRequestContext = Omit<ApiRequestContext, "user"> & {
@@ -83,12 +79,12 @@ const handleRequest = async <Body = unknown>(
   scopes: ApiScope[],
   handler: ApiRequestHandler<Body>,
 ): Promise<NextResponse<Body | ErrorResponse>> => {
-  const [user, teamKey] = await Promise.all([getUser(), getTeamKey(req)])
+  const [user, team] = await Promise.all([getUser(), getCurrentTeam(req)])
   let data: Body
 
   try {
-    abortIfUnauthorised(user, scopes, teamKey)
-    data = await handler(req, { ...ctx, user, teamKey })
+    abortIfUnauthorised(user, scopes, team.team_key)
+    data = await handler(req, { ...ctx, user, team })
   } catch (error: unknown) {
     console.error(error)
 

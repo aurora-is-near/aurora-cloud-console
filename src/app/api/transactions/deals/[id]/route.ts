@@ -14,14 +14,14 @@ export const GET = apiRequestHandler(
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const interval = req.nextUrl.searchParams.get("interval")
 
-    if (!ctx.teamKey) {
+    if (!ctx.team.team_key) {
       abort(500, "No team key found")
     }
 
     const [team, silos, deal] = await Promise.all([
-      getTeam(ctx.teamKey),
-      getTeamSilos(ctx.teamKey),
-      getDealById(ctx.teamKey, Number(ctx.params.id)),
+      getTeam(ctx.team.team_key),
+      getTeamSilos(ctx.team.team_key),
+      getDealById(ctx.team.team_key, Number(ctx.params.id)),
     ])
 
     if (!deal) {

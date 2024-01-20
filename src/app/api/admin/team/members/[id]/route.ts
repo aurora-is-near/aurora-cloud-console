@@ -10,12 +10,12 @@ export const DELETE = apiRequestHandler(
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const apiKeyId = ctx.params.id
 
-    if (!ctx.teamKey) {
+    if (!ctx.team.team_key) {
       abort(400, "No team key found")
     }
 
     const supabase = createAdminSupabaseClient()
-    const team = await getTeam(ctx.teamKey)
+    const team = await getTeam(ctx.team.team_key)
     const result = await supabase
       .from("users_teams")
       .delete()
