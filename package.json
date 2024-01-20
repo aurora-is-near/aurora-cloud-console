@@ -11,6 +11,7 @@
     "generate-supabase-types": "supabase gen types typescript --project-id xqharbhfobwuhpcdsapg --schema public > src/types/supabase.ts"
   },
   "dependencies": {
+    "@anatine/zod-openapi": "^2.2.2",
     "@headlessui/react": "^1.7.17",
     "@headlessui/tailwindcss": "^0.2.0",
     "@heroicons/react": "^2.0.18",
@@ -64,6 +65,7 @@
     "encoding": "^0.1.13",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "openapi3-ts": "^4.2.1",
     "postcss": "8.4.28",
     "prettier": "^3.0.3",
     "supabase": "^1.131.4",
