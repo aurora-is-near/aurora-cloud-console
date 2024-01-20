@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { Token } from "../../../../../types/types"
 import { abort } from "../../../../../utils/abort"
 import { getSilo } from "@/actions/admin/silos/get-silo"
 import { getSiloTokens } from "@/actions/admin/silo-tokens/get-silo-tokens"
 
-export const GET = apiRequestHandler(
+export const GET = apiRequestHandler<Token[]>(
   ["silos:read"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const silo = await getSilo(Number(ctx.params.id))
@@ -16,6 +16,6 @@ export const GET = apiRequestHandler(
 
     const tokens = await getSiloTokens(silo.id)
 
-    return NextResponse.json<Token[]>(tokens)
+    return tokens
   },
 )

@@ -7,7 +7,7 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const GET = apiRequestHandler(
+export const GET = apiRequestHandler<ApiKey[]>(
   ["admin"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
@@ -19,7 +19,7 @@ export const GET = apiRequestHandler(
 
     assertValidSupabaseResult(result)
 
-    return NextResponse.json<ApiKey[]>(result.data)
+    return result.data
   },
 )
 
@@ -42,6 +42,6 @@ export const POST = apiRequestHandler(
     assertValidSupabaseResult(result)
     assertNonNullSupabaseResult(result)
 
-    return NextResponse.json(result.data)
+    return result.data
   },
 )

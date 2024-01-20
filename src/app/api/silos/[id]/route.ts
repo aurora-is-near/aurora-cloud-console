@@ -4,7 +4,7 @@ import { Silo } from "../../../../types/types"
 import { abort } from "../../../../utils/abort"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 
-export const GET = apiRequestHandler(
+export const GET = apiRequestHandler<Silo>(
   ["silos:read"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const silos = await getTeamSilos(ctx.team.team_key)
@@ -14,6 +14,6 @@ export const GET = apiRequestHandler(
       abort(404)
     }
 
-    return NextResponse.json<Silo>(silo)
+    return silo
   },
 )

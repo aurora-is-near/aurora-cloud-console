@@ -3,7 +3,7 @@ import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { abort } from "@/utils/abort"
 import { sendEmail } from "@/utils/email"
 import { Team } from "@/types/types"
-import { getTeam, isTeamMember } from "@/utils/team"
+import { isTeamMember } from "@/utils/team"
 import { AUTH_ACCEPT_ROUTE } from "@/constants/routes"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
@@ -70,21 +70,15 @@ export const POST = apiRequestHandler(
         throw error
       }
 
-      return NextResponse.json({ status: "OK" })
+      return { status: "OK" }
     }
 
-    const team = await getTeam(ctx.team.team_key)
-
-    if (!team) {
-      abort(404, `Team not found for key: ${ctx.team.team_key}`)
-    }
-
-    if (await isTeamMember(user.id, team.id)) {
+    if (await isTeamMember(user.id, ctx.team.id)) {
       abort(400, "User is already a member of this team")
     }
 
-    await addUserToTeam(user.id, cleanedEmail, team, req.nextUrl.origin)
+    await addUserToTeam(user.id, cleanedEmail, ctx.team, req.nextUrl.origin)
 
-    return NextResponse.json({ status: "OK" })
+    return { status: "OK" }
   },
 )

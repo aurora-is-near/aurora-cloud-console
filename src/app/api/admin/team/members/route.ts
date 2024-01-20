@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { TeamMembers } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const GET = apiRequestHandler(
+export const GET = apiRequestHandler<TeamMembers>(
   ["admin"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
@@ -26,7 +26,7 @@ export const GET = apiRequestHandler(
       throw usersError
     }
 
-    return NextResponse.json<TeamMembers>({
+    return {
       total: users.length,
       teamMembers: users.map((user) => ({
         id: user.id,
@@ -34,6 +34,6 @@ export const GET = apiRequestHandler(
         email: user.email,
         isPending: !user.users_teams[0].confirmed_at,
       })),
-    })
+    }
   },
 )

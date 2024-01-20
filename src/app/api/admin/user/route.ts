@@ -15,6 +15,6 @@ export const PATCH = apiRequestHandler(
 
     assertValidSupabaseResult(result)
 
-    return NextResponse.json({ status: "OK" })
+    return { status: "OK" }
   },
 )

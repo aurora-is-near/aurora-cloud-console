@@ -1,14 +1,7 @@
-import { Deal } from "@/types/types"
-import { getTeam } from "@/utils/team"
+import { Deal, Team } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const getDeals = async (teamKey: string | null): Promise<Deal[]> => {
-  if (!teamKey) {
-    return []
-  }
-
-  const team = await getTeam(teamKey)
-
+export const getDeals = async (team: Team): Promise<Deal[]> => {
   const { data: deals, error: dealsError } = await createAdminSupabaseClient()
     .from("deals")
     .select("*")

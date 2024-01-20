@@ -4,7 +4,7 @@ import { Team } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
-export const GET = apiRequestHandler(
+export const GET = apiRequestHandler<Team>(
   ["admin"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
@@ -16,6 +16,6 @@ export const GET = apiRequestHandler(
 
     assertValidSupabaseResult(result)
 
-    return NextResponse.json<Team>(result.data)
+    return result.data
   },
 )

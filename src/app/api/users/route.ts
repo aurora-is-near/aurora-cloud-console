@@ -4,18 +4,13 @@ import {
   queryUserWalletCount,
   queryUsers,
 } from "../../../utils/proxy-db/query-users"
-import { getTeam } from "@/utils/team"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 
 export const GET = apiRequestHandler(
   ["users:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    const [team, silos] = await Promise.all([
-      getTeam(ctx.team.team_key),
-      getTeamSilos(ctx.team.team_key),
-    ])
-
+    const silos = await getTeamSilos(ctx.team.team_key)
     const siloChainIds = silos.map((silo) => silo.chain_id)
     const { searchParams } = req.nextUrl
     const limit = searchParams.get("limit") ?? 20
@@ -24,10 +19,10 @@ export const GET = apiRequestHandler(
     const dealKey = dealId ? await getDealKey(Number(dealId)) : null
 
     const results = await Promise.all([
-      queryUserWalletCount(team.is_demo_account, siloChainIds, {
+      queryUserWalletCount(ctx.team.is_demo_account, siloChainIds, {
         dealKey,
       }),
-      queryUsers(team.is_demo_account, siloChainIds, {
+      queryUsers(ctx.team.is_demo_account, siloChainIds, {
         limit: Number(limit),
         offset: Number(offset),
         dealKey,

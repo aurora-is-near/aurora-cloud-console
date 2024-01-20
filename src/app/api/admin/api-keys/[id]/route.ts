@@ -22,7 +22,7 @@ export const GET = apiRequestHandler(
 
     assertValidSupabaseResult(result)
 
-    return NextResponse.json(result.data)
+    return result.data
   },
 )
 
@@ -47,7 +47,7 @@ export const PUT = apiRequestHandler(
     assertValidSupabaseResult(result)
     assertNonNullSupabaseResult(result)
 
-    return NextResponse.json(result.data)
+    return result.data
   },
 )
 
@@ -65,6 +65,6 @@ export const DELETE = apiRequestHandler(
 
     assertValidSupabaseResult(result)
 
-    return NextResponse.json({ status: "OK" })
+    return { status: "OK" }
   },
 )

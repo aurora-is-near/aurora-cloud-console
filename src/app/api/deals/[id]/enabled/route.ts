@@ -7,6 +7,7 @@ import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
+import { getDealVarKey } from "../../../../../utils/proxy-api/get-deal-var-key"
 
 export const GET = createApiEndpoint(
   "getDealEnabled",

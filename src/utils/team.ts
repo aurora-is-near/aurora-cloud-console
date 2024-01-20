@@ -2,19 +2,6 @@ import { Team } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
-export const getTeam = async (teamKey: string): Promise<Team> => {
-  const supabase = createAdminSupabaseClient()
-  const result = await supabase
-    .from("teams")
-    .select()
-    .eq("team_key", teamKey)
-    .single()
-
-  assertValidSupabaseResult(result)
-
-  return result.data
-}
-
 export const getUserTeamKeys = async (userId: number) => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase

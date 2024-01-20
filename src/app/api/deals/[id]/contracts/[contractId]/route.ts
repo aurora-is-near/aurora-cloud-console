@@ -3,9 +3,9 @@ import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
 import { addContract } from "@/utils/proxy-api/add-contract"
 import { deleteContract } from "@/utils/proxy-api/delete-contract"
 import { getContract } from "@/utils/proxy-api/get-contract"
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 
-export const GET = apiRequestHandler(
+export const GET = apiRequestHandler<Contract>(
   ["deals:read"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const contract = await getContract(
@@ -13,7 +13,7 @@ export const GET = apiRequestHandler(
       Number(ctx.params.contractId),
     )
 
-    return NextResponse.json<Contract>(contract)
+    return contract
   },
 )
 
@@ -22,11 +22,11 @@ export const DELETE = apiRequestHandler(
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     await deleteContract(Number(ctx.params.id), Number(ctx.params.contractId))
 
-    return NextResponse.json({ status: "OK" })
+    return { status: "OK" }
   },
 )
 
-export const PUT = apiRequestHandler(
+export const PUT = apiRequestHandler<Contract>(
   ["deals:write"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const { name, address } = await req.json()
@@ -38,6 +38,6 @@ export const PUT = apiRequestHandler(
       deleteContract(Number(ctx.params.id), Number(ctx.params.contractId)),
     ])
 
-    return NextResponse.json<Contract>(contract)
+    return contract
   },
 )
