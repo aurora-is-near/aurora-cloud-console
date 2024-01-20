@@ -6,7 +6,7 @@ extendZodWithOpenApi(z)
 
 const c = initContract()
 
-export const DealSchema = z.object({
+const DealSchema = z.object({
   id: z.number(),
   created_at: z.date(),
   enabled: z.boolean(),
@@ -24,6 +24,9 @@ export const contract = c.router({
         deals: DealSchema,
       }),
     },
+    metadata: {
+      scopes: ["deals:read"],
+    },
   },
   getDeal: {
     summary: "Get a single deal",
@@ -31,6 +34,9 @@ export const contract = c.router({
     path: "/api/deals/:id",
     responses: {
       200: DealSchema,
+    },
+    metadata: {
+      scopes: ["deals:read"],
     },
   },
   getDealEnabled: {
@@ -42,6 +48,9 @@ export const contract = c.router({
         enabled: z.boolean(),
       }),
     },
+    metadata: {
+      scopes: ["deals:read"],
+    },
   },
   updateDealEnabled: {
     summary: "Enable or disable a deal",
@@ -51,6 +60,9 @@ export const contract = c.router({
       200: z.object({
         enabled: z.boolean(),
       }),
+    },
+    metadata: {
+      scopes: ["deals:write"],
     },
     body: z.object({
       enabled: z.boolean(),
