@@ -21,18 +21,11 @@ export const GET = apiRequestHandler(
       .from("deals")
       .select("*, teams!inner(id, team_key)")
       .eq("id", Number(ctx.params.id))
+      .eq("teams.team_key", ctx.teamKey)
       .single()
 
     assertValidSupabaseResult(result)
     assertNonNullSupabaseResult(result)
-
-    if (
-      result.data.teams?.team_key &&
-      !ctx.user.scopes.includes("admin") &&
-      !ctx.user.teams.includes(result.data.teams?.team_key)
-    ) {
-      abort(403)
-    }
 
     if (!result.data.teams) {
       abort(500, "No team found")
@@ -61,19 +54,12 @@ export const PUT = apiRequestHandler(
       .from("deals")
       .update({ enabled })
       .eq("id", Number(ctx.params.id))
+      .eq("teams.team_key", ctx.teamKey)
       .select("*, teams!inner(id, team_key)")
       .single()
 
     assertValidSupabaseResult(result)
     assertNonNullSupabaseResult(result)
-
-    if (
-      result.data.teams?.team_key &&
-      !ctx.user.scopes.includes("admin") &&
-      !ctx.user.teams.includes(result.data.teams?.team_key)
-    ) {
-      abort(403)
-    }
 
     if (!result.data.teams) {
       abort(500, "No team found")

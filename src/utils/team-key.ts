@@ -18,7 +18,7 @@ const getSubdomain = (req: NextRequest): string | undefined => {
   return hostnameParts[0]
 }
 
-export const getTeamKey = async (req: NextRequest): Promise<string | null> => {
+export const getTeamKey = async (req: NextRequest): Promise<string> => {
   const { data: teams } = await createAdminSupabaseClient()
     .from("teams")
     .select("team_key")
@@ -27,7 +27,7 @@ export const getTeamKey = async (req: NextRequest): Promise<string | null> => {
   const subdomain = getSubdomain(req)
 
   if (!subdomain || !teamKeys.includes(subdomain)) {
-    return process.env.DEFAULT_TEAM_KEY ?? null
+    return process.env.DEFAULT_TEAM_KEY
   }
 
   return subdomain

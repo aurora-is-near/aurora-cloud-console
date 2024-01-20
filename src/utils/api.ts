@@ -15,7 +15,7 @@ type BaseApiRequestContext = {
 
 export type ApiRequestContext = BaseApiRequestContext & {
   user: ApiUser
-  teamKey: string | null
+  teamKey: string
 }
 
 export type AuthorisedApiRequestContext = Omit<ApiRequestContext, "user"> & {
