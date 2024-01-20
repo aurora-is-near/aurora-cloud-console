@@ -8,8 +8,7 @@ const c = initContract()
 
 const DealSchema = z.object({
   id: z.number(),
-  created_at: z.date(),
-  enabled: z.boolean(),
+  created_at: z.string(),
   name: z.string(),
   team_id: z.number(),
 })
@@ -21,7 +20,7 @@ export const contract = c.router({
     path: "/api/deals",
     responses: {
       200: z.object({
-        deals: DealSchema,
+        deals: z.array(DealSchema),
       }),
     },
     metadata: {
