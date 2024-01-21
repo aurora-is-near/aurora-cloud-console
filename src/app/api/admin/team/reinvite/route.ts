@@ -18,5 +18,5 @@ export const POST = apiRequestHandler(["admin"], async (req: NextRequest) => {
     throw error
   }
 
-  return NextResponse.json({ status: "OK" })
+  return { status: "OK" }
 })

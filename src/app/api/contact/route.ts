@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext } from "@/types/api"
 import { ApiUser } from "@/types/types"
 import { abort } from "@/utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
@@ -98,8 +99,6 @@ const submitForm = async (
 
   const data = await res.json()
 
-  console.log(data)
-
   // https://legacydocs.hubspot.com/docs/faq/api-error-responses
   if (res.status >= 400 && res.status < 600) {
     abort(res.status, data.message ?? "Unknown error")
@@ -114,6 +113,6 @@ export const POST = apiRequestHandler(
 
     await submitForm(user, subject, message, pageUri)
 
-    return NextResponse.json({ status: "OK" })
+    return { status: "OK" }
   },
 )

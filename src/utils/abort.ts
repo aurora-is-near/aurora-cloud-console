@@ -54,10 +54,6 @@ export function abortIfUnauthorised(
     abort(401)
   }
 
-  if (isAdminUser(user)) {
-    return
-  }
-
   if (
     !!scopes?.length &&
     !scopes.every((scope) => user?.scopes.includes(scope)) &&
@@ -66,7 +62,9 @@ export function abortIfUnauthorised(
     abort(403)
   }
 
-  if (teamKey && !user.teams.includes(teamKey)) {
+  // Check if the authorised user is a member of the team, or an admin user
+  // (admin users have access to all teams).
+  if (teamKey && !user.teams.includes(teamKey) && !isAdminUser(user)) {
     abort(403)
   }
 }

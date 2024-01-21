@@ -1,51 +1,48 @@
-import { NextRequest, NextResponse } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
-import { Deal, DealEnabled } from "../../../../../types/types"
-import { abort } from "../../../../../utils/abort"
+import { NextRequest } from "next/server"
+import { createApiEndpoint } from "@/utils/api"
 import { proxyApiClient } from "@/utils/proxy-api/request"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
+import { getDealVarKey } from "../../../../../utils/proxy-api/get-deal-var-key"
+import { ApiRequestContext } from "@/types/api"
 
-const getVarKey = (customerId: number, dealId: number) =>
-  `deal::acc::customers::${customerId}::deals::${dealId}::enabled`
-
-export const GET = apiRequestHandler(
-  ["deals:read"],
+export const GET = createApiEndpoint(
+  "getDealEnabled",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
 
+    // TODO: Replace this with a check to see if the deal exists in the Proxy API
+    // for the given team and deal IDs, 404 otherwise.
     const result = await supabase
       .from("deals")
       .select("*, teams!inner(id, team_key)")
       .eq("id", Number(ctx.params.id))
-      .eq("teams.team_key", ctx.teamKey)
+      .eq("teams.team_key", ctx.team.team_key)
       .single()
 
     assertValidSupabaseResult(result)
     assertNonNullSupabaseResult(result)
-
-    if (!result.data.teams) {
-      abort(500, "No team found")
-    }
 
     // TODO: Use this instead of the ACC column (which should be deleted
     // when the proxy API is ready)
     await proxyApiClient.view([
       {
         var_type: "number",
-        key: getVarKey(result.data.teams.id, result.data.id),
+        key: getDealVarKey(ctx.team.id, Number(ctx.params.id), "enabled"),
       },
     ])
 
-    return NextResponse.json<DealEnabled>({ enabled: result.data.enabled })
+    return {
+      enabled: result.data.enabled,
+    }
   },
 )
 
-export const PUT = apiRequestHandler(
-  ["deals:write"],
+export const PUT = createApiEndpoint(
+  "updateDealEnabled",
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
     const { enabled } = await req.json()
@@ -54,26 +51,24 @@ export const PUT = apiRequestHandler(
       .from("deals")
       .update({ enabled })
       .eq("id", Number(ctx.params.id))
-      .eq("teams.team_key", ctx.teamKey)
+      .eq("teams.team_key", ctx.team.team_key)
       .select("*, teams!inner(id, team_key)")
       .single()
 
     assertValidSupabaseResult(result)
     assertNonNullSupabaseResult(result)
 
-    if (!result.data.teams) {
-      abort(500, "No team found")
-    }
-
+    // TODO: Use this instead of the ACC column (which should be deleted
+    // when the proxy API is ready)
     await proxyApiClient.update([
       {
         op_type: "set_value",
         var_type: "number",
-        var_key: getVarKey(result.data.teams.id, result.data.id),
+        var_key: getDealVarKey(ctx.team.id, Number(ctx.params.id), "enabled"),
         number_value: enabled ? 1 : 0,
       },
     ])
 
-    return NextResponse.json<Deal>(result.data)
+    return result.data
   },
 )

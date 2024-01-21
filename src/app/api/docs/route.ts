@@ -3,6 +3,8 @@ import { contract } from "../../../api-contract"
 import { generateOpenApi } from "@ts-rest/open-api"
 import { PathItemObject, OperationObject } from "openapi3-ts/oas31"
 
+const SECURITY_SCHEME = "bearerAuth"
+
 const openApiDocument = generateOpenApi(
   contract,
   {
@@ -12,9 +14,12 @@ const openApiDocument = generateOpenApi(
     },
     components: {
       securitySchemes: {
-        BearerAuth: {
+        [SECURITY_SCHEME]: {
           type: "http",
           scheme: "bearer",
+          in: "header",
+          name: "Authorization",
+          description: "An API key generated via the Aurora Cloud Console",
         },
       },
     },
@@ -40,7 +45,7 @@ Object.entries(openApiDocument.paths).forEach(
 
       // Add a security scheme for each operation, using the scopes defined in
       // the metadata.
-      operation.security = [{ bearerAuth: metadata?.scopes ?? [] }]
+      operation.security = [{ [SECURITY_SCHEME]: metadata?.scopes ?? [] }]
 
       // Append the required scopes to the operation description.
       if (metadata?.scopes.length) {

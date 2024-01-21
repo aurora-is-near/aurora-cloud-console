@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { Database } from "./types/supabase"
-import { getTeamKey } from "@/utils/team-key"
+import { getCurrentTeam } from "@/utils/current-team"
 import {
   AUTH_CALLBACK_ROUTE,
   AUTH_ACCEPT_ROUTE,
@@ -62,8 +61,8 @@ export async function middleware(req: NextRequest) {
     {
       data: { session },
     },
-    teamKey,
-  ] = await Promise.all([supabase.auth.getSession(), getTeamKey(req)])
+    { team_key: teamKey },
+  ] = await Promise.all([supabase.auth.getSession(), getCurrentTeam(req)])
 
   if (!teamKey && !isAdminSubdomain(req)) {
     return unknownRedirect(req, res)

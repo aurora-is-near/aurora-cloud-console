@@ -84,24 +84,30 @@ export interface Database {
           created_at: string
           demo_key: string | null
           enabled: boolean
+          end_time: number | null
           id: number
           name: string
+          start_time: number | null
           team_id: number
         }
         Insert: {
           created_at?: string
           demo_key?: string | null
           enabled?: boolean
+          end_time?: number | null
           id?: number
           name: string
+          start_time?: number | null
           team_id: number
         }
         Update: {
           created_at?: string
           demo_key?: string | null
           enabled?: boolean
+          end_time?: number | null
           id?: number
           name?: string
+          start_time?: number | null
           team_id?: number
         }
         Relationships: [

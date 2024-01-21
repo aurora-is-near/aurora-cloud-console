@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext } from "@/types/api"
 import { abort } from "@/utils/abort"
 import { sendEmail } from "@/utils/email"
 import { Team } from "@/types/types"
-import { getTeam, isTeamMember } from "@/utils/team"
+import { isTeamMember } from "@/utils/team"
 import { AUTH_ACCEPT_ROUTE } from "@/constants/routes"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
@@ -58,37 +59,27 @@ export const POST = apiRequestHandler(
     const cleanedEmail = email.toLowerCase().trim()
     const supabase = createAdminSupabaseClient()
 
-    if (!ctx.teamKey) {
-      abort(500, "No team key found")
-    }
-
     const user = await getUserId(cleanedEmail)
 
     if (!user) {
       const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
         redirectTo: `${req.nextUrl.origin}${AUTH_ACCEPT_ROUTE}`,
-        data: { name, new_team: ctx.teamKey },
+        data: { name, new_team: ctx.team.team_key },
       })
 
       if (error) {
         throw error
       }
 
-      return NextResponse.json({ status: "OK" })
+      return { status: "OK" }
     }
 
-    const team = await getTeam(ctx.teamKey)
-
-    if (!team) {
-      abort(404, `Team not found for key: ${ctx.teamKey}`)
-    }
-
-    if (await isTeamMember(user.id, team.id)) {
+    if (await isTeamMember(user.id, ctx.team.id)) {
       abort(400, "User is already a member of this team")
     }
 
-    await addUserToTeam(user.id, cleanedEmail, team, req.nextUrl.origin)
+    await addUserToTeam(user.id, cleanedEmail, ctx.team, req.nextUrl.origin)
 
-    return NextResponse.json({ status: "OK" })
+    return { status: "OK" }
   },
 )

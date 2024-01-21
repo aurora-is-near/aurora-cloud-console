@@ -1,27 +1,17 @@
 import { NextRequest, NextResponse } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext } from "@/types/api"
 import {
   queryUserWalletCount,
   queryUsers,
 } from "../../../utils/proxy-db/query-users"
-import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
-import { getTeam } from "@/utils/team"
-import { abort } from "@/utils/abort"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 
 export const GET = apiRequestHandler(
   ["users:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    if (!ctx.teamKey) {
-      abort(500, "No team key found")
-    }
-
-    const [team, silos] = await Promise.all([
-      getTeam(ctx.teamKey),
-      getTeamSilos(ctx.teamKey),
-    ])
-
+    const silos = await getTeamSilos(ctx.team.id)
     const siloChainIds = silos.map((silo) => silo.chain_id)
     const { searchParams } = req.nextUrl
     const limit = searchParams.get("limit") ?? 20
@@ -30,10 +20,10 @@ export const GET = apiRequestHandler(
     const dealKey = dealId ? await getDealKey(Number(dealId)) : null
 
     const results = await Promise.all([
-      queryUserWalletCount(team.is_demo_account, siloChainIds, {
+      queryUserWalletCount(ctx.team.is_demo_account, siloChainIds, {
         dealKey,
       }),
-      queryUsers(team.is_demo_account, siloChainIds, {
+      queryUsers(ctx.team.is_demo_account, siloChainIds, {
         limit: Number(limit),
         offset: Number(offset),
         dealKey,

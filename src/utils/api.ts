@@ -1,31 +1,20 @@
 import { getUser } from "./auth"
 import { NextRequest, NextResponse } from "next/server"
-import { ApiScope, ApiUser } from "@/types/types"
+import { ApiScope } from "@/types/types"
 import httpStatus from "http-status"
 import { toError } from "./errors"
 import { abortIfUnauthorised, isAbortError } from "./abort"
 import { kebabCase } from "change-case"
-import { getTeamKey } from "@/utils/team-key"
-
-type BaseApiRequestContext = {
-  params: {
-    [key: string]: string
-  }
-}
-
-export type ApiRequestContext = BaseApiRequestContext & {
-  user: ApiUser
-  teamKey: string
-}
-
-export type AuthorisedApiRequestContext = Omit<ApiRequestContext, "user"> & {
-  user: ApiUser
-}
-
-type ApiRequestHandler<Body = unknown> = (
-  req: NextRequest,
-  context: ApiRequestContext,
-) => Promise<Body>
+import { getCurrentTeam } from "@/utils/current-team"
+import {
+  ApiErrorResponse,
+  ApiOperation,
+  ApiRequestHandler,
+  ApiResponse,
+  ApiResponseBody,
+  BaseApiRequestContext,
+} from "@/types/api"
+import { contract } from "@/api-contract"
 
 /**
  * Get the specific type of error.
@@ -46,7 +35,7 @@ const getErrorType = (error: unknown, statusCode: number): string => {
  *
  * @see https://datatracker.ietf.org/doc/html/rfc7807
  */
-const getErrorResponse = (error: unknown) => {
+const getErrorResponse = (error: unknown): NextResponse<ApiErrorResponse> => {
   const statusCode = isAbortError(error) ? error.statusCode : 500
 
   const response = NextResponse.json(
@@ -64,22 +53,58 @@ const getErrorResponse = (error: unknown) => {
   return response
 }
 
-/**
- * Confirm that the user is logged in based on a session cookie or API key.
- */
+const handleRequest = async <Body = unknown>(
+  req: NextRequest,
+  ctx: BaseApiRequestContext,
+  scopes: ApiScope[],
+  handler: ApiRequestHandler<Body>,
+): Promise<ApiResponse<Body>> => {
+  const [user, team] = await Promise.all([getUser(), getCurrentTeam(req)])
+  let data: Body
+
+  try {
+    abortIfUnauthorised(user, scopes, team.team_key)
+    data = await handler(req, { ...ctx, user, team })
+  } catch (error: unknown) {
+    console.error(error)
+
+    return getErrorResponse(error)
+  }
+
+  if (!data) {
+    return new Response(null, { status: 204 })
+  }
+
+  return NextResponse.json(data)
+}
+
 export const apiRequestHandler =
   <Body = unknown>(scopes: ApiScope[], handler: ApiRequestHandler<Body>) =>
-  async (req: NextRequest, ctx: BaseApiRequestContext) => {
-    const [user, teamKey] = await Promise.all([getUser(), getTeamKey(req)])
-    let data: Body
+  async (req: NextRequest, ctx: BaseApiRequestContext) =>
+    handleRequest(req, ctx, scopes, handler)
 
-    try {
-      abortIfUnauthorised(user, scopes, teamKey)
-      data = await handler(req, { ...ctx, user, teamKey })
-    } catch (error: unknown) {
-      console.error(error)
-      return getErrorResponse(error)
-    }
+/**
+ * Create an authenticated API endpoint based on an operation from the contract.
+ */
+export const createApiEndpoint =
+  <T extends ApiOperation>(
+    operationId: T,
+    handler: ApiRequestHandler<ApiResponseBody<T>>,
+  ) =>
+  async (
+    req: NextRequest,
+    ctx: BaseApiRequestContext,
+  ): Promise<ApiResponse<ApiResponseBody<T>>> => {
+    const { metadata } =
+      Object.entries(contract).find(([key]) => key === operationId)?.[1] ?? {}
+
+    const scopes = (metadata?.scopes ?? []) as ApiScope[]
+    const data = await handleRequest<ApiResponseBody<T>>(
+      req,
+      ctx,
+      scopes,
+      handler,
+    )
 
     return data
   }

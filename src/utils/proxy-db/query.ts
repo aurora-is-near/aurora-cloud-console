@@ -34,7 +34,5 @@ export const query = async <TRow extends QueryResultRow>(
     throw err
   }
 
-  console.log(text)
-
   return res
 }

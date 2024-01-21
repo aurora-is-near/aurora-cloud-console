@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext } from "@/types/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import {
   assertNonNullSupabaseResult,
@@ -22,7 +23,7 @@ export const GET = apiRequestHandler(
 
     assertValidSupabaseResult(result)
 
-    return NextResponse.json(result.data)
+    return result.data
   },
 )
 
@@ -47,7 +48,7 @@ export const PUT = apiRequestHandler(
     assertValidSupabaseResult(result)
     assertNonNullSupabaseResult(result)
 
-    return NextResponse.json(result.data)
+    return result.data
   },
 )
 
@@ -65,6 +66,6 @@ export const DELETE = apiRequestHandler(
 
     assertValidSupabaseResult(result)
 
-    return NextResponse.json({ status: "OK" })
+    return { status: "OK" }
   },
 )

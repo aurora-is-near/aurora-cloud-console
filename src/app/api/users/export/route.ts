@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext } from "@/types/api"
 import { queryUsers } from "../../../../utils/proxy-db/query-users"
 import { UserDetailsQuery } from "../../../../types/types"
-import { getTeam } from "@/utils/team"
-import { abort } from "@/utils/abort"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 
@@ -17,21 +16,14 @@ const HEADERS: (keyof UserDetailsQuery)[] = [
 export const GET = apiRequestHandler(
   ["users:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    if (!ctx.teamKey) {
-      abort(500, "No team key found")
-    }
-
-    const [team, silos] = await Promise.all([
-      getTeam(ctx.teamKey),
-      getTeamSilos(ctx.teamKey),
-    ])
+    const silos = await getTeamSilos(ctx.team.id)
 
     const siloChainIds = silos.map((silo) => silo.chain_id)
     const { searchParams } = req.nextUrl
     const dealId = searchParams.get("dealId")
     const dealKey = dealId ? await getDealKey(Number(dealId)) : null
 
-    const result = await queryUsers(team.is_demo_account, siloChainIds, {
+    const result = await queryUsers(ctx.team.is_demo_account, siloChainIds, {
       dealKey,
     })
 

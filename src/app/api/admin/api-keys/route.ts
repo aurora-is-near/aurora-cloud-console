@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { NextRequest } from "next/server"
+import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext } from "@/types/api"
 import { ApiKey } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import {
@@ -7,7 +8,7 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const GET = apiRequestHandler(
+export const GET = apiRequestHandler<ApiKey[]>(
   ["admin"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
@@ -19,7 +20,7 @@ export const GET = apiRequestHandler(
 
     assertValidSupabaseResult(result)
 
-    return NextResponse.json<ApiKey[]>(result.data)
+    return result.data
   },
 )
 
@@ -42,6 +43,6 @@ export const POST = apiRequestHandler(
     assertValidSupabaseResult(result)
     assertNonNullSupabaseResult(result)
 
-    return NextResponse.json(result.data)
+    return result.data
   },
 )
