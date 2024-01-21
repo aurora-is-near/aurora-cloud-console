@@ -1,6 +1,6 @@
 type ProxyApiVarType = "number" | "string" | "set"
 
-export type ProxyApiVariableOperation = {
+type ProxyApiVariableOperation = {
   op_type:
     | "set"
     | "reset"
@@ -18,7 +18,7 @@ export type ProxyApiVariableOperation = {
   number_value?: number
 }
 
-export type ProxyApiTemplateOperation = {
+type ProxyApiTemplateOperation = {
   op_type: "set_template"
   var_type: "number" | "string" | "bucket"
   template_key: string

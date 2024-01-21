@@ -2,7 +2,7 @@ import { HorizontalInputWrapper } from "@/components/HorizontalInputWrapper"
 import { ToggleInput, ToggleInputProps } from "@/components/ToggleInput"
 import { FieldErrors } from "react-hook-form"
 
-export type HorizontalToggleInputProps<Inputs extends Record<string, unknown>> =
+type HorizontalToggleInputProps<Inputs extends Record<string, unknown>> =
   ToggleInputProps<Inputs> & {
     label: string
     errors?: FieldErrors<Inputs>

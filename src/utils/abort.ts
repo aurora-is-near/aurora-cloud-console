@@ -2,12 +2,12 @@ import httpStatus from "http-status"
 import { ApiScope, ApiUser } from "@/types/types"
 import { isAdminUser } from "@/utils/admin"
 
-export type AbortOptions = {
+type AbortOptions = {
   type?: string
   detail?: string
 }
 
-export class AbortError extends Error {
+class AbortError extends Error {
   statusCode: number
 
   detail?: string

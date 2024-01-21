@@ -11,7 +11,7 @@ export interface PostgrestResponseSuccess<T> extends PostgrestResponseBase {
   count: number | null
 }
 
-export interface PostgrestResponseFailure extends PostgrestResponseBase {
+interface PostgrestResponseFailure extends PostgrestResponseBase {
   error: PostgrestError
   data: null
   count: null
