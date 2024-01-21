@@ -14,3 +14,5 @@ jobs:
         run: yarn run typecheck
       - name: Lint
         run: yarn run lint
+      - name: Find dead code
+        run: yarn run knip

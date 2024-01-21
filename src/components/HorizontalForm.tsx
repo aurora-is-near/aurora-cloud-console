@@ -61,7 +61,7 @@ type Input<Inputs extends Record<string, unknown>> =
   | SelectInputProps<Inputs>
   | ToggleInputProps<Inputs>
 
-export type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
+type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
   submitHandler: SubmitHandler<Inputs>
   inputs: Input<Inputs>[]
 }

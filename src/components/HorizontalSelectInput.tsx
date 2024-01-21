@@ -2,7 +2,7 @@ import { HorizontalInputWrapper } from "@/components/HorizontalInputWrapper"
 import { SelectInput, SelectInputProps } from "@/components/SelectInput"
 import { FieldErrors } from "react-hook-form"
 
-export type HorizontalSelectInputProps<Inputs extends Record<string, unknown>> =
+type HorizontalSelectInputProps<Inputs extends Record<string, unknown>> =
   SelectInputProps<Inputs> & {
     label: string
     errors?: FieldErrors<Inputs>

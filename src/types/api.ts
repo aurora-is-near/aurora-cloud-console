@@ -14,10 +14,6 @@ export type ApiRequestContext = BaseApiRequestContext & {
   team: Team
 }
 
-export type AuthorisedApiRequestContext = Omit<ApiRequestContext, "user"> & {
-  user: ApiUser
-}
-
 export type ApiRequestHandler<Body = unknown> = (
   req: NextRequest,
   context: ApiRequestContext,
