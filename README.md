@@ -64,7 +64,7 @@ with the current domain. It is called with an operation ID, as defined in the AP
 contract, and the handler that operation, for example:
 
 ```ts
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { ApiRequestContext, createApiEndpoint } from "@/utils/api"
 

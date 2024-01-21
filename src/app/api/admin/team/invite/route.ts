@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
 import { abort } from "@/utils/abort"

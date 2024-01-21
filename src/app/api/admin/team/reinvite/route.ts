@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
 import { AUTH_ACCEPT_ROUTE } from "@/constants/routes"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"

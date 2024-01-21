@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
 import { DealTransactionCharts } from "../../../../types/types"
@@ -6,7 +6,6 @@ import { queryTransactions } from "../../../../utils/proxy-db/query-transactions
 import { getTransactionsChart } from "../../../../utils/transactions"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
-import { getDeals } from "@/actions/admin/deals/get-deals"
 import { getTeamDeals } from "@/actions/admin/team-deals/get-team-deals"
 
 export const GET = apiRequestHandler<DealTransactionCharts>(
