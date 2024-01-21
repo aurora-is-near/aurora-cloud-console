@@ -40,7 +40,7 @@ export const apiClient = {
 
   getSilo: async ({ id }: { id: number }) => request<Silo>(`/api/silos/${id}`),
 
-  getSilos: async () => request<Silo[]>("/api/silos"),
+  getSilos: async () => request<{ silos: Silo[] }>("/api/silos"),
 
   getSiloTokens: async ({ id }: { id: number }) =>
     request<Token[]>(`/api/silos/${id}/tokens`),

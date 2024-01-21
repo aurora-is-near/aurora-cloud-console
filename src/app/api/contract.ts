@@ -13,6 +13,18 @@ const DealSchema = z.object({
   team_id: z.number(),
 })
 
+const SiloSchema = z.object({
+  id: z.number(),
+  created_at: z.string(),
+  chain_id: z.string(),
+  engine_account: z.string(),
+  engine_version: z.string(),
+  genesis: z.string(),
+  name: z.string(),
+  network: z.string(),
+  rpc_url: z.string(),
+})
+
 export const contract = c.router({
   getDeals: {
     summary: "Get all deals",
@@ -148,5 +160,29 @@ export const contract = c.router({
       scopes: ["deals:write"],
     },
     body: null,
+  },
+  getSilos: {
+    summary: "Get all silos",
+    method: "GET",
+    path: "/api/silos",
+    responses: {
+      200: z.object({
+        silos: z.array(SiloSchema),
+      }),
+    },
+    metadata: {
+      scopes: ["silos:read"],
+    },
+  },
+  getSilo: {
+    summary: "Get a single silo",
+    method: "GET",
+    path: "/api/silos/:id",
+    responses: {
+      200: SiloSchema,
+    },
+    metadata: {
+      scopes: ["silos:read"],
+    },
   },
 })
