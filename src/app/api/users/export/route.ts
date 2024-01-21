@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext } from "@/types/api"
 import { queryUsers } from "../../../../utils/proxy-db/query-users"
 import { UserDetailsQuery } from "../../../../types/types"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"

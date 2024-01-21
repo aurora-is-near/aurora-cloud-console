@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext } from "@/types/api"
 import { Token } from "../../../../../types/types"
 import { abort } from "../../../../../utils/abort"
 import { getSilo } from "@/actions/admin/silos/get-silo"

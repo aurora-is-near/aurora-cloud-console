@@ -36,5 +36,7 @@ export const getDeals = async (team: Team): Promise<Deal[]> => {
     enabled: deal.enabled,
     contracts: contracts.filter((contract) => contract.deal_id === deal.id),
     team_id: deal.team_id,
+    end_time: deal.end_time,
+    start_time: deal.start_time,
   }))
 }

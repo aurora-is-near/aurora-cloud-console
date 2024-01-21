@@ -1,5 +1,6 @@
 import { Contract } from "@/types/types"
-import { ApiRequestContext, apiRequestHandler } from "@/utils/api"
+import { apiRequestHandler } from "@/utils/api"
+import { ApiRequestContext } from "@/types/api"
 import { addContract } from "@/utils/proxy-api/add-contract"
 import { getContracts } from "@/utils/proxy-api/get-contracts"
 import { NextRequest } from "next/server"

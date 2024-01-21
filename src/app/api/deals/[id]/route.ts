@@ -1,7 +1,8 @@
 import { NextRequest } from "next/server"
-import { ApiRequestContext, createApiEndpoint } from "@/utils/api"
+import { createApiEndpoint } from "@/utils/api"
 import { abort } from "../../../../utils/abort"
 import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
+import { ApiRequestContext } from "@/types/api"
 
 export const GET = createApiEndpoint(
   "getDeal",
