@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
 import {
@@ -30,7 +30,7 @@ export const GET = apiRequestHandler(
       }),
     ])
 
-    return NextResponse.json({
+    return {
       total: results[0].rows[0].count,
       users: results[1].rows.map((row) => ({
         walletAddress: row.wallet_address,
@@ -38,6 +38,6 @@ export const GET = apiRequestHandler(
         createdAt: row.created_at,
         lastTransactionAt: row.last_transaction_at,
       })),
-    })
+    }
   },
 )
