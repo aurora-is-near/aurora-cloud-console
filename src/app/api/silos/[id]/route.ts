@@ -8,7 +8,7 @@ import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 export const GET = apiRequestHandler<Silo>(
   ["silos:read"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const silos = await getTeamSilos(ctx.team.team_key)
+    const silos = await getTeamSilos(ctx.team.id)
     const silo = silos.find((silo) => silo.id === Number(ctx.params.id))
 
     if (!silo) {

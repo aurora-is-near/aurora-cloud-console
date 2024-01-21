@@ -4,10 +4,10 @@ import { ApiRequestContext } from "@/types/api"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
-import { getDealById } from "@/utils/proxy-api/get-deal-by-id"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { DealTransactionCharts } from "@/types/types"
+import { getTeamDeal } from "@/actions/admin/team-deals/get-team-deal"
 
 export const GET = apiRequestHandler<DealTransactionCharts>(
   ["transactions:read"],
@@ -16,7 +16,7 @@ export const GET = apiRequestHandler<DealTransactionCharts>(
 
     const [silos, deal] = await Promise.all([
       getTeamSilos(ctx.team.id),
-      getDealById(ctx.team, Number(ctx.params.id)),
+      getTeamDeal(ctx.team.id, Number(ctx.params.id)),
     ])
 
     if (!deal) {

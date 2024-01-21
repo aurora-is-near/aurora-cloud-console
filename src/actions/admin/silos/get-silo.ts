@@ -10,7 +10,7 @@ export const getSilo = async (id: number): Promise<Silo | null> => {
     .from("silos")
     .select("*")
     .eq("id", id)
-    .single()
+    .maybeSingle()
 
   return silo
 }

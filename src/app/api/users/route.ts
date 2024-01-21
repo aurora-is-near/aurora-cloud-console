@@ -11,7 +11,7 @@ import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 export const GET = apiRequestHandler(
   ["users:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    const silos = await getTeamSilos(ctx.team.team_key)
+    const silos = await getTeamSilos(ctx.team.id)
     const siloChainIds = silos.map((silo) => silo.chain_id)
     const { searchParams } = req.nextUrl
     const limit = searchParams.get("limit") ?? 20

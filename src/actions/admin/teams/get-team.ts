@@ -9,7 +9,7 @@ export const getTeam = async (id: number): Promise<Team | null> => {
     .from("teams")
     .select("*")
     .eq("id", id)
-    .single()
+    .maybeSingle()
 
   return data
 }

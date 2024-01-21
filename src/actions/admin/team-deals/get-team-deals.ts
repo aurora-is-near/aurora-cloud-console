@@ -1,15 +1,15 @@
 "use server"
 
-import { Silo } from "@/types/types"
+import { Deal } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const getTeamSilos = async (teamId: number): Promise<Silo[]> => {
+export const getTeamDeals = async (teamId: number): Promise<Deal[]> => {
   const supabase = createAdminSupabaseClient()
-  const { data: silos } = await supabase
-    .from("silos")
+  const { data: deals } = await supabase
+    .from("deals")
     .select("*, teams(id)")
     .order("created_at", { ascending: true })
     .eq("teams.id", teamId)
 
-  return silos ?? []
+  return deals ?? []
 }

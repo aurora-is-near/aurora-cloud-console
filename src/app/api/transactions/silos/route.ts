@@ -9,7 +9,7 @@ import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 export const GET = apiRequestHandler<SiloTransactionCharts>(
   ["transactions:read"],
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    const silos = await getTeamSilos(ctx.team.team_key)
+    const silos = await getTeamSilos(ctx.team.id)
 
     const siloChainIds = silos.map((silo) => silo.chain_id)
     const interval = req.nextUrl.searchParams.get("interval")

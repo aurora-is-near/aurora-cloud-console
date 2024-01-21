@@ -9,7 +9,7 @@ export const getToken = async (id: number): Promise<Token | null> => {
     .from("tokens")
     .select("*")
     .eq("id", id)
-    .single()
+    .maybeSingle()
 
   return data
 }

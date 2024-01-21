@@ -6,7 +6,7 @@ import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 export const GET = apiRequestHandler(
   ["silos:read"],
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const silos = await getTeamSilos(ctx.team.team_key)
+    const silos = await getTeamSilos(ctx.team.id)
 
     return silos
   },

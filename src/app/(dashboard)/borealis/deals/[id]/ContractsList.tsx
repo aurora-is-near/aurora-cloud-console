@@ -3,8 +3,6 @@
 import { useQuery } from "@tanstack/react-query"
 import ListItemLoader from "../../../../../components/ListItemLoader"
 import ContractItem from "./ContractItem"
-import { apiClient } from "@/utils/api/client"
-import { getQueryKey } from "@/utils/api/query-keys"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 
 type ContractsListProps = {
