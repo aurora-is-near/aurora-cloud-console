@@ -1,10 +1,8 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
-import { ApiUser } from "@/types/types"
+import { ApiUser, Team } from "@/types/types"
 import { abort } from "@/utils/abort"
-import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { getTeam } from "@/actions/admin/teams/get-team"
 
 const getEnvVar = (name: string) => {
   const value = process.env[name]
@@ -16,23 +14,13 @@ const getEnvVar = (name: string) => {
   return value
 }
 
-const getUserTeam = async (userId: number) => {
-  const supabase = createAdminSupabaseClient()
-  const { data } = await supabase
-    .from("teams")
-    .select("*, users_teams!inner(user_id)")
-    .eq("users_teams.user_id", userId)
-    .single()
-
-  return data
-}
-
 /**
  * Submit a form to Hubspot.
  * @see https://legacydocs.hubspot.com/docs/methods/forms/submit_form_v3_authentication
  */
 const submitForm = async (
   user: ApiUser,
+  team: Team,
   subject: string,
   message: string,
   pageUri: string,
@@ -44,8 +32,6 @@ const submitForm = async (
   if (!accessToken || !portalId || !contactFormGuid) {
     return
   }
-
-  const team = await getUserTeam(user.id)
 
   const res = await fetch(
     `https://api.hsforms.com/submissions/v3/integration/secure/submit/${portalId}/${contactFormGuid}`,
@@ -72,12 +58,12 @@ const submitForm = async (
           {
             objectTypeId: "0-2",
             name: "name",
-            value: team?.name,
+            value: team.name,
           },
           {
             objectTypeId: "0-2",
             name: "domain",
-            value: team?.website,
+            value: team.website,
           },
           {
             objectTypeId: "0-1",
@@ -111,7 +97,7 @@ export const POST = apiRequestHandler(
     const { user } = ctx
     const { subject, message, pageUri } = await req.json()
 
-    await submitForm(user, subject, message, pageUri)
+    await submitForm(user, ctx.team, subject, message, pageUri)
 
     return { status: "OK" }
   },
