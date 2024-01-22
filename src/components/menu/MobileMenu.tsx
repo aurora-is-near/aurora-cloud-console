@@ -33,10 +33,10 @@ const SubrouteMenu = () => {
       </ul>
 
       {route === "borealis" &&
-      !!data?.deals.length &&
+      !!data?.items.length &&
       !pathname.startsWith("/admin") ? (
         <ul role="list" className="space-y-2">
-          {data.deals.map((deal) => (
+          {data.items.map((deal) => (
             <li key={deal.id}>
               <MobileSubMenuButton
                 href={"/borealis/deals/" + deal.id}

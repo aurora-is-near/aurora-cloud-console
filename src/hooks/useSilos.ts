@@ -12,7 +12,7 @@ export const useSilos = () => {
       return
     }
 
-    query.data.silos.forEach((silo) => {
+    query.data.items.forEach((silo) => {
       const queryKey = getQueryKey("getSilo", { id: silo.id })
 
       queryClient.setQueryData(queryKey, silo)

@@ -6,7 +6,6 @@ import {
   ApiKey,
   User,
   Users,
-  Deals,
   Contract,
   TeamMembers,
   Team,
@@ -40,7 +39,7 @@ export const apiClient = {
 
   getSilo: async ({ id }: { id: number }) => request<Silo>(`/api/silos/${id}`),
 
-  getSilos: async () => request<{ silos: Silo[] }>("/api/silos"),
+  getSilos: async () => request<{ items: Silo[] }>("/api/silos"),
 
   getSiloTokens: async ({ id }: { id: number }) =>
     request<Token[]>(`/api/silos/${id}/tokens`),
@@ -54,7 +53,7 @@ export const apiClient = {
   getUsersExport: async (query: { dealId?: number }) =>
     request<Users>("/api/users/export", { query }),
 
-  getDeals: async () => request<Deals>("/api/deals"),
+  getDeals: async () => request<{ items: Deal[] }>("/api/deals"),
 
   getDeal: async ({ id }: { id: number }) => request<Deal>(`/api/deals/${id}`),
 

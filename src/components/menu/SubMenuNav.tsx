@@ -41,11 +41,11 @@ const BorealisMenu = () => {
 
   if (isLoading) return <NavLoader />
 
-  if (!data?.deals.length) return null
+  if (!data?.items.length) return null
 
   return (
     <ul role="list" className="space-y-4">
-      {data.deals.map((deal) => (
+      {data.items.map((deal) => (
         <li key={deal.id}>
           <SubMenuButton
             href={`/borealis/deals/${encodeURIComponent(deal.id)}`}
@@ -94,7 +94,7 @@ const SiloMenu = () => {
 
   if (isLoading) return <NavLoader />
 
-  if (!silos?.silos.length) return null
+  if (!silos?.items.length) return null
 
   return (
     <>
@@ -116,7 +116,7 @@ const SiloMenu = () => {
           }
         >
           <option disabled>Select silo</option>
-          {silos.map((silo) => (
+          {silos.items.map((silo) => (
             <option key={silo.id} value={silo.id}>
               {silo.name}
             </option>
@@ -144,11 +144,11 @@ const UsersMenu = () => {
 
   if (isLoading) return <NavLoader />
 
-  if (!data?.deals?.length) return null
+  if (!data?.items?.length) return null
 
   return (
     <ul role="list" className="space-y-4">
-      {data.deals.map((deal) => (
+      {data.items.map((deal) => (
         <li key={deal.id}>
           <SubMenuButton
             href={`/users/${encodeURIComponent(deal.id)}`}

@@ -61,10 +61,6 @@ export type Users = {
   users: UserDetails[]
 }
 
-export type Deals = {
-  deals: Deal[]
-}
-
 export type DealEnabled = {
   enabled: boolean
 }

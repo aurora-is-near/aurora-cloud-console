@@ -9,7 +9,7 @@ export const GET = createApiEndpoint(
     const silos = await getTeamSilos(ctx.team.id)
 
     return {
-      silos: (silos ?? []).map(
+      items: (silos ?? []).map(
         (silo) => ({
           ...silo,
           teams: undefined,

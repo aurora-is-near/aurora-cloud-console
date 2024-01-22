@@ -32,7 +32,7 @@ export const contract = c.router({
     path: "/api/deals",
     responses: {
       200: z.object({
-        deals: z.array(DealSchema),
+        items: z.array(DealSchema),
       }),
     },
     metadata: {
@@ -167,7 +167,7 @@ export const contract = c.router({
     path: "/api/silos",
     responses: {
       200: z.object({
-        silos: z.array(SiloSchema),
+        items: z.array(SiloSchema),
       }),
     },
     metadata: {
