@@ -94,7 +94,7 @@ const SiloMenu = () => {
 
   if (isLoading) return <NavLoader />
 
-  if (!silos?.length) return null
+  if (!silos?.silos.length) return null
 
   return (
     <>
