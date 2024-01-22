@@ -17,7 +17,7 @@ export const GET = createApiEndpoint(
     assertValidSupabaseResult(result)
 
     return {
-      deals: result.data,
+      items: result.data,
     }
   },
 )

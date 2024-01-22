@@ -12,7 +12,7 @@ export const useDeals = () => {
       return
     }
 
-    query.data.deals.forEach((deal) => {
+    query.data.items.forEach((deal) => {
       const queryKey = getQueryKey("getDeal", { id: deal.id })
 
       queryClient.setQueryData(queryKey, deal)

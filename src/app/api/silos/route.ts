@@ -1,13 +1,21 @@
 import { NextRequest } from "next/server"
-import { apiRequestHandler } from "@/utils/api"
+import { createApiEndpoint } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 
-export const GET = apiRequestHandler(
-  ["silos:read"],
+export const GET = createApiEndpoint(
+  "getSilos",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const silos = await getTeamSilos(ctx.team.id)
 
-    return silos
+    return {
+      items: (silos ?? []).map(
+        (silo) => ({
+          ...silo,
+          teams: undefined,
+        }),
+        [],
+      ),
+    }
   },
 )

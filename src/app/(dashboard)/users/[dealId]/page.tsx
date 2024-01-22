@@ -8,7 +8,7 @@ const Page = () => {
   const params = useParams()
   const { data } = useDeals()
 
-  const deal = data?.deals?.find(
+  const deal = data?.items?.find(
     (deal) => encodeURIComponent(deal.id) === params.dealId,
   )
 

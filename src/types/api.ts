@@ -1,4 +1,4 @@
-import { contract } from "@/api-contract"
+import { contract } from "@/app/api/contract"
 import { ApiUser, Team } from "@/types/types"
 import { ServerInferResponseBody } from "@ts-rest/core"
 import { NextRequest, NextResponse } from "next/server"

@@ -14,7 +14,7 @@ import {
   ApiResponseBody,
   BaseApiRequestContext,
 } from "@/types/api"
-import { contract } from "@/api-contract"
+import { contract } from "@/app/api/contract"
 
 /**
  * Get the specific type of error.

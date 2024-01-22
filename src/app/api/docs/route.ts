@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { contract } from "../../../api-contract"
+import { contract } from "../contract"
 import { generateOpenApi } from "@ts-rest/open-api"
 import { PathItemObject, OperationObject } from "openapi3-ts/oas31"
 
