@@ -16,6 +16,7 @@ type ProxyApiVariableOperation = {
   template_key?: string
   string_value?: string
   number_value?: number
+  value_reset_policy?: "recreate"
 }
 
 type ProxyApiTemplateOperation = {
@@ -35,7 +36,7 @@ export type ProxyApiUpateOperation =
   | ProxyApiTemplateOperation
 
 export type ProxyApiViewOperation = {
-  var_type: ProxyApiVarType
+  var_type?: ProxyApiVarType
   key?: string
   begin_key?: string
   end_key?: string
