@@ -18,9 +18,9 @@ export const GET = createApiEndpoint(
     // for the given team and deal IDs, 404 otherwise.
     const result = await supabase
       .from("deals")
-      .select("*, teams!inner(id, team_key)")
+      .select("*")
       .eq("id", Number(ctx.params.id))
-      .eq("teams.team_key", ctx.team.team_key)
+      .eq("team_id", ctx.team.id)
       .single()
 
     assertValidSupabaseResult(result)
@@ -51,8 +51,8 @@ export const PUT = createApiEndpoint(
       .from("deals")
       .update({ enabled })
       .eq("id", Number(ctx.params.id))
-      .eq("teams.team_key", ctx.team.team_key)
-      .select("*, teams!inner(id, team_key)")
+      .eq("team_id", ctx.team.id)
+      .select("*")
       .single()
 
     assertValidSupabaseResult(result)

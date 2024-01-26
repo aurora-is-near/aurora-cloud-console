@@ -87,6 +87,7 @@ export interface Database {
           end_time: number | null
           id: number
           name: string
+          priority: string
           start_time: number | null
           team_id: number
         }
@@ -97,6 +98,7 @@ export interface Database {
           end_time?: number | null
           id?: number
           name: string
+          priority: string
           start_time?: number | null
           team_id: number
         }
@@ -107,6 +109,7 @@ export interface Database {
           end_time?: number | null
           id?: number
           name?: string
+          priority?: string
           start_time?: number | null
           team_id?: number
         }

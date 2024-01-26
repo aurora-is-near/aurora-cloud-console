@@ -14,9 +14,9 @@ export const GET = createApiEndpoint(
 
     const result = await supabase
       .from("deals")
-      .select("*, teams!inner(id, team_key)")
+      .select("*")
       .eq("id", Number(ctx.params.id))
-      .eq("teams.team_key", ctx.team.team_key)
+      .eq("team_id", ctx.team.id)
       .maybeSingle()
 
     assertValidSupabaseResult(result)

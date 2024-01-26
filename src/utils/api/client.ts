@@ -134,6 +134,26 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
+  getDealPriorities: async () =>
+    request<{
+      items: {
+        dealId: number
+        name: string
+        priority: string
+      }[]
+    }>(`/api/deals/priorities`),
+
+  updateDealPriorities: async (data: {
+    priorities: {
+      dealId: number
+      priority: string
+    }[]
+  }) =>
+    request<Deal>(`/api/deals/priorities`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 
   getApiKey: async ({ id }: Partial<Pick<ApiKey, "id">>) =>

@@ -13,6 +13,14 @@ const DealSchema = z.object({
   team_id: z.number(),
 })
 
+const DealPrioritiesSchema = z.array(
+  z.object({
+    dealId: z.number(),
+    name: z.string(),
+    priority: z.string(),
+  }),
+)
+
 const SiloSchema = z.object({
   id: z.number(),
   created_at: z.string(),
@@ -160,6 +168,40 @@ export const contract = c.router({
       scopes: ["deals:write"],
     },
     body: null,
+  },
+  getDealPriorities: {
+    summary: "Get deal execution priorities",
+    method: "GET",
+    path: "/api/deals/priorities",
+    responses: {
+      200: z.object({
+        items: DealPrioritiesSchema,
+      }),
+    },
+    metadata: {
+      scopes: ["deals:read"],
+    },
+  },
+  updateDealPriorities: {
+    summary: "Update deal execution priorities",
+    method: "PUT",
+    path: "/api/deals/priorities",
+    responses: {
+      200: z.object({
+        items: DealPrioritiesSchema,
+      }),
+    },
+    body: z.object({
+      priorities: z.array(
+        z.object({
+          dealId: z.number(),
+          priority: z.string(),
+        }),
+      ),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
   },
   getSilos: {
     summary: "Get all silos",
