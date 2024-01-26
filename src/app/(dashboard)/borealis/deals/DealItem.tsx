@@ -1,6 +1,6 @@
 import { Deal } from "@/types/types"
 import Button from "@/components/Button"
-import ToggleDeal from "./ToggleDeal"
+import ToggleDeal from "../../../../components/ToggleDeal"
 import { formatDate } from "@/utils/helpers"
 
 type DealItemProps = {

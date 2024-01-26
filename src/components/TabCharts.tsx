@@ -47,7 +47,7 @@ const TabCharts = <T extends unknown>({
 
   return (
     <>
-      <div className="flex flex-col items-start justify-between gap-4 md:flex-row">
+      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         {children}
 
         {dateOptions && (

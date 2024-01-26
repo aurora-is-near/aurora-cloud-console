@@ -17,6 +17,7 @@ import { Line } from "react-chartjs-2"
 import { CHART_DATE_OPTIONS } from "../constants/charts"
 import { getLineChartData } from "../utils/charts"
 import { TransactionChart } from "../types/types"
+import { ReactNode } from "react"
 
 ChartJS.register(
   CategoryScale,
@@ -29,7 +30,7 @@ ChartJS.register(
 )
 
 type TransactionsChartsProps = {
-  title: string
+  title: ReactNode
   charts?: TransactionChart[]
   interval?: string | null
   setInterval?: (value: string | null) => void
