@@ -14,9 +14,9 @@ import {
 import Heading from "@/components/Heading"
 import TabCharts from "@/components/TabCharts"
 import { Line } from "react-chartjs-2"
-import { CHART_DATE_OPTIONS } from "../../../constants/charts"
-import { getLineChartData } from "../../../utils/charts"
-import { TransactionChart } from "../../../types/types"
+import { CHART_DATE_OPTIONS } from "../constants/charts"
+import { getLineChartData } from "../utils/charts"
+import { TransactionChart } from "../types/types"
 
 ChartJS.register(
   CategoryScale,

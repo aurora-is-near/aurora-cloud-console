@@ -1,24 +1,12 @@
-"use client"
-
 import Contact from "@/components/Contact"
 import Chart from "./Chart"
-import TransactionsCharts from "./TransactionsCharts"
-import { useChartInterval } from "../../../hooks/useChartInterval"
-import { useSilosTransactions } from "@/hooks/useSilosTransactions"
+import { SilosTransactionsCharts } from "@/app/(dashboard)/silos/SilosTransactionsCharts"
 
 const Page = () => {
-  const [interval, setInterval] = useChartInterval()
-  const { data: transactions } = useSilosTransactions({ interval })
-
   return (
     <div className="space-y-4 sm:space-y-5">
       <section>
-        <TransactionsCharts
-          title="Summary"
-          interval={interval}
-          setInterval={setInterval}
-          charts={transactions?.items.map((item) => item.chart)}
-        />
+        <SilosTransactionsCharts />
       </section>
 
       <section className="grid md:grid-cols-2 gap-y-5 gap-x-2.5">
