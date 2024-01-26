@@ -1,29 +1,34 @@
 import { NextRequest } from "next/server"
-import { apiRequestHandler } from "@/utils/api"
+import { createApiEndpoint } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
 import {
-  queryUserWalletCount,
-  queryUsers,
+  queryWalletCount,
+  queryWallets,
 } from "../../../utils/proxy-db/query-users"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
+import { getLimitAndOffset } from "@/utils/pagination"
+import { abort } from "@/utils/abort"
 
-export const GET = apiRequestHandler(
-  ["users:read"],
+export const GET = createApiEndpoint(
+  "getWallets",
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const silos = await getTeamSilos(ctx.team.id)
     const siloChainIds = silos.map((silo) => silo.chain_id)
     const { searchParams } = req.nextUrl
-    const limit = searchParams.get("limit") ?? 20
-    const offset = searchParams.get("offset") ?? 0
+    const { limit, offset } = getLimitAndOffset(req)
     const dealId = searchParams.get("dealId")
     const dealKey = dealId ? await getDealKey(Number(dealId)) : null
 
+    if (dealId && !dealKey) {
+      abort(400, "Invalid deal id")
+    }
+
     const results = await Promise.all([
-      queryUserWalletCount(ctx.team.is_demo_account, siloChainIds, {
+      queryWalletCount(ctx.team.is_demo_account, siloChainIds, {
         dealKey,
       }),
-      queryUsers(ctx.team.is_demo_account, siloChainIds, {
+      queryWallets(ctx.team.is_demo_account, siloChainIds, {
         limit: Number(limit),
         offset: Number(offset),
         dealKey,
@@ -31,11 +36,11 @@ export const GET = apiRequestHandler(
     ])
 
     return {
-      total: results[0].rows[0].count,
-      users: results[1].rows.map((row) => ({
+      total: 0,
+      items: results[1].rows.map((row) => ({
         walletAddress: row.wallet_address,
-        transactionsCount: row.transactions_count,
-        createdAt: row.created_at,
+        numberOfTransactions: row.number_of_transactions,
+        firstTransactionAt: row.first_transaction_at,
         lastTransactionAt: row.last_transaction_at,
       })),
     }

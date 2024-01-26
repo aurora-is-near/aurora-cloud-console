@@ -1,4 +1,4 @@
-import { ProxyDatabase, UserDetailsQuery } from "../../types/types"
+import { ProxyDatabase, TransactionsQuery } from "../../types/types"
 import { query } from "./query"
 
 type Params = {
@@ -19,7 +19,7 @@ const getWhereClause = (chainIds: string[], params: Params) => {
   return whereClause
 }
 
-export const queryUsers = async (
+export const queryWallets = async (
   database: ProxyDatabase,
   chainIds: string[],
   params: Params,
@@ -27,13 +27,13 @@ export const queryUsers = async (
   const { limit, offset } = params
   const whereClause = getWhereClause(chainIds, params)
 
-  return query<UserDetailsQuery>(
+  return query<TransactionsQuery>(
     database,
     `
       SELECT
         "from" as wallet_address,
-        count(DISTINCT id) as transactions_count,
-        min("req_time") as created_at,
+        count(DISTINCT id) as number_of_transactions,
+        min("req_time") as first_transaction_at,
         max("req_time") as last_transaction_at
       ${FROM_CLAUSE}
       ${whereClause}
@@ -44,7 +44,7 @@ export const queryUsers = async (
   )
 }
 
-export const queryUserWalletCount = async (
+export const queryWalletCount = async (
   database: ProxyDatabase,
   chainIds: string[],
   params: Params,

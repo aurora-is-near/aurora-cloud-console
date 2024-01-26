@@ -227,4 +227,30 @@ export const contract = c.router({
       scopes: ["silos:read"],
     },
   },
+  getWallets: {
+    summary: "Get the wallets that have interacted with your silos",
+    method: "GET",
+    path: "/api/wallets",
+    responses: {
+      200: z.object({
+        total: z.number(),
+        items: z.array(
+          z.object({
+            walletAddress: z.string(),
+            numberOfTransactions: z.number(),
+            firstTransactionAt: z.string(),
+            lastTransactionAt: z.string(),
+          }),
+        ),
+      }),
+    },
+    query: z.object({
+      limit: z.number().optional(),
+      offset: z.number().optional(),
+      dealId: z.number().optional(),
+    }),
+    metadata: {
+      scopes: ["transactions:read"],
+    },
+  },
 })

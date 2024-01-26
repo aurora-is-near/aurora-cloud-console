@@ -48,10 +48,7 @@ export const apiClient = {
     limit?: number
     offset?: number
     dealId?: number
-  }) => request<Users>("/api/users", { query }),
-
-  getUsersExport: async (query: { dealId?: number }) =>
-    request<Users>("/api/users/export", { query }),
+  }) => request<Users>("/api/transactions", { query }),
 
   getDeals: async () => request<{ items: Deal[] }>("/api/deals"),
 
@@ -61,7 +58,7 @@ export const apiClient = {
     request<DealEnabled>(`/api/deals/${id}/enabled`),
 
   getSilosTransactions: async (query?: { interval?: string | null }) =>
-    request<SiloTransactionCharts>("/api/transactions/silos", { query }),
+    request<SiloTransactionCharts>("/api/transaction-charts/silos", { query }),
 
   getSiloTransactions: async ({
     id,
@@ -70,10 +67,12 @@ export const apiClient = {
     id: number
     interval?: string | null
   }) =>
-    request<SiloTransactionCharts>(`/api/transactions/silos/${id}`, { query }),
+    request<SiloTransactionCharts>(`/api/transaction-charts/silos/${id}`, {
+      query,
+    }),
 
   getDealsTransactions: async (query?: { interval?: string | null }) =>
-    request<DealTransactionCharts>("/api/transactions/deals", { query }),
+    request<DealTransactionCharts>("/api/transaction-charts/deals", { query }),
 
   getDealTransactions: async ({
     id,
@@ -82,7 +81,9 @@ export const apiClient = {
     id: number
     interval?: string | null
   }) =>
-    request<DealTransactionCharts>(`/api/transactions/deals/${id}`, { query }),
+    request<DealTransactionCharts>(`/api/transaction-charts/deals/${id}`, {
+      query,
+    }),
 
   enableDeal: async ({ id, ...data }: { id: number; enabled: boolean }) =>
     request<Deal>(`/api/deals/${id}/enabled`, {

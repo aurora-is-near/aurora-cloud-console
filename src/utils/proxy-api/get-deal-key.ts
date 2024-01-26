@@ -1,8 +1,10 @@
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { abort } from "@/utils/abort"
 
 export const getDealKey = async (id: number) => {
   const supabase = createAdminSupabaseClient()
 
+  // TODO: Remove this once the Proxy API is implemented
   const { data: deal } = await supabase
     .from("deals")
     .select("id, demo_key, teams!inner(id, is_demo_account)")
@@ -10,7 +12,7 @@ export const getDealKey = async (id: number) => {
     .single()
 
   if (!deal) {
-    throw new Error(`Deal with id ${id} not found`)
+    abort(404, `Deal with id ${id} not found`)
   }
 
   if (!deal.teams) {

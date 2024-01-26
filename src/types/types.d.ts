@@ -49,10 +49,10 @@ export type UserDetails = {
   lastTransactionAt: string
 }
 
-export type UserDetailsQuery = {
+export type TransactionsQuery = {
   wallet_address: string
-  transactions_count: number
-  created_at: string
+  number_of_transactions: number
+  first_transaction_at: string
   last_transaction_at: string
 }
 
