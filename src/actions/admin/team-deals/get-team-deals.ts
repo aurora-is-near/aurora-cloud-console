@@ -7,9 +7,9 @@ export const getTeamDeals = async (teamId: number): Promise<Deal[]> => {
   const supabase = createAdminSupabaseClient()
   const { data: deals } = await supabase
     .from("deals")
-    .select("*, teams(id)")
+    .select("*")
     .order("created_at", { ascending: true })
-    .eq("teams.id", teamId)
+    .eq("team_id", teamId)
 
   return deals ?? []
 }

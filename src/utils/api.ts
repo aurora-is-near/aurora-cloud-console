@@ -59,7 +59,10 @@ const handleRequest = async <Body = unknown>(
   scopes: ApiScope[],
   handler: ApiRequestHandler<Body>,
 ): Promise<ApiResponse<Body>> => {
-  const [user, team] = await Promise.all([getUser(), getCurrentTeam(req)])
+  const [user, team] = await Promise.all([
+    getUser(),
+    getCurrentTeam(req.headers),
+  ])
   let data: Body
 
   try {

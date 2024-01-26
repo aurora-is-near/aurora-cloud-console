@@ -1,23 +1,6 @@
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Team } from "@/types/types"
-import { NextRequest } from "next/server"
-
-const getSubdomain = (req: NextRequest): string | undefined => {
-  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host")
-
-  if (!host) {
-    return
-  }
-
-  const hostname = host.split(":")[0]
-  const hostnameParts = hostname.split(".")
-
-  if (hostnameParts.length !== 3) {
-    return
-  }
-
-  return hostnameParts[0]
-}
+import { getSubdomain } from "@/utils/subdomain"
 
 const findTeamDetails = (teams: Team[], key?: string): Team | null =>
   teams.find(({ team_key }) => team_key === key) ?? null
@@ -25,7 +8,7 @@ const findTeamDetails = (teams: Team[], key?: string): Team | null =>
 /**
  * Get the team associated with the current subdomain.
  */
-export const getCurrentTeam = async (req: NextRequest) => {
+export const getCurrentTeam = async (headers: Headers) => {
   const { data: teams } = await createAdminSupabaseClient()
     .from("teams")
     .select("*")
@@ -34,7 +17,7 @@ export const getCurrentTeam = async (req: NextRequest) => {
     throw new Error("No teams found")
   }
 
-  const subdomain = getSubdomain(req)
+  const subdomain = getSubdomain(headers)
   const teamForSubdomain = findTeamDetails(teams, subdomain)
   const defaultTeam = findTeamDetails(teams, process.env.DEFAULT_TEAM_KEY)
 

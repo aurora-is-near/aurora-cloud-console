@@ -62,7 +62,10 @@ export async function middleware(req: NextRequest) {
       data: { session },
     },
     { team_key: teamKey },
-  ] = await Promise.all([supabase.auth.getSession(), getCurrentTeam(req)])
+  ] = await Promise.all([
+    supabase.auth.getSession(),
+    getCurrentTeam(req.headers),
+  ])
 
   if (!teamKey && !isAdminSubdomain(req)) {
     return unknownRedirect(req, res)

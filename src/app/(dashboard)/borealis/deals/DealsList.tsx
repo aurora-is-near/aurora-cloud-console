@@ -1,20 +1,18 @@
-"use client"
-
 import Card from "@/components/Card"
 import DealItem from "./DealItem"
-import { useDeals } from "@/hooks/useDeals"
-import Loader from "../../../../components/Loader"
+import { getTeamDeals } from "@/actions/admin/team-deals/get-team-deals"
+import { headers } from "next/headers"
+import { getCurrentTeam } from "@/utils/current-team"
 
-const DealsList = () => {
-  const { data, isLoading } = useDeals()
-
-  if (isLoading) {
-    return <Loader className="rounded-md sm:h-[92px] h-32" />
-  }
+const DealsList = async () => {
+  const team = await getCurrentTeam(headers())
+  const deals = await getTeamDeals(team.id)
 
   return (
     <Card className="divide-y divide-gray-200" tag="ul" role="list">
-      {data?.items.map((deal) => <DealItem key={deal.id} deal={deal} />)}
+      {deals.map((deal) => (
+        <DealItem key={deal.id} deal={deal} />
+      ))}
     </Card>
   )
 }
