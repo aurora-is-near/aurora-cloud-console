@@ -247,21 +247,19 @@ const adminMenuMap = {
   deals: <AdminDeals />,
 }
 
-const getSubMenu = (pathname: string, route: string) => {
-  if (pathname.startsWith("/admin")) {
+const getSubMenu = (route: string, isAdmin?: boolean) => {
+  if (isAdmin) {
     return adminMenuMap[route as keyof typeof adminMenuMap]
   }
 
   return menuMap[route as keyof typeof menuMap]
 }
 
-const SubMenuNav = () => {
-  const pathname = usePathname()
+const SubMenuNav = ({ isAdmin }: { isAdmin?: boolean }) => {
   const [route] = useSelectedLayoutSegments()
-  const subroutes = getSubroutes(pathname, route)
+  const subroutes = getSubroutes(route, isAdmin)
+  const subMenu = getSubMenu(route, isAdmin)
   const heading = capitalizeFirstLetter(route)
-  const subMenu = getSubMenu(pathname, route)
-
   const isSettingsRoute = route === "settings"
 
   return (

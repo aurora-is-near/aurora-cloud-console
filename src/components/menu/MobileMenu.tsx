@@ -15,11 +15,16 @@ import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
 import { getSubroutes } from "@/utils/menu"
 import { useDeals } from "@/hooks/useDeals"
+import { isAdmin } from "@/actions/admin/is-admin"
 
-const SubrouteMenu = () => {
+type SubrouteMenuProps = {
+  isAdmin?: boolean
+}
+
+const SubrouteMenu = ({ isAdmin }: SubrouteMenuProps) => {
   const pathname = usePathname()
   const [route] = useSelectedLayoutSegments()
-  const subroutes = getSubroutes(pathname, route)
+  const subroutes = getSubroutes(pathname, isAdmin)
   const { data } = useDeals()
 
   return (
@@ -32,9 +37,7 @@ const SubrouteMenu = () => {
         ))}
       </ul>
 
-      {route === "borealis" &&
-      !!data?.items.length &&
-      !pathname.startsWith("/admin") ? (
+      {route === "borealis" && !!data?.items.length && !isAdmin ? (
         <ul role="list" className="space-y-2">
           {data.items.map((deal) => (
             <li key={deal.id}>
@@ -53,9 +56,10 @@ const SubrouteMenu = () => {
 
 type MobileMenuProps = {
   menuItems: MenuItem[]
+  isAdmin?: boolean
 }
 
-export default function MobileMenu({ menuItems }: MobileMenuProps) {
+export default function MobileMenu({ menuItems, isAdmin }: MobileMenuProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [route, subroute] = useSelectedLayoutSegments()
   const isSettingsRoute = route === "settings"
@@ -132,7 +136,7 @@ export default function MobileMenu({ menuItems }: MobileMenuProps) {
                     </ul>
                   </nav>
 
-                  <SubrouteMenu />
+                  <SubrouteMenu isAdmin={isAdmin} />
 
                   {isSettingsRoute && <SignoutButton />}
                 </div>

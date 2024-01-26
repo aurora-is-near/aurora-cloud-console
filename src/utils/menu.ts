@@ -1,10 +1,10 @@
 import { SubMenuItem, subrouteMap } from "@/constants/navigation"
 
 export const getSubroutes = (
-  pathname: string,
   route: string,
+  isAdmin?: boolean,
 ): SubMenuItem[] => {
-  if (pathname.startsWith("/admin")) {
+  if (isAdmin) {
     return []
   }
 
