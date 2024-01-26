@@ -192,7 +192,12 @@ export const contract = c.router({
       }),
     },
     body: z.object({
-      priorities: DealPrioritiesSchema,
+      priorities: z.array(
+        z.object({
+          dealId: z.number(),
+          priority: z.string(),
+        }),
+      ),
     }),
     metadata: {
       scopes: ["deals:write"],

@@ -15,7 +15,7 @@ export const GET = createApiEndpoint(
     const result = await supabase
       .from("deals")
       .select("id, name, priority, team_id")
-      .order("priority", { ascending: false })
+      .order("priority", { ascending: true })
       .eq("team_id", ctx.team.id)
 
     assertValidSupabaseResult(result)
@@ -63,28 +63,29 @@ export const PUT = createApiEndpoint(
       .select("id, name, team_id")
       .eq("team_id", ctx.team.id)
 
-    priorities.forEach((priority, _index, arr) => {
-      const deal = result.data?.find((deal) => deal.id === priority.dealId)
+    priorities.forEach(({ dealId, priority }, _index, arr) => {
+      const deal = result.data?.find((deal) => deal.id === dealId)
 
       if (!deal) {
-        abort(400, `No deal found with id ${priority.dealId}`)
+        abort(400, `No deal found with id ${dealId}`)
+      }
+
+      if (!priority) {
+        abort(400, `No priority provided for deal ${dealId}`)
       }
 
       // Priority must match format 0001, 0002, 0003, etc.
-      if (!priority.priority.match(/^[0-9]{4}$/)) {
-        abort(400, `Invalid priority: ${priority.priority}`)
+      if (!priority.match(/^[0-9]{4}$/)) {
+        abort(400, `Invalid priority: ${priority}`)
       }
 
       // Check if the same priority was used for another deal
       const duplicate = arr.find(
-        (p) => p.priority === priority.priority && p.dealId !== priority.dealId,
+        (p) => p.priority === priority && p.dealId !== dealId,
       )
 
       if (duplicate) {
-        abort(
-          400,
-          `Priority ${priority.priority} cannot be used for multiple deals`,
-        )
+        abort(400, `Priority ${priority} cannot be used for multiple deals`)
       }
     })
 
