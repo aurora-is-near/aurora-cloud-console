@@ -7,7 +7,7 @@ import {
   ClipboardDocumentCheckIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline"
-import { MenuItem } from "@/constants/navigation"
+import { MenuItem } from "@/types/menu"
 import { MobileMainMenuButton, MobileSubMenuButton } from "./MenuButtons"
 import { usePathname, useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"

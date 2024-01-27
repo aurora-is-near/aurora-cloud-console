@@ -13,17 +13,7 @@ import {
   TicketIcon,
 } from "@heroicons/react/24/outline"
 import { Borealis, Silos } from "@/components/icons"
-
-export type MenuItem = {
-  name: string
-  href: string
-  icon: JSX.Element
-  disabled?: boolean
-}
-
-export type SubMenuItem = Omit<MenuItem, "icon"> & {
-  icon?: JSX.Element
-}
+import { MenuItem, SubMenuItem } from "@/types/menu"
 
 export const mainNavigation: MenuItem[] = [
   { name: "Borealis", href: "/borealis/deals", icon: <Borealis /> },
