@@ -1,4 +1,4 @@
-import { LOGIN_ROUTE } from "@/constants/routes"
+import { ADMIN_HOME_ROUTE, HOME_ROUTE, LOGIN_ROUTE } from "@/constants/routes"
 import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
 import { isAdminSubdomain } from "@/utils/admin"
 import { NextRequest, NextResponse } from "next/server"
@@ -16,8 +16,8 @@ export async function GET(request: NextRequest) {
     }
 
     const redirectRoute = isAdminSubdomain(request)
-      ? "/teams"
-      : "/borealis/deals"
+      ? ADMIN_HOME_ROUTE
+      : HOME_ROUTE
 
     return NextResponse.redirect(new URL(redirectRoute, request.url))
   } catch (error) {

@@ -8,6 +8,7 @@ import {
   LOGIN_UNAUTHORISED_ROUTE,
   LOGIN_UNKNOWN_ROUTE,
   LOGOUT_ROUTE,
+  HOME_ROUTE,
 } from "./constants/routes"
 import { isAdminSubdomain, isAdminUser } from "@/utils/admin"
 import { createMiddlewareClient } from "@/supabase/create-middleware-client"
@@ -24,10 +25,10 @@ const redirect = (req: NextRequest, res: NextResponse, route: string) => {
 }
 
 const loginRedirect = (req: NextRequest, res: NextResponse) =>
-  redirect(req, res, "/login")
+  redirect(req, res, LOGIN_ROUTE)
 
 const dealsRedirect = (req: NextRequest, res: NextResponse) =>
-  redirect(req, res, "/borealis/deals")
+  redirect(req, res, HOME_ROUTE)
 
 const unauthorisedRedirect = (req: NextRequest, res: NextResponse) =>
   redirect(req, res, LOGIN_UNAUTHORISED_ROUTE)

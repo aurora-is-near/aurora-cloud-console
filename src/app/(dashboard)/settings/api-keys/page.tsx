@@ -17,7 +17,6 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
 import TableLoader from "../../../../components/TableLoader"
-import { getQueryKey } from "@/utils/api/query-keys"
 import { useApiKeys } from "@/hooks/useApiKeys"
 
 const Page = () => {
