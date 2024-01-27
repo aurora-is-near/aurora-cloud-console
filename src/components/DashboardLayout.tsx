@@ -21,8 +21,11 @@ export const DashboardLayout = ({
   return (
     <div className="w-full lg:flex lg:flex-row lg:h-screen overflow-hidden">
       <MainMenu mainMenuItems={mainMenuItems} extraMenuItems={extraMenuItems} />
-      <MobileMenu isAdmin menuItems={[...mainMenuItems, ...extraMenuItems]} />
-      <SubMenuNav isAdmin />
+      <MobileMenu
+        isAdmin={isAdmin}
+        menuItems={[...mainMenuItems, ...extraMenuItems]}
+      />
+      <SubMenuNav isAdmin={isAdmin} />
 
       <main className="max-h-full overflow-auto flex-1">
         <Toaster
