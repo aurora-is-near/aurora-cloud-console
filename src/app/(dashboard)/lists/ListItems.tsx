@@ -9,6 +9,7 @@ import TableLoader from "@/components/TableLoader"
 import { useSearchParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { getQueryFnAndKey } from "@/utils/api/queries"
+import { EditListButton } from "@/app/(dashboard)/lists/EditListButton"
 
 const PER_PAGE = 20
 
@@ -43,10 +44,7 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
           <SearchInput search={search} />
 
           <div className="flex space-x-3">
-            <Button>
-              <Cog8ToothIcon className="w-5 h-5" />
-              <span>Manage</span>
-            </Button>
+            <EditListButton id={listId} />
           </div>
         </div>
       </header>

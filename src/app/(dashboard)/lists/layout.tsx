@@ -1,5 +1,4 @@
 import { ReactNode } from "react"
-import { DeleteListItemModal } from "./DeleteListItemModal"
 import { AddListModal } from "@/app/(dashboard)/lists/AddListModal"
 import { EditListModal } from "@/app/(dashboard)/lists/EditListModal"
 import { DeleteListModal } from "@/app/(dashboard)/lists/DeleteListModal"
