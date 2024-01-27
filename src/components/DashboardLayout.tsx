@@ -34,7 +34,9 @@ export const DashboardLayout = ({
             duration: 5000,
           }}
         />
-        <div className="relative px-4 py-6 md:px-6 lg:px-8">{children}</div>
+        <div className="relative px-4 py-6 md:px-6 lg:px-8 min-h-screen flex flex-col">
+          {children}
+        </div>
       </main>
     </div>
   )

@@ -18,6 +18,7 @@ import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
 import TableLoader from "../../../../components/TableLoader"
 import { useApiKeys } from "@/hooks/useApiKeys"
+import { NoDataCta } from "@/components/NoDataCta"
 
 const Page = () => {
   const { data: apiKeys, isLoading } = useApiKeys()
@@ -57,7 +58,7 @@ const Page = () => {
 
       {isLoading ? (
         <TableLoader />
-      ) : apiKeys?.length && apiKeys?.length > 0 ? (
+      ) : apiKeys?.length && apiKeys?.length > 1 ? (
         <Table>
           <Table.TH>Key</Table.TH>
           <Table.TH>Note</Table.TH>
@@ -94,20 +95,14 @@ const Page = () => {
           ))}
         </Table>
       ) : (
-        <div className="text-center flex flex-col items-center">
-          <div className="bg-gray-200 rounded-lg p-3 flex justify-center items-center mx-auto">
-            <KeyIcon className="text-gray-900 w-6 h-6 shrink-0" />
-          </div>
-          <h3 className="mt-4 text-sm font-semibold text-gray-900">
-            No API keys
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            Get started by creating a your first API key.
-          </p>
-          <div className="mt-6">
-            <AddApiKeyButton />
-          </div>
-        </div>
+        <NoDataCta
+          title="No API keys"
+          description="Get started by creating a your first API key."
+          className="mt-20"
+          Icon={KeyIcon}
+        >
+          <AddApiKeyButton />
+        </NoDataCta>
       )}
     </>
   )
