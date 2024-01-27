@@ -7,5 +7,6 @@ Project Description
 ### Todo
 
 - [ ] Pull list items from the Proxy API
+- [ ] Make search input on list page work
 
 ### Done ✓

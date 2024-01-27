@@ -55,7 +55,11 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
         {!data || isLoading ? (
           <TableLoader />
         ) : (
-          <ListItemsTable listItems={data.items} total={data.total} />
+          <ListItemsTable
+            listItems={data.items}
+            total={data.total}
+            itemsPerPage={PER_PAGE}
+          />
         )}
       </section>
     </div>
