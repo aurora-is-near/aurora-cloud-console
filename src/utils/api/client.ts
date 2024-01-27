@@ -13,6 +13,7 @@ import {
   SiloTransactionCharts,
   DealTransactionCharts,
   DealEnabled,
+  List,
 } from "@/types/types"
 import { request } from "./request"
 
@@ -197,6 +198,39 @@ export const apiClient = {
   deleteTeamMember: async ({ id }: { id: number }) =>
     request(`/api/admin/team/members/${id}`, {
       method: "DELETE",
+    }),
+
+  getLists: async () => request<{ items: List[] }>("/api/lists"),
+
+  createList: async (data: { name: string }) =>
+    request<List>("/api/lists", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  getList: async ({ id }: { id: number }) => request<List>(`/api/lists/${id}`),
+
+  updateList: async ({ id, ...data }: { id: number; name: string }) =>
+    request<List>(`/api/lists/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+
+  deleteList: async ({ id }: { id: number }) =>
+    request(`/api/lists/${id}`, {
+      method: "DELETE",
+    }),
+
+  getListItems: async ({
+    id,
+    ...query
+  }: {
+    id: number
+    limit?: number
+    offset?: number
+  }) =>
+    request<{ total: number; items: string[] }>(`/api/lists/${id}/items`, {
+      query,
     }),
 }
 

@@ -2,41 +2,47 @@
 
 import Button from "@/components/Button"
 import Table from "@/components/Table"
-import { formatDate, formatTimeAgo, midTruncate } from "@/utils/helpers"
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline"
-import DropdownMenu from "./DropdownMenu"
-import { Users } from "../../../types/types"
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline"
 import { useSearchParams } from "next/navigation"
+import TableButton from "@/components/TableButton"
 
 const PER_PAGE = 20
 
-type UsersTableProps = {
-  users: Users["users"]
+type ListItemsTableProps = {
+  listItems: string[]
   total: number
 }
 
-const UsersTable = ({ users, total }: UsersTableProps) => {
+export const ListItemsTable = ({ listItems, total }: ListItemsTableProps) => {
   const searchParams = useSearchParams()
   const page = Number(searchParams.get("page") ?? 1)
+
+  const onRemoveListItemClick = (listItem: string) => {
+    if (confirm(`Are you sure you want to remove ${listItem}?`)) {
+      // deleteListItem({ id })
+    }
+  }
 
   return (
     <>
       <Table>
-        <Table.TH>Wallet</Table.TH>
-        <Table.TH>Date added</Table.TH>
-        <Table.TH>Transactions</Table.TH>
-        <Table.TH>Last transaction</Table.TH>
+        <Table.TH>Item</Table.TH>
         <Table.TH hidden>Options</Table.TH>
-        {users.map((user) => (
-          <Table.TR key={user.walletAddress}>
-            <Table.TD>{midTruncate(user.walletAddress, 24)}</Table.TD>
-            <Table.TD>{formatDate(new Date(user.createdAt))}</Table.TD>
-            <Table.TD>{user.transactionsCount}</Table.TD>
-            <Table.TD>
-              {formatTimeAgo(new Date(user.lastTransactionAt))}
-            </Table.TD>
+        {listItems.map((listItem) => (
+          <Table.TR key={listItem}>
+            <Table.TD>{listItem}</Table.TD>
             <Table.TD align="right">
-              <DropdownMenu address={user.walletAddress} />
+              <TableButton
+                Icon={TrashIcon}
+                srOnlyText="Remove item"
+                onClick={() => {
+                  onRemoveListItemClick(listItem)
+                }}
+              />
             </Table.TD>
           </Table.TR>
         ))}
@@ -58,8 +64,6 @@ const UsersTable = ({ users, total }: UsersTableProps) => {
   )
 }
 
-export default UsersTable
-
 function PreviousPage({ page }: { page: number }) {
   const searchParams = new URLSearchParams(useSearchParams())
 
@@ -75,7 +79,7 @@ function PreviousPage({ page }: { page: number }) {
     <Button
       style="secondary"
       disabled={!active}
-      href={active ? `/users?${searchParams}` : undefined}
+      href={active ? `/lists?${searchParams}` : undefined}
     >
       <ArrowLeftIcon className="w-5 h-5" />
       <span>Previous</span>
@@ -94,7 +98,7 @@ function NextPage({ page, totalPages }: { page: number; totalPages: number }) {
     <Button
       style="secondary"
       disabled={!active}
-      href={active ? `/users?${searchParams}` : undefined}
+      href={active ? `/lists?${searchParams}` : undefined}
     >
       <span>Next</span>
       <ArrowRightIcon className="w-5 h-5" />

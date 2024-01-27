@@ -5,15 +5,13 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { PlusIcon } from "@heroicons/react/20/solid"
 
-const AddListButton = () => {
+export const AddListButton = () => {
   const { openModal } = useModals()
 
   return (
     <Button onClick={() => openModal(Modals.AddList)}>
       <PlusIcon className="w-5 h-5" />
-      Add list
+      Create list
     </Button>
   )
 }
-
-export default AddListButton

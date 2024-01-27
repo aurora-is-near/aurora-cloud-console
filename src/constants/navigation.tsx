@@ -11,6 +11,7 @@ import {
   ArrowRightOnRectangleIcon,
   CurrencyDollarIcon,
   TicketIcon,
+  ListBulletIcon,
 } from "@heroicons/react/24/outline"
 import { Borealis, Silos } from "@/components/icons"
 import { MenuItem, SubMenuItem } from "@/types/menu"
@@ -18,7 +19,7 @@ import { MenuItem, SubMenuItem } from "@/types/menu"
 export const mainNavigation: MenuItem[] = [
   { name: "Borealis", href: "/borealis/deals", icon: <Borealis /> },
   { name: "Silos", href: "/silos", icon: <Silos /> },
-  { name: "Users", href: "/users", icon: <UsersIcon /> },
+  { name: "Lists", href: "/lists", icon: <ListBulletIcon /> },
   { name: "Services", href: "/services", icon: <SquaresPlusIcon /> },
 ]
 
@@ -52,11 +53,11 @@ export const subrouteMap: Record<string, SubMenuItem[]> = {
       icon: <HomeIcon />,
     },
   ],
-  users: [
+  lists: [
     {
-      name: "All users",
-      href: "/users",
-      icon: <UsersIcon />,
+      name: "All lists",
+      href: "/lists",
+      icon: <ListBulletIcon />,
     },
   ],
   settings: [

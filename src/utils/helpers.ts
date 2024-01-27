@@ -46,12 +46,12 @@ export const findOtherChildren = (
       return true
     })
 
-export const formatDate = (date: Date): string =>
+export const formatDate = (date: Date | string): string =>
   new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
-  }).format(date)
+  }).format(new Date(date))
 
 const formatter = new Intl.RelativeTimeFormat("en-US", {
   numeric: "auto",

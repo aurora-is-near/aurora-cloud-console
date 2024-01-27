@@ -4,7 +4,7 @@ import Button from "@/components/Button"
 import Heading from "@/components/Heading"
 import { Cog8ToothIcon } from "@heroicons/react/20/solid"
 import SearchInput from "./SearchInput"
-import UsersTable from "./UsersTable"
+import { ListItemsTable } from "./ListItemsTable"
 import TableLoader from "@/components/TableLoader"
 import { useSearchParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
@@ -12,21 +12,21 @@ import { getQueryFnAndKey } from "@/utils/api/queries"
 
 const PER_PAGE = 20
 
-type UsersListProps = {
+type ListItemsListProps = {
   title: string
-  dealId?: number
+  listId: number
 }
 
-const UsersList = ({ title, dealId }: UsersListProps) => {
+export const ListItems = ({ title, listId }: ListItemsListProps) => {
   const searchParams = useSearchParams()
   const page = Number(searchParams.get("page") ?? 1)
   const search = searchParams.get("search") ?? ""
 
   const { data, isLoading } = useQuery(
-    getQueryFnAndKey("getUsers", {
+    getQueryFnAndKey("getListItems", {
       limit: PER_PAGE,
       offset: (page - 1) * PER_PAGE,
-      dealId,
+      id: listId,
     }),
   )
 
@@ -55,11 +55,9 @@ const UsersList = ({ title, dealId }: UsersListProps) => {
         {!data || isLoading ? (
           <TableLoader />
         ) : (
-          <UsersTable users={data.users} total={data.total} />
+          <ListItemsTable listItems={data.items} total={data.total} />
         )}
       </section>
     </div>
   )
 }
-
-export default UsersList

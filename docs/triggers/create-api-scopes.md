@@ -21,6 +21,8 @@ DECLARE
     'silos:read',
     'users:read',
     'users:write',
+    'lists:read',
+    'lists:write',
     'transactions:read'
   ];
 BEGIN

@@ -102,6 +102,8 @@ export type Team = Tables<"teams">
 
 export type Silo = Tables<"silos">
 
+export type List = Tables<"lists">
+
 export type Deal = Omit<Tables<"deals">, "enabled">
 
 export type ApiUser = User & {

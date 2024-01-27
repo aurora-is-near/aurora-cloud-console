@@ -33,6 +33,13 @@ const SiloSchema = z.object({
   rpc_url: z.string(),
 })
 
+const ListSchema = z.object({
+  id: z.number(),
+  created_at: z.string(),
+  name: z.string(),
+  team_id: z.number(),
+})
+
 export const contract = c.router({
   getDeals: {
     summary: "Get all deals",
@@ -251,6 +258,72 @@ export const contract = c.router({
     }),
     metadata: {
       scopes: ["transactions:read"],
+    },
+  },
+  getLists: {
+    summary: "Get all lists",
+    method: "GET",
+    path: "/api/lists",
+    responses: {
+      200: z.object({
+        items: z.array(ListSchema),
+      }),
+    },
+    metadata: {
+      scopes: ["lists:read"],
+    },
+  },
+  getList: {
+    summary: "Get a single list",
+    method: "GET",
+    path: "/api/lists/:id",
+    responses: {
+      200: ListSchema,
+    },
+    metadata: {
+      scopes: ["lists:read"],
+    },
+  },
+  createList: {
+    summary: "Create a list",
+    method: "POST",
+    path: "/api/lists",
+    responses: {
+      200: ListSchema,
+    },
+    body: z.object({
+      name: z.string(),
+    }),
+    metadata: {
+      scopes: ["lists:write"],
+    },
+  },
+  updateList: {
+    summary: "Update a list",
+    method: "PUT",
+    path: "/api/lists/:id",
+    responses: {
+      200: ListSchema,
+    },
+    body: z.object({
+      name: z.string(),
+    }),
+    metadata: {
+      scopes: ["lists:write"],
+    },
+  },
+  getListItems: {
+    summary: "Get the items in a list",
+    method: "GET",
+    path: "/api/lists/:id/items",
+    responses: {
+      200: z.object({
+        total: z.number(),
+        items: z.array(z.string()),
+      }),
+    },
+    metadata: {
+      scopes: ["lists:read"],
     },
   },
 })

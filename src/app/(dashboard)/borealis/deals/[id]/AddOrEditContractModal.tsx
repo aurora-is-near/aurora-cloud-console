@@ -92,7 +92,6 @@ const AddOrEditContractModal = ({
             </p>
           )}
         </div>
-        <button className="hidden" />
       </form>
       <SlideOver.Actions>
         <Button style="secondary" onClick={closeModal}>

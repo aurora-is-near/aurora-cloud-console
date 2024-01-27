@@ -35,7 +35,7 @@ const Page = async () => {
                   <Table.TD>{silo.id}</Table.TD>
                   <Table.TD>{silo.name}</Table.TD>
                   <Table.TD>{silo.chain_id}</Table.TD>
-                  <Table.TD>{formatDate(new Date(silo.created_at))}</Table.TD>
+                  <Table.TD>{formatDate(silo.created_at)}</Table.TD>
                   <Table.TD align="right">
                     <div className="flex gap-x-3">
                       <TableButton

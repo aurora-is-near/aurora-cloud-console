@@ -15,7 +15,7 @@ const DealItem = ({ deal }: DealItemProps) => (
       <div>
         <h3>{deal.name}</h3>
         <p className="text-sm text-gray-500">
-          Created at {formatDate(new Date(deal.created_at))}
+          Created at {formatDate(deal.created_at)}
         </p>
       </div>
       <Button href={`/borealis/deals/${deal.id}`} style="border" size="sm">

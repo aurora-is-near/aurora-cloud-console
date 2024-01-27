@@ -46,7 +46,7 @@ const Page = async () => {
                     {teamsSilos[team.team_key]?.length ?? 0}
                   </Table.TD>
                   <Table.TD align="center">
-                    {formatDate(new Date(team.created_at))}
+                    {formatDate(team.created_at)}
                   </Table.TD>
                   <Table.TD align="right">
                     <div className="flex gap-x-3">

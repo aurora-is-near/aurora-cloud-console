@@ -26,6 +26,7 @@ import Loader from "../Loader"
 import { getSubroutes } from "@/utils/menu"
 import { useDeals } from "@/hooks/useDeals"
 import { useSilos } from "@/hooks/useSilos"
+import { useLists } from "@/hooks/useLists"
 
 const NavLoader = () => (
   <>
@@ -139,8 +140,8 @@ const SiloMenu = () => {
   )
 }
 
-const UsersMenu = () => {
-  const { data, isLoading } = useDeals()
+const ListsMenu = () => {
+  const { data, isLoading } = useLists()
 
   if (isLoading) return <NavLoader />
 
@@ -151,7 +152,7 @@ const UsersMenu = () => {
       {data.items.map((deal) => (
         <li key={deal.id}>
           <SubMenuButton
-            href={`/users/${encodeURIComponent(deal.id)}`}
+            href={`/lists/${deal.id}`}
             name={deal.name}
             icon={<ClipboardDocumentCheckIcon />}
           />
@@ -236,7 +237,7 @@ const AdminDeals = () => (
 const menuMap = {
   borealis: <BorealisMenu />,
   silos: <SiloMenu />,
-  users: <UsersMenu />,
+  lists: <ListsMenu />,
   settings: null,
 }
 
