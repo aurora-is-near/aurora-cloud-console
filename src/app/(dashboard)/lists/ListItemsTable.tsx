@@ -1,13 +1,13 @@
 "use client"
 
 import Table from "@/components/Table"
-import { TrashIcon } from "@heroicons/react/24/outline"
-import { useParams, useSearchParams } from "next/navigation"
-import TableButton from "@/components/TableButton"
+import { useParams } from "next/navigation"
 import { Pagination } from "@/components/Pagination"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
+import DropdownMenu from "@/components/DropdownMenu"
+import { TrashIcon } from "@heroicons/react/20/solid"
 
 type ListItemsTableProps = {
   listItems: string[]
@@ -25,7 +25,7 @@ export const ListItemsTable = ({
   const [, setId] = useQueryState("id")
   const [, setItem] = useQueryState("item")
 
-  const onRemoveListItemClick = (listItem: string) => {
+  const onDeleteClick = (listItem: string) => {
     setId(String(id))
     setItem(listItem)
     openModal(Modals.DeleteListItem)
@@ -40,12 +40,16 @@ export const ListItemsTable = ({
           <Table.TR key={listItem}>
             <Table.TD dark>{listItem}</Table.TD>
             <Table.TD align="right">
-              <TableButton
-                Icon={TrashIcon}
-                srOnlyText="Remove item"
-                onClick={() => {
-                  onRemoveListItemClick(listItem)
-                }}
+              <DropdownMenu
+                menuItems={[
+                  {
+                    Icon: TrashIcon,
+                    text: "Delete",
+                    onClick: () => {
+                      onDeleteClick(listItem)
+                    },
+                  },
+                ]}
               />
             </Table.TD>
           </Table.TR>
