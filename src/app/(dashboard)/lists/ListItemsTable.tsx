@@ -38,7 +38,7 @@ export const ListItemsTable = ({
         <Table.TH hidden>Options</Table.TH>
         {listItems.map((listItem) => (
           <Table.TR key={listItem}>
-            <Table.TD>{listItem}</Table.TD>
+            <Table.TD dark>{listItem}</Table.TD>
             <Table.TD align="right">
               <TableButton
                 Icon={TrashIcon}
