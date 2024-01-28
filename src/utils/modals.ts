@@ -9,6 +9,7 @@ export enum Modals {
   ImportListItems = "importListItems",
   AddApiKey = "addApiKey",
   EditApiKey = "editApiKey",
+  DeleteApiKey = "deleteApiKey",
   Contact = "contact",
   Invite = "invite",
   InviteConfirmed = "inviteConfirmed",
