@@ -17,14 +17,12 @@ type AddOrEditApiKeyModalProps = {
   values?: Inputs
   onSubmit: (data: { note: string; scopes: PublicApiScope[] }) => void
   open: boolean
-  afterLeave?: () => void
 }
 
 const AddOrEditApiKeyModal = ({
   values,
   onSubmit,
   open,
-  afterLeave,
 }: AddOrEditApiKeyModalProps) => {
   const { closeModal } = useModals()
   const {
@@ -59,7 +57,6 @@ const AddOrEditApiKeyModal = ({
       title={`${values ? "Edit" : "Create"} API Key`}
       open={open}
       close={closeModal}
-      afterLeave={afterLeave}
     >
       <form className="space-y-8" onSubmit={handleSubmit(submitApiKey)}>
         <div>
@@ -110,7 +107,6 @@ const AddOrEditApiKeyModal = ({
             ))}
           </div>
         </div>
-        <button className="hidden" />
       </form>
       <SlideOver.Actions>
         <Button style="secondary" onClick={closeModal}>

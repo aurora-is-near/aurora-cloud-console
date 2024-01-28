@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { findChildren, findOtherChildren } from "@/utils/helpers"
 import clsx from "clsx"
+import { useModalAfterLeave } from "@/hooks/useModalAfterLeave"
 
 const Actions = ({
   children,
@@ -22,14 +23,13 @@ const SlideOver = ({
   children,
   open,
   close,
-  afterLeave,
 }: {
   title: string
   children: ReactNode
   open: boolean
   close: () => void
-  afterLeave?: () => void
 }) => {
+  const { afterLeave } = useModalAfterLeave()
   const actions = findChildren(children, "Actions")
   const content = findOtherChildren(children, ["Actions"])
 

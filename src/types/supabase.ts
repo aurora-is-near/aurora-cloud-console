@@ -123,6 +123,64 @@ export interface Database {
           }
         ]
       }
+      list_items: {
+        Row: {
+          created_at: string
+          id: number
+          list_id: number | null
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          list_id?: number | null
+          value: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          list_id?: number | null
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "list_items_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "lists"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      lists: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          team_id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+          team_id: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+          team_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lists_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       silos: {
         Row: {
           chain_id: string
@@ -369,6 +427,8 @@ export interface Database {
         | "users:read"
         | "transactions:read"
         | "users:write"
+        | "lists:read"
+        | "lists:write"
       user_type: "customer" | "admin"
     }
     CompositeTypes: {

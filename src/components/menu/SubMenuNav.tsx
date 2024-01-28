@@ -19,6 +19,7 @@ import {
   TicketIcon,
   UserGroupIcon,
   WrenchIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
 import { Silos } from "../icons"
@@ -26,6 +27,8 @@ import Loader from "../Loader"
 import { getSubroutes } from "@/utils/menu"
 import { useDeals } from "@/hooks/useDeals"
 import { useSilos } from "@/hooks/useSilos"
+import { useLists } from "@/hooks/useLists"
+import { Modals } from "@/utils/modals"
 
 const NavLoader = () => (
   <>
@@ -139,8 +142,8 @@ const SiloMenu = () => {
   )
 }
 
-const UsersMenu = () => {
-  const { data, isLoading } = useDeals()
+const ListsMenu = () => {
+  const { data, isLoading } = useLists()
 
   if (isLoading) return <NavLoader />
 
@@ -151,12 +154,19 @@ const UsersMenu = () => {
       {data.items.map((deal) => (
         <li key={deal.id}>
           <SubMenuButton
-            href={`/users/${encodeURIComponent(deal.id)}`}
+            href={`/lists/${deal.id}`}
             name={deal.name}
             icon={<ClipboardDocumentCheckIcon />}
           />
         </li>
       ))}
+      <li>
+        <SubMenuButton
+          href={`/lists?modal=${Modals.AddList}`}
+          name="New list"
+          icon={<PlusIcon />}
+        />
+      </li>
     </ul>
   )
 }
@@ -236,7 +246,7 @@ const AdminDeals = () => (
 const menuMap = {
   borealis: <BorealisMenu />,
   silos: <SiloMenu />,
-  users: <UsersMenu />,
+  lists: <ListsMenu />,
   settings: null,
 }
 
@@ -263,7 +273,7 @@ const SubMenuNav = ({ isAdmin }: { isAdmin?: boolean }) => {
   const isSettingsRoute = route === "settings"
 
   return (
-    <>
+    <aside className="inset-y-0 flex-col hidden p-6 overflow-y-auto bg-white border-r border-gray-200 w-72 lg:flex gap-y-7">
       <Heading>{heading}</Heading>
 
       <nav className="flex flex-col flex-1 gap-y-4">
@@ -288,7 +298,7 @@ const SubMenuNav = ({ isAdmin }: { isAdmin?: boolean }) => {
           </div>
         )}
       </nav>
-    </>
+    </aside>
   )
 }
 

@@ -33,6 +33,13 @@ const SiloSchema = z.object({
   rpc_url: z.string(),
 })
 
+const ListSchema = z.object({
+  id: z.number(),
+  created_at: z.string(),
+  name: z.string(),
+  team_id: z.number(),
+})
+
 export const contract = c.router({
   getDeals: {
     summary: "Get all deals",
@@ -226,5 +233,137 @@ export const contract = c.router({
     metadata: {
       scopes: ["silos:read"],
     },
+  },
+  getWallets: {
+    summary: "Get the wallets that have interacted with your silos",
+    method: "GET",
+    path: "/api/wallets",
+    responses: {
+      200: z.object({
+        total: z.number(),
+        items: z.array(
+          z.object({
+            walletAddress: z.string(),
+            numberOfTransactions: z.number(),
+            firstTransactionAt: z.string(),
+            lastTransactionAt: z.string(),
+          }),
+        ),
+      }),
+    },
+    query: z.object({
+      limit: z.number().optional(),
+      offset: z.number().optional(),
+      dealId: z.number().optional(),
+    }),
+    metadata: {
+      scopes: ["transactions:read"],
+    },
+  },
+  getLists: {
+    summary: "Get all lists",
+    method: "GET",
+    path: "/api/lists",
+    responses: {
+      200: z.object({
+        items: z.array(ListSchema),
+      }),
+    },
+    metadata: {
+      scopes: ["lists:read"],
+    },
+  },
+  getList: {
+    summary: "Get a single list",
+    method: "GET",
+    path: "/api/lists/:id",
+    responses: {
+      200: ListSchema,
+    },
+    metadata: {
+      scopes: ["lists:read"],
+    },
+  },
+  createList: {
+    summary: "Create a list",
+    method: "POST",
+    path: "/api/lists",
+    responses: {
+      200: ListSchema,
+    },
+    body: z.object({
+      name: z.string(),
+    }),
+    metadata: {
+      scopes: ["lists:write"],
+    },
+  },
+  updateList: {
+    summary: "Update a list",
+    method: "PUT",
+    path: "/api/lists/:id",
+    responses: {
+      200: ListSchema,
+    },
+    body: z.object({
+      name: z.string(),
+    }),
+    metadata: {
+      scopes: ["lists:write"],
+    },
+  },
+  deleteList: {
+    summary: "Delete a list",
+    method: "DELETE",
+    path: "/api/lists/:id",
+    responses: {
+      204: null,
+    },
+    metadata: {
+      scopes: ["lists:write"],
+    },
+    body: null,
+  },
+  getListItems: {
+    summary: "Get the items in a list",
+    method: "GET",
+    path: "/api/lists/:id/items",
+    responses: {
+      200: z.object({
+        total: z.number(),
+        items: z.array(z.string()),
+      }),
+    },
+    metadata: {
+      scopes: ["lists:read"],
+    },
+  },
+  createListItems: {
+    summary: "Add items to a list",
+    method: "POST",
+    path: "/api/lists/:id/items",
+    responses: {
+      200: z.object({
+        count: z.number(),
+      }),
+    },
+    body: z.object({
+      items: z.array(z.string()),
+    }),
+    metadata: {
+      scopes: ["lists:write"],
+    },
+  },
+  deleteListItem: {
+    summary: "Remove an item from a list",
+    method: "DELETE",
+    path: "/api/lists/:id/items/:item",
+    responses: {
+      204: null,
+    },
+    metadata: {
+      scopes: ["lists:write"],
+    },
+    body: null,
   },
 })

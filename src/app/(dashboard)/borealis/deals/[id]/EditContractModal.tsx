@@ -57,9 +57,6 @@ const EditContractModal = () => {
       open={isOpen}
       values={contract}
       onSubmit={onSubmit}
-      afterLeave={() => {
-        setId(null)
-      }}
     />
   )
 }

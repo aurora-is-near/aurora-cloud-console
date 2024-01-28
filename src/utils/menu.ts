@@ -1,4 +1,5 @@
-import { SubMenuItem, subrouteMap } from "@/constants/navigation"
+import { subrouteMap } from "@/constants/navigation"
+import { SubMenuItem } from "@/types/menu"
 
 export const getSubroutes = (
   route: string,

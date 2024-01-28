@@ -3,44 +3,34 @@
 import Button from "@/components/Button"
 import Heading from "@/components/Heading"
 import { Cog8ToothIcon } from "@heroicons/react/20/solid"
-import { ArrowDownCircleIcon } from "@heroicons/react/24/outline"
 import SearchInput from "./SearchInput"
-import UsersTable from "./UsersTable"
+import { ListItemsTable } from "./ListItemsTable"
 import TableLoader from "@/components/TableLoader"
 import { useSearchParams } from "next/navigation"
-import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { getQueryFnAndKey } from "@/utils/api/queries"
+import { EditListButton } from "@/app/(dashboard)/lists/EditListButton"
+import { ImportListItemsButton } from "@/app/(dashboard)/lists/ImportListItemsButton"
 
 const PER_PAGE = 20
 
-type UsersListProps = {
+type ListItemsListProps = {
   title: string
-  dealId?: number
+  listId: number
 }
 
-const UsersList = ({ title, dealId }: UsersListProps) => {
+export const ListItems = ({ title, listId }: ListItemsListProps) => {
   const searchParams = useSearchParams()
   const page = Number(searchParams.get("page") ?? 1)
   const search = searchParams.get("search") ?? ""
 
   const { data, isLoading } = useQuery(
-    getQueryFnAndKey("getUsers", {
+    getQueryFnAndKey("getListItems", {
       limit: PER_PAGE,
       offset: (page - 1) * PER_PAGE,
-      dealId,
+      id: listId,
     }),
   )
-
-  const exportUrl = useMemo(() => {
-    const exportSearchParams = new URLSearchParams()
-
-    if (dealId) {
-      exportSearchParams.set("dealId", String(dealId))
-    }
-
-    return `/api/users/export?${exportSearchParams}`
-  }, [dealId])
 
   return (
     <div className="space-y-6">
@@ -55,14 +45,8 @@ const UsersList = ({ title, dealId }: UsersListProps) => {
           <SearchInput search={search} />
 
           <div className="flex space-x-3">
-            <Button style="secondary" href={exportUrl} download="export.csv">
-              <ArrowDownCircleIcon className="w-5 h-5" />
-              <span>Export</span>
-            </Button>
-            <Button>
-              <Cog8ToothIcon className="w-5 h-5" />
-              <span>Manage</span>
-            </Button>
+            <ImportListItemsButton id={listId} />
+            <EditListButton id={listId} />
           </div>
         </div>
       </header>
@@ -71,11 +55,13 @@ const UsersList = ({ title, dealId }: UsersListProps) => {
         {!data || isLoading ? (
           <TableLoader />
         ) : (
-          <UsersTable users={data.users} total={data.total} />
+          <ListItemsTable
+            listItems={data.items}
+            total={data.total}
+            itemsPerPage={PER_PAGE}
+          />
         )}
       </section>
     </div>
   )
 }
-
-export default UsersList

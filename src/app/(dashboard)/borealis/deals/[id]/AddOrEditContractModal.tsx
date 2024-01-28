@@ -16,14 +16,12 @@ type AddOrEditContractModalProps = {
   values?: AddOrEditContractModalInputs
   onSubmit: (inputs: AddOrEditContractModalInputs) => void
   open: boolean
-  afterLeave?: () => void
 }
 
 const AddOrEditContractModal = ({
   values,
   onSubmit,
   open,
-  afterLeave,
 }: AddOrEditContractModalProps) => {
   const { closeModal } = useModals()
   const {
@@ -43,7 +41,6 @@ const AddOrEditContractModal = ({
       title={`${values ? "Edit" : "Add"} Contract`}
       open={open}
       close={closeModal}
-      afterLeave={afterLeave}
     >
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div>
@@ -92,7 +89,6 @@ const AddOrEditContractModal = ({
             </p>
           )}
         </div>
-        <button className="hidden" />
       </form>
       <SlideOver.Actions>
         <Button style="secondary" onClick={closeModal}>

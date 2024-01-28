@@ -37,7 +37,7 @@ const Page = async () => {
                   <Table.TD>{token.name}</Table.TD>
                   <Table.TD>{token.address}</Table.TD>
                   <Table.TD>{token.type}</Table.TD>
-                  <Table.TD>{formatDate(new Date(token.created_at))}</Table.TD>
+                  <Table.TD>{formatDate(token.created_at)}</Table.TD>
                   <Table.TD align="right">
                     <div className="flex gap-x-3">
                       <TableButton

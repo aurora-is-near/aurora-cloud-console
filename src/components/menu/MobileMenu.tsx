@@ -6,8 +6,9 @@ import {
   Bars3Icon,
   ClipboardDocumentCheckIcon,
   XMarkIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline"
-import { MenuItem } from "@/constants/navigation"
+import { MenuItem } from "@/types/menu"
 import { MobileMainMenuButton, MobileSubMenuButton } from "./MenuButtons"
 import { usePathname, useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
@@ -15,10 +16,54 @@ import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
 import { getSubroutes } from "@/utils/menu"
 import { useDeals } from "@/hooks/useDeals"
-import { isAdmin } from "@/actions/admin/is-admin"
+import { useLists } from "@/hooks/useLists"
+import { Modals } from "@/utils/modals"
 
 type SubrouteMenuProps = {
   isAdmin?: boolean
+}
+
+const DealsSubrouteMenu = () => {
+  const { data } = useDeals()
+
+  return (
+    <ul className="space-y-2">
+      {data?.items.map((deal) => (
+        <li key={deal.id}>
+          <MobileSubMenuButton
+            href={`/borealis/deals/${deal.id}`}
+            name={deal.name}
+            icon={<ClipboardDocumentCheckIcon />}
+          />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+const ListsSubrouteMenu = () => {
+  const { data } = useLists()
+
+  return (
+    <ul className="space-y-2">
+      {data?.items.map((list) => (
+        <li key={list.id}>
+          <MobileSubMenuButton
+            href={`/lists/${list.id}`}
+            name={list.name}
+            icon={<ClipboardDocumentCheckIcon />}
+          />
+        </li>
+      ))}
+      <li>
+        <MobileSubMenuButton
+          href={`/lists?modal=${Modals.AddList}`}
+          name="New list"
+          icon={<PlusIcon />}
+        />
+      </li>
+    </ul>
+  )
 }
 
 const SubrouteMenu = ({ isAdmin }: SubrouteMenuProps) => {
@@ -29,7 +74,7 @@ const SubrouteMenu = ({ isAdmin }: SubrouteMenuProps) => {
 
   return (
     <nav className="mt-6 flex-1 pt-6 border-t border-gray-800 space-y-2">
-      <ul role="list" className="space-y-2">
+      <ul className="space-y-2">
         {subroutes.map((item) => (
           <li key={item.name}>
             <MobileSubMenuButton {...item} />
@@ -37,19 +82,12 @@ const SubrouteMenu = ({ isAdmin }: SubrouteMenuProps) => {
         ))}
       </ul>
 
-      {route === "borealis" && !!data?.items.length && !isAdmin ? (
-        <ul role="list" className="space-y-2">
-          {data.items.map((deal) => (
-            <li key={deal.id}>
-              <MobileSubMenuButton
-                href={"/borealis/deals/" + deal.id}
-                name={deal.name}
-                icon={<ClipboardDocumentCheckIcon />}
-              />
-            </li>
-          ))}
-        </ul>
-      ) : null}
+      {!isAdmin && (
+        <>
+          {route === "borealis" && <DealsSubrouteMenu />}
+          {route === "lists" && <ListsSubrouteMenu />}
+        </>
+      )}
     </nav>
   )
 }

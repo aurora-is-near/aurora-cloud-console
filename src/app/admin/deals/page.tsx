@@ -36,7 +36,7 @@ const Page = async () => {
                   <Table.TD>{deal.name}</Table.TD>
                   <Table.TD align="center">{deal.team_id}</Table.TD>
                   <Table.TD align="center">
-                    {formatDate(new Date(deal.created_at))}
+                    {formatDate(deal.created_at)}
                   </Table.TD>
                   <Table.TD align="right">
                     <div className="flex gap-x-3">

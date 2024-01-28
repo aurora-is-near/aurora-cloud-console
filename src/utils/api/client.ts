@@ -13,6 +13,7 @@ import {
   SiloTransactionCharts,
   DealTransactionCharts,
   DealEnabled,
+  List,
 } from "@/types/types"
 import { request } from "./request"
 
@@ -48,10 +49,7 @@ export const apiClient = {
     limit?: number
     offset?: number
     dealId?: number
-  }) => request<Users>("/api/users", { query }),
-
-  getUsersExport: async (query: { dealId?: number }) =>
-    request<Users>("/api/users/export", { query }),
+  }) => request<Users>("/api/transactions", { query }),
 
   getDeals: async () => request<{ items: Deal[] }>("/api/deals"),
 
@@ -61,7 +59,7 @@ export const apiClient = {
     request<DealEnabled>(`/api/deals/${id}/enabled`),
 
   getSilosTransactions: async (query?: { interval?: string | null }) =>
-    request<SiloTransactionCharts>("/api/transactions/silos", { query }),
+    request<SiloTransactionCharts>("/api/transaction-charts/silos", { query }),
 
   getSiloTransactions: async ({
     id,
@@ -70,10 +68,12 @@ export const apiClient = {
     id: number
     interval?: string | null
   }) =>
-    request<SiloTransactionCharts>(`/api/transactions/silos/${id}`, { query }),
+    request<SiloTransactionCharts>(`/api/transaction-charts/silos/${id}`, {
+      query,
+    }),
 
   getDealsTransactions: async (query?: { interval?: string | null }) =>
-    request<DealTransactionCharts>("/api/transactions/deals", { query }),
+    request<DealTransactionCharts>("/api/transaction-charts/deals", { query }),
 
   getDealTransactions: async ({
     id,
@@ -82,7 +82,9 @@ export const apiClient = {
     id: number
     interval?: string | null
   }) =>
-    request<DealTransactionCharts>(`/api/transactions/deals/${id}`, { query }),
+    request<DealTransactionCharts>(`/api/transaction-charts/deals/${id}`, {
+      query,
+    }),
 
   enableDeal: async ({ id, ...data }: { id: number; enabled: boolean }) =>
     request<Deal>(`/api/deals/${id}/enabled`, {
@@ -195,6 +197,50 @@ export const apiClient = {
 
   deleteTeamMember: async ({ id }: { id: number }) =>
     request(`/api/admin/team/members/${id}`, {
+      method: "DELETE",
+    }),
+
+  getLists: async () => request<{ items: List[] }>("/api/lists"),
+
+  createList: async (data: { name: string }) =>
+    request<List>("/api/lists", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  getList: async ({ id }: { id: number }) => request<List>(`/api/lists/${id}`),
+
+  updateList: async ({ id, ...data }: { id: number; name: string }) =>
+    request<List>(`/api/lists/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+
+  deleteList: async ({ id }: { id: number }) =>
+    request(`/api/lists/${id}`, {
+      method: "DELETE",
+    }),
+
+  getListItems: async ({
+    id,
+    ...query
+  }: {
+    id: number
+    limit?: number
+    offset?: number
+  }) =>
+    request<{ total: number; items: string[] }>(`/api/lists/${id}/items`, {
+      query,
+    }),
+
+  createListItems: async ({ id, ...data }: { id: number; items: string[] }) =>
+    request<{ count: number }>(`/api/lists/${id}/items`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+
+  deleteListItem: async ({ id, item }: { id: number; item: string }) =>
+    request(`/api/lists/${id}/items/${encodeURIComponent(item)}`, {
       method: "DELETE",
     }),
 }

@@ -6,7 +6,6 @@ import RulesList from "./RulesList"
 import Contact from "@/components/Contact"
 import AddContractButton from "./AddContractButton"
 import { DealTransactionCharts } from "./DealTransactionsCharts"
-import { UserAccessCard } from "@/app/(dashboard)/borealis/deals/[id]/UserAccessCard"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
@@ -27,8 +26,6 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
 
           <ContractsList dealId={Number(id)} />
         </Card>
-
-        <UserAccessCard />
 
         <Card tag="section">
           <Card.Title>Rules</Card.Title>
