@@ -1,5 +1,4 @@
 export enum Modals {
-  BlockAddress = "blockUser",
   DeleteListItem = "deleteListItem",
   AddContract = "addContract",
   EditContract = "editContract",

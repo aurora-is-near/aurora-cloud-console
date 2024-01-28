@@ -14,7 +14,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
 
   return (
     <DashboardLayout
-    isAdmin
+      isAdmin
       mainMenuItems={mainAdminNavigation}
       extraMenuItems={mainAdminExtraNavigation}
     >
