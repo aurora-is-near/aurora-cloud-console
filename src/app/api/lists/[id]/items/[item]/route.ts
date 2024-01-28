@@ -1,4 +1,3 @@
-import { getTeamList } from "@/actions/admin/team-lists/get-team-list"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { ApiRequestContext } from "@/types/api"
 import { createApiEndpoint } from "@/utils/api"
