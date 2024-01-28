@@ -232,6 +232,12 @@ export const apiClient = {
     request<{ total: number; items: string[] }>(`/api/lists/${id}/items`, {
       query,
     }),
+
+  createListItems: async ({ id, ...data }: { id: number; items: string[] }) =>
+    request<{ count: number }>(`/api/lists/${id}/items`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
 }
 
 export type ApiClient = typeof apiClient

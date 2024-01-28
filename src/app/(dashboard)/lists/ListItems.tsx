@@ -10,6 +10,7 @@ import { useSearchParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { EditListButton } from "@/app/(dashboard)/lists/EditListButton"
+import { ImportListItemsButton } from "@/app/(dashboard)/lists/ImportListItemsButton"
 
 const PER_PAGE = 20
 
@@ -44,6 +45,7 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
           <SearchInput search={search} />
 
           <div className="flex space-x-3">
+            <ImportListItemsButton id={listId} />
             <EditListButton id={listId} />
           </div>
         </div>

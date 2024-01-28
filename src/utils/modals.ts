@@ -6,6 +6,7 @@ export enum Modals {
   AddList = "addList",
   EditList = "editList",
   DeleteList = "deleteList",
+  ImportListItems = "importListItems",
   AddApiKey = "addApiKey",
   EditApiKey = "editApiKey",
   Contact = "contact",

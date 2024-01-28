@@ -41,3 +41,24 @@ export const GET = createApiEndpoint(
     }
   },
 )
+
+export const POST = createApiEndpoint(
+  "createListItems",
+  async (req: NextRequest, ctx: ApiRequestContext) => {
+    const supabase = createAdminSupabaseClient()
+    const { items } = await req.json()
+
+    const result = await supabase.from("list_items").insert(
+      items.map((value: string) => ({
+        list_id: Number(ctx.params.id),
+        value,
+      })),
+    )
+
+    assertValidSupabaseResult(result)
+
+    return {
+      count: result.count ?? 0,
+    }
+  },
+)

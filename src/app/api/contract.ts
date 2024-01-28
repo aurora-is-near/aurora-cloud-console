@@ -326,4 +326,20 @@ export const contract = c.router({
       scopes: ["lists:read"],
     },
   },
+  createListItems: {
+    summary: "Add items to a list",
+    method: "POST",
+    path: "/api/lists/:id/items",
+    responses: {
+      200: z.object({
+        count: z.number(),
+      }),
+    },
+    body: z.object({
+      items: z.array(z.string()),
+    }),
+    metadata: {
+      scopes: ["lists:write"],
+    },
+  },
 })
