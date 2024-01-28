@@ -1,16 +1,8 @@
 "use client"
 
 import Table from "@/components/Table"
-import {
-  KeyIcon,
-  PencilSquareIcon,
-  TrashIcon,
-} from "@heroicons/react/24/outline"
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { AddListButton } from "./AddListButton"
-import { useMutation } from "@tanstack/react-query"
-import { apiClient } from "@/utils/api/client"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { relativeTime } from "human-date"
 import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
