@@ -7,9 +7,6 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline"
 import AddApiKeyButton from "./AddApiKeyButton"
-import { useMutation } from "@tanstack/react-query"
-import { apiClient } from "@/utils/api/client"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { relativeTime } from "human-date"
 import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
@@ -22,18 +19,7 @@ import { NoDataCta } from "@/components/NoDataCta"
 export const ApiKeysTable = () => {
   const { data: apiKeys, isLoading } = useApiKeys()
   const [, setId] = useQueryState("id")
-  const getApiKeysUpdater = useOptimisticUpdater("getApiKeys")
   const { openModal } = useModals()
-
-  const { mutate: deleteApiKey } = useMutation({
-    mutationFn: apiClient.deleteApiKey,
-    onMutate: ({ id }) => {
-      getApiKeysUpdater.replace(
-        apiKeys?.filter((apiKey) => apiKey.id !== id) || [],
-      )
-    },
-    onSettled: getApiKeysUpdater.invalidate,
-  })
 
   const onEditApiKeyClick = (id: number) => {
     setId(String(id))
@@ -41,9 +27,8 @@ export const ApiKeysTable = () => {
   }
 
   const onRemoveApiKeyClick = (id: number) => {
-    if (confirm("Are you sure you want to delete this API key?")) {
-      deleteApiKey({ id })
-    }
+    setId(String(id))
+    openModal(Modals.DeleteApiKey)
   }
 
   if (isLoading) {
