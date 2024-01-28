@@ -24,18 +24,7 @@ import { formatDate } from "@/utils/helpers"
 export const ListsTable = () => {
   const { data: lists, isLoading } = useLists()
   const [, setId] = useQueryState("id")
-  const getListsUpdater = useOptimisticUpdater("getLists")
   const { openModal } = useModals()
-
-  const { mutate: deleteList } = useMutation({
-    mutationFn: apiClient.deleteList,
-    onMutate: ({ id }) => {
-      getListsUpdater.replace({
-        items: lists?.items.filter((list) => list.id !== id) ?? [],
-      })
-    },
-    onSettled: getListsUpdater.invalidate,
-  })
 
   const onEditListClick = (id: number) => {
     setId(String(id))
