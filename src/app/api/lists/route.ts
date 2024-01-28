@@ -1,8 +1,6 @@
 import { NextRequest } from "next/server"
 import { createApiEndpoint } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
-
-import { getTeamLists } from "@/actions/admin/team-lists/get-team-lists"
 import { abort } from "@/utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
@@ -10,7 +8,12 @@ import { assertValidSupabaseResult } from "@/utils/supabase"
 export const GET = createApiEndpoint(
   "getLists",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const lists = await getTeamLists(ctx.team.id)
+    const supabase = createAdminSupabaseClient()
+    const { data: lists } = await supabase
+      .from("lists")
+      .select("*")
+      .order("created_at", { ascending: true })
+      .eq("team_id", ctx.team.id)
 
     return {
       items: lists ?? [],
