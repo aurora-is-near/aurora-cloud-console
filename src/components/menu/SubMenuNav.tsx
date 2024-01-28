@@ -19,6 +19,7 @@ import {
   TicketIcon,
   UserGroupIcon,
   WrenchIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
 import { Silos } from "../icons"
@@ -27,6 +28,7 @@ import { getSubroutes } from "@/utils/menu"
 import { useDeals } from "@/hooks/useDeals"
 import { useSilos } from "@/hooks/useSilos"
 import { useLists } from "@/hooks/useLists"
+import { Modals } from "@/utils/modals"
 
 const NavLoader = () => (
   <>
@@ -158,6 +160,13 @@ const ListsMenu = () => {
           />
         </li>
       ))}
+      <li>
+        <SubMenuButton
+          href={`/lists?modal=${Modals.AddList}`}
+          name="New list"
+          icon={<PlusIcon />}
+        />
+      </li>
     </ul>
   )
 }

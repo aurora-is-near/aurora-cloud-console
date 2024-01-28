@@ -11,7 +11,7 @@ export const AddListButton = () => {
   return (
     <Button onClick={() => openModal(Modals.AddList)}>
       <PlusIcon className="w-5 h-5" />
-      Create list
+      Add list
     </Button>
   )
 }

@@ -6,6 +6,7 @@ import {
   Bars3Icon,
   ClipboardDocumentCheckIcon,
   XMarkIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline"
 import { MenuItem } from "@/types/menu"
 import { MobileMainMenuButton, MobileSubMenuButton } from "./MenuButtons"
@@ -16,6 +17,7 @@ import { AuroraTriangle } from "../icons"
 import { getSubroutes } from "@/utils/menu"
 import { useDeals } from "@/hooks/useDeals"
 import { useLists } from "@/hooks/useLists"
+import { Modals } from "@/utils/modals"
 
 type SubrouteMenuProps = {
   isAdmin?: boolean
@@ -53,6 +55,13 @@ const ListsSubrouteMenu = () => {
           />
         </li>
       ))}
+      <li>
+        <MobileSubMenuButton
+          href={`/lists?modal=${Modals.AddList}`}
+          name="New list"
+          icon={<PlusIcon />}
+        />
+      </li>
     </ul>
   )
 }
