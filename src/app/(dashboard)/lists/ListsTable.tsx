@@ -3,7 +3,6 @@
 import Table from "@/components/Table"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { AddListButton } from "./AddListButton"
-import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
@@ -12,6 +11,7 @@ import { useLists } from "@/hooks/useLists"
 import { NoDataCta } from "@/components/NoDataCta"
 import { ListBulletIcon } from "@heroicons/react/20/solid"
 import { formatDate } from "@/utils/helpers"
+import DropdownMenu from "@/components/DropdownMenu"
 
 export const ListsTable = () => {
   const { data: lists, isLoading } = useLists()
@@ -23,7 +23,7 @@ export const ListsTable = () => {
     openModal(Modals.EditList)
   }
 
-  const onRemoveListClick = (id: number) => {
+  const onDeleteClick = (id: number) => {
     setId(String(id))
     openModal(Modals.DeleteList)
   }
@@ -55,19 +55,23 @@ export const ListsTable = () => {
           <Table.TD dark>{list.name}</Table.TD>
           <Table.TD dark>{formatDate(list.created_at)}</Table.TD>
           <Table.TD align="right">
-            <TableButton
-              srOnlyText="Edit list"
-              Icon={PencilSquareIcon}
-              onClick={() => {
-                onEditListClick(list.id)
-              }}
-            />
-            <TableButton
-              Icon={TrashIcon}
-              srOnlyText="Remove list"
-              onClick={() => {
-                onRemoveListClick(list.id)
-              }}
+            <DropdownMenu
+              menuItems={[
+                {
+                  Icon: PencilSquareIcon,
+                  text: "Edit",
+                  onClick: () => {
+                    onEditListClick(list.id)
+                  },
+                },
+                {
+                  Icon: TrashIcon,
+                  text: "Delete",
+                  onClick: () => {
+                    onDeleteClick(list.id)
+                  },
+                },
+              ]}
             />
           </Table.TD>
         </Table.TR>
