@@ -62,7 +62,7 @@ const SlideOver = ({
                 afterLeave={afterLeave}
               >
                 <Dialog.Panel className="w-screen max-w-md pointer-events-auto">
-                  <div className="flex flex-col h-full overflow-y-scroll bg-white shadow-xl">
+                  <div className="flex flex-col h-full overflow-y-auto bg-white shadow-xl">
                     <div className="flex-1">
                       {/* Header */}
                       <header className="px-4 py-6 bg-gray-50 sm:px-6">

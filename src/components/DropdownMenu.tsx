@@ -33,7 +33,7 @@ const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
                 className="flex w-full items-center py-2.5 text-sm space-x-1 text-gray-700 px-4"
               >
                 <item.Icon className="w-5 h-5" />
-                <span>{item.text}</span>
+                <span className="whitespace-nowrap">{item.text}</span>
               </button>
             </ReactDropdownMenu.Item>
           ))}

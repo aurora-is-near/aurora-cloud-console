@@ -5,6 +5,7 @@ type Params = {
   limit?: number
   offset?: number
   dealKey?: string | null
+  walletAddress?: string | null
 }
 
 const FROM_CLAUSE = "FROM tx_traces"
@@ -14,6 +15,10 @@ const getWhereClause = (chainIds: string[], params: Params) => {
 
   if (params.dealKey) {
     whereClause += ` AND deal = '${params.dealKey}'`
+  }
+
+  if (params.walletAddress) {
+    whereClause += ` AND "from" = '${params.walletAddress}'`
   }
 
   return whereClause
