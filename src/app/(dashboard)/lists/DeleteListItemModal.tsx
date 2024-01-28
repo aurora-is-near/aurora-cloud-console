@@ -27,15 +27,11 @@ export const DeleteListItemModal = () => {
 
   const onDeleteClick = async () => {
     if (!id) {
-      console.error(new Error("Cannot delete item as list ID is missing"))
-
-      return
+      throw new Error("An ID is required to delete the list item")
     }
 
     if (!item) {
-      console.error(new Error("Cannot delete item as one was not given"))
-
-      return
+      throw new Error("No item was provided for deletion")
     }
 
     deleteApiKey(
@@ -48,7 +44,7 @@ export const DeleteListItemModal = () => {
     <DeleteModal
       title="Delete list item"
       description="You are about to delete an item from the list. This item will also be removed from any associated deals. Are you sure you want to proceed?"
-      isOpen={activeModal === Modals.deleteListItem}
+      isOpen={activeModal === Modals.DeleteListItem}
       onClose={onClose}
       onDeleteClick={onDeleteClick}
       isLoading={isPending}

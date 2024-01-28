@@ -14,7 +14,7 @@ import { getQueryFnAndKey } from "@/utils/api/queries"
 
 const EditApiKeyModal = () => {
   const { activeModal, closeModal } = useModals()
-  const [id, setId] = useQueryState("id")
+  const [id] = useQueryState("id")
   const isOpen = activeModal === Modals.EditApiKey
   const apiKeyId = id ? Number(id) : undefined
   const { data: apiKey } = useQuery({
@@ -57,14 +57,7 @@ const EditApiKeyModal = () => {
   )
 
   return (
-    <AddOrEditApiKeyModal
-      open={isOpen}
-      values={values}
-      onSubmit={onSubmit}
-      afterLeave={() => {
-        setId(null)
-      }}
-    />
+    <AddOrEditApiKeyModal open={isOpen} values={values} onSubmit={onSubmit} />
   )
 }
 

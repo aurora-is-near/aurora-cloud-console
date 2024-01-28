@@ -17,7 +17,7 @@ type Inputs = {
 
 export const ImportListItemsModal = () => {
   const { activeModal, closeModal } = useModals()
-  const [id, setId] = useQueryState("id")
+  const [id] = useQueryState("id")
   const {
     register,
     handleSubmit,
@@ -49,9 +49,6 @@ export const ImportListItemsModal = () => {
       title="Import items"
       open={activeModal === Modals.ImportListItems}
       close={closeModal}
-      afterLeave={() => {
-        setId(null)
-      }}
     >
       <form className="space-y-8" onSubmit={handleSubmit(submitList)}>
         <div>

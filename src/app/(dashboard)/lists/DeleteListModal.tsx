@@ -5,21 +5,32 @@ import { useQueryState } from "next-usequerystate"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { DeleteModal } from "@/components/DeleteModal"
+import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { useMutation } from "@tanstack/react-query"
+import { apiClient } from "@/utils/api/client"
 
 export const DeleteListModal = () => {
   const { activeModal, closeModal } = useModals()
-  const [address, setAddress] = useQueryState("address")
+  const [id, setId] = useQueryState("id")
 
   const onClose = () => {
-    setAddress(null)
+    setId(null)
     closeModal()
   }
 
-  const onDeleteClick = async () => {
-    if (!address) return
+  const getListsUpdater = useOptimisticUpdater("getLists")
 
-    await deleteUser(address)
-    close()
+  const { mutate: deleteList, isPending } = useMutation({
+    mutationFn: apiClient.deleteList,
+    onSettled: getListsUpdater.invalidate,
+  })
+
+  const onDeleteClick = async () => {
+    if (!id) {
+      throw new Error("An ID is required to delete the list")
+    }
+
+    deleteList({ id: Number(id) }, { onSettled: closeModal })
   }
 
   return (

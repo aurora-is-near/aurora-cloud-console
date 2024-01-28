@@ -17,14 +17,12 @@ type AddOrEditListModalProps = {
   values?: Inputs
   onSubmit: (data: { name: string }) => void
   open: boolean
-  afterLeave?: () => void
 }
 
 export const AddOrEditListModal = ({
   values,
   onSubmit,
   open,
-  afterLeave,
 }: AddOrEditListModalProps) => {
   const { closeModal, openModal } = useModals()
   const {
@@ -44,7 +42,6 @@ export const AddOrEditListModal = ({
   }
 
   const deleteList = () => {
-    console.log("delete")
     openModal(Modals.DeleteList)
   }
 
@@ -57,7 +54,6 @@ export const AddOrEditListModal = ({
       title={`${values ? "Edit" : "Create"} list`}
       open={open}
       close={closeModal}
-      afterLeave={afterLeave}
     >
       <form className="space-y-8" onSubmit={handleSubmit(submitList)}>
         <div>

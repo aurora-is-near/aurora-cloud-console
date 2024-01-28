@@ -12,7 +12,7 @@ import { getQueryFnAndKey } from "@/utils/api/queries"
 
 export const EditListModal = () => {
   const { activeModal, closeModal } = useModals()
-  const [id, setId] = useQueryState("id")
+  const [id] = useQueryState("id")
   const isOpen = activeModal === Modals.EditList
   const { data: list } = useQuery({
     ...getQueryFnAndKey("getList", { id: Number(id) }),
@@ -47,13 +47,6 @@ export const EditListModal = () => {
   )
 
   return (
-    <AddOrEditListModal
-      open={isOpen}
-      values={values}
-      onSubmit={onSubmit}
-      afterLeave={() => {
-        setId(null)
-      }}
-    />
+    <AddOrEditListModal open={isOpen} values={values} onSubmit={onSubmit} />
   )
 }

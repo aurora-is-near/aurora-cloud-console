@@ -28,7 +28,7 @@ export const ListItemsTable = ({
   const onRemoveListItemClick = (listItem: string) => {
     setId(String(id))
     setItem(listItem)
-    openModal(Modals.deleteListItem)
+    openModal(Modals.DeleteListItem)
   }
 
   return (
