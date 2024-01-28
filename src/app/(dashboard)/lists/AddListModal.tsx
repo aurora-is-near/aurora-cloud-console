@@ -11,12 +11,9 @@ export const AddListModal = () => {
   const { activeModal, closeModal } = useModals()
   const getListsUpdater = useOptimisticUpdater("getLists")
 
-  const { mutate: createList } = useMutation({
+  const { mutate: createList, isPending } = useMutation({
     mutationFn: apiClient.createList,
-    onSuccess: (data) => {
-      closeModal()
-      getListsUpdater.insert(data)
-    },
+    onSuccess: closeModal,
     onSettled: getListsUpdater.invalidate,
   })
 
@@ -28,6 +25,7 @@ export const AddListModal = () => {
     <AddOrEditListModal
       open={activeModal === Modals.AddList}
       onSubmit={onSubmit}
+      isPending={isPending}
     />
   )
 }

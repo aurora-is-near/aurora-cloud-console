@@ -43,9 +43,8 @@ export const ListsTable = () => {
   }
 
   const onRemoveListClick = (id: number) => {
-    if (confirm("Are you sure you want to delete this API key?")) {
-      deleteList({ id })
-    }
+    setId(String(id))
+    openModal(Modals.DeleteList)
   }
 
   if (isLoading) {

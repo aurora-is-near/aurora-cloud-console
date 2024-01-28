@@ -22,7 +22,7 @@ export const EditListModal = () => {
   const getListUpdater = useOptimisticUpdater("getList", { id: Number(id) })
   const getListsUpdater = useOptimisticUpdater("getLists")
 
-  const { mutate: updateList } = useMutation({
+  const { mutate: updateList, isPending } = useMutation({
     mutationFn: apiClient.updateList,
     onMutate: getListUpdater.update,
     onSuccess: closeModal,
@@ -47,6 +47,11 @@ export const EditListModal = () => {
   )
 
   return (
-    <AddOrEditListModal open={isOpen} values={values} onSubmit={onSubmit} />
+    <AddOrEditListModal
+      open={isOpen}
+      values={values}
+      onSubmit={onSubmit}
+      isPending={isPending}
+    />
   )
 }

@@ -47,7 +47,7 @@ export const DeleteListItemModal = () => {
       isOpen={activeModal === Modals.DeleteListItem}
       onClose={onClose}
       onDeleteClick={onDeleteClick}
-      isLoading={isPending}
+      isPending={isPending}
     />
   )
 }

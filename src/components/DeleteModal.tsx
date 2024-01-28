@@ -11,7 +11,7 @@ type DeleteModalProps = {
   isOpen: boolean
   onClose: () => void
   deleteButtonText?: string
-  isLoading?: boolean
+  isPending?: boolean
 }
 
 export const DeleteModal = ({
@@ -21,9 +21,9 @@ export const DeleteModal = ({
   isOpen,
   onClose,
   deleteButtonText = "Delete",
-  isLoading = false,
+  isPending = false,
 }: DeleteModalProps) => {
-  const [isPending, startTransition] = useTransition()
+  const [isTransitionPending, startTransition] = useTransition()
 
   return (
     <Modal title={title} open={isOpen} close={onClose}>
@@ -31,7 +31,7 @@ export const DeleteModal = ({
       <Button
         className="mt-4"
         style="destructive"
-        loading={isLoading ?? isPending}
+        loading={isPending ?? isTransitionPending}
         onClick={() => {
           startTransition(onDeleteClick)
         }}

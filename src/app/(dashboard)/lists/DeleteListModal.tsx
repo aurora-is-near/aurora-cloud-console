@@ -1,6 +1,5 @@
 "use client"
 
-import { deleteUser } from "./actions/delete-user"
 import { useQueryState } from "next-usequerystate"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
@@ -8,9 +7,12 @@ import { DeleteModal } from "@/components/DeleteModal"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
+import { useRouter, usePathname } from "next/navigation"
 
 export const DeleteListModal = () => {
   const { activeModal, closeModal } = useModals()
+  const pathname = usePathname()
+  const router = useRouter()
   const [id, setId] = useQueryState("id")
 
   const onClose = () => {
@@ -30,7 +32,20 @@ export const DeleteListModal = () => {
       throw new Error("An ID is required to delete the list")
     }
 
-    deleteList({ id: Number(id) }, { onSettled: closeModal })
+    deleteList(
+      { id: Number(id) },
+      {
+        onSettled: () => {
+          closeModal()
+
+          // If we're on a subpage of the deleted list then go back to the lists
+          // overview page.
+          if (pathname.startsWith(`/lists/${id}`)) {
+            router.push("/lists")
+          }
+        },
+      },
+    )
   }
 
   return (
@@ -40,6 +55,7 @@ export const DeleteListModal = () => {
       isOpen={activeModal === Modals.DeleteList}
       onClose={onClose}
       onDeleteClick={onDeleteClick}
+      isPending={isPending}
     />
   )
 }

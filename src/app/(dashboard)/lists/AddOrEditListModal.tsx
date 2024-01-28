@@ -15,31 +15,24 @@ type Inputs = {
 
 type AddOrEditListModalProps = {
   values?: Inputs
-  onSubmit: (data: { name: string }) => void
+  onSubmit: SubmitHandler<Inputs>
   open: boolean
+  isPending?: boolean
 }
 
 export const AddOrEditListModal = ({
   values,
   onSubmit,
   open,
+  isPending,
 }: AddOrEditListModalProps) => {
   const { closeModal, openModal } = useModals()
   const {
     register,
     setValue,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { errors },
   } = useForm<Inputs>()
-
-  const submitList: SubmitHandler<Inputs> = async (inputs) => {
-    const { name } = inputs
-    const data = {
-      name,
-    }
-
-    onSubmit(data)
-  }
 
   const deleteList = () => {
     openModal(Modals.DeleteList)
@@ -55,7 +48,7 @@ export const AddOrEditListModal = ({
       open={open}
       close={closeModal}
     >
-      <form className="space-y-8" onSubmit={handleSubmit(submitList)}>
+      <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label
             htmlFor="name"
@@ -85,16 +78,16 @@ export const AddOrEditListModal = ({
           )}
         >
           {values && (
-            <Button style="secondary" onClick={deleteList}>
+            <Button disabled={isPending} style="secondary" onClick={deleteList}>
               <TrashIcon className="w-5 h-5 text-gray-900" />
               Delete
             </Button>
           )}
           <div className="flex items-center gap-3">
-            <Button style="secondary" onClick={closeModal}>
+            <Button disabled={isPending} style="secondary" onClick={closeModal}>
               Cancel
             </Button>
-            <Button loading={isSubmitting} onClick={handleSubmit(submitList)}>
+            <Button loading={isPending} onClick={handleSubmit(onSubmit)}>
               <CheckIcon className="w-5 h-5" />
               Save
             </Button>
