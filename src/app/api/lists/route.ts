@@ -4,7 +4,8 @@ import { ApiRequestContext } from "@/types/api"
 
 import { getTeamLists } from "@/actions/admin/team-lists/get-team-lists"
 import { abort } from "@/utils/abort"
-import { createList } from "@/actions/admin/lists/create-list"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const GET = createApiEndpoint(
   "getLists",
@@ -26,6 +27,15 @@ export const POST = createApiEndpoint(
       abort(400, "Name is required")
     }
 
-    return createList({ name, team_id: ctx.team.id })
+    const supabase = createAdminSupabaseClient()
+    const result = await supabase
+      .from("lists")
+      .insert({ name, team_id: ctx.team.id })
+      .select()
+      .single()
+
+    assertValidSupabaseResult(result)
+
+    return result.data
   },
 )

@@ -342,4 +342,16 @@ export const contract = c.router({
       scopes: ["lists:write"],
     },
   },
+  deleteListItem: {
+    summary: "Remove an item from a list",
+    method: "DELETE",
+    path: "/api/lists/:id/items/:item",
+    responses: {
+      204: null,
+    },
+    metadata: {
+      scopes: ["lists:write"],
+    },
+    body: null,
+  },
 })

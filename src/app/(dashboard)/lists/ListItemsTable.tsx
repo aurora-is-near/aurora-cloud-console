@@ -2,9 +2,12 @@
 
 import Table from "@/components/Table"
 import { TrashIcon } from "@heroicons/react/24/outline"
-import { useSearchParams } from "next/navigation"
+import { useParams, useSearchParams } from "next/navigation"
 import TableButton from "@/components/TableButton"
 import { Pagination } from "@/components/Pagination"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
+import { useQueryState } from "next-usequerystate"
 
 type ListItemsTableProps = {
   listItems: string[]
@@ -17,15 +20,15 @@ export const ListItemsTable = ({
   total,
   itemsPerPage,
 }: ListItemsTableProps) => {
-  const searchParams = useSearchParams()
-  const page = Number(searchParams.get("page") ?? 1)
-
-  console.log("page", page)
+  const { id } = useParams()
+  const { openModal } = useModals()
+  const [, setId] = useQueryState("id")
+  const [, setItem] = useQueryState("item")
 
   const onRemoveListItemClick = (listItem: string) => {
-    if (confirm(`Are you sure you want to remove ${listItem}?`)) {
-      // deleteListItem({ id })
-    }
+    setId(String(id))
+    setItem(listItem)
+    openModal(Modals.deleteListItem)
   }
 
   return (

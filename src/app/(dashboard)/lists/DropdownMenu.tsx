@@ -55,7 +55,7 @@ const DropdownMenu = ({ address }: { address: string }) => {
             <Menu.Item>
               {({ active }) => (
                 <button
-                  onClick={() => setModalParams(Modals.DeleteAddress)}
+                  onClick={() => setModalParams(Modals.deleteListItem)}
                   className={clsx(
                     "flex w-full items-center p-2.5 text-sm space-x-1",
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",

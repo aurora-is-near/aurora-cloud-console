@@ -3,7 +3,8 @@ import { createApiEndpoint } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
 import { abort } from "../../../../utils/abort"
 import { getTeamList } from "@/actions/admin/team-lists/get-team-list"
-import { updateList } from "@/actions/admin/lists/update-list"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const GET = createApiEndpoint(
   "getList",
@@ -27,14 +28,21 @@ export const PUT = createApiEndpoint(
       abort(400, "Name is required")
     }
 
-    const list = await updateList(Number(ctx.params.id), {
-      name,
-    })
+    const supabase = createAdminSupabaseClient()
+    const result = await supabase
+      .from("lists")
+      .update({ name })
+      .eq("id", Number(ctx.params.id))
+      .eq("team_id", ctx.team.id)
+      .select()
+      .single()
 
-    if (!list) {
+    assertValidSupabaseResult(result)
+
+    if (!result.data) {
       abort(404)
     }
 
-    return list
+    return result.data
   },
 )

@@ -238,6 +238,11 @@ export const apiClient = {
       method: "POST",
       body: JSON.stringify(data),
     }),
+
+  deleteListItem: async ({ id, item }: { id: number; item: string }) =>
+    request(`/api/lists/${id}/items/${encodeURIComponent(item)}`, {
+      method: "DELETE",
+    }),
 }
 
 export type ApiClient = typeof apiClient
