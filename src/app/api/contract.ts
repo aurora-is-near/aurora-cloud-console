@@ -40,6 +40,13 @@ const ListSchema = z.object({
   team_id: z.number(),
 })
 
+const WalletDetailsSchema = z.object({
+  walletAddress: z.string(),
+  numberOfTransactions: z.number(),
+  firstTransactionAt: z.string(),
+  lastTransactionAt: z.string(),
+})
+
 export const contract = c.router({
   getDeals: {
     summary: "Get all deals",
@@ -235,25 +242,33 @@ export const contract = c.router({
     },
   },
   getWallets: {
-    summary: "Get the wallets that have interacted with your silos",
+    summary: "Get details of the wallets that have interacted with your silos",
     method: "GET",
     path: "/api/wallets",
     responses: {
       200: z.object({
         total: z.number(),
-        items: z.array(
-          z.object({
-            walletAddress: z.string(),
-            numberOfTransactions: z.number(),
-            firstTransactionAt: z.string(),
-            lastTransactionAt: z.string(),
-          }),
-        ),
+        items: z.array(WalletDetailsSchema),
       }),
     },
     query: z.object({
       limit: z.number().optional(),
       offset: z.number().optional(),
+      dealId: z.number().optional(),
+    }),
+    metadata: {
+      scopes: ["transactions:read"],
+    },
+  },
+  getWallet: {
+    summary:
+      "Get details of a single wallets that has interacted with your silos",
+    method: "GET",
+    path: "/api/wallets",
+    responses: {
+      200: WalletDetailsSchema,
+    },
+    query: z.object({
       dealId: z.number().optional(),
     }),
     metadata: {

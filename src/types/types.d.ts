@@ -42,10 +42,10 @@ export type DealTransactionCharts = {
   }[]
 }
 
-export type UserDetails = {
+export type TransactionsSummary = {
   walletAddress: string
-  transactionsCount: number
-  createdAt: string
+  numberOfTransactions: number
+  firstTransactionAt: string
   lastTransactionAt: string
 }
 
@@ -54,11 +54,6 @@ export type TransactionsQuery = {
   number_of_transactions: number
   first_transaction_at: string
   last_transaction_at: string
-}
-
-export type Users = {
-  total: number
-  users: UserDetails[]
 }
 
 export type DealEnabled = {

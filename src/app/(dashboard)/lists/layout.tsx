@@ -4,6 +4,7 @@ import { EditListModal } from "@/app/(dashboard)/lists/EditListModal"
 import { DeleteListModal } from "@/app/(dashboard)/lists/DeleteListModal"
 import { ImportListItemsModal } from "@/app/(dashboard)/lists/ImportListItemsModal"
 import { DeleteListItemModal } from "@/app/(dashboard)/lists/DeleteListItemModal"
+import { ViewListItemDetailsModal } from "@/app/(dashboard)/lists/ViewListItemDetailsModal"
 
 const Layout = ({ children }: { children: ReactNode }) => (
   <>
@@ -13,6 +14,7 @@ const Layout = ({ children }: { children: ReactNode }) => (
     <DeleteListModal />
     <DeleteListItemModal />
     <ImportListItemsModal />
+    <ViewListItemDetailsModal />
   </>
 )
 

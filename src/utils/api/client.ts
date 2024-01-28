@@ -5,7 +5,6 @@ import {
   Deal,
   ApiKey,
   User,
-  Users,
   Contract,
   TeamMembers,
   Team,
@@ -14,6 +13,7 @@ import {
   DealTransactionCharts,
   DealEnabled,
   List,
+  TransactionsSummary,
 } from "@/types/types"
 import { request } from "./request"
 
@@ -44,12 +44,6 @@ export const apiClient = {
 
   getSiloTokens: async ({ id }: { id: number }) =>
     request<Token[]>(`/api/silos/${id}/tokens`),
-
-  getUsers: async (query: {
-    limit?: number
-    offset?: number
-    dealId?: number
-  }) => request<Users>("/api/transactions", { query }),
 
   getDeals: async () => request<{ items: Deal[] }>("/api/deals"),
 
@@ -243,6 +237,9 @@ export const apiClient = {
     request(`/api/lists/${id}/items/${encodeURIComponent(item)}`, {
       method: "DELETE",
     }),
+
+  getWallet: async ({ address }: { address: string }) =>
+    request<TransactionsSummary>(`/api/wallets/${address}`),
 }
 
 export type ApiClient = typeof apiClient

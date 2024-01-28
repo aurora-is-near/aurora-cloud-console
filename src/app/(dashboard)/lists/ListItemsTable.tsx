@@ -7,7 +7,8 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
 import DropdownMenu from "@/components/DropdownMenu"
-import { TrashIcon } from "@heroicons/react/20/solid"
+import { InformationCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
+import { isWalletAddress } from "@/utils/wallets"
 
 type ListItemsTableProps = {
   listItems: string[]
@@ -31,29 +32,46 @@ export const ListItemsTable = ({
     openModal(Modals.DeleteListItem)
   }
 
+  const onViewDetailsClick = (listItem: string) => {
+    setItem(listItem)
+    openModal(Modals.ViewListItemDetails)
+  }
+
   return (
     <>
       <Table>
         <Table.TH>Item</Table.TH>
         <Table.TH hidden>Options</Table.TH>
-        {listItems.map((listItem) => (
-          <Table.TR key={listItem}>
-            <Table.TD dark>{listItem}</Table.TD>
-            <Table.TD align="right">
-              <DropdownMenu
-                menuItems={[
-                  {
-                    Icon: TrashIcon,
-                    text: "Delete",
-                    onClick: () => {
-                      onDeleteClick(listItem)
-                    },
-                  },
-                ]}
-              />
-            </Table.TD>
-          </Table.TR>
-        ))}
+        {listItems.map((listItem) => {
+          const menuItems = [
+            {
+              Icon: TrashIcon,
+              text: "Delete",
+              onClick: () => {
+                onDeleteClick(listItem)
+              },
+            },
+          ]
+
+          if (isWalletAddress(listItem)) {
+            menuItems.unshift({
+              Icon: InformationCircleIcon,
+              text: "View details",
+              onClick: () => {
+                onViewDetailsClick(listItem)
+              },
+            })
+          }
+
+          return (
+            <Table.TR key={listItem}>
+              <Table.TD dark>{listItem}</Table.TD>
+              <Table.TD align="right">
+                <DropdownMenu menuItems={menuItems} />
+              </Table.TD>
+            </Table.TR>
+          )
+        })}
       </Table>
       <Pagination itemsPerPage={itemsPerPage} total={total} />
     </>

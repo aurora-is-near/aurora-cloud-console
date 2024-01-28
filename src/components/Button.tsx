@@ -3,6 +3,7 @@
 import { ReactNode, forwardRef } from "react"
 import clsx from "clsx"
 import Link from "next/link"
+import { Spinner } from "@/components/Spinner"
 
 type Props = {
   style?: "primary" | "secondary" | "transparent" | "border" | "destructive"
@@ -35,15 +36,6 @@ const Button = forwardRef<Ref, Props>(
     },
     ref,
   ) => {
-    const spinner = (
-      <div className="absolute transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
-        <div
-          className="w-4 h-4 border-2 border-current rounded-full animate-spin"
-          style={{ borderRightColor: "transparent" }}
-        />
-      </div>
-    )
-
     const isDisabled = disabled || loading
 
     const classes = clsx(
@@ -81,7 +73,7 @@ const Button = forwardRef<Ref, Props>(
         >
           {children}
         </span>
-        {loading && spinner}
+        {loading && <Spinner />}
       </>
     )
 
