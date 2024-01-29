@@ -26,6 +26,8 @@ export type SelectInputProps<Inputs extends Record<string, unknown>> = {
   name: Path<Inputs>
   register?: UseFormRegister<Inputs>
   registerOptions?: RegisterOptions<Inputs, Path<Inputs>>
+  placeholder?: string
+  isClearable?: boolean
   options: SelectInputOption[]
 } & (
   | {

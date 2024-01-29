@@ -22,7 +22,7 @@ export const HorizontalInputWrapper = <Inputs extends Record<string, unknown>>({
   <div className={clsx("sm:grid sm:grid-cols-2 min-h-9", className)}>
     <label
       htmlFor={id}
-      className="py-2 block text-sm font-medium leading-none text-gray-500"
+      className="py-2 block text-sm font-medium leading-none flex items-center"
     >
       {label}
     </label>
