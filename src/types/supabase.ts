@@ -58,6 +58,7 @@ export interface Database {
           priority: string
           start_time: number | null
           team_id: number
+          updated_at: string
         }
         Insert: {
           created_at?: string
@@ -69,6 +70,7 @@ export interface Database {
           priority: string
           start_time?: number | null
           team_id: number
+          updated_at?: string
         }
         Update: {
           created_at?: string
@@ -80,6 +82,7 @@ export interface Database {
           priority?: string
           start_time?: number | null
           team_id?: number
+          updated_at?: string
         }
         Relationships: [
           {
@@ -160,6 +163,7 @@ export interface Database {
           name: string
           network: string
           rpc_url: string
+          updated_at: string
         }
         Insert: {
           chain_id: string
@@ -171,6 +175,7 @@ export interface Database {
           name: string
           network?: string
           rpc_url?: string
+          updated_at?: string
         }
         Update: {
           chain_id?: string
@@ -182,6 +187,7 @@ export interface Database {
           name?: string
           network?: string
           rpc_url?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -223,6 +229,7 @@ export interface Database {
           is_demo_account: boolean
           name: string
           team_key: string
+          updated_at: string
           website: string | null
         }
         Insert: {
@@ -232,6 +239,7 @@ export interface Database {
           is_demo_account?: boolean
           name: string
           team_key: string
+          updated_at?: string
           website?: string | null
         }
         Update: {
@@ -241,6 +249,7 @@ export interface Database {
           is_demo_account?: boolean
           name?: string
           team_key?: string
+          updated_at?: string
           website?: string | null
         }
         Relationships: []
