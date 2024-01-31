@@ -1,8 +1,6 @@
 export enum Modals {
   DeleteListItem = "deleteListItem",
   ViewListItemDetails = "viewListItemDetails",
-  AddContract = "addContract",
-  EditContract = "editContract",
   AddList = "addList",
   EditList = "editList",
   DeleteList = "deleteList",
