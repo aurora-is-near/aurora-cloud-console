@@ -34,6 +34,7 @@ const Page = async () => {
               <Table.TH>Email</Table.TH>
               <Table.TH align="center">Silos</Table.TH>
               <Table.TH align="center">Created at</Table.TH>
+              <Table.TH align="center">Updated at</Table.TH>
               <Table.TH hidden>Actions</Table.TH>
               {teams.map((team) => (
                 <Table.TR key={team.id}>
@@ -47,6 +48,9 @@ const Page = async () => {
                   </Table.TD>
                   <Table.TD align="center">
                     {formatDate(team.created_at)}
+                  </Table.TD>
+                  <Table.TD align="center">
+                    {formatDate(team.updated_at)}
                   </Table.TD>
                   <Table.TD align="right">
                     <div className="flex gap-x-3">

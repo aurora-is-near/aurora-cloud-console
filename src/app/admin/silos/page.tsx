@@ -29,6 +29,7 @@ const Page = async () => {
               <Table.TH>Name</Table.TH>
               <Table.TH>Chain ID</Table.TH>
               <Table.TH>Created at</Table.TH>
+              <Table.TH>Updated at</Table.TH>
               <Table.TH hidden>Actions</Table.TH>
               {silos.map((silo) => (
                 <Table.TR key={silo.id}>
@@ -36,6 +37,9 @@ const Page = async () => {
                   <Table.TD>{silo.name}</Table.TD>
                   <Table.TD>{silo.chain_id}</Table.TD>
                   <Table.TD>{formatDate(silo.created_at)}</Table.TD>
+                  <Table.TD align="center">
+                    {formatDate(silo.updated_at)}
+                  </Table.TD>
                   <Table.TD align="right">
                     <div className="flex gap-x-3">
                       <TableButton
