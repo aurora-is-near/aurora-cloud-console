@@ -11,7 +11,7 @@ export const GET = createApiEndpoint(
     const supabase = createAdminSupabaseClient()
     const result = await supabase
       .from("deals")
-      .select("id, created_at, name, team_id")
+      .select("id, created_at, updated_at, name, team_id")
       .eq("id", Number(ctx.params.id))
       .eq("team_id", ctx.team.id)
       .maybeSingle()

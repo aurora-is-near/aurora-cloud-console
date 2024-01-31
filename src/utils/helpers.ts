@@ -39,3 +39,12 @@ export const formatDate = (date: Date | string): string =>
     month: "short",
     day: "numeric",
   }).format(new Date(date))
+
+const formatTime = (date: Date | string): string =>
+  new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+  }).format(new Date(date))
+
+export const formatDateAndTime = (date: Date | string): string =>
+  `${formatDate(date)} at ${formatTime(date)}`

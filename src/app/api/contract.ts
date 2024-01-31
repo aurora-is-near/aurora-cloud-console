@@ -9,6 +9,7 @@ const c = initContract()
 const DealSchema = z.object({
   id: z.number(),
   created_at: z.string(),
+  updated_at: z.string(),
   name: z.string(),
   team_id: z.number(),
 })
