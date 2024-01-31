@@ -1,13 +1,10 @@
 import Card from "@/components/Card"
 import Button from "@/components/Button"
 import { PlusIcon } from "@heroicons/react/20/solid"
-import ContractsList from "./ContractsList"
 import RulesList from "./RulesList"
 import Contact from "@/components/Contact"
-import AddContractButton from "./AddContractButton"
 import { DealTransactionCharts } from "./DealTransactionsCharts"
 import { FiltersForm } from "@/app/(dashboard)/borealis/deals/[id]/FiltersForm"
-import { Modals } from "@/utils/modals"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
@@ -16,18 +13,6 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         <section>
           <DealTransactionCharts />
         </section>
-
-        <Card tag="section">
-          <Card.Title>Contracts</Card.Title>
-          <Card.Subtitle>
-            List of target contracts to benefit from this deal.
-          </Card.Subtitle>
-          <Card.Actions>
-            <AddContractButton />
-          </Card.Actions>
-
-          <ContractsList dealId={Number(id)} />
-        </Card>
 
         <Card tag="section">
           <Card.Title>Filters</Card.Title>
