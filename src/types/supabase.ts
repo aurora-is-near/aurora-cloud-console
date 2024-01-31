@@ -47,38 +47,6 @@ export interface Database {
           }
         ]
       }
-      contracts: {
-        Row: {
-          address: string
-          created_at: string
-          deal_id: number
-          id: number
-          name: string
-        }
-        Insert: {
-          address: string
-          created_at?: string
-          deal_id: number
-          id?: number
-          name: string
-        }
-        Update: {
-          address?: string
-          created_at?: string
-          deal_id?: number
-          id?: number
-          name?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "contracts_deal_id_fkey"
-            columns: ["deal_id"]
-            isOneToOne: false
-            referencedRelation: "deals"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       deals: {
         Row: {
           created_at: string
