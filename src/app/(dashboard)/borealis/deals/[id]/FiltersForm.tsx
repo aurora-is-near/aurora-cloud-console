@@ -10,8 +10,10 @@ type Inputs = {
 
 const FORM_INPUT_CLASSNAME = "px-4 sm:px-5 md:px-6 py-4 border-t"
 const FILTERS = {
-  userIdFilter: "User ID Whitelist",
-  userIdBlacklist: "User ID Blacklist",
+  chainFilter: "Chain Filter",
+  contractFilter: "Contract Filter",
+  eoaFilter: "EOA Filter",
+  eoaBlacklist: "EOA Blacklist",
 }
 
 export const FiltersForm = () => {
