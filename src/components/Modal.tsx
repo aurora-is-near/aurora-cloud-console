@@ -1,7 +1,6 @@
 "use client"
 
 import { useModalAfterLeave } from "@/hooks/useModalAfterLeave"
-import { useModals } from "@/hooks/useModals"
 import { Dialog, Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { Fragment, ReactNode } from "react"
