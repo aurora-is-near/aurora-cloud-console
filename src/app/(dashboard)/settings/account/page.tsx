@@ -2,6 +2,7 @@ import Heading from "@/components/Heading"
 import UserInfoForm from "./UserInfoForm"
 import { createServerComponentClient } from "@/supabase/create-server-component-client"
 import { differenceInHours } from "date-fns"
+import { DashboardPage } from "@/components/DashboardPage"
 
 const PENDING_EMAIL_CHANGE_MAX_HOURS = 24
 
@@ -23,10 +24,12 @@ const Page = async () => {
   const hasPendingEmailChange = !!authUser.new_email && hasRecentEmailChange
 
   return (
-    <div className="space-y-4 sm:space-y-5">
-      <Heading tag="h2">Account</Heading>
-      <UserInfoForm hasPendingEmailChange={hasPendingEmailChange} />
-    </div>
+    <DashboardPage>
+      <div className="space-y-4 sm:space-y-5">
+        <Heading tag="h2">Account</Heading>
+        <UserInfoForm hasPendingEmailChange={hasPendingEmailChange} />
+      </div>
+    </DashboardPage>
   )
 }
 

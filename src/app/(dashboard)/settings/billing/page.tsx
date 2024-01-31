@@ -1,3 +1,4 @@
+import { DashboardPage } from "@/components/DashboardPage"
 import Heading from "@/components/Heading"
 import { Borealis } from "@/components/icons"
 import { addDays } from "date-fns"
@@ -30,7 +31,7 @@ const formatter = new Intl.NumberFormat("en-US")
 
 const Page = () => {
   return (
-    <>
+    <DashboardPage>
       <Heading tag="h2">Billing</Heading>
       <section>
         <h3 className="sr-only">Plan details</h3>
@@ -72,7 +73,7 @@ const Page = () => {
           </div>
         </div>
       </section>
-    </>
+    </DashboardPage>
   )
 }
 
