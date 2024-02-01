@@ -32,8 +32,8 @@ export function DealUpdateProvider({
   }, [queryClient])
 
   const value = useMemo(
-    (): DealContextType => ({ resetDeal, deal }),
-    [resetDeal, deal],
+    (): DealContextType => ({ resetDeal, deal, hasPendingUpdates }),
+    [resetDeal, deal, hasPendingUpdates],
   )
 
   return <DealContext.Provider value={value}>{children}</DealContext.Provider>
