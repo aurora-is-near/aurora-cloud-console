@@ -5,7 +5,7 @@ import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 import { RemoveTokenButton } from "@/app/admin/tokens/RemoveTokenButton"
-import { AdminPage } from "@/components/AdminPage"
+import { DashboardPage } from "@/components/DashboardPage"
 import { AdminToast } from "@/components/AdminToast"
 
 const Page = async () => {
@@ -13,8 +13,8 @@ const Page = async () => {
 
   return (
     <>
-      <AdminPage
-        title="Tokens"
+      <DashboardPage
+        heading="Tokens"
         actions={
           <Button href="/admin/tokens/add">
             <PlusCircleIcon className="w-5 h-5" />
@@ -53,7 +53,7 @@ const Page = async () => {
             </Table>
           }
         </section>
-      </AdminPage>
+      </DashboardPage>
       <AdminToast itemName="Token" />
     </>
   )

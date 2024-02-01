@@ -31,8 +31,7 @@ const formatter = new Intl.NumberFormat("en-US")
 
 const Page = () => {
   return (
-    <DashboardPage>
-      <Heading tag="h2">Billing</Heading>
+    <DashboardPage heading="Billing">
       <section>
         <h3 className="sr-only">Plan details</h3>
         <dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">

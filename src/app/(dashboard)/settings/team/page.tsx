@@ -1,6 +1,5 @@
 "use client"
 
-import Heading from "@/components/Heading"
 import InviteButton from "./InviteButton"
 import TableLoader from "@/components/TableLoader"
 import { TeamMembersTable } from "@/app/(dashboard)/settings/team/TeamMembersTable"
@@ -16,12 +15,7 @@ const Page = () => {
   )
 
   return (
-    <DashboardPage>
-      <div className="flex items-center justify-between mb-7">
-        <Heading tag="h2">Team</Heading>
-        <InviteButton />
-      </div>
-
+    <DashboardPage heading="Team" actions={<InviteButton />}>
       {isLoading ? (
         <TableLoader />
       ) : (

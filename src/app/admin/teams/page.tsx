@@ -6,7 +6,7 @@ import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 import TableButton from "@/components/TableButton"
 import { RemoveTeamButton } from "@/app/admin/teams/RemoveTeamButton"
-import { AdminPage } from "@/components/AdminPage"
+import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamsSilos } from "@/actions/admin/team-silos/get-teams-silos"
 import { AdminToast } from "@/components/AdminToast"
 
@@ -15,8 +15,8 @@ const Page = async () => {
 
   return (
     <>
-      <AdminPage
-        title="Teams"
+      <DashboardPage
+        heading="Teams"
         actions={
           <Button href="/admin/teams/add">
             <PlusCircleIcon className="w-5 h-5" />
@@ -67,7 +67,7 @@ const Page = async () => {
             </Table>
           }
         </section>
-      </AdminPage>
+      </DashboardPage>
       <AdminToast itemName="Team" />
     </>
   )

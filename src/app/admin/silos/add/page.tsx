@@ -1,18 +1,17 @@
 import Card from "@/components/Card"
 import { SiloForm } from "@/app/admin/silos/SiloForm"
-import { AdminPage } from "@/components/AdminPage"
-import { getTeams } from "@/actions/admin/teams/get-teams"
+import { DashboardPage } from "@/components/DashboardPage"
 
 const Page = async () => {
   return (
-    <AdminPage title="Add silo">
+    <DashboardPage heading="Add silo">
       <Card>
         <Card.Title tag="h3">Silo details</Card.Title>
         <div className="px-6 pb-7">
           <SiloForm />
         </div>
       </Card>
-    </AdminPage>
+    </DashboardPage>
   )
 }
 

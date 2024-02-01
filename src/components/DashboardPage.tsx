@@ -1,12 +1,20 @@
+import Heading from "@/components/Heading"
 import { ReactNode } from "react"
 import { Toaster } from "react-hot-toast"
 
 type DashboardPageProps = {
   children: ReactNode
+  heading?: string
+  actions?: ReactNode
   footer?: ReactNode
 }
 
-export const DashboardPage = ({ children, footer }: DashboardPageProps) => {
+export const DashboardPage = ({
+  children,
+  footer,
+  heading,
+  actions,
+}: DashboardPageProps) => {
   return (
     <div className="max-h-full flex-1 flex flex-col">
       <main className="overflow-auto">
@@ -17,7 +25,15 @@ export const DashboardPage = ({ children, footer }: DashboardPageProps) => {
           }}
         />
         <div className="relative px-4 py-6 md:px-6 lg:px-8 min-h-screen flex flex-col">
-          {children}
+          {heading && (
+            <div className="flex justify-between items-center mb-7">
+              <Heading tag="h2">{heading}</Heading>
+              {actions && (
+                <div className="flex items-center gap-3">{actions}</div>
+              )}
+            </div>
+          )}
+          <div className="space-y-4 sm:space-y-5">{children}</div>
         </div>
       </main>
       {footer}

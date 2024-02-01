@@ -1,10 +1,8 @@
 import { ReactNode } from "react"
-import { Toaster } from "react-hot-toast"
 import MainMenu from "@/components/menu/MainMenu"
 import MobileMenu from "@/components/menu/MobileMenu"
 import SubMenuNav from "@/components/menu/SubMenuNav"
 import { MenuItem } from "@/types/menu"
-import { DashboardFooterPortal } from "@/components/DashboardFooterPortal"
 
 type DashboardLayoutProps = {
   isAdmin?: boolean

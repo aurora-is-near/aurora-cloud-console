@@ -24,11 +24,8 @@ const Page = async () => {
   const hasPendingEmailChange = !!authUser.new_email && hasRecentEmailChange
 
   return (
-    <DashboardPage>
-      <div className="space-y-4 sm:space-y-5">
-        <Heading tag="h2">Account</Heading>
-        <UserInfoForm hasPendingEmailChange={hasPendingEmailChange} />
-      </div>
+    <DashboardPage heading="Account">
+      <UserInfoForm hasPendingEmailChange={hasPendingEmailChange} />
     </DashboardPage>
   )
 }

@@ -5,7 +5,7 @@ import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import Button from "@/components/Button"
 import TableButton from "@/components/TableButton"
 import { RemoveSiloButton } from "@/app/admin/silos/RemoveSiloButton"
-import { AdminPage } from "@/components/AdminPage"
+import { DashboardPage } from "@/components/DashboardPage"
 import { AdminToast } from "@/components/AdminToast"
 
 const Page = async () => {
@@ -13,8 +13,8 @@ const Page = async () => {
 
   return (
     <>
-      <AdminPage
-        title="Silos"
+      <DashboardPage
+        heading="Silos"
         actions={
           <Button href="/admin/silos/add">
             <PlusCircleIcon className="w-5 h-5" />
@@ -55,7 +55,7 @@ const Page = async () => {
             </Table>
           }
         </section>
-      </AdminPage>
+      </DashboardPage>
       <AdminToast itemName="Silo" />
     </>
   )
