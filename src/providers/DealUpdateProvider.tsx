@@ -23,13 +23,14 @@ export function DealUpdateProvider({
   children,
   dealId,
 }: DealUpdateProviderProps) {
-  const queryClient = useQueryClient()
-  const { data: deal } = useQuery(getQueryFnAndKey("getDeal", { id: dealId }))
+  const { data: deal, refetch: refetchDeal } = useQuery(
+    getQueryFnAndKey("getDeal", { id: dealId }),
+  )
   const [hasPendingUpdates, setHasPendingUpdates] = useState(false)
 
   const resetDeal = useCallback(() => {
-    queryClient.invalidateQueries({ queryKey: getQueryKey("getDeal") })
-  }, [queryClient])
+    refetchDeal()
+  }, [refetchDeal])
 
   const value = useMemo(
     (): DealContextType => ({ resetDeal, deal, hasPendingUpdates }),
