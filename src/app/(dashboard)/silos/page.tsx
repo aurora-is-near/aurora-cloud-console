@@ -1,10 +1,11 @@
 import Contact from "@/components/Contact"
 import Chart from "./Chart"
 import { SilosTransactionsCharts } from "@/app/(dashboard)/silos/SilosTransactionsCharts"
+import { DashboardPage } from "@/components/DashboardPage"
 
 const Page = () => {
   return (
-    <div className="space-y-4 sm:space-y-5">
+    <DashboardPage>
       <section>
         <SilosTransactionsCharts />
       </section>
@@ -21,7 +22,7 @@ const Page = () => {
       </section>
 
       <Contact text="Need help setting up a silo?" />
-    </div>
+    </DashboardPage>
   )
 }
 

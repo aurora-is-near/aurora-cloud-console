@@ -1,12 +1,13 @@
 import Chart from "../../Chart"
 import Contact from "@/components/Contact"
 import { SiloTransactionsCharts } from "./SiloTransactionsCharts"
+import { DashboardPage } from "@/components/DashboardPage"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
-    <div className="space-y-4 sm:space-y-5">
+    <DashboardPage>
       <section>
-        <SiloTransactionsCharts />
+        <SiloTransactionsCharts siloId={Number(id)} />
       </section>
 
       <section className="grid md:grid-cols-2 gap-y-5 gap-x-2.5">
@@ -21,7 +22,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
       </section>
 
       <Contact text="Need help setting up a silo?" />
-    </div>
+    </DashboardPage>
   )
 }
 

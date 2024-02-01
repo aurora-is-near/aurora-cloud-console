@@ -1,15 +1,12 @@
+import { DashboardPage } from "@/components/DashboardPage"
 import { AddListButton } from "./AddListButton"
 import { ListsTable } from "./ListsTable"
-import { HeadingRow } from "@/components/HeadingRow"
 
 const Page = () => {
   return (
-    <>
-      <HeadingRow title="All lists">
-        <AddListButton />
-      </HeadingRow>
+    <DashboardPage heading="All lists" actions={<AddListButton />}>
       <ListsTable />
-    </>
+    </DashboardPage>
   )
 }
 

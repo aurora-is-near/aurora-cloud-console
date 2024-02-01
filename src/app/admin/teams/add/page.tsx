@@ -1,4 +1,4 @@
-import { AdminPage } from "@/components/AdminPage"
+import { DashboardPage } from "@/components/DashboardPage"
 import { TeamDetailsCard } from "@/app/admin/teams/TeamDetailsCard"
 import { getSilos } from "@/actions/admin/silos/get-silos"
 
@@ -6,9 +6,9 @@ const Page = async () => {
   const allSilos = await getSilos()
 
   return (
-    <AdminPage title="Add team">
+    <DashboardPage heading="Add team">
       <TeamDetailsCard allSilos={allSilos} />
-    </AdminPage>
+    </DashboardPage>
   )
 }
 

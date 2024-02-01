@@ -59,8 +59,8 @@ export const TeamMembersTable = ({ teamMembers }: TeamMembersTableProps) => {
 
   return (
     <Table>
-      <Table.TH>Name</Table.TH>
       <Table.TH>Email</Table.TH>
+      <Table.TH>Name</Table.TH>
       <Table.TH>Status</Table.TH>
       <Table.TH hidden>Actions</Table.TH>
       {teamMembers.map((teamMember) => {
@@ -68,8 +68,8 @@ export const TeamMembersTable = ({ teamMembers }: TeamMembersTableProps) => {
 
         return (
           <Table.TR key={teamMember.email}>
-            <Table.TD dark>{teamMember.name}</Table.TD>
-            <Table.TD>{teamMember.email}</Table.TD>
+            <Table.TD dark>{teamMember.email}</Table.TD>
+            <Table.TD>{teamMember.name ?? "-"}</Table.TD>
             <Table.TD>{teamMember.isPending ? "Invited" : "Active"}</Table.TD>
             <Table.TD align="right">
               {teamMember.isPending && !isCurrentUser ? (

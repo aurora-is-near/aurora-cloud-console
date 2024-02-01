@@ -7,6 +7,7 @@ import Header from "./Header"
 import { getSilo } from "@/actions/admin/silos/get-silo"
 import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
+import { DashboardPage } from "@/components/DashboardPage"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const silo = await getSilo(Number(id))
@@ -16,7 +17,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="space-y-4 sm:space-y-5">
+    <DashboardPage>
       <Suspense>
         <Header siloId={Number(id)} />
       </Suspense>
@@ -126,7 +127,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
           />
         </InfoList>
       </Card>
-    </div>
+    </DashboardPage>
   )
 }
 

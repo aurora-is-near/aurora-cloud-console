@@ -1,15 +1,12 @@
 import AddApiKeyButton from "./AddApiKeyButton"
 import { ApiKeysTable } from "@/app/(dashboard)/settings/api-keys/ApiKeysTable"
-import { HeadingRow } from "@/components/HeadingRow"
+import { DashboardPage } from "@/components/DashboardPage"
 
 const Page = () => {
   return (
-    <>
-      <HeadingRow title="API Keys">
-        <AddApiKeyButton />
-      </HeadingRow>
+    <DashboardPage heading="API Keys" actions={<AddApiKeyButton />}>
       <ApiKeysTable />
-    </>
+    </DashboardPage>
   )
 }
 

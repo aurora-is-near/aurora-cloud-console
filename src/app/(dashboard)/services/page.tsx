@@ -2,6 +2,7 @@
 
 import Button from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
+import { DashboardPage } from "@/components/DashboardPage"
 import Heading from "@/components/Heading"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
@@ -70,9 +71,8 @@ const Page = () => {
   const { openModal } = useModals()
 
   return (
-    <>
+    <DashboardPage heading="All services">
       <div className="space-y-6">
-        <Heading tag="h2">All services</Heading>
         <div className="space-y-2.5">
           {services.map(({ title, description, imageSrc }) => (
             <div
@@ -107,7 +107,7 @@ const Page = () => {
         </div>
       </div>
       <ContactModal />
-    </>
+    </DashboardPage>
   )
 }
 

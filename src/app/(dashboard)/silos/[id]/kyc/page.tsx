@@ -5,10 +5,11 @@ import { Cog6ToothIcon } from "@heroicons/react/20/solid"
 import Charts from "./Charts"
 import { Suspense } from "react"
 import ChartsLoader from "@/components/ChartsLoader"
+import { DashboardPage } from "@/components/DashboardPage"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
-    <div className="space-y-4 sm:space-y-5">
+    <DashboardPage>
       <Suspense fallback={<ChartsLoader />}>
         <Charts siloId={Number(id)} />
       </Suspense>
@@ -56,7 +57,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
           <InfoList.Item term="Number of matches" description="~456 users" />
         </InfoList>
       </Card>
-    </div>
+    </DashboardPage>
   )
 }
 

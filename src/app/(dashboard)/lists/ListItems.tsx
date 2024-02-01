@@ -1,8 +1,6 @@
 "use client"
 
-import Button from "@/components/Button"
 import Heading from "@/components/Heading"
-import { Cog8ToothIcon } from "@heroicons/react/20/solid"
 import SearchInput from "./SearchInput"
 import { ListItemsTable } from "./ListItemsTable"
 import TableLoader from "@/components/TableLoader"

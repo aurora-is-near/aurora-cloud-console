@@ -4,14 +4,13 @@ import Heading from "@/components/Heading"
 import Card from "@/components/Card"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { useQuery } from "@tanstack/react-query"
+import { DashboardPage } from "@/components/DashboardPage"
 
 const Page = () => {
   const { data: team } = useQuery(getQueryFnAndKey("getTeam"))
 
   return (
-    <div className="space-y-4 sm:space-y-5">
-      <Heading tag="h2">Company</Heading>
-
+    <DashboardPage heading="Company">
       <Card>
         <Card.Title tag="h3">Company information</Card.Title>
         <dl className="px-6 space-y-10 pb-7">
@@ -41,7 +40,7 @@ const Page = () => {
           </div>
         </dl>
       </Card>
-    </div>
+    </DashboardPage>
   )
 }
 

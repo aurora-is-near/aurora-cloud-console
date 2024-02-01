@@ -5,11 +5,14 @@ import RulesList from "./RulesList"
 import Contact from "@/components/Contact"
 import { DealTransactionCharts } from "./DealTransactionsCharts"
 import { FiltersForm } from "@/app/(dashboard)/borealis/deals/[id]/FiltersForm"
+import { SaveChangesBar } from "@/app/(dashboard)/borealis/deals/[id]/SaveChangesBar"
+import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
+import { DashboardPage } from "@/components/DashboardPage"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
-    <>
-      <div className="space-y-4 sm:space-y-5">
+    <DealUpdateProvider dealId={Number(id)}>
+      <DashboardPage footer={<SaveChangesBar />}>
         <section>
           <DealTransactionCharts />
         </section>
@@ -38,19 +41,8 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         </Card>
 
         <Contact />
-      </div>
-
-      {/* <div className="fixed lg:ml-[368px] inset-x-0 bottom-0 bg-white px-8 py-5 flex items-center justify-between border-t">
-          <Button style="secondary">Reset</Button>
-          <div className="text-sm text-gray-500">
-            Last update: Jun 16, 2023 at 11:25
-          </div>
-          <Button>
-            <CheckIcon className="w-5 h-5" />
-            Save changes
-          </Button>
-        </div> */}
-    </>
+      </DashboardPage>
+    </DealUpdateProvider>
   )
 }
 
