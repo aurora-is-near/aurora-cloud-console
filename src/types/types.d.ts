@@ -48,10 +48,6 @@ export type TransactionsQuery = {
   last_transaction_at: string
 }
 
-export type DealEnabled = {
-  enabled: boolean
-}
-
 export type Teams = {
   teams: Team[]
 }
@@ -91,7 +87,7 @@ export type Silo = Tables<"silos">
 
 export type List = Tables<"lists">
 
-export type Deal = Omit<Tables<"deals">, "enabled">
+export type Deal = Tables<"deals">
 
 export type ApiUser = User & {
   scopes: ApiScope[]

@@ -12,6 +12,7 @@ const DealSchema = z.object({
   updated_at: z.string(),
   name: z.string(),
   team_id: z.number(),
+  enabled: z.boolean(),
 })
 
 const DealPrioritiesSchema = z.array(
@@ -73,34 +74,19 @@ export const contract = c.router({
       scopes: ["deals:read"],
     },
   },
-  getDealEnabled: {
-    summary: "Check if a deal is enabled",
-    method: "GET",
-    path: "/api/deals/:id/enabled",
-    responses: {
-      200: z.object({
-        enabled: z.boolean(),
-      }),
-    },
-    metadata: {
-      scopes: ["deals:read"],
-    },
-  },
-  updateDealEnabled: {
-    summary: "Enable or disable a deal",
+  updateDeal: {
+    summary: "Update a deal",
     method: "PUT",
-    path: "/api/deals/:id/enabled",
+    path: "/api/deals/:id",
     responses: {
-      200: z.object({
-        enabled: z.boolean(),
-      }),
-    },
-    metadata: {
-      scopes: ["deals:write"],
+      200: DealSchema,
     },
     body: z.object({
       enabled: z.boolean(),
     }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
   },
   getDealStartTime: {
     summary: "Get the start time for a deal",

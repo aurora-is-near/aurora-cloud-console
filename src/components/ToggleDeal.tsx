@@ -9,26 +9,23 @@ import React from "react"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 
 const ToggleDeal = ({ dealId }: { dealId: number }) => {
-  const { data: dealEnabled } = useQuery(
-    getQueryFnAndKey("getDealEnabled", { id: dealId }),
-  )
+  const { data: deal } = useQuery(getQueryFnAndKey("getDeal", { id: dealId }))
 
-  const dealEnabledUpdater = useOptimisticUpdater("getDealEnabled", {
+  const dealUpdater = useOptimisticUpdater("getDeal", {
     id: dealId,
   })
 
   const { mutate: enableDeal } = useMutation({
-    mutationFn: apiClient.enableDeal,
-    onMutate: (variables) => {
-      dealEnabledUpdater.update({ enabled: variables.enabled })
-    },
+    mutationFn: apiClient.updateDeal,
+    onSettled: dealUpdater.invalidate,
+    onMutate: dealUpdater.update,
   })
 
   const onChange = (enabled: boolean) => {
     enableDeal({ id: dealId, enabled })
   }
 
-  const isDealEnabled = !!dealEnabled?.enabled
+  const isDealEnabled = !!deal?.enabled
 
   return (
     <Switch
