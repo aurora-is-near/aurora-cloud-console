@@ -1,13 +1,23 @@
 import { ProxyApiViewOperation } from "@/types/proxy-api"
-import { getDealVarKey } from "@/utils/proxy-api/get-deal-var-key"
 
 export const getDealViewOperations = (
   teamId: number,
   dealId: number,
-): ProxyApiViewOperation[] => [
-  {
-    // Check if the deal is enabled
-    var_type: "number",
-    key: getDealVarKey(teamId, dealId, "enabled"),
-  },
-]
+): ProxyApiViewOperation[] => {
+  const baseVarKey = `deal::acc::customers::${teamId}::deals::${dealId}`
+
+  return [
+    {
+      var_type: "number",
+      key: `${baseVarKey}::enabled`,
+    },
+    {
+      var_type: "number",
+      key: `${baseVarKey}::startTime`,
+    },
+    {
+      var_type: "number",
+      key: `${baseVarKey}::endTime`,
+    },
+  ]
+}

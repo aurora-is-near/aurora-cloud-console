@@ -5,6 +5,7 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { assertValidSupabaseResult } from "@/utils/supabase"
 import { proxyApiClient } from "@/utils/proxy-api/request"
 import { getDealViewOperations } from "@/utils/proxy-api/get-deal-view-operations"
+import { parseDeal } from "@/utils/deals"
 
 export const GET = createApiEndpoint(
   "getDeals",
@@ -12,7 +13,7 @@ export const GET = createApiEndpoint(
     const supabase = createAdminSupabaseClient()
     const result = await supabase
       .from("deals")
-      .select("id, created_at, updated_at, name, team_id, enabled")
+      .select("*")
       .order("created_at", { ascending: true })
       .eq("team_id", ctx.team.id)
 
@@ -26,7 +27,7 @@ export const GET = createApiEndpoint(
     )
 
     return {
-      items: result.data,
+      items: result.data.map(parseDeal),
     }
   },
 )

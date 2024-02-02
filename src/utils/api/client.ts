@@ -50,7 +50,9 @@ export const apiClient = {
   updateDeal: async ({
     id,
     ...data
-  }: { id: number } & Partial<Pick<Deal, "enabled">>) =>
+  }: { id: number } & Partial<
+    Pick<Deal, "enabled" | "start_time" | "end_time">
+  >) =>
     request<Deal>(`/api/deals/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),

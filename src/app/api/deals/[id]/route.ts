@@ -10,6 +10,25 @@ import {
 import { proxyApiClient } from "@/utils/proxy-api/request"
 import { getDealViewOperations } from "@/utils/proxy-api/get-deal-view-operations"
 import { getDealUpdateOperations } from "@/utils/proxy-api/get-deal-update-operations"
+import { parseDeal } from "@/utils/deals"
+
+const parseTimeParam = (time?: string | null) => {
+  if (time === null) {
+    return null
+  }
+
+  if (!time) {
+    return undefined
+  }
+
+  const parsed = Date.parse(time)
+
+  if (isNaN(parsed)) {
+    abort(400, `Invalid request body: startTime must be a date string`)
+  }
+
+  return parsed
+}
 
 export const GET = createApiEndpoint(
   "getDeal",
@@ -17,7 +36,7 @@ export const GET = createApiEndpoint(
     const supabase = createAdminSupabaseClient()
     const result = await supabase
       .from("deals")
-      .select("id, created_at, updated_at, name, team_id, enabled")
+      .select("*")
       .eq("id", Number(ctx.params.id))
       .eq("team_id", ctx.team.id)
       .maybeSingle()
@@ -33,7 +52,7 @@ export const GET = createApiEndpoint(
       getDealViewOperations(ctx.team.id, Number(ctx.params.id)),
     )
 
-    return result.data
+    return parseDeal(result.data)
   },
 )
 
@@ -41,12 +60,18 @@ export const PUT = createApiEndpoint(
   "updateDeal",
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
-    const { enabled } = await req.json()
-    const data = { enabled }
+    const { enabled, start_time, end_time } = await req.json()
+
+    if (typeof enabled !== undefined && typeof enabled !== "boolean") {
+      abort(400, "Invalid request body: enabled must be a boolean")
+    }
 
     const result = await supabase
       .from("deals")
-      .update(data)
+      .update({
+        enabled,
+        start_time: parseTimeParam(start_time),
+      })
       .eq("id", Number(ctx.params.id))
       .eq("team_id", ctx.team.id)
       .select("*")
@@ -57,13 +82,17 @@ export const PUT = createApiEndpoint(
 
     // TODO: Use this instead of the ACC database, when the Proxy API is ready
     await proxyApiClient.update(
-      getDealUpdateOperations(ctx.team.id, Number(ctx.params.id), data),
+      getDealUpdateOperations(ctx.team.id, Number(ctx.params.id), {
+        enabled,
+        startTime: parseTimeParam(start_time),
+        endTime: parseTimeParam(end_time),
+      }),
     )
 
     await proxyApiClient.view(
       getDealViewOperations(ctx.team.id, Number(ctx.params.id)),
     )
 
-    return result.data
+    return parseDeal(result.data)
   },
 )
