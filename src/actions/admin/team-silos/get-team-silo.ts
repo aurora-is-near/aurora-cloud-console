@@ -10,7 +10,7 @@ export const getTeamSilo = async (
   const supabase = createAdminSupabaseClient()
   const { data: silo } = await supabase
     .from("silos")
-    .select("*, teams(id)")
+    .select("*, teams!inner(id)")
     .eq("id", siloId)
     .eq("teams.id", teamId)
     .maybeSingle()

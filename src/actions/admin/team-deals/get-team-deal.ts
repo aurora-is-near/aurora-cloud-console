@@ -10,7 +10,7 @@ export const getTeamDeal = async (
   const supabase = createAdminSupabaseClient()
   const { data: deal } = await supabase
     .from("deals")
-    .select("*, teams(id)")
+    .select("*, teams!inner(id)")
     .eq("id", dealId)
     .eq("teams.id", teamId)
     .maybeSingle()
