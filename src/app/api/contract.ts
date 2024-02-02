@@ -12,6 +12,9 @@ const DealSchema = z.object({
   updated_at: z.string(),
   name: z.string(),
   team_id: z.number(),
+  enabled: z.boolean(),
+  start_time: z.string().nullable(),
+  end_time: z.string().nullable(),
 })
 
 const DealPrioritiesSchema = z.array(
@@ -73,116 +76,21 @@ export const contract = c.router({
       scopes: ["deals:read"],
     },
   },
-  getDealEnabled: {
-    summary: "Check if a deal is enabled",
-    method: "GET",
-    path: "/api/deals/:id/enabled",
-    responses: {
-      200: z.object({
-        enabled: z.boolean(),
-      }),
-    },
-    metadata: {
-      scopes: ["deals:read"],
-    },
-  },
-  updateDealEnabled: {
-    summary: "Enable or disable a deal",
+  updateDeal: {
+    summary: "Update a deal",
     method: "PUT",
-    path: "/api/deals/:id/enabled",
+    path: "/api/deals/:id",
     responses: {
-      200: z.object({
-        enabled: z.boolean(),
-      }),
-    },
-    metadata: {
-      scopes: ["deals:write"],
+      200: DealSchema,
     },
     body: z.object({
       enabled: z.boolean(),
+      startTime: z.string().nullable(),
+      endTime: z.string().nullable(),
     }),
-  },
-  getDealStartTime: {
-    summary: "Get the start time for a deal",
-    method: "GET",
-    path: "/api/deals/:id/start-time",
-    responses: {
-      200: z.object({
-        startTime: z.date().nullable(),
-      }),
-    },
-    metadata: {
-      scopes: ["deals:read"],
-    },
-  },
-  setDealStartTime: {
-    summary: "Set the start time for a deal",
-    method: "POST",
-    path: "/api/deals/:id/start-time",
-    responses: {
-      200: z.object({
-        startTime: z.date().nullable(),
-      }),
-    },
     metadata: {
       scopes: ["deals:write"],
     },
-    body: z.object({
-      startTime: z.date(),
-    }),
-  },
-  deleteDealStartTime: {
-    summary: "Delete the start time for a deal",
-    method: "DELETE",
-    path: "/api/deals/:id/start-time",
-    responses: {
-      204: null,
-    },
-    metadata: {
-      scopes: ["deals:write"],
-    },
-    body: null,
-  },
-  getDealEndTime: {
-    summary: "Get the end time for a deal",
-    method: "GET",
-    path: "/api/deals/:id/end-time",
-    responses: {
-      200: z.object({
-        endTime: z.date().nullable(),
-      }),
-    },
-    metadata: {
-      scopes: ["deals:read"],
-    },
-  },
-  setDealEndTime: {
-    summary: "Set the end time for a deal",
-    method: "POST",
-    path: "/api/deals/:id/end-time",
-    responses: {
-      200: z.object({
-        endTime: z.date().nullable(),
-      }),
-    },
-    metadata: {
-      scopes: ["deals:write"],
-    },
-    body: z.object({
-      endTime: z.date(),
-    }),
-  },
-  deleteDealEndTime: {
-    summary: "Delete the end time for a deal",
-    method: "DELETE",
-    path: "/api/deals/:id/end-time",
-    responses: {
-      204: null,
-    },
-    metadata: {
-      scopes: ["deals:write"],
-    },
-    body: null,
   },
   getDealPriorities: {
     summary: "Get deal execution priorities",
