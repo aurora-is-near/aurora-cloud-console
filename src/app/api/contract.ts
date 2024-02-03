@@ -84,9 +84,9 @@ export const contract = c.router({
       200: DealSchema,
     },
     body: z.object({
-      enabled: z.boolean(),
-      startTime: z.string().nullable(),
-      endTime: z.string().nullable(),
+      enabled: z.boolean().optional(),
+      startTime: z.string().nullable().optional(),
+      endTime: z.string().nullable().optional(),
     }),
     metadata: {
       scopes: ["deals:write"],
