@@ -15,6 +15,12 @@ export const DealSchema = z.object({
   enabled: z.boolean(),
   startTime: z.string().nullable(),
   endTime: z.string().nullable(),
+  lists: z.object({
+    chainFilter: z.number().nullable(),
+    contractFilter: z.number().nullable(),
+    eoaFilter: z.number().nullable(),
+    eoaBlacklist: z.number().nullable(),
+  }),
 })
 
 export const DealPrioritiesSchema = z.array(

@@ -14,6 +14,12 @@ export const adaptDeal = (deal: Deal): DealSchema => ({
   enabled: deal.enabled,
   startTime: getIsoString(deal.start_time),
   endTime: getIsoString(deal.end_time),
+  lists: {
+    chainFilter: deal.chain_filter_list_id,
+    contractFilter: deal.contract_filter_list_id,
+    eoaFilter: deal.eoa_filter_list_id,
+    eoaBlacklist: deal.eoa_blacklist_list_id,
+  },
 })
 
 export const adaptSilo = (silo: Silo): SiloSchema => ({

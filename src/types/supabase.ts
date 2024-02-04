@@ -49,10 +49,14 @@ export interface Database {
       }
       deals: {
         Row: {
+          chain_filter_list_id: number | null
+          contract_filter_list_id: number | null
           created_at: string
           demo_key: string | null
           enabled: boolean
           end_time: number | null
+          eoa_blacklist_list_id: number | null
+          eoa_filter_list_id: number | null
           id: number
           name: string
           priority: string
@@ -61,10 +65,14 @@ export interface Database {
           updated_at: string
         }
         Insert: {
+          chain_filter_list_id?: number | null
+          contract_filter_list_id?: number | null
           created_at?: string
           demo_key?: string | null
           enabled?: boolean
           end_time?: number | null
+          eoa_blacklist_list_id?: number | null
+          eoa_filter_list_id?: number | null
           id?: number
           name: string
           priority: string
@@ -73,10 +81,14 @@ export interface Database {
           updated_at?: string
         }
         Update: {
+          chain_filter_list_id?: number | null
+          contract_filter_list_id?: number | null
           created_at?: string
           demo_key?: string | null
           enabled?: boolean
           end_time?: number | null
+          eoa_blacklist_list_id?: number | null
+          eoa_filter_list_id?: number | null
           id?: number
           name?: string
           priority?: string
