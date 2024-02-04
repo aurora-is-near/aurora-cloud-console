@@ -6,6 +6,18 @@ extendZodWithOpenApi(z)
 
 const c = initContract()
 
+export const ListSchema = z.object({
+  id: z.number(),
+  createdAt: z.string(),
+  name: z.string(),
+  teamId: z.number(),
+})
+
+export const SimpleListSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+})
+
 export const DealSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
@@ -16,10 +28,10 @@ export const DealSchema = z.object({
   startTime: z.string().nullable(),
   endTime: z.string().nullable(),
   lists: z.object({
-    chainFilter: z.number().nullable(),
-    contractFilter: z.number().nullable(),
-    eoaFilter: z.number().nullable(),
-    eoaBlacklist: z.number().nullable(),
+    chainFilter: SimpleListSchema.nullable(),
+    contractFilter: SimpleListSchema.nullable(),
+    eoaFilter: SimpleListSchema.nullable(),
+    eoaBlacklist: SimpleListSchema.nullable(),
   }),
 })
 
@@ -42,13 +54,6 @@ export const SiloSchema = z.object({
   name: z.string(),
   network: z.string(),
   rpcUrl: z.string(),
-})
-
-export const ListSchema = z.object({
-  id: z.number(),
-  createdAt: z.string(),
-  name: z.string(),
-  teamId: z.number(),
 })
 
 export const WalletDetailsSchema = z.object({
@@ -94,6 +99,10 @@ export const contract = c.router({
       enabled: z.boolean().optional(),
       startTime: z.string().nullable().optional(),
       endTime: z.string().nullable().optional(),
+      chainFilterListId: z.number().nullable().optional(),
+      contractFilterListId: z.number().nullable().optional(),
+      eoaFilterListId: z.number().nullable().optional(),
+      eoaBlacklistListId: z.number().nullable().optional(),
     }),
     metadata: {
       scopes: ["deals:write"],

@@ -19,5 +19,21 @@ export const getDealViewOperations = (
       var_type: "number",
       key: `${baseVarKey}::endTime`,
     },
+    {
+      var_type: "string",
+      key: `${baseVarKey}::chainFilter`,
+    },
+    {
+      var_type: "string",
+      key: `${baseVarKey}::contractFilter`,
+    },
+    {
+      var_type: "string",
+      key: `${baseVarKey}::eoaFilter`,
+    },
+    {
+      var_type: "string",
+      key: `${baseVarKey}::eoaBlacklist`,
+    },
   ]
 }

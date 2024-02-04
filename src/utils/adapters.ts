@@ -1,11 +1,32 @@
-import { DealSchema, ListSchema, SiloSchema } from "@/types/api-schemas"
+import {
+  DealSchema,
+  ListSchema,
+  SiloSchema,
+  SimpleListSchema,
+} from "@/types/api-schemas"
 import { Deal, List, Silo } from "@/types/types"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
 }
 
-export const adaptDeal = (deal: Deal): DealSchema => ({
+const getRelatedList = (
+  lists: List[],
+  id: number | null,
+): SimpleListSchema | null => {
+  const list = lists.find(({ id: listId }) => listId === id)
+
+  if (!list) {
+    return null
+  }
+
+  return {
+    id: list.id,
+    name: list.name,
+  }
+}
+
+export const adaptDeal = (deal: Deal, lists: List[]): DealSchema => ({
   id: deal.id,
   createdAt: deal.created_at,
   updatedAt: deal.updated_at,
@@ -15,10 +36,10 @@ export const adaptDeal = (deal: Deal): DealSchema => ({
   startTime: getIsoString(deal.start_time),
   endTime: getIsoString(deal.end_time),
   lists: {
-    chainFilter: deal.chain_filter_list_id,
-    contractFilter: deal.contract_filter_list_id,
-    eoaFilter: deal.eoa_filter_list_id,
-    eoaBlacklist: deal.eoa_blacklist_list_id,
+    chainFilter: getRelatedList(lists, deal.chain_filter_list_id),
+    contractFilter: getRelatedList(lists, deal.contract_filter_list_id),
+    eoaFilter: getRelatedList(lists, deal.eoa_filter_list_id),
+    eoaBlacklist: getRelatedList(lists, deal.eoa_blacklist_list_id),
   },
 })
 

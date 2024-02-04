@@ -11,23 +11,27 @@ export const GET = createApiEndpoint(
   "getDeals",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
-    const result = await supabase
-      .from("deals")
-      .select("*")
-      .order("created_at", { ascending: true })
-      .eq("team_id", ctx.team.id)
+    const [dealsResult, listsResult] = await Promise.all([
+      supabase
+        .from("deals")
+        .select("*")
+        .order("created_at", { ascending: true })
+        .eq("team_id", ctx.team.id),
+      supabase.from("lists").select("*").eq("team_id", ctx.team.id),
+    ])
 
-    assertValidSupabaseResult(result)
+    assertValidSupabaseResult(dealsResult)
+    assertValidSupabaseResult(listsResult)
 
     // TODO: Use this instead of the ACC database, when the Proxy API is ready
     await proxyApiClient.view(
-      result.data
+      dealsResult.data
         .map((deal) => getDealViewOperations(ctx.team.id, deal.id))
         .flat(),
     )
 
     return {
-      items: result.data.map(adaptDeal),
+      items: dealsResult.data.map((deal) => adaptDeal(deal, listsResult.data)),
     }
   },
 )
