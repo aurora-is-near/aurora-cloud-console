@@ -6,18 +6,18 @@ extendZodWithOpenApi(z)
 
 const c = initContract()
 
-const DealSchema = z.object({
+export const DealSchema = z.object({
   id: z.number(),
-  created_at: z.string(),
-  updated_at: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
   name: z.string(),
-  team_id: z.number(),
+  teamId: z.number(),
   enabled: z.boolean(),
-  start_time: z.string().nullable(),
-  end_time: z.string().nullable(),
+  startTime: z.string().nullable(),
+  endTime: z.string().nullable(),
 })
 
-const DealPrioritiesSchema = z.array(
+export const DealPrioritiesSchema = z.array(
   z.object({
     dealId: z.number(),
     name: z.string(),
@@ -25,26 +25,27 @@ const DealPrioritiesSchema = z.array(
   }),
 )
 
-const SiloSchema = z.object({
+export const SiloSchema = z.object({
   id: z.number(),
-  created_at: z.string(),
-  chain_id: z.string(),
-  engine_account: z.string(),
-  engine_version: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  chainId: z.string(),
+  engineAccount: z.string(),
+  engineVersion: z.string(),
   genesis: z.string(),
   name: z.string(),
   network: z.string(),
-  rpc_url: z.string(),
+  rpcUrl: z.string(),
 })
 
-const ListSchema = z.object({
+export const ListSchema = z.object({
   id: z.number(),
-  created_at: z.string(),
+  createdAt: z.string(),
   name: z.string(),
-  team_id: z.number(),
+  teamId: z.number(),
 })
 
-const WalletDetailsSchema = z.object({
+export const WalletDetailsSchema = z.object({
   walletAddress: z.string(),
   numberOfTransactions: z.number(),
   firstTransactionAt: z.string(),
@@ -173,7 +174,7 @@ export const contract = c.router({
     summary:
       "Get details of a single wallets that has interacted with your silos",
     method: "GET",
-    path: "/api/wallets",
+    path: "/api/wallets/:address",
     responses: {
       200: WalletDetailsSchema,
     },
@@ -261,6 +262,10 @@ export const contract = c.router({
     metadata: {
       scopes: ["lists:read"],
     },
+    query: z.object({
+      limit: z.number().optional(),
+      offset: z.number().optional(),
+    }),
   },
   createListItems: {
     summary: "Add items to a list",

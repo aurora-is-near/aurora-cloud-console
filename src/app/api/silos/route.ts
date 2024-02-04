@@ -2,6 +2,7 @@ import { NextRequest } from "next/server"
 import { createApiEndpoint } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
 import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { adaptSilo } from "@/utils/adapters"
 
 export const GET = createApiEndpoint(
   "getSilos",
@@ -9,13 +10,7 @@ export const GET = createApiEndpoint(
     const silos = await getTeamSilos(ctx.team.id)
 
     return {
-      items: (silos ?? []).map(
-        (silo) => ({
-          ...silo,
-          teams: undefined,
-        }),
-        [],
-      ),
+      items: (silos ?? []).map(adaptSilo),
     }
   },
 )

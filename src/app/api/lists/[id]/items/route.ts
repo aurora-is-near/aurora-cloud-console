@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server"
 import { createApiEndpoint } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
+import { ApiRequestBody, ApiRequestContext } from "@/types/api"
 import { abort } from "../../../../../utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
@@ -50,7 +50,7 @@ export const POST = createApiEndpoint(
   "createListItems",
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
-    const { items } = await req.json()
+    const { items } = (await req.json()) as ApiRequestBody<"createListItems">
 
     const result = await supabase.from("list_items").insert(
       items.map((value: string) => ({

@@ -3,6 +3,7 @@ import { createApiEndpoint } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
 import { abort } from "../../../../utils/abort"
 import { getTeamSilo } from "@/actions/admin/team-silos/get-team-silo"
+import { adaptSilo } from "@/utils/adapters"
 
 export const GET = createApiEndpoint(
   "getSilo",
@@ -13,9 +14,6 @@ export const GET = createApiEndpoint(
       abort(404)
     }
 
-    return {
-      ...silo,
-      teams: undefined,
-    }
+    return adaptSilo(silo)
   },
 )

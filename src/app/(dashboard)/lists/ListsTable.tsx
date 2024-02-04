@@ -53,7 +53,7 @@ export const ListsTable = () => {
       {lists?.items.map((list) => (
         <Table.TR key={list.id}>
           <Table.TD dark>{list.name}</Table.TD>
-          <Table.TD dark>{formatDate(list.created_at)}</Table.TD>
+          <Table.TD dark>{formatDate(list.createdAt)}</Table.TD>
           <Table.TD align="right">
             <DropdownMenu
               menuItems={[

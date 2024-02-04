@@ -4,7 +4,7 @@ import { abort } from "../../../../utils/abort"
 import { proxyApiClient } from "@/utils/proxy-api/request"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
-import { ApiRequestContext } from "@/types/api"
+import { ApiRequestBody, ApiRequestContext } from "@/types/api"
 import { ProxyApiUpateOperation } from "@/types/proxy-api"
 
 export const GET = createApiEndpoint(
@@ -54,9 +54,8 @@ export const PUT = createApiEndpoint(
   "updateDealPriorities",
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
-    const { priorities } = (await req.json()) as {
-      priorities: { dealId: number; priority: string }[]
-    }
+    const { priorities } =
+      (await req.json()) as ApiRequestBody<"updateDealPriorities">
 
     const result = await supabase
       .from("deals")

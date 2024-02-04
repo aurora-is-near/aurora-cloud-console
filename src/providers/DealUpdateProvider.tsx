@@ -1,10 +1,9 @@
 "use client"
 
 import { ReactNode, createContext, useCallback, useMemo, useState } from "react"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
-import { getQueryKey } from "@/utils/api/query-keys"
+import { useQuery } from "@tanstack/react-query"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { Deal } from "@/types/types"
+import { DealSchema } from "@/types/api-schemas"
 
 type DealUpdateProviderProps = {
   dealId: number
@@ -13,7 +12,7 @@ type DealUpdateProviderProps = {
 
 type DealContextType = {
   resetDeal: () => void
-  deal?: Deal
+  deal?: DealSchema
   hasPendingUpdates?: boolean
 }
 

@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server"
 import { createApiEndpoint } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
+import { ApiRequestBody, ApiRequestContext } from "@/types/api"
 import { abort } from "../../../../utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
+import { adaptList } from "@/utils/adapters"
 
 export const GET = createApiEndpoint(
   "getList",
@@ -20,14 +21,14 @@ export const GET = createApiEndpoint(
       abort(404)
     }
 
-    return list
+    return adaptList(list)
   },
 )
 
 export const PUT = createApiEndpoint(
   "updateList",
   async (req: NextRequest, ctx: ApiRequestContext) => {
-    const { name } = await req.json()
+    const { name } = (await req.json()) as ApiRequestBody<"updateList">
 
     if (!name) {
       abort(400, "Name is required")
@@ -48,7 +49,7 @@ export const PUT = createApiEndpoint(
       abort(404)
     }
 
-    return result.data
+    return adaptList(result.data)
   },
 )
 
