@@ -87,6 +87,9 @@ export const contract = c.router({
     metadata: {
       scopes: ["deals:read"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
   },
   updateDeal: {
     summary: "Update a deal",
@@ -107,6 +110,9 @@ export const contract = c.router({
     metadata: {
       scopes: ["deals:write"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
   },
   getDealPriorities: {
     summary: "Get deal execution priorities",
@@ -165,6 +171,9 @@ export const contract = c.router({
     metadata: {
       scopes: ["silos:read"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
   },
   getWallets: {
     summary: "Get details of the wallets that have interacted with your silos",
@@ -199,6 +208,9 @@ export const contract = c.router({
     metadata: {
       scopes: ["transactions:read"],
     },
+    pathParams: z.object({
+      address: z.string(),
+    }),
   },
   getLists: {
     summary: "Get all lists",
@@ -223,6 +235,9 @@ export const contract = c.router({
     metadata: {
       scopes: ["lists:read"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
   },
   createList: {
     summary: "Create a list",
@@ -251,6 +266,9 @@ export const contract = c.router({
     metadata: {
       scopes: ["lists:write"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
   },
   deleteList: {
     summary: "Delete a list",
@@ -262,6 +280,9 @@ export const contract = c.router({
     metadata: {
       scopes: ["lists:write"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
     body: null,
   },
   getListItems: {
@@ -281,6 +302,9 @@ export const contract = c.router({
       limit: z.number().optional(),
       offset: z.number().optional(),
     }),
+    pathParams: z.object({
+      id: z.number(),
+    }),
   },
   createListItems: {
     summary: "Add items to a list",
@@ -297,6 +321,9 @@ export const contract = c.router({
     metadata: {
       scopes: ["lists:write"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
   },
   deleteListItem: {
     summary: "Remove an item from a list",
@@ -309,5 +336,9 @@ export const contract = c.router({
       scopes: ["lists:write"],
     },
     body: null,
+    pathParams: z.object({
+      id: z.number(),
+      item: z.string(),
+    }),
   },
 })

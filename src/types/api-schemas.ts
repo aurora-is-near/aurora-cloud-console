@@ -9,7 +9,6 @@ import {
 import { z } from "zod"
 
 export type DealSchema = z.infer<typeof DealSchema>
-export type DealPrioritiesSchema = z.infer<typeof DealPrioritiesSchema>
 export type SiloSchema = z.infer<typeof SiloSchema>
 export type ListSchema = z.infer<typeof ListSchema>
 export type SimpleListSchema = z.infer<typeof SimpleListSchema>

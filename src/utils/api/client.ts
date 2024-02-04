@@ -11,13 +11,11 @@ import {
 } from "@/types/types"
 import { request } from "./request"
 import {
-  DealPrioritiesSchema,
-  DealSchema,
-  ListSchema,
-  SiloSchema,
-  WalletDetailsSchema,
-} from "@/types/api-schemas"
-import { ApiRequestBody } from "@/types/api"
+  ApiRequestBody,
+  ApiRequestParams,
+  ApiRequestQuery,
+  ApiResponseBody,
+} from "@/types/api"
 
 export const apiClient = {
   getCurrentUser: async () => request<User>("/api/admin/current-user"),
@@ -40,24 +38,24 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
-  getSilo: async ({ id }: { id: number }) =>
-    request<SiloSchema>(`/api/silos/${id}`),
+  getSilo: async ({ id }: ApiRequestParams<"getSilo">) =>
+    request<ApiResponseBody<"getSilo">>(`/api/silos/${id}`),
 
-  getSilos: async () => request<{ items: SiloSchema[] }>("/api/silos"),
+  getSilos: async () => request<ApiResponseBody<"getSilos">>("/api/silos"),
 
   getSiloTokens: async ({ id }: { id: number }) =>
     request<Token[]>(`/api/silos/${id}/tokens`),
 
-  getDeals: async () => request<{ items: DealSchema[] }>("/api/deals"),
+  getDeals: async () => request<ApiResponseBody<"getDeals">>("/api/deals"),
 
   getDeal: async ({ id }: { id: number }) =>
-    request<DealSchema>(`/api/deals/${id}`),
+    request<ApiResponseBody<"getDeal">>(`/api/deals/${id}`),
 
   updateDeal: async ({
     id,
     ...data
-  }: { id: number } & ApiRequestBody<"updateDeal">) =>
-    request<DealSchema>(`/api/deals/${id}`, {
+  }: ApiRequestParams<"updateDeal"> & ApiRequestBody<"updateDeal">) =>
+    request<ApiResponseBody<"updateDeal">>(`/api/deals/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
@@ -91,17 +89,10 @@ export const apiClient = {
     }),
 
   getDealPriorities: async () =>
-    request<{
-      items: DealPrioritiesSchema[]
-    }>(`/api/deals/priorities`),
+    request<ApiResponseBody<"getDealPriorities">>(`/api/deals/priorities`),
 
-  updateDealPriorities: async (data: {
-    priorities: {
-      dealId: number
-      priority: string
-    }[]
-  }) =>
-    request<DealPrioritiesSchema>(`/api/deals/priorities`, {
+  updateDealPriorities: async (data: ApiRequestBody<"updateDealPriorities">) =>
+    request<ApiResponseBody<"updateDealPriorities">>(`/api/deals/priorities`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
@@ -150,53 +141,58 @@ export const apiClient = {
       method: "DELETE",
     }),
 
-  getLists: async () => request<{ items: ListSchema[] }>("/api/lists"),
+  getLists: async () => request<ApiResponseBody<"getLists">>("/api/lists"),
 
-  createList: async (data: { name: string }) =>
-    request<ListSchema>("/api/lists", {
+  createList: async (data: ApiRequestBody<"createList">) =>
+    request<ApiResponseBody<"createList">>("/api/lists", {
       method: "POST",
       body: JSON.stringify(data),
     }),
 
-  getList: async ({ id }: { id: number }) =>
-    request<ListSchema>(`/api/lists/${id}`),
+  getList: async ({ id }: ApiRequestParams<"getList">) =>
+    request<ApiResponseBody<"getList">>(`/api/lists/${id}`),
 
-  updateList: async ({ id, ...data }: { id: number; name: string }) =>
-    request<ListSchema>(`/api/lists/${id}`, {
+  updateList: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"updateList"> & ApiRequestBody<"updateList">) =>
+    request<ApiResponseBody<"updateList">>(`/api/lists/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
 
-  deleteList: async ({ id }: { id: number }) =>
-    request(`/api/lists/${id}`, {
+  deleteList: async ({ id }: ApiRequestParams<"deleteList">) =>
+    request<ApiResponseBody<"deleteList">>(`/api/lists/${id}`, {
       method: "DELETE",
     }),
 
   getListItems: async ({
     id,
     ...query
-  }: {
-    id: number
-    limit?: number
-    offset?: number
-  }) =>
-    request<{ total: number; items: string[] }>(`/api/lists/${id}/items`, {
+  }: ApiRequestParams<"getListItems"> & ApiRequestQuery<"getListItems">) =>
+    request<ApiResponseBody<"getListItems">>(`/api/lists/${id}/items`, {
       query,
     }),
 
-  createListItems: async ({ id, ...data }: { id: number; items: string[] }) =>
-    request<{ count: number }>(`/api/lists/${id}/items`, {
+  createListItems: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"createListItems"> & ApiRequestBody<"createListItems">) =>
+    request<ApiResponseBody<"createListItems">>(`/api/lists/${id}/items`, {
       method: "POST",
       body: JSON.stringify(data),
     }),
 
-  deleteListItem: async ({ id, item }: { id: number; item: string }) =>
-    request(`/api/lists/${id}/items/${encodeURIComponent(item)}`, {
-      method: "DELETE",
-    }),
+  deleteListItem: async ({ id, item }: ApiRequestParams<"deleteListItem">) =>
+    request<ApiResponseBody<"deleteListItem">>(
+      `/api/lists/${id}/items/${encodeURIComponent(item)}`,
+      {
+        method: "DELETE",
+      },
+    ),
 
-  getWallet: async ({ address }: { address: string }) =>
-    request<WalletDetailsSchema>(`/api/wallets/${address}`),
+  getWallet: async ({ address }: ApiRequestParams<"getWallet">) =>
+    request<ApiResponseBody<"getWallet">>(`/api/wallets/${address}`),
 }
 
 export type ApiClient = typeof apiClient
