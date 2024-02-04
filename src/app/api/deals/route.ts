@@ -5,7 +5,7 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { assertValidSupabaseResult } from "@/utils/supabase"
 import { proxyApiClient } from "@/utils/proxy-api/request"
 import { getDealViewOperations } from "@/utils/proxy-api/get-deal-view-operations"
-import { parseDeal } from "@/utils/deals"
+import { adaptDeal } from "@/utils/adapters"
 
 export const GET = createApiEndpoint(
   "getDeals",
@@ -27,7 +27,7 @@ export const GET = createApiEndpoint(
     )
 
     return {
-      items: result.data.map(parseDeal),
+      items: result.data.map(adaptDeal),
     }
   },
 )

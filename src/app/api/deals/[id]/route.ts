@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server"
 import { createApiEndpoint } from "@/utils/api"
 import { abort } from "../../../../utils/abort"
-import { ApiRequestContext } from "@/types/api"
+import { ApiRequestBody, ApiRequestContext } from "@/types/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import {
   assertNonNullSupabaseResult,
@@ -10,7 +10,7 @@ import {
 import { proxyApiClient } from "@/utils/proxy-api/request"
 import { getDealViewOperations } from "@/utils/proxy-api/get-deal-view-operations"
 import { getDealUpdateOperations } from "@/utils/proxy-api/get-deal-update-operations"
-import { parseDeal } from "@/utils/deals"
+import { adaptDeal } from "@/utils/adapters"
 
 const parseTimeParam = (time?: string | null) => {
   if (time === null) {
@@ -52,7 +52,7 @@ export const GET = createApiEndpoint(
       getDealViewOperations(ctx.team.id, Number(ctx.params.id)),
     )
 
-    return parseDeal(result.data)
+    return adaptDeal(result.data)
   },
 )
 
@@ -60,7 +60,8 @@ export const PUT = createApiEndpoint(
   "updateDeal",
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
-    const { enabled, start_time, end_time } = await req.json()
+    const { enabled, startTime, endTime } =
+      (await req.json()) as ApiRequestBody<"updateDeal">
 
     if (typeof enabled !== undefined && typeof enabled !== "boolean") {
       abort(400, "Invalid request body: enabled must be a boolean")
@@ -70,7 +71,8 @@ export const PUT = createApiEndpoint(
       .from("deals")
       .update({
         enabled,
-        start_time: parseTimeParam(start_time),
+        start_time: parseTimeParam(startTime),
+        end_time: parseTimeParam(endTime),
       })
       .eq("id", Number(ctx.params.id))
       .eq("team_id", ctx.team.id)
@@ -84,8 +86,8 @@ export const PUT = createApiEndpoint(
     await proxyApiClient.update(
       getDealUpdateOperations(ctx.team.id, Number(ctx.params.id), {
         enabled,
-        startTime: parseTimeParam(start_time),
-        endTime: parseTimeParam(end_time),
+        startTime: parseTimeParam(startTime),
+        endTime: parseTimeParam(endTime),
       }),
     )
 
@@ -93,6 +95,6 @@ export const PUT = createApiEndpoint(
       getDealViewOperations(ctx.team.id, Number(ctx.params.id)),
     )
 
-    return parseDeal(result.data)
+    return adaptDeal(result.data)
   },
 )

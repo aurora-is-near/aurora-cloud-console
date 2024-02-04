@@ -1,8 +1,6 @@
 "use client"
 
 import {
-  Silo,
-  Deal,
   ApiKey,
   User,
   TeamMembers,
@@ -10,10 +8,16 @@ import {
   Token,
   SiloTransactionCharts,
   DealTransactionCharts,
-  List,
-  TransactionsSummary,
 } from "@/types/types"
 import { request } from "./request"
+import {
+  DealPrioritiesSchema,
+  DealSchema,
+  ListSchema,
+  SiloSchema,
+  WalletDetailsSchema,
+} from "@/types/api-schemas"
+import { ApiRequestBody } from "@/types/api"
 
 export const apiClient = {
   getCurrentUser: async () => request<User>("/api/admin/current-user"),
@@ -36,24 +40,24 @@ export const apiClient = {
       body: JSON.stringify(data),
     }),
 
-  getSilo: async ({ id }: { id: number }) => request<Silo>(`/api/silos/${id}`),
+  getSilo: async ({ id }: { id: number }) =>
+    request<SiloSchema>(`/api/silos/${id}`),
 
-  getSilos: async () => request<{ items: Silo[] }>("/api/silos"),
+  getSilos: async () => request<{ items: SiloSchema[] }>("/api/silos"),
 
   getSiloTokens: async ({ id }: { id: number }) =>
     request<Token[]>(`/api/silos/${id}/tokens`),
 
-  getDeals: async () => request<{ items: Deal[] }>("/api/deals"),
+  getDeals: async () => request<{ items: DealSchema[] }>("/api/deals"),
 
-  getDeal: async ({ id }: { id: number }) => request<Deal>(`/api/deals/${id}`),
+  getDeal: async ({ id }: { id: number }) =>
+    request<DealSchema>(`/api/deals/${id}`),
 
   updateDeal: async ({
     id,
     ...data
-  }: { id: number } & Partial<
-    Pick<Deal, "enabled" | "start_time" | "end_time">
-  >) =>
-    request<Deal>(`/api/deals/${id}`, {
+  }: { id: number } & ApiRequestBody<"updateDeal">) =>
+    request<DealSchema>(`/api/deals/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
@@ -88,11 +92,7 @@ export const apiClient = {
 
   getDealPriorities: async () =>
     request<{
-      items: {
-        dealId: number
-        name: string
-        priority: string
-      }[]
+      items: DealPrioritiesSchema[]
     }>(`/api/deals/priorities`),
 
   updateDealPriorities: async (data: {
@@ -101,7 +101,7 @@ export const apiClient = {
       priority: string
     }[]
   }) =>
-    request<Deal>(`/api/deals/priorities`, {
+    request<DealPrioritiesSchema>(`/api/deals/priorities`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
@@ -150,18 +150,19 @@ export const apiClient = {
       method: "DELETE",
     }),
 
-  getLists: async () => request<{ items: List[] }>("/api/lists"),
+  getLists: async () => request<{ items: ListSchema[] }>("/api/lists"),
 
   createList: async (data: { name: string }) =>
-    request<List>("/api/lists", {
+    request<ListSchema>("/api/lists", {
       method: "POST",
       body: JSON.stringify(data),
     }),
 
-  getList: async ({ id }: { id: number }) => request<List>(`/api/lists/${id}`),
+  getList: async ({ id }: { id: number }) =>
+    request<ListSchema>(`/api/lists/${id}`),
 
   updateList: async ({ id, ...data }: { id: number; name: string }) =>
-    request<List>(`/api/lists/${id}`, {
+    request<ListSchema>(`/api/lists/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
@@ -195,7 +196,7 @@ export const apiClient = {
     }),
 
   getWallet: async ({ address }: { address: string }) =>
-    request<TransactionsSummary>(`/api/wallets/${address}`),
+    request<WalletDetailsSchema>(`/api/wallets/${address}`),
 }
 
 export type ApiClient = typeof apiClient

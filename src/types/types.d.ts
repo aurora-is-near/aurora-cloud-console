@@ -34,13 +34,6 @@ export type DealTransactionCharts = {
   }[]
 }
 
-export type TransactionsSummary = {
-  walletAddress: string
-  numberOfTransactions: number
-  firstTransactionAt: string
-  lastTransactionAt: string
-}
-
 export type TransactionsQuery = {
   wallet_address: string
   number_of_transactions: number
