@@ -30,20 +30,30 @@ const parseTimeParam = (time?: string | null) => {
   return parsed
 }
 
+const assertValidListId = (listIds: number[], listId?: number | null) => {
+  if (listId && !listIds.includes(listId)) {
+    abort(400, `Invalid request body: ${listId} is not a valid list ID`)
+  }
+}
+
 export const GET = createApiEndpoint(
   "getDeal",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
-    const result = await supabase
-      .from("deals")
-      .select("*")
-      .eq("id", Number(ctx.params.id))
-      .eq("team_id", ctx.team.id)
-      .maybeSingle()
+    const [dealResult, listsResult] = await Promise.all([
+      supabase
+        .from("deals")
+        .select("*")
+        .eq("id", Number(ctx.params.id))
+        .eq("team_id", ctx.team.id)
+        .maybeSingle(),
+      supabase.from("lists").select("*").eq("team_id", ctx.team.id),
+    ])
 
-    assertValidSupabaseResult(result)
+    assertValidSupabaseResult(dealResult)
+    assertValidSupabaseResult(listsResult)
 
-    if (!result.data) {
+    if (!dealResult.data) {
       abort(404)
     }
 
@@ -52,7 +62,7 @@ export const GET = createApiEndpoint(
       getDealViewOperations(ctx.team.id, Number(ctx.params.id)),
     )
 
-    return adaptDeal(result.data)
+    return adaptDeal(dealResult.data, listsResult.data)
   },
 )
 
@@ -60,27 +70,51 @@ export const PUT = createApiEndpoint(
   "updateDeal",
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
-    const { enabled, startTime, endTime } =
-      (await req.json()) as ApiRequestBody<"updateDeal">
+    const {
+      enabled,
+      startTime,
+      endTime,
+      chainFilterListId,
+      contractFilterListId,
+      eoaFilterListId,
+      eoaBlacklistListId,
+    } = (await req.json()) as ApiRequestBody<"updateDeal">
 
-    if (typeof enabled !== undefined && typeof enabled !== "boolean") {
+    if (typeof enabled !== "undefined" && typeof enabled !== "boolean") {
       abort(400, "Invalid request body: enabled must be a boolean")
     }
 
-    const result = await supabase
+    const listsResult = await supabase
+      .from("lists")
+      .select("*")
+      .eq("team_id", ctx.team.id)
+
+    assertValidSupabaseResult(listsResult)
+
+    const listIds = listsResult.data.map(({ id }) => id)
+
+    assertValidListId(listIds, chainFilterListId)
+    assertValidListId(listIds, contractFilterListId)
+    assertValidListId(listIds, eoaFilterListId)
+    assertValidListId(listIds, eoaBlacklistListId)
+
+    const dealsResult = await supabase
       .from("deals")
       .update({
         enabled,
         start_time: parseTimeParam(startTime),
         end_time: parseTimeParam(endTime),
+        chain_filter_list_id: chainFilterListId,
+        contract_filter_list_id: contractFilterListId,
+        eoa_filter_list_id: eoaFilterListId,
+        eoa_blacklist_list_id: eoaBlacklistListId,
       })
       .eq("id", Number(ctx.params.id))
       .eq("team_id", ctx.team.id)
       .select("*")
       .single()
 
-    assertValidSupabaseResult(result)
-    assertNonNullSupabaseResult(result)
+    assertValidSupabaseResult(dealsResult)
 
     // TODO: Use this instead of the ACC database, when the Proxy API is ready
     await proxyApiClient.update(
@@ -88,6 +122,12 @@ export const PUT = createApiEndpoint(
         enabled,
         startTime: parseTimeParam(startTime),
         endTime: parseTimeParam(endTime),
+        lists: {
+          chainFilter: chainFilterListId,
+          contractFilter: contractFilterListId,
+          eoaFilter: eoaFilterListId,
+          eoaBlacklist: eoaBlacklistListId,
+        },
       }),
     )
 
@@ -95,6 +135,6 @@ export const PUT = createApiEndpoint(
       getDealViewOperations(ctx.team.id, Number(ctx.params.id)),
     )
 
-    return adaptDeal(result.data)
+    return adaptDeal(dealsResult.data, listsResult.data)
   },
 )

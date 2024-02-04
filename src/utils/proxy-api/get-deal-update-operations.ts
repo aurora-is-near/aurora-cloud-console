@@ -4,6 +4,8 @@ const getTimeOperations = (
   varKey: string,
   time?: number | null,
 ): ProxyApiUpateOperation[] => {
+  // Remove the start/end time if null is provided
+  // https://github.com/aurora-is-near/bb-rules/tree/acc-deal/docs/acc#removing-deal-start-time
   if (time === null) {
     return [
       {
@@ -14,6 +16,8 @@ const getTimeOperations = (
     ]
   }
 
+  // Set a start/end time if a number is provided
+  // https://github.com/aurora-is-near/bb-rules/tree/acc-deal/docs/acc#setting-deal-start-time
   if (typeof time === "number") {
     return [
       {
@@ -34,6 +38,64 @@ const getTimeOperations = (
   return []
 }
 
+const getListOperations = (
+  varKey: string,
+  listId?: number | null,
+): ProxyApiUpateOperation[] => {
+  // Unlink the list if null is provided
+  // https://github.com/aurora-is-near/bb-rules/tree/acc-deal/docs/acc#unlinking-list
+  if (listId === null) {
+    return [
+      {
+        op_type: "unset",
+        var_type: "string",
+        var_key: varKey,
+      },
+    ]
+  }
+
+  // Link the list to the deal if an ID is provided
+  // https://github.com/aurora-is-near/bb-rules/tree/acc-deal/docs/acc#linking-list
+  if (typeof listId === "number") {
+    return [
+      {
+        op_type: "set",
+        var_type: "string",
+        var_key: varKey,
+        template_key: "template::deal::acc::pointer",
+      },
+      {
+        op_type: "set_value",
+        var_type: "string",
+        var_key: varKey,
+        string_value: String(listId),
+      },
+    ]
+  }
+
+  return []
+}
+
+const getEnabledOperations = (
+  varKey: string,
+  enabled?: boolean,
+): ProxyApiUpateOperation[] => {
+  // Enable or disable the deal if a boolean is provided
+  // https://github.com/aurora-is-near/bb-rules/tree/acc-deal/docs/acc#enablingdisabling-deal
+  if (enabled !== undefined) {
+    return [
+      {
+        op_type: "set_value",
+        var_type: "number",
+        var_key: varKey,
+        number_value: enabled ? 1 : 0,
+      },
+    ]
+  }
+
+  return []
+}
+
 export const getDealUpdateOperations = (
   customerId: number,
   dealId: number,
@@ -41,26 +103,29 @@ export const getDealUpdateOperations = (
     enabled,
     startTime,
     endTime,
+    lists,
   }: {
     enabled?: boolean
     startTime?: number | null
     endTime?: number | null
+    lists: {
+      chainFilter?: number | null
+      contractFilter?: number | null
+      eoaFilter?: number | null
+      eoaBlacklist?: number | null
+    }
   },
 ): ProxyApiUpateOperation[] => {
-  const operations: ProxyApiUpateOperation[] = []
   const baseVarKey = `deal::acc::customers::${customerId}::deals::${dealId}`
 
-  if (enabled !== undefined) {
-    operations.push({
-      op_type: "set_value",
-      var_type: "number",
-      var_key: `${baseVarKey}::enabled`,
-      number_value: enabled ? 1 : 0,
-    })
-  }
-
-  operations.push(...getTimeOperations(`${baseVarKey}::startTime`, startTime))
-  operations.push(...getTimeOperations(`${baseVarKey}::endTime`, endTime))
-
-  return operations
+  return [
+    ...getEnabledOperations(`${baseVarKey}::enabled`, enabled),
+    ...getTimeOperations(`${baseVarKey}::startTime`, startTime),
+    ...getTimeOperations(`${baseVarKey}::endTime`, endTime),
+    ...Object.entries(lists || {})
+      .map(([listKey, listId]) =>
+        getListOperations(`${baseVarKey}::${listKey}`, listId),
+      )
+      .flat(),
+  ]
 }

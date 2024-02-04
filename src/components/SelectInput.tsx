@@ -114,6 +114,13 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
     MultiValue<SelectInputOption> | SingleValue<SelectInputOption> | undefined
   >(defaultValue)
 
+  const onChange = (
+    option?: MultiValue<SelectInputOption> | SingleValue<SelectInputOption>,
+  ) => {
+    setSelectedOption(option)
+    registerOptions?.onChange?.(option)
+  }
+
   const { setValue } = useFormContext()
 
   useEffect(() => {
@@ -181,7 +188,7 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
       {...restProps}
       {...register?.(name, registerOptions)}
       options={options}
-      onChange={setSelectedOption}
+      onChange={onChange}
       value={selectedOption}
     />
   )

@@ -1,5 +1,5 @@
 import Heading from "@/components/Heading"
-import { ReactNode } from "react"
+import { DetailedHTMLProps, FormHTMLAttributes, ReactNode } from "react"
 import { Toaster } from "react-hot-toast"
 
 type DashboardPageProps = {
@@ -7,16 +7,32 @@ type DashboardPageProps = {
   heading?: string
   actions?: ReactNode
   footer?: ReactNode
-}
+} & (
+  | {
+      isForm: true
+      formProps?: DetailedHTMLProps<
+        FormHTMLAttributes<HTMLFormElement>,
+        HTMLFormElement
+      >
+    }
+  | {
+      isForm?: never
+      formProps?: never
+    }
+)
+
+const WRAPPER_CLASSNAME = "max-h-full flex-1 flex flex-col"
 
 export const DashboardPage = ({
   children,
   footer,
   heading,
   actions,
+  isForm,
+  formProps,
 }: DashboardPageProps) => {
-  return (
-    <div className="max-h-full flex-1 flex flex-col">
+  const content = (
+    <>
       <main className="overflow-auto">
         <Toaster
           position="top-right"
@@ -37,6 +53,16 @@ export const DashboardPage = ({
         </div>
       </main>
       {footer}
-    </div>
+    </>
   )
+
+  if (isForm) {
+    return (
+      <form className={WRAPPER_CLASSNAME} {...formProps}>
+        {content}
+      </form>
+    )
+  }
+
+  return <div className={WRAPPER_CLASSNAME}>{content}</div>
 }

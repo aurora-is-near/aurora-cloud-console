@@ -2,19 +2,25 @@
 
 import Button from "@/components/Button"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { DealContext } from "@/providers/DealUpdateProvider"
+import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { formatDateAndTime } from "@/utils/helpers"
 import { CheckIcon } from "@heroicons/react/20/solid"
 
 export const SaveChangesBar = () => {
-  const { resetDeal, deal, hasPendingUpdates } = useRequiredContext(DealContext)
+  const {
+    clearPendingUpdates,
+    savePendingUpdates,
+    deal,
+    hasPendingUpdates,
+    isUpdating,
+  } = useRequiredContext(DealUpdateContext)
 
   return (
     <div className="inset-x-0 bottom-0 bg-white px-8 py-5 flex items-center justify-between border-t">
       <Button
-        disabled={!hasPendingUpdates}
+        disabled={!hasPendingUpdates || isUpdating}
         style="secondary"
-        onClick={resetDeal}
+        onClick={clearPendingUpdates}
       >
         Reset
       </Button>
@@ -23,7 +29,7 @@ export const SaveChangesBar = () => {
           Last update: {formatDateAndTime(deal.updatedAt)}
         </div>
       )}
-      <Button disabled={!hasPendingUpdates}>
+      <Button type="submit" disabled={!hasPendingUpdates} loading={isUpdating}>
         <CheckIcon className="w-5 h-5" />
         Save changes
       </Button>
