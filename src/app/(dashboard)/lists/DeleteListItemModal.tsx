@@ -20,7 +20,7 @@ export const DeleteListItemModal = () => {
 
   const getListItemsUpdater = useOptimisticUpdater("getListItems")
 
-  const { mutate: deleteApiKey, isPending } = useMutation({
+  const { mutate: deleteListItem, isPending } = useMutation({
     mutationFn: apiClient.deleteListItem,
     onSettled: getListItemsUpdater.invalidate,
   })
@@ -34,7 +34,7 @@ export const DeleteListItemModal = () => {
       throw new Error("No item was provided for deletion")
     }
 
-    deleteApiKey(
+    deleteListItem(
       { id: Number(id), item: encodeURIComponent(item) },
       { onSettled: closeModal },
     )
