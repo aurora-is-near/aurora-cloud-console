@@ -54,7 +54,7 @@ export type TeamMember = {
 
 export type TeamMembers = {
   total: number
-  teamMembers: TeamMember[]
+  items: TeamMember[]
 }
 
 export type TableName = keyof Database["public"]["Tables"]

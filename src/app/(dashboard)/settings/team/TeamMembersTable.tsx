@@ -1,3 +1,5 @@
+"use client"
+
 import Table from "@/components/Table"
 import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
@@ -10,12 +12,13 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { useQueryState } from "next-usequerystate"
 import { useCallback } from "react"
 import { getQueryFnAndKey } from "@/utils/api/queries"
+import TableLoader from "@/components/TableLoader"
 
-type TeamMembersTableProps = {
-  teamMembers: TeamMember[]
-}
+export const TeamMembersTable = () => {
+  const { data: teamMembers, isLoading } = useQuery(
+    getQueryFnAndKey("getTeamMembers"),
+  )
 
-export const TeamMembersTable = ({ teamMembers }: TeamMembersTableProps) => {
   const getTeamMembersUpdater = useOptimisticUpdater("getTeamMembers")
   const { data: currentUser } = useQuery(getQueryFnAndKey("getCurrentUser"))
   const { openModal } = useModals()
@@ -25,11 +28,11 @@ export const TeamMembersTable = ({ teamMembers }: TeamMembersTableProps) => {
     mutationFn: apiClient.deleteTeamMember,
     onMutate: ({ id }) => {
       const newTeamMembers =
-        teamMembers?.filter((teamMember) => teamMember.id !== id) || []
+        teamMembers?.items.filter((teamMember) => teamMember.id !== id) || []
 
       getTeamMembersUpdater.replace({
         total: newTeamMembers.length,
-        teamMembers: newTeamMembers,
+        items: newTeamMembers,
       })
     },
     onSettled: getTeamMembersUpdater.invalidate,
@@ -57,13 +60,17 @@ export const TeamMembersTable = ({ teamMembers }: TeamMembersTableProps) => {
     [openModal, reinviteUser, setEmail],
   )
 
+  if (isLoading) {
+    return <TableLoader />
+  }
+
   return (
     <Table>
       <Table.TH>Email</Table.TH>
       <Table.TH>Name</Table.TH>
       <Table.TH>Status</Table.TH>
       <Table.TH hidden>Actions</Table.TH>
-      {teamMembers.map((teamMember) => {
+      {teamMembers?.items.map((teamMember) => {
         const isCurrentUser = currentUser?.id === teamMember.id
 
         return (

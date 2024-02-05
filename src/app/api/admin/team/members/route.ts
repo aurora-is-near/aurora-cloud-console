@@ -29,7 +29,7 @@ export const GET = apiRequestHandler<TeamMembers>(
 
     return {
       total: users.length,
-      teamMembers: users.map((user) => ({
+      items: users.map((user) => ({
         id: user.id,
         name: user.name,
         email: user.email,
