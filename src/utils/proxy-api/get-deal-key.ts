@@ -19,7 +19,7 @@ export const getDealKey = async (id: number) => {
     throw new Error(`No team found for deal ${id}`)
   }
 
-  if (deal.teams.is_demo_account) {
+  if (deal.teams.is_demo_account && deal.demo_key) {
     return deal.demo_key
   }
 
