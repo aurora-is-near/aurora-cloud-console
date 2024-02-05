@@ -11,11 +11,40 @@ import {
 } from "@/types/types"
 import { request } from "./request"
 import {
+  ApiOperation,
   ApiRequestBody,
   ApiRequestParams,
   ApiRequestQuery,
   ApiResponseBody,
 } from "@/types/api"
+
+const get = async <T extends ApiOperation>(
+  url: string,
+  query?: ApiRequestQuery<T>,
+) => request<ApiResponseBody<T>>(url, { query })
+
+const post = async <T extends ApiOperation>(
+  url: string,
+  data: ApiRequestBody<T>,
+) =>
+  request<ApiResponseBody<T>>(url, {
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+
+const put = async <T extends ApiOperation>(
+  url: string,
+  data: ApiRequestBody<T>,
+) =>
+  request<ApiResponseBody<T>>(url, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  })
+
+const del = async <T extends ApiOperation>(url: string) =>
+  request<ApiResponseBody<T>>(url, {
+    method: "DELETE",
+  })
 
 export const apiClient = {
   getCurrentUser: async () => request<User>("/api/admin/current-user"),
@@ -39,26 +68,22 @@ export const apiClient = {
     }),
 
   getSilo: async ({ id }: ApiRequestParams<"getSilo">) =>
-    request<ApiResponseBody<"getSilo">>(`/api/silos/${id}`),
+    get<"getSilo">(`/api/silos/${id}`),
 
-  getSilos: async () => request<ApiResponseBody<"getSilos">>("/api/silos"),
+  getSilos: async () => get<"getSilos">("/api/silos"),
 
   getSiloTokens: async ({ id }: { id: number }) =>
     request<Token[]>(`/api/silos/${id}/tokens`),
 
-  getDeals: async () => request<ApiResponseBody<"getDeals">>("/api/deals"),
+  getDeals: async () => get<"getDeals">("/api/deals"),
 
-  getDeal: async ({ id }: { id: number }) =>
-    request<ApiResponseBody<"getDeal">>(`/api/deals/${id}`),
+  getDeal: async ({ id }: { id: number }) => get<"getDeal">(`/api/deals/${id}`),
 
   updateDeal: async ({
     id,
     ...data
   }: ApiRequestParams<"updateDeal"> & ApiRequestBody<"updateDeal">) =>
-    request<ApiResponseBody<"updateDeal">>(`/api/deals/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    }),
+    put<"updateDeal">(`/api/deals/${id}`, data),
 
   getSilosTransactions: async (query?: { interval?: string | null }) =>
     request<SiloTransactionCharts>("/api/transaction-charts/silos", { query }),
@@ -89,13 +114,10 @@ export const apiClient = {
     }),
 
   getDealPriorities: async () =>
-    request<ApiResponseBody<"getDealPriorities">>(`/api/deals/priorities`),
+    get<"getDealPriorities">(`/api/deals/priorities`),
 
   updateDealPriorities: async (data: ApiRequestBody<"updateDealPriorities">) =>
-    request<ApiResponseBody<"updateDealPriorities">>(`/api/deals/priorities`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    }),
+    put<"updateDealPriorities">(`/api/deals/priorities`, data),
 
   getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
 
@@ -141,7 +163,7 @@ export const apiClient = {
       method: "DELETE",
     }),
 
-  getLists: async () => request<ApiResponseBody<"getLists">>("/api/lists"),
+  getLists: async () => get<"getLists">("/api/lists"),
 
   createList: async (data: ApiRequestBody<"createList">) =>
     request<ApiResponseBody<"createList">>("/api/lists", {
@@ -150,46 +172,31 @@ export const apiClient = {
     }),
 
   getList: async ({ id }: ApiRequestParams<"getList">) =>
-    request<ApiResponseBody<"getList">>(`/api/lists/${id}`),
+    get<"getList">(`/api/lists/${id}`),
 
   updateList: async ({
     id,
     ...data
   }: ApiRequestParams<"updateList"> & ApiRequestBody<"updateList">) =>
-    request<ApiResponseBody<"updateList">>(`/api/lists/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    }),
+    put<"updateList">(`/api/lists/${id}`, data),
 
   deleteList: async ({ id }: ApiRequestParams<"deleteList">) =>
-    request<ApiResponseBody<"deleteList">>(`/api/lists/${id}`, {
-      method: "DELETE",
-    }),
+    del<"deleteList">(`/api/lists/${id}`),
 
   getListItems: async ({
     id,
     ...query
   }: ApiRequestParams<"getListItems"> & ApiRequestQuery<"getListItems">) =>
-    request<ApiResponseBody<"getListItems">>(`/api/lists/${id}/items`, {
-      query,
-    }),
+    get<"getListItems">(`/api/lists/${id}/items`, query),
 
   createListItems: async ({
     id,
     ...data
   }: ApiRequestParams<"createListItems"> & ApiRequestBody<"createListItems">) =>
-    request<ApiResponseBody<"createListItems">>(`/api/lists/${id}/items`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    }),
+    post<"createListItems">(`/api/lists/${id}/items`, data),
 
   deleteListItem: async ({ id, item }: ApiRequestParams<"deleteListItem">) =>
-    request<ApiResponseBody<"deleteListItem">>(
-      `/api/lists/${id}/items/${encodeURIComponent(item)}`,
-      {
-        method: "DELETE",
-      },
-    ),
+    del<"deleteListItem">(`/api/lists/${id}/items/${encodeURIComponent(item)}`),
 
   getWallet: async ({ address }: ApiRequestParams<"getWallet">) =>
     request<ApiResponseBody<"getWallet">>(`/api/wallets/${address}`),

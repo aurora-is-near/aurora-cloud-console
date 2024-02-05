@@ -22,7 +22,7 @@ export const isRequestError = (error: unknown): error is RequestError =>
 export const request = async <T = unknown>(
   input: RequestInfo | URL,
   init?: RequestInit & {
-    query?: Record<string, unknown>
+    query?: unknown
   },
 ) => {
   const cleanQuery = cleanDeep(init?.query ?? {})
