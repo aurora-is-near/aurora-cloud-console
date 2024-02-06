@@ -8,6 +8,7 @@ import { DealSchema } from "@/types/api-schemas"
 import { ApiRequestBody } from "@/types/api"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { RateLimit } from "@/types/types"
 
 type DealUpdateProviderProps = {
   dealId: number
@@ -25,6 +26,7 @@ type DealUpdateContextType = {
   clearPendingUpdates: () => void
   savePendingUpdates: () => Promise<void>
   setFilters: (filters: DealFilters) => void
+  setRateLimits: (limits: RateLimit[]) => void
   deal?: DealSchema
   hasPendingUpdates?: boolean
   isUpdating: boolean
@@ -73,7 +75,21 @@ export function DealUpdateProvider({
 
   const setFilters = useCallback(
     (filters: DealFilters) => {
-      setPendingUpdate((prev) => ({ ...prev, ...filters }))
+      setPendingUpdate(
+        (prev): ApiRequestBody<"updateDeal"> => ({ ...prev, ...filters }),
+      )
+    },
+    [setPendingUpdate],
+  )
+
+  const setRateLimits = useCallback(
+    (limits: RateLimit[]) => {
+      setPendingUpdate(
+        (prev): ApiRequestBody<"updateDeal"> => ({
+          ...prev,
+          rateLimits: limits,
+        }),
+      )
     },
     [setPendingUpdate],
   )
@@ -83,6 +99,7 @@ export function DealUpdateProvider({
       clearPendingUpdates,
       savePendingUpdates,
       setFilters,
+      setRateLimits,
       deal,
       hasPendingUpdates: !!pendingUpdate,
       isUpdating: isUpdatePending,
@@ -91,6 +108,7 @@ export function DealUpdateProvider({
       clearPendingUpdates,
       savePendingUpdates,
       setFilters,
+      setRateLimits,
       deal,
       pendingUpdate,
       isUpdatePending,

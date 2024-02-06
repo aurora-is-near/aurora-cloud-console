@@ -68,6 +68,8 @@ export type User = Tables<"users">
 
 export type PublicApiScope = Enums<"api_key_scopes">
 
+export type RateLimit = Tables<"rate_limits">
+
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">

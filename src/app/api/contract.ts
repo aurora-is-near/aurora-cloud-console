@@ -43,6 +43,11 @@ export const DealPrioritiesSchema = z.array(
   }),
 )
 
+export const DealRateLimits = z.object({
+  dealId: z.number(),
+  limit: z.number(),
+})
+
 export const SiloSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
@@ -147,6 +152,30 @@ export const contract = c.router({
     metadata: {
       scopes: ["deals:write"],
     },
+  },
+  updateDealRateLimits: {
+    summary: "Update deal rate limits",
+    method: "PUT",
+    path: "/api/deals/:id/rate-limits",
+    responses: {
+      200: z.object({
+        items: DealPrioritiesSchema,
+      }),
+    },
+    body: z.object({
+      rateLimits: z.array(
+        z.object({
+          rateLimitId: z.number(),
+          limit: z.number(),
+        }),
+      ),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
   },
   getSilos: {
     summary: "Get all silos",

@@ -164,6 +164,36 @@ export interface Database {
           }
         ]
       }
+      rate_limits: {
+        Row: {
+          created_at: string
+          deal_id: number
+          id: number
+          time_unit: number
+          time_value: number
+          value: number
+          variant: string
+        }
+        Insert: {
+          created_at?: string
+          deal_id: number
+          id?: number
+          time_unit: number
+          time_value: number
+          value: number
+          variant: string
+        }
+        Update: {
+          created_at?: string
+          deal_id?: number
+          id?: number
+          time_unit?: number
+          time_value?: number
+          value?: number
+          variant?: string
+        }
+        Relationships: []
+      }
       silos: {
         Row: {
           chain_id: string
