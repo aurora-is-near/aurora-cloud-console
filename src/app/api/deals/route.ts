@@ -24,7 +24,7 @@ export const GET = createApiEndpoint(
     assertValidSupabaseResult(listsResult)
 
     // TODO: Use this instead of the ACC database, when the Proxy API is ready
-    await proxyApiClient.view(
+    const results = await proxyApiClient.view(
       dealsResult.data
         .map((deal) => getDealViewOperations(ctx.team.id, deal.id))
         .flat(),
