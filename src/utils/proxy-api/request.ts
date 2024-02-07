@@ -3,7 +3,7 @@ import {
   ProxyApiViewOperation,
 } from "@/types/proxy-api"
 
-const PROXY_API_BASE_URL = "https://aclproxy.aurora.dev"
+const PROXY_API_BASE_URL = "http://65.108.120.211:8302"
 
 const request = async (
   endpoint: string,
@@ -11,27 +11,27 @@ const request = async (
 ) => {
   const { href } = new URL(endpoint, PROXY_API_BASE_URL)
 
-  console.debug("Mock Proxy API request", href, JSON.stringify(operations))
+  const res = await fetch(href, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.PROXY_API_TOKEN}`,
+    },
+    body: JSON.stringify(operations),
+  })
 
-  // const res = await fetch(href, {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     Authorization: `Bearer ${process.env.PROXY_API_TOKEN}`,
-  //   },
-  //   body: JSON.stringify(operations),
-  // })
+  if (!res.ok) {
+    throw new Error(`Proxy API call failed: ${res.status} ${res.statusText}`)
+  }
 
-  // if (!res.ok) {
-  //   throw new Error(`Proxy API call failed: ${res.status} ${res.statusText}`)
-  // }
+  const data = await res.json()
 
-  // return res
+  return data
 }
 
 export const proxyApiClient = {
   view: (operations: ProxyApiViewOperation[]) =>
-    request("/aclproxy/v1/view", operations),
+    request("/v1/view", operations),
   update: (operations: ProxyApiUpateOperation[]) =>
-    request("/aclproxy/v1/update", operations),
+    request("/v1/update", operations),
 }
