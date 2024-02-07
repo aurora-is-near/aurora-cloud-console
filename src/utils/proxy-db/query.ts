@@ -1,6 +1,7 @@
 import { Pool, QueryResult, QueryResultRow } from "pg"
 import { toError } from "../errors"
 import { PROXY_DATABASES } from "../../constants/databases"
+import { createDebugger } from "@/debug"
 
 const pools = PROXY_DATABASES.reduce<{ [x: string]: Pool }>(
   (acc, database) => ({
@@ -21,9 +22,12 @@ export const query = async <TRow extends QueryResultRow>(
   text: string,
   params?: string[],
 ): Promise<QueryResult<TRow>> => {
+  const debug = createDebugger("proxy-db")
   const database: (typeof PROXY_DATABASES)[number] = isDemoAccount
     ? "aurora_transaction_database_seed"
     : "aurora_transaction_database"
+
+  debug("Proxy DB query", text)
 
   let res
 
