@@ -13,7 +13,7 @@ export const GET = createApiEndpoint(
     const { data: lists } = await supabase
       .from("lists")
       .select("*")
-      .order("created_at", { ascending: true })
+      .order("id", { ascending: true })
       .eq("team_id", ctx.team.id)
 
     return {

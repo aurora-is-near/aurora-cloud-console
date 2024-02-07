@@ -8,7 +8,7 @@ export const getSiloTokens = async (id: number): Promise<Token[]> => {
   const { data: tokens } = await supabase
     .from("tokens")
     .select("*, silos(id)")
-    .order("created_at", { ascending: true })
+    .order("id", { ascending: true })
 
   return (
     tokens?.filter((token) => token.silos.some((silo) => silo.id === id)) ?? []

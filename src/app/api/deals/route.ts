@@ -15,7 +15,7 @@ export const GET = createApiEndpoint(
       supabase
         .from("deals")
         .select("*")
-        .order("created_at", { ascending: true })
+        .order("id", { ascending: true })
         .eq("team_id", ctx.team.id),
       supabase.from("lists").select("*").eq("team_id", ctx.team.id),
     ])

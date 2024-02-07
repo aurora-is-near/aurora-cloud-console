@@ -33,18 +33,33 @@ export const findOtherChildren = (
       return true
     })
 
+const dateTimeFormat = (
+  date: Date | string,
+  options: Intl.DateTimeFormatOptions,
+): string => {
+  const dateObj = new Date(date)
+
+  if (Number.isNaN(dateObj.getTime())) {
+    console.error(`Attempted to format an invalid date: ${date}`)
+
+    return ""
+  }
+
+  return new Intl.DateTimeFormat("en-US", options).format(dateObj)
+}
+
 export const formatDate = (date: Date | string): string =>
-  new Intl.DateTimeFormat("en-US", {
+  dateTimeFormat(date, {
     year: "numeric",
     month: "short",
     day: "numeric",
-  }).format(new Date(date))
+  })
 
 const formatTime = (date: Date | string): string =>
-  new Intl.DateTimeFormat("en-US", {
+  dateTimeFormat(date, {
     hour: "numeric",
     minute: "numeric",
-  }).format(new Date(date))
+  })
 
 export const formatDateAndTime = (date: Date | string): string =>
   `${formatDate(date)} at ${formatTime(date)}`

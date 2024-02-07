@@ -8,7 +8,7 @@ export const getTokens = async (): Promise<Token[]> => {
   const { data } = await supabase
     .from("tokens")
     .select("*")
-    .order("created_at", { ascending: true })
+    .order("id", { ascending: true })
 
   return data ?? []
 }
