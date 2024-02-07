@@ -3,7 +3,7 @@
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { ProxyApiUpateOperation } from "@/types/proxy-api"
 import { Deal } from "@/types/types"
-import { proxyApiClient } from "@/utils/proxy-api/request"
+import { proxyApiClient } from "@/utils/proxy-api/client"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,

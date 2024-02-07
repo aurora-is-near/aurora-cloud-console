@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server"
 import { createApiEndpoint } from "@/utils/api"
 import { abort } from "../../../../utils/abort"
-import { proxyApiClient } from "@/utils/proxy-api/request"
+import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 import { ApiRequestBody, ApiRequestContext } from "@/types/api"

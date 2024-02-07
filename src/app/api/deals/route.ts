@@ -3,7 +3,7 @@ import { createApiEndpoint } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
-import { proxyApiClient } from "@/utils/proxy-api/request"
+import { proxyApiClient } from "@/utils/proxy-api/client"
 import { getDealViewOperations } from "@/utils/proxy-api/get-deal-view-operations"
 import { adaptDeal } from "@/utils/adapters"
 
