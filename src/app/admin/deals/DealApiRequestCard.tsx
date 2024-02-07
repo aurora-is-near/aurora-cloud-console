@@ -1,8 +1,6 @@
 "use client"
 
 import Card from "@/components/Card"
-import { Spinner } from "@/components/Spinner"
-import { useApiUrl } from "@/hooks/useApiUrl"
 import { useCurrentUrl } from "@/hooks/useCurrentUrl"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { useQuery } from "@tanstack/react-query"
