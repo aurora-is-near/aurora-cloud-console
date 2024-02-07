@@ -147,6 +147,16 @@ invite other users to the team.
 In development we can set the `DEFAULT_TEAM_KEY` environment variable in order
 to switch between teams (rather than relying on subdomains).
 
+### Debugging
+
+The `DEBUG` environment variable can be used to enable various namespaced debug
+logs. For example, to view logs of all Proxy API requests and responses you can
+add `DEBUG=proxy-api` to your local environment variables.
+
+This functionality is enabled via the [debug](https://www.npmjs.com/package/debug)
+package. At the time of writing the available namespaces can be found in the
+`src/debug.ts` file.
+
 ### Admin access
 
 At the time of writing, all email addresses ending with `aurora.dev` are

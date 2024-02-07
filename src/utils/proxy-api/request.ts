@@ -1,3 +1,4 @@
+import { createDebugger } from "@/debug"
 import {
   ProxyApiUpateOperation,
   ProxyApiViewOperation,
@@ -9,7 +10,10 @@ const request = async (
   endpoint: string,
   operations: ProxyApiUpateOperation[] | ProxyApiViewOperation[],
 ) => {
+  const debug = createDebugger("proxy-api")
   const { href } = new URL(endpoint, PROXY_API_BASE_URL)
+
+  debug("Proxy API request", href, operations)
 
   const res = await fetch(href, {
     method: "POST",
@@ -25,6 +29,8 @@ const request = async (
   }
 
   const data = await res.json()
+
+  debug("Proxy API response", href, data)
 
   return data
 }
