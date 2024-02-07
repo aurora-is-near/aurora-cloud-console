@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { getCurrentTeam } from "@/utils/current-team"
+import { findCurrentTeam } from "@/utils/current-team"
 import {
   AUTH_CALLBACK_ROUTE,
   AUTH_ACCEPT_ROUTE,
@@ -62,12 +62,16 @@ export async function middleware(req: NextRequest) {
     {
       data: { session },
     },
-    { team_key: teamKey },
+    team,
   ] = await Promise.all([
     supabase.auth.getSession(),
-    getCurrentTeam(req.headers),
+    findCurrentTeam(req.headers),
   ])
 
+  const { team_key: teamKey } = team ?? {}
+
+  // Show the unknown team page if no team found for the current subdomain, and
+  // this is not a request for the admin subdomain
   if (!teamKey && !isAdminSubdomain(req)) {
     return unknownRedirect(req, res)
   }
