@@ -21,7 +21,9 @@ export const findCurrentTeam = async (
 
   const subdomain = getSubdomain(headers)
   const teamForSubdomain = findTeamDetails(teams, subdomain)
-  const defaultTeam = findTeamDetails(teams, process.env.DEFAULT_TEAM_KEY)
+  const defaultTeam =
+    process.env.VERCEL_ENV !== "production" &&
+    findTeamDetails(teams, process.env.DEFAULT_TEAM_KEY)
 
   if (teamForSubdomain) {
     return teamForSubdomain
