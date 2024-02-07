@@ -28,7 +28,7 @@ type ProxyApiTemplateOperation = {
   reset_duration_months?: number
   reset_duration_nanoseconds?: number
   bucket_fill_value?: number
-  leak_duration_nano?: string
+  leak_duration_nano?: number
 }
 
 export type ProxyApiUpateOperation =
