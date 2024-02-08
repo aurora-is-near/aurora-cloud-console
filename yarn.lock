@@ -2494,20 +2494,6 @@
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.17.10.tgz#8b799f4a973ca1e2da8936b27aadc472900e6f36"
   integrity sha512-bJ2oQUDBftvHcEkLS3gyzzShSeZpJyzNNRu8oHK13iNdsofyaDXtNO/c1Zy/PZYVX+PhqOXwoT42gMiEMRSSfQ==
 
-"@tanstack/query-persist-client-core@5.17.10":
-  version "5.17.10"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-persist-client-core/-/query-persist-client-core-5.17.10.tgz#bdfeb03279a95b7bf50b54c4f01becb8d7c4582f"
-  integrity sha512-+4djpMP8+JLBn/nMFXMcHc+5StyB7xopQDUHIA6av3mA6T9FZ7DqCGe/WKgMnCZiQ7TNZMiuWC0xJuUMyswrSg==
-  dependencies:
-    "@tanstack/query-core" "5.17.10"
-
-"@tanstack/react-query-persist-client@^5.17.10":
-  version "5.17.10"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-persist-client/-/react-query-persist-client-5.17.10.tgz#12b12b8290f4fe83e1216420671cacc598a4e923"
-  integrity sha512-9oVRDBm6tr7cEexG5e1M5Ob3rn/oBnDDt+Yj9nLtWNYwP7zCwGJupAp8HA3yDdyshfsAZBWtlF3OL2tlPvFIlg==
-  dependencies:
-    "@tanstack/query-persist-client-core" "5.17.10"
-
 "@tanstack/react-query@^5.17.10":
   version "5.17.10"
   resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.17.10.tgz#633a1bea5523322d3d6954d310d07a8d5a7f9745"
@@ -2659,11 +2645,6 @@
   integrity sha512-Mo/R7IjDVwtiFPs84pWvh5pI9iyNGBjmfielxqbOh2Jv+8WVSDVe8Nu25kb5BOuV2xmGS3o33jr6nwDJMBcX+Q==
   dependencies:
     "@types/react" "*"
-
-"@types/timestring@^6.0.5":
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/@types/timestring/-/timestring-6.0.5.tgz#c86722529e65febebe4f830ecb5307e687c72c4a"
-  integrity sha512-u+PDTI30Ezg81ENLYTIezc2HtBW7n2/Vgt3vJ2LBzpn/VZzVj33MqxXeVti7g16gPzn3i1hSZCkNCveWp5iowQ==
 
 "@types/unist@^2":
   version "2.0.10"
@@ -4795,11 +4776,6 @@ iconv-lite@^0.6.2:
   integrity sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==
   dependencies:
     safer-buffer ">= 2.1.2 < 3.0.0"
-
-idb-keyval@^6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/idb-keyval/-/idb-keyval-6.2.1.tgz#94516d625346d16f56f3b33855da11bfded2db33"
-  integrity sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg==
 
 identity-function@^1.0.0:
   version "1.0.0"
@@ -7504,11 +7480,6 @@ through2@^4.0.0:
   integrity sha512-iOqSav00cVxEEICeD7TjLB1sueEL+81Wpzp2bY17uZjZN0pWZPuo4suZ/61VujxmqSGFfgOcNuTZ85QJwNZQpw==
   dependencies:
     readable-stream "3"
-
-timestring@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/timestring/-/timestring-7.0.0.tgz#4099b589387c63fbd1ae76b1e7b20ded836af4b2"
-  integrity sha512-U7ttxEdKWqHYJ96OGoJJR5gU8Nwkl3tlY0n7Jr4vcpLD2RkVZLE1Ph9k8ZRrZ7LYX9QCtd3M9OUaR9P8Z37QNg==
 
 titleize@^3.0.0:
   version "3.0.0"
