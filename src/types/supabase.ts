@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       api_keys: {
@@ -53,7 +53,6 @@ export interface Database {
           contract_filter_list_id: number | null
           created_at: string
           demo_key: string | null
-          enabled: boolean
           end_time: number | null
           eoa_blacklist_list_id: number | null
           eoa_filter_list_id: number | null
@@ -69,7 +68,6 @@ export interface Database {
           contract_filter_list_id?: number | null
           created_at?: string
           demo_key?: string | null
-          enabled?: boolean
           end_time?: number | null
           eoa_blacklist_list_id?: number | null
           eoa_filter_list_id?: number | null
@@ -85,7 +83,6 @@ export interface Database {
           contract_filter_list_id?: number | null
           created_at?: string
           demo_key?: string | null
-          enabled?: boolean
           end_time?: number | null
           eoa_blacklist_list_id?: number | null
           eoa_filter_list_id?: number | null
@@ -163,6 +160,36 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      rate_limits: {
+        Row: {
+          created_at: string
+          deal_id: number
+          id: number
+          time_unit: number
+          time_value: number
+          value: number
+          variant: string
+        }
+        Insert: {
+          created_at?: string
+          deal_id: number
+          id?: number
+          time_unit: number
+          time_value: number
+          value: number
+          variant: string
+        }
+        Update: {
+          created_at?: string
+          deal_id?: number
+          id?: number
+          time_unit?: number
+          time_value?: number
+          value?: number
+          variant?: string
+        }
+        Relationships: []
       }
       silos: {
         Row: {

@@ -3,9 +3,8 @@ import { createApiEndpoint } from "@/utils/api"
 import { ApiRequestContext } from "@/types/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
-import { proxyApiClient } from "@/utils/proxy-api/client"
-import { getDealViewOperations } from "@/utils/proxy-api/get-deal-view-operations"
 import { adaptDeal } from "@/utils/adapters"
+import { getDeal } from "@/utils/proxy-api/get-deal"
 
 export const GET = createApiEndpoint(
   "getDeals",
@@ -23,15 +22,16 @@ export const GET = createApiEndpoint(
     assertValidSupabaseResult(dealsResult)
     assertValidSupabaseResult(listsResult)
 
-    // TODO: Use this instead of the ACC database, when the Proxy API is ready
-    const results = await proxyApiClient.view(
-      dealsResult.data
-        .map((deal) => getDealViewOperations(ctx.team.id, deal.id))
-        .flat(),
-    )
-
     return {
-      items: dealsResult.data.map((deal) => adaptDeal(deal, listsResult.data)),
+      items: await Promise.all(
+        dealsResult.data.map(async (deal) =>
+          adaptDeal(
+            deal,
+            await getDeal(ctx.team.id, deal.id),
+            listsResult.data,
+          ),
+        ),
+      ),
     }
   },
 )

@@ -1,21 +1,11 @@
 import { createDebugger } from "@/debug"
 import {
+  ProxyApiResponse,
   ProxyApiUpateOperation,
   ProxyApiViewOperation,
 } from "@/types/proxy-api"
 
 const PROXY_API_BASE_URL = "http://65.108.120.211:8302"
-
-type ProxyApiResponse = {
-  instance?: string
-  clock?: string
-  sequence?: number
-  error: string
-  responses?: {
-    limited: boolean
-    objects: []
-  }[]
-}
 
 const request = async (
   endpoint: string,
@@ -41,7 +31,7 @@ const request = async (
     throw new Error(`Proxy API call failed [${res.status}]: ${data.error}`)
   }
 
-  debug("Proxy API response", href, data)
+  debug("Proxy API response", href, JSON.stringify(data, null, 2))
 
   return data
 }

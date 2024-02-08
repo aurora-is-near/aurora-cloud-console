@@ -44,3 +44,37 @@ export type ProxyApiViewOperation = {
   limit?: number
   elements_of_set?: string
 }
+
+export type ProxyApiVar = {
+  template: string
+  time_meta: {
+    creation_time: string
+    last_write: string
+    last_touch: string
+  }
+  value: string
+  last_reset?: string
+}
+
+export type ProxyApiObjectVarTypes = {
+  StringVar: string
+  NumberVar: number
+}
+
+export type ProxyApiObject = {
+  key: string
+  Data: Record<keyof ProxyApiObjectVarTypes, ProxyApiVar>
+}
+
+export type ProxyApiResponseObject = {
+  limited: boolean
+  objects: ProxyApiObject[]
+}
+
+export type ProxyApiResponse = {
+  instance?: string
+  clock?: string
+  sequence?: number
+  error: string
+  responses?: ProxyApiResponseObject[]
+}
