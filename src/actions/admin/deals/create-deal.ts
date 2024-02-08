@@ -87,7 +87,7 @@ const getCreateDealOperations = (
 
     // Just a reasonable default: 10000 auto-subs per day
     bucket_fill_value: 10000,
-    leak_duration_nano: "86400000000", // (day / 10000 = 24h * 3600s * 1e9nanos / 10000)
+    leak_duration_nano: 86400000000, // (day / 10000 = 24h * 3600s * 1e9nanos / 10000)
   },
   {
     // This template will be used for variables that do per-IP rate-limiting for deal auto-sub (will be described later).
@@ -99,7 +99,7 @@ const getCreateDealOperations = (
 
     // Just a reasonable default: 5 per-IP auto-subs per week
     bucket_fill_value: 5,
-    leak_duration_nano: "120960000000000", // (week / 5 = 7d * 24h * 3600s * 1e9nanos / 5)
+    leak_duration_nano: 120960000000000, // (week / 5 = 7d * 24h * 3600s * 1e9nanos / 5)
 
     // REQUIRED: make per-IP auto-sub rate-limiters expire after some time
     expiration_duration: 8640000, // Seconds. 100days is reasonable default, never put zero here.

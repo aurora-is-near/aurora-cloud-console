@@ -4,6 +4,7 @@ import {
   SiloSchema,
   SimpleListSchema,
 } from "@/types/api-schemas"
+import { ProxyApiDealData } from "@/types/deal"
 import { Deal, List, Silo } from "@/types/types"
 
 const getIsoString = (date: number | null) => {
@@ -26,13 +27,17 @@ const getRelatedList = (
   }
 }
 
-export const adaptDeal = (deal: Deal, lists: List[]): DealSchema => ({
+export const adaptDeal = (
+  deal: Deal,
+  proxyApiDeal: ProxyApiDealData,
+  lists: List[],
+): DealSchema => ({
   id: deal.id,
   createdAt: deal.created_at,
   updatedAt: deal.updated_at,
   name: deal.name,
   teamId: deal.team_id,
-  enabled: deal.enabled,
+  enabled: proxyApiDeal.enabled,
   startTime: getIsoString(deal.start_time),
   endTime: getIsoString(deal.end_time),
   lists: {
