@@ -45,7 +45,7 @@ export type ProxyApiViewOperation = {
   elements_of_set?: string
 }
 
-export type ProxyApiVar = {
+type ProxyApiVar = {
   template: string
   time_meta: {
     creation_time: string
@@ -61,7 +61,7 @@ export type ProxyApiObjectVarTypes = {
   NumberVar: number
 }
 
-export type ProxyApiObject = {
+type ProxyApiObject = {
   key: string
   Data: Record<keyof ProxyApiObjectVarTypes, ProxyApiVar>
 }
