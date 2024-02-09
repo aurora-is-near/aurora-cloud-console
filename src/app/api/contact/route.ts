@@ -33,6 +33,29 @@ const submitForm = async (
     return
   }
 
+  const optionalFields = [
+    {
+      objectTypeId: "0-1",
+      name: "email",
+      value: user.email,
+    },
+    {
+      objectTypeId: "0-1",
+      name: "firstname",
+      value: user.name,
+    },
+    {
+      objectTypeId: "0-2",
+      name: "name",
+      value: team.name,
+    },
+    {
+      objectTypeId: "0-2",
+      name: "domain",
+      value: team.website,
+    },
+  ].filter((field) => !!field.value)
+
   const res = await fetch(
     `https://api.hsforms.com/submissions/v3/integration/secure/submit/${portalId}/${contactFormGuid}`,
     {
@@ -45,26 +68,7 @@ const submitForm = async (
       body: JSON.stringify({
         submittedAt: Date.now(),
         fields: [
-          {
-            objectTypeId: "0-1",
-            name: "email",
-            value: user.email,
-          },
-          {
-            objectTypeId: "0-1",
-            name: "firstname",
-            value: user.name,
-          },
-          {
-            objectTypeId: "0-2",
-            name: "name",
-            value: team.name,
-          },
-          {
-            objectTypeId: "0-2",
-            name: "domain",
-            value: team.website,
-          },
+          ...optionalFields,
           {
             objectTypeId: "0-1",
             name: "subject",
@@ -75,7 +79,7 @@ const submitForm = async (
             name: "message",
             value: message,
           },
-        ],
+        ].filter((field) => !!field.value),
         context: {
           pageUri,
         },
