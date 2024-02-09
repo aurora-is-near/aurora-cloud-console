@@ -3,7 +3,6 @@
 import Button from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
 import { DashboardPage } from "@/components/DashboardPage"
-import Heading from "@/components/Heading"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import Image from "next/image"
@@ -31,14 +30,9 @@ const services = [
     imageSrc: "/static/icons/safe.png",
   },
   {
-    title: "DIA",
-    description: "The cross-chain data and oracle platform for Web3.",
-    imageSrc: "/static/icons/dia.png",
-  },
-  {
-    title: "Atomica",
-    description: "Concentrated Liquidity Pools.",
-    imageSrc: "/static/icons/atomica.png",
+    title: "Pyth",
+    description: "Smarter data for smarter contracts.",
+    imageSrc: "/static/icons/pyth.png",
   },
   {
     title: "The Graph",
@@ -46,24 +40,9 @@ const services = [
     imageSrc: "/static/icons/the-graph.png",
   },
   {
-    title: "Ocean Market",
-    description: "Publish and trade datasets.",
-    imageSrc: "/static/icons/ocean-market.png",
-  },
-  {
-    title: "Chainlink",
-    description: "Chainlink oracles. Web3 services platform.",
-    imageSrc: "/static/icons/chainlink.png",
-  },
-  {
     title: "Uniswap",
     description: "A growing network of DeFi apps.",
     imageSrc: "/static/icons/uniswap.png",
-  },
-  {
-    title: "Monitoring",
-    description: "Operational dashboards for your data.",
-    imageSrc: "/static/icons/monitoring.png",
   },
 ]
 
@@ -80,11 +59,12 @@ const Page = () => {
               className="px-4 py-5 sm:px-5 md:px-6 sm:py-6 rounded-[10px] bg-white border border-gray-200 shadow flex items-start md:items-center gap-x-4 md:gap-x-5"
             >
               <Image
+                objectFit="contain"
                 src={imageSrc}
                 alt=""
                 height={44}
                 width={44}
-                className="flex-shrink-0"
+                className="flex-shrink-0 max-h-[44px] max-w-[44px] object-contain"
               />
               <div className="flex flex-1 md:flex-row flex-col md:items-center gap-y-2.5 items-start md:justify-between gap-x-5">
                 <div>
