@@ -36,7 +36,7 @@ export const ListsTable = () => {
     return (
       <NoDataCta
         title="No lists"
-        description="Get started by creating a your first list."
+        description="Get started by creating your first list."
         className="mt-20"
         Icon={ListBulletIcon}
       >
