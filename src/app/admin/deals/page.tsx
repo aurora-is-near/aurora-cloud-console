@@ -7,19 +7,32 @@ import Button from "@/components/Button"
 import { RemoveDealButton } from "@/app/admin/deals/RemoveDealButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { AdminToast } from "@/components/AdminToast"
+import { getTeams } from "@/actions/admin/teams/get-teams"
+import { TeamFilter } from "@/app/admin/deals/TeamFilter"
+import { getTeamDeals } from "@/actions/admin/team-deals/get-team-deals"
 
-const Page = async () => {
-  const deals = await getDeals()
+const Page = async ({
+  searchParams: { team },
+}: {
+  searchParams: { team?: number }
+}) => {
+  const [deals, teams] = await Promise.all([
+    team ? getTeamDeals(team) : getDeals(),
+    getTeams(),
+  ])
 
   return (
     <>
       <DashboardPage
         heading="Deals"
         actions={
-          <Button href="/admin/deals/add">
-            <PlusCircleIcon className="w-5 h-5" />
-            <span>Add deal</span>
-          </Button>
+          <div className="flex flex-row space-x-3 items-center">
+            <TeamFilter teams={teams} />
+            <Button href="/admin/deals/add">
+              <PlusCircleIcon className="w-5 h-5" />
+              <span>Add deal</span>
+            </Button>
+          </div>
         }
       >
         <section>
