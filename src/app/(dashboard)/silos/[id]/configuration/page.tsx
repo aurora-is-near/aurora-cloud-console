@@ -8,9 +8,10 @@ import { getSilo } from "@/actions/admin/silos/get-silo"
 import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
 import { DashboardPage } from "@/components/DashboardPage"
+import { getTokens } from "@/actions/admin/tokens/get-tokens"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
-  const silo = await getSilo(Number(id))
+  const [silo, tokens] = await Promise.all([getSilo(Number(id)), getTokens()])
 
   if (!silo) {
     notFound()
@@ -93,7 +94,10 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
         <InfoList>
           <InfoList.Item
             term="Base token"
-            description="USDC"
+            description={
+              tokens.find((token) => token.id === silo.base_token_id)?.name ??
+              "-"
+            }
             explainer="This is the token used to pay for the gas fees inside your Aurora Chain."
             action={
               <Button size="sm" style="border">

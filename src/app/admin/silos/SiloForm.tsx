@@ -1,6 +1,6 @@
 "use client"
 
-import { Silo } from "@/types/types"
+import { Silo, Token } from "@/types/types"
 import { updateSilo } from "@/actions/admin/silos/update-silo"
 import { createSilo } from "@/actions/admin/silos/create-silo"
 import { SubmitHandler } from "react-hook-form"
@@ -10,6 +10,7 @@ import { sentenceCase } from "change-case"
 
 type SiloFormProps = {
   silo?: Silo
+  tokens: Token[]
 }
 
 type Inputs = Omit<Silo, "id" | "created_at">
@@ -26,7 +27,7 @@ const getNetworkOption = (value: NetworkOption): SelectInputOption => ({
 const isNetworkOption = (value?: string): value is NetworkOption =>
   !!value && NETWORK_OPTIONS.includes(value as NetworkOption)
 
-export const SiloForm = ({ silo }: SiloFormProps) => {
+export const SiloForm = ({ silo, tokens }: SiloFormProps) => {
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
     if (silo) {
       await updateSilo(silo.id, inputs)
@@ -38,6 +39,8 @@ export const SiloForm = ({ silo }: SiloFormProps) => {
     await createSilo(inputs)
     window.location.href = "/admin/silos?operation=created"
   }
+
+  const baseToken = tokens.find((token) => token.id === silo?.base_token_id)
 
   return (
     <HorizontalForm
@@ -100,6 +103,22 @@ export const SiloForm = ({ silo }: SiloFormProps) => {
           defaultValue: silo?.rpc_url ?? "",
           autoComplete: "rpc_url",
           required: true,
+        },
+        {
+          name: "base_token_id",
+          label: "Base token",
+          defaultValue: baseToken
+            ? {
+                label: baseToken.name,
+                value: baseToken.id,
+              }
+            : undefined,
+          required: true,
+          getValue: (option?: SelectInputOption) => option?.value,
+          options: tokens.map((token) => ({
+            label: token.name,
+            value: token.id,
+          })),
         },
       ]}
     />

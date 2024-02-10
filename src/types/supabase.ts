@@ -161,38 +161,9 @@ export type Database = {
           }
         ]
       }
-      rate_limits: {
-        Row: {
-          created_at: string
-          deal_id: number
-          id: number
-          time_unit: number
-          time_value: number
-          value: number
-          variant: string
-        }
-        Insert: {
-          created_at?: string
-          deal_id: number
-          id?: number
-          time_unit: number
-          time_value: number
-          value: number
-          variant: string
-        }
-        Update: {
-          created_at?: string
-          deal_id?: number
-          id?: number
-          time_unit?: number
-          time_value?: number
-          value?: number
-          variant?: string
-        }
-        Relationships: []
-      }
       silos: {
         Row: {
+          base_token_id: number | null
           chain_id: string
           created_at: string
           engine_account: string
@@ -205,6 +176,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          base_token_id?: number | null
           chain_id: string
           created_at?: string
           engine_account: string
@@ -217,6 +189,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          base_token_id?: number | null
           chain_id?: string
           created_at?: string
           engine_account?: string
@@ -228,7 +201,15 @@ export type Database = {
           rpc_url?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "silos_base_token_id_fkey"
+            columns: ["base_token_id"]
+            isOneToOne: false
+            referencedRelation: "tokens"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       silos_tokens: {
         Row: {
