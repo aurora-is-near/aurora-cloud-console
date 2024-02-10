@@ -16,13 +16,13 @@ export const TokenForm = ({ token }: TokenFormProps) => {
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
     if (token) {
       await updateToken(token.id, inputs)
-      window.location.href = "/admin/token?operation=updated"
+      window.location.href = "/admin/tokens?operation=updated"
 
       return
     }
 
     await createToken(inputs)
-    window.location.href = "/admin/token?operation=created"
+    window.location.href = "/admin/tokens?operation=created"
   }
 
   return (
