@@ -1,7 +1,6 @@
 import { ReactNode } from "react"
 import { getCurrentTeam } from "@/utils/current-team"
 import { headers } from "next/headers"
-import { getTeamSilo } from "@/actions/admin/team-silos/get-team-silo"
 import { notFound } from "next/navigation"
 import { getTeamDeal } from "@/actions/admin/team-deals/get-team-deal"
 
