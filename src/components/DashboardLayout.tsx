@@ -25,8 +25,7 @@ export const DashboardLayout = ({
         menuItems={[...mainMenuItems, ...extraMenuItems]}
       />
       <SubMenuNav isAdmin={isAdmin} />
-
-      {children}
+      <div className="w-full">{children}</div>
     </div>
   )
 }
