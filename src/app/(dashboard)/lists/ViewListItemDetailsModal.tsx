@@ -20,11 +20,12 @@ export const ViewListItemDetailsModal = () => {
     openModal(Modals.DeleteList)
   }
 
-  const { data } = useQuery(
-    getQueryFnAndKey("getWallet", {
+  const { data } = useQuery({
+    ...getQueryFnAndKey("getWallet", {
       address: encodeURIComponent(String(item)),
     }),
-  )
+    enabled: !!item,
+  })
 
   return (
     <SlideOver
