@@ -6,18 +6,14 @@ import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { AddOrEditListModal } from "./AddOrEditListModal"
-import { useRouter } from "next/navigation"
 
 export const AddListModal = () => {
-  const { activeModal } = useModals()
+  const { activeModal, closeModal } = useModals()
   const getListsUpdater = useOptimisticUpdater("getLists")
-  const router = useRouter()
 
   const { mutate: createList, isPending } = useMutation({
     mutationFn: apiClient.createList,
-    onSuccess: ({ id }) => {
-      router.push(`/lists/${id}`)
-    },
+    onSuccess: closeModal,
     onSettled: getListsUpdater.invalidate,
   })
 
