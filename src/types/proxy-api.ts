@@ -17,11 +17,12 @@ type ProxyApiVariableOperation = {
   string_value?: string
   number_value?: number
   value_reset_policy?: "recreate"
+  set_element?: string
 }
 
 type ProxyApiTemplateOperation = {
   op_type: "set_template"
-  var_type: "number" | "string" | "bucket"
+  var_type: "number" | "string" | "bucket" | "set"
   template_key: string
   expiration_duration?: number
   touch_by_read?: boolean
@@ -29,6 +30,9 @@ type ProxyApiTemplateOperation = {
   reset_duration_nanoseconds?: number
   bucket_fill_value?: number
   leak_duration_nano?: number
+  set_element_expiration_duration?: number
+  set_element_touch_by_read?: boolean
+  currency?: "second"
 }
 
 export type ProxyApiUpateOperation =

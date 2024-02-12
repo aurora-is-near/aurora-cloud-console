@@ -5,6 +5,7 @@ import { abort } from "@/utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 import { adaptList } from "@/utils/adapters"
+import { createList } from "@/utils/proxy-api/create-list"
 
 export const GET = createApiEndpoint(
   "getLists",
@@ -39,6 +40,8 @@ export const POST = createApiEndpoint(
       .single()
 
     assertValidSupabaseResult(result)
+
+    await createList(ctx.team.id, result.data.id)
 
     return adaptList(result.data)
   },

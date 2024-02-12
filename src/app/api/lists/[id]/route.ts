@@ -5,6 +5,7 @@ import { abort } from "../../../../utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 import { adaptList } from "@/utils/adapters"
+import { deleteList } from "@/utils/proxy-api/delete-list"
 
 export const GET = createApiEndpoint(
   "getList",
@@ -57,15 +58,17 @@ export const DELETE = createApiEndpoint(
   "deleteList",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
-    const result = await supabase
-      .from("lists")
-      .delete()
-      .eq("id", Number(ctx.params.id))
-      .eq("team_id", ctx.team.id)
-      .single()
+    const [result] = await Promise.all([
+      supabase
+        .from("lists")
+        .delete()
+        .eq("id", Number(ctx.params.id))
+        .eq("team_id", ctx.team.id),
+      deleteList(ctx.team.id, Number(ctx.params.id)),
+    ])
 
     assertValidSupabaseResult(result)
 
-    return result.data
+    return null
   },
 )
