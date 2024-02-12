@@ -94,6 +94,14 @@ export async function middleware(req: NextRequest) {
     return rewriteAdminSubdomain(req, session)
   }
 
+  // 404 for /admin requests in production
+  if (
+    process.env.VERCEL_ENV === "production" &&
+    pathname.startsWith("/admin")
+  ) {
+    return NextResponse.rewrite(new URL("/404", req.url))
+  }
+
   // Redirect to the unauthorised page if there is no team key, or if the user
   // is not authorised to access that team
   if (
