@@ -62,7 +62,11 @@ const BorealisMenu = () => {
 }
 
 const siloLinks = [
-  { name: "Overview", href: "overview", icon: <Silos /> },
+  {
+    name: "Overview",
+    href: "overview",
+    icon: <Silos />,
+  },
   {
     name: "Configuration",
     href: "configuration",
@@ -72,6 +76,7 @@ const siloLinks = [
     name: "Permissions",
     href: "permissions",
     icon: <LockClosedIcon />,
+    disabled: true,
   },
   {
     name: "Tokens",
@@ -82,6 +87,7 @@ const siloLinks = [
     name: "KYC",
     href: "kyc",
     icon: <ShieldCheckIcon />,
+    disabled: true,
   },
 ]
 
@@ -130,7 +136,7 @@ const SiloMenu = () => {
         {siloLinks?.map((link) => (
           <li key={link.href}>
             <SubMenuButton
-              disabled={!id}
+              disabled={!id || link.disabled}
               href={`/silos/${id}/${link.href}`}
               name={link.name}
               icon={link.icon}
