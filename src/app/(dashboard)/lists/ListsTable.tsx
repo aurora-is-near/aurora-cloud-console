@@ -3,7 +3,6 @@
 import Table from "@/components/Table"
 import {
   ArrowUpTrayIcon,
-  EyeIcon,
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline"
@@ -17,13 +16,11 @@ import { NoDataCta } from "@/components/NoDataCta"
 import { ListBulletIcon } from "@heroicons/react/20/solid"
 import { formatDate } from "@/utils/helpers"
 import DropdownMenu from "@/components/DropdownMenu"
-import { useRouter } from "next/navigation"
 
 export const ListsTable = () => {
   const { data: lists, isLoading } = useLists()
   const [, setId] = useQueryState("id")
   const { openModal } = useModals()
-  const router = useRouter()
 
   const onEditListClick = (id: number) => {
     setId(String(id))
