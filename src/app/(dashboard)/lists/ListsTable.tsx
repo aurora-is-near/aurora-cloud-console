@@ -1,7 +1,12 @@
 "use client"
 
 import Table from "@/components/Table"
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
+import {
+  ArrowUpTrayIcon,
+  EyeIcon,
+  PencilSquareIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline"
 import { AddListButton } from "./AddListButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
@@ -12,15 +17,22 @@ import { NoDataCta } from "@/components/NoDataCta"
 import { ListBulletIcon } from "@heroicons/react/20/solid"
 import { formatDate } from "@/utils/helpers"
 import DropdownMenu from "@/components/DropdownMenu"
+import { useRouter } from "next/navigation"
 
 export const ListsTable = () => {
   const { data: lists, isLoading } = useLists()
   const [, setId] = useQueryState("id")
   const { openModal } = useModals()
+  const router = useRouter()
 
   const onEditListClick = (id: number) => {
     setId(String(id))
     openModal(Modals.EditList)
+  }
+
+  const onImportListItemsClick = (id: number) => {
+    setId(String(id))
+    openModal(Modals.ImportListItems)
   }
 
   const onDeleteClick = (id: number) => {
@@ -62,6 +74,13 @@ export const ListsTable = () => {
                   text: "Edit",
                   onClick: () => {
                     onEditListClick(list.id)
+                  },
+                },
+                {
+                  Icon: ArrowUpTrayIcon,
+                  text: "Import",
+                  onClick: () => {
+                    onImportListItemsClick(list.id)
                   },
                 },
                 {
