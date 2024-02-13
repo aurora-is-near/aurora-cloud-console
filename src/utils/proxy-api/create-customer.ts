@@ -1,3 +1,5 @@
+"use server"
+
 import { proxyApiClient } from "@/utils/proxy-api/client"
 
 const CUSTOMER_LIST_TTL = 0
@@ -67,7 +69,7 @@ export const createCustomer = async (teamId: number) => {
       op_type: "set",
       var_type: "string",
       var_key: `acl::varsets::accCustomers::${teamId}`,
-      template_key: "acl::varset",
+      template_key: "template::acl::varset",
     },
     {
       // Populate ACL varset for customer (will be used for providing customer's access to variables)
@@ -75,6 +77,16 @@ export const createCustomer = async (teamId: number) => {
       var_type: "string",
       var_key: `acl::varsets::accCustomers::${teamId}`,
       string_value: `customer ${teamId}`,
+    },
+    {
+      // Allowing access to:
+      // - pattern acc::customer
+      // - with substitution of varset accCustomers::<CUSTOMER_ID>
+      // - for user accCustomers::<CUSTOMER_ID>
+      op_type: "set",
+      var_type: "string",
+      var_key: `acl::permissions::accCustomers::${teamId}::acc::customer::accCustomers::${teamId}`,
+      template_key: "template::acl::permission",
     },
   ])
 }
