@@ -15,8 +15,8 @@ export const TeamDetailsCard = ({
 }: TeamDetailsCardProps) => (
   <Card>
     <Card.Title tag="h3">Team details</Card.Title>
-    <div className="px-6 pb-7">
+    <Card.Body>
       <TeamForm team={team} teamSilos={teamSilos} allSilos={allSilos} />
-    </div>
+    </Card.Body>
   </Card>
 )

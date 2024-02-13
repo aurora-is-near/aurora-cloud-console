@@ -7,9 +7,9 @@ const Page = async () => {
     <DashboardPage heading="Add token">
       <Card>
         <Card.Title tag="h3">Token details</Card.Title>
-        <div className="px-6 pb-7">
+        <Card.Body>
           <TokenForm />
-        </div>
+        </Card.Body>
       </Card>
     </DashboardPage>
   )

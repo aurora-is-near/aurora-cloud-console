@@ -16,9 +16,9 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
     <DashboardPage heading={silo.name}>
       <Card>
         <Card.Title tag="h3">Silo details</Card.Title>
-        <div className="px-6 pb-7">
+        <Card.Body>
           <SiloForm silo={silo} tokens={tokens} />
-        </div>
+        </Card.Body>
       </Card>
     </DashboardPage>
   )

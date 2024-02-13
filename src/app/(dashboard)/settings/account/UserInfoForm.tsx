@@ -130,7 +130,7 @@ const UserInfoForm = ({
           </Button>
         )}
       </Card.Actions>
-      <div className="px-6 pb-7">
+      <Card.Body>
         {showForm ? (
           <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
             <HorizontalInput
@@ -187,7 +187,7 @@ const UserInfoForm = ({
             )}
           </dl>
         )}
-      </div>
+      </Card.Body>
     </Card>
   )
 }
