@@ -68,11 +68,8 @@ import { NextRequest } from "next/server"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { ApiRequestContext, createApiEndpoint } from "@/utils/api"
 
-export const PATCH = createApiEndpoint('updateThing', async (
-  req: NextRequest,
-  ctx: ApiRequestContext
-) => {
-  const { name } = await req.json();
+export const PATCH = createApiEndpoint('updateThing', async (_req, ctx) => {
+  const { name } = ctx.body
   const supabase = createAdminSupabaseClient()
 
   const { error } = await supabase

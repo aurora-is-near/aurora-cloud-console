@@ -9,6 +9,7 @@ import { getCurrentTeam } from "@/utils/current-team"
 import {
   ApiErrorResponse,
   ApiOperation,
+  ApiRequestBody,
   ApiRequestHandler,
   ApiResponse,
   ApiResponseBody,
@@ -56,21 +57,30 @@ const getErrorResponse = (error: unknown): NextResponse<ApiErrorResponse> => {
   return response
 }
 
-const handleRequest = async <Body = unknown>(
+const getRequestBody = async (req: NextRequest) => {
+  try {
+    return await req.json()
+  } catch {
+    return {}
+  }
+}
+
+const handleRequest = async <TResponseBody, TRequestBody>(
   req: NextRequest,
   ctx: BaseApiRequestContext,
   scopes: ApiScope[],
-  handler: ApiRequestHandler<Body>,
-): Promise<ApiResponse<Body>> => {
+  handler: ApiRequestHandler<TResponseBody, TRequestBody>,
+  body: TRequestBody,
+): Promise<ApiResponse<TResponseBody>> => {
   const [user, team] = await Promise.all([
     getUser(),
     getCurrentTeam(req.headers),
   ])
-  let data: Body
+  let data: TResponseBody
 
   try {
     abortIfUnauthorised(user, scopes, team.team_key)
-    data = await handler(req, { ...ctx, user, team })
+    data = await handler(req, { ...ctx, user, team, body })
   } catch (error: unknown) {
     console.error(error)
 
@@ -85,9 +95,15 @@ const handleRequest = async <Body = unknown>(
 }
 
 export const apiRequestHandler =
-  <Body = unknown>(scopes: ApiScope[], handler: ApiRequestHandler<Body>) =>
-  async (req: NextRequest, ctx: BaseApiRequestContext) =>
-    handleRequest(req, ctx, scopes, handler)
+  <TResponseBody = unknown, TRequestBody = unknown>(
+    scopes: ApiScope[],
+    handler: ApiRequestHandler<TResponseBody, TRequestBody>,
+  ) =>
+  async (req: NextRequest, ctx: BaseApiRequestContext) => {
+    const body = await getRequestBody(req)
+
+    return handleRequest(req, ctx, scopes, handler, body)
+  }
 
 const getOperations = () => {
   const operations: OpenAPIV3.OperationObject[] = []
@@ -129,13 +145,23 @@ const getSearchParamsObject = (req: NextRequest) => {
   return obj
 }
 
+const getHeadersObject = (req: NextRequest) => {
+  const obj: Record<string, string> = {}
+
+  for (const [key, value] of req.headers) {
+    obj[key] = value
+  }
+
+  return obj
+}
+
 /**
  * Validate the request against the OpenAPI contract.
  */
 const validateRequest = async <T extends ApiOperation>(
   operationId: T,
   req: NextRequest,
-  ctx: BaseApiRequestContext,
+  body: unknown,
 ) => {
   const operation = getOperation(operationId)
 
@@ -143,25 +169,33 @@ const validateRequest = async <T extends ApiOperation>(
     throw new Error(`Operation "${operationId}" not found`)
   }
 
+  const requestBody = isRequestBodyObject(operation.requestBody)
+    ? operation.requestBody
+    : undefined
+
   const requestValidator = new OpenAPIRequestValidator({
-    requestBody: isRequestBodyObject(operation.requestBody)
-      ? operation.requestBody
-      : undefined,
+    requestBody,
     parameters:
       operation.parameters
         ?.filter(isParameterObject)
         .filter((param) => param.in === "query") ?? [],
   })
 
-  const error = requestValidator.validateRequest({
-    headers: req.headers,
-    body: operation.requestBody,
+  const result = requestValidator.validateRequest({
+    headers: getHeadersObject(req),
+    body,
     query: getSearchParamsObject(req),
   })
 
-  // Will abort with "limit must be a number", for example
-  if (error) {
-    abort(error.status, `${error.errors[0].path} ${error.errors[0].message}`)
+  // Will abort with, for example, "limit must be a number" or
+  // "body must have required property 'name'"
+  if (result) {
+    const [error] = result.errors
+
+    abort(
+      result.status,
+      `${error.location === "body" ? "body" : error.path} ${error.message}`,
+    )
   }
 }
 
@@ -171,27 +205,29 @@ const validateRequest = async <T extends ApiOperation>(
 export const createApiEndpoint =
   <T extends ApiOperation>(
     operationId: T,
-    handler: ApiRequestHandler<ApiResponseBody<T>>,
+    handler: ApiRequestHandler<ApiResponseBody<T>, ApiRequestBody<T>>,
   ) =>
   async (
     req: NextRequest,
     ctx: BaseApiRequestContext,
   ): Promise<ApiResponse<ApiResponseBody<T>>> => {
+    const body = await getRequestBody(req)
     const { metadata } =
       Object.entries(contract).find(([key]) => key === operationId)?.[1] ?? {}
 
     try {
-      await validateRequest(operationId, req, ctx)
+      await validateRequest(operationId, req, body)
     } catch (error) {
       return getErrorResponse(error)
     }
 
     const scopes = (metadata?.scopes ?? []) as ApiScope[]
-    const data = await handleRequest<ApiResponseBody<T>>(
+    const data = await handleRequest<ApiResponseBody<T>, ApiRequestBody<T>>(
       req,
       ctx,
       scopes,
       handler,
+      body,
     )
 
     return data

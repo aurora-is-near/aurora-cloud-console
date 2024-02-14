@@ -1,12 +1,10 @@
-import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
 import { TeamMembers } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const GET = apiRequestHandler<TeamMembers>(
   ["admin"],
-  async (_req: NextRequest, ctx: ApiRequestContext) => {
+  async (_req, ctx) => {
     const supabase = createAdminSupabaseClient()
     const { data: team, error: teamError } = await supabase
       .from("teams")

@@ -9,15 +9,16 @@ export type BaseApiRequestContext = {
   }
 }
 
-export type ApiRequestContext = BaseApiRequestContext & {
+type ApiRequestContext<TRequestBody> = BaseApiRequestContext & {
+  body: TRequestBody
   user: ApiUser
   team: Team
 }
 
-export type ApiRequestHandler<Body = unknown> = (
+export type ApiRequestHandler<TResponseBody, TRequestBody> = (
   req: NextRequest,
-  context: ApiRequestContext,
-) => Promise<Body>
+  context: ApiRequestContext<TRequestBody>,
+) => Promise<TResponseBody>
 
 export type ApiOperation = keyof typeof contract
 
@@ -56,6 +57,6 @@ export type ApiErrorResponse = {
   details?: string
 }
 
-export type ApiResponse<Body = unknown> =
-  | NextResponse<Body | ApiErrorResponse>
+export type ApiResponse<TResponseBody> =
+  | NextResponse<TResponseBody | ApiErrorResponse>
   | Response

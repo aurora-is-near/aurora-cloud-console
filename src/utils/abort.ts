@@ -7,7 +7,7 @@ type AbortOptions = {
   detail?: string
 }
 
-export class AbortError extends Error {
+class AbortError extends Error {
   statusCode: number
 
   detail?: string
