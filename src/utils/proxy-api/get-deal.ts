@@ -1,6 +1,6 @@
 import { ProxyApiDealData } from "@/types/deal"
 import { proxyApiClient } from "@/utils/proxy-api/client"
-import { findObjectByVarKey } from "@/utils/proxy-api/find-object-by-var-key"
+import { findVarByKey } from "@/utils/proxy-api/find-var-by-key"
 import { getDealViewOperations } from "@/utils/proxy-api/get-deal-view-operations"
 
 export const getDeal = async (
@@ -16,10 +16,7 @@ export const getDeal = async (
   const responses = result.responses ?? []
 
   return {
-    enabled: !!findObjectByVarKey(
-      `${baseVarKey}::enabled`,
-      "NumberVar",
-      responses,
-    ),
+    enabled: !!findVarByKey(`${baseVarKey}::enabled`, "NumberVar", responses)
+      ?.value,
   }
 }

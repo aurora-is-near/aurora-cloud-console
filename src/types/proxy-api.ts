@@ -49,25 +49,37 @@ export type ProxyApiViewOperation = {
   elements_of_set?: string
 }
 
-type ProxyApiVar = {
+type ProxyApiBaseVar = {
   template: string
   time_meta: {
     creation_time: string
     last_write: string
     last_touch: string
   }
+}
+
+type ProxyApiPrimitiveVar = ProxyApiBaseVar & {
   value: string
+}
+
+type ProxyApiSetVar = ProxyApiBaseVar & {
   last_reset?: string
+  internal_id?: number
+  length?: number
 }
 
 export type ProxyApiObjectVarTypes = {
-  StringVar: string
-  NumberVar: number
+  StringVar: ProxyApiPrimitiveVar
+  NumberVar: ProxyApiPrimitiveVar
+  SetVar: ProxyApiSetVar
 }
 
 type ProxyApiObject = {
   key: string
-  Data: Record<keyof ProxyApiObjectVarTypes, ProxyApiVar>
+  Data: Record<
+    keyof ProxyApiObjectVarTypes,
+    ProxyApiPrimitiveVar | ProxyApiSetVar
+  >
 }
 
 export type ProxyApiResponseObject = {
