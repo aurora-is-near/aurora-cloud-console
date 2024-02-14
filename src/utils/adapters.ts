@@ -65,5 +65,4 @@ export const adaptList = (list: List): ListSchema => ({
   id: list.id,
   createdAt: list.created_at,
   name: list.name,
-  teamId: list.team_id,
 })

@@ -103,35 +103,6 @@ export type Database = {
           }
         ]
       }
-      list_items: {
-        Row: {
-          created_at: string
-          id: number
-          list_id: number | null
-          value: string
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          list_id?: number | null
-          value: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          list_id?: number | null
-          value?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "list_items_list_id_fkey"
-            columns: ["list_id"]
-            isOneToOne: false
-            referencedRelation: "lists"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       lists: {
         Row: {
           created_at: string

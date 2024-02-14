@@ -5,10 +5,11 @@ import SearchInput from "./SearchInput"
 import { ListItemsTable } from "./ListItemsTable"
 import TableLoader from "@/components/TableLoader"
 import { useSearchParams } from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
-import { getQueryFnAndKey } from "@/utils/api/queries"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import { EditListButton } from "@/app/(dashboard)/lists/EditListButton"
 import { ImportListItemsButton } from "@/app/(dashboard)/lists/ImportListItemsButton"
+import { apiClient } from "@/utils/api/client"
+import { getQueryKey } from "@/utils/api/query-keys"
 
 const PER_PAGE = 20
 
@@ -19,16 +20,23 @@ type ListItemsListProps = {
 
 export const ListItems = ({ title, listId }: ListItemsListProps) => {
   const searchParams = useSearchParams()
-  const page = Number(searchParams.get("page") ?? 1)
   const search = searchParams.get("search") ?? ""
 
-  const { data, isLoading } = useQuery(
-    getQueryFnAndKey("getListItems", {
-      limit: PER_PAGE,
-      offset: (page - 1) * PER_PAGE,
-      id: listId,
-    }),
-  )
+  const { data, isLoading, fetchNextPage } = useInfiniteQuery({
+    queryFn: ({ pageParam: cursor }) =>
+      apiClient.getListItems({ id: listId, limit: PER_PAGE, cursor }),
+    queryKey: getQueryKey("getListItems", { id: listId, limit: PER_PAGE }),
+    getNextPageParam: (lastPage, allPages) => {
+      const hasMore = allPages.length * PER_PAGE < lastPage.total
+      const lastItem = lastPage.items[lastPage.items.length - 1]
+
+      return hasMore ? lastItem : undefined
+    },
+    initialPageParam: "",
+  })
+
+  const total = data?.pages[0]?.total ?? 0
+  const listItems = data?.pages.flatMap((page) => page.items) ?? []
 
   return (
     <div className="space-y-6">
@@ -36,7 +44,7 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
         <div className="flex space-x-3.5">
           <Heading tag="h2">{title}</Heading>
           <Heading tag="span" textColorClassName="text-gray-400">
-            {data?.total.toLocaleString()}
+            {total.toLocaleString()}
           </Heading>
         </div>
         <div className="flex items-start sm:flex-row flex-col-reverse gap-3">
@@ -54,9 +62,10 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
           <TableLoader />
         ) : (
           <ListItemsTable
-            listItems={data.items}
-            total={data.total}
-            itemsPerPage={PER_PAGE}
+            listItems={listItems}
+            total={total}
+            perPage={PER_PAGE}
+            onLoadMoreClick={fetchNextPage}
           />
         )}
       </section>

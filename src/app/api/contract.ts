@@ -10,7 +10,6 @@ export const ListSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
   name: z.string(),
-  teamId: z.number(),
 })
 
 export const SimpleListSchema = z.object({
@@ -300,7 +299,7 @@ export const contract = c.router({
     },
     query: z.object({
       limit: z.number().optional(),
-      offset: z.number().optional(),
+      cursor: z.string().optional(),
     }),
     pathParams: z.object({
       id: z.number(),

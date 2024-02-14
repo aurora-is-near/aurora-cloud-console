@@ -11,12 +11,14 @@ export const GET = createApiEndpoint(
   "getList",
   async (_req: NextRequest, ctx: ApiRequestContext) => {
     const supabase = createAdminSupabaseClient()
-    const { data: list } = await supabase
-      .from("lists")
-      .select("*")
-      .eq("id", Number(ctx.params.id))
-      .eq("team_id", ctx.team.id)
-      .maybeSingle()
+    const [{ data: list }] = await Promise.all([
+      supabase
+        .from("lists")
+        .select("*")
+        .eq("id", Number(ctx.params.id))
+        .eq("team_id", ctx.team.id)
+        .maybeSingle(),
+    ])
 
     if (!list) {
       abort(404)

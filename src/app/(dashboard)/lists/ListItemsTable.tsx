@@ -9,17 +9,20 @@ import { useQueryState } from "next-usequerystate"
 import DropdownMenu from "@/components/DropdownMenu"
 import { InformationCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { isWalletAddress } from "@/utils/wallets"
+import Button from "@/components/Button"
 
 type ListItemsTableProps = {
   listItems: string[]
   total: number
-  itemsPerPage: number
+  perPage: number
+  onLoadMoreClick: () => void
 }
 
 export const ListItemsTable = ({
   listItems,
+  onLoadMoreClick,
   total,
-  itemsPerPage,
+  perPage,
 }: ListItemsTableProps) => {
   const { id } = useParams()
   const { openModal } = useModals()
@@ -73,7 +76,13 @@ export const ListItemsTable = ({
           )
         })}
       </Table>
-      <Pagination itemsPerPage={itemsPerPage} total={total} />
+      {listItems.length < total && (
+        <div className="flex justify-center w-full mt-8">
+          <Button style="secondary" onClick={onLoadMoreClick}>
+            Load {Math.min(perPage, total - listItems.length)} more
+          </Button>
+        </div>
+      )}
     </>
   )
 }

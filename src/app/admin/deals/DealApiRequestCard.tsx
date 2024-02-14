@@ -41,11 +41,11 @@ export const DealApiRequestCard = ({ id }: DealApiRequestCardProps) => {
         )}
         .
       </Card.Subtitle>
-      <div className="px-6 pb-7">
+      <Card.Body>
         <pre>
           <code>{deal ? JSON.stringify(deal, null, 2) : null}</code>
         </pre>
-      </div>
+      </Card.Body>
     </Card>
   )
 }

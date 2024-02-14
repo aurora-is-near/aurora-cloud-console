@@ -5,10 +5,9 @@ const DEFAULT_LIMIT = 20
 const MAX_LIMIT = 100
 const DEFAULT_OFFSET = 0
 
-export const getLimitAndOffset = (req: NextRequest) => {
+const getLimit = (req: NextRequest) => {
   const { searchParams } = req.nextUrl
   const limit = Number(searchParams.get("limit") ?? DEFAULT_LIMIT)
-  const offset = Number(searchParams.get("offset") ?? DEFAULT_OFFSET)
 
   if (Number.isNaN(limit)) {
     abort(400, "Limit must be a number")
@@ -18,9 +17,25 @@ export const getLimitAndOffset = (req: NextRequest) => {
     abort(400, "Limit must be less than or equal to 100")
   }
 
+  return limit
+}
+
+export const getLimitAndOffset = (req: NextRequest) => {
+  const { searchParams } = req.nextUrl
+  const limit = getLimit(req)
+  const offset = Number(searchParams.get("offset") ?? DEFAULT_OFFSET)
+
   if (Number.isNaN(offset)) {
     abort(400, "Offset must be a number")
   }
 
   return { limit, offset }
+}
+
+export const getLimitAndCursor = (req: NextRequest) => {
+  const { searchParams } = req.nextUrl
+  const limit = getLimit(req)
+  const cursor = searchParams.get("cursor")
+
+  return { limit, cursor }
 }
