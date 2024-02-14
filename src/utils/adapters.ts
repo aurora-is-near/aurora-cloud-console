@@ -1,3 +1,4 @@
+import { LIST_TYPES } from "@/constants/lists"
 import {
   DealSchema,
   ListSchema,
@@ -5,6 +6,7 @@ import {
   SimpleListSchema,
 } from "@/types/api-schemas"
 import { ProxyApiDealData } from "@/types/deal"
+import { ListType } from "@/types/lists"
 import { Deal, List, Silo } from "@/types/types"
 
 const getIsoString = (date: number | null) => {
@@ -40,12 +42,13 @@ export const adaptDeal = (
   enabled: proxyApiDeal.enabled,
   startTime: getIsoString(deal.start_time),
   endTime: getIsoString(deal.end_time),
-  lists: {
-    chainFilter: getRelatedList(lists, deal.chain_filter_list_id),
-    contractFilter: getRelatedList(lists, deal.contract_filter_list_id),
-    eoaFilter: getRelatedList(lists, deal.eoa_filter_list_id),
-    eoaBlacklist: getRelatedList(lists, deal.eoa_blacklist_list_id),
-  },
+  lists: LIST_TYPES.reduce(
+    (acc, listType) => ({
+      ...acc,
+      [listType]: getRelatedList(lists, proxyApiDeal.lists[listType]),
+    }),
+    {} as Record<ListType, SimpleListSchema | null>,
+  ),
 })
 
 export const adaptSilo = (silo: Silo): SiloSchema => ({

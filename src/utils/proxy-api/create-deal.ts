@@ -1,3 +1,5 @@
+import { LIST_TYPES } from "@/constants/lists"
+import { ProxyApiUpateOperation } from "@/types/proxy-api"
 import { proxyApiClient } from "@/utils/proxy-api/client"
 
 type ProxyApiDealInputs = {
@@ -167,62 +169,16 @@ export const createDeal = async (
       var_key: `${baseDealKey}::enableUserPrepaidTx`,
       template_key: "template::deal::acc::featureFlag",
     },
-    {
-      // This variable will be used for linking arbitrary list as chain filter.
-      // Empty by default (means no list is selected). Can be modified later.
-      op_type: "set",
-      var_type: "string",
-      var_key: `${baseDealKey}::chainFilter`,
-      template_key: "template::deal::acc::pointer",
-    },
-    {
-      // This variable will be used for linking arbitrary list as contract filter.
-      // Empty by default (means no list is selected). Can be modified later.
-      op_type: "set",
-      var_type: "string",
-      var_key: `${baseDealKey}::contractFilter`,
-      template_key: "template::deal::acc::pointer",
-    },
-    {
-      // This variable will be used for linking arbitrary list as a list with revoked tokens.
-      // Empty by default (means no list is selected). Can be modified later.
-      op_type: "set",
-      var_type: "string",
-      var_key: `${baseDealKey}::revokedTokens`,
-      template_key: "template::deal::acc::pointer",
-    },
-    {
-      // This variable will be used for linking arbitrary list as userid filter.
-      // Empty by default (means no list is selected). Can be modified later.
-      op_type: "set",
-      var_type: "string",
-      var_key: `${baseDealKey}::userIdFilter`,
-      template_key: "template::deal::acc::pointer",
-    },
-    {
-      // This variable will be used for linking arbitrary list as userid blacklist.
-      // Empty by default (means no list is selected). Can be modified later.
-      op_type: "set",
-      var_type: "string",
-      var_key: `${baseDealKey}::userIdBlacklist`,
-      template_key: "template::deal::acc::pointer",
-    },
-    {
-      // This variable will be used for linking arbitrary list as EOA blacklist.
-      // Empty by default (means no list is selected). Can be modified later.
-      op_type: "set",
-      var_type: "string",
-      var_key: `${baseDealKey}::eoaBlacklist`,
-      template_key: "template::deal::acc::pointer",
-    },
-    {
-      // This variable will be used for linking arbitrary list as auto-subscription list.
-      // Empty by default (means no list is selected). Can be modified later.
-      op_type: "set",
-      var_type: "string",
-      var_key: `${baseDealKey}::autoSubList`,
-      template_key: "template::deal::acc::pointer",
-    },
+    // These variablse will be used for linking arbitrary list as a list of this
+    // type. Empty by default (means no list is selected). Can be modified later.
+    ...LIST_TYPES.map(
+      (listType): ProxyApiUpateOperation => ({
+        op_type: "set",
+        var_type: "string",
+        var_key: `${baseDealKey}::${listType}`,
+        template_key: "template::deal::acc::pointer",
+      }),
+    ),
     {
       // This variable will control maximum total tx for user (if such restriction is enabled).
       // 0 by default. Can be modified later.
