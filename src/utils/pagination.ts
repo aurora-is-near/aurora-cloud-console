@@ -9,10 +9,6 @@ const getLimit = (req: NextRequest) => {
   const { searchParams } = req.nextUrl
   const limit = Number(searchParams.get("limit") ?? DEFAULT_LIMIT)
 
-  if (Number.isNaN(limit)) {
-    abort(400, "Limit must be a number")
-  }
-
   if (limit > MAX_LIMIT) {
     abort(400, "Limit must be less than or equal to 100")
   }
@@ -24,10 +20,6 @@ export const getLimitAndOffset = (req: NextRequest) => {
   const { searchParams } = req.nextUrl
   const limit = getLimit(req)
   const offset = Number(searchParams.get("offset") ?? DEFAULT_OFFSET)
-
-  if (Number.isNaN(offset)) {
-    abort(400, "Offset must be a number")
-  }
 
   return { limit, offset }
 }

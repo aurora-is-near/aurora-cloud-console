@@ -1,6 +1,4 @@
-import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
 import { ApiUser, Team } from "@/types/types"
 import { abort } from "@/utils/abort"
 
@@ -95,14 +93,11 @@ const submitForm = async (
   }
 }
 
-export const POST = apiRequestHandler(
-  ["admin"],
-  async (req: NextRequest, ctx: ApiRequestContext) => {
-    const { user } = ctx
-    const { subject, message, pageUri } = await req.json()
+export const POST = apiRequestHandler(["admin"], async (_req, ctx) => {
+  const { user } = ctx
+  const { subject, message, pageUri } = ctx.body as Record<string, string>
 
-    await submitForm(user, ctx.team, subject, message, pageUri)
+  await submitForm(user, ctx.team, subject, message, pageUri)
 
-    return { status: "OK" }
-  },
-)
+  return { status: "OK" }
+})

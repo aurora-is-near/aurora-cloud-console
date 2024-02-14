@@ -1,71 +1,64 @@
-import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
+import { PublicApiScope } from "@/types/types"
 
-export const GET = apiRequestHandler(
-  ["admin"],
-  async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const apiKeyId = ctx.params.id
+export const GET = apiRequestHandler(["admin"], async (_req, ctx) => {
+  const apiKeyId = ctx.params.id
 
-    const supabase = createAdminSupabaseClient()
-    const result = await supabase
-      .from("api_keys")
-      .select()
-      .eq("id", apiKeyId)
-      .eq("user_id", ctx.user.user_id)
-      .select()
-      .single()
+  const supabase = createAdminSupabaseClient()
+  const result = await supabase
+    .from("api_keys")
+    .select()
+    .eq("id", apiKeyId)
+    .eq("user_id", ctx.user.user_id)
+    .select()
+    .single()
 
-    assertValidSupabaseResult(result)
+  assertValidSupabaseResult(result)
 
-    return result.data
-  },
-)
+  return result.data
+})
 
-export const PUT = apiRequestHandler(
-  ["admin"],
-  async (req: NextRequest, ctx: ApiRequestContext) => {
-    const apiKeyId = ctx.params.id
-    const body = await req.json()
+export const PUT = apiRequestHandler(["admin"], async (_req, ctx) => {
+  const apiKeyId = ctx.params.id
+  const { note, scopes } = ctx.body as {
+    note: string
+    scopes: PublicApiScope[]
+  }
 
-    const supabase = createAdminSupabaseClient()
-    const result = await supabase
-      .from("api_keys")
-      .update({
-        note: body.note,
-        scopes: body.scopes,
-      })
-      .eq("id", apiKeyId)
-      .eq("user_id", ctx.user.user_id)
-      .select()
-      .single()
+  const supabase = createAdminSupabaseClient()
+  const result = await supabase
+    .from("api_keys")
+    .update({
+      note,
+      scopes,
+    })
+    .eq("id", apiKeyId)
+    .eq("user_id", ctx.user.user_id)
+    .select()
+    .single()
 
-    assertValidSupabaseResult(result)
-    assertNonNullSupabaseResult(result)
+  assertValidSupabaseResult(result)
+  assertNonNullSupabaseResult(result)
 
-    return result.data
-  },
-)
+  return result.data
+})
 
-export const DELETE = apiRequestHandler(
-  ["admin"],
-  async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const apiKeyId = ctx.params.id
+export const DELETE = apiRequestHandler(["admin"], async (_req, ctx) => {
+  const apiKeyId = ctx.params.id
 
-    const supabase = createAdminSupabaseClient()
-    const result = await supabase
-      .from("api_keys")
-      .delete()
-      .eq("id", apiKeyId)
-      .eq("user_id", ctx.user.user_id)
+  const supabase = createAdminSupabaseClient()
+  const result = await supabase
+    .from("api_keys")
+    .delete()
+    .eq("id", apiKeyId)
+    .eq("user_id", ctx.user.user_id)
 
-    assertValidSupabaseResult(result)
+  assertValidSupabaseResult(result)
 
-    return { status: "OK" }
-  },
-)
+  return { status: "OK" }
+})

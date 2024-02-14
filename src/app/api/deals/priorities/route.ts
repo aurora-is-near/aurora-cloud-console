@@ -1,61 +1,56 @@
-import { NextRequest } from "next/server"
 import { createApiEndpoint } from "@/utils/api"
 import { abort } from "../../../../utils/abort"
 import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
-import { ApiRequestBody, ApiRequestContext } from "@/types/api"
+import { ApiRequestBody } from "@/types/api"
 import { ProxyApiUpateOperation } from "@/types/proxy-api"
 
-export const GET = createApiEndpoint(
-  "getDealPriorities",
-  async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const supabase = createAdminSupabaseClient()
+export const GET = createApiEndpoint("getDealPriorities", async (_req, ctx) => {
+  const supabase = createAdminSupabaseClient()
 
-    const result = await supabase
-      .from("deals")
-      .select("id, name, priority, team_id")
-      .order("priority", { ascending: true })
-      .eq("team_id", ctx.team.id)
+  const result = await supabase
+    .from("deals")
+    .select("id, name, priority, team_id")
+    .order("priority", { ascending: true })
+    .eq("team_id", ctx.team.id)
 
-    assertValidSupabaseResult(result)
+  assertValidSupabaseResult(result)
 
-    if (!result.data) {
-      abort(404)
-    }
+  if (!result.data) {
+    abort(404)
+  }
 
-    // TODO: Use this instead of the ACC column (which should be deleted
-    // when the proxy API is ready)
-    await proxyApiClient.view([
-      {
-        // Will return array with all elements of priority list
-        elements_of_set: `deal::acc::customers::${ctx.team.id}::dealPrios`,
-        keys_only: true,
-      },
-      {
-        // Will return array with all priority -> id pointers and their values
-        var_type: "string",
-        begin_key: `deal::acc::customers::${ctx.team.id}::dealByPrio::0`,
-        end_key: `deal::acc::customers::${ctx.team.id}::dealByPrio::999999`,
-      },
-    ])
+  // TODO: Use this instead of the ACC column (which should be deleted
+  // when the proxy API is ready)
+  await proxyApiClient.view([
+    {
+      // Will return array with all elements of priority list
+      elements_of_set: `deal::acc::customers::${ctx.team.id}::dealPrios`,
+      keys_only: true,
+    },
+    {
+      // Will return array with all priority -> id pointers and their values
+      var_type: "string",
+      begin_key: `deal::acc::customers::${ctx.team.id}::dealByPrio::0`,
+      end_key: `deal::acc::customers::${ctx.team.id}::dealByPrio::999999`,
+    },
+  ])
 
-    return {
-      items: result.data.map((deal) => ({
-        dealId: deal.id,
-        name: deal.name,
-        priority: deal.priority,
-      })),
-    }
-  },
-)
+  return {
+    items: result.data.map((deal) => ({
+      dealId: deal.id,
+      name: deal.name,
+      priority: deal.priority,
+    })),
+  }
+})
 
 export const PUT = createApiEndpoint(
   "updateDealPriorities",
-  async (req: NextRequest, ctx: ApiRequestContext) => {
+  async (req, ctx) => {
     const supabase = createAdminSupabaseClient()
-    const { priorities } =
-      (await req.json()) as ApiRequestBody<"updateDealPriorities">
+    const { priorities } = ctx.body
 
     const result = await supabase
       .from("deals")
