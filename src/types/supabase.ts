@@ -49,13 +49,9 @@ export type Database = {
       }
       deals: {
         Row: {
-          chain_filter_list_id: number | null
-          contract_filter_list_id: number | null
           created_at: string
           demo_key: string | null
           end_time: number | null
-          eoa_blacklist_list_id: number | null
-          eoa_filter_list_id: number | null
           id: number
           name: string
           priority: string
@@ -64,13 +60,9 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          chain_filter_list_id?: number | null
-          contract_filter_list_id?: number | null
           created_at?: string
           demo_key?: string | null
           end_time?: number | null
-          eoa_blacklist_list_id?: number | null
-          eoa_filter_list_id?: number | null
           id?: number
           name: string
           priority: string
@@ -79,13 +71,9 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          chain_filter_list_id?: number | null
-          contract_filter_list_id?: number | null
           created_at?: string
           demo_key?: string | null
           end_time?: number | null
-          eoa_blacklist_list_id?: number | null
-          eoa_filter_list_id?: number | null
           id?: number
           name?: string
           priority?: string

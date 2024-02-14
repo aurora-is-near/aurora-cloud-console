@@ -69,11 +69,7 @@ export const PUT = createApiEndpoint("updateDeal", async (req, ctx) => {
     contractFilterListId,
     eoaFilterListId,
     eoaBlacklistListId,
-  } = (await req.json()) as ApiRequestBody<"updateDeal">
-
-  if (typeof enabled !== "undefined" && typeof enabled !== "boolean") {
-    abort(400, "Invalid request body: enabled must be a boolean")
-  }
+  } = ctx.body
 
   const [listsResult, dealsResult] = await Promise.all([
     supabase.from("lists").select("*").eq("team_id", ctx.team.id),

@@ -1,3 +1,4 @@
+import { ListMap, ListType } from "@/types/lists"
 import { ProxyApiUpateOperation } from "@/types/proxy-api"
 
 const getTimeOperations = (
@@ -41,40 +42,14 @@ const getTimeOperations = (
 const getListOperations = (
   varKey: string,
   listId?: number | null,
-): ProxyApiUpateOperation[] => {
-  // Unlink the list if null is provided
-  // https://github.com/aurora-is-near/bb-rules/tree/acc-deal/docs/acc#unlinking-list
-  if (listId === null) {
-    return [
-      {
-        op_type: "unset",
-        var_type: "string",
-        var_key: varKey,
-      },
-    ]
-  }
-
-  // Link the list to the deal if an ID is provided
-  // https://github.com/aurora-is-near/bb-rules/tree/acc-deal/docs/acc#linking-list
-  if (typeof listId === "number") {
-    return [
-      {
-        op_type: "set",
-        var_type: "string",
-        var_key: varKey,
-        template_key: "template::deal::acc::pointer",
-      },
-      {
-        op_type: "set_value",
-        var_type: "string",
-        var_key: varKey,
-        string_value: String(listId),
-      },
-    ]
-  }
-
-  return []
-}
+): ProxyApiUpateOperation[] => [
+  {
+    op_type: listId ? "set_value" : "unset",
+    var_type: "string",
+    var_key: varKey,
+    string_value: listId ? String(listId) : undefined,
+  },
+]
 
 const getEnabledOperations = (
   varKey: string,
@@ -108,12 +83,7 @@ export const getDealUpdateOperations = (
     enabled?: boolean
     startTime?: number | null
     endTime?: number | null
-    lists: {
-      chainFilter?: number | null
-      contractFilter?: number | null
-      eoaFilter?: number | null
-      eoaBlacklist?: number | null
-    }
+    lists: Partial<ListMap>
   },
 ): ProxyApiUpateOperation[] => {
   const baseVarKey = `deal::acc::customers::${customerId}::deals::${dealId}`
