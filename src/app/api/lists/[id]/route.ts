@@ -32,11 +32,6 @@ export const PUT = createApiEndpoint(
   "updateList",
   async (req: NextRequest, ctx: ApiRequestContext) => {
     const { name } = (await req.json()) as ApiRequestBody<"updateList">
-
-    if (!name) {
-      abort(400, "Name is required")
-    }
-
     const supabase = createAdminSupabaseClient()
     const result = await supabase
       .from("lists")

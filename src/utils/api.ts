@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { ApiScope } from "@/types/types"
 import httpStatus from "http-status"
 import { toError } from "./errors"
-import { abortIfUnauthorised, isAbortError } from "./abort"
+import { abort, abortIfUnauthorised, isAbortError } from "./abort"
 import { kebabCase } from "change-case"
 import { getCurrentTeam } from "@/utils/current-team"
 import {
@@ -15,6 +15,9 @@ import {
   BaseApiRequestContext,
 } from "@/types/api"
 import { contract } from "@/app/api/contract"
+import { openApiDocument } from "@/app/api/openapi-document"
+import OpenAPIRequestValidator from "openapi-request-validator"
+import { OpenAPIV3 } from "openapi-types"
 
 /**
  * Get the specific type of error.
@@ -86,6 +89,82 @@ export const apiRequestHandler =
   async (req: NextRequest, ctx: BaseApiRequestContext) =>
     handleRequest(req, ctx, scopes, handler)
 
+const getOperations = () => {
+  const operations: OpenAPIV3.OperationObject[] = []
+
+  Object.values(openApiDocument.paths).forEach(
+    (path: OpenAPIV3.PathItemObject) => {
+      operations.push(
+        ...[path.get, path.put, path.post, path.delete].filter(
+          (item): item is OpenAPIV3.OperationObject => !!item,
+        ),
+      )
+    },
+  )
+
+  return operations
+}
+
+const getOperation = <T extends ApiOperation>(operationId: T) => {
+  const operations = getOperations()
+
+  return operations.find((operation) => operation.operationId === operationId)
+}
+
+const isParameterObject = (
+  param: OpenAPIV3.ParameterObject | OpenAPIV3.ReferenceObject,
+): param is OpenAPIV3.ParameterObject => "name" in param
+
+const isRequestBodyObject = (
+  body?: OpenAPIV3.RequestBodyObject | OpenAPIV3.ReferenceObject,
+): body is OpenAPIV3.RequestBodyObject => !!body && "content" in body
+
+const getSearchParamsObject = (req: NextRequest) => {
+  const obj: Record<string, unknown> = {}
+
+  for (const [key, value] of req.nextUrl.searchParams) {
+    obj[key] = value
+  }
+
+  return obj
+}
+
+/**
+ * Validate the request against the OpenAPI contract.
+ */
+const validateRequest = async <T extends ApiOperation>(
+  operationId: T,
+  req: NextRequest,
+  ctx: BaseApiRequestContext,
+) => {
+  const operation = getOperation(operationId)
+
+  if (!operation) {
+    throw new Error(`Operation "${operationId}" not found`)
+  }
+
+  const requestValidator = new OpenAPIRequestValidator({
+    requestBody: isRequestBodyObject(operation.requestBody)
+      ? operation.requestBody
+      : undefined,
+    parameters:
+      operation.parameters
+        ?.filter(isParameterObject)
+        .filter((param) => param.in === "query") ?? [],
+  })
+
+  const error = requestValidator.validateRequest({
+    headers: req.headers,
+    body: operation.requestBody,
+    query: getSearchParamsObject(req),
+  })
+
+  // Will abort with "limit must be a number", for example
+  if (error) {
+    abort(error.status, `${error.errors[0].path} ${error.errors[0].message}`)
+  }
+}
+
 /**
  * Create an authenticated API endpoint based on an operation from the contract.
  */
@@ -100,6 +179,12 @@ export const createApiEndpoint =
   ): Promise<ApiResponse<ApiResponseBody<T>>> => {
     const { metadata } =
       Object.entries(contract).find(([key]) => key === operationId)?.[1] ?? {}
+
+    try {
+      await validateRequest(operationId, req, ctx)
+    } catch (error) {
+      return getErrorResponse(error)
+    }
 
     const scopes = (metadata?.scopes ?? []) as ApiScope[]
     const data = await handleRequest<ApiResponseBody<T>>(
