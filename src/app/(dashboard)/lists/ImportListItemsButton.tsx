@@ -3,7 +3,7 @@
 import Button from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { ArrowUpTrayIcon, Cog6ToothIcon } from "@heroicons/react/20/solid"
+import { ArrowUpTrayIcon } from "@heroicons/react/20/solid"
 import { useQueryState } from "next-usequerystate"
 
 type ImportListItemsButtonProps = {

@@ -8,7 +8,7 @@ export const getTeams = async (): Promise<Team[]> => {
   const { data } = await supabase
     .from("teams")
     .select("*")
-    .order("created_at", { ascending: true })
+    .order("id", { ascending: true })
 
   return data ?? []
 }

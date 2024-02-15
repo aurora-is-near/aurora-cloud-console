@@ -8,7 +8,7 @@ export const getTeamSilos = async (teamId: number): Promise<Silo[]> => {
   const { data: silos } = await supabase
     .from("silos")
     .select("*, teams!inner(id)")
-    .order("created_at", { ascending: true })
+    .order("id", { ascending: true })
     .eq("teams.id", teamId)
 
   return silos ?? []

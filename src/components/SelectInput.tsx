@@ -33,12 +33,12 @@ export type SelectInputProps<Inputs extends Record<string, unknown>> = {
   | {
       isMulti: true
       defaultValue?: SelectInputOption[]
-      getValue: (options: SelectInputOption[]) => unknown
+      getValue?: (options: SelectInputOption[]) => unknown
     }
   | {
       isMulti?: never
       defaultValue?: SelectInputOption
-      getValue: (option?: SelectInputOption) => unknown
+      getValue?: (option?: SelectInputOption) => unknown
     }
 )
 
@@ -107,7 +107,9 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
   registerOptions,
   options,
   defaultValue,
-  getValue,
+  getValue = (
+    option?: MultiValue<SelectInputOption> | SingleValue<SelectInputOption>,
+  ) => option,
   ...restProps
 }: SelectInputProps<Inputs>) => {
   const [selectedOption, setSelectedOption] = useState<

@@ -1,6 +1,4 @@
-import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
@@ -11,7 +9,7 @@ import { getTeamDeal } from "@/actions/admin/team-deals/get-team-deal"
 
 export const GET = apiRequestHandler<DealTransactionCharts>(
   ["transactions:read"],
-  async (req: NextRequest, ctx: ApiRequestContext) => {
+  async (req, ctx) => {
     const interval = req.nextUrl.searchParams.get("interval")
 
     const [silos, deal] = await Promise.all([

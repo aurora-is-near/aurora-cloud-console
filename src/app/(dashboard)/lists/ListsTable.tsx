@@ -1,7 +1,11 @@
 "use client"
 
 import Table from "@/components/Table"
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
+import {
+  ArrowUpTrayIcon,
+  PencilSquareIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline"
 import { AddListButton } from "./AddListButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
@@ -23,6 +27,11 @@ export const ListsTable = () => {
     openModal(Modals.EditList)
   }
 
+  const onImportListItemsClick = (id: number) => {
+    setId(String(id))
+    openModal(Modals.ImportListItems)
+  }
+
   const onDeleteClick = (id: number) => {
     setId(String(id))
     openModal(Modals.DeleteList)
@@ -36,7 +45,7 @@ export const ListsTable = () => {
     return (
       <NoDataCta
         title="No lists"
-        description="Get started by creating a your first list."
+        description="Get started by creating your first list."
         className="mt-20"
         Icon={ListBulletIcon}
       >
@@ -62,6 +71,13 @@ export const ListsTable = () => {
                   text: "Edit",
                   onClick: () => {
                     onEditListClick(list.id)
+                  },
+                },
+                {
+                  Icon: ArrowUpTrayIcon,
+                  text: "Import",
+                  onClick: () => {
+                    onImportListItemsClick(list.id)
                   },
                 },
                 {

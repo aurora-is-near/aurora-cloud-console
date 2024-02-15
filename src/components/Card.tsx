@@ -25,6 +25,11 @@ const Actions = ({ children }: { children: ReactNode }) => (
 )
 Actions.displayName = "Actions"
 
+const Body = ({ children }: { children: ReactNode }) => (
+  <div className="px-6 pb-7">{children}</div>
+)
+Body.displayName = "Body"
+
 const Card = ({
   className,
   bgClassName = "bg-white",
@@ -64,5 +69,6 @@ const Card = ({
 Card.Title = Title
 Card.Subtitle = Subtitle
 Card.Actions = Actions
+Card.Body = Body
 
 export default Card

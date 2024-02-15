@@ -1,6 +1,4 @@
-import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
 import { ApiUser, Team } from "@/types/types"
 import { abort } from "@/utils/abort"
 
@@ -33,6 +31,29 @@ const submitForm = async (
     return
   }
 
+  const optionalFields = [
+    {
+      objectTypeId: "0-1",
+      name: "email",
+      value: user.email,
+    },
+    {
+      objectTypeId: "0-1",
+      name: "firstname",
+      value: user.name,
+    },
+    {
+      objectTypeId: "0-2",
+      name: "name",
+      value: team.name,
+    },
+    {
+      objectTypeId: "0-2",
+      name: "domain",
+      value: team.website,
+    },
+  ].filter((field) => !!field.value)
+
   const res = await fetch(
     `https://api.hsforms.com/submissions/v3/integration/secure/submit/${portalId}/${contactFormGuid}`,
     {
@@ -45,26 +66,7 @@ const submitForm = async (
       body: JSON.stringify({
         submittedAt: Date.now(),
         fields: [
-          {
-            objectTypeId: "0-1",
-            name: "email",
-            value: user.email,
-          },
-          {
-            objectTypeId: "0-1",
-            name: "firstname",
-            value: user.name,
-          },
-          {
-            objectTypeId: "0-2",
-            name: "name",
-            value: team.name,
-          },
-          {
-            objectTypeId: "0-2",
-            name: "domain",
-            value: team.website,
-          },
+          ...optionalFields,
           {
             objectTypeId: "0-1",
             name: "subject",
@@ -75,7 +77,7 @@ const submitForm = async (
             name: "message",
             value: message,
           },
-        ],
+        ].filter((field) => !!field.value),
         context: {
           pageUri,
         },
@@ -91,14 +93,11 @@ const submitForm = async (
   }
 }
 
-export const POST = apiRequestHandler(
-  ["admin"],
-  async (req: NextRequest, ctx: ApiRequestContext) => {
-    const { user } = ctx
-    const { subject, message, pageUri } = await req.json()
+export const POST = apiRequestHandler(["admin"], async (_req, ctx) => {
+  const { user } = ctx
+  const { subject, message, pageUri } = ctx.body as Record<string, string>
 
-    await submitForm(user, ctx.team, subject, message, pageUri)
+  await submitForm(user, ctx.team, subject, message, pageUri)
 
-    return { status: "OK" }
-  },
-)
+  return { status: "OK" }
+})

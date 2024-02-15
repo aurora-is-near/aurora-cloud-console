@@ -68,11 +68,8 @@ import { NextRequest } from "next/server"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { ApiRequestContext, createApiEndpoint } from "@/utils/api"
 
-export const PATCH = createApiEndpoint('updateThing', async (
-  req: NextRequest,
-  ctx: ApiRequestContext
-) => {
-  const { name } = await req.json();
+export const PATCH = createApiEndpoint('updateThing', async (_req, ctx) => {
+  const { name } = ctx.body
   const supabase = createAdminSupabaseClient()
 
   const { error } = await supabase
@@ -146,6 +143,16 @@ invite other users to the team.
 
 In development we can set the `DEFAULT_TEAM_KEY` environment variable in order
 to switch between teams (rather than relying on subdomains).
+
+### Debugging
+
+The `DEBUG` environment variable can be used to enable various namespaced debug
+logs. For example, to view logs of all Proxy API requests and responses you can
+add `DEBUG=proxy-api` to your local environment variables.
+
+This functionality is enabled via the [debug](https://www.npmjs.com/package/debug)
+package. At the time of writing the available namespaces can be found in the
+`src/debug.ts` file.
 
 ### Admin access
 

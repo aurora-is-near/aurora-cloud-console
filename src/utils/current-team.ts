@@ -8,7 +8,9 @@ const findTeamDetails = (teams: Team[], key?: string): Team | null =>
 /**
  * Get the team associated with the current subdomain.
  */
-export const getCurrentTeam = async (headers: Headers) => {
+export const findCurrentTeam = async (
+  headers: Headers,
+): Promise<Team | null> => {
   const { data: teams } = await createAdminSupabaseClient()
     .from("teams")
     .select("*")
@@ -19,17 +21,32 @@ export const getCurrentTeam = async (headers: Headers) => {
 
   const subdomain = getSubdomain(headers)
   const teamForSubdomain = findTeamDetails(teams, subdomain)
-  const defaultTeam = findTeamDetails(teams, process.env.DEFAULT_TEAM_KEY)
+  const defaultTeam =
+    process.env.VERCEL_ENV !== "production" &&
+    findTeamDetails(teams, process.env.DEFAULT_TEAM_KEY)
 
   if (teamForSubdomain) {
     return teamForSubdomain
   }
 
   if (!defaultTeam) {
+    return null
+  }
+
+  return defaultTeam
+}
+
+/**
+ * Get the team associated with the current subdomain.
+ */
+export const getCurrentTeam = async (headers: Headers): Promise<Team> => {
+  const currentTeam = await findCurrentTeam(headers)
+
+  if (!currentTeam) {
     throw new Error(
       "No team or default team could be established for the current request",
     )
   }
 
-  return defaultTeam
+  return currentTeam
 }

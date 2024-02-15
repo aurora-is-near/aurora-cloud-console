@@ -1,6 +1,4 @@
-import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
 import { SiloTransactionCharts } from "../../../../types/types"
 import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
 import { getTransactionsChart } from "../../../../utils/transactions"
@@ -8,7 +6,7 @@ import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
 
 export const GET = apiRequestHandler<SiloTransactionCharts>(
   ["transactions:read"],
-  async (req: NextRequest, ctx: ApiRequestContext) => {
+  async (req, ctx) => {
     const silos = await getTeamSilos(ctx.team.id)
 
     const siloChainIds = silos.map((silo) => silo.chain_id)

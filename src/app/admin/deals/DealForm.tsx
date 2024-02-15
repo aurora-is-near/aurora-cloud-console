@@ -43,6 +43,7 @@ export const DealForm = ({ deal, allTeams }: DealFormProps) => {
           label: "Team",
           getValue: (option?: SelectInputOption) => option?.value,
           defaultValue: deal?.team_id,
+          required: true,
           options: allTeams.map((team) => ({
             label: team.name,
             value: team.id,

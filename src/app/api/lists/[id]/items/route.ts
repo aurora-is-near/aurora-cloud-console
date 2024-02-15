@@ -1,68 +1,42 @@
-import { NextRequest } from "next/server"
 import { createApiEndpoint } from "@/utils/api"
-import { ApiRequestBody, ApiRequestContext } from "@/types/api"
+import { ApiRequestBody } from "@/types/api"
 import { abort } from "../../../../../utils/abort"
-import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { assertValidSupabaseResult } from "@/utils/supabase"
-import { getLimitAndOffset } from "@/utils/pagination"
+import { getLimitAndCursor } from "@/utils/pagination"
+import { createListItems } from "@/utils/proxy-api/create-list-items"
+import { getListItems } from "@/utils/proxy-api/get-list-items"
+import { getList } from "@/utils/proxy-api/get-list"
 
-export const GET = createApiEndpoint(
-  "getListItems",
-  async (req: NextRequest, ctx: ApiRequestContext) => {
-    const supabase = createAdminSupabaseClient()
-    const { limit, offset } = getLimitAndOffset(req)
+const DEFAULT_LIMIT = 20
 
-    // TODO: Take the list items from the Proxy API
-    const [list, listItemsResult, listItemsCountResult] = await Promise.all([
-      supabase
-        .from("lists")
-        .select("*")
-        .eq("id", Number(ctx.params.id))
-        .eq("team_id", ctx.team.id)
-        .maybeSingle(),
-      supabase
-        .from("list_items")
-        .select("*")
-        .eq("list_id", Number(ctx.params.id))
-        .limit(limit)
-        .range(offset, offset + limit - 1),
-      supabase
-        .from("list_items")
-        .select("*", { count: "exact", head: true })
-        .eq("list_id", Number(ctx.params.id)),
-    ])
+export const GET = createApiEndpoint("getListItems", async (req, ctx) => {
+  const { limit = DEFAULT_LIMIT, cursor } = getLimitAndCursor(req)
 
-    assertValidSupabaseResult(listItemsResult)
-    assertValidSupabaseResult(listItemsCountResult)
+  const [list, listItems] = await Promise.all([
+    getList(ctx.team.id, Number(ctx.params.id)),
+    getListItems(ctx.team.id, Number(ctx.params.id), {
+      limit,
+      beginKey: cursor,
+    }),
+  ])
 
-    if (!list) {
-      abort(404)
-    }
+  if (!list) {
+    abort(404)
+  }
 
-    return {
-      total: listItemsCountResult.count ?? 0,
-      items: listItemsResult.data.map((item) => item.value),
-    }
-  },
-)
+  const items = listItems.responses?.[0].objects.map((item) => item.key) ?? []
 
-export const POST = createApiEndpoint(
-  "createListItems",
-  async (req: NextRequest, ctx: ApiRequestContext) => {
-    const supabase = createAdminSupabaseClient()
-    const { items } = (await req.json()) as ApiRequestBody<"createListItems">
+  return {
+    total: list.length,
+    items,
+  }
+})
 
-    const result = await supabase.from("list_items").insert(
-      items.map((value: string) => ({
-        list_id: Number(ctx.params.id),
-        value,
-      })),
-    )
+export const POST = createApiEndpoint("createListItems", async (req, ctx) => {
+  const { items } = ctx.body
 
-    assertValidSupabaseResult(result)
+  await createListItems(ctx.team.id, Number(ctx.params.id), items)
 
-    return {
-      count: result.count ?? 0,
-    }
-  },
-)
+  return {
+    count: items.length,
+  }
+})

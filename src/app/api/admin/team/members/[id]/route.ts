@@ -1,24 +1,19 @@
 import { apiRequestHandler } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
-import { NextRequest } from "next/server"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
-export const DELETE = apiRequestHandler(
-  ["admin"],
-  async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const apiKeyId = ctx.params.id
+export const DELETE = apiRequestHandler(["admin"], async (_req, ctx) => {
+  const apiKeyId = ctx.params.id
 
-    const supabase = createAdminSupabaseClient()
-    const result = await supabase
-      .from("users_teams")
-      .delete()
-      .filter("user_id", "eq", apiKeyId)
-      .eq("user_id", apiKeyId)
-      .eq("team_id", ctx.team.id)
+  const supabase = createAdminSupabaseClient()
+  const result = await supabase
+    .from("users_teams")
+    .delete()
+    .filter("user_id", "eq", apiKeyId)
+    .eq("user_id", apiKeyId)
+    .eq("team_id", ctx.team.id)
 
-    assertValidSupabaseResult(result)
+  assertValidSupabaseResult(result)
 
-    return { status: "OK" }
-  },
-)
+  return { status: "OK" }
+})

@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       api_keys: {
@@ -49,14 +49,9 @@ export interface Database {
       }
       deals: {
         Row: {
-          chain_filter_list_id: number | null
-          contract_filter_list_id: number | null
           created_at: string
           demo_key: string | null
-          enabled: boolean
           end_time: number | null
-          eoa_blacklist_list_id: number | null
-          eoa_filter_list_id: number | null
           id: number
           name: string
           priority: string
@@ -65,14 +60,9 @@ export interface Database {
           updated_at: string
         }
         Insert: {
-          chain_filter_list_id?: number | null
-          contract_filter_list_id?: number | null
           created_at?: string
           demo_key?: string | null
-          enabled?: boolean
           end_time?: number | null
-          eoa_blacklist_list_id?: number | null
-          eoa_filter_list_id?: number | null
           id?: number
           name: string
           priority: string
@@ -81,14 +71,9 @@ export interface Database {
           updated_at?: string
         }
         Update: {
-          chain_filter_list_id?: number | null
-          contract_filter_list_id?: number | null
           created_at?: string
           demo_key?: string | null
-          enabled?: boolean
           end_time?: number | null
-          eoa_blacklist_list_id?: number | null
-          eoa_filter_list_id?: number | null
           id?: number
           name?: string
           priority?: string
@@ -102,35 +87,6 @@ export interface Database {
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      list_items: {
-        Row: {
-          created_at: string
-          id: number
-          list_id: number | null
-          value: string
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          list_id?: number | null
-          value: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          list_id?: number | null
-          value?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "list_items_list_id_fkey"
-            columns: ["list_id"]
-            isOneToOne: false
-            referencedRelation: "lists"
             referencedColumns: ["id"]
           }
         ]
@@ -196,6 +152,7 @@ export interface Database {
       }
       silos: {
         Row: {
+          base_token_id: number | null
           chain_id: string
           created_at: string
           engine_account: string
@@ -208,6 +165,7 @@ export interface Database {
           updated_at: string
         }
         Insert: {
+          base_token_id?: number | null
           chain_id: string
           created_at?: string
           engine_account: string
@@ -220,6 +178,7 @@ export interface Database {
           updated_at?: string
         }
         Update: {
+          base_token_id?: number | null
           chain_id?: string
           created_at?: string
           engine_account?: string
@@ -231,7 +190,15 @@ export interface Database {
           rpc_url?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "silos_base_token_id_fkey"
+            columns: ["base_token_id"]
+            isOneToOne: false
+            referencedRelation: "tokens"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       silos_tokens: {
         Row: {

@@ -1,6 +1,7 @@
 import { initContract } from "@ts-rest/core"
 import { z } from "zod"
 import { extendZodWithOpenApi } from "@anatine/zod-openapi"
+import { LIST_TYPES } from "@/constants/lists"
 
 extendZodWithOpenApi(z)
 
@@ -10,7 +11,6 @@ export const ListSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
   name: z.string(),
-  teamId: z.number(),
 })
 
 export const SimpleListSchema = z.object({
@@ -27,12 +27,15 @@ export const DealSchema = z.object({
   enabled: z.boolean(),
   startTime: z.string().nullable(),
   endTime: z.string().nullable(),
-  lists: z.object({
-    chainFilter: SimpleListSchema.nullable(),
-    contractFilter: SimpleListSchema.nullable(),
-    eoaFilter: SimpleListSchema.nullable(),
-    eoaBlacklist: SimpleListSchema.nullable(),
-  }),
+  lists: z.object(
+    LIST_TYPES.reduce<Record<string, z.ZodType<any, any>>>(
+      (acc, listType) => ({
+        ...acc,
+        [listType]: SimpleListSchema.nullable(),
+      }),
+      {},
+    ),
+  ),
 })
 
 export const DealPrioritiesSchema = z.array(
@@ -329,7 +332,7 @@ export const contract = c.router({
     },
     query: z.object({
       limit: z.number().optional(),
-      offset: z.number().optional(),
+      cursor: z.string().optional(),
     }),
     pathParams: z.object({
       id: z.number(),

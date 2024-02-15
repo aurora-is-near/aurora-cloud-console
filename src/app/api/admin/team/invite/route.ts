@@ -1,6 +1,4 @@
-import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
 import { abort } from "@/utils/abort"
 import { sendEmail } from "@/utils/email"
 import { Team } from "@/types/types"
@@ -52,34 +50,31 @@ const addUserToTeam = async (
   })
 }
 
-export const POST = apiRequestHandler(
-  ["admin"],
-  async (req: NextRequest, ctx: ApiRequestContext) => {
-    const { email, name } = await req.json()
-    const cleanedEmail = email.toLowerCase().trim()
-    const supabase = createAdminSupabaseClient()
+export const POST = apiRequestHandler(["admin"], async (req, ctx) => {
+  const { email, name } = ctx.body as { email: string; name: string }
+  const cleanedEmail = email.toLowerCase().trim()
+  const supabase = createAdminSupabaseClient()
 
-    const user = await getUserId(cleanedEmail)
+  const user = await getUserId(cleanedEmail)
 
-    if (!user) {
-      const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
-        redirectTo: `${req.nextUrl.origin}${AUTH_ACCEPT_ROUTE}`,
-        data: { name, new_team: ctx.team.team_key },
-      })
+  if (!user) {
+    const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
+      redirectTo: `${req.nextUrl.origin}${AUTH_ACCEPT_ROUTE}`,
+      data: { name, new_team: ctx.team.team_key },
+    })
 
-      if (error) {
-        throw error
-      }
-
-      return { status: "OK" }
+    if (error) {
+      throw error
     }
-
-    if (await isTeamMember(user.id, ctx.team.id)) {
-      abort(400, "User is already a member of this team")
-    }
-
-    await addUserToTeam(user.id, cleanedEmail, ctx.team, req.nextUrl.origin)
 
     return { status: "OK" }
-  },
-)
+  }
+
+  if (await isTeamMember(user.id, ctx.team.id)) {
+    abort(400, "User is already a member of this team")
+  }
+
+  await addUserToTeam(user.id, cleanedEmail, ctx.team, req.nextUrl.origin)
+
+  return { status: "OK" }
+})

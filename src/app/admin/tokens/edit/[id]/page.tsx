@@ -15,9 +15,9 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
     <DashboardPage heading={token.name}>
       <Card>
         <Card.Title tag="h3">Token details</Card.Title>
-        <div className="px-6 pb-7">
+        <Card.Body>
           <TokenForm token={token} />
-        </div>
+        </Card.Body>
       </Card>
     </DashboardPage>
   )

@@ -1,71 +1,61 @@
-import { NextRequest } from "next/server"
 import { createApiEndpoint } from "@/utils/api"
-import { ApiRequestBody, ApiRequestContext } from "@/types/api"
+import { ApiRequestBody } from "@/types/api"
 import { abort } from "../../../../utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 import { adaptList } from "@/utils/adapters"
+import { deleteList } from "@/utils/proxy-api/delete-list"
 
-export const GET = createApiEndpoint(
-  "getList",
-  async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const supabase = createAdminSupabaseClient()
-    const { data: list } = await supabase
+export const GET = createApiEndpoint("getList", async (_req, ctx) => {
+  const supabase = createAdminSupabaseClient()
+  const [{ data: list }] = await Promise.all([
+    supabase
       .from("lists")
       .select("*")
       .eq("id", Number(ctx.params.id))
       .eq("team_id", ctx.team.id)
-      .maybeSingle()
+      .maybeSingle(),
+  ])
 
-    if (!list) {
-      abort(404)
-    }
+  if (!list) {
+    abort(404)
+  }
 
-    return adaptList(list)
-  },
-)
+  return adaptList(list)
+})
 
-export const PUT = createApiEndpoint(
-  "updateList",
-  async (req: NextRequest, ctx: ApiRequestContext) => {
-    const { name } = (await req.json()) as ApiRequestBody<"updateList">
+export const PUT = createApiEndpoint("updateList", async (req, ctx) => {
+  const { name } = ctx.body
+  const supabase = createAdminSupabaseClient()
+  const result = await supabase
+    .from("lists")
+    .update({ name })
+    .eq("id", Number(ctx.params.id))
+    .eq("team_id", ctx.team.id)
+    .select()
+    .single()
 
-    if (!name) {
-      abort(400, "Name is required")
-    }
+  assertValidSupabaseResult(result)
 
-    const supabase = createAdminSupabaseClient()
-    const result = await supabase
-      .from("lists")
-      .update({ name })
-      .eq("id", Number(ctx.params.id))
-      .eq("team_id", ctx.team.id)
-      .select()
-      .single()
+  if (!result.data) {
+    abort(404)
+  }
 
-    assertValidSupabaseResult(result)
+  return adaptList(result.data)
+})
 
-    if (!result.data) {
-      abort(404)
-    }
-
-    return adaptList(result.data)
-  },
-)
-
-export const DELETE = createApiEndpoint(
-  "deleteList",
-  async (_req: NextRequest, ctx: ApiRequestContext) => {
-    const supabase = createAdminSupabaseClient()
-    const result = await supabase
+export const DELETE = createApiEndpoint("deleteList", async (_req, ctx) => {
+  const supabase = createAdminSupabaseClient()
+  const [result] = await Promise.all([
+    supabase
       .from("lists")
       .delete()
       .eq("id", Number(ctx.params.id))
-      .eq("team_id", ctx.team.id)
-      .single()
+      .eq("team_id", ctx.team.id),
+    deleteList(ctx.team.id, Number(ctx.params.id)),
+  ])
 
-    assertValidSupabaseResult(result)
+  assertValidSupabaseResult(result)
 
-    return result.data
-  },
-)
+  return null
+})

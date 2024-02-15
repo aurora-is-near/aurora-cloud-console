@@ -1,21 +1,16 @@
-import { NextRequest } from "next/server"
 import { apiRequestHandler } from "@/utils/api"
-import { ApiRequestContext } from "@/types/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
-export const PATCH = apiRequestHandler(
-  ["admin"],
-  async (req: NextRequest, ctx: ApiRequestContext) => {
-    const { name } = await req.json()
-    const supabase = createAdminSupabaseClient()
-    const result = await supabase
-      .from("users")
-      .update({ name })
-      .eq("user_id", ctx.user.user_id)
+export const PATCH = apiRequestHandler(["admin"], async (req, ctx) => {
+  const { name } = ctx.body as { name: string }
+  const supabase = createAdminSupabaseClient()
+  const result = await supabase
+    .from("users")
+    .update({ name })
+    .eq("user_id", ctx.user.user_id)
 
-    assertValidSupabaseResult(result)
+  assertValidSupabaseResult(result)
 
-    return { status: "OK" }
-  },
-)
+  return { status: "OK" }
+})
