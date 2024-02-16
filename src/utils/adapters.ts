@@ -40,8 +40,8 @@ export const adaptDeal = (
   name: deal.name,
   teamId: deal.team_id,
   enabled: proxyApiDeal.enabled,
-  startTime: getIsoString(deal.start_time),
-  endTime: getIsoString(deal.end_time),
+  startTime: getIsoString(proxyApiDeal.startTime),
+  endTime: getIsoString(proxyApiDeal.endTime),
   lists: LIST_TYPES.reduce(
     (acc, listType) => ({
       ...acc,

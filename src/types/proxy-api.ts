@@ -76,10 +76,7 @@ export type ProxyApiObjectVarTypes = {
 
 type ProxyApiObject = {
   key: string
-  Data: Record<
-    keyof ProxyApiObjectVarTypes,
-    ProxyApiPrimitiveVar | ProxyApiSetVar
-  >
+  Data: Partial<ProxyApiObjectVarTypes>
 }
 
 export type ProxyApiResponseObject = {

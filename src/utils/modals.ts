@@ -11,4 +11,5 @@ export enum Modals {
   Contact = "contact",
   Invite = "invite",
   InviteConfirmed = "inviteConfirmed",
+  DealDuration = "dealDuration",
 }

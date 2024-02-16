@@ -1,12 +1,9 @@
-import Card from "@/components/Card"
-import Button from "@/components/Button"
-import { PlusIcon } from "@heroicons/react/20/solid"
-import RulesList from "./RulesList"
 import Contact from "@/components/Contact"
 import { DealTransactionCharts } from "./DealTransactionsCharts"
 import { FiltersCard } from "./FiltersCard"
 import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
 import { DealUpdatePage } from "./DealUpdatePage"
+import { ControlCard } from "./ControlCard"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
@@ -17,21 +14,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         </section>
 
         <FiltersCard />
-
-        <Card tag="section">
-          <Card.Title>Rules</Card.Title>
-          <Card.Subtitle>
-            List of conditions applied to this plan.
-          </Card.Subtitle>
-          <Card.Actions>
-            <Button>
-              <PlusIcon className="w-5 h-5" />
-              Add rule
-            </Button>
-          </Card.Actions>
-
-          <RulesList />
-        </Card>
+        <ControlCard />
 
         <Contact />
       </DealUpdatePage>

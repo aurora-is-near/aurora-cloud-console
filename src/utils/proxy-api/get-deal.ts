@@ -1,13 +1,14 @@
 import { LIST_TYPES } from "@/constants/lists"
 import { ProxyApiDealData } from "@/types/deal"
-import { ListMap, ListType } from "@/types/lists"
+import { ListMap } from "@/types/lists"
 import { ProxyApiResponseObject } from "@/types/proxy-api"
 import { proxyApiClient } from "@/utils/proxy-api/client"
-import { findVarByKey } from "@/utils/proxy-api/find-var-by-key"
+import { findNumberVar } from "@/utils/proxy-api/find-number-var"
+import { findStringVar } from "@/utils/proxy-api/find-string-var"
 import { getDealViewOperations } from "@/utils/proxy-api/get-deal-view-operations"
 
 const getListId = (varKey: string, responses: ProxyApiResponseObject[]) => {
-  const { value } = findVarByKey(varKey, "StringVar", responses) ?? {}
+  const value = findStringVar(varKey, responses)
 
   if (!value) {
     return null
@@ -29,8 +30,9 @@ export const getDeal = async (
   const responses = result.responses ?? []
 
   return {
-    enabled: !!findVarByKey(`${baseVarKey}::enabled`, "NumberVar", responses)
-      ?.value,
+    enabled: !!findNumberVar(`${baseVarKey}::enabled`, responses),
+    startTime: findNumberVar(`${baseVarKey}::startTime`, responses),
+    endTime: findNumberVar(`${baseVarKey}::endTime`, responses),
     lists: LIST_TYPES.reduce<ListMap>(
       (acc, listType) => ({
         ...acc,
