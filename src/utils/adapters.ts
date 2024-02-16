@@ -13,6 +13,20 @@ const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
 }
 
+const getLatestDate = (dates: (string | null)[]): string | null => {
+  return dates.reduce((acc, date) => {
+    if (!date) {
+      return acc
+    }
+
+    if (!acc) {
+      return date
+    }
+
+    return new Date(date) > new Date(acc) ? date : acc
+  }, null)
+}
+
 const getRelatedList = (
   lists: List[],
   id: number | null,
@@ -36,7 +50,7 @@ export const adaptDeal = (
 ): DealSchema => ({
   id: deal.id,
   createdAt: deal.created_at,
-  updatedAt: deal.updated_at,
+  updatedAt: getLatestDate([proxyApiDeal.updatedAt, deal.updated_at]),
   name: deal.name,
   teamId: deal.team_id,
   enabled: proxyApiDeal.enabled,

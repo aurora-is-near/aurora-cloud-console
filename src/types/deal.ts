@@ -5,6 +5,7 @@ export type ProxyApiDealData = {
   lists: Record<ListType, number | null>
   startTime: number | null
   endTime: number | null
+  updatedAt: string | null
 }
 
 export type ProxyApiListData = {

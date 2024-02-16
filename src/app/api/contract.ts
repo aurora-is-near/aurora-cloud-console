@@ -21,7 +21,7 @@ export const SimpleListSchema = z.object({
 export const DealSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
-  updatedAt: z.string(),
+  updatedAt: z.string().nullable(),
   name: z.string(),
   teamId: z.number(),
   enabled: z.boolean(),
