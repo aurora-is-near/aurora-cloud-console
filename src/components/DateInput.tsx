@@ -9,6 +9,7 @@ import {
   RegisterOptions,
   UseFormRegister,
   useFormContext,
+  useWatch,
 } from "react-hook-form"
 
 export type DateInputProps<Inputs extends Record<string, unknown>> = {
@@ -33,7 +34,7 @@ export const DateInput = <Inputs extends Record<string, unknown>>({
   )
 
   const { setValue, watch } = useFormContext()
-  const value = watch(name)
+  const watchedValue = useWatch({ name })
 
   useEffect(() => {
     setValue(
@@ -54,7 +55,11 @@ export const DateInput = <Inputs extends Record<string, unknown>>({
         className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 ps-10"
         {...register?.(name, registerOptions)}
         onChange={setStartDate}
-        value={value ? format(new Date(value), "dd/MM/yyyy") : undefined}
+        value={
+          watchedValue
+            ? format(new Date(watchedValue), "dd/MM/yyyy")
+            : undefined
+        }
       />
     </div>
   )

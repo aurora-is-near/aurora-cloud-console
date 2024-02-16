@@ -63,10 +63,20 @@ export const DealDurationModal = ({ title, open }: DealDurationModalProps) => {
       <div className="space-y-8">
         <div className="gap-x-3 flex flex-row">
           <InputWrapper id="startTime" inputName="startTime" label="Start time">
-            <DateInput id="startTime" name="startTime" register={register} />
+            <DateInput
+              id="startTime"
+              name="startTime"
+              register={register}
+              defaultValue={deal?.startTime}
+            />
           </InputWrapper>
           <InputWrapper id="endTime" inputName="endTime" label="End time">
-            <DateInput id="endTime" name="endTime" register={register} />
+            <DateInput
+              id="endTime"
+              name="endTime"
+              register={register}
+              defaultValue={deal?.endTime}
+            />
           </InputWrapper>
         </div>
       </div>
