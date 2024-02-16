@@ -1,7 +1,6 @@
-import Heading from "@/components/Heading"
 import UserInfoForm from "./UserInfoForm"
 import { createServerComponentClient } from "@/supabase/create-server-component-client"
-import { differenceInHours } from "date-fns"
+import differenceInHours from "date-fns/differenceInHours"
 import { DashboardPage } from "@/components/DashboardPage"
 
 const PENDING_EMAIL_CHANGE_MAX_HOURS = 24

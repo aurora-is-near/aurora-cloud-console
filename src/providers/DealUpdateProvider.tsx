@@ -25,6 +25,7 @@ type DealUpdateContextType = {
   clearPendingUpdates: () => void
   savePendingUpdates: () => Promise<void>
   setFilters: (filters: DealFilters) => void
+  queueUpdate: (data: ApiRequestBody<"updateDeal">) => void
   deal?: DealSchema
   hasPendingUpdates?: boolean
   isUpdating: boolean
@@ -78,11 +79,19 @@ export function DealUpdateProvider({
     [setPendingUpdate],
   )
 
+  const queueUpdate = useCallback(
+    (data: ApiRequestBody<"updateDeal">) => {
+      setPendingUpdate((prev) => ({ ...prev, ...data }))
+    },
+    [setPendingUpdate],
+  )
+
   const value = useMemo(
     (): DealUpdateContextType => ({
       clearPendingUpdates,
       savePendingUpdates,
       setFilters,
+      queueUpdate,
       deal,
       hasPendingUpdates: !!pendingUpdate,
       isUpdating: isUpdatePending,
@@ -91,6 +100,7 @@ export function DealUpdateProvider({
       clearPendingUpdates,
       savePendingUpdates,
       setFilters,
+      queueUpdate,
       deal,
       pendingUpdate,
       isUpdatePending,

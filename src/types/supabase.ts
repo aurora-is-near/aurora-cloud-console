@@ -51,33 +51,27 @@ export type Database = {
         Row: {
           created_at: string
           demo_key: string | null
-          end_time: number | null
           id: number
           name: string
           priority: string
-          start_time: number | null
           team_id: number
           updated_at: string
         }
         Insert: {
           created_at?: string
           demo_key?: string | null
-          end_time?: number | null
           id?: number
           name: string
           priority: string
-          start_time?: number | null
           team_id: number
           updated_at?: string
         }
         Update: {
           created_at?: string
           demo_key?: string | null
-          end_time?: number | null
           id?: number
           name?: string
           priority?: string
-          start_time?: number | null
           team_id?: number
           updated_at?: string
         }

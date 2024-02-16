@@ -2,6 +2,8 @@ import { ReactNode } from "react"
 import clsx from "clsx"
 import { findChildren, findOtherChildren } from "@/utils/helpers"
 
+const HORIZONTAL_PADDING = "px-6 sm:px-5 md:px-6"
+
 const Title = ({
   children,
   tag: Tag = "h2",
@@ -26,9 +28,14 @@ const Actions = ({ children }: { children: ReactNode }) => (
 Actions.displayName = "Actions"
 
 const Body = ({ children }: { children: ReactNode }) => (
-  <div className="px-6 pb-7">{children}</div>
+  <div className={clsx(HORIZONTAL_PADDING, "pb-7")}>{children}</div>
 )
 Body.displayName = "Body"
+
+const Row = ({ children }: { children: ReactNode }) => (
+  <div className={clsx(HORIZONTAL_PADDING, "py-4 border-t")}>{children}</div>
+)
+Row.displayName = "Row"
 
 const Card = ({
   className,
@@ -70,5 +77,6 @@ Card.Title = Title
 Card.Subtitle = Subtitle
 Card.Actions = Actions
 Card.Body = Body
+Card.Row = Row
 
 export default Card

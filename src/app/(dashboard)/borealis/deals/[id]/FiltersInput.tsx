@@ -1,5 +1,6 @@
 "use client"
 
+import Card from "@/components/Card"
 import { HorizontalSelectInput } from "@/components/HorizontalSelectInput"
 import { useLists } from "@/hooks/useLists"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
@@ -39,29 +40,30 @@ export const FilterInput = ({ name, listKey, label }: FilterInputProps) => {
   }
 
   return (
-    <HorizontalSelectInput
-      isClearable
-      placeholder="Select a list..."
-      className="px-4 sm:px-5 md:px-6 py-4 border-t"
-      id={name}
-      name={name}
-      label={label}
-      getValue={(value) => value}
-      register={register}
-      defaultValue={getDefaultValue(listKey, deal)}
-      registerOptions={{
-        onChange: (option?: { value: number }) => {
-          setFilters({
-            [name]: option?.value ?? null,
-          })
-        },
-      }}
-      options={
-        lists?.items.map((list) => ({
-          label: list.name,
-          value: list.id,
-        })) ?? []
-      }
-    />
+    <Card.Row>
+      <HorizontalSelectInput
+        isClearable
+        placeholder="Select a list..."
+        id={name}
+        name={name}
+        label={label}
+        getValue={(value) => value}
+        register={register}
+        defaultValue={getDefaultValue(listKey, deal)}
+        registerOptions={{
+          onChange: (option?: { value: number }) => {
+            setFilters({
+              [name]: option?.value ?? null,
+            })
+          },
+        }}
+        options={
+          lists?.items.map((list) => ({
+            label: list.name,
+            value: list.id,
+          })) ?? []
+        }
+      />
+    </Card.Row>
   )
 }
