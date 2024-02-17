@@ -56,7 +56,7 @@ export const BulkImportModal = ({
             .filter(Boolean)
             .slice(0, 10)
             .map((item, index) => (
-              <li key={index} className="mt-1 line-clamp-1">
+              <li key={index} className="mt-1 overflow-hidden text-ellipsis">
                 {item}
               </li>
             ))}
