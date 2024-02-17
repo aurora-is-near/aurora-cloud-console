@@ -2,7 +2,6 @@
 
 import Table from "@/components/Table"
 import { useParams } from "next/navigation"
-import { Pagination } from "@/components/Pagination"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
