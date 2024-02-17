@@ -9,6 +9,8 @@ type Props = {
   decimals?: number
 }
 
+const SIXTY_FPS = 1000 / 60
+
 function formatNumber(renderValue: number) {
   let options
 
@@ -46,8 +48,9 @@ function NumberEasing({ value, speed = 500, decimals = 0 }: Props) {
   const [lastUpdateTime, lastUpdateTimeSet] = useState(new Date().getTime())
 
   useEffect(() => {
-    lastUpdateTimeSet(new Date().getTime() - 16)
+    lastUpdateTimeSet(new Date().getTime() - SIXTY_FPS)
     lastTargetSet(renderValue)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
 
   useInterval(() => {
@@ -60,7 +63,7 @@ function NumberEasing({ value, speed = 500, decimals = 0 }: Props) {
       const easedProgress = quintInOut(absoluteProgress)
       renderValueSet(lastTarget + (value - lastTarget) * easedProgress)
     }
-  }, 16)
+  }, SIXTY_FPS)
 
   return (
     // Prevent Google Translate from manipulating the DOM potentially while the
