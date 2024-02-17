@@ -16,11 +16,13 @@ import { NoDataCta } from "@/components/NoDataCta"
 import { ListBulletIcon } from "@heroicons/react/20/solid"
 import { formatDate } from "@/utils/helpers"
 import DropdownMenu from "@/components/DropdownMenu"
+import { useRouter } from "next/navigation"
 
 export const ListsTable = () => {
   const { data: lists, isLoading } = useLists()
   const [, setId] = useQueryState("id")
   const { openModal } = useModals()
+  const router = useRouter()
 
   const onEditListClick = (id: number) => {
     setId(String(id))
@@ -60,8 +62,15 @@ export const ListsTable = () => {
       <Table.TH>Created at</Table.TH>
       <Table.TH hidden>Edit</Table.TH>
       {lists?.items.map((list) => (
-        <Table.TR key={list.id}>
-          <Table.TD dark>{list.name}</Table.TD>
+        <Table.TR
+          key={list.id}
+          onClick={() => {
+            router.push(`/lists/${list.id}`)
+          }}
+        >
+          <Table.TD dark isLink>
+            {list.name}
+          </Table.TD>
           <Table.TD dark>{formatDate(list.createdAt)}</Table.TD>
           <Table.TD align="right">
             <DropdownMenu

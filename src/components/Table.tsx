@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, cloneElement } from "react"
+import { MouseEventHandler, ReactElement, ReactNode, cloneElement } from "react"
 import { findChildren } from "@/utils/helpers"
 import clsx from "clsx"
 
@@ -36,19 +36,25 @@ const TD = ({
   children,
   dark = false,
   align = "left",
+  onClick,
   isFirst = false,
   isLast = false,
+  isLink = false,
 }: {
   children: React.ReactNode
   dark?: boolean
   align?: "left" | "right" | "center"
+  onClick?: () => void
   isFirst?: boolean
   isLast?: boolean
+  isLink?: boolean
 }) => (
   <td
+    onClick={onClick}
     className={clsx(
       "whitespace-nowrap px-3 py-4 text-sm leading-none",
       dark ? "font-medium text-gray-900" : "text-gray-500",
+      isLink && "group-hover:underline",
       {
         "pl-4 pr-3 sm:pl-6": isFirst,
         "pl-3 pr-4 sm:pr-6": isLast,
@@ -69,11 +75,20 @@ const TD = ({
 )
 TD.displayName = "TD"
 
-const TR = ({ children }: { children: React.ReactNode }) => {
+const TR = ({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode
+  onClick?: MouseEventHandler<HTMLTableRowElement>
+}) => {
   const tds = findChildren(children, "TD")
 
   return (
-    <tr>
+    <tr
+      onClick={onClick}
+      className={clsx("group", onClick && "cursor-pointer")}
+    >
       {tds?.map((td, i) => {
         const isFirst = i === 0
         const isLast = i === tds.length - 1
