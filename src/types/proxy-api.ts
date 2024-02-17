@@ -14,10 +14,10 @@ type ProxyApiVariableOperation = {
   var_type: ProxyApiVarType
   var_key: string
   template_key?: string
-  string_value?: string
   number_value?: number
   value_reset_policy?: "recreate"
   set_element?: string
+  string_value?: string
 }
 
 type ProxyApiTemplateOperation = {

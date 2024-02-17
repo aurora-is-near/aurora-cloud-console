@@ -2,11 +2,6 @@ import { LIST_TYPES } from "@/constants/lists"
 import { ProxyApiUpateOperation } from "@/types/proxy-api"
 import { proxyApiClient } from "@/utils/proxy-api/client"
 
-type ProxyApiDealInputs = {
-  userTtl?: number
-  userPrepaidTtl?: number
-}
-
 /**
  * Create a deal via the Proxy API.
  * @see https://github.com/aurora-is-near/bb-rules/tree/acc-deal/docs/acc#creating-a-deal
@@ -14,7 +9,13 @@ type ProxyApiDealInputs = {
 export const createDeal = async (
   customerId: number,
   dealId: number,
-  { userTtl = 31536000, userPrepaidTtl = 0 }: ProxyApiDealInputs = {},
+  {
+    userTtl = 31536000,
+    userPrepaidTtl = 0,
+  }: {
+    userTtl?: number
+    userPrepaidTtl?: number
+  } = {},
 ) => {
   const baseDealKey = `deal::acc::customers::${customerId}::deals::${dealId}`
 

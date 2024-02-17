@@ -12,7 +12,10 @@ type DealFormProps = {
   allTeams: Team[]
 }
 
-type Inputs = Omit<Deal, "id" | "created_at">
+type Inputs = {
+  name: string
+  team_id: number
+}
 
 export const DealForm = ({ deal, allTeams }: DealFormProps) => {
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {

@@ -53,7 +53,6 @@ export type Database = {
           demo_key: string | null
           id: number
           name: string
-          priority: string
           team_id: number
           updated_at: string
         }
@@ -62,7 +61,6 @@ export type Database = {
           demo_key?: string | null
           id?: number
           name: string
-          priority: string
           team_id: number
           updated_at?: string
         }
@@ -71,7 +69,6 @@ export type Database = {
           demo_key?: string | null
           id?: number
           name?: string
-          priority?: string
           team_id?: number
           updated_at?: string
         }
