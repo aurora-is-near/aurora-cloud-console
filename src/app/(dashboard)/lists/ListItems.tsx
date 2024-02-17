@@ -22,18 +22,19 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
   const searchParams = useSearchParams()
   const search = searchParams.get("search") ?? ""
 
-  const { data, isLoading, fetchNextPage } = useInfiniteQuery({
-    queryFn: ({ pageParam: cursor }) =>
-      apiClient.getListItems({ id: listId, limit: PER_PAGE, cursor }),
-    queryKey: getQueryKey("getListItems", { id: listId, limit: PER_PAGE }),
-    getNextPageParam: (lastPage, allPages) => {
-      const hasMore = allPages.length * PER_PAGE < lastPage.total
-      const lastItem = lastPage.items[lastPage.items.length - 1]
+  const { data, isLoading, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryFn: ({ pageParam: cursor }) =>
+        apiClient.getListItems({ id: listId, limit: PER_PAGE, cursor }),
+      queryKey: getQueryKey("getListItems", { id: listId, limit: PER_PAGE }),
+      getNextPageParam: (lastPage, allPages) => {
+        const hasMore = allPages.length * PER_PAGE < lastPage.total
+        const lastItem = lastPage.items[lastPage.items.length - 1]
 
-      return hasMore ? lastItem : undefined
-    },
-    initialPageParam: "",
-  })
+        return hasMore ? lastItem : undefined
+      },
+      initialPageParam: "",
+    })
 
   const total = data?.pages[0]?.total ?? 0
   const listItems = data?.pages.flatMap((page) => page.items) ?? []
@@ -66,7 +67,8 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
             listItems={listItems}
             total={total}
             perPage={PER_PAGE}
-            onLoadMoreClick={fetchNextPage}
+            fetchNextPage={fetchNextPage}
+            isFetchingNextPage={isFetchingNextPage}
           />
         )}
       </section>

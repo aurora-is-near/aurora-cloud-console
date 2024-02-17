@@ -7,9 +7,9 @@ import Button from "@/components/Button"
 import { CheckIcon } from "@heroicons/react/20/solid"
 import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
-import { useMutation } from "@tanstack/react-query"
-import { apiClient } from "@/utils/api/client"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { useRouter } from "next/navigation"
+import { MouseEventHandler } from "react"
+import { useCreateListItems } from "@/hooks/useCreateListItems"
 
 type Inputs = {
   items: string
@@ -18,6 +18,7 @@ type Inputs = {
 export const ImportListItemsModal = () => {
   const { activeModal, closeModal } = useModals()
   const [id] = useQueryState("id")
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -25,23 +26,20 @@ export const ImportListItemsModal = () => {
     reset,
   } = useForm<Inputs>()
 
-  const getListItemsUpdater = useOptimisticUpdater("getListItems", {
-    id: Number(id),
-  })
-
-  const { mutate: createListItems } = useMutation({
-    mutationFn: apiClient.createListItems,
+  const { createListItems } = useCreateListItems(Number(id), {
     onSuccess: closeModal,
-    onSettled: () => {
-      getListItemsUpdater.invalidate()
-      reset()
-    },
+    onSettled: reset,
   })
 
   const submitList: SubmitHandler<Inputs> = async (inputs) => {
     const items = inputs.items.split("\n").filter(Boolean)
 
-    createListItems({ id: Number(id), items })
+    createListItems(items)
+  }
+
+  const onBulkImportClick: MouseEventHandler<HTMLButtonElement> = (evt) => {
+    evt.preventDefault()
+    router.push(`/lists/${id}/import`)
   }
 
   return (
@@ -58,7 +56,9 @@ export const ImportListItemsModal = () => {
           <p className="block text-sm text-gray-500">
             Include one item per row.
           </p>
-          <Button className="mt-3">Upload CSV</Button>
+          <Button onClick={onBulkImportClick} className="mt-3">
+            Upload CSV
+          </Button>
         </div>
 
         <div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, forwardRef } from "react"
+import { MouseEventHandler, ReactNode, forwardRef } from "react"
 import clsx from "clsx"
 import Link from "next/link"
 import { Spinner } from "@/components/Spinner"
@@ -13,7 +13,7 @@ type Props = {
   loading?: boolean
   disabled?: boolean
   fullWidth?: boolean
-  onClick?: () => void
+  onClick?: MouseEventHandler<HTMLButtonElement>
   href?: string
   [rest: string]: any
 }

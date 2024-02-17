@@ -21,13 +21,15 @@ type ListItemsTableProps = {
   listItems: string[]
   total: number
   perPage: number
-  onLoadMoreClick: () => void
+  fetchNextPage: () => void
+  isFetchingNextPage: boolean
 }
 
 export const ListItemsTable = ({
   listId,
   listItems,
-  onLoadMoreClick,
+  isFetchingNextPage,
+  fetchNextPage,
   total,
   perPage,
 }: ListItemsTableProps) => {
@@ -98,7 +100,11 @@ export const ListItemsTable = ({
       </Table>
       {listItems.length < total && (
         <div className="flex justify-center w-full mt-8">
-          <Button style="secondary" onClick={onLoadMoreClick}>
+          <Button
+            style="secondary"
+            onClick={fetchNextPage}
+            loading={isFetchingNextPage}
+          >
             Load {Math.min(perPage, total - listItems.length)} more
           </Button>
         </div>

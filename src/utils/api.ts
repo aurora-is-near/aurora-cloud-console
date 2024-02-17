@@ -226,7 +226,9 @@ const validateRequest = async <T extends ApiOperation>(
 
     abort(
       result.status,
-      `${error.location === "body" ? "body" : error.path} ${error.message}`,
+      `${error.location === "body" ? `body: ${error.path}` : error.path} ${
+        error.message
+      }`,
     )
   }
 }
