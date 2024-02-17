@@ -135,10 +135,40 @@ const isRequestBodyObject = (
   body?: OpenAPIV3.RequestBodyObject | OpenAPIV3.ReferenceObject,
 ): body is OpenAPIV3.RequestBodyObject => !!body && "content" in body
 
-const getSearchParamsObject = (req: NextRequest) => {
+const isSchemaObject = (
+  schema: OpenAPIV3.SchemaObject | OpenAPIV3.ReferenceObject,
+): schema is OpenAPIV3.SchemaObject => "type" in schema
+
+const getParameterType = (parameter?: OpenAPIV3.ParameterObject) => {
+  const { schema } = parameter ?? {}
+
+  if (!schema || !isSchemaObject(schema)) {
+    return "string"
+  }
+
+  return schema.type
+}
+
+const getSearchParamsObject = (
+  req: NextRequest,
+  parameters: OpenAPIV3.ParameterObject[],
+) => {
   const obj: Record<string, unknown> = {}
 
   for (const [key, value] of req.nextUrl.searchParams) {
+    const parameter = parameters.find((param) => param.name === key)
+    const parameterType = getParameterType(parameter)
+
+    if (parameterType === "number" && Number.isFinite(Number(value))) {
+      obj[key] = Number(value)
+
+      return
+    }
+
+    if (parameterType === "boolean" && ["true", "false"].includes(value)) {
+      obj[key] = value === "true"
+    }
+
     obj[key] = value
   }
 
@@ -173,18 +203,20 @@ const validateRequest = async <T extends ApiOperation>(
     ? operation.requestBody
     : undefined
 
+  const parameters =
+    operation.parameters
+      ?.filter(isParameterObject)
+      .filter((param) => param.in === "query") ?? []
+
   const requestValidator = new OpenAPIRequestValidator({
     requestBody,
-    parameters:
-      operation.parameters
-        ?.filter(isParameterObject)
-        .filter((param) => param.in === "query") ?? [],
+    parameters,
   })
 
   const result = requestValidator.validateRequest({
     headers: getHeadersObject(req),
     body,
-    query: getSearchParamsObject(req),
+    query: getSearchParamsObject(req, parameters),
   })
 
   // Will abort with, for example, "limit must be a number" or
