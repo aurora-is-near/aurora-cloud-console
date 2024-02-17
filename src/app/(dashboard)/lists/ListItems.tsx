@@ -5,10 +5,11 @@ import SearchInput from "./SearchInput"
 import { ListItemsTable } from "./ListItemsTable"
 import TableLoader from "@/components/TableLoader"
 import { useSearchParams } from "next/navigation"
-import { useInfiniteQuery } from "@tanstack/react-query"
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 import { EditListButton } from "@/app/(dashboard)/lists/EditListButton"
 import { ImportListItemsButton } from "@/app/(dashboard)/lists/ImportListItemsButton"
 import { apiClient } from "@/utils/api/client"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getQueryKey } from "@/utils/api/query-keys"
 
 const PER_PAGE = 20
@@ -36,8 +37,19 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
       initialPageParam: "",
     })
 
+  const { data: foundListItem } = useQuery({
+    ...getQueryFnAndKey("getListItem", {
+      id: listId,
+      item: encodeURIComponent(search),
+    }),
+    enabled: Boolean(search),
+  })
+
   const total = data?.pages[0]?.total ?? 0
-  const listItems = data?.pages.flatMap((page) => page.items) ?? []
+  const foundItems = foundListItem ? [foundListItem] : []
+  const listItems = !!search
+    ? foundItems
+    : data?.pages.flatMap((page) => page.items) ?? []
 
   return (
     <div className="space-y-6">
@@ -63,9 +75,10 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
           <TableLoader />
         ) : (
           <ListItemsTable
+            isSearching={!!search}
             listId={listId}
             listItems={listItems}
-            total={total}
+            total={search ? foundItems.length : total}
             perPage={PER_PAGE}
             fetchNextPage={fetchNextPage}
             isFetchingNextPage={isFetchingNextPage}

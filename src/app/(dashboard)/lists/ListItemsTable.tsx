@@ -23,6 +23,7 @@ type ListItemsTableProps = {
   perPage: number
   fetchNextPage: () => void
   isFetchingNextPage: boolean
+  isSearching: boolean
 }
 
 export const ListItemsTable = ({
@@ -32,6 +33,7 @@ export const ListItemsTable = ({
   fetchNextPage,
   total,
   perPage,
+  isSearching,
 }: ListItemsTableProps) => {
   const { id } = useParams()
   const { openModal } = useModals()
@@ -52,12 +54,16 @@ export const ListItemsTable = ({
   if (!listItems.length) {
     return (
       <NoDataCta
-        title="No list items"
-        description="Get started by importing your data."
+        title={isSearching ? "No results" : "No list items"}
+        description={
+          isSearching
+            ? `No matches found for that search term.`
+            : "Get started by importing your data."
+        }
         className="mt-20"
         Icon={ListBulletIcon}
       >
-        <ImportListItemsButton id={listId} />
+        {!isSearching && <ImportListItemsButton id={listId} />}
       </NoDataCta>
     )
   }

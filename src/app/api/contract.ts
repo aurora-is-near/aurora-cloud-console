@@ -328,6 +328,21 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
+  getListItem: {
+    summary: "Get a single item from a list",
+    method: "GET",
+    path: "/api/lists/:id/items/:item",
+    responses: {
+      200: z.string(),
+    },
+    metadata: {
+      scopes: ["lists:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+      item: z.string(),
+    }),
+  },
   deleteListItem: {
     summary: "Remove an item from a list",
     method: "DELETE",

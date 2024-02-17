@@ -195,6 +195,9 @@ export const apiClient = {
   }: ApiRequestParams<"createListItems"> & ApiRequestBody<"createListItems">) =>
     post<"createListItems">(`/api/lists/${id}/items`, data),
 
+  getListItem: async ({ id, item }: ApiRequestParams<"getListItem">) =>
+    get<"getListItem">(`/api/lists/${id}/items/${encodeURIComponent(item)}`),
+
   deleteListItem: async ({ id, item }: ApiRequestParams<"deleteListItem">) =>
     del<"deleteListItem">(`/api/lists/${id}/items/${encodeURIComponent(item)}`),
 
