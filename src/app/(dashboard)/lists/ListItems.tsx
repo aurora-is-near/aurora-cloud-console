@@ -62,6 +62,7 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
           <TableLoader />
         ) : (
           <ListItemsTable
+            listId={listId}
             listItems={listItems}
             total={total}
             perPage={PER_PAGE}

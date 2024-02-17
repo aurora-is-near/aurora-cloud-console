@@ -6,11 +6,18 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
 import DropdownMenu from "@/components/DropdownMenu"
-import { InformationCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
+import {
+  InformationCircleIcon,
+  ListBulletIcon,
+  TrashIcon,
+} from "@heroicons/react/20/solid"
 import { isWalletAddress } from "@/utils/wallets"
 import Button from "@/components/Button"
+import { NoDataCta } from "@/components/NoDataCta"
+import { ImportListItemsButton } from "@/app/(dashboard)/lists/ImportListItemsButton"
 
 type ListItemsTableProps = {
+  listId: number
   listItems: string[]
   total: number
   perPage: number
@@ -18,6 +25,7 @@ type ListItemsTableProps = {
 }
 
 export const ListItemsTable = ({
+  listId,
   listItems,
   onLoadMoreClick,
   total,
@@ -37,6 +45,19 @@ export const ListItemsTable = ({
   const onViewDetailsClick = (listItem: string) => {
     setItem(listItem)
     openModal(Modals.ViewListItemDetails)
+  }
+
+  if (!listItems.length) {
+    return (
+      <NoDataCta
+        title="No list items"
+        description="Get started by importing your data."
+        className="mt-20"
+        Icon={ListBulletIcon}
+      >
+        <ImportListItemsButton id={listId} />
+      </NoDataCta>
+    )
   }
 
   return (
