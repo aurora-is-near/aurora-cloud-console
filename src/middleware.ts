@@ -27,7 +27,7 @@ const redirect = (req: NextRequest, res: NextResponse, route: string) => {
 const loginRedirect = (req: NextRequest, res: NextResponse) =>
   redirect(req, res, LOGIN_ROUTE)
 
-const dealsRedirect = (req: NextRequest, res: NextResponse) =>
+const homeRedirect = (req: NextRequest, res: NextResponse) =>
   redirect(req, res, HOME_ROUTE)
 
 const unauthorisedRedirect = (req: NextRequest, res: NextResponse) =>
@@ -69,10 +69,11 @@ export async function middleware(req: NextRequest) {
   ])
 
   const { team_key: teamKey } = team ?? {}
+  const isValidSubdomain = !!teamKey || isAdminSubdomain(req)
 
   // Show the unknown team page if no team found for the current subdomain, and
   // this is not a request for the admin subdomain
-  if (!teamKey && !isAdminSubdomain(req)) {
+  if (!isValidSubdomain) {
     return unknownRedirect(req, res)
   }
 
@@ -86,6 +87,12 @@ export async function middleware(req: NextRequest) {
   // Redirect to the login page if the user is not logged in
   if (!session) {
     return loginRedirect(req, res)
+  }
+
+  // Redirect away from the unknown team page if there is a valid team associated
+  // with the current subdomain
+  if (pathname === LOGIN_UNKNOWN_ROUTE && isValidSubdomain) {
+    return homeRedirect(req, res)
   }
 
   // Rewrite admin subdomain to /admin
@@ -113,13 +120,13 @@ export async function middleware(req: NextRequest) {
     return unauthorisedRedirect(req, res)
   }
 
-  // Finally, redirect to the deals page if the user is logged in and on any
+  // Finally, redirect to the home page if the user is logged in and on any
   // of the login pages, or the base path
   if (
     session &&
     ["/", LOGIN_ROUTE, LOGIN_UNAUTHORISED_ROUTE].includes(pathname)
   ) {
-    return dealsRedirect(req, res)
+    return homeRedirect(req, res)
   }
 
   return res
