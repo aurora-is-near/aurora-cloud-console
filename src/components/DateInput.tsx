@@ -12,7 +12,7 @@ import {
   useWatch,
 } from "react-hook-form"
 
-export type DateInputProps<Inputs extends Record<string, unknown>> = {
+type DateInputProps<Inputs extends Record<string, unknown>> = {
   id: string
   name: Path<Inputs>
   register?: UseFormRegister<Inputs>
