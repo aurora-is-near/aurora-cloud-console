@@ -4,11 +4,11 @@ import { NextRequest } from "next/server"
 export const isAdminUser = (user: { email?: string }) =>
   user.email?.split("@")[1] === ADMIN_EMAIL_DOMAIN
 
-export const isAdminSubdomain = (req: NextRequest) => {
+export const isAdminSubdomain = (req: NextRequest): boolean => {
   const host = req.headers.get("host")
 
   if (!host?.includes(".")) {
-    return null
+    return false
   }
 
   const [subdomain] = host.split(".")

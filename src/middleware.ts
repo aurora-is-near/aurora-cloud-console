@@ -53,6 +53,14 @@ const rewriteAdminSubdomain = (req: NextRequest, session: Session) => {
   )
 }
 
+const handleInvalidSubdomain = (req: NextRequest, res: NextResponse) => {
+  if (req.nextUrl.pathname.startsWith("/api")) {
+    return NextResponse.rewrite(new URL("/404", req.url))
+  }
+
+  return unknownRedirect(req, res)
+}
+
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
   const supabase = createMiddlewareClient(req)
@@ -74,7 +82,7 @@ export async function middleware(req: NextRequest) {
   // Show the unknown team page if no team found for the current subdomain, and
   // this is not a request for the admin subdomain
   if (!isValidSubdomain) {
-    return unknownRedirect(req, res)
+    return handleInvalidSubdomain(req, res)
   }
 
   // Do nothing if an auth callback or logout is in progress
@@ -136,12 +144,11 @@ export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
-     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - img/ (images in static/img folder)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|img/).*)",
+    "/((?!_next/static|_next/image|favicon.ico|img/).*)",
   ],
 }
