@@ -1,10 +1,9 @@
 import { proxyApiClient } from "@/utils/proxy-api/client"
 
-/**
- * Insert one or more items into a list.
- * @see https://github.com/aurora-is-near/bb-rules/tree/acc-deal/docs/acc#inserting-to-list
- */
-export const createListItems = async (
+// The Proxy API limits the number of items that can be inserted in a single request.
+const BATCH_SIZE = 1000
+
+const createListItemsBatch = async (
   teamId: number,
   listId: number,
   values: string[],
@@ -17,4 +16,23 @@ export const createListItems = async (
       set_element: value,
     })),
   )
+}
+
+/**
+ * Insert one or more items into a list.
+ * @see https://github.com/aurora-is-near/bb-rules/tree/acc-deal/docs/acc#inserting-to-list
+ */
+export const createListItems = async (
+  teamId: number,
+  listId: number,
+  values: string[],
+) => {
+  const batches = Math.ceil(values.length / BATCH_SIZE)
+
+  for (let index = 0; index < batches; index++) {
+    const start = index * BATCH_SIZE
+    const end = start + BATCH_SIZE
+
+    await createListItemsBatch(teamId, listId, values.slice(start, end))
+  }
 }
