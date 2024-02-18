@@ -1,6 +1,6 @@
 "use client"
 
-import { deleteSilo } from "@/actions/admin/silos/delete-silo"
+import { deleteSilo } from "@/actions/silos/delete-silo"
 import TableButton from "@/components/TableButton"
 import { Silo } from "@/types/types"
 import { TrashIcon } from "@heroicons/react/24/outline"

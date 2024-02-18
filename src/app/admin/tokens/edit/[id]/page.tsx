@@ -1,4 +1,4 @@
-import { getToken } from "@/actions/admin/tokens/get-token"
+import { getToken } from "@/actions/tokens/get-token"
 import { notFound } from "next/navigation"
 import Card from "@/components/Card"
 import { TokenForm } from "@/app/admin/tokens/TokenForm"

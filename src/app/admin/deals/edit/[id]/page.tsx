@@ -2,8 +2,8 @@ import { notFound } from "next/navigation"
 import Card from "@/components/Card"
 import { DashboardPage } from "@/components/DashboardPage"
 import { DealForm } from "@/app/admin/deals/DealForm"
-import { getDeal } from "@/actions/admin/deals/get-deal"
-import { getTeams } from "@/actions/admin/teams/get-teams"
+import { getDeal } from "@/actions/deals/get-deal"
+import { getTeams } from "@/actions/teams/get-teams"
 import { DealApiRequestCard } from "@/app/admin/deals/DealApiRequestCard"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {

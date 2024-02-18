@@ -1,11 +1,11 @@
 "use client"
 
 import { Silo, Team } from "@/types/types"
-import { updateTeam } from "@/actions/admin/teams/update-team"
-import { createTeam } from "@/actions/admin/teams/create-team"
+import { updateTeam } from "@/actions/teams/update-team"
+import { createTeam } from "@/actions/teams/create-team"
 import { PROXY_DATABASES } from "@/constants/databases"
 import { SelectInputOption } from "@/components/SelectInput"
-import { setTeamSilos } from "@/actions/admin/team-silos/set-team-silos"
+import { setTeamSilos } from "@/actions/team-silos/set-team-silos"
 import { HorizontalForm } from "@/components/HorizontalForm"
 import { SubmitHandler } from "react-hook-form"
 

@@ -2,7 +2,7 @@
 
 import { Silo } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 
 export const setTeamSilos = async (
   teamId: number,

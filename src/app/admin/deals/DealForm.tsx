@@ -1,8 +1,8 @@
 "use client"
 
 import { Deal, Team } from "@/types/types"
-import { updateDeal } from "@/actions/admin/deals/update-deal"
-import { createDeal } from "@/actions/admin/deals/create-deal"
+import { updateDeal } from "@/actions/deals/update-deal"
+import { createDeal } from "@/actions/deals/create-deal"
 import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
 import { SelectInputOption } from "@/components/SelectInput"

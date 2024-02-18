@@ -1,7 +1,7 @@
 import Card from "@/components/Card"
 import { SiloForm } from "@/app/admin/silos/SiloForm"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTokens } from "@/actions/admin/tokens/get-tokens"
+import { getTokens } from "@/actions/tokens/get-tokens"
 
 const Page = async () => {
   const tokens = await getTokens()

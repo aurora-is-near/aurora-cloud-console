@@ -10,7 +10,7 @@ import Card from "@/components/Card"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { Alert } from "@/components/Alert"
 import { HorizontalInput } from "@/components/HorizontalInput"
-import { updateCurrentUser } from "@/actions/admin/current-user/update-current-user"
+import { updateCurrentUser } from "@/actions/current-user/update-current-user"
 import { User } from "@/types/types"
 
 // Track if the toast for email change has been shown already

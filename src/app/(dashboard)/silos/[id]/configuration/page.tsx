@@ -7,10 +7,10 @@ import Header from "./Header"
 import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTokens } from "@/actions/admin/tokens/get-tokens"
+import { getTokens } from "@/actions/tokens/get-tokens"
 import { getCurrentTeam } from "@/utils/current-team"
 import { headers } from "next/headers"
-import { getTeamSilo } from "@/actions/admin/team-silos/get-team-silo"
+import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const team = await getCurrentTeam(headers())

@@ -1,8 +1,8 @@
 "use client"
 
 import { Token } from "@/types/types"
-import { updateToken } from "@/actions/admin/tokens/update-token"
-import { createToken } from "@/actions/admin/tokens/create-token"
+import { updateToken } from "@/actions/tokens/update-token"
+import { createToken } from "@/actions/tokens/create-token"
 import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
 

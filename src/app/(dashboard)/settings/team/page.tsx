@@ -3,7 +3,7 @@ import { TeamMembersTable } from "@/app/(dashboard)/settings/team/TeamMembersTab
 import InviteConfirmedModal from "@/app/(dashboard)/settings/team/InviteConfirmedModal"
 import InviteModal from "@/app/(dashboard)/settings/team/InviteModal"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getCurrentUser } from "@/actions/admin/current-user/get-current-user"
+import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { getCurrentTeam } from "@/utils/current-team"
 import { headers } from "next/headers"
 

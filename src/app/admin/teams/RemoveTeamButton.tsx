@@ -1,6 +1,6 @@
 "use client"
 
-import { deleteTeam } from "@/actions/admin/teams/delete-team"
+import { deleteTeam } from "@/actions/teams/delete-team"
 import TableButton from "@/components/TableButton"
 import { Team } from "@/types/types"
 import { TrashIcon } from "@heroicons/react/24/outline"

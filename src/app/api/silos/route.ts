@@ -1,5 +1,5 @@
 import { createApiEndpoint } from "@/utils/api"
-import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { adaptSilo } from "@/utils/adapters"
 
 export const GET = createApiEndpoint("getSilos", async (_req, ctx) => {

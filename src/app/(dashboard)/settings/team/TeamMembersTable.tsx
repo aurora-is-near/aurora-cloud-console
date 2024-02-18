@@ -13,7 +13,7 @@ import { useQueryState } from "next-usequerystate"
 import { useCallback } from "react"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import TableLoader from "@/components/TableLoader"
-import { reinviteUser } from "@/actions/admin/invite/reinvite-user"
+import { reinviteUser } from "@/actions/invite/reinvite-user"
 import { toError } from "@/utils/errors"
 
 type TeamMembersTableProps = {

@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 import { getCurrentTeam } from "@/utils/current-team"
 import { headers } from "next/headers"
 import { notFound } from "next/navigation"
-import { getTeamDeal } from "@/actions/admin/team-deals/get-team-deal"
+import { getTeamDeal } from "@/actions/team-deals/get-team-deal"
 
 export default async function Layout({
   children,

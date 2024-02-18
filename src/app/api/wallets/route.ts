@@ -3,7 +3,7 @@ import {
   queryWalletCount,
   queryWallets,
 } from "../../../utils/proxy-db/query-users"
-import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 import { getLimitAndOffset } from "@/utils/pagination"
 import { abort } from "@/utils/abort"

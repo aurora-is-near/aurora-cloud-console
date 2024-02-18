@@ -3,9 +3,9 @@ import { queryTransactions } from "../../../../../utils/proxy-db/query-transacti
 import { abort } from "../../../../../utils/abort"
 import { getTransactionsChart } from "../../../../../utils/transactions"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
-import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { DealTransactionCharts } from "@/types/types"
-import { getTeamDeal } from "@/actions/admin/team-deals/get-team-deal"
+import { getTeamDeal } from "@/actions/team-deals/get-team-deal"
 
 export const GET = apiRequestHandler<DealTransactionCharts>(
   ["transactions:read"],

@@ -1,6 +1,6 @@
 import Table from "@/components/Table"
 import { formatDate } from "@/utils/helpers"
-import { getTokens } from "@/actions/admin/tokens/get-tokens"
+import { getTokens } from "@/actions/tokens/get-tokens"
 import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import { RemoveTokenButton } from "@/app/admin/tokens/RemoveTokenButton"

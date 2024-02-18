@@ -2,9 +2,9 @@ import { apiRequestHandler } from "@/utils/api"
 import { DealTransactionCharts } from "../../../../types/types"
 import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
 import { getTransactionsChart } from "../../../../utils/transactions"
-import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
-import { getTeamDeals } from "@/actions/admin/team-deals/get-team-deals"
+import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 
 export const GET = apiRequestHandler<DealTransactionCharts>(
   ["transactions:read"],

@@ -1,14 +1,14 @@
 import Table from "@/components/Table"
 import { formatDate } from "@/utils/helpers"
-import { getDeals } from "@/actions/admin/deals/get-deals"
+import { getDeals } from "@/actions/deals/get-deals"
 import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import { RemoveDealButton } from "@/app/admin/deals/RemoveDealButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { AdminToast } from "@/components/AdminToast"
-import { getTeams } from "@/actions/admin/teams/get-teams"
+import { getTeams } from "@/actions/teams/get-teams"
 import { TeamFilter } from "@/app/admin/deals/TeamFilter"
-import { getTeamDeals } from "@/actions/admin/team-deals/get-team-deals"
+import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 import { LinkButton } from "@/components/LinkButton"
 
 const Page = async ({

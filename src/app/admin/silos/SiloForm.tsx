@@ -1,8 +1,8 @@
 "use client"
 
 import { Silo, Token } from "@/types/types"
-import { updateSilo } from "@/actions/admin/silos/update-silo"
-import { createSilo } from "@/actions/admin/silos/create-silo"
+import { updateSilo } from "@/actions/silos/update-silo"
+import { createSilo } from "@/actions/silos/create-silo"
 import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
 import { SelectInputOption } from "@/components/SelectInput"

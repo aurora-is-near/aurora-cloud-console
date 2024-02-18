@@ -1,6 +1,6 @@
 "use client"
 
-import { deleteDeal } from "@/actions/admin/deals/delete-deal"
+import { deleteDeal } from "@/actions/deals/delete-deal"
 import TableButton from "@/components/TableButton"
 import { Deal } from "@/types/types"
 import { TrashIcon } from "@heroicons/react/24/outline"

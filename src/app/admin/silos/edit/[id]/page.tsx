@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation"
 import Card from "@/components/Card"
 import { SiloForm } from "@/app/admin/silos/SiloForm"
-import { getSilo } from "@/actions/admin/silos/get-silo"
+import { getSilo } from "@/actions/silos/get-silo"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTokens } from "@/actions/admin/tokens/get-tokens"
+import { getTokens } from "@/actions/tokens/get-tokens"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {
   const [silo, tokens] = await Promise.all([getSilo(id), getTokens()])

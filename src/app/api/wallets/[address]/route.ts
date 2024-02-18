@@ -1,6 +1,6 @@
 import { createApiEndpoint } from "@/utils/api"
 import { queryWallets } from "../../../../utils/proxy-db/query-users"
-import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 import { abort } from "@/utils/abort"
 import { getWalletDetails } from "@/utils/wallets"

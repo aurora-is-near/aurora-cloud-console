@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 import { notFound } from "next/navigation"
-import { isAdmin } from "@/actions/admin/is-admin"
+import { isAdmin } from "@/actions/is-admin"
 import {
   mainAdminExtraNavigation,
   mainAdminNavigation,

@@ -1,6 +1,6 @@
 import { DashboardPage } from "@/components/DashboardPage"
 import { TeamDetailsCard } from "@/app/admin/teams/TeamDetailsCard"
-import { getSilos } from "@/actions/admin/silos/get-silos"
+import { getSilos } from "@/actions/silos/get-silos"
 
 const Page = async () => {
   const allSilos = await getSilos()

@@ -1,6 +1,6 @@
 import Table from "@/components/Table"
 import { formatDate } from "@/utils/helpers"
-import { getSilos } from "@/actions/admin/silos/get-silos"
+import { getSilos } from "@/actions/silos/get-silos"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import TableButton from "@/components/TableButton"
 import { RemoveSiloButton } from "@/app/admin/silos/RemoveSiloButton"

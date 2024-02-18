@@ -1,6 +1,6 @@
 import Card from "@/components/Card"
 import DealItem from "./DealItem"
-import { getTeamDeals } from "@/actions/admin/team-deals/get-team-deals"
+import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 import { headers } from "next/headers"
 import { getCurrentTeam } from "@/utils/current-team"
 

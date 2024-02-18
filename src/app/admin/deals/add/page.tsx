@@ -1,6 +1,6 @@
 import Card from "@/components/Card"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTeams } from "@/actions/admin/teams/get-teams"
+import { getTeams } from "@/actions/teams/get-teams"
 import { DealForm } from "@/app/admin/deals/DealForm"
 
 const Page = async () => {

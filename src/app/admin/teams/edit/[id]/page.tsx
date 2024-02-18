@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation"
-import { getTeam } from "@/actions/admin/teams/get-team"
+import { getTeam } from "@/actions/teams/get-team"
 import { DashboardPage } from "@/components/DashboardPage"
 import { TeamDetailsCard } from "@/app/admin/teams/TeamDetailsCard"
-import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
-import { getSilos } from "@/actions/admin/silos/get-silos"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
+import { getSilos } from "@/actions/silos/get-silos"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const [team, teamSilos, allSilos] = await Promise.all([

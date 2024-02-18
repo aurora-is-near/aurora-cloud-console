@@ -2,7 +2,7 @@ import { apiRequestHandler } from "@/utils/api"
 import { SiloTransactionCharts } from "../../../../types/types"
 import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
 import { getTransactionsChart } from "../../../../utils/transactions"
-import { getTeamSilos } from "@/actions/admin/team-silos/get-team-silos"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 
 export const GET = apiRequestHandler<SiloTransactionCharts>(
   ["transactions:read"],

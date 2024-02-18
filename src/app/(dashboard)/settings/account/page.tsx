@@ -2,7 +2,7 @@ import UserInfoForm from "./UserInfoForm"
 import { createServerComponentClient } from "@/supabase/create-server-component-client"
 import differenceInHours from "date-fns/differenceInHours"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getCurrentUser } from "@/actions/admin/current-user/get-current-user"
+import { getCurrentUser } from "@/actions/current-user/get-current-user"
 
 const PENDING_EMAIL_CHANGE_MAX_HOURS = 24
 

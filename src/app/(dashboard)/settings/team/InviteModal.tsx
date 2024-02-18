@@ -9,7 +9,7 @@ import Modal from "@/components/Modal"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { useQueryState } from "next-usequerystate"
 import { toError } from "@/utils/errors"
-import { inviteUser } from "@/actions/admin/invite/invite-user"
+import { inviteUser } from "@/actions/invite/invite-user"
 import { useState } from "react"
 import { Team } from "@/types/types"
 

@@ -1,8 +1,8 @@
 import { apiRequestHandler } from "@/utils/api"
 import { Token } from "../../../../../types/types"
 import { abort } from "../../../../../utils/abort"
-import { getSilo } from "@/actions/admin/silos/get-silo"
-import { getSiloTokens } from "@/actions/admin/silo-tokens/get-silo-tokens"
+import { getSilo } from "@/actions/silos/get-silo"
+import { getSiloTokens } from "@/actions/silo-tokens/get-silo-tokens"
 
 export const GET = apiRequestHandler<Token[]>(
   ["silos:read"],
