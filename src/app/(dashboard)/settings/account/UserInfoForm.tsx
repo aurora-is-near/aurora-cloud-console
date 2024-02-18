@@ -7,13 +7,11 @@ import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { Button } from "@/components/Button"
 import Card from "@/components/Card"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { apiClient } from "@/utils/api/client"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { Alert } from "@/components/Alert"
 import { HorizontalInput } from "@/components/HorizontalInput"
+import { updateCurrentUser } from "@/actions/admin/current-user/update-current-user"
+import { User } from "@/types/types"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -23,22 +21,20 @@ type Inputs = {
   email?: string
 }
 
+type UserInfoFormProps = {
+  hasPendingEmailChange: boolean
+  currentUser: User
+}
+
 const UserInfoForm = ({
   hasPendingEmailChange,
-}: {
-  hasPendingEmailChange: boolean
-}) => {
+  currentUser,
+}: UserInfoFormProps) => {
+  const [user, setUser] = useState<User>(currentUser)
   const [showForm, setShowForm] = useState(false)
   const toggleForm = () => setShowForm((prev) => !prev)
   const router = useRouter()
   const pathname = usePathname()
-  const { data: user } = useQuery(getQueryFnAndKey("getCurrentUser"))
-  const getCurrentUserUpdater = useOptimisticUpdater("getCurrentUser")
-  const { mutate: updateCurrentUser } = useMutation({
-    mutationFn: apiClient.updateCurrentUser,
-    onMutate: getCurrentUserUpdater.update,
-    onSettled: getCurrentUserUpdater.invalidate,
-  })
 
   // Handle coming back to page from email change confirmation
   useEffect(() => {
@@ -73,15 +69,15 @@ const UserInfoForm = ({
   const updateUser: SubmitHandler<Inputs> = async ({ name, email }) => {
     if (
       (!name && !email) ||
-      (name === user?.name && email === user?.email) ||
-      (!name && email === user?.email) ||
-      (name === user?.name && !email)
+      (name === user.name && email === user.email) ||
+      (!name && email === user.email) ||
+      (name === user.name && !email)
     ) {
       return toggleForm()
     }
 
     try {
-      if (email !== user?.email) {
+      if (email !== user.email) {
         const supabase = createClientComponentClient()
 
         const { error } = await supabase.auth.updateUser(
@@ -94,12 +90,11 @@ const UserInfoForm = ({
         if (error) throw "Email change failed."
       }
 
-      if (name !== user?.name) {
-        updateCurrentUser({ name })
+      if (name && name !== user.name) {
+        setUser(await updateCurrentUser(user.user_id, { name }))
       }
 
       setShowForm(false)
-      router.refresh()
     } catch (error) {
       console.error(error)
     }
@@ -140,7 +135,7 @@ const UserInfoForm = ({
               autoComplete="name"
               register={register}
               registerOptions={{
-                value: user?.name ?? "",
+                value: user.name ?? "",
               }}
             />
 
@@ -151,7 +146,7 @@ const UserInfoForm = ({
               autoComplete="email"
               register={register}
               registerOptions={{
-                value: user?.email ?? "",
+                value: user.email ?? "",
               }}
             />
 
@@ -167,7 +162,7 @@ const UserInfoForm = ({
                 Name
               </dt>
               <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-                {user?.name || "-"}
+                {user.name || "-"}
               </dd>
             </div>
             <div className="items-center sm:grid sm:grid-cols-2 h-9">
@@ -175,7 +170,7 @@ const UserInfoForm = ({
                 Email
               </dt>
               <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-                {user?.email}
+                {user.email}
               </dd>
             </div>
 

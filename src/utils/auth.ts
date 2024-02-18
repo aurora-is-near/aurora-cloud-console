@@ -109,7 +109,7 @@ const getUserFromSessionCookie = async (): Promise<ApiUser | null> => {
     return null
   }
 
-  // If authenticated using a valid session cookie e assume the user is logged
+  // If authenticated using a valid session cookie assume the user is logged
   // in via the dashboard and should be given write permissions.
   return {
     ...user,

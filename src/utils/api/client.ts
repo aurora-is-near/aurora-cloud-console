@@ -47,14 +47,6 @@ const del = async <T extends ApiOperation>(url: string) =>
   })
 
 export const apiClient = {
-  getCurrentUser: async () => request<User>("/api/admin/current-user"),
-
-  updateCurrentUser: async (data: Partial<Pick<User, "name">>) =>
-    request<User>("/api/admin/user", {
-      method: "PATCH",
-      body: JSON.stringify(data),
-    }),
-
   inviteUser: async (data: Partial<Pick<User, "email" | "name">>) =>
     request("/api/admin/team/invite", {
       method: "POST",

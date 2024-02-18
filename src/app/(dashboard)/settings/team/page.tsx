@@ -3,11 +3,14 @@ import { TeamMembersTable } from "@/app/(dashboard)/settings/team/TeamMembersTab
 import InviteConfirmedModal from "@/app/(dashboard)/settings/team/InviteConfirmedModal"
 import InviteModal from "@/app/(dashboard)/settings/team/InviteModal"
 import { DashboardPage } from "@/components/DashboardPage"
+import { getCurrentUser } from "@/actions/admin/current-user/get-current-user"
 
-const Page = () => {
+const Page = async () => {
+  const currentUser = await getCurrentUser()
+
   return (
     <DashboardPage heading="Team" actions={<InviteButton />}>
-      <TeamMembersTable />
+      <TeamMembersTable currentUser={currentUser} />
       <InviteModal />
       <InviteConfirmedModal />
     </DashboardPage>

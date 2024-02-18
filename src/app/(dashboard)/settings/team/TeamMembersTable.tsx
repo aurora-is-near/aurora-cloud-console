@@ -5,7 +5,7 @@ import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { TeamMember } from "@/types/types"
+import { TeamMember, User } from "@/types/types"
 import { apiClient } from "@/utils/api/client"
 import { TrashIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import { useMutation, useQuery } from "@tanstack/react-query"
@@ -14,13 +14,17 @@ import { useCallback } from "react"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import TableLoader from "@/components/TableLoader"
 
-export const TeamMembersTable = () => {
+type TeamMembersTableProps = {
+  currentUser: User | null
+}
+
+export const TeamMembersTable = ({ currentUser }: TeamMembersTableProps) => {
   const { data: teamMembers, isLoading } = useQuery(
     getQueryFnAndKey("getTeamMembers"),
   )
 
   const getTeamMembersUpdater = useOptimisticUpdater("getTeamMembers")
-  const { data: currentUser } = useQuery(getQueryFnAndKey("getCurrentUser"))
+
   const { openModal } = useModals()
   const [, setEmail] = useQueryState("email")
 
