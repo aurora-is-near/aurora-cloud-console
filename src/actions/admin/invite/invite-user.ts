@@ -1,4 +1,5 @@
-import { apiRequestHandler } from "@/utils/api"
+"use server"
+
 import { abort } from "@/utils/abort"
 import { sendEmail } from "@/utils/email"
 import { Team } from "@/types/types"
@@ -50,31 +51,38 @@ const addUserToTeam = async (
   })
 }
 
-export const POST = apiRequestHandler(["admin"], async (req, ctx) => {
-  const { email, name } = ctx.body as { email: string; name: string }
+export const inviteUser = async (
+  team: Team,
+  {
+    email,
+    name,
+    origin,
+  }: {
+    email: string
+    name: string
+    origin: string
+  },
+) => {
   const cleanedEmail = email.toLowerCase().trim()
   const supabase = createAdminSupabaseClient()
-
   const user = await getUserId(cleanedEmail)
 
   if (!user) {
     const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
-      redirectTo: `${req.nextUrl.origin}${AUTH_ACCEPT_ROUTE}`,
-      data: { name, new_team: ctx.team.team_key },
+      redirectTo: `${origin}${AUTH_ACCEPT_ROUTE}`,
+      data: { name, new_team: team.team_key },
     })
 
     if (error) {
       throw error
     }
 
-    return { status: "OK" }
+    return
   }
 
-  if (await isTeamMember(user.id, ctx.team.id)) {
+  if (await isTeamMember(user.id, team.id)) {
     abort(400, "User is already a member of this team")
   }
 
-  await addUserToTeam(user.id, cleanedEmail, ctx.team, req.nextUrl.origin)
-
-  return { status: "OK" }
-})
+  await addUserToTeam(user.id, cleanedEmail, team, origin)
+}

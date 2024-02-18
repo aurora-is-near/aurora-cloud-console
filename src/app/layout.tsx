@@ -2,6 +2,7 @@ import { circular } from "@/styles/fonts/fonts"
 import type { Metadata } from "next"
 import "../styles/globals.css"
 import Providers from "@/app/Providers"
+import { ErrorModal } from "@/components/ErrorModal"
 
 export const metadata: Metadata = {
   title: "Aurora Cloud Console",
@@ -16,7 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body className={`${circular.variable} font-sans h-full bg-gray-50`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <ErrorModal />
+        </Providers>
       </body>
     </html>
   )

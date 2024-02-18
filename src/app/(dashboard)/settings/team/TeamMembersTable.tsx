@@ -5,7 +5,7 @@ import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { TeamMember, User } from "@/types/types"
+import { Team, TeamMember, User } from "@/types/types"
 import { apiClient } from "@/utils/api/client"
 import { TrashIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import { useMutation, useQuery } from "@tanstack/react-query"
@@ -13,12 +13,16 @@ import { useQueryState } from "next-usequerystate"
 import { useCallback } from "react"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import TableLoader from "@/components/TableLoader"
+import { reinviteUser } from "@/actions/admin/invite/reinvite-user"
+import { toError } from "@/utils/errors"
 
 type TeamMembersTableProps = {
   currentUser: User | null
 }
 
 export const TeamMembersTable = ({ currentUser }: TeamMembersTableProps) => {
+  const [, setErrorTitle] = useQueryState("error_title")
+  const [, setErrorDescription] = useQueryState("error_description")
   const { data: teamMembers, isLoading } = useQuery(
     getQueryFnAndKey("getTeamMembers"),
   )
@@ -42,10 +46,6 @@ export const TeamMembersTable = ({ currentUser }: TeamMembersTableProps) => {
     onSettled: getTeamMembersUpdater.invalidate,
   })
 
-  const { mutateAsync: reinviteUser } = useMutation({
-    mutationFn: apiClient.reinviteUser,
-  })
-
   const onRemoveTeamMemberClick = useCallback(
     (teamMember: TeamMember) => {
       if (confirm(`Are you sure you want to remove ${teamMember.email}?`)) {
@@ -56,12 +56,23 @@ export const TeamMembersTable = ({ currentUser }: TeamMembersTableProps) => {
   )
 
   const onReinviteTeamMemberClick = useCallback(
-    (teamMember: TeamMember) => {
-      reinviteUser({ email: teamMember.email })
+    async (teamMember: TeamMember) => {
+      try {
+        await reinviteUser({
+          email: teamMember.email,
+          origin: window.location.origin,
+        })
+      } catch (err) {
+        setErrorTitle("Invite failed")
+        setErrorDescription(toError(err).message)
+        openModal(Modals.Error)
+        return
+      }
+
       setEmail(teamMember.email)
       openModal(Modals.InviteConfirmed)
     },
-    [openModal, reinviteUser, setEmail],
+    [openModal, setEmail, setErrorDescription, setErrorTitle],
   )
 
   if (isLoading) {

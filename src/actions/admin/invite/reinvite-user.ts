@@ -1,21 +1,25 @@
-import { apiRequestHandler } from "@/utils/api"
+"use server"
+
 import { AUTH_ACCEPT_ROUTE } from "@/constants/routes"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const POST = apiRequestHandler(["admin"], async (req, ctx) => {
-  const { email } = ctx.body as { email: string }
+export const reinviteUser = async ({
+  email,
+  origin,
+}: {
+  email: string
+  origin: string
+}) => {
   const supabase = createAdminSupabaseClient()
   const { error } = await supabase.auth.resend({
     email,
     type: "signup",
     options: {
-      emailRedirectTo: `${req.nextUrl.origin}${AUTH_ACCEPT_ROUTE}`,
+      emailRedirectTo: `${origin}${AUTH_ACCEPT_ROUTE}`,
     },
   })
 
   if (error) {
     throw error
   }
-
-  return { status: "OK" }
-})
+}

@@ -6,18 +6,24 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
-import { useMutation } from "@tanstack/react-query"
-import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { useQueryState } from "next-usequerystate"
-import { useEffect } from "react"
+import { toError } from "@/utils/errors"
+import { inviteUser } from "@/actions/admin/invite/invite-user"
+import { useState } from "react"
+import { Team } from "@/types/types"
 
 type Inputs = {
   name: string
   email: string
 }
 
-const InviteModal = () => {
+type InviteModalProps = {
+  team: Team
+}
+
+const InviteModal = ({ team }: InviteModalProps) => {
+  const [isLoading, setIsLoading] = useState(false)
   const { activeModal, closeModal, openModal } = useModals()
   const isOpen = activeModal === Modals.Invite
   const [, setEmail] = useQueryState("email")
@@ -38,46 +44,34 @@ const InviteModal = () => {
     closeModal()
     getTeamMembersUpdater.invalidate()
     setTimeout(() => {
-      resetMutation()
       resetForm()
     }, 200)
   }
 
-  const {
-    mutateAsync: inviteUser,
-    isPending,
-    isSuccess,
-    reset: resetMutation,
-  } = useMutation({
-    mutationFn: apiClient.inviteUser,
-    onError: (error: any) =>
-      setError("root.serverError", {
-        message:
-          error?.responseBody || "Something went wrong. Please try again.",
-      }),
-  })
+  const sendInvite: SubmitHandler<Inputs> = async (data) => {
+    setIsLoading(true)
 
-  const sendInvite: SubmitHandler<Inputs> = async (data) => inviteUser(data)
+    try {
+      await inviteUser(team, {
+        ...data,
+        origin: window.location.origin,
+      })
+    } catch (err) {
+      setIsLoading(false)
+      setError("root", {
+        type: "serverError",
+        message: toError(err).message,
+      })
 
-  useEffect(() => {
-    if (!isSuccess) {
       return
     }
 
+    setIsLoading(false)
     resetForm()
-    resetMutation()
     setEmail(email)
     closeModal()
     openModal(Modals.InviteConfirmed)
-  }, [
-    isSuccess,
-    closeModal,
-    openModal,
-    setEmail,
-    email,
-    resetForm,
-    resetMutation,
-  ])
+  }
 
   return (
     <Modal title="Invite team member" open={isOpen} close={handleClose}>
@@ -132,7 +126,7 @@ const InviteModal = () => {
           )}
         </div>
 
-        <Button type="submit" loading={isPending}>
+        <Button type="submit" loading={isLoading}>
           <PaperAirplaneIcon className="w-5 h-5" />
           Send invitation
         </Button>

@@ -1,4 +1,5 @@
 export enum Modals {
+  Error = "error",
   DeleteListItem = "deleteListItem",
   ViewListItemDetails = "viewListItemDetails",
   AddList = "addList",
