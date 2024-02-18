@@ -3,43 +3,29 @@
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { API_KEY_SCOPES } from "@/constants/scopes"
-import { PublicApiScope } from "@/types/types"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { apiClient } from "@/utils/api/client"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { ApiKey, PublicApiScope } from "@/types/types"
 import { useQueryState } from "next-usequerystate"
 import { useMemo } from "react"
 import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
-import { getQueryFnAndKey } from "@/utils/api/queries"
+import { updateApiKey } from "@/actions/api-keys/update-api-key"
+import { useRouter } from "next/navigation"
 
-const EditApiKeyModal = () => {
+type EditApiKeyModalProps = {
+  apiKeys: ApiKey[]
+}
+
+const EditApiKeyModal = ({ apiKeys }: EditApiKeyModalProps) => {
   const { activeModal, closeModal } = useModals()
   const [id] = useQueryState("id")
   const isOpen = activeModal === Modals.EditApiKey
   const apiKeyId = id ? Number(id) : undefined
-  const { data: apiKey } = useQuery({
-    ...getQueryFnAndKey("getApiKey", { id: apiKeyId }),
-    enabled: !!apiKeyId,
-  })
-
-  const getApiKeyUpdater = useOptimisticUpdater("getApiKey", { id: apiKeyId })
-  const getApiKeysUpdater = useOptimisticUpdater("getApiKeys")
-
-  const { mutate: updateApiKey } = useMutation({
-    mutationFn: apiClient.updateApiKey,
-    onMutate: getApiKeyUpdater.update,
-    onSuccess: closeModal,
-    onSettled: () => {
-      getApiKeyUpdater.invalidate()
-      getApiKeysUpdater.invalidate()
-    },
-  })
+  const apiKey = apiKeys.find((apiKey) => apiKey.id === apiKeyId)
+  const router = useRouter()
 
   const onSubmit = async (data: { note: string; scopes: PublicApiScope[] }) => {
-    updateApiKey({
-      id: Number(id),
-      ...data,
-    })
+    await updateApiKey(Number(id), data)
+    closeModal()
+    router.refresh()
   }
 
   const values = useMemo(

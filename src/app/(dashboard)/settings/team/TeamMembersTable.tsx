@@ -17,7 +17,7 @@ import { reinviteUser } from "@/actions/invite/reinvite-user"
 import { toError } from "@/utils/errors"
 
 type TeamMembersTableProps = {
-  currentUser: User | null
+  currentUser: User
 }
 
 export const TeamMembersTable = ({ currentUser }: TeamMembersTableProps) => {
@@ -86,7 +86,7 @@ export const TeamMembersTable = ({ currentUser }: TeamMembersTableProps) => {
       <Table.TH>Status</Table.TH>
       <Table.TH hidden>Actions</Table.TH>
       {teamMembers?.items.map((teamMember) => {
-        const isCurrentUser = currentUser?.id === teamMember.id
+        const isCurrentUser = currentUser.id === teamMember.id
 
         return (
           <Table.TR key={teamMember.email}>
@@ -97,7 +97,7 @@ export const TeamMembersTable = ({ currentUser }: TeamMembersTableProps) => {
               {teamMember.isPending && !isCurrentUser ? (
                 <TableButton
                   Icon={PaperAirplaneIcon}
-                  disabled={currentUser?.id === teamMember.id}
+                  disabled={currentUser.id === teamMember.id}
                   srOnlyText={`Reinvite ${teamMember.name ?? "user"}`}
                   onClick={() => {
                     onReinviteTeamMemberClick(teamMember)

@@ -1,11 +1,14 @@
+import { getApiKeys } from "@/actions/api-keys/get-api-keys"
 import AddApiKeyButton from "./AddApiKeyButton"
-import { ApiKeysTable } from "@/app/(dashboard)/settings/api-keys/ApiKeysTable"
+import { ApiKeysTable } from "./ApiKeysTable"
 import { DashboardPage } from "@/components/DashboardPage"
 
-const Page = () => {
+const Page = async () => {
+  const apiKeys = await getApiKeys()
+
   return (
     <DashboardPage heading="API Keys" actions={<AddApiKeyButton />}>
-      <ApiKeysTable />
+      <ApiKeysTable apiKeys={apiKeys} />
     </DashboardPage>
   )
 }

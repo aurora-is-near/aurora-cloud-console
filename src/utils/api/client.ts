@@ -99,31 +99,6 @@ export const apiClient = {
   updateDealPriorities: async (data: ApiRequestBody<"updateDealPriorities">) =>
     put<"updateDealPriorities">(`/api/deals/priorities`, data),
 
-  getApiKeys: async () => request<ApiKey[]>("/api/admin/api-keys"),
-
-  getApiKey: async ({ id }: Partial<Pick<ApiKey, "id">>) =>
-    request<ApiKey>(`/api/admin/api-keys/${id}`),
-
-  createApiKey: async (data: Partial<Pick<ApiKey, "note" | "scopes">>) =>
-    request<ApiKey>("/api/admin/api-keys", {
-      method: "POST",
-      body: JSON.stringify(data),
-    }),
-
-  updateApiKey: async ({
-    id,
-    ...data
-  }: Partial<Pick<ApiKey, "id" | "note" | "scopes">>) =>
-    request<ApiKey>(`/api/admin/api-keys/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    }),
-
-  deleteApiKey: async ({ id }: Partial<Pick<ApiKey, "id">>) =>
-    request(`/api/admin/api-keys/${id}`, {
-      method: "DELETE",
-    }),
-
   sendContactMessage: async (data: {
     subject: string
     message: string

@@ -42,7 +42,7 @@ const AddOrEditApiKeyModal = ({
         .filter((key): key is PublicApiScope => !!key),
     }
 
-    onSubmit(data)
+    await onSubmit(data)
   }
 
   useEffect(() => {

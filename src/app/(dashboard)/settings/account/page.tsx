@@ -16,7 +16,7 @@ const Page = async () => {
     currentUser,
   ] = await Promise.all([supabase.auth.getUser(), getCurrentUser()])
 
-  if (!authUser || !currentUser) throw "No user found."
+  if (!authUser) throw "No user found."
 
   // The pending email change will expire by default after 24 hours.
   const hasRecentEmailChange = authUser.email_change_sent_at

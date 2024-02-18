@@ -4,7 +4,7 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
 import { User } from "@/types/types"
 
-export const getCurrentUser = async (): Promise<User | null> => {
+export const getCurrentUser = async (): Promise<User> => {
   const supabase = createRouteHandlerClient()
   const {
     data: { session },
@@ -13,7 +13,7 @@ export const getCurrentUser = async (): Promise<User | null> => {
   const { id } = session?.user ?? {}
 
   if (!id) {
-    return null
+    throw new Error("No authenticated user found")
   }
 
   const { data } = await createAdminSupabaseClient()
@@ -21,6 +21,10 @@ export const getCurrentUser = async (): Promise<User | null> => {
     .select()
     .eq("user_id", id)
     .single()
+
+  if (!data) {
+    throw new Error("No user found")
+  }
 
   return data
 }

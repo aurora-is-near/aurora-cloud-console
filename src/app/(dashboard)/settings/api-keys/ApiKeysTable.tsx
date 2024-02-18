@@ -8,13 +8,15 @@ import { relativeTime } from "human-date"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
-import TableLoader from "../../../../components/TableLoader"
-import { useApiKeys } from "@/hooks/useApiKeys"
 import { NoDataCta } from "@/components/NoDataCta"
 import DropdownMenu from "@/components/DropdownMenu"
+import { ApiKey } from "@/types/types"
 
-export const ApiKeysTable = () => {
-  const { data: apiKeys, isLoading } = useApiKeys()
+type ApiKeysTableProps = {
+  apiKeys: ApiKey[]
+}
+
+export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
   const [, setId] = useQueryState("id")
   const { openModal } = useModals()
 
@@ -26,10 +28,6 @@ export const ApiKeysTable = () => {
   const onDeleteClick = (id: number) => {
     setId(String(id))
     openModal(Modals.DeleteApiKey)
-  }
-
-  if (isLoading) {
-    return <TableLoader />
   }
 
   if (!!apiKeys && !apiKeys?.length) {

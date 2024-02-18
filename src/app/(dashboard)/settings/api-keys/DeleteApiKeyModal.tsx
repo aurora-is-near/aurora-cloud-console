@@ -4,37 +4,27 @@ import { useQueryState } from "next-usequerystate"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { DeleteModal } from "@/components/DeleteModal"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { useMutation } from "@tanstack/react-query"
-import { apiClient } from "@/utils/api/client"
+import { deleteApiKey } from "@/actions/api-keys/delete-api-key"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export const DeleteApiKeyModal = () => {
+  const [isPending, setIsPending] = useState(false)
   const { activeModal, closeModal } = useModals()
   const [id, setId] = useQueryState("id")
+  const router = useRouter()
 
   const onClose = () => {
     setId(null)
     closeModal()
   }
 
-  const getApiKeysUpdater = useOptimisticUpdater("getApiKeys")
-
-  const { mutate: deleteApiKey, isPending } = useMutation({
-    mutationFn: apiClient.deleteApiKey,
-    onSettled: getApiKeysUpdater.invalidate,
-  })
-
   const onDeleteClick = async () => {
-    if (!id) {
-      throw new Error("An ID is required to delete the api key")
-    }
-
-    deleteApiKey(
-      { id: Number(id) },
-      {
-        onSettled: closeModal,
-      },
-    )
+    setIsPending(true)
+    await deleteApiKey(Number(id))
+    setIsPending(false)
+    onClose()
+    router.refresh()
   }
 
   return (
