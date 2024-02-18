@@ -1,10 +1,6 @@
 "use client"
 
-import {
-  Token,
-  SiloTransactionCharts,
-  DealTransactionCharts,
-} from "@/types/types"
+import { SiloTransactionCharts, DealTransactionCharts } from "@/types/types"
 import { request } from "./request"
 import {
   ApiOperation,
@@ -49,7 +45,7 @@ export const apiClient = {
   getSilos: async () => get<"getSilos">("/api/silos"),
 
   getSiloTokens: async ({ id }: { id: number }) =>
-    request<Token[]>(`/api/silos/${id}/tokens`),
+    get<"getSiloTokens">(`/api/silos/${id}/tokens`),
 
   getDeals: async () => get<"getDeals">("/api/deals"),
 

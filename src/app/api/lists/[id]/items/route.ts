@@ -1,5 +1,4 @@
 import { createApiEndpoint } from "@/utils/api"
-import { ApiRequestBody } from "@/types/api"
 import { abort } from "../../../../../utils/abort"
 import { getLimitAndCursor } from "@/utils/pagination"
 import { createListItems } from "@/utils/proxy-api/create-list-items"

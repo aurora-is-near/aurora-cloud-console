@@ -66,6 +66,14 @@ export const WalletDetailsSchema = z.object({
   lastTransactionAt: z.string(),
 })
 
+export const TokenSchema = z.object({
+  address: z.string(),
+  createdAt: z.string(),
+  id: z.number(),
+  name: z.string(),
+  type: z.string(),
+})
+
 export const contract = c.router({
   getDeals: {
     summary: "Get all deals",
@@ -170,6 +178,22 @@ export const contract = c.router({
     path: "/api/silos/:id",
     responses: {
       200: SiloSchema,
+    },
+    metadata: {
+      scopes: ["silos:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  getSiloTokens: {
+    summary: "Get the tokens associated with a silo",
+    method: "GET",
+    path: "/api/silos/:id/tokens",
+    responses: {
+      200: z.object({
+        items: z.array(TokenSchema),
+      }),
     },
     metadata: {
       scopes: ["silos:read"],

@@ -20,7 +20,7 @@ const TokensTable = ({ siloId }: { siloId: number }) => {
       <Table.TH>Token</Table.TH>
       <Table.TH>Address</Table.TH>
       <Table.TH>Type</Table.TH>
-      {tokens?.map((token) => (
+      {tokens?.items.map((token) => (
         <Table.TR key={token.address}>
           <Table.TD dark>{token.name}</Table.TD>
           <Table.TD>
