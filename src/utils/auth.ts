@@ -110,7 +110,7 @@ const getUserFromSessionCookie = async (): Promise<ApiUser | null> => {
   }
 
   // If authenticated using a valid session cookie assume the user is logged
-  // in via the dashboard and should be given write permissions.
+  // in via the dashboard and should be given admin permissions.
   return {
     ...user,
     scopes: ["admin"],

@@ -5,18 +5,18 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { useQueryState } from "next-usequerystate"
+import { useRouter } from "next/navigation"
 
 const InviteConfirmedModal = () => {
   const { activeModal, closeModal } = useModals()
   const isOpen = activeModal === Modals.InviteConfirmed
   const [email] = useQueryState("email")
-  const getTeamMembersUpdater = useOptimisticUpdater("getTeamMembers")
+  const router = useRouter()
 
   const handleClose = () => {
     closeModal()
-    getTeamMembersUpdater.invalidate()
+    router.refresh()
   }
 
   return (

@@ -6,12 +6,12 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { useQueryState } from "next-usequerystate"
 import { toError } from "@/utils/errors"
 import { inviteUser } from "@/actions/invite/invite-user"
 import { useState } from "react"
 import { Team } from "@/types/types"
+import { useRouter } from "next/navigation"
 
 type Inputs = {
   name: string
@@ -27,7 +27,7 @@ const InviteModal = ({ team }: InviteModalProps) => {
   const { activeModal, closeModal, openModal } = useModals()
   const isOpen = activeModal === Modals.Invite
   const [, setEmail] = useQueryState("email")
-  const getTeamMembersUpdater = useOptimisticUpdater("getTeamMembers")
+  const router = useRouter()
 
   const {
     register,
@@ -42,10 +42,7 @@ const InviteModal = ({ team }: InviteModalProps) => {
 
   const handleClose = () => {
     closeModal()
-    getTeamMembersUpdater.invalidate()
-    setTimeout(() => {
-      resetForm()
-    }, 200)
+    router.refresh()
   }
 
   const sendInvite: SubmitHandler<Inputs> = async (data) => {

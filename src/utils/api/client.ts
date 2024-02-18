@@ -1,10 +1,6 @@
 "use client"
 
 import {
-  ApiKey,
-  User,
-  TeamMembers,
-  Team,
   Token,
   SiloTransactionCharts,
   DealTransactionCharts,
@@ -98,15 +94,6 @@ export const apiClient = {
 
   updateDealPriorities: async (data: ApiRequestBody<"updateDealPriorities">) =>
     put<"updateDealPriorities">(`/api/deals/priorities`, data),
-
-  getTeam: async () => request<Team>("/api/admin/team"),
-
-  getTeamMembers: async () => request<TeamMembers>("/api/admin/team/members"),
-
-  deleteTeamMember: async ({ id }: { id: number }) =>
-    request(`/api/admin/team/members/${id}`, {
-      method: "DELETE",
-    }),
 
   getLists: async () => get<"getLists">("/api/lists"),
 

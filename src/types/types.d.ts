@@ -52,11 +52,6 @@ export type TeamMember = {
   isPending: boolean
 }
 
-export type TeamMembers = {
-  total: number
-  items: TeamMember[]
-}
-
 export type TableName = keyof Database["public"]["Tables"]
 
 export type Tables<T extends TableName> = Database["public"]["Tables"][T]["Row"]

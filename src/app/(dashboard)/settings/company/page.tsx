@@ -1,13 +1,10 @@
-"use client"
-
-import Heading from "@/components/Heading"
 import Card from "@/components/Card"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
 import { DashboardPage } from "@/components/DashboardPage"
+import { getCurrentTeam } from "@/utils/current-team"
+import { headers } from "next/headers"
 
-const Page = () => {
-  const { data: team } = useQuery(getQueryFnAndKey("getTeam"))
+const Page = async () => {
+  const team = await getCurrentTeam(headers())
 
   return (
     <DashboardPage heading="Company">
@@ -19,7 +16,7 @@ const Page = () => {
               Company name
             </dt>
             <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-              {team?.name}
+              {team.name}
             </dd>
           </div>
           <div className="sm:grid sm:grid-cols-2">
@@ -27,7 +24,7 @@ const Page = () => {
               Business website
             </dt>
             <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-              {team?.website}
+              {team.website}
             </dd>
           </div>
           <div className="sm:grid sm:grid-cols-2">
@@ -35,7 +32,7 @@ const Page = () => {
               Support email
             </dt>
             <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-              {team?.email}
+              {team.email}
             </dd>
           </div>
         </dl>

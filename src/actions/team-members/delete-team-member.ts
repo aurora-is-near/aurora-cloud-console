@@ -1,19 +1,19 @@
-import { apiRequestHandler } from "@/utils/api"
+"use server"
+
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { getCurrentTeam } from "@/utils/current-team"
 import { assertValidSupabaseResult } from "@/utils/supabase"
+import { headers } from "next/headers"
 
-export const DELETE = apiRequestHandler(["admin"], async (_req, ctx) => {
-  const apiKeyId = ctx.params.id
-
+export const deleteTeamMember = async (id: number) => {
   const supabase = createAdminSupabaseClient()
+  const team = await getCurrentTeam(headers())
   const result = await supabase
     .from("users_teams")
     .delete()
-    .filter("user_id", "eq", apiKeyId)
-    .eq("user_id", apiKeyId)
-    .eq("team_id", ctx.team.id)
+    .filter("user_id", "eq", id)
+    .eq("user_id", id)
+    .eq("team_id", team.id)
 
   assertValidSupabaseResult(result)
-
-  return { status: "OK" }
-})
+}

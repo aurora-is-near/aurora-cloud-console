@@ -4,55 +4,38 @@ import Table from "@/components/Table"
 import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { Team, TeamMember, User } from "@/types/types"
-import { apiClient } from "@/utils/api/client"
+import { TeamMember, User } from "@/types/types"
 import { TrashIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
-import { useMutation, useQuery } from "@tanstack/react-query"
 import { useQueryState } from "next-usequerystate"
 import { useCallback } from "react"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import TableLoader from "@/components/TableLoader"
 import { reinviteUser } from "@/actions/invite/reinvite-user"
 import { toError } from "@/utils/errors"
+import { deleteTeamMember } from "@/actions/team-members/delete-team-member"
+import { useRouter } from "next/navigation"
 
 type TeamMembersTableProps = {
   currentUser: User
+  teamMembers: TeamMember[]
 }
 
-export const TeamMembersTable = ({ currentUser }: TeamMembersTableProps) => {
+export const TeamMembersTable = ({
+  currentUser,
+  teamMembers,
+}: TeamMembersTableProps) => {
   const [, setErrorTitle] = useQueryState("error_title")
   const [, setErrorDescription] = useQueryState("error_description")
-  const { data: teamMembers, isLoading } = useQuery(
-    getQueryFnAndKey("getTeamMembers"),
-  )
-
-  const getTeamMembersUpdater = useOptimisticUpdater("getTeamMembers")
-
   const { openModal } = useModals()
   const [, setEmail] = useQueryState("email")
-
-  const { mutate: deleteTeamMember } = useMutation({
-    mutationFn: apiClient.deleteTeamMember,
-    onMutate: ({ id }) => {
-      const newTeamMembers =
-        teamMembers?.items.filter((teamMember) => teamMember.id !== id) || []
-
-      getTeamMembersUpdater.replace({
-        total: newTeamMembers.length,
-        items: newTeamMembers,
-      })
-    },
-    onSettled: getTeamMembersUpdater.invalidate,
-  })
+  const router = useRouter()
 
   const onRemoveTeamMemberClick = useCallback(
-    (teamMember: TeamMember) => {
+    async (teamMember: TeamMember) => {
       if (confirm(`Are you sure you want to remove ${teamMember.email}?`)) {
-        deleteTeamMember({ id: teamMember.id })
+        await deleteTeamMember(teamMember.id)
+        router.refresh()
       }
     },
-    [deleteTeamMember],
+    [router],
   )
 
   const onReinviteTeamMemberClick = useCallback(
@@ -75,17 +58,13 @@ export const TeamMembersTable = ({ currentUser }: TeamMembersTableProps) => {
     [openModal, setEmail, setErrorDescription, setErrorTitle],
   )
 
-  if (isLoading) {
-    return <TableLoader />
-  }
-
   return (
     <Table>
       <Table.TH>Email</Table.TH>
       <Table.TH>Name</Table.TH>
       <Table.TH>Status</Table.TH>
       <Table.TH hidden>Actions</Table.TH>
-      {teamMembers?.items.map((teamMember) => {
+      {teamMembers.map((teamMember) => {
         const isCurrentUser = currentUser.id === teamMember.id
 
         return (
