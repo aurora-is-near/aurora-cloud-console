@@ -1,6 +1,6 @@
 "use client"
 
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { Cog6ToothIcon } from "@heroicons/react/20/solid"

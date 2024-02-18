@@ -1,6 +1,6 @@
 "use client"
 
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { formatDateAndTime } from "@/utils/helpers"
@@ -14,7 +14,7 @@ export const SaveChangesBar = () => {
     <div className="inset-x-0 bottom-0 bg-white px-8 py-5 flex items-center justify-between border-t">
       <Button
         disabled={!hasPendingUpdates || isUpdating}
-        style="secondary"
+        variant="secondary"
         onClick={clearPendingUpdates}
       >
         Reset

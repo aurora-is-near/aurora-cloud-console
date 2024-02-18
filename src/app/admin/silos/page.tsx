@@ -2,11 +2,11 @@ import Table from "@/components/Table"
 import { formatDate } from "@/utils/helpers"
 import { getSilos } from "@/actions/admin/silos/get-silos"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
-import Button from "@/components/Button"
 import TableButton from "@/components/TableButton"
 import { RemoveSiloButton } from "@/app/admin/silos/RemoveSiloButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { AdminToast } from "@/components/AdminToast"
+import { LinkButton } from "@/components/LinkButton"
 
 const Page = async () => {
   const silos = await getSilos()
@@ -16,10 +16,10 @@ const Page = async () => {
       <DashboardPage
         heading="Silos"
         actions={
-          <Button href="/admin/silos/add">
+          <LinkButton href="/admin/silos/add">
             <PlusCircleIcon className="w-5 h-5" />
             <span>Add silo</span>
-          </Button>
+          </LinkButton>
         }
       >
         <section>

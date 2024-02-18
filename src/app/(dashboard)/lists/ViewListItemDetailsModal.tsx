@@ -2,7 +2,7 @@
 
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { TrashIcon } from "@heroicons/react/20/solid"
 import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
@@ -53,7 +53,7 @@ export const ViewListItemDetailsModal = () => {
       <SlideOver.Actions>
         <div className="flex items-center flex-1 justify-end">
           <div className="flex items-center gap-3">
-            <Button style="secondary" onClick={deleteList}>
+            <Button variant="secondary" onClick={deleteList}>
               <TrashIcon className="w-5 h-5 text-gray-900" />
               Delete
             </Button>

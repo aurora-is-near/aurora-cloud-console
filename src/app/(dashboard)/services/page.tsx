@@ -1,6 +1,6 @@
 "use client"
 
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
 import { DashboardPage } from "@/components/DashboardPage"
 import { useModals } from "@/hooks/useModals"
@@ -74,7 +74,7 @@ const Page = () => {
                   <p className="text-sm mt-1.5 text-gray-500">{description}</p>
                 </div>
                 <Button
-                  style="border"
+                  variant="border"
                   size="sm"
                   className="flex-shrink-0"
                   onClick={() => openModal(Modals.Contact)}

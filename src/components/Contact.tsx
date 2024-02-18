@@ -2,7 +2,7 @@
 
 import { LifebuoyIcon } from "@heroicons/react/24/outline"
 import { useModals } from "@/hooks/useModals"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
 import { Modals } from "@/utils/modals"
 
@@ -29,7 +29,7 @@ const Contact = ({
           <Button
             className="flex-shrink-0"
             onClick={() => openModal(Modals.Contact)}
-            style="border"
+            variant="border"
             size="sm"
           >
             Contact us

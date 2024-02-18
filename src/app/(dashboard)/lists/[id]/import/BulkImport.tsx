@@ -1,7 +1,7 @@
 "use client"
 
 import { BulkImportModal } from "@/app/(dashboard)/lists/[id]/import/BulkImportModal"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import Table from "@/components/Table"
 import Papa from "papaparse"
 import { useCallback, useMemo, useState } from "react"
@@ -78,7 +78,9 @@ export const BulkImport = ({ listId }: BulkImportProps) => {
                     <Table.TD dark>{sampleValue}</Table.TD>
                     <Table.TD align="right">
                       <Button
-                        style={columnToImport === index ? "primary" : "border"}
+                        variant={
+                          columnToImport === index ? "primary" : "border"
+                        }
                         onClick={() => {
                           setColumnToImport(index)
                         }}

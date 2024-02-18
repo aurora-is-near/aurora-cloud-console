@@ -1,6 +1,6 @@
 "use client"
 
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
 import { useTransition } from "react"
 
@@ -30,7 +30,7 @@ export const DeleteModal = ({
       <p className="text-sm leading-5 text-gray-500">{description}</p>
       <Button
         className="mt-4"
-        style="destructive"
+        variant="destructive"
         loading={isPending ?? isTransitionPending}
         onClick={() => {
           startTransition(onDeleteClick)

@@ -1,10 +1,11 @@
 "use client"
 
-import { ButtonHTMLAttributes, forwardRef } from "react"
+import { ComponentProps, forwardRef } from "react"
 import { ButtonContent } from "@/components/ButtonContent"
 import { getButtonClassName } from "@/utils/buttons"
+import Link from "next/link"
 
-type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
+type LinkButtonProps = ComponentProps<typeof Link> & {
   variant?: "primary" | "secondary" | "transparent" | "border" | "destructive"
   size?: "sm" | "md"
   loading?: boolean
@@ -12,7 +13,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   fullWidth?: boolean
 }
 
-export const Button = forwardRef<HTMLButtonElement, Props>(
+export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
   (
     {
       variant = "primary",
@@ -29,20 +30,19 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
     const isDisabled = disabled || loading
 
     return (
-      <button
+      <Link
+        ref={ref}
         className={getButtonClassName(variant, size, {
           className,
           isDisabled,
           isFullWidth: fullWidth,
         })}
-        disabled={isDisabled}
-        ref={ref}
         {...restProps}
       >
         <ButtonContent isLoading={loading}>{children}</ButtonContent>
-      </button>
+      </Link>
     )
   },
 )
 
-Button.displayName = "Button"
+LinkButton.displayName = "LinkButton"

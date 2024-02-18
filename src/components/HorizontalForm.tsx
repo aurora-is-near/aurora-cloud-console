@@ -8,7 +8,7 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { DetailedHTMLProps, InputHTMLAttributes } from "react"
 import { HorizontalSelectInput } from "@/components/HorizontalSelectInput"

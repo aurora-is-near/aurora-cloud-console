@@ -3,10 +3,10 @@ import { formatDate } from "@/utils/helpers"
 import { getTokens } from "@/actions/admin/tokens/get-tokens"
 import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
-import Button from "@/components/Button"
 import { RemoveTokenButton } from "@/app/admin/tokens/RemoveTokenButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { AdminToast } from "@/components/AdminToast"
+import { LinkButton } from "@/components/LinkButton"
 
 const Page = async () => {
   const tokens = await getTokens()
@@ -16,10 +16,10 @@ const Page = async () => {
       <DashboardPage
         heading="Tokens"
         actions={
-          <Button href="/admin/tokens/add">
+          <LinkButton href="/admin/tokens/add">
             <PlusCircleIcon className="w-5 h-5" />
             <span>Add token</span>
-          </Button>
+          </LinkButton>
         }
       >
         <section>

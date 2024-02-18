@@ -4,7 +4,7 @@ import { useModals } from "@/hooks/useModals"
 import Modal from "@/components/Modal"
 import { useCreateListItems } from "@/hooks/useCreateListItems"
 import { useState, useTransition } from "react"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { Toggle } from "@/components/Toggle"
 import { useRouter } from "next/navigation"
 

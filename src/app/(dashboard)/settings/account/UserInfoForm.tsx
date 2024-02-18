@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import Card from "@/components/Card"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { useMutation, useQuery } from "@tanstack/react-query"
@@ -112,7 +112,7 @@ const UserInfoForm = ({
         {showForm ? (
           <>
             <Button
-              style="secondary"
+              variant="secondary"
               onClick={toggleForm}
               disabled={isSubmitting}
             >
@@ -124,7 +124,7 @@ const UserInfoForm = ({
             </Button>
           </>
         ) : (
-          <Button style="secondary" onClick={toggleForm}>
+          <Button variant="secondary" onClick={toggleForm}>
             <PencilIcon className="w-5 h-5" />
             <span>Edit</span>
           </Button>

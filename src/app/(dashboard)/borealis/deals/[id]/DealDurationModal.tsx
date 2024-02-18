@@ -1,6 +1,6 @@
 "use client"
 
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
@@ -82,12 +82,12 @@ export const DealDurationModal = ({ title, open }: DealDurationModalProps) => {
       </div>
       <SlideOver.Actions>
         <div className="flex items-center flex-1 justify-between">
-          <Button style="secondary" onClick={onClear}>
+          <Button variant="secondary" onClick={onClear}>
             <XCircleIcon className="w-5 h-5 text-gray-900" />
             Clear values
           </Button>
           <div className="flex items-center gap-3">
-            <Button style="secondary" onClick={onCancel}>
+            <Button variant="secondary" onClick={onCancel}>
               Cancel
             </Button>
             <Button onClick={onSaveClick}>

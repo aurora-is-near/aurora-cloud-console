@@ -1,6 +1,6 @@
 "use client"
 
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
@@ -109,7 +109,7 @@ const AddOrEditApiKeyModal = ({
         </div>
       </form>
       <SlideOver.Actions>
-        <Button style="secondary" onClick={closeModal}>
+        <Button variant="secondary" onClick={closeModal}>
           Cancel
         </Button>
         <Button loading={isSubmitting} onClick={handleSubmit(submitApiKey)}>

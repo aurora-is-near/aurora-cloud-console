@@ -1,6 +1,6 @@
 "use client"
 
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline"
 import { useRouter, useSearchParams } from "next/navigation"
 
@@ -26,7 +26,7 @@ const PreviousPage = ({ page }: { page: number }) => {
   }
 
   return (
-    <Button style="secondary" disabled={!active} onClick={onClick}>
+    <Button variant="secondary" disabled={!active} onClick={onClick}>
       <ArrowLeftIcon className="w-5 h-5" />
       <span>Previous</span>
     </Button>
@@ -51,7 +51,7 @@ const NextPage = ({
   }
 
   return (
-    <Button style="secondary" disabled={!active} onClick={onClick}>
+    <Button variant="secondary" disabled={!active} onClick={onClick}>
       <span>Next</span>
       <ArrowRightIcon className="w-5 h-5" />
     </Button>

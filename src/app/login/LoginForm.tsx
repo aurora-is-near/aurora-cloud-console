@@ -3,7 +3,7 @@
 import { Database } from "@/types/supabase"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { CheckCircleIcon } from "@heroicons/react/20/solid"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { AUTH_CALLBACK_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 

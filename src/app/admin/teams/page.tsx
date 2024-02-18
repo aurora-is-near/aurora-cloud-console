@@ -3,12 +3,12 @@ import { formatDate } from "@/utils/helpers"
 import { getTeams } from "@/actions/admin/teams/get-teams"
 
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
-import Button from "@/components/Button"
 import TableButton from "@/components/TableButton"
 import { RemoveTeamButton } from "@/app/admin/teams/RemoveTeamButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamsSilos } from "@/actions/admin/team-silos/get-teams-silos"
 import { AdminToast } from "@/components/AdminToast"
+import { LinkButton } from "@/components/LinkButton"
 
 const Page = async () => {
   const [teams, teamsSilos] = await Promise.all([getTeams(), getTeamsSilos()])
@@ -18,10 +18,10 @@ const Page = async () => {
       <DashboardPage
         heading="Teams"
         actions={
-          <Button href="/admin/teams/add">
+          <LinkButton href="/admin/teams/add">
             <PlusCircleIcon className="w-5 h-5" />
             <span>Add team</span>
-          </Button>
+          </LinkButton>
         }
       >
         <section>

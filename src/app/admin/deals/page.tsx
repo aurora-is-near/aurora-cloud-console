@@ -3,13 +3,13 @@ import { formatDate } from "@/utils/helpers"
 import { getDeals } from "@/actions/admin/deals/get-deals"
 import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
-import Button from "@/components/Button"
 import { RemoveDealButton } from "@/app/admin/deals/RemoveDealButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { AdminToast } from "@/components/AdminToast"
 import { getTeams } from "@/actions/admin/teams/get-teams"
 import { TeamFilter } from "@/app/admin/deals/TeamFilter"
 import { getTeamDeals } from "@/actions/admin/team-deals/get-team-deals"
+import { LinkButton } from "@/components/LinkButton"
 
 const Page = async ({
   searchParams: { team },
@@ -28,10 +28,10 @@ const Page = async ({
         actions={
           <div className="flex flex-row space-x-3 items-center">
             <TeamFilter teams={teams} />
-            <Button href="/admin/deals/add">
+            <LinkButton href="/admin/deals/add">
               <PlusCircleIcon className="w-5 h-5" />
               <span>Add deal</span>
-            </Button>
+            </LinkButton>
           </div>
         }
       >

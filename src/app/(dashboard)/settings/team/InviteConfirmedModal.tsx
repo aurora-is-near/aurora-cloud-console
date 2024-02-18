@@ -3,7 +3,7 @@
 import { CheckCircleIcon } from "@heroicons/react/24/outline"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { useQueryState } from "next-usequerystate"
@@ -37,7 +37,7 @@ const InviteConfirmedModal = () => {
           onClick={handleClose}
           size="sm"
           className="mt-4"
-          style="secondary"
+          variant="secondary"
         >
           Close
         </Button>

@@ -3,7 +3,7 @@
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
 import { SubmitHandler, useForm } from "react-hook-form"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { CheckIcon } from "@heroicons/react/20/solid"
 import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
@@ -82,7 +82,7 @@ export const ImportListItemsModal = () => {
       <SlideOver.Actions>
         <div className="flex items-center flex-1 justify-end">
           <div className="flex items-center gap-3">
-            <Button style="secondary" onClick={closeModal}>
+            <Button variant="secondary" onClick={closeModal}>
               Cancel
             </Button>
             <Button loading={isSubmitting} onClick={handleSubmit(submitList)}>

@@ -4,7 +4,7 @@ import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useEffect } from "react"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { CheckIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { Modals } from "@/utils/modals"
 import clsx from "clsx"
@@ -78,13 +78,21 @@ export const AddOrEditListModal = ({
           )}
         >
           {values && (
-            <Button disabled={isPending} style="secondary" onClick={deleteList}>
+            <Button
+              disabled={isPending}
+              variant="secondary"
+              onClick={deleteList}
+            >
               <TrashIcon className="w-5 h-5 text-gray-900" />
               Delete
             </Button>
           )}
           <div className="flex items-center gap-3">
-            <Button disabled={isPending} style="secondary" onClick={closeModal}>
+            <Button
+              disabled={isPending}
+              variant="secondary"
+              onClick={closeModal}
+            >
               Cancel
             </Button>
             <Button loading={isPending} onClick={handleSubmit(onSubmit)}>

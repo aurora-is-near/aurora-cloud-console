@@ -12,7 +12,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/20/solid"
 import { isWalletAddress } from "@/utils/wallets"
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { NoDataCta } from "@/components/NoDataCta"
 import { ImportListItemsButton } from "@/app/(dashboard)/lists/ImportListItemsButton"
 
@@ -107,7 +107,7 @@ export const ListItemsTable = ({
       {listItems.length < total && (
         <div className="flex justify-center w-full mt-8">
           <Button
-            style="secondary"
+            variant="secondary"
             onClick={fetchNextPage}
             loading={isFetchingNextPage}
           >

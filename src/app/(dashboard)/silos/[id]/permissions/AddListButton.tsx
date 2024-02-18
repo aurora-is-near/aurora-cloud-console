@@ -1,6 +1,6 @@
 "use client"
 
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import { PlusIcon } from "@heroicons/react/20/solid"
 
 const AddListButton = () => {

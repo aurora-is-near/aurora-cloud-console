@@ -1,4 +1,4 @@
-import Button from "@/components/Button"
+import { Button } from "@/components/Button"
 import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
 import { PlusIcon } from "@heroicons/react/20/solid"
@@ -66,7 +66,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
             explainer="Use this endpoint to access the network."
             showCopyButton
             action={
-              <Button size="sm" style="border">
+              <Button size="sm" variant="border">
                 <PlusIcon className="w-4 h-4" />
                 <span>Add to MetaMask</span>
               </Button>
@@ -106,7 +106,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
             }
             explainer="This is the token used to pay for the gas fees inside your Aurora Chain."
             action={
-              <Button size="sm" style="border">
+              <Button size="sm" variant="border">
                 <PlusIcon className="w-4 h-4" />
                 <span>Add to MetaMask</span>
               </Button>
