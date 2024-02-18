@@ -99,16 +99,6 @@ export const apiClient = {
   updateDealPriorities: async (data: ApiRequestBody<"updateDealPriorities">) =>
     put<"updateDealPriorities">(`/api/deals/priorities`, data),
 
-  sendContactMessage: async (data: {
-    subject: string
-    message: string
-    pageUri: string
-  }) =>
-    request("/api/contact", {
-      method: "POST",
-      body: JSON.stringify(data),
-    }),
-
   getTeam: async () => request<Team>("/api/admin/team"),
 
   getTeamMembers: async () => request<TeamMembers>("/api/admin/team/members"),

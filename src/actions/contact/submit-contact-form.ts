@@ -1,6 +1,9 @@
-import { apiRequestHandler } from "@/utils/api"
-import { ApiUser, Team } from "@/types/types"
+"use server"
+
 import { abort } from "@/utils/abort"
+import { getCurrentTeam } from "@/utils/current-team"
+import { headers } from "next/headers"
+import { getCurrentUser } from "@/actions/current-user/get-current-user"
 
 const getEnvVar = (name: string) => {
   const value = process.env[name]
@@ -16,13 +19,20 @@ const getEnvVar = (name: string) => {
  * Submit a form to Hubspot.
  * @see https://legacydocs.hubspot.com/docs/methods/forms/submit_form_v3_authentication
  */
-const submitForm = async (
-  user: ApiUser,
-  team: Team,
-  subject: string,
-  message: string,
-  pageUri: string,
-) => {
+export const submitContactForm = async ({
+  subject,
+  message,
+  pageUri,
+}: {
+  subject: string
+  message: string
+  pageUri: string
+}) => {
+  const [user, team] = await Promise.all([
+    getCurrentUser(),
+    getCurrentTeam(headers()),
+  ])
+
   const accessToken = getEnvVar("HUBSPOT_ACCESS_TOKEN")
   const portalId = getEnvVar("HUBSPOT_PORTAL_ID")
   const contactFormGuid = getEnvVar("HUBSPOT_CONTACT_FORM_GUID")
@@ -92,12 +102,3 @@ const submitForm = async (
     abort(res.status, data.message ?? "Unknown error")
   }
 }
-
-export const POST = apiRequestHandler(["admin"], async (_req, ctx) => {
-  const { user } = ctx
-  const { subject, message, pageUri } = ctx.body as Record<string, string>
-
-  await submitForm(user, ctx.team, subject, message, pageUri)
-
-  return { status: "OK" }
-})

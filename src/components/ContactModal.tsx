@@ -6,8 +6,9 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
-import { useMutation } from "@tanstack/react-query"
-import { apiClient } from "../utils/api/client"
+import { submitContactForm } from "@/actions/contact/submit-contact-form"
+import { toError } from "@/utils/errors"
+import { useState } from "react"
 
 type Inputs = {
   subject: string
@@ -15,6 +16,8 @@ type Inputs = {
 }
 
 const ContactModal = () => {
+  const [isPending, setIsPending] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const { activeModal, closeModal } = useModals()
   const isOpen = activeModal === Modals.Contact
 
@@ -31,24 +34,26 @@ const ContactModal = () => {
     setTimeout(() => reset(), 200)
   }
 
-  const {
-    mutateAsync: sendMessage,
-    isPending,
-    isSuccess,
-  } = useMutation({
-    mutationFn: apiClient.sendContactMessage,
-    onError: (error: any) =>
-      setError("root.serverError", {
-        message:
-          error?.responseBody || "Something went wrong. Please try again.",
-      }),
-  })
+  const handleSend: SubmitHandler<Inputs> = async (data) => {
+    setIsPending(true)
 
-  const handleSend: SubmitHandler<Inputs> = async (data) =>
-    sendMessage({
-      ...data,
-      pageUri: window.location.href.split(/[?#]/)[0],
-    })
+    try {
+      await submitContactForm({
+        ...data,
+        pageUri: window.location.href.split(/[?#]/)[0],
+      })
+    } catch (error) {
+      setIsPending(false)
+      setError("root", {
+        type: "serverError",
+        message: toError(error).message,
+      })
+
+      return
+    }
+
+    setIsSuccess(true)
+  }
 
   return (
     <Modal
