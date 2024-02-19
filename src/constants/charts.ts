@@ -24,7 +24,7 @@ export const CHART_DATE_OPTION_VALUES = [
 
 export const CHART_DATE_OPTIONS: {
   label: string
-  value?: (typeof CHART_DATE_OPTION_VALUES)[number]
+  value: (typeof CHART_DATE_OPTION_VALUES)[number] | undefined
 }[] = [
   {
     label: "All time",
