@@ -16,7 +16,16 @@ export const CHART_COLOUR_HEXES: {
   rose: "#fb7185",
 }
 
-export const CHART_DATE_OPTIONS = [
+export const CHART_DATE_OPTION_VALUES = [
+  "1 WEEK",
+  "1 MONTH",
+  "3 MONTH",
+] as const
+
+export const CHART_DATE_OPTIONS: {
+  label: string
+  value?: (typeof CHART_DATE_OPTION_VALUES)[number]
+}[] = [
   {
     label: "All time",
     value: undefined,

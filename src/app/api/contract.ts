@@ -2,6 +2,7 @@ import { initContract } from "@ts-rest/core"
 import { z } from "zod"
 import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { LIST_TYPES } from "@/constants/lists"
+import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 
 extendZodWithOpenApi(z)
 
@@ -91,6 +92,13 @@ export const TransactionDataSchema = z.object({
     }),
   ),
 })
+
+export const TransactionDataIntervalQueryParamSchema = z
+  .string()
+  .optional()
+  .openapi({
+    enum: CHART_DATE_OPTION_VALUES,
+  })
 
 export const contract = c.router({
   getDeals: {
@@ -419,7 +427,7 @@ export const contract = c.router({
       scopes: ["transactions:read"],
     },
     query: z.object({
-      interval: z.string().optional(),
+      interval: TransactionDataIntervalQueryParamSchema,
     }),
   },
   getDealTransactions: {
@@ -443,7 +451,7 @@ export const contract = c.router({
       id: z.number(),
     }),
     query: z.object({
-      interval: z.string().optional(),
+      interval: TransactionDataIntervalQueryParamSchema,
     }),
   },
   getSilosTransactions: {
@@ -464,7 +472,7 @@ export const contract = c.router({
       scopes: ["transactions:read"],
     },
     query: z.object({
-      interval: z.string().optional(),
+      interval: TransactionDataIntervalQueryParamSchema,
     }),
   },
   getSiloTransactions: {
@@ -488,7 +496,7 @@ export const contract = c.router({
       id: z.number(),
     }),
     query: z.object({
-      interval: z.string().optional(),
+      interval: TransactionDataIntervalQueryParamSchema,
     }),
   },
 })
