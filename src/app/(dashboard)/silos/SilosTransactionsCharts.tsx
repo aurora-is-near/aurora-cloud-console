@@ -13,7 +13,7 @@ export const SilosTransactionsCharts = () => {
       title="Summary"
       interval={interval}
       setInterval={setInterval}
-      charts={transactions?.items.map((item) => item.chart)}
+      charts={transactions?.items.map((item) => item.data)}
     />
   )
 }

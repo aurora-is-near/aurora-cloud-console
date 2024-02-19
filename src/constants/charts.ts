@@ -19,7 +19,7 @@ export const CHART_COLOUR_HEXES: {
 export const CHART_DATE_OPTIONS = [
   {
     label: "All time",
-    value: null,
+    value: undefined,
   },
   {
     label: "1w",

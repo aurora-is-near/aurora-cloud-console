@@ -6,34 +6,6 @@ export type UserInfo = {
   name: string | null
 }
 
-type TransactionChart = {
-  label: string
-  transactionsCount: number
-  walletsCount: number
-  transactionsPerDay: {
-    day: string
-    count: number
-  }[]
-  walletsPerDay: {
-    day: string
-    count: number
-  }[]
-}
-
-export type SiloTransactionCharts = {
-  items: {
-    siloId: number
-    chart: TransactionChart
-  }[]
-}
-
-export type DealTransactionCharts = {
-  items: {
-    dealId: number
-    chart: TransactionChart
-  }[]
-}
-
 export type TransactionsQuery = {
   wallet_address: string
   number_of_transactions: number

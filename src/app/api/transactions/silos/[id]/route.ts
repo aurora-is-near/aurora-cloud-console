@@ -1,14 +1,13 @@
-import { apiRequestHandler } from "@/utils/api"
+import { createApiEndpoint } from "@/utils/api"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
 import { abort } from "../../../../../utils/abort"
-import { getTransactionsChart } from "../../../../../utils/transactions"
+import { getTransactionData } from "../../../../../utils/transactions"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
-import { SiloTransactionCharts } from "@/types/types"
 import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 
-export const GET = apiRequestHandler<SiloTransactionCharts>(
-  ["transactions:read"],
+export const GET = createApiEndpoint(
+  "getSiloTransactions",
   async (req, ctx) => {
     const interval = req.nextUrl.searchParams.get("interval")
 
@@ -35,7 +34,7 @@ export const GET = apiRequestHandler<SiloTransactionCharts>(
     return {
       items: deals.map((deal, dealIndex) => ({
         siloId: silo.id,
-        chart: getTransactionsChart(deal.name, results[dealIndex]),
+        data: getTransactionData(deal.name, results[dealIndex]),
       })),
     }
   },

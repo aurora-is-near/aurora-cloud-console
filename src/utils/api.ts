@@ -94,17 +94,6 @@ const handleRequest = async <TResponseBody, TRequestBody>(
   return NextResponse.json(data)
 }
 
-export const apiRequestHandler =
-  <TResponseBody = unknown, TRequestBody = unknown>(
-    scopes: ApiScope[],
-    handler: ApiRequestHandler<TResponseBody, TRequestBody>,
-  ) =>
-  async (req: NextRequest, ctx: BaseApiRequestContext) => {
-    const body = await getRequestBody(req)
-
-    return handleRequest(req, ctx, scopes, handler, body)
-  }
-
 const getOperations = () => {
   const operations: OpenAPIV3.OperationObject[] = []
 

@@ -1,7 +1,7 @@
+import { TransactionDataSchema } from "@/types/api-schemas"
 import { QueryResult } from "pg"
-import { TransactionChart } from "../types/types"
 
-export const getTransactionsChart = (
+export const getTransactionData = (
   label: string,
   results: [
     QueryResult<{
@@ -19,7 +19,7 @@ export const getTransactionsChart = (
       count: number
     }>,
   ],
-): TransactionChart => ({
+): TransactionDataSchema => ({
   label,
   transactionsCount: results[0].rows[0].count,
   walletsCount: results[1].rows[0].count,

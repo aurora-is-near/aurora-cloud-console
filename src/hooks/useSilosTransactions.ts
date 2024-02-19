@@ -1,10 +1,9 @@
-import { SiloTransactionCharts } from "@/types/types"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getQueryKey } from "@/utils/api/query-keys"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"
 
-export const useSilosTransactions = (params: { interval: string | null }) => {
+export const useSilosTransactions = (params: { interval?: string }) => {
   const queryClient = useQueryClient()
   const query = useQuery(getQueryFnAndKey("getSilosTransactions", params))
 
@@ -19,7 +18,7 @@ export const useSilosTransactions = (params: { interval: string | null }) => {
         interval: params.interval,
       })
 
-      const siloTransactions: SiloTransactionCharts = { items: [item] }
+      const siloTransactions = { items: [item] }
 
       queryClient.setQueryData(queryKey, siloTransactions)
     })

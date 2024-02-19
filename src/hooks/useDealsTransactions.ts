@@ -1,10 +1,9 @@
-import { DealTransactionCharts } from "@/types/types"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getQueryKey } from "@/utils/api/query-keys"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"
 
-export const useDealsTransactions = (params: { interval: string | null }) => {
+export const useDealsTransactions = (params: { interval?: string }) => {
   const queryClient = useQueryClient()
   const query = useQuery(getQueryFnAndKey("getDealsTransactions", params))
 
@@ -19,7 +18,7 @@ export const useDealsTransactions = (params: { interval: string | null }) => {
         interval: params.interval,
       })
 
-      const dealTransactions: DealTransactionCharts = { items: [item] }
+      const dealTransactions = { items: [item] }
 
       queryClient.setQueryData(queryKey, dealTransactions)
     })

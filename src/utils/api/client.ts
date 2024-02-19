@@ -1,6 +1,5 @@
 "use client"
 
-import { SiloTransactionCharts, DealTransactionCharts } from "@/types/types"
 import { request } from "./request"
 import {
   ApiOperation,
@@ -44,12 +43,13 @@ export const apiClient = {
 
   getSilos: async () => get<"getSilos">("/api/silos"),
 
-  getSiloTokens: async ({ id }: { id: number }) =>
+  getSiloTokens: async ({ id }: ApiRequestParams<"getSiloTokens">) =>
     get<"getSiloTokens">(`/api/silos/${id}/tokens`),
 
   getDeals: async () => get<"getDeals">("/api/deals"),
 
-  getDeal: async ({ id }: { id: number }) => get<"getDeal">(`/api/deals/${id}`),
+  getDeal: async ({ id }: ApiRequestParams<"getDeal">) =>
+    get<"getDeal">(`/api/deals/${id}`),
 
   updateDeal: async ({
     id,
@@ -57,33 +57,27 @@ export const apiClient = {
   }: ApiRequestParams<"updateDeal"> & ApiRequestBody<"updateDeal">) =>
     put<"updateDeal">(`/api/deals/${id}`, data),
 
-  getSilosTransactions: async (query?: { interval?: string | null }) =>
-    request<SiloTransactionCharts>("/api/transaction-charts/silos", { query }),
+  getSilosTransactions: async (
+    query?: ApiRequestQuery<"getSilosTransactions">,
+  ) => get<"getSilosTransactions">("/api/transactions/silos", query),
 
   getSiloTransactions: async ({
     id,
     ...query
-  }: {
-    id: number
-    interval?: string | null
-  }) =>
-    request<SiloTransactionCharts>(`/api/transaction-charts/silos/${id}`, {
-      query,
-    }),
+  }: ApiRequestParams<"getSiloTransactions"> &
+    ApiRequestQuery<"getSiloTransactions">) =>
+    get<"getSiloTransactions">(`/api/transactions/silos/${id}`, query),
 
-  getDealsTransactions: async (query?: { interval?: string | null }) =>
-    request<DealTransactionCharts>("/api/transaction-charts/deals", { query }),
+  getDealsTransactions: async (
+    query?: ApiRequestQuery<"getDealsTransactions">,
+  ) => get<"getDealsTransactions">("/api/transactions/deals", query),
 
   getDealTransactions: async ({
     id,
     ...query
-  }: {
-    id: number
-    interval?: string | null
-  }) =>
-    request<DealTransactionCharts>(`/api/transaction-charts/deals/${id}`, {
-      query,
-    }),
+  }: ApiRequestParams<"getDealTransactions"> &
+    ApiRequestQuery<"getDealTransactions">) =>
+    get<"getDealTransactions">(`/api/transactions/deals/${id}`, query),
 
   getDealPriorities: async () =>
     get<"getDealPriorities">(`/api/deals/priorities`),

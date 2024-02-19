@@ -31,7 +31,7 @@ export const DealTransactionCharts = () => {
       }
       interval={interval}
       setInterval={setInterval}
-      charts={transactions?.items.map((item) => item.chart)}
+      charts={transactions?.items.map((item) => item.data)}
     />
   )
 }

@@ -1,11 +1,10 @@
-import { apiRequestHandler } from "@/utils/api"
-import { SiloTransactionCharts } from "../../../../types/types"
+import { createApiEndpoint } from "@/utils/api"
 import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
-import { getTransactionsChart } from "../../../../utils/transactions"
+import { getTransactionData } from "../../../../utils/transactions"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 
-export const GET = apiRequestHandler<SiloTransactionCharts>(
-  ["transactions:read"],
+export const GET = createApiEndpoint(
+  "getSilosTransactions",
   async (req, ctx) => {
     const silos = await getTeamSilos(ctx.team.id)
 
@@ -20,7 +19,7 @@ export const GET = apiRequestHandler<SiloTransactionCharts>(
     return {
       items: silos.map((silo, siloIndex) => ({
         siloId: silo.id,
-        chart: getTransactionsChart(silo.name, results[siloIndex]),
+        data: getTransactionData(silo.name, results[siloIndex]),
       })),
     }
   },

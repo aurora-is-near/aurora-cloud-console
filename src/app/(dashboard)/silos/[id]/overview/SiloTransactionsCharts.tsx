@@ -32,7 +32,7 @@ export const SiloTransactionsCharts = ({
   return (
     <TransactionsCharts
       title={silo?.name ?? ""}
-      charts={transactions?.items.map((item) => item.chart)}
+      charts={transactions?.items.map((item) => item.data)}
       interval={interval}
       setInterval={setInterval}
     />

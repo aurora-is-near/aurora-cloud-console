@@ -16,8 +16,8 @@ import TabCharts from "@/components/TabCharts"
 import { Line } from "react-chartjs-2"
 import { CHART_DATE_OPTIONS } from "../constants/charts"
 import { getLineChartData } from "../utils/charts"
-import { TransactionChart } from "../types/types"
 import { ReactNode } from "react"
+import { TransactionDataSchema } from "@/types/api-schemas"
 
 ChartJS.register(
   CategoryScale,
@@ -31,14 +31,14 @@ ChartJS.register(
 
 type TransactionsChartsProps = {
   title: ReactNode
-  charts?: TransactionChart[]
-  interval?: string | null
-  setInterval?: (value: string | null) => void
+  charts?: TransactionDataSchema[]
+  interval?: string
+  setInterval?: (value?: string) => void
 }
 
 const getTotalCount = (
   key: "transactionsCount" | "walletsCount",
-  charts?: TransactionChart[],
+  charts?: TransactionDataSchema[],
 ): number | undefined => charts?.reduce((acc, item) => acc + item[key], 0) ?? 0
 
 const TransactionsCharts = ({

@@ -1,9 +1,13 @@
+import { TransactionDataSchema } from "@/types/api-schemas"
 import { CHART_COLOURS, CHART_COLOUR_HEXES } from "../constants/charts"
-import { ChartColor, TransactionChart } from "../types/types"
+import { ChartColor } from "../types/types"
 
 type DailyMetricKey = "transactionsPerDay" | "walletsPerDay"
 
-const getDates = (key: DailyMetricKey, charts?: TransactionChart[]): string[] =>
+const getDates = (
+  key: DailyMetricKey,
+  charts?: TransactionDataSchema[],
+): string[] =>
   charts?.reduce<string[]>((acc, chart) => {
     acc.push(...chart[key].map(({ day }) => day))
 
@@ -27,7 +31,7 @@ export const getChartColor = <T extends ChartColor>(
 
 export const getLineChartData = (
   key: DailyMetricKey,
-  charts?: TransactionChart[],
+  charts?: TransactionDataSchema[],
   colors?: ChartColor[],
 ) => {
   return {
