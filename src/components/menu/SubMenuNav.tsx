@@ -2,11 +2,7 @@
 
 import SignoutButton from "./SignoutButton"
 import { SubMenuButton } from "./MenuButtons"
-import {
-  usePathname,
-  useRouter,
-  useSelectedLayoutSegments,
-} from "next/navigation"
+import { useRouter, useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import Heading from "../Heading"
 import {
@@ -24,7 +20,7 @@ import {
 import { useEffect, useState } from "react"
 import { Silos } from "../icons"
 import Loader from "../Loader"
-import { getSubroutes } from "@/utils/menu"
+import { useSubroutes } from "@/hooks/useSubroutes"
 import { useDeals } from "@/hooks/useDeals"
 import { useSilos } from "@/hooks/useSilos"
 import { useLists } from "@/hooks/useLists"
@@ -61,41 +57,12 @@ const BorealisMenu = () => {
   )
 }
 
-const siloLinks = [
-  {
-    name: "Overview",
-    href: "overview",
-    icon: <Silos />,
-  },
-  {
-    name: "Configuration",
-    href: "configuration",
-    icon: <WrenchIcon />,
-  },
-  {
-    name: "Permissions",
-    href: "permissions",
-    icon: <LockClosedIcon />,
-    disabled: true,
-  },
-  {
-    name: "Tokens",
-    href: "tokens",
-    icon: <StopCircleIcon />,
-  },
-  {
-    name: "KYC",
-    href: "kyc",
-    icon: <ShieldCheckIcon />,
-    disabled: true,
-  },
-]
-
 const SiloMenu = () => {
   const [option, setOption] = useState("")
   const { isLoading, data: silos } = useSilos()
   const router = useRouter()
   const [, id, subroute] = useSelectedLayoutSegments()
+  const hasMultipleSilos = (silos?.items.length ?? 0) > 1
 
   useEffect(() => {
     setOption(id ?? "Select silo")
@@ -107,42 +74,66 @@ const SiloMenu = () => {
 
   return (
     <>
-      <div>
-        <label htmlFor="silo" className="sr-only">
-          Selected silo
-        </label>
-        <select
-          id="silo"
-          name="silo"
-          className="block w-full py-4 pl-3 pr-8 leading-none text-gray-900 border-0 rounded-md ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-green-600"
-          value={option}
-          onChange={(e) =>
-            router.push(
-              `/silos/${e.target.value}${
-                subroute ? `/${subroute}` : "/overview"
-              }`,
-            )
-          }
-        >
-          <option disabled>Select silo</option>
-          {silos.items.map((silo) => (
-            <option key={silo.id} value={silo.id}>
-              {silo.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      {hasMultipleSilos && (
+        <div>
+          <label htmlFor="silo" className="sr-only">
+            Selected silo
+          </label>
+          <select
+            id="silo"
+            name="silo"
+            className="block w-full py-4 pl-3 pr-8 leading-none text-gray-900 border-0 rounded-md ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-green-600"
+            value={option}
+            onChange={(e) =>
+              router.push(
+                `/silos/${e.target.value}${
+                  subroute ? `/${subroute}` : "/overview"
+                }`,
+              )
+            }
+          >
+            <option disabled>Select silo</option>
+            {silos.items.map((silo) => (
+              <option key={silo.id} value={silo.id}>
+                {silo.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       <ul role="list" className="space-y-4">
-        {siloLinks?.map((link) => (
-          <li key={link.href}>
-            <SubMenuButton
-              disabled={!id || link.disabled}
-              href={`/silos/${id}/${link.href}`}
-              name={link.name}
-              icon={link.icon}
-            />
-          </li>
-        ))}
+        {hasMultipleSilos && (
+          <SubMenuButton
+            disabled={!id}
+            href={`/silos/${id}/overview`}
+            name="Overview"
+            icon={<Silos />}
+          />
+        )}
+        <SubMenuButton
+          disabled={!id}
+          href={`/silos/${id}/configuration`}
+          name="Configuration"
+          icon={<WrenchIcon />}
+        />
+        <SubMenuButton
+          disabled
+          href={`/silos/${id}/permissions`}
+          name="Permissions"
+          icon={<LockClosedIcon />}
+        />
+        <SubMenuButton
+          disabled={!id}
+          href={`/silos/${id}/tokens`}
+          name="Tokens"
+          icon={<StopCircleIcon />}
+        />
+        <SubMenuButton
+          disabled
+          href={`/silos/${id}/kyc`}
+          name="KYC"
+          icon={<ShieldCheckIcon />}
+        />
       </ul>
     </>
   )
@@ -273,9 +264,8 @@ const getSubMenu = (route: string, isAdmin?: boolean) => {
 
 const SubMenuNav = ({ isAdmin }: { isAdmin?: boolean }) => {
   const [route] = useSelectedLayoutSegments()
-  const subroutes = getSubroutes(route, isAdmin)
+  const { heading, menuItems } = useSubroutes(route, isAdmin)
   const subMenu = getSubMenu(route, isAdmin)
-  const heading = capitalizeFirstLetter(route)
   const isSettingsRoute = route === "settings"
 
   return (
@@ -284,7 +274,7 @@ const SubMenuNav = ({ isAdmin }: { isAdmin?: boolean }) => {
 
       <nav className="flex flex-col flex-1 gap-y-4">
         <ul role="list" className="space-y-4">
-          {subroutes.map((item) => (
+          {menuItems.map((item) => (
             <li key={item.name}>
               <SubMenuButton {...item} />
             </li>

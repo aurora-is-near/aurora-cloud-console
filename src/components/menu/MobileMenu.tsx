@@ -14,10 +14,10 @@ import { usePathname, useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
-import { getSubroutes } from "@/utils/menu"
 import { useDeals } from "@/hooks/useDeals"
 import { useLists } from "@/hooks/useLists"
 import { Modals } from "@/utils/modals"
+import { useSubroutes } from "@/hooks/useSubroutes"
 
 type SubrouteMenuProps = {
   isAdmin?: boolean
@@ -69,13 +69,12 @@ const ListsSubrouteMenu = () => {
 const SubrouteMenu = ({ isAdmin }: SubrouteMenuProps) => {
   const pathname = usePathname()
   const [route] = useSelectedLayoutSegments()
-  const subroutes = getSubroutes(pathname, isAdmin)
-  const { data } = useDeals()
+  const { menuItems } = useSubroutes(pathname, isAdmin)
 
   return (
     <nav className="mt-6 flex-1 pt-6 border-t border-gray-800 space-y-2">
       <ul className="space-y-2">
-        {subroutes.map((item) => (
+        {menuItems.map((item) => (
           <li key={item.name}>
             <MobileSubMenuButton {...item} />
           </li>

@@ -1,11 +1,11 @@
 import { ReactNode } from "react"
-import { mainExtraNavigation, mainNavigation } from "@/constants/navigation"
+import { mainExtraNavigation, getMainNavigation } from "@/navigation"
 import { DashboardLayout } from "@/components/DashboardLayout"
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default async function Layout({ children }: { children: ReactNode }) {
   return (
     <DashboardLayout
-      mainMenuItems={mainNavigation}
+      mainMenuItems={await getMainNavigation()}
       extraMenuItems={mainExtraNavigation}
     >
       {children}
