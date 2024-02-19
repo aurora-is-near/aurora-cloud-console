@@ -14,6 +14,10 @@ const request = async (
   const debug = createDebugger("proxy-api")
   const { href } = new URL(endpoint, PROXY_API_BASE_URL)
 
+  if (!process.env.PROXY_API_TOKEN) {
+    throw new Error("PROXY_API_TOKEN is not set")
+  }
+
   debug("Proxy API request", href, operations)
 
   const res = await fetch(href, {
