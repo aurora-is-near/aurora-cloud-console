@@ -1,6 +1,7 @@
 import Heading from "@/components/Heading"
+import { Toaster } from "@/components/Toaster"
+
 import { DetailedHTMLProps, FormHTMLAttributes, ReactNode } from "react"
-import { Toaster } from "react-hot-toast"
 
 type DashboardPageProps = {
   children: ReactNode
@@ -34,12 +35,7 @@ export const DashboardPage = ({
   const content = (
     <>
       <main className="overflow-auto">
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 5000,
-          }}
-        />
+        <Toaster />
         <div className="relative px-4 py-6 md:px-6 lg:px-8 min-h-screen flex flex-col">
           {heading && (
             <div className="flex justify-between items-center mb-7">
