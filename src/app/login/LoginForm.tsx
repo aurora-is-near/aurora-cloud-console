@@ -6,6 +6,7 @@ import { CheckCircleIcon } from "@heroicons/react/20/solid"
 import { Button } from "@/components/Button"
 import { AUTH_CALLBACK_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
+import { useEffect } from "react"
 
 type Inputs = {
   email: string
@@ -36,6 +37,28 @@ const LoginForm = () => {
       })
     }
   }
+
+  useEffect(() => {
+    // http://localhost:3000/login#error=unauthorized_client&error_code=401&error_description=Email+link+is+invalid+or+has+expired
+    const hash = window.location.hash
+
+    if (!hash) {
+      return
+    }
+
+    const params = new URLSearchParams(hash)
+    const errorDescription = params.get("error_description")
+
+    if (!errorDescription) {
+      return
+    }
+
+    setError("root", {
+      message: errorDescription,
+    })
+  }, [setError])
+
+  const error = errors.email || errors.root
 
   return isSubmitSuccessful ? (
     <div className="flex items-start justify-center text-white">
@@ -84,10 +107,8 @@ const LoginForm = () => {
       </Button>
 
       <div className="h-5">
-        {errors.email && (
-          <p className="text-sm text-center text-red-500">
-            {errors.email.message}
-          </p>
+        {error && (
+          <p className="text-sm text-center text-red-500">{error.message}</p>
         )}
       </div>
     </form>

@@ -22,8 +22,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(redirectRoute, request.url))
   } catch (error) {
     console.error(error)
-    const loginUrl = new URL(LOGIN_ROUTE, request.url)
-    loginUrl.searchParams.set("error", "login_failed")
-    return NextResponse.redirect(loginUrl)
+    return NextResponse.redirect(new URL(LOGIN_ROUTE, request.url))
   }
 }
