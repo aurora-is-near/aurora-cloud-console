@@ -1,9 +1,8 @@
 "use server"
 
 import { abort } from "@/utils/abort"
-import { getCurrentTeam } from "@/utils/current-team"
-import { headers } from "next/headers"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
+import { getCurrentTeam } from "@/actions/current-team/get-current-team"
 
 const getEnvVar = (name: string) => {
   const value = process.env[name]
@@ -28,10 +27,7 @@ export const submitContactForm = async ({
   message: string
   pageUri: string
 }) => {
-  const [user, team] = await Promise.all([
-    getCurrentUser(),
-    getCurrentTeam(headers()),
-  ])
+  const [user, team] = await Promise.all([getCurrentUser(), getCurrentTeam()])
 
   const accessToken = getEnvVar("HUBSPOT_ACCESS_TOKEN")
   const portalId = getEnvVar("HUBSPOT_PORTAL_ID")

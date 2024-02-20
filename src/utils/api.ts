@@ -5,7 +5,7 @@ import httpStatus from "http-status"
 import { toError } from "./errors"
 import { abort, abortIfUnauthorised, isAbortError } from "./abort"
 import { kebabCase } from "change-case"
-import { getCurrentTeam } from "@/utils/current-team"
+import { getCurrentTeamFromHeaders } from "@/utils/current-team"
 import {
   ApiErrorResponse,
   ApiOperation,
@@ -74,7 +74,7 @@ const handleRequest = async <TResponseBody, TRequestBody>(
 ): Promise<ApiResponse<TResponseBody>> => {
   const [user, team] = await Promise.all([
     getUser(),
-    getCurrentTeam(req.headers),
+    getCurrentTeamFromHeaders(req.headers),
   ])
   let data: TResponseBody
 

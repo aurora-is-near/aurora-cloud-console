@@ -1,10 +1,9 @@
+import { getCurrentTeam } from "@/actions/current-team/get-current-team"
 import Card from "@/components/Card"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getCurrentTeam } from "@/utils/current-team"
-import { headers } from "next/headers"
 
 const Page = async () => {
-  const team = await getCurrentTeam(headers())
+  const team = await getCurrentTeam()
 
   return (
     <DashboardPage heading="Company">

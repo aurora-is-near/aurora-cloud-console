@@ -1,8 +1,6 @@
 import { ReactNode } from "react"
-import { getCurrentTeam } from "@/utils/current-team"
-import { headers } from "next/headers"
-import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { notFound } from "next/navigation"
+import { getCurrentTeamSilo } from "@/actions/current-team/get-current-team-silo"
 
 export default async function Layout({
   children,
@@ -11,8 +9,7 @@ export default async function Layout({
   children: ReactNode
   params: { id: string }
 }) {
-  const team = await getCurrentTeam(headers())
-  const silo = await getTeamSilo(team.id, Number(id))
+  const silo = await getCurrentTeamSilo(Number(id))
 
   // Protect against unauthorised access to another team's silo
   if (!silo) {

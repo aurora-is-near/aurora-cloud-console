@@ -1,12 +1,9 @@
 import Card from "@/components/Card"
 import DealItem from "./DealItem"
-import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
-import { headers } from "next/headers"
-import { getCurrentTeam } from "@/utils/current-team"
+import { getCurrentTeamDeals } from "@/actions/current-team/get-current-team-deals"
 
 const DealsList = async () => {
-  const team = await getCurrentTeam(headers())
-  const deals = await getTeamDeals(team.id)
+  const deals = await getCurrentTeamDeals()
 
   return (
     <Card className="divide-y divide-gray-200" tag="ul" role="list">

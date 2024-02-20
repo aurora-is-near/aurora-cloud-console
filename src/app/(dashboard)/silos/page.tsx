@@ -2,14 +2,11 @@ import Contact from "@/components/Contact"
 import Chart from "./Chart"
 import { SilosTransactionsCharts } from "@/app/(dashboard)/silos/SilosTransactionsCharts"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getCurrentTeam } from "@/utils/current-team"
-import { headers } from "next/headers"
-import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { redirect } from "next/navigation"
+import { getCurrentTeamSilos } from "@/actions/current-team/get-current-team-silos"
 
 const Page = async () => {
-  const team = await getCurrentTeam(headers())
-  const silos = await getTeamSilos(team.id)
+  const silos = await getCurrentTeamSilos()
 
   // If the team has a single silo, redirect to its overview page
   if (silos.length === 1) {

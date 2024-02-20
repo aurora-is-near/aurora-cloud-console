@@ -4,14 +4,13 @@ import InviteConfirmedModal from "@/app/(dashboard)/settings/team/InviteConfirme
 import InviteModal from "@/app/(dashboard)/settings/team/InviteModal"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
-import { getCurrentTeam } from "@/utils/current-team"
-import { headers } from "next/headers"
 import { getTeamMembers } from "@/actions/team-members/get-team-members"
+import { getCurrentTeam } from "@/actions/current-team/get-current-team"
 
 const Page = async () => {
   const [currentUser, team, teamMembers] = await Promise.all([
     getCurrentUser(),
-    getCurrentTeam(headers()),
+    getCurrentTeam(),
     getTeamMembers(),
   ])
 

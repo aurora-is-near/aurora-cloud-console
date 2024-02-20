@@ -39,7 +39,9 @@ export const findCurrentTeam = async (
 /**
  * Get the team associated with the current subdomain.
  */
-export const getCurrentTeam = async (headers: Headers): Promise<Team> => {
+export const getCurrentTeamFromHeaders = async (
+  headers: Headers,
+): Promise<Team> => {
   const currentTeam = await findCurrentTeam(headers)
 
   if (!currentTeam) {
