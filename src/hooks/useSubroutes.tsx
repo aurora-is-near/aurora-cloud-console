@@ -97,5 +97,5 @@ export const useSubroutes = (
     },
   }
 
-  return subrouteMap[route] || []
+  return subrouteMap[route] || { heading: "", menuItems: [] }
 }
