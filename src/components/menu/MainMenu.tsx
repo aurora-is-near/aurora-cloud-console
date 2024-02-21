@@ -13,7 +13,7 @@ export default async function MainMenu({
   extraMenuItems,
 }: MainMenuProps) {
   return (
-    <div className="hidden lg:relative lg:inset-y-0 lg:left-0 lg:z-50 lg:flex lg:flex-col lg:items-center lg:w-20 lg:overflow-y-auto lg:bg-gray-900 lg:py-4 lg:gap-y-4">
+    <div className="hidden lg:relative lg:inset-y-0 lg:left-0 lg:z-50 lg:flex lg:flex-col lg:items-center lg:w-20 lg:bg-gray-900 lg:py-4 lg:gap-y-4">
       <Link
         href="/"
         className="flex h-12 w-12 shrink-0 items-center justify-center"

@@ -4,6 +4,8 @@ import { ReactElement, ReactNode, cloneElement, isValidElement } from "react"
 import { useSelectedLayoutSegments } from "next/navigation"
 import Link from "next/link"
 import clsx from "clsx"
+import { Tooltip } from "@/components/Tooltip"
+import { kebabCase } from "change-case"
 
 type MenuButtonProps = {
   href: string
@@ -28,18 +30,25 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
   icon = generateIcon(icon, "w-6 h-6 shrink-0")
 
   return (
-    <Link
-      href={href}
-      className={clsx(
-        current
-          ? "bg-green-500 text-gray-900"
-          : "text-gray-400 hover:text-white hover:bg-gray-800",
-        "group flex rounded-lg p-3 text-sm leading-6 font-semibold items-center justify-center",
-      )}
+    <Tooltip
+      id={`menu-item-${kebabCase(name)}`}
+      content={name}
+      place="right"
+      type="white"
     >
-      {icon}
-      <span className="sr-only">{name}</span>
-    </Link>
+      <Link
+        href={href}
+        className={clsx(
+          current
+            ? "bg-green-500 text-gray-900"
+            : "text-gray-400 hover:text-white hover:bg-gray-800",
+          "group flex rounded-lg p-3 text-sm leading-6 font-semibold items-center justify-center",
+        )}
+      >
+        {icon}
+        <span className="sr-only">{name}</span>
+      </Link>
+    </Tooltip>
   )
 }
 
