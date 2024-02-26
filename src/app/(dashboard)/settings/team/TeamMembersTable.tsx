@@ -5,13 +5,14 @@ import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { TeamMember, User } from "@/types/types"
-import { TrashIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
+import { PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import { useQueryState } from "next-usequerystate"
 import { useCallback } from "react"
 import { reinviteUser } from "@/actions/invite/reinvite-user"
 import { toError } from "@/utils/errors"
 import { deleteTeamMember } from "@/actions/team-members/delete-team-member"
 import { useRouter } from "next/navigation"
+import { TableDeleteButton } from "@/components/TableDeleteButton"
 
 type TeamMembersTableProps = {
   currentUser: User
@@ -28,12 +29,10 @@ export const TeamMembersTable = ({
   const [, setEmail] = useQueryState("email")
   const router = useRouter()
 
-  const onRemoveTeamMemberClick = useCallback(
+  const onDeleteTeamMemberClick = useCallback(
     async (teamMember: TeamMember) => {
-      if (confirm(`Are you sure you want to remove ${teamMember.email}?`)) {
-        await deleteTeamMember(teamMember.id)
-        router.refresh()
-      }
+      await deleteTeamMember(teamMember.id)
+      router.refresh()
     },
     [router],
   )
@@ -85,12 +84,11 @@ export const TeamMembersTable = ({
               ) : (
                 <div className="w-5 h-5" />
               )}
-              <TableButton
-                Icon={TrashIcon}
-                disabled={isCurrentUser}
-                srOnlyText={`Remove ${teamMember.name ?? "user"}`}
-                onClick={() => {
-                  onRemoveTeamMemberClick(teamMember)
+              <TableDeleteButton
+                title="Remove team member"
+                description={`Remove ${teamMember.name ?? "user"}`}
+                onDelete={async () => {
+                  await onDeleteTeamMemberClick(teamMember)
                 }}
               />
             </Table.TD>

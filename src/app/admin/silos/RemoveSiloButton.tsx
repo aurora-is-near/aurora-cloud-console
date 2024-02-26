@@ -1,29 +1,21 @@
 "use client"
 
 import { deleteSilo } from "@/actions/silos/delete-silo"
-import TableButton from "@/components/TableButton"
+import { TableDeleteButton } from "@/components/TableDeleteButton"
 import { Silo } from "@/types/types"
-import { TrashIcon } from "@heroicons/react/24/outline"
 
 type RemoveSiloButtonProps = {
   silo: Silo
 }
 
 export const RemoveSiloButton = async ({ silo }: RemoveSiloButtonProps) => {
-  const onClick = () => {
-    if (!confirm(`Are you sure you want to delete the silo "${silo.name}"?`)) {
-      return
-    }
-
-    deleteSilo(silo.id)
-    window.location.href = `${window.location.pathname}?operation=deleted`
-  }
+  const onDelete = async () => deleteSilo(silo.id)
 
   return (
-    <TableButton
-      Icon={TrashIcon}
-      srOnlyText={`Remove ${silo.name}`}
-      onClick={onClick}
+    <TableDeleteButton
+      title="Remove silo"
+      description={`Are you sure you want to delete the silo "${silo.name}"?`}
+      onDelete={onDelete}
     />
   )
 }

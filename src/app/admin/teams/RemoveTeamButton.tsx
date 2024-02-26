@@ -1,29 +1,21 @@
 "use client"
 
 import { deleteTeam } from "@/actions/teams/delete-team"
-import TableButton from "@/components/TableButton"
+import { TableDeleteButton } from "@/components/TableDeleteButton"
 import { Team } from "@/types/types"
-import { TrashIcon } from "@heroicons/react/24/outline"
 
 type RemoveTeamButtonProps = {
   team: Team
 }
 
-export const RemoveTeamButton = async ({ team }: RemoveTeamButtonProps) => {
-  const onClick = () => {
-    if (!confirm(`Are you sure you want to delete the team "${team.name}"?`)) {
-      return
-    }
-
-    deleteTeam(team.id)
-    window.location.href = `${window.location.pathname}?operation=deleted`
-  }
+export const RemoveTeamButton = ({ team }: RemoveTeamButtonProps) => {
+  const onDelete = async () => deleteTeam(team.id)
 
   return (
-    <TableButton
-      Icon={TrashIcon}
-      srOnlyText={`Remove ${team.name}`}
-      onClick={onClick}
+    <TableDeleteButton
+      title="Remove team"
+      description={`Are you sure you want to delete the team "${team.name}"?`}
+      onDelete={onDelete}
     />
   )
 }
