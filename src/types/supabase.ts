@@ -260,21 +260,21 @@ export type Database = {
           created_at: string
           id: number
           name: string
-          type: string
+          type: Database["public"]["Enums"]["token_type"]
         }
         Insert: {
           address: string
           created_at?: string
           id?: number
           name: string
-          type: string
+          type: Database["public"]["Enums"]["token_type"]
         }
         Update: {
           address?: string
           created_at?: string
           id?: number
           name?: string
-          type?: string
+          type?: Database["public"]["Enums"]["token_type"]
         }
         Relationships: []
       }
@@ -352,6 +352,13 @@ export type Database = {
         }
         Returns: undefined
       }
+      add_values_to_enum: {
+        Args: {
+          enum_name: string
+          enum_values: string[]
+        }
+        Returns: undefined
+      }
       has_metadata_key: {
         Args: {
           metadata: Json
@@ -376,6 +383,7 @@ export type Database = {
         | "users:write"
         | "lists:read"
         | "lists:write"
+      token_type: "ERC20" | "ERC721" | "ERC1155"
       user_type: "customer" | "admin"
     }
     CompositeTypes: {

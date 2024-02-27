@@ -35,6 +35,8 @@ export type User = Tables<"users">
 
 export type PublicApiScope = Enums<"api_key_scopes">
 
+export type TokenType = Enums<"token_type">
+
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
