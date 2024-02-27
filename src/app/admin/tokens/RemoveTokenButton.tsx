@@ -14,7 +14,7 @@ export const RemoveTokenButton = async ({ token }: RemoveTokenButtonProps) => {
   return (
     <TableDeleteButton
       title="Remove token"
-      description={`Are you sure you want to delete the token "${token.name}"?`}
+      description={`Are you sure you want to delete the token "${token.symbol}"?`}
       onDelete={onDelete}
     />
   )

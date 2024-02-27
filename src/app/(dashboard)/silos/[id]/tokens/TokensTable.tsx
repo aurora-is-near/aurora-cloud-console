@@ -22,7 +22,7 @@ const TokensTable = ({ siloId }: { siloId: number }) => {
       <Table.TH>Type</Table.TH>
       {tokens?.items.map((token) => (
         <Table.TR key={token.address}>
-          <Table.TD dark>{token.name}</Table.TD>
+          <Table.TD dark>{token.symbol}</Table.TD>
           <Table.TD>
             {token.address} <CopyButton value={token.address} />
           </Table.TD>

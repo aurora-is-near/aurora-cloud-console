@@ -2,19 +2,21 @@
 
 import { AddToMetaMaskButton } from "@/app/(dashboard)/silos/[id]/configuration/AddToMetaMaskButton"
 import { useMetaMask } from "@/hooks/useMetaMask"
-import { Token } from "@/types/types"
+import { Silo, Token } from "@/types/types"
 
 type AddTokenToMetaMaskButtonProps = {
+  silo: Silo
   token: Token
 }
 
-export const AddTokenToMetaMaskButton = ({
+export const AddSiloToMetaMaskButton = ({
+  silo,
   token,
 }: AddTokenToMetaMaskButtonProps) => {
-  const { watchAsset } = useMetaMask()
+  const { addEthereumChain } = useMetaMask()
 
   const onClick = () => {
-    watchAsset(token)
+    addEthereumChain(silo, token)
   }
 
   return <AddToMetaMaskButton onClick={onClick} />

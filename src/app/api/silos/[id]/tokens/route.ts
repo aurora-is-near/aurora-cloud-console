@@ -16,7 +16,7 @@ export const GET = createApiEndpoint("getSiloTokens", async (_req, ctx) => {
     items: tokens.map((token) => ({
       address: token.address,
       id: token.id,
-      name: token.name,
+      symbol: token.symbol,
       type: token.type,
       createdAt: token.created_at,
     })),

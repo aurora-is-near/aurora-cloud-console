@@ -34,7 +34,7 @@ const Page = async () => {
               {tokens.map((token) => (
                 <Table.TR key={token.id}>
                   <Table.TD>{token.id}</Table.TD>
-                  <Table.TD>{token.name}</Table.TD>
+                  <Table.TD>{token.symbol}</Table.TD>
                   <Table.TD>{token.address}</Table.TD>
                   <Table.TD>{token.type}</Table.TD>
                   <Table.TD>{formatDate(token.created_at)}</Table.TD>
@@ -42,7 +42,7 @@ const Page = async () => {
                     <div className="flex gap-x-3">
                       <TableButton
                         Icon={PencilSquareIcon}
-                        srOnlyText={`Edit ${token.name}`}
+                        srOnlyText={`Edit ${token.symbol}`}
                         href={`/admin/tokens/edit/${token.id}`}
                       />
                       <RemoveTokenButton token={token} />

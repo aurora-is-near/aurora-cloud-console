@@ -24,6 +24,11 @@ const getNetworkOption = (value: NetworkOption): SelectInputOption => ({
   value,
 })
 
+const getTokenOption = (token: Token): SelectInputOption => ({
+  label: token.symbol,
+  value: token.id,
+})
+
 const isNetworkOption = (value?: string): value is NetworkOption =>
   !!value && NETWORK_OPTIONS.includes(value as NetworkOption)
 
@@ -107,18 +112,10 @@ export const SiloForm = ({ silo, tokens }: SiloFormProps) => {
         {
           name: "base_token_id",
           label: "Base token",
-          defaultValue: baseToken
-            ? {
-                label: baseToken.name,
-                value: baseToken.id,
-              }
-            : undefined,
+          defaultValue: baseToken ? getTokenOption(baseToken) : undefined,
           required: true,
           getValue: (option?: SelectInputOption) => option?.value,
-          options: tokens.map((token) => ({
-            label: token.name,
-            value: token.id,
-          })),
+          options: tokens.map(getTokenOption),
         },
       ]}
     />
