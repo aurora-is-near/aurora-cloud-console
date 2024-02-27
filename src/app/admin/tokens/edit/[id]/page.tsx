@@ -12,7 +12,7 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
   }
 
   return (
-    <DashboardPage heading={token.name}>
+    <DashboardPage heading={token.symbol}>
       <Card>
         <Card.Title tag="h3">Token details</Card.Title>
         <Card.Body>

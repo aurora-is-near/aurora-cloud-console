@@ -71,7 +71,7 @@ export const TokenSchema = z.object({
   address: z.string(),
   createdAt: z.string(),
   id: z.number(),
-  name: z.string(),
+  symbol: z.string(),
   type: z.string(),
 })
 

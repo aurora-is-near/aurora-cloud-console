@@ -1,14 +1,9 @@
 import { useModals } from "@/hooks/useModals"
-import { TokenType } from "@/types/types"
+import { Silo, Token } from "@/types/types"
 import { Modals } from "@/utils/modals"
 import { useCallback } from "react"
 
-type WatchAssetOptions = {
-  address: string
-  symbol: string
-  decimals: number
-  image?: string
-}
+const DECIMALS = 18
 
 export const useMetaMask = () => {
   const { openModal } = useModals()
@@ -18,7 +13,7 @@ export const useMetaMask = () => {
   }, [openModal])
 
   const watchAsset = useCallback(
-    async (type: TokenType, options: WatchAssetOptions) => {
+    async (token: Token) => {
       if (!window.ethereum) {
         openDownloadModal()
 
@@ -28,9 +23,53 @@ export const useMetaMask = () => {
       await window.ethereum.request({
         method: "wallet_watchAsset",
         params: {
-          type,
-          options,
+          type: token.type,
+          options: {
+            address: token.address,
+            symbol: token.symbol,
+            decimals: DECIMALS,
+          },
         },
+      })
+    },
+    [openDownloadModal],
+  )
+
+  const addEthereumChain = useCallback(
+    async (silo: Silo, baseToken: Token) => {
+      if (!window.ethereum) {
+        openDownloadModal()
+
+        return
+      }
+
+      console.log([
+        {
+          chainId: `0x${Number(silo.chain_id).toString(16)}`,
+          chainName: silo.name,
+          nativeCurrency: {
+            symbol: baseToken.symbol,
+            decimals: DECIMALS,
+          },
+          rpcUrls: [`https://${silo.rpc_url.replace(/^[^:]*:\/\//, "")}`],
+          blockExplorerUrls: ["https://etherscan.io"],
+        },
+      ])
+
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: `0x${Number(silo.chain_id).toString(16)}`,
+            chainName: silo.name,
+            nativeCurrency: {
+              symbol: baseToken.symbol,
+              decimals: DECIMALS,
+            },
+            rpcUrls: [`https://${silo.rpc_url.replace(/^[^:]*:\/\//, "")}`],
+            blockExplorerUrls: ["https://etherscan.io"],
+          },
+        ],
       })
     },
     [openDownloadModal],
@@ -38,5 +77,6 @@ export const useMetaMask = () => {
 
   return {
     watchAsset,
+    addEthereumChain,
   }
 }

@@ -259,21 +259,21 @@ export type Database = {
           address: string
           created_at: string
           id: number
-          name: string
+          symbol: string
           type: Database["public"]["Enums"]["token_type"]
         }
         Insert: {
           address: string
           created_at?: string
           id?: number
-          name: string
+          symbol: string
           type: Database["public"]["Enums"]["token_type"]
         }
         Update: {
           address?: string
           created_at?: string
           id?: number
-          name?: string
+          symbol?: string
           type?: Database["public"]["Enums"]["token_type"]
         }
         Relationships: []

@@ -33,10 +33,10 @@ export const TokenForm = ({ token }: TokenFormProps) => {
       submitHandler={submitHandler}
       inputs={[
         {
-          name: "name",
-          label: "Name",
-          defaultValue: token?.name ?? "",
-          autoComplete: "name",
+          name: "symbol",
+          label: "Symbol",
+          defaultValue: token?.symbol ?? "",
+          autoComplete: "symbol",
           required: true,
         },
         {
