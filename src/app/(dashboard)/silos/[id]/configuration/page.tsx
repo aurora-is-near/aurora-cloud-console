@@ -10,6 +10,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { getTokens } from "@/actions/tokens/get-tokens"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { getCurrentTeam } from "@/actions/current-team/get-current-team"
+import { AddTokenToMetaMaskButton } from "@/app/(dashboard)/silos/[id]/configuration/AddTokenToMetaMaskButton"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const team = await getCurrentTeam()
@@ -21,6 +22,8 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
   if (!silo) {
     notFound()
   }
+
+  const baseToken = tokens.find((token) => token.id === silo.base_token_id)
 
   return (
     <DashboardPage>
@@ -99,17 +102,9 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
         <InfoList>
           <InfoList.Item
             term="Base token"
-            description={
-              tokens.find((token) => token.id === silo.base_token_id)?.name ??
-              "-"
-            }
+            description={baseToken?.name ?? "-"}
             explainer="This is the token used to pay for the gas fees inside your Aurora Chain."
-            action={
-              <Button size="sm" variant="border">
-                <PlusIcon className="w-4 h-4" />
-                <span>Add to MetaMask</span>
-              </Button>
-            }
+            action={baseToken && <AddTokenToMetaMaskButton token={baseToken} />}
           />
           <InfoList.Item
             term="Mechanics"
