@@ -1,16 +1,19 @@
 "use client"
 
-import { Token } from "@/types/types"
+import { Token, TokenType } from "@/types/types"
 import { updateToken } from "@/actions/tokens/update-token"
 import { createToken } from "@/actions/tokens/create-token"
 import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
+import { SelectInputOption } from "@/components/SelectInput"
 
 type TokenFormProps = {
   token?: Token
 }
 
 type Inputs = Omit<Token, "id" | "created_at">
+
+const TOKEN_TYPES: TokenType[] = ["ERC20", "ERC721", "ERC1155"]
 
 export const TokenForm = ({ token }: TokenFormProps) => {
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
@@ -46,9 +49,18 @@ export const TokenForm = ({ token }: TokenFormProps) => {
         {
           name: "type",
           label: "Type",
-          defaultValue: token?.type ?? "",
-          autoComplete: "type",
+          defaultValue: token?.type
+            ? {
+                label: token.type,
+                value: token.type,
+              }
+            : undefined,
           required: true,
+          options: TOKEN_TYPES.map((tokenType) => ({
+            label: tokenType,
+            value: tokenType,
+          })),
+          getValue: (option?: SelectInputOption) => option?.value,
         },
       ]}
     />
