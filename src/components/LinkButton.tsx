@@ -11,6 +11,8 @@ type LinkButtonProps = ComponentProps<typeof Link> & {
   loading?: boolean
   disabled?: boolean
   fullWidth?: boolean
+  isExternal?: boolean
+  href: string
 }
 
 export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
@@ -23,15 +25,19 @@ export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
       loading,
       disabled,
       fullWidth,
+      isExternal,
+      href,
       ...restProps
     },
     ref,
   ) => {
     const isDisabled = disabled || loading
+    const Component = isExternal ? "a" : Link
 
     return (
-      <Link
+      <Component
         ref={ref}
+        href={href}
         className={getButtonClassName(variant, size, {
           className,
           isDisabled,
@@ -40,7 +46,7 @@ export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
         {...restProps}
       >
         <ButtonContent isLoading={loading}>{children}</ButtonContent>
-      </Link>
+      </Component>
     )
   },
 )

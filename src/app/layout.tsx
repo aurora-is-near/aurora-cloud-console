@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import "../styles/globals.css"
 import Providers from "@/app/Providers"
 import { ErrorModal } from "@/components/ErrorModal"
+import { MetaMaskNotInstalledModal } from "@/components/MetaMaskNotInstalledModal"
 
 export const metadata: Metadata = {
   title: "Aurora Cloud Console",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <Providers>
           {children}
           <ErrorModal />
+          <MetaMaskNotInstalledModal />
         </Providers>
       </body>
     </html>
