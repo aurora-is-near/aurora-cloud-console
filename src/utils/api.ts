@@ -2,6 +2,7 @@ import { getUser } from "./auth"
 import { NextRequest, NextResponse } from "next/server"
 import { ApiScope } from "@/types/types"
 import httpStatus from "http-status"
+import timestring from "timestring"
 import { toError } from "./errors"
 import { abort, abortIfUnauthorised, isAbortError } from "./abort"
 import { kebabCase } from "change-case"
@@ -71,10 +72,10 @@ const getCacheControlHeader = ({
   maxAge,
   staleWhileRevalidate,
 }: ApiEndpointCacheOptions) => {
-  let value = `s-maxage=${maxAge}`
+  let value = `s-maxage=${timestring(maxAge)}`
 
   if (staleWhileRevalidate) {
-    value += `, stale-while-revalidate=${staleWhileRevalidate}`
+    value += `, stale-while-revalidate=${timestring(staleWhileRevalidate)}`
   }
 
   return value

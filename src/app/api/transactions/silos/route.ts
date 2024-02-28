@@ -2,7 +2,6 @@ import { createApiEndpoint } from "@/utils/api"
 import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
 import { getTransactionData } from "../../../../utils/transactions"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
-import timestring from "timestring"
 
 export const GET = createApiEndpoint(
   "getSilosTransactions",
@@ -26,8 +25,8 @@ export const GET = createApiEndpoint(
   },
   {
     cache: {
-      maxAge: timestring("1h"),
-      staleWhileRevalidate: timestring("1y"),
+      maxAge: "1h",
+      staleWhileRevalidate: "1y",
     },
   },
 )

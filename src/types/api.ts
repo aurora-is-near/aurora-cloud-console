@@ -62,8 +62,8 @@ export type ApiResponse<TResponseBody> =
   | Response
 
 export type ApiEndpointCacheOptions = {
-  maxAge: number
-  staleWhileRevalidate?: number
+  maxAge: string
+  staleWhileRevalidate?: string
 }
 
 export type ApiEndpointOptions = {
