@@ -16,3 +16,5 @@ jobs:
         run: yarn run lint
       - name: Find dead code
         run: yarn run knip
+      - name: Test
+        run: yarn run test
