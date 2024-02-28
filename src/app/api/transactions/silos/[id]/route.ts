@@ -5,6 +5,7 @@ import { getTransactionData } from "../../../../../utils/transactions"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
+import timestring from "timestring"
 
 export const GET = createApiEndpoint(
   "getSiloTransactions",
@@ -37,5 +38,11 @@ export const GET = createApiEndpoint(
         data: getTransactionData(deal.name, results[dealIndex]),
       })),
     }
+  },
+  {
+    cache: {
+      maxAge: timestring("1h"),
+      staleWhileRevalidate: timestring("1y"),
+    },
   },
 )

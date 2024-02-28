@@ -60,3 +60,12 @@ export type ApiErrorResponse = {
 export type ApiResponse<TResponseBody> =
   | NextResponse<TResponseBody | ApiErrorResponse>
   | Response
+
+export type ApiEndpointCacheOptions = {
+  maxAge: number
+  staleWhileRevalidate?: number
+}
+
+export type ApiEndpointOptions = {
+  cache?: ApiEndpointCacheOptions
+}
