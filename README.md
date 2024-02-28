@@ -64,11 +64,10 @@ with the current domain. It is called with an operation ID, as defined in the AP
 contract, and the handler that operation, for example:
 
 ```ts
-import { NextRequest } from "next/server"
+import { createApiEndpoint } from "@/utils/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { ApiRequestContext, createApiEndpoint } from "@/utils/api"
 
-export const PATCH = createApiEndpoint('updateThing', async (_req, ctx) => {
+export const PATCH = createApiEndpoint("updateThing", async (_req, ctx) => {
   const { name } = ctx.body
   const supabase = createAdminSupabaseClient()
 
@@ -82,6 +81,32 @@ export const PATCH = createApiEndpoint('updateThing', async (_req, ctx) => {
   return { status: "OK" }
 })
 ```
+
+### Caching
+
+We can cache responses via the Vercel CDN by passing a `cache` property via the
+third argument to `createApiEndpoint`, as follows:
+
+```ts
+import { createApiEndpoint } from "@/utils/api"
+
+export const GET = createApiEndpoint(
+  "getThing",
+  async () => {
+    return { foo: "bar" }
+  },
+  {
+    cache: {
+      maxAge: "1h",
+      staleWhileRevalidate: "1d",
+    },
+  },
+)
+```
+
+Values are written in a human-readable format (e.g. `1d` for one day) and
+converted using the [timestring](https://www.npmjs.com/package/timestring)
+package.
 
 ## Triggers
 
