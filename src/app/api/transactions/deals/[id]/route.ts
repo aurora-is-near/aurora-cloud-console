@@ -40,4 +40,10 @@ export const GET = createApiEndpoint(
       ],
     }
   },
+  {
+    cache: {
+      maxAge: "1h",
+      staleWhileRevalidate: "1y",
+    },
+  },
 )
