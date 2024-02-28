@@ -5,7 +5,7 @@ import { Tooltip as ReactTooltip } from "react-tooltip"
 
 type TooltipType = "default" | "white"
 
-export type TooltipProps = {
+type TooltipProps = {
   id: string
   content?: string
   html?: string
