@@ -39,7 +39,7 @@ export const DealSchema = z.object({
   ),
 })
 
-export const DealPrioritiesSchema = z.array(
+const DealPrioritiesSchema = z.array(
   z.object({
     dealId: z.number(),
     name: z.string(),
@@ -67,7 +67,7 @@ export const WalletDetailsSchema = z.object({
   lastTransactionAt: z.string(),
 })
 
-export const TokenSchema = z.object({
+const TokenSchema = z.object({
   address: z.string(),
   createdAt: z.string(),
   id: z.number(),
@@ -93,12 +93,9 @@ export const TransactionDataSchema = z.object({
   ),
 })
 
-export const TransactionDataIntervalQueryParamSchema = z
-  .string()
-  .optional()
-  .openapi({
-    enum: CHART_DATE_OPTION_VALUES,
-  })
+const TransactionDataIntervalQueryParamSchema = z.string().optional().openapi({
+  enum: CHART_DATE_OPTION_VALUES,
+})
 
 export const contract = c.router({
   getDeals: {
