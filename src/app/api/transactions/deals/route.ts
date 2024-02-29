@@ -19,7 +19,7 @@ export const GET = createApiEndpoint(
 
     const results = await Promise.all(
       deals.map(async (deal) =>
-        queryTransactions(ctx.team.is_demo_account, chainIds, {
+        queryTransactions(ctx.team.transaction_database, chainIds, {
           interval,
           dealId: await getDealKey(deal.id),
         }),

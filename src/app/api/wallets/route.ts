@@ -22,10 +22,10 @@ export const GET = createApiEndpoint("getWallets", async (req, ctx) => {
   }
 
   const results = await Promise.all([
-    queryWalletCount(ctx.team.is_demo_account, siloChainIds, {
+    queryWalletCount(ctx.team.transaction_database, siloChainIds, {
       dealKey,
     }),
-    queryWallets(ctx.team.is_demo_account, siloChainIds, {
+    queryWallets(ctx.team.transaction_database, siloChainIds, {
       limit: Number(limit),
       offset: Number(offset),
       dealKey,

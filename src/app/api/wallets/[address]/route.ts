@@ -19,11 +19,15 @@ export const GET = createApiEndpoint("getWallet", async (req, ctx) => {
     abort(400, "Invalid deal id")
   }
 
-  const result = await queryWallets(ctx.team.is_demo_account, siloChainIds, {
-    limit: 1,
-    dealKey,
-    walletAddress,
-  })
+  const result = await queryWallets(
+    ctx.team.transaction_database,
+    siloChainIds,
+    {
+      limit: 1,
+      dealKey,
+      walletAddress,
+    },
+  )
 
   const [row] = result.rows
 

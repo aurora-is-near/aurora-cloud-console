@@ -196,9 +196,9 @@ export type Database = {
           created_at: string
           email: string | null
           id: number
-          is_demo_account: boolean
           name: string
           team_key: string
+          transaction_database: Database["public"]["Enums"]["transaction_database_type"]
           updated_at: string
           website: string | null
         }
@@ -206,9 +206,9 @@ export type Database = {
           created_at?: string
           email?: string | null
           id?: number
-          is_demo_account?: boolean
           name: string
           team_key: string
+          transaction_database: Database["public"]["Enums"]["transaction_database_type"]
           updated_at?: string
           website?: string | null
         }
@@ -216,9 +216,9 @@ export type Database = {
           created_at?: string
           email?: string | null
           id?: number
-          is_demo_account?: boolean
           name?: string
           team_key?: string
+          transaction_database?: Database["public"]["Enums"]["transaction_database_type"]
           updated_at?: string
           website?: string | null
         }
@@ -384,6 +384,7 @@ export type Database = {
         | "lists:read"
         | "lists:write"
       token_type: "ERC20" | "ERC721" | "ERC1155"
+      transaction_database_type: "AURORA" | "AURORA_DEMO" | "SILO"
       user_type: "customer" | "admin"
     }
     CompositeTypes: {
