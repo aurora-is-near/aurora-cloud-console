@@ -1,7 +1,7 @@
 import type { KnipConfig } from "knip"
 
 const config: KnipConfig = {
-  ignore: ["src/types/supabase.ts"],
+  ignore: ["src/types/supabase.ts", "jest.*"],
   ignoreDependencies: ["ethers"],
 }
 
