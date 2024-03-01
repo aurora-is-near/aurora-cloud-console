@@ -17,6 +17,11 @@ type Inputs = {
   team_id: number
 }
 
+const getTeamOption = (team: Team) => ({
+  label: team.name,
+  value: team.id,
+})
+
 export const DealForm = ({ deal, allTeams }: DealFormProps) => {
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
     if (deal) {
@@ -29,6 +34,8 @@ export const DealForm = ({ deal, allTeams }: DealFormProps) => {
     await createDeal(inputs)
     window.location.href = "/admin/deals?operation=created"
   }
+
+  const selectedTeam = allTeams.find((team) => team.id === deal?.team_id)
 
   return (
     <HorizontalForm
@@ -45,12 +52,9 @@ export const DealForm = ({ deal, allTeams }: DealFormProps) => {
           name: "team_id",
           label: "Team",
           getValue: (option?: SelectInputOption) => option?.value,
-          defaultValue: deal?.team_id,
+          defaultValue: selectedTeam ? getTeamOption(selectedTeam) : undefined,
           required: true,
-          options: allTeams.map((team) => ({
-            label: team.name,
-            value: team.id,
-          })),
+          options: allTeams.map(getTeamOption),
         },
       ]}
     />
