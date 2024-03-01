@@ -37,6 +37,8 @@ export type PublicApiScope = Enums<"api_key_scopes">
 
 export type TokenType = Enums<"token_type">
 
+export type TransactionDatabaseType = Enums<"transaction_database_type">
+
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
@@ -57,5 +59,3 @@ export type ApiUser = User & {
 }
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
-
-export type ProxyDatabase = (typeof DATABASES)[number]

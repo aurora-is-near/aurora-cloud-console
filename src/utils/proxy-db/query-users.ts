@@ -1,4 +1,4 @@
-import { ProxyDatabase, TransactionsQuery } from "../../types/types"
+import { TransactionDatabaseType, TransactionsQuery } from "../../types/types"
 import { query } from "./query"
 
 type Params = {
@@ -25,7 +25,7 @@ const getWhereClause = (chainIds: string[], params: Params) => {
 }
 
 export const queryWallets = async (
-  database: ProxyDatabase,
+  transactionDatabase: TransactionDatabaseType,
   chainIds: string[],
   params: Params,
 ) => {
@@ -33,7 +33,7 @@ export const queryWallets = async (
   const whereClause = getWhereClause(chainIds, params)
 
   return query<TransactionsQuery>(
-    database,
+    transactionDatabase,
     `
       SELECT
         "from" as wallet_address,
@@ -50,7 +50,7 @@ export const queryWallets = async (
 }
 
 export const queryWalletCount = async (
-  database: ProxyDatabase,
+  transactionDatabase: TransactionDatabaseType,
   chainIds: string[],
   params: Params,
 ) => {
@@ -59,7 +59,7 @@ export const queryWalletCount = async (
   return query<{
     count: number
   }>(
-    database,
+    transactionDatabase,
     `
     SELECT count(*)::int
     FROM (

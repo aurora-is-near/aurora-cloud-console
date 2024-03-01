@@ -4,7 +4,6 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { DealForm } from "@/app/admin/deals/DealForm"
 import { getDeal } from "@/actions/deals/get-deal"
 import { getTeams } from "@/actions/teams/get-teams"
-import { DealApiRequestCard } from "@/app/admin/deals/DealApiRequestCard"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {
   const [deal, allTeams] = await Promise.all([getDeal(id), getTeams()])
@@ -21,7 +20,6 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
           <DealForm deal={deal} allTeams={allTeams} />
         </Card.Body>
       </Card>
-      <DealApiRequestCard id={id} />
     </DashboardPage>
   )
 }

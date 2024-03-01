@@ -1,4 +1,4 @@
-import { ProxyDatabase } from "@/types/types"
+import { TransactionDatabaseType } from "@/types/types"
 import { query } from "./query"
 
 type Params = {
@@ -37,7 +37,7 @@ const getWhereClause = (chainIds: string[], { interval, dealId }: Params) => {
 }
 
 export const queryTransactions = async (
-  isDemoAccount: boolean,
+  transactionDatabase: TransactionDatabaseType,
   chainIds: string[],
   params: Params,
 ) => {
@@ -51,7 +51,7 @@ export const queryTransactions = async (
     query<{
       count: number
     }>(
-      isDemoAccount,
+      transactionDatabase,
       `
         SELECT count("id")::int
         ${FROM_CLAUSE}
@@ -61,7 +61,7 @@ export const queryTransactions = async (
     query<{
       count: number
     }>(
-      isDemoAccount,
+      transactionDatabase,
       `
         SELECT count(*)::int
         FROM (
@@ -75,7 +75,7 @@ export const queryTransactions = async (
       day: string
       count: number
     }>(
-      isDemoAccount,
+      transactionDatabase,
       `
         SELECT date_trunc('day', "req_time") as "day", count(id)::int as count
         ${FROM_CLAUSE}
@@ -88,7 +88,7 @@ export const queryTransactions = async (
       day: string
       count: number
     }>(
-      isDemoAccount,
+      transactionDatabase,
       `
         SELECT date_trunc('day', "req_time") as "day", count(DISTINCT "from")::int as count
         ${FROM_CLAUSE}

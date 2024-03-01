@@ -2,11 +2,14 @@ import { getUser } from "./auth"
 import { NextRequest, NextResponse } from "next/server"
 import { ApiScope } from "@/types/types"
 import httpStatus from "http-status"
+import timestring from "timestring"
 import { toError } from "./errors"
 import { abort, abortIfUnauthorised, isAbortError } from "./abort"
 import { kebabCase } from "change-case"
 import { getCurrentTeamFromHeaders } from "@/utils/current-team"
 import {
+  ApiEndpointCacheOptions,
+  ApiEndpointOptions,
   ApiErrorResponse,
   ApiOperation,
   ApiRequestBody,
@@ -65,13 +68,34 @@ const getRequestBody = async (req: NextRequest) => {
   }
 }
 
-const handleRequest = async <TResponseBody, TRequestBody>(
-  req: NextRequest,
-  ctx: BaseApiRequestContext,
-  scopes: ApiScope[],
-  handler: ApiRequestHandler<TResponseBody, TRequestBody>,
-  body: TRequestBody,
-): Promise<ApiResponse<TResponseBody>> => {
+const getCacheControlHeader = ({
+  maxAge,
+  staleWhileRevalidate,
+}: ApiEndpointCacheOptions) => {
+  let value = `s-maxage=${timestring(maxAge)}`
+
+  if (staleWhileRevalidate) {
+    value += `, stale-while-revalidate=${timestring(staleWhileRevalidate)}`
+  }
+
+  return value
+}
+
+const handleRequest = async <TResponseBody, TRequestBody>({
+  req,
+  ctx,
+  scopes,
+  handler,
+  body,
+  options,
+}: {
+  req: NextRequest
+  ctx: BaseApiRequestContext
+  scopes: ApiScope[]
+  handler: ApiRequestHandler<TResponseBody, TRequestBody>
+  body: TRequestBody
+  options?: ApiEndpointOptions
+}): Promise<ApiResponse<TResponseBody>> => {
   const [user, team] = await Promise.all([
     getUser(),
     getCurrentTeamFromHeaders(req.headers),
@@ -91,7 +115,15 @@ const handleRequest = async <TResponseBody, TRequestBody>(
     return new Response(null, { status: 204 })
   }
 
-  return NextResponse.json(data)
+  const responseInit: ResponseInit = {}
+
+  if (options?.cache) {
+    responseInit.headers = {
+      "Vercel-CDN-Cache-Control": getCacheControlHeader(options.cache),
+    }
+  }
+
+  return NextResponse.json(data, responseInit)
 }
 
 const getOperations = () => {
@@ -229,6 +261,7 @@ export const createApiEndpoint =
   <T extends ApiOperation>(
     operationId: T,
     handler: ApiRequestHandler<ApiResponseBody<T>, ApiRequestBody<T>>,
+    options?: ApiEndpointOptions,
   ) =>
   async (
     req: NextRequest,
@@ -245,13 +278,14 @@ export const createApiEndpoint =
     }
 
     const scopes = (metadata?.scopes ?? []) as ApiScope[]
-    const data = await handleRequest<ApiResponseBody<T>, ApiRequestBody<T>>(
+    const data = await handleRequest<ApiResponseBody<T>, ApiRequestBody<T>>({
       req,
       ctx,
       scopes,
       handler,
       body,
-    )
+      options,
+    })
 
     return data
   }

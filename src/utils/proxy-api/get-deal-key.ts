@@ -7,7 +7,7 @@ export const getDealKey = async (id: number) => {
   // TODO: Remove this once the Proxy API is implemented
   const { data: deal } = await supabase
     .from("deals")
-    .select("id, demo_key, teams!inner(id, is_demo_account)")
+    .select("id, demo_key, teams!inner(id)")
     .eq("id", id)
     .single()
 
@@ -19,7 +19,7 @@ export const getDealKey = async (id: number) => {
     throw new Error(`No team found for deal ${id}`)
   }
 
-  if (deal.teams.is_demo_account && deal.demo_key) {
+  if (deal.demo_key) {
     return deal.demo_key
   }
 

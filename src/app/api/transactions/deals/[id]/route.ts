@@ -23,7 +23,7 @@ export const GET = createApiEndpoint(
     const chainIds = silos.map((silo) => silo.chain_id)
 
     const results = await queryTransactions(
-      ctx.team.is_demo_account,
+      ctx.team.transaction_database,
       chainIds,
       {
         interval,
@@ -39,5 +39,11 @@ export const GET = createApiEndpoint(
         },
       ],
     }
+  },
+  {
+    cache: {
+      maxAge: "1h",
+      staleWhileRevalidate: "1y",
+    },
   },
 )

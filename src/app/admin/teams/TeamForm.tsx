@@ -1,13 +1,13 @@
 "use client"
 
-import { Silo, Team } from "@/types/types"
+import { Silo, Team, TransactionDatabaseType } from "@/types/types"
 import { updateTeam } from "@/actions/teams/update-team"
 import { createTeam } from "@/actions/teams/create-team"
-import { PROXY_DATABASES } from "@/constants/databases"
-import { SelectInputOption } from "@/components/SelectInput"
 import { setTeamSilos } from "@/actions/team-silos/set-team-silos"
 import { HorizontalForm } from "@/components/HorizontalForm"
 import { SubmitHandler } from "react-hook-form"
+import { TRANSACTION_DATABASES } from "@/constants/databases"
+import { SelectInputOption } from "@/components/SelectInput"
 
 type TeamFormProps = {
   team?: Team
@@ -22,6 +22,13 @@ const getSiloOptions = (silos: Silo[]) =>
     label: `${silo.name} (${silo.chain_id})`,
     value: silo.id,
   }))
+
+const getTransactionDatabaseOption = (
+  transactionDatabase: TransactionDatabaseType,
+) => ({
+  label: TRANSACTION_DATABASES[transactionDatabase].name,
+  value: transactionDatabase,
+})
 
 export const TeamForm = ({ team, teamSilos, allSilos }: TeamFormProps) => {
   const submitHandler: SubmitHandler<Inputs> = async ({
@@ -87,11 +94,15 @@ export const TeamForm = ({ team, teamSilos, allSilos }: TeamFormProps) => {
           getValue: (options) => options.map((option) => option.value),
         },
         {
-          name: "is_demo_account",
-          type: "toggle",
-          label: "Demo account",
+          name: "transaction_database",
+          label: "Transaction database",
+          defaultValue: team?.transaction_database
+            ? getTransactionDatabaseOption(team.transaction_database)
+            : undefined,
+          options: Object.keys(TRANSACTION_DATABASES).map((key) =>
+            getTransactionDatabaseOption(key as TransactionDatabaseType),
+          ),
           getValue: (option?: SelectInputOption) => option?.value,
-          defaultChecked: !!team?.is_demo_account,
         },
       ]}
     />

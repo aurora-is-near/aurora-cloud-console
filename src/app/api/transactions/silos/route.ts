@@ -12,7 +12,9 @@ export const GET = createApiEndpoint(
     const interval = req.nextUrl.searchParams.get("interval")
     const results = await Promise.all(
       siloChainIds.map((chainId) =>
-        queryTransactions(ctx.team.is_demo_account, [chainId], { interval }),
+        queryTransactions(ctx.team.transaction_database, [chainId], {
+          interval,
+        }),
       ),
     )
 
@@ -22,5 +24,11 @@ export const GET = createApiEndpoint(
         data: getTransactionData(silo.name, results[siloIndex]),
       })),
     }
+  },
+  {
+    cache: {
+      maxAge: "1h",
+      staleWhileRevalidate: "1y",
+    },
   },
 )

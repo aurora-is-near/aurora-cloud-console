@@ -3337,6 +3337,11 @@
   dependencies:
     "@types/react" "*"
 
+"@types/timestring@^6.0.5":
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/@types/timestring/-/timestring-6.0.5.tgz#c86722529e65febebe4f830ecb5307e687c72c4a"
+  integrity sha512-u+PDTI30Ezg81ENLYTIezc2HtBW7n2/Vgt3vJ2LBzpn/VZzVj33MqxXeVti7g16gPzn3i1hSZCkNCveWp5iowQ==
+
 "@types/tough-cookie@*":
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.5.tgz#cb6e2a691b70cb177c6e3ae9c1d2e8b2ea8cd304"
@@ -9565,6 +9570,11 @@ through2@^4.0.0:
   integrity sha512-iOqSav00cVxEEICeD7TjLB1sueEL+81Wpzp2bY17uZjZN0pWZPuo4suZ/61VujxmqSGFfgOcNuTZ85QJwNZQpw==
   dependencies:
     readable-stream "3"
+
+timestring@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/timestring/-/timestring-7.0.0.tgz#4099b589387c63fbd1ae76b1e7b20ded836af4b2"
+  integrity sha512-U7ttxEdKWqHYJ96OGoJJR5gU8Nwkl3tlY0n7Jr4vcpLD2RkVZLE1Ph9k8ZRrZ7LYX9QCtd3M9OUaR9P8Z37QNg==
 
 titleize@^3.0.0:
   version "3.0.0"
