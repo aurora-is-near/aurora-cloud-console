@@ -43,19 +43,6 @@ export const useMetaMask = () => {
         return
       }
 
-      console.log([
-        {
-          chainId: `0x${Number(silo.chain_id).toString(16)}`,
-          chainName: silo.name,
-          nativeCurrency: {
-            symbol: baseToken.symbol,
-            decimals: DECIMALS,
-          },
-          rpcUrls: [`https://${silo.rpc_url.replace(/^[^:]*:\/\//, "")}`],
-          blockExplorerUrls: ["https://etherscan.io"],
-        },
-      ])
-
       await window.ethereum.request({
         method: "wallet_addEthereumChain",
         params: [

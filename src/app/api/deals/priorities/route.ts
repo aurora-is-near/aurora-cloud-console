@@ -61,8 +61,6 @@ export const GET = createApiEndpoint("getDealPriorities", async (_req, ctx) => {
     getPriorityMap(ctx.team.id),
   ])
 
-  console.log(priorityMap)
-
   assertValidSupabaseResult(dealsResult)
 
   if (!dealsResult.data) {
