@@ -17,14 +17,13 @@ jest.mock("../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
 
-jest.mock("../../../../utils/proxy-api/client", () => ({
-  proxyApiClient: {
-    view: jest.fn(async () => ({ responses: [] })),
-    update: jest.fn(),
-  },
-}))
+jest.mock("../../../../utils/proxy-api/client")
 
 describe("Deal priorities route", () => {
+  beforeEach(() => {
+    ;(proxyApiClient.view as jest.Mock).mockResolvedValue({ responses: [] })
+  })
+
   describe("GET", () => {
     beforeEach(() => {
       mockSupabaseClient
