@@ -9,7 +9,7 @@ export type BaseApiRequestContext = {
   }
 }
 
-export type ApiRequestContext<TRequestBody> = BaseApiRequestContext & {
+type ApiRequestContext<TRequestBody> = BaseApiRequestContext & {
   body: TRequestBody
   user: ApiUser
   team: Team

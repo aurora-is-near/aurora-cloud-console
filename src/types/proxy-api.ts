@@ -49,7 +49,7 @@ export type ProxyApiViewOperation = {
   elements_of_set?: string
 }
 
-export type ProxyApiTimeMeta = {
+type ProxyApiTimeMeta = {
   creation_time: string
   last_write: string
   last_touch: string
