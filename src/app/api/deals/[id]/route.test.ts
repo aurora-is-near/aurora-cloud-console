@@ -3,84 +3,75 @@
  */
 import { NextRequest } from "next/server"
 import { GET } from "./route"
-import { createMockApiContext } from "../../../../test-utils/create-mock-api-context"
+import { createMockApiContext } from "../../../../../test-utils/create-mock-api-context"
 import {
   createSelect,
   mockSupabaseClient,
-} from "../../../../test-utils/mock-supabase-client"
-import { createMockDeal } from "../../../../test-utils/factories/deal-factory"
+} from "../../../../../test-utils/mock-supabase-client"
+import { createMockDeal } from "../../../../../test-utils/factories/deal-factory"
 import { List } from "@/types/types"
 import { proxyApiClient } from "@/utils/proxy-api/client"
-import { createProxyApiObject } from "../../../../test-utils/create-proxy-api-object"
-import { createMockList } from "../../../../test-utils/factories/list-factory"
+import { createProxyApiObject } from "../../../../../test-utils/create-proxy-api-object"
+import { createMockList } from "../../../../../test-utils/factories/list-factory"
 
-jest.mock("../../../utils/api", () => ({
+jest.mock("../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
 
-jest.mock("../../../utils/proxy-api/client", () => ({
+jest.mock("../../../../utils/proxy-api/client", () => ({
   proxyApiClient: {
     view: jest.fn(async () => ({ responses: [] })),
     update: jest.fn(),
   },
 }))
 
-describe("Deals route", () => {
+describe("Deal route", () => {
   describe("GET", () => {
     beforeEach(() => {
-      mockSupabaseClient
-        .from("deals")
-        .select.mockImplementation(() => createSelect([]))
+      mockSupabaseClient.from("deals")
 
       mockSupabaseClient
         .from("lists")
         .select.mockImplementation(() => createSelect([]))
     })
 
-    it("returns an empty deals list", async () => {
+    it("throws a not found error if no matching deal", async () => {
       const req = new NextRequest(new URL(`http://test.com/api/deals`))
       const ctx = createMockApiContext()
-      const result = await GET(req, ctx)
 
-      expect(result).toEqual({
-        items: [],
-      })
+      expect(() => GET(req, ctx)).rejects.toThrow("Not Found")
     })
 
-    it("returns a basic deal", async () => {
+    it("returns a  deal", async () => {
       const mockDeal = createMockDeal()
 
       mockSupabaseClient
         .from("deals")
-        .select.mockImplementation(() => createSelect([mockDeal]))
+        .select.mockImplementation(() => createSelect(mockDeal))
 
       const req = new NextRequest(new URL(`http://test.com/api/deals`))
       const ctx = createMockApiContext()
       const result = await GET(req, ctx)
 
       expect(result).toEqual({
-        items: [
-          {
-            createdAt: mockDeal.created_at,
-            enabled: false,
-            endTime: null,
-            id: mockDeal.id,
-            lists: {
-              autoSubList: null,
-              chainFilter: null,
-              contractFilter: null,
-              eoaBlacklist: null,
-              eoaFilter: null,
-              revokedTokens: null,
-              userIdBlacklist: null,
-              userIdFilter: null,
-            },
-            name: mockDeal.name,
-            startTime: null,
-            teamId: mockDeal.team_id,
-            updatedAt: mockDeal.updated_at,
-          },
-        ],
+        createdAt: mockDeal.created_at,
+        enabled: false,
+        endTime: null,
+        id: mockDeal.id,
+        lists: {
+          autoSubList: null,
+          chainFilter: null,
+          contractFilter: null,
+          eoaBlacklist: null,
+          eoaFilter: null,
+          revokedTokens: null,
+          userIdBlacklist: null,
+          userIdFilter: null,
+        },
+        name: mockDeal.name,
+        startTime: null,
+        teamId: mockDeal.team_id,
+        updatedAt: mockDeal.updated_at,
       })
     })
   })
@@ -138,42 +129,38 @@ describe("Deals route", () => {
 
     mockSupabaseClient
       .from("deals")
-      .select.mockImplementation(() => createSelect([mockDeal]))
+      .select.mockImplementation(() => createSelect(mockDeal))
 
     mockSupabaseClient
       .from("lists")
       .select.mockImplementation(() => createSelect([mockList]))
 
     const req = new NextRequest(new URL("http://test.com/api/deals"))
-    const ctx = createMockApiContext()
+    const ctx = createMockApiContext({ params: { id: "1" } })
     const result = await GET(req, ctx)
 
     expect(result).toEqual({
-      items: [
-        {
-          createdAt: mockDeal.created_at,
-          enabled: true,
-          endTime: "2024-06-26T05:53:41.482Z",
-          id: mockDeal.id,
-          lists: {
-            autoSubList: null,
-            chainFilter: {
-              id: 1,
-              name: "Test List",
-            },
-            contractFilter: null,
-            eoaBlacklist: null,
-            eoaFilter: null,
-            revokedTokens: null,
-            userIdBlacklist: null,
-            userIdFilter: null,
-          },
-          name: mockDeal.name,
-          startTime: "2024-03-02T12:07:01.482Z",
-          teamId: mockDeal.team_id,
-          updatedAt: mockDeal.updated_at,
+      createdAt: mockDeal.created_at,
+      enabled: true,
+      endTime: "2024-06-26T05:53:41.482Z",
+      id: mockDeal.id,
+      lists: {
+        autoSubList: null,
+        chainFilter: {
+          id: 1,
+          name: "Test List",
         },
-      ],
+        contractFilter: null,
+        eoaBlacklist: null,
+        eoaFilter: null,
+        revokedTokens: null,
+        userIdBlacklist: null,
+        userIdFilter: null,
+      },
+      name: mockDeal.name,
+      startTime: "2024-03-02T12:07:01.482Z",
+      teamId: mockDeal.team_id,
+      updatedAt: mockDeal.updated_at,
     })
   })
 })

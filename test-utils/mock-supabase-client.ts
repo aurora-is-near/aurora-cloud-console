@@ -12,6 +12,10 @@ export const createSelect = <T>(data?: T) => ({
     data,
     error: null,
   })),
+  maybeSingle: jest.fn(() => ({
+    data,
+    error: null,
+  })),
   data,
   error: null,
 })
