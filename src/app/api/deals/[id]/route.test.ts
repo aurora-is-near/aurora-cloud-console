@@ -9,10 +9,10 @@ import {
   mockSupabaseClient,
 } from "../../../../../test-utils/mock-supabase-client"
 import { createMockDeal } from "../../../../../test-utils/factories/deal-factory"
-import { List } from "@/types/types"
 import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createProxyApiObject } from "../../../../../test-utils/create-proxy-api-object"
 import { createMockList } from "../../../../../test-utils/factories/list-factory"
+import { mockTeam } from "../../../../../test-utils/mock-team"
 
 jest.mock("../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -84,17 +84,20 @@ describe("Deal route", () => {
       responses: [
         {
           objects: [
-            createProxyApiObject("deal::acc::customers::1::deals::1::enabled", {
-              NumberVar: {
-                value: "1",
+            createProxyApiObject(
+              `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::enabled`,
+              {
+                NumberVar: {
+                  value: "1",
+                },
               },
-            }),
+            ),
           ],
         },
         {
           objects: [
             createProxyApiObject(
-              "deal::acc::customers::1::deals::1::startTime",
+              `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::startTime`,
               {
                 NumberVar: {
                   value: "1709381221482",
@@ -105,17 +108,20 @@ describe("Deal route", () => {
         },
         {
           objects: [
-            createProxyApiObject("deal::acc::customers::1::deals::1::endTime", {
-              NumberVar: {
-                value: "1719381221482",
+            createProxyApiObject(
+              `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::endTime`,
+              {
+                NumberVar: {
+                  value: "1719381221482",
+                },
               },
-            }),
+            ),
           ],
         },
         {
           objects: [
             createProxyApiObject(
-              "deal::acc::customers::1::deals::1::chainFilter",
+              `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::chainFilter`,
               {
                 StringVar: {
                   value: "1",
