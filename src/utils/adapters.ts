@@ -47,23 +47,25 @@ export const adaptDeal = (
   deal: Deal,
   proxyApiDeal: ProxyApiDealData,
   lists: List[],
-): DealSchema => ({
-  id: deal.id,
-  createdAt: deal.created_at,
-  updatedAt: getLatestDate([proxyApiDeal.updatedAt, deal.updated_at]),
-  name: deal.name,
-  teamId: deal.team_id,
-  enabled: proxyApiDeal.enabled,
-  startTime: getIsoString(proxyApiDeal.startTime),
-  endTime: getIsoString(proxyApiDeal.endTime),
-  lists: LIST_TYPES.reduce(
-    (acc, listType) => ({
-      ...acc,
-      [listType]: getRelatedList(lists, proxyApiDeal.lists[listType]),
-    }),
-    {} as Record<ListType, SimpleListSchema | null>,
-  ),
-})
+): DealSchema => {
+  return {
+    id: deal.id,
+    createdAt: deal.created_at,
+    updatedAt: getLatestDate([proxyApiDeal.updatedAt, deal.updated_at]),
+    name: deal.name,
+    teamId: deal.team_id,
+    enabled: proxyApiDeal.enabled,
+    startTime: getIsoString(proxyApiDeal.startTime),
+    endTime: getIsoString(proxyApiDeal.endTime),
+    lists: LIST_TYPES.reduce(
+      (acc, listType) => ({
+        ...acc,
+        [listType]: getRelatedList(lists, proxyApiDeal.lists[listType]),
+      }),
+      {} as Record<ListType, SimpleListSchema | null>,
+    ),
+  }
+}
 
 export const adaptSilo = (silo: Silo): SiloSchema => ({
   id: silo.id,
