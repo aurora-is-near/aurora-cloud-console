@@ -5,7 +5,7 @@ import httpStatus from "http-status"
 import timestring from "timestring"
 import { toError } from "./errors"
 import { abort, abortIfUnauthorised, isAbortError } from "./abort"
-import { kebabCase } from "change-case"
+import { paramCase } from "change-case"
 import { getCurrentTeamFromHeaders } from "@/utils/current-team"
 import {
   ApiEndpointCacheOptions,
@@ -34,7 +34,7 @@ import { OpenAPIV3 } from "openapi-types"
 const getErrorType = (error: unknown, statusCode: number): string => {
   return isAbortError(error) && error.type
     ? error.type
-    : `/probs/${kebabCase(String(httpStatus[statusCode]))}`
+    : `/probs/${paramCase(String(httpStatus[statusCode]))}`
 }
 
 /**

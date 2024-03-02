@@ -5,7 +5,7 @@ import { useSelectedLayoutSegments } from "next/navigation"
 import Link from "next/link"
 import clsx from "clsx"
 import { Tooltip } from "@/components/Tooltip"
-import { kebabCase } from "change-case"
+import { paramCase } from "change-case"
 
 type MenuButtonProps = {
   href: string
@@ -31,7 +31,7 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
 
   return (
     <Tooltip
-      id={`menu-item-${kebabCase(name)}`}
+      id={`menu-item-${paramCase(name)}`}
       content={name}
       place="right"
       type="white"
