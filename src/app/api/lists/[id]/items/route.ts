@@ -22,7 +22,7 @@ export const GET = createApiEndpoint("getListItems", async (req, ctx) => {
     abort(404)
   }
 
-  const items = listItems.responses?.[0].objects.map((item) => item.key) ?? []
+  const items = listItems.responses?.[0]?.objects.map((item) => item.key) ?? []
 
   return {
     total: list.length,

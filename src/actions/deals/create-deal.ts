@@ -18,7 +18,7 @@ import {
 const getNextPriority = async (teamId: number): Promise<string> => {
   const prioritiesResult = await getDealPriorities(teamId)
   const priorities =
-    prioritiesResult.responses?.[0].objects.map(({ key }) => key) ?? []
+    prioritiesResult.responses?.[0]?.objects.map(({ key }) => key) ?? []
 
   const highestPriority = priorities.reduce((acc, priority) => {
     if (Number(priority) > Number(acc)) {

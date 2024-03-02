@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
-    "knip": "knip --production",
+    "knip": "knip --production --exclude types",
     "generate-supabase-types": "supabase gen types typescript --project-id xqharbhfobwuhpcdsapg --schema public > src/types/supabase.ts"
   },
   "dependencies": {
@@ -23,7 +23,7 @@
     "@ts-rest/core": "^3.33.0",
     "@ts-rest/open-api": "^3.33.0",
     "@types/pg": "^8.10.7",
-    "change-case": "^5.1.2",
+    "change-case": "^4.1.2",
     "chart.js": "^4.4.0",
     "chartjs-adapter-date-fns": "^3.0.0",
     "clean-deep": "^3.4.0",

@@ -23,7 +23,7 @@ const parseTimeParam = (time?: string | null) => {
   const parsed = Date.parse(time)
 
   if (isNaN(parsed)) {
-    abort(400, `Invalid request body: startTime must be a date string`)
+    abort(400, `Invalid request body: time must be a date string`)
   }
 
   return parsed
