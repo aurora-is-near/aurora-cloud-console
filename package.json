@@ -54,7 +54,6 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.23.3",
     "@headlessui/tailwindcss": "^0.2.0",
     "@jest/globals": "^29.7.0",
     "@svgr/webpack": "^8.1.0",
