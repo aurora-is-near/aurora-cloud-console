@@ -42,7 +42,7 @@ export const getListItems = async (
   ])
 
   if (options?.beginKey) {
-    result.responses?.[0].objects.shift()
+    result.responses?.[0]?.objects.shift()
   }
 
   return result

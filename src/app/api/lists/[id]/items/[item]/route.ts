@@ -10,7 +10,7 @@ export const GET = createApiEndpoint("getListItem", async (_req, ctx) => {
     decodeURIComponent(ctx.params.item),
   )
 
-  const { key } = result.responses?.[0].objects?.[0] ?? {}
+  const { key } = result.responses?.[0]?.objects?.[0] ?? {}
 
   if (!key) {
     abort(404)

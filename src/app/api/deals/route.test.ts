@@ -8,7 +8,7 @@ import {
   createSelect,
   mockSupabaseClient,
 } from "../../../../test-utils/mock-supabase-client"
-import { mockDeal } from "../../../../test-utils/mock-deal"
+import { createMockDeal } from "../../../../test-utils/mock-deal"
 import { List } from "@/types/types"
 import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createProxyApiObject } from "../../../../test-utils/create-proxy-api-object"
@@ -47,6 +47,8 @@ describe("Deals route", () => {
     })
 
     it("returns a basic deal", async () => {
+      const mockDeal = createMockDeal()
+
       mockSupabaseClient
         .from("deals")
         .select.mockImplementation(() => createSelect([mockDeal]))
@@ -83,6 +85,7 @@ describe("Deals route", () => {
   })
 
   it("returns a deal with associated Proxy API data", async () => {
+    const mockDeal = createMockDeal()
     const mockLists: List[] = [
       {
         id: 1,

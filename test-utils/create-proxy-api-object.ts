@@ -15,7 +15,7 @@ export const createProxyApiObject = (
     StringVar?: Partial<ProxyApiPrimitiveVar> & { value: string }
     NumberVar?: Partial<ProxyApiPrimitiveVar> & { value: string }
     SetVar?: Partial<ProxyApiSetVar>
-  },
+  } = {},
 ): ProxyApiObject => {
   const baseVar: ProxyApiBaseVar = {
     template: "mock-template",

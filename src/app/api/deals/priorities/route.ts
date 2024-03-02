@@ -13,10 +13,10 @@ const getPriorityMap = async (teamId: number) => {
   const prioritiesResult = await getDealPriorities(teamId)
 
   const priorityKeys =
-    prioritiesResult.responses?.[0].objects.map(({ key }) => key) ?? []
+    prioritiesResult.responses?.[0]?.objects.map(({ key }) => key) ?? []
 
   const priorityValues =
-    prioritiesResult.responses?.[1].objects.map(
+    prioritiesResult.responses?.[1]?.objects.map(
       ({ Data }) => Data.StringVar?.value,
     ) ?? []
 
