@@ -8,7 +8,7 @@ import {
   createSelect,
   mockSupabaseClient,
 } from "../../../../../test-utils/mock-supabase-client"
-import { createMockDeals } from "../../../../../test-utils/mock-deal"
+import { createMockDeals } from "../../../../../test-utils/factories/deal-factory"
 import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createProxyApiObject } from "../../../../../test-utils/create-proxy-api-object"
 

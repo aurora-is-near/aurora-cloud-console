@@ -8,10 +8,11 @@ import {
   createSelect,
   mockSupabaseClient,
 } from "../../../../test-utils/mock-supabase-client"
-import { createMockDeal } from "../../../../test-utils/mock-deal"
+import { createMockDeal } from "../../../../test-utils/factories/deal-factory"
 import { List } from "@/types/types"
 import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createProxyApiObject } from "../../../../test-utils/create-proxy-api-object"
+import { createMockList } from "../../../../test-utils/factories/list-factory"
 
 jest.mock("../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -86,14 +87,7 @@ describe("Deals route", () => {
 
   it("returns a deal with associated Proxy API data", async () => {
     const mockDeal = createMockDeal()
-    const mockLists: List[] = [
-      {
-        id: 1,
-        name: "Test List",
-        team_id: 1,
-        created_at: "2021-01-01T00:00:00Z",
-      },
-    ]
+    const mockList = createMockList()
 
     ;(proxyApiClient.view as jest.Mock).mockResolvedValue({
       responses: [
@@ -139,7 +133,7 @@ describe("Deals route", () => {
 
     mockSupabaseClient
       .from("lists")
-      .select.mockImplementation(() => createSelect(mockLists))
+      .select.mockImplementation(() => createSelect([mockList]))
 
     const req = new NextRequest(new URL("http://test.com/api/deals"))
     const ctx = createMockApiContext()
