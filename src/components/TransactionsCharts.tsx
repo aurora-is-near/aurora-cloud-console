@@ -34,6 +34,7 @@ type TransactionsChartsProps = {
   charts?: TransactionDataSchema[]
   interval?: string
   setInterval?: (value?: string) => void
+  isLoading?: boolean
 }
 
 const CHART_OPTIONS: ComponentProps<typeof Line>["options"] = {
@@ -75,6 +76,7 @@ const TransactionsCharts = ({
 
   return (
     <TabCharts
+      isLoading={isLoading}
       dateOptions={CHART_DATE_OPTIONS}
       selectedDateOption={interval}
       onDateOptionChange={setInterval}

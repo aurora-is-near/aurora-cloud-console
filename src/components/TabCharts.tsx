@@ -21,6 +21,7 @@ type TabType = {
 
 type TabChartsProps<T> = {
   children: ReactNode
+  isLoading?: boolean
   tabs:
     | [TabType]
     | [TabType, TabType]
@@ -37,6 +38,7 @@ type TabChartsProps<T> = {
 
 const TabCharts = <T extends unknown>({
   children,
+  isLoading,
   tabs,
   selectedDateOption,
   onDateOptionChange,
@@ -115,7 +117,7 @@ const TabCharts = <T extends unknown>({
                     "text-gray-900 text-3xl md:text-4xl font-bold mt-1.5",
                     {
                       "animate-pulse bg-clip-text text-transparent bg-gray-300":
-                        !value,
+                        isLoading,
                     },
                   )}
                 >
