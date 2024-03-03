@@ -127,9 +127,14 @@ const TabCharts = <T extends unknown>({
             ))}
           </Tab.List>
           <Tab.Panels className="bg-white border border-gray-200 rounded-b-md">
-            {tabs.map(({ title, chart, legend }) => (
+            {tabs.map(({ title, chart, legend, value }) => (
               <Tab.Panel key={title}>
-                <div className="px-4 pt-5 pb-5 md:pb-6 sm:px-5 md:px-6 h-[400px]">
+                <div className="mx-4 mt-5 mb-5 md:mb-6 sm:mx-5 md:mx-6 h-[400px] relative">
+                  {!isLoading && !value && (
+                    <div className="absolute w-full h-full flex items-center justify-center text-sm text-gray-500">
+                      Not enough data
+                    </div>
+                  )}
                   {chart ?? (
                     <div className="flex h-full w-full items-center justify-center">
                       <div
