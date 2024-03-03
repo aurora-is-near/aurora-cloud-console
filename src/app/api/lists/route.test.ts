@@ -43,10 +43,11 @@ describe("Lists route", () => {
 
     it("returns some lists", async () => {
       const mockLists = createMockLists(2)
+      const selectQueries = createSelect(mockLists)
 
       mockSupabaseClient
         .from("lists")
-        .select.mockImplementation(() => createSelect(mockLists))
+        .select.mockImplementation(() => selectQueries)
 
       const res = await invokeApiHandler("GET", "/api/lists", GET)
 
@@ -65,6 +66,9 @@ describe("Lists route", () => {
           },
         ],
       })
+
+      expect(selectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(selectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
   })
 

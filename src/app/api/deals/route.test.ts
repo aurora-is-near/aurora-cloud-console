@@ -47,12 +47,19 @@ describe("Deals route", () => {
       })
     })
 
-    it("returns a basic deal", async () => {
+    it("returns a deal", async () => {
       const mockDeal = createMockDeal()
+      const mockList = createMockList()
+      const dealSelectQueries = createSelect([mockDeal])
+      const listSelectQueries = createSelect([mockList])
 
       mockSupabaseClient
         .from("deals")
-        .select.mockImplementation(() => createSelect([mockDeal]))
+        .select.mockImplementation(() => dealSelectQueries)
+
+      mockSupabaseClient
+        .from("lists")
+        .select.mockImplementation(() => listSelectQueries)
 
       const res = await invokeApiHandler("GET", "/api/deals", GET)
 
@@ -81,12 +88,20 @@ describe("Deals route", () => {
           },
         ],
       })
+
+      expect(dealSelectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
+
+      expect(listSelectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(listSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
   })
 
   it("returns a deal with associated Proxy API data", async () => {
     const mockDeal = createMockDeal()
     const mockList = createMockList()
+    const dealSelectQueries = createSelect([mockDeal])
+    const listSelectQueries = createSelect([mockList])
 
     ;(proxyApiClient.view as jest.Mock).mockResolvedValue({
       responses: [
@@ -143,11 +158,11 @@ describe("Deals route", () => {
 
     mockSupabaseClient
       .from("deals")
-      .select.mockImplementation(() => createSelect([mockDeal]))
+      .select.mockImplementation(() => dealSelectQueries)
 
     mockSupabaseClient
       .from("lists")
-      .select.mockImplementation(() => createSelect([mockList]))
+      .select.mockImplementation(() => listSelectQueries)
 
     const res = await invokeApiHandler("GET", "/api/deals", GET)
 
@@ -179,5 +194,11 @@ describe("Deals route", () => {
         },
       ],
     })
+
+    expect(dealSelectQueries.eq).toHaveBeenCalledTimes(1)
+    expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
+
+    expect(listSelectQueries.eq).toHaveBeenCalledTimes(1)
+    expect(listSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
   })
 })

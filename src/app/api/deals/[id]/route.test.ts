@@ -45,12 +45,21 @@ describe("Deal route", () => {
 
     it("returns a deal", async () => {
       const mockDeal = createMockDeal()
+      const mockLists = createMockLists(4)
+      const listSelectQueries = createSelect(mockLists)
+      const dealSelectQueries = createSelect(mockDeal)
 
       mockSupabaseClient
         .from("deals")
-        .select.mockImplementation(() => createSelect(mockDeal))
+        .select.mockImplementation(() => dealSelectQueries)
 
-      const res = await invokeApiHandler("GET", "/api/deals/1", GET)
+      mockSupabaseClient
+        .from("lists")
+        .select.mockImplementation(() => listSelectQueries)
+
+      const res = await invokeApiHandler("GET", "/api/deals/1", GET, {
+        params: { id: String(mockDeal.id) },
+      })
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
@@ -73,6 +82,13 @@ describe("Deal route", () => {
         teamId: mockDeal.team_id,
         updatedAt: mockDeal.updated_at,
       })
+
+      expect(dealSelectQueries.eq).toHaveBeenCalledTimes(2)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
+
+      expect(listSelectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(listSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
   })
 
@@ -142,7 +158,7 @@ describe("Deal route", () => {
       .select.mockImplementation(() => createSelect([mockList]))
 
     const res = await invokeApiHandler("GET", "/api/deals/1", GET, {
-      params: { id: "1" },
+      params: { id: String(mockDeal.id) },
     })
 
     expect(res).toSatisfyApiSpec()
@@ -181,16 +197,18 @@ describe("Deal route", () => {
     it("updates a deal", async () => {
       const mockDeal = createMockDeal()
       const mockLists = createMockLists(4)
+      const listSelectQueries = createSelect(mockLists)
+      const dealSelectQueries = createSelect(mockDeal)
 
       mockSupabaseClient
         .from("lists")
-        .select.mockImplementation(() => createSelect(mockLists))
+        .select.mockImplementation(() => listSelectQueries)
 
       mockSupabaseClient
         .from("deals")
-        .select.mockImplementation(() => createSelect(mockDeal))
+        .select.mockImplementation(() => dealSelectQueries)
 
-      await invokeApiHandler("PUT", "/api/deals/1", PUT, {
+      const res = await invokeApiHandler("PUT", "/api/deals/1", PUT, {
         params: {
           id: String(mockDeal.id),
         },
@@ -203,6 +221,28 @@ describe("Deal route", () => {
           eoaFilterListId: mockLists[2].id,
           eoaBlacklistListId: mockLists[3].id,
         },
+      })
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
+        createdAt: mockDeal.created_at,
+        enabled: false,
+        endTime: null,
+        id: mockDeal.id,
+        lists: {
+          autoSubList: null,
+          chainFilter: null,
+          contractFilter: null,
+          eoaBlacklist: null,
+          eoaFilter: null,
+          revokedTokens: null,
+          userIdBlacklist: null,
+          userIdFilter: null,
+        },
+        name: mockDeal.name,
+        startTime: null,
+        teamId: mockDeal.team_id,
+        updatedAt: mockDeal.updated_at,
       })
 
       expect(proxyApiClient.update).toHaveBeenCalledTimes(1)
@@ -262,9 +302,16 @@ describe("Deal route", () => {
           var_type: "string",
         },
       ])
+
+      expect(dealSelectQueries.eq).toHaveBeenCalledTimes(2)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
+
+      expect(listSelectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(listSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
 
-    it("updates a deal, resetting the lists when no inputs are given", async () => {
+    it("unsets the lists when no inputs are given", async () => {
       const mockDeal = createMockDeal()
 
       mockSupabaseClient
@@ -303,40 +350,6 @@ describe("Deal route", () => {
           var_type: "string",
         },
       ])
-    })
-
-    it("returns the deal following an update", async () => {
-      const mockDeal = createMockDeal()
-
-      mockSupabaseClient
-        .from("deals")
-        .select.mockImplementation(() => createSelect(mockDeal))
-
-      const res = await invokeApiHandler("PUT", "/api/deals/1", PUT, {
-        params: { id: String(mockDeal.id) },
-      })
-
-      expect(res).toSatisfyApiSpec()
-      expect(res.body).toEqual({
-        createdAt: mockDeal.created_at,
-        enabled: false,
-        endTime: null,
-        id: mockDeal.id,
-        lists: {
-          autoSubList: null,
-          chainFilter: null,
-          contractFilter: null,
-          eoaBlacklist: null,
-          eoaFilter: null,
-          revokedTokens: null,
-          userIdBlacklist: null,
-          userIdFilter: null,
-        },
-        name: mockDeal.name,
-        startTime: null,
-        teamId: mockDeal.team_id,
-        updatedAt: mockDeal.updated_at,
-      })
     })
   })
 })

@@ -44,10 +44,11 @@ describe("Deal priorities route", () => {
 
     it("returns a list of priorities", async () => {
       const mockDeals = createMockDeals(2)
+      const dealSelectQueries = createSelect(mockDeals)
 
       mockSupabaseClient
         .from("deals")
-        .select.mockImplementation(() => createSelect(mockDeals))
+        .select.mockImplementation(() => dealSelectQueries)
       ;(proxyApiClient.view as jest.Mock).mockResolvedValue({
         responses: [
           {
@@ -90,11 +91,21 @@ describe("Deal priorities route", () => {
           },
         ],
       })
+
+      expect(dealSelectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
   })
 
   describe("PUT", () => {
     it("updates the priority list", async () => {
+      const mockDeals = createMockDeals(2)
+      const dealSelectQueries = createSelect(mockDeals)
+
+      mockSupabaseClient
+        .from("deals")
+        .select.mockImplementation(() => dealSelectQueries)
+
       const priorities = [
         {
           dealId: 1,
@@ -152,6 +163,9 @@ describe("Deal priorities route", () => {
           },
         ])
       })
+
+      expect(dealSelectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
   })
 })
