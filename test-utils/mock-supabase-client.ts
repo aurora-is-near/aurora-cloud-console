@@ -20,7 +20,7 @@ export const createSelect = <T>(data?: T) => ({
   error: null,
 })
 
-export const createUpdate = <T>(data?: T) => ({
+export const createInsertOrUpdate = <T>(data?: T) => ({
   eq: jest.fn().mockReturnThis(),
   in: jest.fn().mockReturnThis(),
   is: jest.fn().mockReturnThis(),
@@ -32,7 +32,8 @@ export const createUpdate = <T>(data?: T) => ({
 
 const createTableClient = jest.fn(() => ({
   select: jest.fn(() => createSelect()),
-  update: jest.fn(() => createUpdate()),
+  update: jest.fn(() => createInsertOrUpdate()),
+  insert: jest.fn(() => createInsertOrUpdate()),
 }))
 
 const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
