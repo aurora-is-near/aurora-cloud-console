@@ -12,7 +12,7 @@ export const createMockLists = (count: number, data?: Partial<List>): List[] =>
   Array.from({ length: count }, (_, index) =>
     createMockList({
       id: index + 1,
-      name: `Test Deal ${index + 1}`,
+      name: `Test List ${index + 1}`,
       ...data,
     }),
   )
