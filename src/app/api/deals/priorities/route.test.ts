@@ -1,9 +1,7 @@
 /**
  * @jest-environment node
  */
-import { NextRequest } from "next/server"
 import { GET, PUT } from "./route"
-import { createMockApiContext } from "../../../../../test-utils/create-mock-api-context"
 import {
   createSelect,
   mockSupabaseClient,
@@ -12,6 +10,8 @@ import { createMockDeals } from "../../../../../test-utils/factories/deal-factor
 import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createProxyApiObject } from "../../../../../test-utils/create-proxy-api-object"
 import { mockTeam } from "../../../../../test-utils/mock-team"
+import { invokeApiHandler } from "../../../../../test-utils/invoke-api-handler"
+import { setupJestOpenApi } from "../../../../../test-utils/setup-jest-openapi"
 
 jest.mock("../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -20,6 +20,8 @@ jest.mock("../../../../utils/api", () => ({
 jest.mock("../../../../utils/proxy-api/client")
 
 describe("Deal priorities route", () => {
+  beforeAll(setupJestOpenApi)
+
   beforeEach(() => {
     ;(proxyApiClient.view as jest.Mock).mockResolvedValue({ responses: [] })
   })
@@ -32,14 +34,10 @@ describe("Deal priorities route", () => {
     })
 
     it("returns an empty priorities list", async () => {
-      const req = new NextRequest(
-        new URL(`http://test.com/api/deals/priorities`),
-      )
+      const res = await invokeApiHandler("GET", "/api/deals/priorities", GET)
 
-      const ctx = createMockApiContext()
-      const result = await GET(req, ctx)
-
-      expect(result).toEqual({
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
         items: [],
       })
     })
@@ -75,11 +73,10 @@ describe("Deal priorities route", () => {
         ],
       })
 
-      const req = new NextRequest(new URL(`http://test.com/api/deals`))
-      const ctx = createMockApiContext()
-      const result = await GET(req, ctx)
+      const res = await invokeApiHandler("GET", "/api/deals/priorities", GET)
 
-      expect(result).toEqual({
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
         items: [
           {
             dealId: 1,
@@ -98,10 +95,6 @@ describe("Deal priorities route", () => {
 
   describe("PUT", () => {
     it("updates the priority list", async () => {
-      const req = new NextRequest(
-        new URL(`http://test.com/api/deals/priorities`),
-      )
-
       const priorities = [
         {
           dealId: 1,
@@ -113,15 +106,14 @@ describe("Deal priorities route", () => {
         },
       ]
 
-      const ctx = createMockApiContext({
+      const res = await invokeApiHandler("PUT", "/api/deals/priorities", PUT, {
         body: {
           priorities,
         },
       })
 
-      const result = await PUT(req, ctx)
-
-      expect(result).toEqual({
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
         items: [
           {
             dealId: 1,

@@ -1,9 +1,7 @@
 /**
  * @jest-environment node
  */
-import { NextRequest } from "next/server"
 import { GET } from "./route"
-import { createMockApiContext } from "../../../../test-utils/create-mock-api-context"
 import {
   createSelect,
   mockSupabaseClient,
@@ -13,6 +11,8 @@ import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createProxyApiObject } from "../../../../test-utils/create-proxy-api-object"
 import { createMockList } from "../../../../test-utils/factories/list-factory"
 import { mockTeam } from "../../../../test-utils/mock-team"
+import { setupJestOpenApi } from "../../../../test-utils/setup-jest-openapi"
+import { invokeApiHandler } from "../../../../test-utils/invoke-api-handler"
 
 jest.mock("../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -21,6 +21,8 @@ jest.mock("../../../utils/api", () => ({
 jest.mock("../../../utils/proxy-api/client")
 
 describe("Deals route", () => {
+  beforeAll(setupJestOpenApi)
+
   beforeEach(() => {
     ;(proxyApiClient.view as jest.Mock).mockResolvedValue({ responses: [] })
   })
@@ -37,11 +39,10 @@ describe("Deals route", () => {
     })
 
     it("returns an empty deals list", async () => {
-      const req = new NextRequest(new URL(`http://test.com/api/deals`))
-      const ctx = createMockApiContext()
-      const result = await GET(req, ctx)
+      const res = await invokeApiHandler("GET", "/api/deals", GET)
 
-      expect(result).toEqual({
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
         items: [],
       })
     })
@@ -53,11 +54,10 @@ describe("Deals route", () => {
         .from("deals")
         .select.mockImplementation(() => createSelect([mockDeal]))
 
-      const req = new NextRequest(new URL(`http://test.com/api/deals`))
-      const ctx = createMockApiContext()
-      const result = await GET(req, ctx)
+      const res = await invokeApiHandler("GET", "/api/deals", GET)
 
-      expect(result).toEqual({
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
         items: [
           {
             createdAt: mockDeal.created_at,
@@ -149,11 +149,10 @@ describe("Deals route", () => {
       .from("lists")
       .select.mockImplementation(() => createSelect([mockList]))
 
-    const req = new NextRequest(new URL("http://test.com/api/deals"))
-    const ctx = createMockApiContext()
-    const result = await GET(req, ctx)
+    const res = await invokeApiHandler("GET", "/api/deals", GET)
 
-    expect(result).toEqual({
+    expect(res).toSatisfyApiSpec()
+    expect(res.body).toEqual({
       items: [
         {
           createdAt: mockDeal.created_at,
