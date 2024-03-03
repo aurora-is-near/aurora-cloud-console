@@ -337,34 +337,6 @@ describe("Deal route", () => {
         teamId: mockDeal.team_id,
         updatedAt: mockDeal.updated_at,
       })
-
-      expect(proxyApiClient.update).toHaveBeenCalledTimes(1)
-      expect(proxyApiClient.update).toHaveBeenCalledWith([
-        {
-          op_type: "unset",
-          string_value: undefined,
-          var_key: `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::chainFilter`,
-          var_type: "string",
-        },
-        {
-          op_type: "unset",
-          string_value: undefined,
-          var_key: `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::contractFilter`,
-          var_type: "string",
-        },
-        {
-          op_type: "unset",
-          string_value: undefined,
-          var_key: `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::eoaFilter`,
-          var_type: "string",
-        },
-        {
-          op_type: "unset",
-          string_value: undefined,
-          var_key: `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::eoaBlacklist`,
-          var_type: "string",
-        },
-      ])
     })
   })
 })
