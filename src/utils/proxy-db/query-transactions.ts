@@ -19,16 +19,6 @@ const getWhereClause = (chainIds: string[], { interval, dealId }: Params) => {
     whereClause += ` AND req_time >= current_date - INTERVAL '${interval}' AND req_time < current_date`
   }
 
-  // Optimise the 6 month interval by only querying the first day of each month
-  if (interval === "6 MONTH") {
-    whereClause += ` AND EXTRACT(day FROM req_time)::integer = 1`
-  }
-
-  // Optimise the 3 month interval by only querying the first and 15th day of each month
-  if (interval === "3 MONTH") {
-    whereClause += ` AND (EXTRACT(day FROM req_time)::integer = 1 OR EXTRACT(day FROM req_time)::integer = 15)`
-  }
-
   if (dealId) {
     whereClause += ` AND deal = '${dealId}'`
   }
