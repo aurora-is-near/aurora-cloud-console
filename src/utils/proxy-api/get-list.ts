@@ -14,7 +14,7 @@ export const getList = async (
   const result = await proxyApiClient.view([
     {
       var_type: "set",
-      key: `deal::acc::customers::${teamId}::lists::${listId}`,
+      key,
     },
   ])
 

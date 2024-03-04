@@ -1,9 +1,7 @@
 /**
  * @jest-environment node
  */
-import { NextRequest } from "next/server"
 import { GET } from "./route"
-import { createMockApiContext } from "../../../../test-utils/create-mock-api-context"
 import {
   createSelect,
   mockSupabaseClient,
@@ -13,6 +11,8 @@ import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createProxyApiObject } from "../../../../test-utils/create-proxy-api-object"
 import { createMockList } from "../../../../test-utils/factories/list-factory"
 import { mockTeam } from "../../../../test-utils/mock-team"
+import { setupJestOpenApi } from "../../../../test-utils/setup-jest-openapi"
+import { invokeApiHandler } from "../../../../test-utils/invoke-api-handler"
 
 jest.mock("../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -21,6 +21,8 @@ jest.mock("../../../utils/api", () => ({
 jest.mock("../../../utils/proxy-api/client")
 
 describe("Deals route", () => {
+  beforeAll(setupJestOpenApi)
+
   beforeEach(() => {
     ;(proxyApiClient.view as jest.Mock).mockResolvedValue({ responses: [] })
   })
@@ -37,27 +39,32 @@ describe("Deals route", () => {
     })
 
     it("returns an empty deals list", async () => {
-      const req = new NextRequest(new URL(`http://test.com/api/deals`))
-      const ctx = createMockApiContext()
-      const result = await GET(req, ctx)
+      const res = await invokeApiHandler("GET", "/api/deals", GET)
 
-      expect(result).toEqual({
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
         items: [],
       })
     })
 
-    it("returns a basic deal", async () => {
+    it("returns a deal", async () => {
       const mockDeal = createMockDeal()
+      const mockList = createMockList()
+      const dealSelectQueries = createSelect([mockDeal])
+      const listSelectQueries = createSelect([mockList])
 
       mockSupabaseClient
         .from("deals")
-        .select.mockImplementation(() => createSelect([mockDeal]))
+        .select.mockImplementation(() => dealSelectQueries)
 
-      const req = new NextRequest(new URL(`http://test.com/api/deals`))
-      const ctx = createMockApiContext()
-      const result = await GET(req, ctx)
+      mockSupabaseClient
+        .from("lists")
+        .select.mockImplementation(() => listSelectQueries)
 
-      expect(result).toEqual({
+      const res = await invokeApiHandler("GET", "/api/deals", GET)
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
         items: [
           {
             createdAt: mockDeal.created_at,
@@ -81,12 +88,20 @@ describe("Deals route", () => {
           },
         ],
       })
+
+      expect(dealSelectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
+
+      expect(listSelectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(listSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
   })
 
   it("returns a deal with associated Proxy API data", async () => {
     const mockDeal = createMockDeal()
     const mockList = createMockList()
+    const dealSelectQueries = createSelect([mockDeal])
+    const listSelectQueries = createSelect([mockList])
 
     ;(proxyApiClient.view as jest.Mock).mockResolvedValue({
       responses: [
@@ -143,17 +158,16 @@ describe("Deals route", () => {
 
     mockSupabaseClient
       .from("deals")
-      .select.mockImplementation(() => createSelect([mockDeal]))
+      .select.mockImplementation(() => dealSelectQueries)
 
     mockSupabaseClient
       .from("lists")
-      .select.mockImplementation(() => createSelect([mockList]))
+      .select.mockImplementation(() => listSelectQueries)
 
-    const req = new NextRequest(new URL("http://test.com/api/deals"))
-    const ctx = createMockApiContext()
-    const result = await GET(req, ctx)
+    const res = await invokeApiHandler("GET", "/api/deals", GET)
 
-    expect(result).toEqual({
+    expect(res).toSatisfyApiSpec()
+    expect(res.body).toEqual({
       items: [
         {
           createdAt: mockDeal.created_at,
@@ -180,5 +194,11 @@ describe("Deals route", () => {
         },
       ],
     })
+
+    expect(dealSelectQueries.eq).toHaveBeenCalledTimes(1)
+    expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
+
+    expect(listSelectQueries.eq).toHaveBeenCalledTimes(1)
+    expect(listSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
   })
 })

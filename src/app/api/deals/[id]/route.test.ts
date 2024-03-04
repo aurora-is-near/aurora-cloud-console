@@ -1,9 +1,7 @@
 /**
  * @jest-environment node
  */
-import { NextRequest } from "next/server"
 import { GET, PUT } from "./route"
-import { createMockApiContext } from "../../../../../test-utils/create-mock-api-context"
 import {
   createSelect,
   mockSupabaseClient,
@@ -16,6 +14,8 @@ import {
   createMockLists,
 } from "../../../../../test-utils/factories/list-factory"
 import { mockTeam } from "../../../../../test-utils/mock-team"
+import { setupJestOpenApi } from "../../../../../test-utils/setup-jest-openapi"
+import { invokeApiHandler } from "../../../../../test-utils/invoke-api-handler"
 
 jest.mock("../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -24,6 +24,8 @@ jest.mock("../../../../utils/api", () => ({
 jest.mock("../../../../utils/proxy-api/client")
 
 describe("Deal route", () => {
+  beforeAll(setupJestOpenApi)
+
   beforeEach(() => {
     ;(proxyApiClient.view as jest.Mock).mockResolvedValue({ responses: [] })
   })
@@ -36,24 +38,31 @@ describe("Deal route", () => {
     })
 
     it("throws a not found error if no matching deal", async () => {
-      const req = new NextRequest(new URL(`http://test.com/api/deals`))
-      const ctx = createMockApiContext()
-
-      expect(() => GET(req, ctx)).rejects.toThrow("Not Found")
+      expect(() =>
+        invokeApiHandler("GET", "/api/deals/1", GET),
+      ).rejects.toThrow("Not Found")
     })
 
-    it("returns a  deal", async () => {
+    it("returns a deal", async () => {
       const mockDeal = createMockDeal()
+      const mockLists = createMockLists(4)
+      const listSelectQueries = createSelect(mockLists)
+      const dealSelectQueries = createSelect(mockDeal)
 
       mockSupabaseClient
         .from("deals")
-        .select.mockImplementation(() => createSelect(mockDeal))
+        .select.mockImplementation(() => dealSelectQueries)
 
-      const req = new NextRequest(new URL(`http://test.com/api/deals`))
-      const ctx = createMockApiContext()
-      const result = await GET(req, ctx)
+      mockSupabaseClient
+        .from("lists")
+        .select.mockImplementation(() => listSelectQueries)
 
-      expect(result).toEqual({
+      const res = await invokeApiHandler("GET", "/api/deals/1", GET, {
+        params: { id: String(mockDeal.id) },
+      })
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
         createdAt: mockDeal.created_at,
         enabled: false,
         endTime: null,
@@ -73,6 +82,13 @@ describe("Deal route", () => {
         teamId: mockDeal.team_id,
         updatedAt: mockDeal.updated_at,
       })
+
+      expect(dealSelectQueries.eq).toHaveBeenCalledTimes(2)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
+
+      expect(listSelectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(listSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
   })
 
@@ -141,11 +157,12 @@ describe("Deal route", () => {
       .from("lists")
       .select.mockImplementation(() => createSelect([mockList]))
 
-    const req = new NextRequest(new URL("http://test.com/api/deals"))
-    const ctx = createMockApiContext({ params: { id: "1" } })
-    const result = await GET(req, ctx)
+    const res = await invokeApiHandler("GET", "/api/deals/1", GET, {
+      params: { id: String(mockDeal.id) },
+    })
 
-    expect(result).toEqual({
+    expect(res).toSatisfyApiSpec()
+    expect(res.body).toEqual({
       createdAt: mockDeal.created_at,
       enabled: true,
       endTime: "2024-06-26T05:53:41.482Z",
@@ -180,20 +197,18 @@ describe("Deal route", () => {
     it("updates a deal", async () => {
       const mockDeal = createMockDeal()
       const mockLists = createMockLists(4)
+      const listSelectQueries = createSelect(mockLists)
+      const dealSelectQueries = createSelect(mockDeal)
 
       mockSupabaseClient
         .from("lists")
-        .select.mockImplementation(() => createSelect(mockLists))
+        .select.mockImplementation(() => listSelectQueries)
 
       mockSupabaseClient
         .from("deals")
-        .select.mockImplementation(() => createSelect(mockDeal))
+        .select.mockImplementation(() => dealSelectQueries)
 
-      const req = new NextRequest(
-        new URL(`http://test.com/api/deals/priorities`),
-      )
-
-      const ctx = createMockApiContext({
+      const res = await invokeApiHandler("PUT", "/api/deals/1", PUT, {
         params: {
           id: String(mockDeal.id),
         },
@@ -208,7 +223,27 @@ describe("Deal route", () => {
         },
       })
 
-      await PUT(req, ctx)
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
+        createdAt: mockDeal.created_at,
+        enabled: false,
+        endTime: null,
+        id: mockDeal.id,
+        lists: {
+          autoSubList: null,
+          chainFilter: null,
+          contractFilter: null,
+          eoaBlacklist: null,
+          eoaFilter: null,
+          revokedTokens: null,
+          userIdBlacklist: null,
+          userIdFilter: null,
+        },
+        name: mockDeal.name,
+        startTime: null,
+        teamId: mockDeal.team_id,
+        updatedAt: mockDeal.updated_at,
+      })
 
       expect(proxyApiClient.update).toHaveBeenCalledTimes(1)
       expect(proxyApiClient.update).toHaveBeenCalledWith([
@@ -267,91 +302,25 @@ describe("Deal route", () => {
           var_type: "string",
         },
       ])
+
+      expect(dealSelectQueries.eq).toHaveBeenCalledTimes(2)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
+
+      expect(listSelectQueries.eq).toHaveBeenCalledTimes(1)
+      expect(listSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
 
-    it("updates a deal, resetting the lists when no inputs are given", async () => {
+    it("unsets the lists when no inputs are given", async () => {
       const mockDeal = createMockDeal()
 
       mockSupabaseClient
         .from("deals")
         .select.mockImplementation(() => createSelect(mockDeal))
 
-      const req = new NextRequest(
-        new URL(`http://test.com/api/deals/priorities`),
-      )
-
-      const ctx = createMockApiContext({
+      await invokeApiHandler("PUT", "/api/deals/1", PUT, {
         params: { id: String(mockDeal.id) },
         body: {},
-      })
-
-      await PUT(req, ctx)
-
-      expect(proxyApiClient.update).toHaveBeenCalledTimes(1)
-      expect(proxyApiClient.update).toHaveBeenCalledWith([
-        {
-          op_type: "unset",
-          string_value: undefined,
-          var_key: `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::chainFilter`,
-          var_type: "string",
-        },
-        {
-          op_type: "unset",
-          string_value: undefined,
-          var_key: `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::contractFilter`,
-          var_type: "string",
-        },
-        {
-          op_type: "unset",
-          string_value: undefined,
-          var_key: `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::eoaFilter`,
-          var_type: "string",
-        },
-        {
-          op_type: "unset",
-          string_value: undefined,
-          var_key: `deal::acc::customers::${mockTeam.id}::deals::${mockDeal.id}::eoaBlacklist`,
-          var_type: "string",
-        },
-      ])
-    })
-
-    it("returns the deal following an update", async () => {
-      const mockDeal = createMockDeal()
-
-      mockSupabaseClient
-        .from("deals")
-        .select.mockImplementation(() => createSelect(mockDeal))
-
-      const req = new NextRequest(
-        new URL(`http://test.com/api/deals/priorities`),
-      )
-
-      const ctx = createMockApiContext({
-        params: { id: String(mockDeal.id) },
-      })
-
-      const result = await PUT(req, ctx)
-
-      expect(result).toEqual({
-        createdAt: mockDeal.created_at,
-        enabled: false,
-        endTime: null,
-        id: mockDeal.id,
-        lists: {
-          autoSubList: null,
-          chainFilter: null,
-          contractFilter: null,
-          eoaBlacklist: null,
-          eoaFilter: null,
-          revokedTokens: null,
-          userIdBlacklist: null,
-          userIdFilter: null,
-        },
-        name: mockDeal.name,
-        startTime: null,
-        teamId: mockDeal.team_id,
-        updatedAt: mockDeal.updated_at,
       })
 
       expect(proxyApiClient.update).toHaveBeenCalledTimes(1)
