@@ -24,11 +24,11 @@ export const CHART_DATE_OPTION_VALUES = [
 
 export const CHART_DATE_OPTIONS: {
   label: string
-  value: (typeof CHART_DATE_OPTION_VALUES)[number] | undefined
+  value: (typeof CHART_DATE_OPTION_VALUES)[number] | null
 }[] = [
   {
     label: "All time",
-    value: undefined,
+    value: null,
   },
   {
     label: "1w",

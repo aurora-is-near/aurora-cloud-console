@@ -16,7 +16,10 @@ export const DealTransactionCharts = () => {
   )
 
   const { data: transactions } = useQuery(
-    getQueryFnAndKey("getDealTransactions", { id: Number(id), interval }),
+    getQueryFnAndKey("getDealTransactions", {
+      id: Number(id),
+      interval: interval ?? undefined,
+    }),
   )
 
   useNotFoundError(error)

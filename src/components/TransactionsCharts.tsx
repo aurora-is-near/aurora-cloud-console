@@ -32,8 +32,8 @@ ChartJS.register(
 type TransactionsChartsProps = {
   title: ReactNode
   charts?: TransactionDataSchema[]
-  interval?: string
-  setInterval?: (value?: string) => void
+  interval: string | null
+  setInterval: (value: string | null) => void
 }
 
 const getTotalCount = (
