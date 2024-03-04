@@ -16,7 +16,7 @@ import TabCharts from "@/components/TabCharts"
 import { Line } from "react-chartjs-2"
 import { CHART_DATE_OPTIONS } from "../constants/charts"
 import { getLineChartData } from "../utils/charts"
-import { ReactNode } from "react"
+import { ComponentProps, ReactNode } from "react"
 import { TransactionDataSchema } from "@/types/api-schemas"
 
 ChartJS.register(
@@ -32,8 +32,27 @@ ChartJS.register(
 type TransactionsChartsProps = {
   title: ReactNode
   charts?: TransactionDataSchema[]
-  interval?: string
-  setInterval?: (value?: string) => void
+  interval: string | null
+  setInterval: (value: string | null) => void
+  isLoading?: boolean
+}
+
+const CHART_OPTIONS: ComponentProps<typeof Line>["options"] = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      type: "time",
+      time: {
+        unit: "month",
+      },
+    },
+    y: {
+      ticks: {
+        precision: 0,
+      },
+    },
+  },
 }
 
 const getTotalCount = (
@@ -57,6 +76,7 @@ const TransactionsCharts = ({
 
   return (
     <TabCharts
+      isLoading={isLoading}
       dateOptions={CHART_DATE_OPTIONS}
       selectedDateOption={interval}
       onDateOptionChange={setInterval}
@@ -65,21 +85,7 @@ const TransactionsCharts = ({
           title: "Total transactions",
           value: transactionsCount,
           chart: isLoading ? null : (
-            <Line
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    type: "time",
-                    time: {
-                      unit: "month",
-                    },
-                  },
-                },
-              }}
-              data={transactionsPerDayData}
-            />
+            <Line options={CHART_OPTIONS} data={transactionsPerDayData} />
           ),
           legend,
         },
@@ -87,21 +93,7 @@ const TransactionsCharts = ({
           title: "Total wallets",
           value: walletsCount,
           chart: isLoading ? null : (
-            <Line
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    type: "time",
-                    time: {
-                      unit: "month",
-                    },
-                  },
-                },
-              }}
-              data={walletsPerDayData}
-            />
+            <Line options={CHART_OPTIONS} data={walletsPerDayData} />
           ),
           legend,
         },
@@ -113,18 +105,7 @@ const TransactionsCharts = ({
               : undefined,
           chart: isLoading ? null : (
             <Line
-              options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    type: "time",
-                    time: {
-                      unit: "month",
-                    },
-                  },
-                },
-              }}
+              options={CHART_OPTIONS}
               data={{
                 labels: transactionsPerDayData.labels,
                 datasets: transactionsPerDayData.datasets.map(

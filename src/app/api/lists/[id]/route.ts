@@ -1,6 +1,5 @@
 import { createApiEndpoint } from "@/utils/api"
-import { ApiRequestBody } from "@/types/api"
-import { abort } from "../../../../utils/abort"
+import { abort } from "@/utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 import { adaptList } from "@/utils/adapters"
