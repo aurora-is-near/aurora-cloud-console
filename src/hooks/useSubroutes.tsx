@@ -10,21 +10,21 @@ import {
 import { SubMenuItem } from "@/types/menu"
 import { useSilos } from "@/hooks/useSilos"
 
-export const useSubroutes = (
-  route: string,
-  isAdmin?: boolean,
-): { heading: string; menuItems: SubMenuItem[] } => {
-  const { data: silos } = useSilos()
+type SubRoute = {
+  heading: string
+  isLoading?: boolean
+  menuItems: SubMenuItem[]
+}
+
+export const useSubroutes = (route: string, isAdmin?: boolean): SubRoute => {
+  const { data: silos, isLoading } = useSilos()
   const hasSingleSilo = silos?.items.length === 1
 
   if (isAdmin) {
     return { heading: "Admin", menuItems: [] }
   }
 
-  const subrouteMap: Record<
-    string,
-    { heading: string; menuItems: SubMenuItem[] }
-  > = {
+  const subrouteMap: Record<string, SubRoute> = {
     borealis: {
       heading: "Borealis",
       menuItems: [
@@ -36,6 +36,7 @@ export const useSubroutes = (
     },
     silos: {
       heading: `Silo${hasSingleSilo ? "" : "s"}`,
+      isLoading,
       menuItems: [
         {
           name: hasSingleSilo ? "Overview" : "Summary",

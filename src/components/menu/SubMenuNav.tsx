@@ -26,10 +26,12 @@ import { useSilos } from "@/hooks/useSilos"
 import { useLists } from "@/hooks/useLists"
 import { Modals } from "@/utils/modals"
 
-const NavLoader = () => (
+const MenuItemLoader = () => <Loader className="h-12 rounded-lg" />
+
+const MenuItemsLoader = () => (
   <>
-    <Loader className="h-12 rounded-lg" />
-    <Loader className="h-12 rounded-lg" />
+    <MenuItemLoader />
+    <MenuItemLoader />
   </>
 )
 
@@ -38,7 +40,7 @@ const MenuDivider = () => <div className="w-full h-px bg-gray-200" />
 const BorealisMenu = () => {
   const { data, isLoading } = useDeals()
 
-  if (isLoading) return <NavLoader />
+  if (isLoading) return <MenuItemsLoader />
 
   if (!data?.items.length) return null
 
@@ -68,7 +70,7 @@ const SiloMenu = () => {
     setOption(id ?? "Select silo")
   }, [id])
 
-  if (isLoading) return <NavLoader />
+  if (isLoading) return <MenuItemsLoader />
 
   if (!silos?.items.length) return null
 
@@ -142,7 +144,7 @@ const SiloMenu = () => {
 const ListsMenu = () => {
   const { data, isLoading } = useLists()
 
-  if (isLoading) return <NavLoader />
+  if (isLoading) return <MenuItemsLoader />
 
   if (!data?.items?.length) return null
 
@@ -264,7 +266,7 @@ const getSubMenu = (route: string, isAdmin?: boolean) => {
 
 const SubMenuNav = ({ isAdmin }: { isAdmin?: boolean }) => {
   const [route] = useSelectedLayoutSegments()
-  const { heading, menuItems } = useSubroutes(route, isAdmin)
+  const { heading, menuItems, isLoading } = useSubroutes(route, isAdmin)
   const subMenu = getSubMenu(route, isAdmin)
   const isSettingsRoute = route === "settings"
 
@@ -274,11 +276,15 @@ const SubMenuNav = ({ isAdmin }: { isAdmin?: boolean }) => {
 
       <nav className="flex flex-col flex-1 gap-y-4">
         <ul role="list" className="space-y-4">
-          {menuItems.map((item) => (
-            <li key={item.name}>
-              <SubMenuButton {...item} />
-            </li>
-          ))}
+          {isLoading ? (
+            <MenuItemLoader />
+          ) : (
+            menuItems.map((item) => (
+              <li key={item.name}>
+                <SubMenuButton {...item} />
+              </li>
+            ))
+          )}
         </ul>
 
         {subMenu ? (
