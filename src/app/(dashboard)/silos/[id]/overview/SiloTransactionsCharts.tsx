@@ -23,7 +23,7 @@ export const SiloTransactionsCharts = ({
   const { data: transactions } = useQuery(
     getQueryFnAndKey("getSiloTransactions", {
       id: siloId,
-      interval,
+      interval: interval ?? undefined,
     }),
   )
 

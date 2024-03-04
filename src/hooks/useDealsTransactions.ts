@@ -3,9 +3,17 @@ import { getQueryKey } from "@/utils/api/query-keys"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"
 
-export const useDealsTransactions = (params: { interval?: string }) => {
+export const useDealsTransactions = ({
+  interval,
+}: {
+  interval: string | null
+}) => {
   const queryClient = useQueryClient()
-  const query = useQuery(getQueryFnAndKey("getDealsTransactions", params))
+  const query = useQuery(
+    getQueryFnAndKey("getDealsTransactions", {
+      interval: interval ?? undefined,
+    }),
+  )
 
   useEffect(() => {
     if (!query.data) {
@@ -15,7 +23,7 @@ export const useDealsTransactions = (params: { interval?: string }) => {
     query.data.items.forEach((item) => {
       const queryKey = getQueryKey("getDealTransactions", {
         id: item.dealId,
-        interval: params.interval,
+        interval: interval ?? undefined,
       })
 
       const dealTransactions = { items: [item] }

@@ -51,7 +51,10 @@ const TabCharts = <T extends unknown>({
         {children}
 
         {dateOptions && (
-          <RadioGroup value={selectedDateOption} onChange={onDateOptionChange}>
+          <RadioGroup
+            value={selectedDateOption ?? null}
+            onChange={onDateOptionChange}
+          >
             <RadioGroup.Label className="sr-only">
               Choose a date range
             </RadioGroup.Label>
