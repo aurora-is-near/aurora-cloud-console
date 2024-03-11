@@ -15,7 +15,7 @@ import Heading from "@/components/Heading"
 import TabCharts from "@/components/TabCharts"
 import { Line } from "react-chartjs-2"
 import { CHART_DATE_OPTIONS } from "../constants/charts"
-import { getLineChartData } from "../utils/charts"
+import { getTransactionLineChartData } from "../utils/charts"
 import { ComponentProps, ReactNode } from "react"
 import { TransactionDataSchema } from "@/types/api-schemas"
 
@@ -71,8 +71,11 @@ const TransactionsCharts = ({
   const walletsCount = getTotalCount("walletsCount", charts)
   const isLoading = !charts
 
-  const walletsPerDayData = getLineChartData("walletsPerDay", charts)
-  const transactionsPerDayData = getLineChartData("transactionsPerDay", charts)
+  const walletsPerDayData = getTransactionLineChartData("walletsPerDay", charts)
+  const transactionsPerDayData = getTransactionLineChartData(
+    "transactionsPerDay",
+    charts,
+  )
 
   return (
     <TabCharts

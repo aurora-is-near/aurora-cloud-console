@@ -125,6 +125,18 @@ export const apiClient = {
 
   getWallet: async ({ address }: ApiRequestParams<"getWallet">) =>
     request<ApiResponseBody<"getWallet">>(`/api/wallets/${address}`),
+
+  getSiloLatency: async ({
+    id,
+    ...query
+  }: ApiRequestParams<"getSiloLatency"> & ApiRequestQuery<"getSiloLatency">) =>
+    get<"getSiloLatency">(`/api/silos/${id}/latency`, query),
+
+  getSiloRpcRequests: async ({ id }: ApiRequestParams<"getSiloRpcRequests">) =>
+    get<"getSiloRpcRequests">(`/api/silos/${id}/rpc-requests`),
+
+  getSiloFailureRate: async ({ id }: ApiRequestParams<"getSiloFailureRate">) =>
+    get<"getSiloFailureRate">(`/api/silos/${id}/failure-rate`),
 }
 
 export type ApiClient = typeof apiClient

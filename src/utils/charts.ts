@@ -1,15 +1,33 @@
 import { TransactionDataSchema } from "@/types/api-schemas"
 import { CHART_COLOURS, CHART_COLOUR_HEXES } from "../constants/charts"
 import { ChartColor } from "../types/types"
+import { ChartData } from "chart.js"
 
 type DailyMetricKey = "transactionsPerDay" | "walletsPerDay"
 
-const getDates = (
-  key: DailyMetricKey,
-  charts?: TransactionDataSchema[],
-): string[] =>
-  charts?.reduce<string[]>((acc, chart) => {
-    acc.push(...chart[key].map(({ day }) => day))
+type ChartItem = { day: string | number; count: number }
+
+type GenericChartData = {
+  [x: string]: string | number | ChartItem[]
+}
+
+const toArray = (item: unknown): ChartItem[] => {
+  if (!Array.isArray(item)) {
+    throw new Error("Expected item to be an array")
+  }
+
+  return item
+}
+
+const getDates = (key: string, items?: GenericChartData[]) =>
+  items?.reduce<(string | number)[]>((acc, item) => {
+    const keyItems = item[key]
+
+    if (!Array.isArray(keyItems)) {
+      throw new Error(`Expected ${key} to be an array`)
+    }
+
+    acc.push(...keyItems.map(({ day }) => day))
 
     return acc
   }, []) ?? []
@@ -29,7 +47,32 @@ export const getChartColor = <T extends ChartColor>(
   return CHART_COLOUR_HEXES[color]
 }
 
-export const getLineChartData = (
+const getItem = (
+  item: GenericChartData,
+  key: string,
+  index: number,
+  colors?: ChartColor[],
+) => ({
+  label: String(item.label),
+  data: toArray(item[key]).map(({ count }) => count),
+  borderColor: getChartColor(index, colors),
+  backgroundColor: getChartColor(index, colors),
+  tension: 0.3,
+})
+
+export const getGenericLineChartData = (
+  key: string,
+  items: GenericChartData[],
+  colors?: ChartColor[],
+): ChartData<"line", number[], string | number> => {
+  return {
+    labels: getDates(key, items),
+    datasets:
+      items.map((item, index) => getItem(item, key, index, colors)) ?? [],
+  }
+}
+
+export const getTransactionLineChartData = (
   key: DailyMetricKey,
   charts?: TransactionDataSchema[],
   colors?: ChartColor[],
@@ -37,12 +80,6 @@ export const getLineChartData = (
   return {
     labels: getDates(key, charts),
     datasets:
-      charts?.map((chart, index) => ({
-        label: chart.label,
-        data: chart[key].map(({ count }) => count),
-        borderColor: getChartColor(index, colors),
-        backgroundColor: getChartColor(index, colors),
-        tension: 0.3,
-      })) ?? [],
+      charts?.map((chart, index) => getItem(chart, key, index, colors)) ?? [],
   }
 }
