@@ -1,7 +1,5 @@
 import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
-import { Suspense } from "react"
-import Header from "./Header"
 import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
 import { DashboardPage } from "@/components/DashboardPage"
@@ -10,6 +8,7 @@ import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { getCurrentTeam } from "@/actions/current-team/get-current-team"
 import { AddTokenToMetaMaskButton } from "./AddTokenToMetaMaskButton"
 import { AddSiloToMetaMaskButton } from "./AddSiloToMetaMaskButton"
+import { SiloHeading } from "../../SiloHeading"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   const team = await getCurrentTeam()
@@ -26,9 +25,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
 
   return (
     <DashboardPage>
-      <Suspense>
-        <Header siloId={Number(id)} />
-      </Suspense>
+      <SiloHeading heading="Configuration" siloId={Number(id)} />
 
       <Card tag="section">
         <Card.Title tag="h4">Silo configuration</Card.Title>

@@ -28,4 +28,10 @@ drop trigger if exists set_teams_updated_at on teams;
 create trigger set_teams_updated_at
   before update on teams
   for each row execute procedure public.update_modified_column();
+
+-- trigger to execute the function on update of oracles table
+drop trigger if exists set_oracles_updated_at on oracles;
+create trigger set_oracles_updated_at
+  before update on oracles
+  for each row execute procedure public.update_modified_column();
 ```

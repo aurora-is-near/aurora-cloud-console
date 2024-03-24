@@ -75,6 +75,13 @@ const TokenSchema = z.object({
   type: z.string(),
 })
 
+export const OracleSchema = z.object({
+  enabled: z.boolean(),
+  createdAt: z.string().nullable(),
+  updatedAt: z.string().nullable(),
+  deployedAt: z.string().nullable(),
+})
+
 export const TransactionDataSchema = z.object({
   label: z.string(),
   transactionsCount: z.number(),
@@ -221,6 +228,35 @@ export const contract = c.router({
     metadata: {
       scopes: ["silos:read"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  getSiloOracle: {
+    summary: "Get the oracle configuration for a single silo",
+    method: "GET",
+    path: "/api/silos/:id/oracle",
+    responses: {
+      200: OracleSchema,
+    },
+    metadata: {
+      scopes: ["silos:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  createSiloOracle: {
+    summary: "Create an oracle configuration for a single silo",
+    method: "POST",
+    path: "/api/silos/:id/oracle",
+    responses: {
+      200: OracleSchema,
+    },
+    metadata: {
+      scopes: ["silos:write"],
+    },
+    body: z.object({}),
     pathParams: z.object({
       id: z.number(),
     }),

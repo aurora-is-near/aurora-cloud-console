@@ -54,6 +54,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   teams_silos: createTableClient(),
   users: createTableClient(),
   users_teams: createTableClient(),
+  oracles: createTableClient(),
 }
 
 export const mockSupabaseClient = {

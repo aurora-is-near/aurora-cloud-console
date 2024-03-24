@@ -1,6 +1,7 @@
 import {
   DealSchema,
   ListSchema,
+  OracleSchema,
   SiloSchema,
   SimpleListSchema,
   TransactionDataSchema,
@@ -14,3 +15,4 @@ export type ListSchema = z.infer<typeof ListSchema>
 export type SimpleListSchema = z.infer<typeof SimpleListSchema>
 export type WalletDetailsSchema = z.infer<typeof WalletDetailsSchema>
 export type TransactionDataSchema = z.infer<typeof TransactionDataSchema>
+export type OracleSchema = z.infer<typeof OracleSchema>

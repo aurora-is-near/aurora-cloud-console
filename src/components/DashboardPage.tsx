@@ -1,5 +1,6 @@
 import Heading from "@/components/Heading"
 import { Toaster } from "@/components/Toaster"
+import clsx from "clsx"
 
 import { DetailedHTMLProps, FormHTMLAttributes, ReactNode } from "react"
 
@@ -8,6 +9,7 @@ type DashboardPageProps = {
   heading?: string
   actions?: ReactNode
   footer?: ReactNode
+  banner?: ReactNode
 } & (
   | {
       isForm: true
@@ -23,6 +25,7 @@ type DashboardPageProps = {
 )
 
 const WRAPPER_CLASSNAME = "max-h-full flex-1 flex flex-col"
+const CONTAINER_CLASSNAME = "px-4 py-6 md:px-6 lg:px-8"
 
 export const DashboardPage = ({
   children,
@@ -31,12 +34,23 @@ export const DashboardPage = ({
   actions,
   isForm,
   formProps,
+  banner,
 }: DashboardPageProps) => {
   const content = (
     <>
       <main className="overflow-auto">
         <Toaster />
-        <div className="relative px-4 py-6 md:px-6 lg:px-8 min-h-screen flex flex-col">
+        {banner && (
+          <div className={clsx("w-full bg-white shadow", CONTAINER_CLASSNAME)}>
+            {banner}
+          </div>
+        )}
+        <div
+          className={clsx(
+            "relative min-h-screen flex flex-col",
+            CONTAINER_CLASSNAME,
+          )}
+        >
           {heading && (
             <div className="flex justify-between items-center mb-7">
               <Heading tag="h2">{heading}</Heading>

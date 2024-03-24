@@ -1,0 +1,25 @@
+import { Silo } from "@/types/types"
+
+export const createMockSilo = (data?: Partial<Silo>): Silo => ({
+  id: 1,
+  name: "Test Silo",
+  created_at: "2021-01-01T00:00:00Z",
+  updated_at: "2021-01-01T00:00:00Z",
+  base_token_id: 1,
+  chain_id: "1313161555",
+  engine_account: "testnet.aurora-silo-dev.near",
+  genesis: "1695870567776",
+  rpc_url: "testnet.aurora.dev",
+  engine_version: "2.0.22",
+  network: "public",
+  ...data,
+})
+
+export const createMockSilos = (count: number, data?: Partial<Silo>): Silo[] =>
+  Array.from({ length: count }, (_, index) =>
+    createMockSilo({
+      id: index + 1,
+      name: `Test Silo ${index + 1}`,
+      ...data,
+    }),
+  )

@@ -3,7 +3,12 @@ import Heading from "./Heading"
 import clsx from "clsx"
 import { Fragment } from "react"
 
-const BreadcrumbHeading = ({ titles }: { titles: [string, string] }) => {
+type BreadcrumbHeadingProps = {
+  titles: [string, string]
+  isLoading?: boolean
+}
+
+const BreadcrumbHeading = ({ titles, isLoading }: BreadcrumbHeadingProps) => {
   return (
     <div className="flex gap-x-1.5 items-center">
       {titles.map((title, index) => {
@@ -15,9 +20,9 @@ const BreadcrumbHeading = ({ titles }: { titles: [string, string] }) => {
               tag={isFirst ? "h2" : "h3"}
               textColorClassName={clsx({ "text-gray-500": isFirst })}
             >
-              {title}
+              {isLoading ? <>&nbsp;</> : title}
             </Heading>
-            {isFirst ? (
+            {isFirst && !isLoading ? (
               <ChevronRightIcon className="w-5 h-5 text-gray-500" />
             ) : null}
           </Fragment>

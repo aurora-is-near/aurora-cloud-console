@@ -2,17 +2,13 @@ import Card from "@/components/Card"
 import TransactionAccessList from "./TransactionAccessList"
 import DeployAccessList from "./DeployAccessList"
 import AddListButton from "./AddListButton"
-import { Suspense } from "react"
-import Header from "./Header"
-import Loader from "@/components/Loader"
 import { DashboardPage } from "@/components/DashboardPage"
+import { SiloHeading } from "../../SiloHeading"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (
     <DashboardPage>
-      <Suspense fallback={<Loader className="h-7 sm:h-8 rounded-md !mt-0" />}>
-        <Header siloId={Number(id)} />
-      </Suspense>
+      <SiloHeading heading="Permissions" siloId={Number(id)} />
 
       <Card tag="section">
         <Card.Title tag="h4">Transactions access</Card.Title>

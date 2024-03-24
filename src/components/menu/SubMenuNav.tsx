@@ -3,7 +3,6 @@
 import SignoutButton from "./SignoutButton"
 import { SubMenuButton } from "./MenuButtons"
 import { useRouter, useSelectedLayoutSegments } from "next/navigation"
-import { capitalizeFirstLetter } from "@/utils/helpers"
 import Heading from "../Heading"
 import {
   ClipboardDocumentCheckIcon,
@@ -18,7 +17,7 @@ import {
   PlusIcon,
 } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
-import { Silos } from "../icons"
+import { OracleIcon, Silos } from "../icons"
 import Loader from "../Loader"
 import { useSubroutes } from "@/hooks/useSubroutes"
 import { useDeals } from "@/hooks/useDeals"
@@ -129,6 +128,11 @@ const SiloMenu = () => {
           href={`/silos/${id}/tokens`}
           name="Tokens"
           icon={<StopCircleIcon />}
+        />
+        <SubMenuButton
+          href={`/silos/${id}/oracle`}
+          name="Oracle"
+          icon={<OracleIcon />}
         />
         <SubMenuButton
           disabled
