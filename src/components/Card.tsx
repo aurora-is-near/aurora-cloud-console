@@ -7,11 +7,18 @@ const HORIZONTAL_PADDING = "px-6 sm:px-5 md:px-6"
 const Title = ({
   children,
   tag: Tag = "h2",
+  isDisabled,
 }: {
   children: ReactNode
   tag?: keyof JSX.IntrinsicElements
+  isDisabled?: boolean
 }) => (
-  <Tag className="text-base font-medium !leading-none text-gray-900 sm:text-lg">
+  <Tag
+    className={clsx(
+      "text-base font-medium !leading-none sm:text-lg",
+      isDisabled ? "text-gray-500" : "text-gray-900",
+    )}
+  >
     {children}
   </Tag>
 )
@@ -39,14 +46,16 @@ Row.displayName = "Row"
 
 const Card = ({
   className,
-  bgClassName = "bg-white",
   tag: Tag = "div",
+  borderRadius = "md",
+  isDisabled,
   children,
   ...rest
 }: {
   className?: string
-  bgClassName?: string
   tag?: keyof JSX.IntrinsicElements
+  borderRadius?: "md" | "xl" | "2xl"
+  isDisabled?: boolean
   children: ReactNode
   [key: string]: unknown
 }) => {
@@ -55,12 +64,24 @@ const Card = ({
   const actions = findChildren(children, "Actions")
   const content = findOtherChildren(children, ["Title", "Subtitle", "Actions"])
 
+  const hasHeader = !!(title || subtitle || actions)
+
   return (
     <Tag
-      className={clsx("rounded-md border", className, bgClassName)}
+      className={clsx(
+        "border",
+        {
+          "rounded-md": borderRadius === "md",
+          "rounded-xl": borderRadius === "xl",
+          "rounded-2xl": borderRadius === "2xl",
+          "px-4 py-5 sm:px-5 md:px-6 sm:py-6": !hasHeader,
+        },
+        isDisabled ? "bg-gray-100" : "bg-white",
+        className,
+      )}
       {...rest}
     >
-      {(title || subtitle || actions) && (
+      {hasHeader && (
         <header className="flex flex-col items-start justify-between px-4 py-5 gap-y-3 sm:gap-y-0 sm:flex-row sm:px-5 md:px-6 sm:py-6">
           <div className="sm:self-center">
             {title}

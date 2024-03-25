@@ -1,7 +1,8 @@
 "use client"
 
-import { OracleBanner } from "@/app/(dashboard)/silos/[id]/oracle/OracleBanner"
-import { OracleHighlightCards } from "@/app/(dashboard)/silos/[id]/oracle/OracleHighlightCards"
+import { OracleBanner } from "./OracleBanner"
+import { OracleDeploymentSteps } from "./OracleDeploymentSteps"
+import { OracleHighlightCards } from "./OracleHighlightCards"
 import Loader from "@/components/Loader"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { useQuery } from "@tanstack/react-query"
@@ -23,8 +24,12 @@ export const OracleContent = ({ siloId }: OracleContentProps) => {
 
   return (
     <>
-      <OracleBanner siloId={siloId} isActive={oracle.enabled} />
-      {!oracle.enabled && <OracleHighlightCards />}
+      <OracleBanner
+        siloId={siloId}
+        isEnabled={oracle.enabled}
+        isDeployed={!!oracle.deployedAt}
+      />
+      {oracle.enabled ? <OracleDeploymentSteps /> : <OracleHighlightCards />}
     </>
   )
 }

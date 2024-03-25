@@ -1,3 +1,4 @@
+import Card from "@/components/Card"
 import {
   BoltIcon,
   ClipboardDocumentCheckIcon,
@@ -34,9 +35,10 @@ export const OracleHighlightCards = () => {
   return (
     <div className="grid md:grid-cols-3 gap-6">
       {HIGHLIGHTS.map(({ title, description, Icon }) => (
-        <div
+        <Card
           key={title}
-          className="flex flex-col items-center bg-white rounded-xl border shadow-sm px-4 py-5 sm:px-5 md:px-6 sm:py-6"
+          borderRadius="xl"
+          className="flex flex-col items-center"
         >
           <div className="bg-slate-100 border border-slate-300 rounded-full flex items-center justify-center text-grey-800 p-2.5">
             <Icon className="w-8 h-8 text-slate-500" />
@@ -47,7 +49,7 @@ export const OracleHighlightCards = () => {
           <p className="text-gray-600 text-sm mt-4 text-center">
             {description}
           </p>
-        </div>
+        </Card>
       ))}
     </div>
   )

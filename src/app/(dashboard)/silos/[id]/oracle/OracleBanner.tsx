@@ -1,22 +1,27 @@
-import { OracleEnableButton } from "@/app/(dashboard)/silos/[id]/oracle/OracleEnableButton"
-import { Button } from "@/components/Button"
+import { OracleEnableButton } from "./OracleEnableButton"
+import Card from "@/components/Card"
 import { CheckIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 import Image from "next/image"
 
 type OracleBannerProps = {
   siloId: number
-  isActive?: boolean
+  isEnabled: boolean
+  isDeployed: boolean
 }
 
 const PARAGRAPH_TEXT_CLASSNAME = "text-gray-600"
 
-export const OracleBanner = ({ siloId, isActive }: OracleBannerProps) => {
+export const OracleBanner = ({
+  siloId,
+  isEnabled,
+  isDeployed,
+}: OracleBannerProps) => {
   return (
-    <div className="relative overflow-hidden flex flex-row bg-white rounded-xl border shadow-sm px-4 py-5 sm:px-5 md:px-6 sm:py-6">
+    <Card borderRadius="xl" className="relative overflow-hidden flex flex-row">
       <div className="flex-1 xl:pr-20">
         <h1 className="flex flex-wrap gap-x-1 lg:flex-col lg:gap-x-0 text-2xl md:text-4xl	font-bold text-gray-900">
-          {isActive ? (
+          {isDeployed ? (
             <div className="flex flex-row items-center">
               <div className="w-6 h-6 md:w-8 md:h-8 bg-green-400 rounded-full flex items-center justify-center mr-1.5 md:mr-2.5">
                 <CheckIcon className="w-4 h-4 md:w-5 md:h-5 text-black" />
@@ -44,7 +49,7 @@ export const OracleBanner = ({ siloId, isActive }: OracleBannerProps) => {
           Aurora Cloud provides on its chains an interface with the Pyth Oracle.
         </p>
         <div className="inline-block mt-6">
-          {!isActive && <OracleEnableButton siloId={siloId} />}
+          {!isEnabled && <OracleEnableButton siloId={siloId} />}
         </div>
       </div>
       <div className="hidden xl:block absolute top-[50%] -translate-y-1/2 right-12">
@@ -56,6 +61,6 @@ export const OracleBanner = ({ siloId, isActive }: OracleBannerProps) => {
           className="flex-shrink-0"
         />
       </div>
-    </div>
+    </Card>
   )
 }

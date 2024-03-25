@@ -7,9 +7,7 @@ const Page = async ({ params: { id } }: { params: { id: string } }) => {
   return (
     <DashboardPage>
       <SiloHeading heading="Oracle" siloId={Number(id)} />
-      <div className="space-y-6">
-        <OracleContent siloId={Number(id)} />
-      </div>
+      <OracleContent siloId={Number(id)} />
       <ContactModal />
     </DashboardPage>
   )
