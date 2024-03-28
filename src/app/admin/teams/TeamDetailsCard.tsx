@@ -1,4 +1,4 @@
-import { TeamForm } from "@/app/[team]/admin/teams/TeamForm"
+import { TeamForm } from "@/app/admin/teams/TeamForm"
 import Card from "@/components/Card"
 import { Silo, Team } from "@/types/types"
 

@@ -4,7 +4,7 @@ import { getTeams } from "@/actions/teams/get-teams"
 
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import TableButton from "@/components/TableButton"
-import { RemoveTeamButton } from "@/app/[team]/admin/teams/RemoveTeamButton"
+import { RemoveTeamButton } from "@/app/admin/teams/RemoveTeamButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamsSilos } from "@/actions/team-silos/get-teams-silos"
 import { AdminToast } from "@/components/AdminToast"

@@ -1,5 +1,5 @@
 import Card from "@/components/Card"
-import { SiloForm } from "@/app/[team]/admin/silos/SiloForm"
+import { SiloForm } from "@/app/admin/silos/SiloForm"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTokens } from "@/actions/tokens/get-tokens"
 

@@ -1,7 +1,7 @@
 import { getToken } from "@/actions/tokens/get-token"
 import { notFound } from "next/navigation"
 import Card from "@/components/Card"
-import { TokenForm } from "@/app/[team]/admin/tokens/TokenForm"
+import { TokenForm } from "@/app/admin/tokens/TokenForm"
 import { DashboardPage } from "@/components/DashboardPage"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {

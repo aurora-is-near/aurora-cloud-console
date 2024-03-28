@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import { getTeam } from "@/actions/teams/get-team"
 import { DashboardPage } from "@/components/DashboardPage"
-import { TeamDetailsCard } from "@/app/[team]/admin/teams/TeamDetailsCard"
+import { TeamDetailsCard } from "@/app/admin/teams/TeamDetailsCard"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getSilos } from "@/actions/silos/get-silos"
 
