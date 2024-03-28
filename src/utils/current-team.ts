@@ -24,19 +24,8 @@ export const findCurrentTeam = async (
 
   const teamKey = getTeamKeyFromRequest(req)
   const team = findTeam(teams, teamKey)
-  const defaultTeam =
-    process.env.VERCEL_ENV !== "production" &&
-    findTeam(teams, process.env.DEFAULT_TEAM_KEY)
 
-  if (team) {
-    return team
-  }
-
-  if (!defaultTeam) {
-    return null
-  }
-
-  return defaultTeam
+  return team
 }
 
 /**
