@@ -4,14 +4,5 @@ import { NextRequest } from "next/server"
 export const isAdminUser = (user: { email?: string }) =>
   user.email?.split("@")[1] === ADMIN_EMAIL_DOMAIN
 
-export const isAdminSubdomain = (req: NextRequest): boolean => {
-  const host = req.headers.get("host")
-
-  if (!host?.includes(".")) {
-    return false
-  }
-
-  const [subdomain] = host.split(".")
-
-  return subdomain === "admin"
-}
+export const isAdminRoute = (req: NextRequest): boolean =>
+  new URL(req.url).pathname.split("/")[1] === "admin"
