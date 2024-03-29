@@ -10,12 +10,16 @@ import { submitContactForm } from "@/actions/contact/submit-contact-form"
 import { toError } from "@/utils/errors"
 import { useState } from "react"
 
+type ContactModalProps = {
+  teamKey: string
+}
+
 type Inputs = {
   subject: string
   message: string
 }
 
-const ContactModal = () => {
+const ContactModal = ({ teamKey }: ContactModalProps) => {
   const [isPending, setIsPending] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const { activeModal, closeModal } = useModals()
@@ -38,7 +42,7 @@ const ContactModal = () => {
     setIsPending(true)
 
     try {
-      await submitContactForm({
+      await submitContactForm(teamKey, {
         ...data,
         pageUri: window.location.href.split(/[?#]/)[0],
       })

@@ -46,7 +46,7 @@ const services = [
   },
 ]
 
-const Page = () => {
+const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
   const { openModal } = useModals()
 
   return (
@@ -86,7 +86,7 @@ const Page = () => {
           ))}
         </div>
       </div>
-      <ContactModal />
+      <ContactModal teamKey={teamKey} />
     </DashboardPage>
   )
 }

@@ -5,7 +5,11 @@ import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
 import { DealUpdatePage } from "./DealUpdatePage"
 import { ControlCard } from "./ControlCard"
 
-const Page = ({ params: { id } }: { params: { id: string } }) => {
+const Page = ({
+  params: { id, teamKey },
+}: {
+  params: { id: string; teamKey: string }
+}) => {
   return (
     <DealUpdateProvider dealId={Number(id)}>
       <DealUpdatePage>
@@ -16,7 +20,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         <FiltersCard />
         <ControlCard />
 
-        <Contact />
+        <Contact teamKey={teamKey} />
       </DealUpdatePage>
     </DealUpdateProvider>
   )

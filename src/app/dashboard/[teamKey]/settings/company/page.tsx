@@ -1,9 +1,13 @@
-import { getCurrentTeam } from "@/actions/current-team/get-current-team"
+import { getTeam } from "@/actions/teams/get-team"
 import Card from "@/components/Card"
 import { DashboardPage } from "@/components/DashboardPage"
 
-const Page = async () => {
-  const team = await getCurrentTeam()
+const Page = async ({
+  params: { teamKey },
+}: {
+  params: { teamKey: string }
+}) => {
+  const team = await getTeam(teamKey)
 
   return (
     <DashboardPage heading="Company">

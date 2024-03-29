@@ -1,12 +1,14 @@
 "use server"
 
-import { getCurrentTeam } from "@/actions/current-team/get-current-team"
+import { getTeam } from "@/actions/teams/get-team"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { TeamMember } from "@/types/types"
 
-export const getTeamMembers = async (): Promise<TeamMember[]> => {
+export const getTeamMembers = async (
+  teamKey: string,
+): Promise<TeamMember[]> => {
   const supabase = createAdminSupabaseClient()
-  const team = await getCurrentTeam()
+  const team = await getTeam(teamKey)
 
   const { data: users, error: usersError } = await supabase
     .from("users")

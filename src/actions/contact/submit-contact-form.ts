@@ -2,7 +2,7 @@
 
 import { abort } from "@/utils/abort"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
-import { getCurrentTeam } from "@/actions/current-team/get-current-team"
+import { getTeam } from "@/actions/teams/get-team"
 
 const getEnvVar = (name: string) => {
   const value = process.env[name]
@@ -18,16 +18,19 @@ const getEnvVar = (name: string) => {
  * Submit a form to Hubspot.
  * @see https://legacydocs.hubspot.com/docs/methods/forms/submit_form_v3_authentication
  */
-export const submitContactForm = async ({
-  subject,
-  message,
-  pageUri,
-}: {
-  subject: string
-  message: string
-  pageUri: string
-}) => {
-  const [user, team] = await Promise.all([getCurrentUser(), getCurrentTeam()])
+export const submitContactForm = async (
+  teamKey: string,
+  {
+    subject,
+    message,
+    pageUri,
+  }: {
+    subject: string
+    message: string
+    pageUri: string
+  },
+) => {
+  const [user, team] = await Promise.all([getCurrentUser(), getTeam(teamKey)])
 
   const accessToken = getEnvVar("HUBSPOT_ACCESS_TOKEN")
   const portalId = getEnvVar("HUBSPOT_PORTAL_ID")

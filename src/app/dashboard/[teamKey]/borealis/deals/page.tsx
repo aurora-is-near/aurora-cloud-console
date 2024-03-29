@@ -27,7 +27,7 @@ const Page = async ({
           <DealsList team={team} />
         </section>
 
-        <Contact />
+        <Contact teamKey={teamKey} />
       </div>
     </DashboardPage>
   )

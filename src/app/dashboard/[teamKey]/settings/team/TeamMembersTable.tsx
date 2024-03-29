@@ -15,11 +15,13 @@ import { useRouter } from "next/navigation"
 import { TableDeleteButton } from "@/components/TableDeleteButton"
 
 type TeamMembersTableProps = {
+  teamKey: string
   currentUser: User
   teamMembers: TeamMember[]
 }
 
 export const TeamMembersTable = ({
+  teamKey,
   currentUser,
   teamMembers,
 }: TeamMembersTableProps) => {
@@ -31,10 +33,10 @@ export const TeamMembersTable = ({
 
   const onDeleteTeamMemberClick = useCallback(
     async (teamMember: TeamMember) => {
-      await deleteTeamMember(teamMember.id)
+      await deleteTeamMember(teamKey, teamMember.id)
       router.refresh()
     },
-    [router],
+    [router, teamKey],
   )
 
   const onReinviteTeamMemberClick = useCallback(
