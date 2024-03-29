@@ -1,4 +1,4 @@
-import LoginForm from "@/app/[team]/login/LoginForm"
+import LoginForm from "@/app/login/LoginForm"
 import { Heading } from "./Heading"
 
 export default function Page() {

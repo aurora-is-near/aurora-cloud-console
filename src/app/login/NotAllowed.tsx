@@ -1,6 +1,6 @@
 "use client"
 
-import { Heading } from "@/app/[team]/login/Heading"
+import { Heading } from "@/app/login/Heading"
 import { Button } from "@/components/Button"
 import { LOGIN_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"

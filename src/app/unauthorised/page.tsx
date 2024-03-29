@@ -1,6 +1,6 @@
 "use client"
 
-import { NotAllowed } from "@/app/[team]/login/NotAllowed"
+import { NotAllowed } from "@/app/login/NotAllowed"
 import { AuthPage } from "@/components/AuthPage"
 
 export default function Page() {
