@@ -5,7 +5,7 @@ import InviteModal from "@/app/dashboard/[teamKey]/settings/team/InviteModal"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { getTeamMembers } from "@/actions/team-members/get-team-members"
-import { getTeam } from "@/actions/teams/get-team"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
 const Page = async ({
   params: { teamKey },
@@ -14,7 +14,7 @@ const Page = async ({
 }) => {
   const [currentUser, team, teamMembers] = await Promise.all([
     getCurrentUser(),
-    getTeam(teamKey),
+    getTeamByKey(teamKey),
     getTeamMembers(teamKey),
   ])
 

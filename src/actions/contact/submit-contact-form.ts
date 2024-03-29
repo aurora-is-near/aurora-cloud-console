@@ -2,7 +2,7 @@
 
 import { abort } from "@/utils/abort"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
-import { getTeam } from "@/actions/teams/get-team"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
 const getEnvVar = (name: string) => {
   const value = process.env[name]
@@ -30,7 +30,10 @@ export const submitContactForm = async (
     pageUri: string
   },
 ) => {
-  const [user, team] = await Promise.all([getCurrentUser(), getTeam(teamKey)])
+  const [user, team] = await Promise.all([
+    getCurrentUser(),
+    getTeamByKey(teamKey),
+  ])
 
   const accessToken = getEnvVar("HUBSPOT_ACCESS_TOKEN")
   const portalId = getEnvVar("HUBSPOT_PORTAL_ID")

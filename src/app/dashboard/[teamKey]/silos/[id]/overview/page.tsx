@@ -3,7 +3,11 @@ import Contact from "@/components/Contact"
 import { SiloTransactionsCharts } from "./SiloTransactionsCharts"
 import { DashboardPage } from "@/components/DashboardPage"
 
-const Page = ({ params: { id } }: { params: { id: string } }) => {
+const Page = ({
+  params: { id, teamKey },
+}: {
+  params: { id: string; teamKey: string }
+}) => {
   return (
     <DashboardPage>
       <section>
@@ -21,7 +25,7 @@ const Page = ({ params: { id } }: { params: { id: string } }) => {
         <Chart title="Failure rate" />
       </section>
 
-      <Contact text="Need help setting up a silo?" />
+      <Contact teamKey={teamKey} text="Need help setting up a silo?" />
     </DashboardPage>
   )
 }

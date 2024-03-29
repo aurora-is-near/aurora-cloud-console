@@ -3,14 +3,14 @@ import Heading from "@/components/Heading"
 import DealsList from "./DealsList"
 import { DealsTransactionsCharts } from "@/app/dashboard/[teamKey]/borealis/deals/DealsTransactionsCharts"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTeam } from "@/actions/teams/get-team"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
 const Page = async ({
   params: { teamKey },
 }: {
   params: { teamKey: string }
 }) => {
-  const team = await getTeam(teamKey)
+  const team = await getTeamByKey(teamKey)
 
   return (
     <DashboardPage>

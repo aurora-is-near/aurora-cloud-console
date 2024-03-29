@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { getMainExtraNavigation, getMainNavigation } from "@/navigation"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { getTeam } from "@/actions/teams/get-team"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
 export default async function Layout({
   children,
@@ -11,7 +11,7 @@ export default async function Layout({
   params: { teamKey: string }
 }) {
   const { teamKey } = params
-  const team = await getTeam(teamKey)
+  const team = await getTeamByKey(teamKey)
 
   return (
     <DashboardLayout

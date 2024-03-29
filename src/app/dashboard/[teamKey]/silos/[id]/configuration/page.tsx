@@ -8,14 +8,14 @@ import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { AddTokenToMetaMaskButton } from "./AddTokenToMetaMaskButton"
 import { AddSiloToMetaMaskButton } from "./AddSiloToMetaMaskButton"
 import { SiloHeading } from "../../SiloHeading"
-import { getTeam } from "@/actions/teams/get-team"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
 const Page = async ({
   params: { id, teamKey },
 }: {
   params: { id: string; teamKey: string }
 }) => {
-  const team = await getTeam(teamKey)
+  const team = await getTeamByKey(teamKey)
   const [silo, tokens] = await Promise.all([
     getTeamSilo(team.id, Number(id)),
     getTokens(),

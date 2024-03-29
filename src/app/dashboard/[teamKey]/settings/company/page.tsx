@@ -1,4 +1,4 @@
-import { getTeam } from "@/actions/teams/get-team"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import Card from "@/components/Card"
 import { DashboardPage } from "@/components/DashboardPage"
 
@@ -7,7 +7,7 @@ const Page = async ({
 }: {
   params: { teamKey: string }
 }) => {
-  const team = await getTeam(teamKey)
+  const team = await getTeamByKey(teamKey)
 
   return (
     <DashboardPage heading="Company">

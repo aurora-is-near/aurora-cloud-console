@@ -1,4 +1,4 @@
-import { createContract } from "@/app/api/contract"
+import { contract } from "@/app/api/contract"
 import { ApiUser, Team } from "@/types/types"
 import { ServerInferRequest, ServerInferResponseBody } from "@ts-rest/core"
 import { NextRequest, NextResponse } from "next/server"
@@ -20,7 +20,7 @@ export type ApiRequestHandler<TResponseBody, TRequestBody> = (
   context: ApiRequestContext<TRequestBody>,
 ) => Promise<TResponseBody>
 
-type ApiContract = ReturnType<typeof createContract>
+type ApiContract = typeof contract
 
 export type ApiOperation = keyof ApiContract
 

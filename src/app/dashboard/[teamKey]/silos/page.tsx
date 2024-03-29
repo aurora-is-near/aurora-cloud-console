@@ -3,7 +3,7 @@ import Chart from "./Chart"
 import { SilosTransactionsCharts } from "@/app/dashboard/[teamKey]/silos/SilosTransactionsCharts"
 import { DashboardPage } from "@/components/DashboardPage"
 import { redirect } from "next/navigation"
-import { getTeam } from "@/actions/teams/get-team"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 
 const Page = async ({
@@ -11,7 +11,7 @@ const Page = async ({
 }: {
   params: { teamKey: string }
 }) => {
-  const team = await getTeam(teamKey)
+  const team = await getTeamByKey(teamKey)
   const silos = await getTeamSilos(team.id)
 
   // If the team has a single silo, redirect to its overview page
@@ -36,7 +36,7 @@ const Page = async ({
         <Chart title="Failure rate" />
       </section>
 
-      <Contact text="Need help setting up a silo?" />
+      <Contact teamKey={teamKey} text="Need help setting up a silo?" />
     </DashboardPage>
   )
 }
