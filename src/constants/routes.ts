@@ -5,5 +5,5 @@ export const UNAUTHORISED_ROUTE = "/auth/unauthorised"
 export const UNKNOWN_ROUTE = "/auth/unknown"
 export const LOGOUT_ROUTE = "/auth/logout"
 
-export const HOME_ROUTE = "/borealis/deals"
+export const HOME_ROUTE = "/dashboard"
 export const ADMIN_HOME_ROUTE = "/teams"
