@@ -1,5 +1,5 @@
-import { AuthPage } from "@/components/AuthPage"
+import { FullScreenPage } from "@/components/FullScreenPage"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <AuthPage>{children}</AuthPage>
+  return <FullScreenPage>{children}</FullScreenPage>
 }

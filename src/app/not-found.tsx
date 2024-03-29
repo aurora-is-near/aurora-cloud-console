@@ -1,11 +1,11 @@
 import { NotAllowed } from "@/app/auth/login/NotAllowed"
-import { AuthPage } from "@/components/AuthPage"
+import { FullScreenPage } from "@/components/FullScreenPage"
 
 const Page = () => {
   return (
-    <AuthPage>
+    <FullScreenPage>
       <NotAllowed title="404" description="Page not found." />
-    </AuthPage>
+    </FullScreenPage>
   )
 }
 
