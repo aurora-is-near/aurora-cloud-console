@@ -24,7 +24,7 @@ const generateIcon = (icon: ReactNode, className: string) => {
 }
 
 const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
-  const [route] = useSelectedLayoutSegments()
+  const [, , route] = useSelectedLayoutSegments()
   const current = href.startsWith("/" + route)
 
   icon = generateIcon(icon, "w-6 h-6 shrink-0")
@@ -53,7 +53,7 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
 }
 
 const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
-  const [route, subroute, id] = useSelectedLayoutSegments()
+  const [, , route, subroute, id] = useSelectedLayoutSegments()
   const current =
     href ===
     "/" + route + (subroute ? "/" + subroute : "") + (id ? "/" + id : "")
@@ -99,7 +99,7 @@ const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
 }
 
 const MobileMainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
-  const [route] = useSelectedLayoutSegments()
+  const [, , route] = useSelectedLayoutSegments()
   const current = href.startsWith("/" + route)
 
   icon = generateIcon(icon, "w-6 h-6 shrink-0")
@@ -121,7 +121,7 @@ const MobileMainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
 }
 
 const MobileSubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
-  const [route, subroute] = useSelectedLayoutSegments()
+  const [, , route, subroute] = useSelectedLayoutSegments()
   const current = href.includes(route + "/" + subroute)
 
   icon = generateIcon(

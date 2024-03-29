@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { mainExtraNavigation, getMainNavigation } from "@/navigation"
+import { getMainExtraNavigation, getMainNavigation } from "@/navigation"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { getTeam } from "@/actions/teams/get-team"
 
@@ -10,12 +10,13 @@ export default async function Layout({
   children: ReactNode
   params: { teamKey: string }
 }) {
-  const team = await getTeam(params.teamKey)
+  const { teamKey } = params
+  const team = await getTeam(teamKey)
 
   return (
     <DashboardLayout
       mainMenuItems={await getMainNavigation(team)}
-      extraMenuItems={mainExtraNavigation}
+      extraMenuItems={getMainExtraNavigation(teamKey)}
     >
       {children}
     </DashboardLayout>

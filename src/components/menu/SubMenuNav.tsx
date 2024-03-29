@@ -16,7 +16,7 @@ import {
   WrenchIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline"
-import { useEffect, useState } from "react"
+import { ComponentType, useEffect, useState } from "react"
 import { OracleIcon, Silos } from "../icons"
 import Loader from "../Loader"
 import { useSubroutes } from "@/hooks/useSubroutes"
@@ -38,17 +38,20 @@ const MenuDivider = () => <div className="w-full h-px bg-gray-200" />
 
 const BorealisMenu = () => {
   const { data, isLoading } = useDeals()
+  const [, , teamKey] = useSelectedLayoutSegments()
 
   if (isLoading) return <MenuItemsLoader />
 
   if (!data?.items.length) return null
 
   return (
-    <ul role="list" className="space-y-4">
+    <ul className="space-y-4">
       {data.items.map((deal) => (
         <li key={deal.id}>
           <SubMenuButton
-            href={`/borealis/deals/${encodeURIComponent(deal.id)}`}
+            href={`/dashboard/${teamKey}/borealis/deals/${encodeURIComponent(
+              deal.id,
+            )}`}
             name={deal.name}
             icon={<ClipboardDocumentCheckIcon />}
           />
@@ -62,7 +65,7 @@ const SiloMenu = () => {
   const [option, setOption] = useState("")
   const { isLoading, data: silos } = useSilos()
   const router = useRouter()
-  const [, id, subroute] = useSelectedLayoutSegments()
+  const [, , teamKey, id, subroute] = useSelectedLayoutSegments()
   const hasMultipleSilos = (silos?.items.length ?? 0) > 1
 
   useEffect(() => {
@@ -87,7 +90,7 @@ const SiloMenu = () => {
             value={option}
             onChange={(e) =>
               router.push(
-                `/silos/${e.target.value}${
+                `/dashboard/${teamKey}/silos/${e.target.value}${
                   subroute ? `/${subroute}` : "/overview"
                 }`,
               )
@@ -102,41 +105,41 @@ const SiloMenu = () => {
           </select>
         </div>
       )}
-      <ul role="list" className="space-y-4">
+      <ul className="space-y-4">
         {hasMultipleSilos && (
           <SubMenuButton
             disabled={!id}
-            href={`/silos/${id}/overview`}
+            href={`/dashboard/${teamKey}/silos/${id}/overview`}
             name="Overview"
             icon={<Silos />}
           />
         )}
         <SubMenuButton
           disabled={!id}
-          href={`/silos/${id}/configuration`}
+          href={`/dashboard/${teamKey}/silos/${id}/configuration`}
           name="Configuration"
           icon={<WrenchIcon />}
         />
         <SubMenuButton
           disabled
-          href={`/silos/${id}/permissions`}
+          href={`/dashboard/${teamKey}/silos/${id}/permissions`}
           name="Permissions"
           icon={<LockClosedIcon />}
         />
         <SubMenuButton
           disabled={!id}
-          href={`/silos/${id}/tokens`}
+          href={`/dashboard/${teamKey}/silos/${id}/tokens`}
           name="Tokens"
           icon={<StopCircleIcon />}
         />
         <SubMenuButton
-          href={`/silos/${id}/oracle`}
+          href={`/dashboard/${teamKey}/silos/${id}/oracle`}
           name="Oracle"
           icon={<OracleIcon />}
         />
         <SubMenuButton
           disabled
-          href={`/silos/${id}/kyc`}
+          href={`/dashboard/${teamKey}/silos/${id}/kyc`}
           name="KYC"
           icon={<ShieldCheckIcon />}
         />
@@ -147,17 +150,18 @@ const SiloMenu = () => {
 
 const ListsMenu = () => {
   const { data, isLoading } = useLists()
+  const [, , teamKey] = useSelectedLayoutSegments()
 
   if (isLoading) return <MenuItemsLoader />
 
   if (!data?.items?.length) return null
 
   return (
-    <ul role="list" className="space-y-4">
+    <ul className="space-y-4">
       {data.items.map((deal) => (
         <li key={deal.id}>
           <SubMenuButton
-            href={`/lists/${deal.id}`}
+            href={`/dashboard/${teamKey}/lists/${deal.id}`}
             name={deal.name}
             icon={<ClipboardDocumentCheckIcon />}
           />
@@ -165,7 +169,7 @@ const ListsMenu = () => {
       ))}
       <li>
         <SubMenuButton
-          href={`/lists?modal=${Modals.AddList}`}
+          href={`/dashboard/${teamKey}/lists?modal=${Modals.AddList}`}
           name="New list"
           icon={<PlusIcon />}
         />
@@ -175,7 +179,7 @@ const ListsMenu = () => {
 }
 
 const AdminTeams = () => (
-  <ul role="list" className="space-y-4">
+  <ul className="space-y-4">
     <li>
       <SubMenuButton
         href="/admin/teams"
@@ -194,7 +198,7 @@ const AdminTeams = () => (
 )
 
 const AdminTokens = () => (
-  <ul role="list" className="space-y-4">
+  <ul className="space-y-4">
     <li>
       <SubMenuButton
         href="/admin/tokens"
@@ -213,7 +217,7 @@ const AdminTokens = () => (
 )
 
 const AdminSilos = () => (
-  <ul role="list" className="space-y-4">
+  <ul className="space-y-4">
     <li>
       <SubMenuButton href="/admin/silos" name="All silos" icon={<Silos />} />
     </li>
@@ -228,7 +232,7 @@ const AdminSilos = () => (
 )
 
 const AdminDeals = () => (
-  <ul role="list" className="space-y-4">
+  <ul className="space-y-4">
     <li>
       <SubMenuButton
         href="/admin/deals"
@@ -246,40 +250,39 @@ const AdminDeals = () => (
   </ul>
 )
 
-const menuMap = {
-  borealis: <BorealisMenu />,
-  silos: <SiloMenu />,
-  lists: <ListsMenu />,
-  settings: null,
+const menuMap: Record<string, ComponentType> = {
+  borealis: BorealisMenu,
+  silos: SiloMenu,
+  lists: ListsMenu,
 }
 
-const adminMenuMap = {
-  teams: <AdminTeams />,
-  tokens: <AdminTokens />,
-  silos: <AdminSilos />,
-  deals: <AdminDeals />,
+const adminMenuMap: Record<string, ComponentType> = {
+  teams: AdminTeams,
+  tokens: AdminTokens,
+  silos: AdminSilos,
+  deals: AdminDeals,
 }
 
-const getSubMenu = (route: string, isAdmin?: boolean) => {
-  if (isAdmin) {
-    return adminMenuMap[route as keyof typeof adminMenuMap]
+const getSubMenu = (routeSegments: string[]) => {
+  if (routeSegments[0] === "admin") {
+    return adminMenuMap[routeSegments[1]]
   }
 
-  return menuMap[route as keyof typeof menuMap]
+  return menuMap[routeSegments[0]]
 }
 
-const SubMenuNav = ({ isAdmin }: { isAdmin?: boolean }) => {
-  const [route] = useSelectedLayoutSegments()
-  const { heading, menuItems, isLoading } = useSubroutes(route, isAdmin)
-  const subMenu = getSubMenu(route, isAdmin)
-  const isSettingsRoute = route === "settings"
+const SubMenuNav = () => {
+  const routeSegments = useSelectedLayoutSegments()
+  const { heading, menuItems, isLoading } = useSubroutes(routeSegments)
+  const SubMenu = getSubMenu(routeSegments)
+  const isSettingsRoute = routeSegments[2] === "settings"
 
   return (
     <aside className="inset-y-0 flex-col hidden p-6 overflow-y-auto bg-white border-r border-gray-200 w-72 lg:flex gap-y-7 min-w-[250px]">
       <Heading>{heading}</Heading>
 
       <nav className="flex flex-col flex-1 gap-y-4">
-        <ul role="list" className="space-y-4">
+        <ul className="space-y-4">
           {isLoading ? (
             <MenuItemLoader />
           ) : (
@@ -291,10 +294,10 @@ const SubMenuNav = ({ isAdmin }: { isAdmin?: boolean }) => {
           )}
         </ul>
 
-        {subMenu ? (
+        {SubMenu ? (
           <>
             <MenuDivider />
-            {subMenu}
+            <SubMenu />
           </>
         ) : null}
 

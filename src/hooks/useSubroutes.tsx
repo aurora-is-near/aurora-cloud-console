@@ -16,11 +16,11 @@ type SubRoute = {
   menuItems: SubMenuItem[]
 }
 
-export const useSubroutes = (route: string, isAdmin?: boolean): SubRoute => {
+export const useSubroutes = (routeSegments: string[]): SubRoute => {
   const { data: silos, isLoading } = useSilos()
   const hasSingleSilo = silos?.items.length === 1
 
-  if (isAdmin) {
+  if (routeSegments[0] === "admin") {
     return { heading: "Admin", menuItems: [] }
   }
 
@@ -30,7 +30,7 @@ export const useSubroutes = (route: string, isAdmin?: boolean): SubRoute => {
       menuItems: [
         {
           name: "All deals",
-          href: "/borealis/deals",
+          href: `/dashboard/${routeSegments[1]}/borealis/deals`,
         },
       ],
     },
@@ -41,8 +41,8 @@ export const useSubroutes = (route: string, isAdmin?: boolean): SubRoute => {
         {
           name: hasSingleSilo ? "Overview" : "Summary",
           href: hasSingleSilo
-            ? `/silos/${silos.items[0].id}/overview`
-            : "/silos",
+            ? `/dashboard/${routeSegments[1]}/silos/${silos.items[0].id}/overview`
+            : `/dashboard/${routeSegments[1]}/silos`,
           icon: <HomeIcon />,
         },
       ],
@@ -52,7 +52,7 @@ export const useSubroutes = (route: string, isAdmin?: boolean): SubRoute => {
       menuItems: [
         {
           name: "All lists",
-          href: "/lists",
+          href: `/dashboard/${routeSegments[1]}/lists`,
           icon: <ListBulletIcon />,
         },
       ],
@@ -62,27 +62,27 @@ export const useSubroutes = (route: string, isAdmin?: boolean): SubRoute => {
       menuItems: [
         {
           name: "Billing",
-          href: "/settings/billing",
+          href: `/dashboard/${routeSegments[1]}/settings/billing`,
           icon: <CreditCardIcon />,
         },
         {
           name: "Team",
-          href: "/settings/team",
+          href: `/dashboard/${routeSegments[1]}/settings/team`,
           icon: <UsersIcon />,
         },
         {
           name: "Company",
-          href: "/settings/company",
+          href: `/dashboard/${routeSegments[1]}/settings/company`,
           icon: <InformationCircleIcon />,
         },
         {
           name: "Account",
-          href: "/settings/account",
+          href: `/dashboard/${routeSegments[1]}/settings/account`,
           icon: <UserIcon />,
         },
         {
           name: "API Keys",
-          href: "/settings/api-keys",
+          href: `/dashboard/${routeSegments[1]}/settings/api-keys`,
           icon: <KeyIcon />,
         },
       ],
@@ -92,11 +92,11 @@ export const useSubroutes = (route: string, isAdmin?: boolean): SubRoute => {
       menuItems: [
         {
           name: "All services",
-          href: "/services",
+          href: `/dashboard/${routeSegments[1]}/services`,
         },
       ],
     },
   }
 
-  return subrouteMap[route] || { heading: "", menuItems: [] }
+  return subrouteMap[routeSegments[2]] || { heading: "", menuItems: [] }
 }

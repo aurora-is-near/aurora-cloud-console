@@ -17,7 +17,6 @@ export default async function Layout({ children }: { children: ReactNode }) {
   return (
     <ToastSettingsProvider position="bottom-right">
       <DashboardLayout
-        isAdmin
         mainMenuItems={mainAdminNavigation}
         extraMenuItems={mainAdminExtraNavigation}
       >
