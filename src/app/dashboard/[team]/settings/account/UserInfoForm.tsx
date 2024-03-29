@@ -12,6 +12,7 @@ import { Alert } from "@/components/Alert"
 import { HorizontalInput } from "@/components/HorizontalInput"
 import { updateCurrentUser } from "@/actions/current-user/update-current-user"
 import { User } from "@/types/types"
+import { useTeamKey } from "@/hooks/useTeamKey"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -35,6 +36,7 @@ const UserInfoForm = ({
   const toggleForm = () => setShowForm((prev) => !prev)
   const router = useRouter()
   const pathname = usePathname()
+  const teamKey = useTeamKey()
 
   // Handle coming back to page from email change confirmation
   useEffect(() => {
@@ -83,7 +85,7 @@ const UserInfoForm = ({
         const { error } = await supabase.auth.updateUser(
           { email: email },
           {
-            emailRedirectTo: `${location.origin}/settings/account`,
+            emailRedirectTo: `${location.origin}/dashboard/${teamKey}/settings/account`,
           },
         )
 
