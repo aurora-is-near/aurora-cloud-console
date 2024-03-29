@@ -2,14 +2,17 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Team } from "@/types/types"
+import { assertNonNullSupabaseResult } from "@/utils/supabase"
 
-export const getTeam = async (id: number): Promise<Team | null> => {
+export const getTeam = async (teamKey: string): Promise<Team> => {
   const supabase = createAdminSupabaseClient()
-  const { data } = await supabase
+  const result = await supabase
     .from("teams")
     .select("*")
-    .eq("id", id)
-    .maybeSingle()
+    .eq("team_key", teamKey)
+    .single()
 
-  return data
+  assertNonNullSupabaseResult(result)
+
+  return result.data
 }

@@ -9,10 +9,11 @@ import {
 } from "@heroicons/react/24/outline"
 import { Borealis, Silos } from "@/components/icons"
 import { MenuItem } from "@/types/menu"
-import { getCurrentTeamSilos } from "@/actions/current-team/get-current-team-silos"
+import { Team } from "@/types/types"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 
-export const getMainNavigation = async (): Promise<MenuItem[]> => {
-  const silos = await getCurrentTeamSilos()
+export const getMainNavigation = async (team: Team): Promise<MenuItem[]> => {
+  const silos = await getTeamSilos(team.id)
   const hasSingleSilo = silos.length === 1
 
   return [

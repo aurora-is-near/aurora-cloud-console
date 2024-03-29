@@ -58,12 +58,6 @@ export async function middleware(req: NextRequest) {
   const { team_key: teamKey } = team ?? {}
   const isValidRoute = !!teamKey || isAdminRoute(req)
 
-  // // Show the unknown team page if no team found for the current route, and
-  // // this is not a request for the admin route
-  // if (!isValidRoute) {
-  //   return handleInvalidRoute(req, res)
-  // }
-
   // Do nothing if an auth callback or logout is in progress
   if (
     [AUTH_CALLBACK_ROUTE, AUTH_ACCEPT_ROUTE, LOGOUT_ROUTE].includes(pathname)
