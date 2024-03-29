@@ -91,7 +91,7 @@ const getUserFromSessionCookie = async (): Promise<ApiUser | null> => {
   // Do not allow the session cookie to be read when called from the API docs
   // page. This is to replicate the behaviour of the API when called externally
   // (where there will be no session cookie).
-  if (referer?.includes(`://${host}`) && referer?.endsWith("/api-docs")) {
+  if (referer?.includes(`://${host}`) && /^\/api\/.*\/docs/.test(referer)) {
     return null
   }
 

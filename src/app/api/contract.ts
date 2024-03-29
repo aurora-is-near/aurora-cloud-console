@@ -104,432 +104,434 @@ const TransactionDataIntervalQueryParamSchema = z.string().optional().openapi({
   enum: CHART_DATE_OPTION_VALUES,
 })
 
-export const contract = c.router({
-  getDeals: {
-    summary: "Get all deals",
-    method: "GET",
-    path: "/api/deals",
-    responses: {
-      200: z.object({
-        items: z.array(DealSchema),
-      }),
-    },
-    metadata: {
-      scopes: ["deals:read"],
-    },
-  },
-  getDeal: {
-    summary: "Get a single deal",
-    method: "GET",
-    path: "/api/deals/:id",
-    responses: {
-      200: DealSchema,
-    },
-    metadata: {
-      scopes: ["deals:read"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  updateDeal: {
-    summary: "Update a deal",
-    method: "PUT",
-    path: "/api/deals/:id",
-    responses: {
-      200: DealSchema,
-    },
-    body: z.object({
-      enabled: z.boolean().optional(),
-      startTime: z.string().nullable().optional(),
-      endTime: z.string().nullable().optional(),
-      chainFilterListId: z.number().nullable().optional(),
-      contractFilterListId: z.number().nullable().optional(),
-      eoaFilterListId: z.number().nullable().optional(),
-      eoaBlacklistListId: z.number().nullable().optional(),
-    }),
-    metadata: {
-      scopes: ["deals:write"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  getDealPriorities: {
-    summary: "Get deal execution priorities",
-    method: "GET",
-    path: "/api/deals/priorities",
-    responses: {
-      200: z.object({
-        items: DealPrioritiesSchema,
-      }),
-    },
-    metadata: {
-      scopes: ["deals:read"],
-    },
-  },
-  updateDealPriorities: {
-    summary: "Update deal execution priorities",
-    method: "PUT",
-    path: "/api/deals/priorities",
-    responses: {
-      200: z.object({
-        items: DealPrioritiesSchema,
-      }),
-    },
-    body: z.object({
-      priorities: z.array(
-        z.object({
-          dealId: z.number(),
-          priority: z.string(),
+export const createContract = (teamKey: string) =>
+  c.router({
+    getDeals: {
+      summary: "Get all deals",
+      method: "GET",
+      path: `/api/${teamKey}/deals`,
+      responses: {
+        200: z.object({
+          items: z.array(DealSchema),
         }),
-      ),
-    }),
-    metadata: {
-      scopes: ["deals:write"],
+      },
+      metadata: {
+        scopes: ["deals:read"],
+      },
     },
-  },
-  getSilos: {
-    summary: "Get all silos",
-    method: "GET",
-    path: "/api/silos",
-    responses: {
-      200: z.object({
-        items: z.array(SiloSchema),
+    getDeal: {
+      summary: "Get a single deal",
+      method: "GET",
+      path: `/api/${teamKey}/deals/:id`,
+      responses: {
+        200: DealSchema,
+      },
+      metadata: {
+        scopes: ["deals:read"],
+      },
+      pathParams: z.object({
+        id: z.number(),
       }),
     },
-    metadata: {
-      scopes: ["silos:read"],
-    },
-  },
-  getSilo: {
-    summary: "Get a single silo",
-    method: "GET",
-    path: "/api/silos/:id",
-    responses: {
-      200: SiloSchema,
-    },
-    metadata: {
-      scopes: ["silos:read"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  getSiloTokens: {
-    summary: "Get the tokens associated with a silo",
-    method: "GET",
-    path: "/api/silos/:id/tokens",
-    responses: {
-      200: z.object({
-        items: z.array(TokenSchema),
+    updateDeal: {
+      summary: "Update a deal",
+      method: "PUT",
+      path: `/api/${teamKey}/deals/:id`,
+      responses: {
+        200: DealSchema,
+      },
+      body: z.object({
+        enabled: z.boolean().optional(),
+        startTime: z.string().nullable().optional(),
+        endTime: z.string().nullable().optional(),
+        chainFilterListId: z.number().nullable().optional(),
+        contractFilterListId: z.number().nullable().optional(),
+        eoaFilterListId: z.number().nullable().optional(),
+        eoaBlacklistListId: z.number().nullable().optional(),
+      }),
+      metadata: {
+        scopes: ["deals:write"],
+      },
+      pathParams: z.object({
+        id: z.number(),
       }),
     },
-    metadata: {
-      scopes: ["silos:read"],
+    getDealPriorities: {
+      summary: "Get deal execution priorities",
+      method: "GET",
+      path: `/api/${teamKey}/deals/priorities`,
+      responses: {
+        200: z.object({
+          items: DealPrioritiesSchema,
+        }),
+      },
+      metadata: {
+        scopes: ["deals:read"],
+      },
     },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  getSiloOracle: {
-    summary: "Get the oracle configuration for a single silo",
-    method: "GET",
-    path: "/api/silos/:id/oracle",
-    responses: {
-      200: OracleSchema,
+    updateDealPriorities: {
+      summary: "Update deal execution priorities",
+      method: "PUT",
+      path: `/api/${teamKey}/deals/priorities`,
+      responses: {
+        200: z.object({
+          items: DealPrioritiesSchema,
+        }),
+      },
+      body: z.object({
+        priorities: z.array(
+          z.object({
+            dealId: z.number(),
+            priority: z.string(),
+          }),
+        ),
+      }),
+      metadata: {
+        scopes: ["deals:write"],
+      },
     },
-    metadata: {
-      scopes: ["silos:read"],
+    getSilos: {
+      summary: "Get all silos",
+      method: "GET",
+      path: `/api/${teamKey}/silos`,
+      responses: {
+        200: z.object({
+          items: z.array(SiloSchema),
+        }),
+      },
+      metadata: {
+        scopes: ["silos:read"],
+      },
     },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  createSiloOracle: {
-    summary: "Create an oracle configuration for a single silo",
-    method: "POST",
-    path: "/api/silos/:id/oracle",
-    responses: {
-      200: OracleSchema,
-    },
-    metadata: {
-      scopes: ["silos:write"],
-    },
-    body: z.object({}),
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  getWallets: {
-    summary: "Get details of the wallets that have interacted with your silos",
-    method: "GET",
-    path: "/api/wallets",
-    responses: {
-      200: z.object({
-        total: z.number(),
-        items: z.array(WalletDetailsSchema),
+    getSilo: {
+      summary: "Get a single silo",
+      method: "GET",
+      path: `/api/${teamKey}/silos/:id`,
+      responses: {
+        200: SiloSchema,
+      },
+      metadata: {
+        scopes: ["silos:read"],
+      },
+      pathParams: z.object({
+        id: z.number(),
       }),
     },
-    query: z.object({
-      limit: z.number().optional(),
-      offset: z.number().optional(),
-      dealId: z.number().optional(),
-    }),
-    metadata: {
-      scopes: ["transactions:read"],
-    },
-  },
-  getWallet: {
-    summary:
-      "Get details of a single wallets that has interacted with your silos",
-    method: "GET",
-    path: "/api/wallets/:address",
-    responses: {
-      200: WalletDetailsSchema,
-    },
-    query: z.object({
-      dealId: z.number().optional(),
-    }),
-    metadata: {
-      scopes: ["transactions:read"],
-    },
-    pathParams: z.object({
-      address: z.string(),
-    }),
-  },
-  getLists: {
-    summary: "Get all lists",
-    method: "GET",
-    path: "/api/lists",
-    responses: {
-      200: z.object({
-        items: z.array(ListSchema),
+    getSiloTokens: {
+      summary: "Get the tokens associated with a silo",
+      method: "GET",
+      path: `/api/${teamKey}/silos/:id/tokens`,
+      responses: {
+        200: z.object({
+          items: z.array(TokenSchema),
+        }),
+      },
+      metadata: {
+        scopes: ["silos:read"],
+      },
+      pathParams: z.object({
+        id: z.number(),
       }),
     },
-    metadata: {
-      scopes: ["lists:read"],
+    getSiloOracle: {
+      summary: "Get the oracle configuration for a single silo",
+      method: "GET",
+      path: `/api/${teamKey}/silos/:id/oracle`,
+      responses: {
+        200: OracleSchema,
+      },
+      metadata: {
+        scopes: ["silos:read"],
+      },
+      pathParams: z.object({
+        id: z.number(),
+      }),
     },
-  },
-  getList: {
-    summary: "Get a single list",
-    method: "GET",
-    path: "/api/lists/:id",
-    responses: {
-      200: ListSchema,
+    createSiloOracle: {
+      summary: "Create an oracle configuration for a single silo",
+      method: "POST",
+      path: `/api/${teamKey}/silos/:id/oracle`,
+      responses: {
+        200: OracleSchema,
+      },
+      metadata: {
+        scopes: ["silos:write"],
+      },
+      body: z.object({}),
+      pathParams: z.object({
+        id: z.number(),
+      }),
     },
-    metadata: {
-      scopes: ["lists:read"],
+    getWallets: {
+      summary:
+        "Get details of the wallets that have interacted with your silos",
+      method: "GET",
+      path: `/api/${teamKey}/wallets`,
+      responses: {
+        200: z.object({
+          total: z.number(),
+          items: z.array(WalletDetailsSchema),
+        }),
+      },
+      query: z.object({
+        limit: z.number().optional(),
+        offset: z.number().optional(),
+        dealId: z.number().optional(),
+      }),
+      metadata: {
+        scopes: ["transactions:read"],
+      },
     },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  createList: {
-    summary: "Create a list",
-    method: "POST",
-    path: "/api/lists",
-    responses: {
-      200: ListSchema,
+    getWallet: {
+      summary:
+        "Get details of a single wallets that has interacted with your silos",
+      method: "GET",
+      path: `/api/${teamKey}/wallets/:address`,
+      responses: {
+        200: WalletDetailsSchema,
+      },
+      query: z.object({
+        dealId: z.number().optional(),
+      }),
+      metadata: {
+        scopes: ["transactions:read"],
+      },
+      pathParams: z.object({
+        address: z.string(),
+      }),
     },
-    body: z.object({
-      name: z.string(),
-    }),
-    metadata: {
-      scopes: ["lists:write"],
+    getLists: {
+      summary: "Get all lists",
+      method: "GET",
+      path: `/api/${teamKey}/lists`,
+      responses: {
+        200: z.object({
+          items: z.array(ListSchema),
+        }),
+      },
+      metadata: {
+        scopes: ["lists:read"],
+      },
     },
-  },
-  updateList: {
-    summary: "Update a list",
-    method: "PUT",
-    path: "/api/lists/:id",
-    responses: {
-      200: ListSchema,
+    getList: {
+      summary: "Get a single list",
+      method: "GET",
+      path: `/api/${teamKey}/lists/:id`,
+      responses: {
+        200: ListSchema,
+      },
+      metadata: {
+        scopes: ["lists:read"],
+      },
+      pathParams: z.object({
+        id: z.number(),
+      }),
     },
-    body: z.object({
-      name: z.string(),
-    }),
-    metadata: {
-      scopes: ["lists:write"],
+    createList: {
+      summary: "Create a list",
+      method: "POST",
+      path: `/api/${teamKey}/lists`,
+      responses: {
+        200: ListSchema,
+      },
+      body: z.object({
+        name: z.string(),
+      }),
+      metadata: {
+        scopes: ["lists:write"],
+      },
     },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  deleteList: {
-    summary: "Delete a list",
-    method: "DELETE",
-    path: "/api/lists/:id",
-    responses: {
-      204: null,
+    updateList: {
+      summary: "Update a list",
+      method: "PUT",
+      path: `/api/${teamKey}/lists/:id`,
+      responses: {
+        200: ListSchema,
+      },
+      body: z.object({
+        name: z.string(),
+      }),
+      metadata: {
+        scopes: ["lists:write"],
+      },
+      pathParams: z.object({
+        id: z.number(),
+      }),
     },
-    metadata: {
-      scopes: ["lists:write"],
+    deleteList: {
+      summary: "Delete a list",
+      method: "DELETE",
+      path: `/api/${teamKey}/lists/:id`,
+      responses: {
+        204: null,
+      },
+      metadata: {
+        scopes: ["lists:write"],
+      },
+      pathParams: z.object({
+        id: z.number(),
+      }),
+      body: null,
     },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-    body: null,
-  },
-  getListItems: {
-    summary: "Get the items in a list",
-    method: "GET",
-    path: "/api/lists/:id/items",
-    responses: {
-      200: z.object({
-        total: z.number(),
+    getListItems: {
+      summary: "Get the items in a list",
+      method: "GET",
+      path: `/api/${teamKey}/lists/:id/items`,
+      responses: {
+        200: z.object({
+          total: z.number(),
+          items: z.array(z.string()),
+        }),
+      },
+      metadata: {
+        scopes: ["lists:read"],
+      },
+      query: z.object({
+        limit: z.number().optional(),
+        cursor: z.string().optional(),
+      }),
+      pathParams: z.object({
+        id: z.number(),
+      }),
+    },
+    createListItems: {
+      summary: "Add items to a list",
+      method: "POST",
+      path: `/api/${teamKey}/lists/:id/items`,
+      responses: {
+        200: z.object({
+          count: z.number(),
+        }),
+      },
+      body: z.object({
         items: z.array(z.string()),
       }),
-    },
-    metadata: {
-      scopes: ["lists:read"],
-    },
-    query: z.object({
-      limit: z.number().optional(),
-      cursor: z.string().optional(),
-    }),
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  createListItems: {
-    summary: "Add items to a list",
-    method: "POST",
-    path: "/api/lists/:id/items",
-    responses: {
-      200: z.object({
-        count: z.number(),
+      metadata: {
+        scopes: ["lists:write"],
+      },
+      pathParams: z.object({
+        id: z.number(),
       }),
     },
-    body: z.object({
-      items: z.array(z.string()),
-    }),
-    metadata: {
-      scopes: ["lists:write"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  getListItem: {
-    summary: "Get a single item from a list",
-    method: "GET",
-    path: "/api/lists/:id/items/:item",
-    responses: {
-      200: z.string(),
-    },
-    metadata: {
-      scopes: ["lists:read"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-      item: z.string(),
-    }),
-  },
-  deleteListItem: {
-    summary: "Remove an item from a list",
-    method: "DELETE",
-    path: "/api/lists/:id/items/:item",
-    responses: {
-      204: null,
-    },
-    metadata: {
-      scopes: ["lists:write"],
-    },
-    body: null,
-    pathParams: z.object({
-      id: z.number(),
-      item: z.string(),
-    }),
-  },
-  getDealsTransactions: {
-    summary: "Get transaction chart data for all deals",
-    method: "GET",
-    path: "/api/transactions/deals",
-    responses: {
-      200: z.object({
-        items: z.array(
-          z.object({
-            dealId: z.number(),
-            data: TransactionDataSchema,
-          }),
-        ),
+    getListItem: {
+      summary: "Get a single item from a list",
+      method: "GET",
+      path: `/api/${teamKey}/lists/:id/items/:item`,
+      responses: {
+        200: z.string(),
+      },
+      metadata: {
+        scopes: ["lists:read"],
+      },
+      pathParams: z.object({
+        id: z.number(),
+        item: z.string(),
       }),
     },
-    metadata: {
-      scopes: ["transactions:read"],
-    },
-    query: z.object({
-      interval: TransactionDataIntervalQueryParamSchema,
-    }),
-  },
-  getDealTransactions: {
-    summary: "Get transaction chart data for a single deal",
-    method: "GET",
-    path: "/api/transactions/deals/:id",
-    responses: {
-      200: z.object({
-        items: z.array(
-          z.object({
-            dealId: z.number(),
-            data: TransactionDataSchema,
-          }),
-        ),
+    deleteListItem: {
+      summary: "Remove an item from a list",
+      method: "DELETE",
+      path: `/api/${teamKey}/lists/:id/items/:item`,
+      responses: {
+        204: null,
+      },
+      metadata: {
+        scopes: ["lists:write"],
+      },
+      body: null,
+      pathParams: z.object({
+        id: z.number(),
+        item: z.string(),
       }),
     },
-    metadata: {
-      scopes: ["transactions:read"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-    query: z.object({
-      interval: TransactionDataIntervalQueryParamSchema,
-    }),
-  },
-  getSilosTransactions: {
-    summary: "Get transaction chart data for all silos",
-    method: "GET",
-    path: "/api/transactions/silos",
-    responses: {
-      200: z.object({
-        items: z.array(
-          z.object({
-            siloId: z.number(),
-            data: TransactionDataSchema,
-          }),
-        ),
+    getDealsTransactions: {
+      summary: "Get transaction chart data for all deals",
+      method: "GET",
+      path: `/api/${teamKey}/transactions/deals`,
+      responses: {
+        200: z.object({
+          items: z.array(
+            z.object({
+              dealId: z.number(),
+              data: TransactionDataSchema,
+            }),
+          ),
+        }),
+      },
+      metadata: {
+        scopes: ["transactions:read"],
+      },
+      query: z.object({
+        interval: TransactionDataIntervalQueryParamSchema,
       }),
     },
-    metadata: {
-      scopes: ["transactions:read"],
-    },
-    query: z.object({
-      interval: TransactionDataIntervalQueryParamSchema,
-    }),
-  },
-  getSiloTransactions: {
-    summary: "Get transaction chart data for a single silo",
-    method: "GET",
-    path: "/api/transactions/silos/:id",
-    responses: {
-      200: z.object({
-        items: z.array(
-          z.object({
-            siloId: z.number(),
-            data: TransactionDataSchema,
-          }),
-        ),
+    getDealTransactions: {
+      summary: "Get transaction chart data for a single deal",
+      method: "GET",
+      path: `/api/${teamKey}/transactions/deals/:id`,
+      responses: {
+        200: z.object({
+          items: z.array(
+            z.object({
+              dealId: z.number(),
+              data: TransactionDataSchema,
+            }),
+          ),
+        }),
+      },
+      metadata: {
+        scopes: ["transactions:read"],
+      },
+      pathParams: z.object({
+        id: z.number(),
+      }),
+      query: z.object({
+        interval: TransactionDataIntervalQueryParamSchema,
       }),
     },
-    metadata: {
-      scopes: ["transactions:read"],
+    getSilosTransactions: {
+      summary: "Get transaction chart data for all silos",
+      method: "GET",
+      path: `/api/${teamKey}/transactions/silos`,
+      responses: {
+        200: z.object({
+          items: z.array(
+            z.object({
+              siloId: z.number(),
+              data: TransactionDataSchema,
+            }),
+          ),
+        }),
+      },
+      metadata: {
+        scopes: ["transactions:read"],
+      },
+      query: z.object({
+        interval: TransactionDataIntervalQueryParamSchema,
+      }),
     },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-    query: z.object({
-      interval: TransactionDataIntervalQueryParamSchema,
-    }),
-  },
-})
+    getSiloTransactions: {
+      summary: "Get transaction chart data for a single silo",
+      method: "GET",
+      path: `/api/${teamKey}/transactions/silos/:id`,
+      responses: {
+        200: z.object({
+          items: z.array(
+            z.object({
+              siloId: z.number(),
+              data: TransactionDataSchema,
+            }),
+          ),
+        }),
+      },
+      metadata: {
+        scopes: ["transactions:read"],
+      },
+      pathParams: z.object({
+        id: z.number(),
+      }),
+      query: z.object({
+        interval: TransactionDataIntervalQueryParamSchema,
+      }),
+    },
+  })

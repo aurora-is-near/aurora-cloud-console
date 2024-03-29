@@ -1,4 +1,4 @@
-import { contract } from "@/app/api/contract"
+import { createContract } from "@/app/api/contract"
 import { ApiUser, Team } from "@/types/types"
 import { ServerInferRequest, ServerInferResponseBody } from "@ts-rest/core"
 import { NextRequest, NextResponse } from "next/server"
@@ -20,14 +20,16 @@ export type ApiRequestHandler<TResponseBody, TRequestBody> = (
   context: ApiRequestContext<TRequestBody>,
 ) => Promise<TResponseBody>
 
-export type ApiOperation = keyof typeof contract
+type ApiContract = ReturnType<typeof createContract>
+
+export type ApiOperation = keyof ApiContract
 
 export type ApiResponseBody<T extends ApiOperation> = ServerInferResponseBody<
-  (typeof contract)[T]
+  ApiContract[T]
 >
 
 export type ApiRequestBody<T extends ApiOperation> = ServerInferRequest<
-  (typeof contract)[T]
+  ApiContract[T]
 > extends {
   body: infer Body
 }
@@ -35,7 +37,7 @@ export type ApiRequestBody<T extends ApiOperation> = ServerInferRequest<
   : never
 
 export type ApiRequestParams<T extends ApiOperation> = ServerInferRequest<
-  (typeof contract)[T]
+  ApiContract[T]
 > extends {
   params: infer Params
 }
@@ -43,7 +45,7 @@ export type ApiRequestParams<T extends ApiOperation> = ServerInferRequest<
   : never
 
 export type ApiRequestQuery<T extends ApiOperation> = ServerInferRequest<
-  (typeof contract)[T]
+  ApiContract[T]
 > extends {
   query: infer Query
 }

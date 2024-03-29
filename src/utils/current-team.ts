@@ -1,12 +1,20 @@
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Team } from "@/types/types"
+import { NextApiRequest } from "next"
 import { NextRequest } from "next/server"
 
 const findTeam = (teams: Team[], key?: string): Team | null =>
   teams.find(({ team_key }) => team_key === key) ?? null
 
-export const getTeamKeyFromRequest = (req: NextRequest) =>
-  new URL(req.url).pathname.split("/")[1]
+export const getTeamKeyFromRequest = (req: NextRequest | NextApiRequest) => {
+  const { url } = req
+
+  if (!url) {
+    throw new Error("No URL found in the request")
+  }
+
+  return new URL(url).pathname.split("/")[1]
+}
 
 /**
  * Get the team associated with the current request.
@@ -31,7 +39,7 @@ export const findCurrentTeam = async (
 /**
  * Get the team associated with the current subdomain.
  */
-export const getCurrentTeamFromHeaders = async (
+export const getCurrentTeamFromRequest = async (
   req: NextRequest,
 ): Promise<Team> => {
   const currentTeam = await findCurrentTeam(req)

@@ -6,7 +6,10 @@ import timestring from "timestring"
 import { toError } from "./errors"
 import { abort, abortIfUnauthorised, isAbortError } from "./abort"
 import { paramCase } from "change-case"
-import { getCurrentTeamFromHeaders } from "@/utils/current-team"
+import {
+  getCurrentTeamFromRequest,
+  getTeamKeyFromRequest,
+} from "@/utils/current-team"
 import {
   ApiEndpointCacheOptions,
   ApiEndpointOptions,
@@ -18,10 +21,11 @@ import {
   ApiResponseBody,
   BaseApiRequestContext,
 } from "@/types/api"
-import { contract } from "@/app/api/contract"
-import { openApiDocument } from "@/app/api/openapi-document"
+import { createContract } from "@/app/api/contract"
+import { generateOpenApiDocument } from "@/app/api/openapi-document"
 import OpenAPIRequestValidator from "openapi-request-validator"
 import { OpenAPIV3 } from "openapi-types"
+import { oas30 } from "openapi3-ts"
 
 /**
  * Get the specific type of error.
@@ -98,7 +102,7 @@ const handleRequest = async <TResponseBody, TRequestBody>({
 }): Promise<ApiResponse<TResponseBody>> => {
   const [user, team] = await Promise.all([
     getUser(),
-    getCurrentTeamFromHeaders(req.headers),
+    getCurrentTeamFromRequest(req),
   ])
   let data: TResponseBody
 
@@ -126,7 +130,7 @@ const handleRequest = async <TResponseBody, TRequestBody>({
   return NextResponse.json(data, responseInit)
 }
 
-const getOperations = () => {
+const getOperations = (openApiDocument: oas30.OpenAPIObject) => {
   const operations: OpenAPIV3.OperationObject[] = []
 
   Object.values(openApiDocument.paths).forEach(
@@ -142,8 +146,11 @@ const getOperations = () => {
   return operations
 }
 
-const getOperation = <T extends ApiOperation>(operationId: T) => {
-  const operations = getOperations()
+const getOperation = <T extends ApiOperation>(
+  openApiDocument: oas30.OpenAPIObject,
+  operationId: T,
+) => {
+  const operations = getOperations(openApiDocument)
 
   return operations.find((operation) => operation.operationId === operationId)
 }
@@ -214,10 +221,12 @@ const validateRequest = async <T extends ApiOperation>(
   req: NextRequest,
   body: unknown,
 ) => {
-  const operation = getOperation(operationId)
+  const teamKey = getTeamKeyFromRequest(req)
+  const openApiDocument = generateOpenApiDocument(teamKey)
+  const operation = getOperation(openApiDocument, operationId)
 
   if (!operation) {
-    throw new Error(`Operation "${operationId}" not found`)
+    throw new Error(`Operation "${String(operationId)}" not found`)
   }
 
   const requestBody = isRequestBodyObject(operation.requestBody)
@@ -268,6 +277,8 @@ export const createApiEndpoint =
     ctx: BaseApiRequestContext,
   ): Promise<ApiResponse<ApiResponseBody<T>>> => {
     const body = await getRequestBody(req)
+    const teamKey = getTeamKeyFromRequest(req)
+    const contract = createContract(teamKey)
     const { metadata } =
       Object.entries(contract).find(([key]) => key === operationId)?.[1] ?? {}
 

@@ -1,12 +1,15 @@
 "use client"
 
 import { NotAllowed } from "@/app/[team]/login/NotAllowed"
+import { AuthPage } from "@/components/AuthPage"
 
 export default function Page() {
   return (
-    <NotAllowed
-      title="Unknown team"
-      description="Please check that the URL is correct."
-    />
+    <AuthPage>
+      <NotAllowed
+        title="Unknown team"
+        description="Please check that the URL is correct."
+      />
+    </AuthPage>
   )
 }
