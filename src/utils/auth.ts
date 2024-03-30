@@ -1,5 +1,5 @@
 import { headers } from "next/headers"
-import { ApiUser } from "@/types/types"
+import { ApiUser, Team } from "@/types/types"
 import { getUserTeamKeys } from "@/utils/team"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
@@ -91,7 +91,7 @@ const getUserFromSessionCookie = async (): Promise<ApiUser | null> => {
   // Do not allow the session cookie to be read when called from the API docs
   // page. This is to replicate the behaviour of the API when called externally
   // (where there will be no session cookie).
-  if (referer?.includes(`://${host}`) && /^\/api\/.*\/docs/.test(referer)) {
+  if (referer?.includes(`://${host}`) && referer?.endsWith("/api")) {
     return null
   }
 
@@ -128,4 +128,39 @@ export const getUser = async () => {
   ])
 
   return userFromCookie ?? userFromApiKey
+}
+
+const getReferer = () => {
+  const headersList = headers()
+  const referer = headersList.get("referer")
+
+  if (!referer) {
+    return null
+  }
+
+  return new URL(referer)
+}
+
+/**
+ * Get the team associated with the current request.
+ */
+export const getTeam = async (): Promise<Team> => {
+  const url = getReferer()
+  const teamKey = url?.pathname.split("/")[2]
+
+  if (!teamKey) {
+    throw new Error("No team key could be established for the current request.")
+  }
+
+  const { data: team } = await createAdminSupabaseClient()
+    .from("teams")
+    .select("*")
+    .eq("team_key", teamKey)
+    .maybeSingle()
+
+  if (!team) {
+    throw new Error(`No team found with key: ${teamKey}`)
+  }
+
+  return team
 }

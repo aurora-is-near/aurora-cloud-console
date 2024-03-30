@@ -1,4 +1,4 @@
-import { getUser } from "./auth"
+import { getTeam, getUser } from "./auth"
 import { NextRequest, NextResponse } from "next/server"
 import { ApiScope } from "@/types/types"
 import httpStatus from "http-status"
@@ -6,7 +6,6 @@ import timestring from "timestring"
 import { toError } from "./errors"
 import { abort, abortIfUnauthorised, isAbortError } from "./abort"
 import { paramCase } from "change-case"
-import { getCurrentTeamFromRequest } from "@/utils/current-team"
 import {
   ApiEndpointCacheOptions,
   ApiEndpointOptions,
@@ -96,10 +95,7 @@ const handleRequest = async <TResponseBody, TRequestBody>({
   body: TRequestBody
   options?: ApiEndpointOptions
 }): Promise<ApiResponse<TResponseBody>> => {
-  const [user, team] = await Promise.all([
-    getUser(),
-    getCurrentTeamFromRequest(req),
-  ])
+  const [user, team] = await Promise.all([getUser(), getTeam()])
   let data: TResponseBody
 
   try {

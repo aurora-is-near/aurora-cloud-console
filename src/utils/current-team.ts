@@ -35,20 +35,3 @@ export const findCurrentTeam = async (
 
   return team
 }
-
-/**
- * Get the team associated with the current subdomain.
- */
-export const getCurrentTeamFromRequest = async (
-  req: NextRequest,
-): Promise<Team> => {
-  const currentTeam = await findCurrentTeam(req)
-
-  if (!currentTeam) {
-    throw new Error(
-      "No team or default team could be established for the current request",
-    )
-  }
-
-  return currentTeam
-}
