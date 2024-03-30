@@ -8,11 +8,11 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline"
 import { SubMenuButton } from "@/components/menu/MenuButtons"
-import { useSelectedLayoutSegments } from "next/navigation"
 import SignoutButton from "@/components/menu/SignoutButton"
+import { useTeamKey } from "@/hooks/useTeamKey"
 
 export const SettingsMenu = () => {
-  const [, , teamKey] = useSelectedLayoutSegments()
+  const teamKey = useTeamKey()
 
   return (
     <>

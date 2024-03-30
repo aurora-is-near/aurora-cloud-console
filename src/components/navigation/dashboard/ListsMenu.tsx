@@ -10,10 +10,10 @@ import { Modals } from "@/utils/modals"
 import { MenuItemsLoader } from "@/components/menu/MenuItemsLoader"
 import { SubMenuButton } from "@/components/menu/MenuButtons"
 import { MenuDivider } from "@/components/menu/MenuDivider"
-import { useSelectedLayoutSegments } from "next/navigation"
+import { useTeamKey } from "@/hooks/useTeamKey"
 
 export const ListsMenu = () => {
-  const [, , teamKey] = useSelectedLayoutSegments()
+  const teamKey = useTeamKey()
   const { data, isLoading } = useLists()
 
   if (isLoading) {

@@ -8,10 +8,10 @@ import { MenuItemsLoader } from "@/components/menu/MenuItemsLoader"
 import { SubMenuButton } from "@/components/menu/MenuButtons"
 import { MenuDivider } from "@/components/menu/MenuDivider"
 import { useDeals } from "@/hooks/useDeals"
-import { useSelectedLayoutSegments } from "next/navigation"
+import { useTeamKey } from "@/hooks/useTeamKey"
 
 export const DealsMenu = () => {
-  const [, , teamKey] = useSelectedLayoutSegments()
+  const teamKey = useTeamKey()
   const { data, isLoading } = useDeals()
 
   if (isLoading) {

@@ -14,12 +14,14 @@ import { useEffect, useState } from "react"
 import { useSilos } from "@/hooks/useSilos"
 import { OracleIcon, Silos } from "@/components/icons"
 import { useRouter, useSelectedLayoutSegments } from "next/navigation"
+import { useTeamKey } from "@/hooks/useTeamKey"
 
 export const SilosMenu = () => {
   const [option, setOption] = useState("")
   const { isLoading, data: silos } = useSilos()
   const router = useRouter()
-  const [, , teamKey, id, subroute] = useSelectedLayoutSegments()
+  const teamKey = useTeamKey()
+  const [, id, subroute] = useSelectedLayoutSegments()
   const hasMultipleSilos = (silos?.items.length ?? 0) > 1
 
   useEffect(() => {

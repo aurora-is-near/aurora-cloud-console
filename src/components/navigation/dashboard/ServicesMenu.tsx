@@ -2,10 +2,10 @@
 
 import { ListBulletIcon } from "@heroicons/react/24/outline"
 import { SubMenuButton } from "@/components/menu/MenuButtons"
-import { useSelectedLayoutSegments } from "next/navigation"
+import { useTeamKey } from "@/hooks/useTeamKey"
 
 export const ServicesMenu = () => {
-  const [, , teamKey] = useSelectedLayoutSegments()
+  const teamKey = useTeamKey()
 
   return (
     <ul className="space-y-4">

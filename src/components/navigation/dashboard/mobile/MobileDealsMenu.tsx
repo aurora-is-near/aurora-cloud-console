@@ -2,12 +2,12 @@
 
 import { MobileSubMenuButton } from "@/components/menu/MenuButtons"
 import { useDeals } from "@/hooks/useDeals"
+import { useTeamKey } from "@/hooks/useTeamKey"
 import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline"
-import { useSelectedLayoutSegments } from "next/navigation"
 
 export const MobileDealsMenu = () => {
   const { data } = useDeals()
-  const [, , teamKey] = useSelectedLayoutSegments()
+  const teamKey = useTeamKey()
 
   return (
     <ul className="space-y-2">
