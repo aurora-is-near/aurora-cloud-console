@@ -1,3 +1,5 @@
+"use client"
+
 import { Silos } from "@/components/icons"
 import { SubMenuButton } from "@/components/menu/MenuButtons"
 import { PlusCircleIcon } from "@heroicons/react/24/outline"

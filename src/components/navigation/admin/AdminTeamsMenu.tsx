@@ -1,3 +1,5 @@
+"use client"
+
 import { SubMenuButton } from "@/components/menu/MenuButtons"
 import { PlusCircleIcon, UserGroupIcon } from "@heroicons/react/24/outline"
 
