@@ -2,89 +2,22 @@
 
 import { Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
-import {
-  Bars3Icon,
-  ClipboardDocumentCheckIcon,
-  XMarkIcon,
-  PlusIcon,
-} from "@heroicons/react/24/outline"
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import { MenuItem } from "@/types/menu"
-import { MobileMainMenuButton, MobileSubMenuButton } from "./MenuButtons"
-import { useSelectedLayoutSegments } from "next/navigation"
+import { MobileMainMenuButton } from "./MenuButtons"
+import { usePathname, useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
-import { useDeals } from "@/hooks/useDeals"
-import { useLists } from "@/hooks/useLists"
-import { Modals } from "@/utils/modals"
-import { useSubroutes } from "@/hooks/useSubroutes"
 
-const DealsSubrouteMenu = () => {
-  const { data } = useDeals()
-  const [, , teamKey] = useSelectedLayoutSegments()
-
-  return (
-    <ul className="space-y-2">
-      {data?.items.map((deal) => (
-        <li key={deal.id}>
-          <MobileSubMenuButton
-            href={`/dashboard/${teamKey}/borealis/deals/${deal.id}`}
-            name={deal.name}
-            icon={<ClipboardDocumentCheckIcon />}
-          />
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-const ListsSubrouteMenu = () => {
-  const { data } = useLists()
-  const [, , teamKey] = useSelectedLayoutSegments()
-
-  return (
-    <ul className="space-y-2">
-      {data?.items.map((list) => (
-        <li key={list.id}>
-          <MobileSubMenuButton
-            href={`/dashboard/${teamKey}/lists/${list.id}`}
-            name={list.name}
-            icon={<ClipboardDocumentCheckIcon />}
-          />
-        </li>
-      ))}
-      <li>
-        <MobileSubMenuButton
-          href={`/dashboard/${teamKey}/lists?modal=${Modals.AddList}`}
-          name="New list"
-          icon={<PlusIcon />}
-        />
-      </li>
-    </ul>
-  )
-}
-
-const SubrouteMenu = () => {
-  const routeSegments = useSelectedLayoutSegments()
-  const { menuItems } = useSubroutes(routeSegments)
-  const isDashboardRoute = routeSegments[0] === "dashboard"
+const SubrouteMenu = ({ menuItems }: { menuItems: MenuItem[] }) => {
+  const pathname = usePathname()
+  const activeMenu = menuItems.find((item) => pathname.startsWith(item.href))
+  const { MobileSubMenu } = activeMenu ?? {}
 
   return (
     <nav className="mt-6 flex-1 pt-6 border-t border-gray-800 space-y-2">
-      <ul className="space-y-2">
-        {menuItems.map((item) => (
-          <li key={item.name}>
-            <MobileSubMenuButton {...item} />
-          </li>
-        ))}
-      </ul>
-
-      {isDashboardRoute && (
-        <>
-          {routeSegments[2] === "borealis" && <DealsSubrouteMenu />}
-          {routeSegments[2] === "lists" && <ListsSubrouteMenu />}
-        </>
-      )}
+      {MobileSubMenu && <MobileSubMenu />}
     </nav>
   )
 }
@@ -96,12 +29,15 @@ type MobileMenuProps = {
 export default function MobileMenu({ menuItems }: MobileMenuProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const routeSegments = useSelectedLayoutSegments()
+  const pathname = usePathname()
   const isDashboardRoute = routeSegments[0] === "dashboard"
   const isSettingsRoute = isDashboardRoute && routeSegments[2] === "settings"
   const routeTitle = isDashboardRoute ? routeSegments[2] : routeSegments[1]
   const routeSubtitle = isDashboardRoute ? routeSegments[3] : routeSegments[2]
 
-  useEffect(() => setMenuOpen(false), [routeSegments])
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
 
   return (
     <>
@@ -173,7 +109,7 @@ export default function MobileMenu({ menuItems }: MobileMenuProps) {
                     </ul>
                   </nav>
 
-                  <SubrouteMenu />
+                  <SubrouteMenu menuItems={menuItems} />
 
                   {isSettingsRoute && <SignoutButton />}
                 </div>

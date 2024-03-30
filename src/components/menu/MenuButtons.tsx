@@ -24,8 +24,11 @@ const generateIcon = (icon: ReactNode, className: string) => {
 }
 
 const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
-  const [, , route] = useSelectedLayoutSegments()
-  const current = href.startsWith("/" + route)
+  const routeSegments = useSelectedLayoutSegments()
+  const isDashboardRoute = routeSegments[0] === "dashboard"
+  const isCurrentRoute = href.startsWith(
+    routeSegments.slice(0, isDashboardRoute ? 3 : 2).join("/"),
+  )
 
   icon = generateIcon(icon, "w-6 h-6 shrink-0")
 
@@ -39,7 +42,7 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
       <Link
         href={href}
         className={clsx(
-          current
+          isCurrentRoute
             ? "bg-green-500 text-gray-900"
             : "text-gray-400 hover:text-white hover:bg-gray-800",
           "group flex rounded-lg p-3 text-sm leading-6 font-semibold items-center justify-center",
@@ -53,15 +56,15 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
 }
 
 const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
-  const [, , route, subroute, id] = useSelectedLayoutSegments()
-  const current =
-    href ===
-    "/" + route + (subroute ? "/" + subroute : "") + (id ? "/" + id : "")
+  const routeSegments = useSelectedLayoutSegments()
+  const isCurrentRoute = href === `/${routeSegments.join("/")}`
 
   icon = generateIcon(
     icon,
     clsx(
-      current ? "text-gray-900" : "text-gray-500 group-hover:text-gray-900",
+      isCurrentRoute
+        ? "text-gray-900"
+        : "text-gray-500 group-hover:text-gray-900",
       "w-6 h-6 shrink-0",
     ),
   )
@@ -85,7 +88,7 @@ const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
     <Link
       href={href}
       className={clsx(
-        current
+        isCurrentRoute
           ? "bg-gray-100 text-gray-900"
           : "text-gray-500 hover:text-gray-900 hover:bg-gray-100",
         commonClasses,
@@ -99,8 +102,11 @@ const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
 }
 
 const MobileMainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
-  const [, , route] = useSelectedLayoutSegments()
-  const current = href.startsWith("/" + route)
+  const routeSegments = useSelectedLayoutSegments()
+  const isDashboardRoute = routeSegments[0] === "dashboard"
+  const isCurrentRoute = href.startsWith(
+    routeSegments.slice(0, isDashboardRoute ? 3 : 2).join("/"),
+  )
 
   icon = generateIcon(icon, "w-6 h-6 shrink-0")
 
@@ -108,7 +114,7 @@ const MobileMainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
     <Link
       href={href}
       className={clsx(
-        current
+        isCurrentRoute
           ? "bg-green-500 text-gray-900"
           : "text-gray-400 hover:text-white hover:bg-gray-800 bg-gray-800",
         "group flex rounded-lg gap-x-3 p-3 text-sm leading-6 font-semibold",
@@ -121,19 +127,22 @@ const MobileMainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
 }
 
 const MobileSubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
-  const [, , route, subroute] = useSelectedLayoutSegments()
-  const current = href.includes(route + "/" + subroute)
+  const routeSegments = useSelectedLayoutSegments()
+  const isDashboardRoute = routeSegments[0] === "dashboard"
+  const isCurrentRoute = href.startsWith(
+    routeSegments.slice(0, isDashboardRoute ? 4 : 3).join("/"),
+  )
 
   icon = generateIcon(
     icon,
-    clsx(current ? "text-white" : "text-gray-500", "w-5 h-5 shrink-0"),
+    clsx(isCurrentRoute ? "text-white" : "text-gray-500", "w-5 h-5 shrink-0"),
   )
 
   return (
     <Link
       href={href}
       className={clsx(
-        current ? "bg-gray-800 text-white" : "text-gray-500",
+        isCurrentRoute ? "bg-gray-800 text-white" : "text-gray-500",
         "group flex items-center gap-x-2.5 rounded-lg py-3 px-3 text-base leading-4 font-semibold",
       )}
     >

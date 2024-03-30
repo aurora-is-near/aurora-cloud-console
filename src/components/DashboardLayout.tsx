@@ -5,21 +5,23 @@ import SubMenuNav from "@/components/menu/SubMenuNav"
 import { MenuItem } from "@/types/menu"
 
 type DashboardLayoutProps = {
-  mainMenuItems: MenuItem[]
-  extraMenuItems: MenuItem[]
   children: ReactNode
+  mainMenuItems?: MenuItem[]
+  extraMenuItems?: MenuItem[]
 }
 
 export const DashboardLayout = ({
   children,
-  mainMenuItems,
-  extraMenuItems,
+  mainMenuItems = [],
+  extraMenuItems = [],
 }: DashboardLayoutProps) => {
+  const menuItems = [...mainMenuItems, ...extraMenuItems]
+
   return (
     <div className="w-full lg:flex lg:flex-row lg:h-screen overflow-hidden">
       <MainMenu mainMenuItems={mainMenuItems} extraMenuItems={extraMenuItems} />
-      <MobileMenu menuItems={[...mainMenuItems, ...extraMenuItems]} />
-      <SubMenuNav />
+      <MobileMenu menuItems={menuItems} />
+      <SubMenuNav menuItems={menuItems} />
       <div className="w-full">{children}</div>
     </div>
   )
