@@ -21,7 +21,7 @@ export const DashboardLayout = ({
     <div className="w-full lg:flex lg:flex-row lg:h-screen overflow-hidden">
       <MainMenu mainMenuItems={mainMenuItems} extraMenuItems={extraMenuItems} />
       <MobileMenu menuItems={menuItems} />
-      <SubMenuNav menuItems={menuItems} />
+      {!!menuItems.length && <SubMenuNav menuItems={menuItems} />}
       <div className="w-full">{children}</div>
     </div>
   )
