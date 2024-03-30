@@ -9,11 +9,11 @@ import {
   TicketIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline"
-import { AdminTeams } from "@/components/navigation/admin/AdminTeamsMenu"
-import { AdminTokens } from "@/components/navigation/admin/AdminTokensMenu"
+import { AdminTeamsMenu } from "@/components/navigation/admin/AdminTeamsMenu"
+import { AdminTokensMenu } from "@/components/navigation/admin/AdminTokensMenu"
 import { Silos } from "@/components/icons"
-import { AdminSilos } from "@/components/navigation/admin/AdminSilosMenu"
-import { AdminDeals } from "@/components/navigation/admin/AdminDealsMenu"
+import { AdminSilosMenu } from "@/components/navigation/admin/AdminSilosMenu"
+import { AdminDealsMenu } from "@/components/navigation/admin/AdminDealsMenu"
 import { LOGOUT_ROUTE } from "@/constants/routes"
 
 // Opt out of caching for all admin routes.
@@ -33,25 +33,25 @@ export default async function Layout({ children }: { children: ReactNode }) {
             name: "Teams",
             href: "/admin/teams",
             icon: <UserGroupIcon />,
-            SubMenu: AdminTeams,
+            SubMenu: AdminTeamsMenu,
           },
           {
             name: "Tokens",
             href: "/admin/tokens",
             icon: <CurrencyDollarIcon />,
-            SubMenu: AdminTokens,
+            SubMenu: AdminTokensMenu,
           },
           {
             name: "Silos",
             href: "/admin/silos",
             icon: <Silos />,
-            SubMenu: AdminSilos,
+            SubMenu: AdminSilosMenu,
           },
           {
             name: "Deals",
             href: "/admin/deals",
             icon: <TicketIcon />,
-            SubMenu: AdminDeals,
+            SubMenu: AdminDealsMenu,
           },
         ]}
         extraMenuItems={[
