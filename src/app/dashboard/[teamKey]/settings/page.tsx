@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation"
 
-const Page = () => redirect("/settings/billing")
+const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) =>
+  redirect(`/dashboard/${teamKey}/settings/billing`)
 
 export default Page

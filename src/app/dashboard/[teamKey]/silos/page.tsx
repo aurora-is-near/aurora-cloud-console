@@ -16,7 +16,7 @@ const Page = async ({
 
   // If the team has a single silo, redirect to its overview page
   if (silos.length === 1) {
-    return redirect(`/silos/${silos[0].id}/overview`)
+    return redirect(`/dashboard/${teamKey}/silos/${silos[0].id}/overview`)
   }
 
   return (
