@@ -1,16 +1,14 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { findCurrentTeam } from "@/utils/current-team"
 import {
   AUTH_CALLBACK_ROUTE,
   AUTH_ACCEPT_ROUTE,
   LOGIN_ROUTE,
   UNAUTHORISED_ROUTE,
-  UNKNOWN_ROUTE,
   LOGOUT_ROUTE,
   HOME_ROUTE,
 } from "./constants/routes"
-import { isAdminRoute, isAdminUser } from "@/utils/admin"
+import { isAdminUser } from "@/utils/admin"
 import { createMiddlewareClient } from "@/supabase/create-middleware-client"
 
 const redirect = (req: NextRequest, res: NextResponse, route: string) => {
@@ -32,31 +30,19 @@ const homeRedirect = (req: NextRequest, res: NextResponse) =>
 const unauthorisedRedirect = (req: NextRequest, res: NextResponse) =>
   redirect(req, res, UNAUTHORISED_ROUTE)
 
-const unknownRedirect = (req: NextRequest, res: NextResponse) =>
-  redirect(req, res, UNKNOWN_ROUTE)
-
-const handleInvalidRoute = (req: NextRequest, res: NextResponse) => {
-  if (req.nextUrl.pathname.startsWith("/api")) {
-    return NextResponse.rewrite(new URL("/404", req.url))
-  }
-
-  return unknownRedirect(req, res)
-}
-
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
   const supabase = createMiddlewareClient(req)
-  const pathname = req.nextUrl.pathname
+  const { pathname } = req.nextUrl
+  const pathParts = pathname.split("/")
+  const isDashboardRoute = pathParts[1] === "dashboard"
+  const teamKey = isDashboardRoute ? pathParts[2] : null
 
   const [
     {
       data: { session },
     },
-    team,
-  ] = await Promise.all([supabase.auth.getSession(), findCurrentTeam(req)])
-
-  const { team_key: teamKey } = team ?? {}
-  const isValidRoute = !!teamKey || isAdminRoute(req)
+  ] = await Promise.all([supabase.auth.getSession()])
 
   // Do nothing if an auth callback or logout is in progress
   if (
@@ -70,15 +56,10 @@ export async function middleware(req: NextRequest) {
     return loginRedirect(req, res)
   }
 
-  // Redirect away from the unknown team page if there is a valid team associated
-  // with the current route
-  if (pathname === UNKNOWN_ROUTE && isValidRoute) {
-    return homeRedirect(req, res)
-  }
-
-  // Redirect to the unauthorised page if there is no team key, or if the user
-  // is not authorised to access that team
+  // Redirect to the unauthorised page if viewing a dashboard page and there is
+  // no team key, or the user is not authorised to access that team.
   if (
+    isDashboardRoute &&
     !(
       session.user.user_metadata.teams?.includes(teamKey) ||
       isAdminUser(session.user)

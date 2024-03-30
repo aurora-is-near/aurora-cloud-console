@@ -1,6 +1,5 @@
-import { ADMIN_HOME_ROUTE, HOME_ROUTE, LOGIN_ROUTE } from "@/constants/routes"
+import { HOME_ROUTE, LOGIN_ROUTE } from "@/constants/routes"
 import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
-import { isAdminRoute } from "@/utils/admin"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
@@ -15,9 +14,7 @@ export async function GET(request: NextRequest) {
       await supabase.auth.exchangeCodeForSession(code)
     }
 
-    const redirectRoute = isAdminRoute(request) ? ADMIN_HOME_ROUTE : HOME_ROUTE
-
-    return NextResponse.redirect(new URL(redirectRoute, request.url))
+    return NextResponse.redirect(new URL(HOME_ROUTE, request.url))
   } catch (error) {
     console.error(error)
     return NextResponse.redirect(new URL(LOGIN_ROUTE, request.url))
