@@ -1,7 +1,7 @@
 "use client"
 
 import { ReactElement, ReactNode, cloneElement, isValidElement } from "react"
-import { useSelectedLayoutSegments } from "next/navigation"
+import { usePathname, useSelectedLayoutSegments } from "next/navigation"
 import Link from "next/link"
 import clsx from "clsx"
 import { Tooltip } from "@/components/Tooltip"
@@ -24,11 +24,8 @@ const generateIcon = (icon: ReactNode, className: string) => {
 }
 
 const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
-  const routeSegments = useSelectedLayoutSegments()
-  const isDashboardRoute = routeSegments[0] === "dashboard"
-  const isCurrentRoute = href.startsWith(
-    routeSegments.slice(0, isDashboardRoute ? 3 : 2).join("/"),
-  )
+  const pathname = usePathname()
+  const isCurrentRoute = pathname.startsWith(href)
 
   icon = generateIcon(icon, "w-6 h-6 shrink-0")
 
