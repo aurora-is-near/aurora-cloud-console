@@ -9,6 +9,10 @@ const SubMenuNav = ({ menuItems }: { menuItems: MenuItem[] }) => {
   const activeMenu = menuItems.find((item) => pathname.startsWith(item.href))
   const { name, SubMenu } = activeMenu ?? {}
 
+  if (!menuItems.length) {
+    return null
+  }
+
   return (
     <aside className="inset-y-0 flex-col hidden p-6 overflow-y-auto bg-white border-r border-gray-200 w-72 lg:flex gap-y-7 min-w-[250px]">
       <Heading>{name}</Heading>
