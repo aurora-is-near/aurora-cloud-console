@@ -28,12 +28,8 @@ type MobileMenuProps = {
 
 export default function MobileMenu({ menuItems }: MobileMenuProps) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const routeSegments = useSelectedLayoutSegments()
+  const [route, subRoute] = useSelectedLayoutSegments()
   const pathname = usePathname()
-  const isDashboardRoute = routeSegments[0] === "dashboard"
-  const isSettingsRoute = isDashboardRoute && routeSegments[2] === "settings"
-  const routeTitle = isDashboardRoute ? routeSegments[2] : routeSegments[1]
-  const routeSubtitle = isDashboardRoute ? routeSegments[3] : routeSegments[2]
 
   useEffect(() => {
     setMenuOpen(false)
@@ -110,8 +106,6 @@ export default function MobileMenu({ menuItems }: MobileMenuProps) {
                   </nav>
 
                   <SubrouteMenu menuItems={menuItems} />
-
-                  {isSettingsRoute && <SignoutButton />}
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -121,11 +115,11 @@ export default function MobileMenu({ menuItems }: MobileMenuProps) {
 
       <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
         <div className="flex-1 text-sm font-semibold leading-6 text-white space-x-2">
-          <span>{capitalizeFirstLetter(routeTitle)}</span>
-          {routeSubtitle && (
+          <span>{capitalizeFirstLetter(route)}</span>
+          {subRoute && (
             <>
               <span className="text-gray-500">/</span>
-              <span>{capitalizeFirstLetter(routeSubtitle)}</span>
+              <span>{capitalizeFirstLetter(subRoute)}</span>
             </>
           )}
         </div>

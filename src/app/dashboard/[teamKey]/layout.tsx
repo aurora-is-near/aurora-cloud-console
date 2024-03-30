@@ -13,6 +13,7 @@ import { DealsMenu } from "@/components/navigation/dashboard/DealsMenu"
 import { SettingsMenu } from "@/components/navigation/dashboard/SettingsMenu"
 import { MobileDealsMenu } from "@/components/navigation/dashboard/mobile/MobileDealsMenu"
 import { MobileListsMenu } from "@/components/navigation/dashboard/mobile/MobileListsMenu"
+import { MobileSettingsMenu } from "@/components/navigation/dashboard/mobile/MobileSettingsMenu"
 
 export default async function Layout({
   children,
@@ -57,6 +58,7 @@ export default async function Layout({
           href: `/dashboard/${teamKey}/settings`,
           icon: <Cog6ToothIcon />,
           SubMenu: SettingsMenu,
+          MobileSubMenu: MobileSettingsMenu,
         },
       ]}
     >
