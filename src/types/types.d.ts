@@ -55,9 +55,4 @@ export type List = Tables<"lists">
 
 export type Deal = Tables<"deals">
 
-export type ApiUser = User & {
-  scopes: ApiScope[]
-  teams: string[]
-}
-
 export type ChartColor = (typeof CHART_COLOURS)[number]

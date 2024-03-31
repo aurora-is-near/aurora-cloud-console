@@ -1,5 +1,5 @@
 import { contract } from "@/app/api/contract"
-import { ApiUser, Team } from "@/types/types"
+import { Team } from "@/types/types"
 import { ServerInferRequest, ServerInferResponseBody } from "@ts-rest/core"
 import { NextRequest, NextResponse } from "next/server"
 
@@ -11,7 +11,6 @@ export type BaseApiRequestContext = {
 
 export type ApiRequestContext<TRequestBody> = BaseApiRequestContext & {
   body: TRequestBody
-  user: ApiUser
   team: Team
 }
 

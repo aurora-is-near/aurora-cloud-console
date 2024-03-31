@@ -6,19 +6,22 @@ import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
-import { getCurrentUser } from "@/actions/current-user/get-current-user"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
-export const createApiKey = async (data: {
-  note: string
-  scopes: PublicApiScope[]
-}) => {
+export const createApiKey = async (
+  teamKey: string,
+  data: {
+    note: string
+    scopes: PublicApiScope[]
+  },
+) => {
   const supabase = createAdminSupabaseClient()
-  const user = await getCurrentUser()
+  const team = await getTeamByKey(teamKey)
   const result = await supabase
     .from("api_keys")
     .insert({
       ...data,
-      user_id: user.user_id,
+      team_id: team.id,
     })
     .select()
     .single()

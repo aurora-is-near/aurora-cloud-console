@@ -1,10 +1,10 @@
-import { getTeam, getUser } from "./auth"
+import { authorise } from "./auth"
 import { NextRequest, NextResponse } from "next/server"
 import { ApiScope } from "@/types/types"
 import httpStatus from "http-status"
 import timestring from "timestring"
 import { toError } from "./errors"
-import { abort, abortIfUnauthorised, isAbortError } from "./abort"
+import { abort, isAbortError } from "./abort"
 import { paramCase } from "change-case"
 import {
   ApiEndpointCacheOptions,
@@ -95,12 +95,12 @@ const handleRequest = async <TResponseBody, TRequestBody>({
   body: TRequestBody
   options?: ApiEndpointOptions
 }): Promise<ApiResponse<TResponseBody>> => {
-  const [user, team] = await Promise.all([getUser(), getTeam()])
   let data: TResponseBody
+  let team
 
   try {
-    abortIfUnauthorised(user, scopes, team.team_key)
-    data = await handler(req, { ...ctx, user, team, body })
+    team = await authorise(scopes)
+    data = await handler(req, { ...ctx, team, body })
   } catch (error: unknown) {
     console.error(error)
 
