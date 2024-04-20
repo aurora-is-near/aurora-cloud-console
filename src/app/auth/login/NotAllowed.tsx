@@ -44,7 +44,7 @@ export const NotAllowed = ({
     )
   }
 
-  const onGoBackClick = async () => {
+  const onLogOutClick = async () => {
     await supabase.auth.signOut()
 
     router.push(LOGIN_ROUTE)
@@ -71,9 +71,9 @@ export const NotAllowed = ({
         <button
           className="text-white w-full underline hover:no-underline"
           type="submit"
-          onClick={onGoBackClick}
+          onClick={onLogOutClick}
         >
-          Go back
+          Log out
         </button>
       )}
     </>
