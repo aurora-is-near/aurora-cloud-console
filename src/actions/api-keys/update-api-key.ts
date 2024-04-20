@@ -6,7 +6,6 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 import { PublicApiScope } from "@/types/types"
-import { getCurrentUser } from "@/actions/current-user/get-current-user"
 
 export const updateApiKey = async (
   id: number,
@@ -15,14 +14,11 @@ export const updateApiKey = async (
     scopes: PublicApiScope[]
   },
 ) => {
-  const user = await getCurrentUser()
-
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("api_keys")
     .update(data)
     .eq("id", id)
-    .eq("user_id", user.user_id)
     .select()
     .single()
 

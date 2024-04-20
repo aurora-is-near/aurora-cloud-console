@@ -11,7 +11,7 @@ const Layout = async ({
   children: ReactNode
   params: { teamKey: string }
 }) => {
-  const apiKeys = await getApiKeys()
+  const apiKeys = await getApiKeys(teamKey)
 
   return (
     <>
