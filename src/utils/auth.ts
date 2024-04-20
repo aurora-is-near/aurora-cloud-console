@@ -114,12 +114,12 @@ const getReferer = () => {
 /**
  * Get the team associated with the current request.
  */
-export const getTeam = async (): Promise<Team> => {
+const getTeam = async (): Promise<Team | null> => {
   const url = getReferer()
   const teamKey = url?.pathname.split("/")[2]
 
   if (!teamKey) {
-    throw new Error("No team key could be established for the current request.")
+    return null
   }
 
   const { data: team } = await createAdminSupabaseClient()
@@ -129,7 +129,7 @@ export const getTeam = async (): Promise<Team> => {
     .maybeSingle()
 
   if (!team) {
-    throw new Error(`No team found with key: ${teamKey}`)
+    return null
   }
 
   return team
