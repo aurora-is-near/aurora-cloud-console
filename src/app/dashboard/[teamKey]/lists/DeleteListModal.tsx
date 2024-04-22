@@ -9,7 +9,11 @@ import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useRouter, usePathname } from "next/navigation"
 
-export const DeleteListModal = () => {
+type DeleteListModalProps = {
+  teamKey: string
+}
+
+export const DeleteListModal = ({ teamKey }: DeleteListModalProps) => {
   const { activeModal, closeModal } = useModals()
   const pathname = usePathname()
   const router = useRouter()
@@ -40,8 +44,8 @@ export const DeleteListModal = () => {
 
           // If we're on a subpage of the deleted list then go back to the lists
           // overview page.
-          if (pathname.startsWith(`/lists/${id}`)) {
-            router.push("/lists")
+          if (pathname.startsWith(`/dashboard/${teamKey}/lists/${id}`)) {
+            router.push(`/dashboard/${teamKey}/lists`)
           }
         },
       },

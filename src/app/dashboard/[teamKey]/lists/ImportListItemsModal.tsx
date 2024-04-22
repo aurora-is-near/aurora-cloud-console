@@ -15,7 +15,13 @@ type Inputs = {
   items: string
 }
 
-export const ImportListItemsModal = () => {
+type ImportListItemsModalProps = {
+  teamKey: string
+}
+
+export const ImportListItemsModal = ({
+  teamKey,
+}: ImportListItemsModalProps) => {
   const { activeModal, closeModal } = useModals()
   const [id] = useQueryState("id")
   const router = useRouter()
@@ -39,7 +45,7 @@ export const ImportListItemsModal = () => {
 
   const onBulkImportClick: MouseEventHandler<HTMLButtonElement> = (evt) => {
     evt.preventDefault()
-    router.push(`/lists/${id}/import`)
+    router.push(`/dashboard/${teamKey}/lists/${id}/import`)
   }
 
   return (

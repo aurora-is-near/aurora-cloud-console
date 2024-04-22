@@ -5,9 +5,10 @@ import { formatDate } from "@/utils/helpers"
 
 type DealItemProps = {
   deal: Deal
+  teamKey: string
 }
 
-const DealItem = ({ deal }: DealItemProps) => (
+const DealItem = ({ deal, teamKey }: DealItemProps) => (
   <li className="p-5 sm:p-6 flex justify-between sm:items-center items-start gap-5">
     <ToggleDeal dealId={deal.id} />
 
@@ -19,7 +20,7 @@ const DealItem = ({ deal }: DealItemProps) => (
         </p>
       </div>
       <LinkButton
-        href={`/borealis/deals/${deal.id}`}
+        href={`/dashboard/${teamKey}/borealis/deals/${deal.id}`}
         variant="border"
         size="sm"
       >

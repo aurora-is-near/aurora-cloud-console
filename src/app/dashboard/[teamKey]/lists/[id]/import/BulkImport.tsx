@@ -9,9 +9,10 @@ import toast from "react-hot-toast"
 
 type BulkImportProps = {
   listId: number
+  teamKey: string
 }
 
-export const BulkImport = ({ listId }: BulkImportProps) => {
+export const BulkImport = ({ listId, teamKey }: BulkImportProps) => {
   const [rows, setRows] = useState<string[][]>([])
   const [columnToImport, setColumnToImport] = useState<number>(-1)
 
@@ -99,6 +100,7 @@ export const BulkImport = ({ listId }: BulkImportProps) => {
         listId={listId}
         isOpen={columnToImport >= 0}
         items={rows.map((row) => row[columnToImport])}
+        teamKey={teamKey}
         onClose={() => {
           setColumnToImport(-1)
         }}

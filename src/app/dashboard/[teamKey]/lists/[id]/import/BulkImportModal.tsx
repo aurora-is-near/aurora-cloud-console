@@ -14,6 +14,7 @@ type BulkImportModalProps = {
   isOpen: boolean
   items: string[]
   onClose: () => void
+  teamKey: string
 }
 
 export const BulkImportModal = ({
@@ -22,6 +23,7 @@ export const BulkImportModal = ({
   isOpen,
   items,
   onClose,
+  teamKey,
 }: BulkImportModalProps) => {
   const { closeModal } = useModals()
   const router = useRouter()
@@ -30,7 +32,7 @@ export const BulkImportModal = ({
 
   const { createListItems, isPending } = useCreateListItems(listId, {
     onSuccess: () => {
-      router.push(`/lists/${listId}`)
+      router.push(`/dashboard/${teamKey}/lists/${listId}`)
     },
   })
 

@@ -6,14 +6,20 @@ import { ImportListItemsModal } from "@/app/dashboard/[teamKey]/lists/ImportList
 import { DeleteListItemModal } from "@/app/dashboard/[teamKey]/lists/DeleteListItemModal"
 import { ViewListItemDetailsModal } from "@/app/dashboard/[teamKey]/lists/ViewListItemDetailsModal"
 
-const Layout = ({ children }: { children: ReactNode }) => (
+const Layout = ({
+  children,
+  params: { teamKey },
+}: {
+  children: ReactNode
+  params: { teamKey: string }
+}) => (
   <>
     {children}
     <EditListModal />
     <AddListModal />
-    <DeleteListModal />
+    <DeleteListModal teamKey={teamKey} />
     <DeleteListItemModal />
-    <ImportListItemsModal />
+    <ImportListItemsModal teamKey={teamKey} />
     <ViewListItemDetailsModal />
   </>
 )

@@ -13,7 +13,7 @@ const DealsList = async ({ team }: DealsListProps) => {
   return (
     <Card className="divide-y divide-gray-200" tag="ul" role="list">
       {deals.map((deal) => (
-        <DealItem key={deal.id} deal={deal} />
+        <DealItem key={deal.id} deal={deal} teamKey={team.team_key} />
       ))}
     </Card>
   )

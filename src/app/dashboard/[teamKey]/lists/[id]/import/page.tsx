@@ -7,7 +7,7 @@ import { useNotFoundError } from "@/hooks/useNotFoundError"
 import { DashboardPage } from "@/components/DashboardPage"
 import { BulkImport } from "./BulkImport"
 
-const Page = () => {
+const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
   const params = useParams()
   const { data, error } = useQuery(
     getQueryFnAndKey("getList", { id: Number(params.id) }),
@@ -17,7 +17,7 @@ const Page = () => {
 
   return (
     <DashboardPage heading={data?.name ?? ""}>
-      {data && <BulkImport listId={data?.id} />}
+      {data && <BulkImport teamKey={teamKey} listId={data?.id} />}
     </DashboardPage>
   )
 }

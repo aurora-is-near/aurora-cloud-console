@@ -18,7 +18,11 @@ import { formatDate } from "@/utils/helpers"
 import DropdownMenu from "@/components/DropdownMenu"
 import { useRouter } from "next/navigation"
 
-export const ListsTable = () => {
+type ListsTableProps = {
+  teamKey: string
+}
+
+export const ListsTable = ({ teamKey }: ListsTableProps) => {
   const { data: lists, isLoading } = useLists()
   const [, setId] = useQueryState("id")
   const { openModal } = useModals()
@@ -65,7 +69,7 @@ export const ListsTable = () => {
         <Table.TR
           key={list.id}
           onClick={() => {
-            router.push(`/lists/${list.id}`)
+            router.push(`/dashboard/${teamKey}/lists/${list.id}`)
           }}
         >
           <Table.TD dark isLink>
