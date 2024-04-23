@@ -17,6 +17,7 @@ import { ListBulletIcon } from "@heroicons/react/20/solid"
 import { formatDate } from "@/utils/helpers"
 import DropdownMenu from "@/components/DropdownMenu"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 type ListsTableProps = {
   teamKey: string
@@ -27,6 +28,7 @@ export const ListsTable = ({ teamKey }: ListsTableProps) => {
   const [, setId] = useQueryState("id")
   const { openModal } = useModals()
   const router = useRouter()
+  const [openMenu, setOpenMenu] = useState<number>()
 
   const onEditListClick = (id: number) => {
     setId(String(id))
@@ -41,6 +43,15 @@ export const ListsTable = ({ teamKey }: ListsTableProps) => {
   const onDeleteClick = (id: number) => {
     setId(String(id))
     openModal(Modals.DeleteList)
+  }
+
+  const onMenuOpenChange = (id: number, open: boolean) => {
+    // See https://github.com/radix-ui/primitives/issues/1241
+    if (open === false) {
+      document.body.style.pointerEvents = "auto"
+    }
+
+    setOpenMenu(open ? id : undefined)
   }
 
   if (isLoading) {
@@ -69,7 +80,9 @@ export const ListsTable = ({ teamKey }: ListsTableProps) => {
         <Table.TR
           key={list.id}
           onClick={() => {
-            router.push(`/dashboard/${teamKey}/lists/${list.id}`)
+            if (!openMenu) {
+              router.push(`/dashboard/${teamKey}/lists/${list.id}`)
+            }
           }}
         >
           <Table.TD dark isLink>
@@ -78,6 +91,10 @@ export const ListsTable = ({ teamKey }: ListsTableProps) => {
           <Table.TD dark>{formatDate(list.createdAt)}</Table.TD>
           <Table.TD align="right">
             <DropdownMenu
+              open={openMenu === list.id}
+              onOpenChange={(open: boolean) => {
+                onMenuOpenChange(list.id, open)
+              }}
               menuItems={[
                 {
                   Icon: PencilSquareIcon,

@@ -2,6 +2,8 @@ import * as ReactDropdownMenu from "@radix-ui/react-dropdown-menu"
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
 
 type DropdownMenuProps = {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
   menuItems: {
     Icon: any
     text: string
@@ -9,13 +11,14 @@ type DropdownMenuProps = {
   }[]
 }
 
-const DropdownMenu = ({ menuItems }: DropdownMenuProps) => {
+const DropdownMenu = ({ menuItems, open, onOpenChange }: DropdownMenuProps) => {
   return (
-    <ReactDropdownMenu.Root>
+    <ReactDropdownMenu.Root open={open} onOpenChange={onOpenChange}>
       <ReactDropdownMenu.Trigger asChild>
         <button
           className="flex items-center text-gray-600 rounded-full hover:text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-600"
           aria-label="Open option"
+          onClick={(e) => e.preventDefault()}
         >
           <EllipsisHorizontalIcon className="w-5 h-5" aria-hidden="true" />
         </button>
