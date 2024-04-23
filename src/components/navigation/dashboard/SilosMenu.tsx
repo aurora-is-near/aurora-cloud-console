@@ -103,6 +103,7 @@ export const SilosMenu = () => {
           icon={<StopCircleIcon />}
         />
         <SubMenuButton
+          disabled={!id}
           href={`/dashboard/${teamKey}/silos/${id}/oracle`}
           name="Oracle"
           icon={<OracleIcon />}
