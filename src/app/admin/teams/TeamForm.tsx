@@ -96,6 +96,7 @@ export const TeamForm = ({ team, teamSilos, allSilos }: TeamFormProps) => {
         {
           name: "transaction_database",
           label: "Transaction database",
+          required: true,
           defaultValue: team?.transaction_database
             ? getTransactionDatabaseOption(team.transaction_database)
             : undefined,
