@@ -17,7 +17,7 @@ export type Database = {
           last_used_at: string | null
           note: string | null
           scopes: Database["public"]["Enums"]["api_key_scopes"][]
-          user_id: string
+          team_id: number
         }
         Insert: {
           created_at?: string
@@ -26,7 +26,7 @@ export type Database = {
           last_used_at?: string | null
           note?: string | null
           scopes: Database["public"]["Enums"]["api_key_scopes"][]
-          user_id: string
+          team_id: number
         }
         Update: {
           created_at?: string
@@ -35,14 +35,14 @@ export type Database = {
           last_used_at?: string | null
           note?: string | null
           scopes?: Database["public"]["Enums"]["api_key_scopes"][]
-          user_id?: string
+          team_id?: number
         }
         Relationships: [
           {
-            foreignKeyName: "api_keys_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "public_api_keys_team_id_fkey"
+            columns: ["team_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "teams"
             referencedColumns: ["id"]
           },
         ]

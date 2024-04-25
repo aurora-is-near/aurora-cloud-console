@@ -121,10 +121,10 @@ section of the Subabase UI.
 
 ## Muti-site setup
 
-The Aurora Cloud Console implements a teams system based on subdomains. Each
-team is associated with one or more silos and the dashboard for that team
-can be accessed via a unique subdomain. For example, to access the Whitebit
-team we can visit <http://whitebit.aurora-cloud-console.com>.
+The Aurora Cloud Console implements a teams system based on the first path
+segment. Each team is associated with one or more silos and the dashboard for
+that team can be accessed via the team's path. For example, to access the
+Demo team we can visit <https://auroracloud.dev/demo>.
 
 ### User access
 
@@ -158,16 +158,11 @@ invited to a single team, but could be invited to many.
 ### Creating a team
 
 To create a new team add a row to the `teams` table. The `team_key` is
-effectively the subdomain from which we want to serve the dashboard for that
-team.
+effectively the first path segment from which we want to serve the dashboard for
+that team.
 
 A team should always contain at least one user. This user will be allowed to
 invite other users to the team.
-
-### Local development
-
-In development we can set the `DEFAULT_TEAM_KEY` environment variable in order
-to switch between teams (rather than relying on subdomains).
 
 ### Debugging
 

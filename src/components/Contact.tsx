@@ -6,11 +6,15 @@ import { Button } from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
 import { Modals } from "@/utils/modals"
 
-const Contact = ({
-  text = "Need help setting up deals?",
-}: {
+type ContactProps = {
+  teamKey: string
   text?: string
-}) => {
+}
+
+const Contact = ({
+  teamKey,
+  text = "Need help setting up deals?",
+}: ContactProps) => {
   const { openModal } = useModals()
 
   return (
@@ -36,7 +40,7 @@ const Contact = ({
           </Button>
         </div>
       </section>
-      <ContactModal />
+      <ContactModal teamKey={teamKey} />
     </>
   )
 }

@@ -1,6 +1,4 @@
 import httpStatus from "http-status"
-import { ApiScope, ApiUser } from "@/types/types"
-import { isAdminUser } from "@/utils/admin"
 
 type AbortOptions = {
   type?: string
@@ -43,28 +41,4 @@ export function abort(
   const error = new AbortError(statusCode, errorMessage, abortOptions)
 
   throw error
-}
-
-export function abortIfUnauthorised(
-  user: ApiUser | null,
-  scopes: ApiScope[],
-  teamKey: string | null,
-): asserts user is ApiUser {
-  if (!user) {
-    abort(401)
-  }
-
-  if (
-    !!scopes?.length &&
-    !scopes.every((scope) => user?.scopes.includes(scope)) &&
-    !user?.scopes.includes("admin")
-  ) {
-    abort(403)
-  }
-
-  // Check if the authorised user is a member of the team, or an admin user
-  // (admin users have access to all teams).
-  if (teamKey && !user.teams.includes(teamKey) && !isAdminUser(user)) {
-    abort(403)
-  }
 }
