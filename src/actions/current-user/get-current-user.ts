@@ -1,11 +1,11 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
+import { createServerComponentClient } from "@/supabase/create-server-component-client"
 import { User } from "@/types/types"
 
 export const getCurrentUser = async (): Promise<User> => {
-  const supabase = createRouteHandlerClient()
+  const supabase = createServerComponentClient()
   const {
     data: { session },
   } = await supabase.auth.getSession()
