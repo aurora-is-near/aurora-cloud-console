@@ -30,11 +30,7 @@ export const OracleContent = ({ siloId }: OracleContentProps) => {
 
   return (
     <>
-      <OracleBanner
-        siloId={siloId}
-        isEnabled={isEnabled}
-        isDeployed={!!oracle.deployedAt}
-      />
+      <OracleBanner siloId={siloId} isEnabled={isEnabled} />
       {isEnabled ? <OracleDeploymentSteps /> : <OracleHighlightCards />}
     </>
   )
