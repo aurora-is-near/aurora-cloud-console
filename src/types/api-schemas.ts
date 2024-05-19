@@ -1,4 +1,5 @@
 import {
+  BridgeSchema,
   DealSchema,
   ListSchema,
   OracleSchema,
@@ -16,3 +17,4 @@ export type SimpleListSchema = z.infer<typeof SimpleListSchema>
 export type WalletDetailsSchema = z.infer<typeof WalletDetailsSchema>
 export type TransactionDataSchema = z.infer<typeof TransactionDataSchema>
 export type OracleSchema = z.infer<typeof OracleSchema>
+export type BridgeSchema = z.infer<typeof BridgeSchema>

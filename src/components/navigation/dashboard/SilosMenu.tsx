@@ -1,8 +1,11 @@
 "use client"
 
 import {
+  ArrowRightCircleIcon,
+  CubeIcon,
   ListBulletIcon,
   LockClosedIcon,
+  MagnifyingGlassCircleIcon,
   ShieldCheckIcon,
   StopCircleIcon,
   WrenchIcon,
@@ -12,7 +15,6 @@ import { SubMenuButton } from "@/components/menu/MenuButtons"
 import { MenuDivider } from "@/components/menu/MenuDivider"
 import { useEffect, useState } from "react"
 import { useSilos } from "@/hooks/useSilos"
-import { OracleIcon, Silos } from "@/components/icons"
 import { useRouter, useSelectedLayoutSegments } from "next/navigation"
 import { useTeamKey } from "@/hooks/useTeamKey"
 
@@ -81,7 +83,7 @@ export const SilosMenu = () => {
             disabled={!id}
             href={`/dashboard/${teamKey}/silos/${id}/overview`}
             name="Overview"
-            icon={<Silos />}
+            icon={<CubeIcon />}
           />
         )}
         <SubMenuButton
@@ -106,7 +108,13 @@ export const SilosMenu = () => {
           disabled={!id}
           href={`/dashboard/${teamKey}/silos/${id}/oracle`}
           name="Oracle"
-          icon={<OracleIcon />}
+          icon={<MagnifyingGlassCircleIcon />}
+        />
+        <SubMenuButton
+          disabled={!id}
+          href={`/dashboard/${teamKey}/silos/${id}/bridge`}
+          name="Bridge"
+          icon={<ArrowRightCircleIcon />}
         />
         <SubMenuButton
           disabled

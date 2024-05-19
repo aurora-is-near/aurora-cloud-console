@@ -52,6 +52,12 @@ export const apiClient = {
   createSiloOracle: async ({ id }: ApiRequestParams<"createSiloOracle">) =>
     post<"createSiloOracle">(`/api/silos/${id}/oracle`, {}),
 
+  getSiloBridge: async ({ id }: ApiRequestParams<"getSiloBridge">) =>
+    get<"getSiloBridge">(`/api/silos/${id}/bridge`),
+
+  createSiloBridge: async ({ id }: ApiRequestParams<"createSiloBridge">) =>
+    post<"createSiloBridge">(`/api/silos/${id}/bridge`, {}),
+
   getDeals: async () => get<"getDeals">("/api/deals"),
 
   getDeal: async ({ id }: ApiRequestParams<"getDeal">) =>

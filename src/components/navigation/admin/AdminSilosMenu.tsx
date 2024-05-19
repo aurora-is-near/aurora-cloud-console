@@ -1,13 +1,12 @@
 "use client"
 
-import { Silos } from "@/components/icons"
 import { SubMenuButton } from "@/components/menu/MenuButtons"
-import { PlusCircleIcon } from "@heroicons/react/24/outline"
+import { CubeIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 
 export const AdminSilosMenu = () => (
   <ul className="space-y-4">
     <li>
-      <SubMenuButton href="/admin/silos" name="All silos" icon={<Silos />} />
+      <SubMenuButton href="/admin/silos" name="All silos" icon={<CubeIcon />} />
     </li>
     <li>
       <SubMenuButton

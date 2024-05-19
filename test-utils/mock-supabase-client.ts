@@ -55,6 +55,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   users: createTableClient(),
   users_teams: createTableClient(),
   oracles: createTableClient(),
+  bridges: createTableClient(),
 }
 
 export const mockSupabaseClient = {

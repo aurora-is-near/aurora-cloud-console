@@ -3,9 +3,10 @@ import {
   Cog6ToothIcon,
   SquaresPlusIcon,
   ListBulletIcon,
+  CubeIcon,
 } from "@heroicons/react/24/outline"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { Borealis, Silos } from "@/components/icons"
+import { Borealis } from "@/components/icons"
 import { ServicesMenu } from "@/components/navigation/dashboard/ServicesMenu"
 import { ListsMenu } from "@/components/navigation/dashboard/ListsMenu"
 import { SilosMenu } from "@/components/navigation/dashboard/SilosMenu"
@@ -35,7 +36,7 @@ export default async function Layout({
         {
           name: "Silos",
           href: `/dashboard/${teamKey}/silos`,
-          icon: <Silos />,
+          icon: <CubeIcon />,
           SubMenu: SilosMenu,
         },
         {

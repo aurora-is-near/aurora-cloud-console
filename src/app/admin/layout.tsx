@@ -5,13 +5,13 @@ import { DashboardLayout } from "@/components/DashboardLayout"
 import { ToastSettingsProvider } from "@/providers/ToastSettingsProvider"
 import {
   ArrowRightOnRectangleIcon,
+  CubeIcon,
   CurrencyDollarIcon,
   TicketIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline"
 import { AdminTeamsMenu } from "@/components/navigation/admin/AdminTeamsMenu"
 import { AdminTokensMenu } from "@/components/navigation/admin/AdminTokensMenu"
-import { Silos } from "@/components/icons"
 import { AdminSilosMenu } from "@/components/navigation/admin/AdminSilosMenu"
 import { AdminDealsMenu } from "@/components/navigation/admin/AdminDealsMenu"
 import { LOGOUT_ROUTE } from "@/constants/routes"
@@ -44,7 +44,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
           {
             name: "Silos",
             href: "/admin/silos",
-            icon: <Silos />,
+            icon: <CubeIcon />,
             SubMenu: AdminSilosMenu,
           },
           {

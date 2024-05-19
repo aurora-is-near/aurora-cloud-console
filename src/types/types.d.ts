@@ -47,6 +47,8 @@ export type Token = Tables<"tokens">
 
 export type Oracle = Tables<"oracles">
 
+export type Bridge = Tables<"bridges">
+
 export type Team = Tables<"teams">
 
 export type Silo = Tables<"silos">

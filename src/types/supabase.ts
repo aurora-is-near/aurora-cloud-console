@@ -47,6 +47,35 @@ export type Database = {
           },
         ]
       }
+      bridges: {
+        Row: {
+          created_at: string
+          id: number
+          silo_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          silo_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          silo_id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bridges_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       deals: {
         Row: {
           created_at: string
