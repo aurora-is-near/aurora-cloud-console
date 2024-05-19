@@ -8,7 +8,7 @@ export const getButtonClassName = (
     | "border"
     | "destructive"
     | "grey",
-  size: "sm" | "md",
+  size: "sm" | "md" | "lg",
   {
     className,
     isDisabled,
@@ -20,10 +20,11 @@ export const getButtonClassName = (
   } = {},
 ) =>
   clsx(
-    "relative flex items-center justify-center rounded-md text-sm font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50",
+    "relative flex items-center justify-center rounded-md font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50",
     {
-      "px-2.5 h-8": size === "sm",
-      "px-3 h-9": size === "md",
+      "px-2.5 h-8 text-sm": size === "sm",
+      "px-3 h-9 text-sm": size === "md",
+      "px-4 h-10 text-base": size === "lg",
       "shadow-sm": ["primary", "secondary"].includes(variant),
       "bg-green-500 text-gray-900 focus-visible:outline-green-500":
         variant === "primary",

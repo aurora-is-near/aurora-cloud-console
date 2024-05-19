@@ -7,7 +7,7 @@ import Link from "next/link"
 
 type LinkButtonProps = ComponentProps<typeof Link> & {
   variant?: "primary" | "secondary" | "transparent" | "border" | "destructive"
-  size?: "sm" | "md"
+  size?: "sm" | "md" | "lg"
   loading?: boolean
   disabled?: boolean
   fullWidth?: boolean

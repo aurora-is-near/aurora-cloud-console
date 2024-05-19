@@ -1,9 +1,10 @@
 import Card from "@/components/Card"
 import Image from "next/image"
+import { ReactNode } from "react"
 
 type ServiceBannerProps = {
   name: string
-  enableButton: JSX.Element
+  children: ReactNode
   isEnabled: boolean
   description: string[]
   imageSrc: string
@@ -11,7 +12,7 @@ type ServiceBannerProps = {
 
 export const ServiceBanner = ({
   name,
-  enableButton,
+  children,
   isEnabled,
   description,
   imageSrc,
@@ -37,7 +38,7 @@ export const ServiceBanner = ({
             {text}
           </p>
         ))}
-        <div className="inline-block mt-6">{!isEnabled && enableButton}</div>
+        <div className="inline-block mt-6">{children}</div>
       </div>
       <div className="hidden xl:block absolute top-[50%] -translate-y-1/2 right-12">
         <Image
