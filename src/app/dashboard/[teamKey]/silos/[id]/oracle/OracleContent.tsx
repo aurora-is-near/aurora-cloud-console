@@ -12,7 +12,7 @@ type OracleContentProps = {
 }
 
 export const OracleContent = ({ siloId }: OracleContentProps) => {
-  const { data: oracle, isLoading } = useQuery(
+  const { data: oracle } = useQuery(
     getQueryFnAndKey("getSiloOracle", {
       id: siloId,
     }),
