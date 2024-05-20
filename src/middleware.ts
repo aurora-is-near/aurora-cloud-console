@@ -44,9 +44,10 @@ export async function middleware(req: NextRequest) {
     },
   ] = await Promise.all([supabase.auth.getSession()])
 
-  // Do nothing if an auth callback or logout is in progress
+  // Do nothing for the routes below
   if (
     [
+      HOME_ROUTE,
       AUTH_CALLBACK_ROUTE,
       AUTH_ACCEPT_ROUTE,
       LOGOUT_ROUTE,
