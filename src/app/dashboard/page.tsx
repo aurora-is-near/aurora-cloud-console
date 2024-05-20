@@ -28,6 +28,7 @@ const Page = async () => {
     return (
       <FullScreenPage>
         <NotAllowed
+          showLogoutButton
           title="No teams found"
           description="You are not currently a member of any teams. Please contact your team administrator for an invite."
         />

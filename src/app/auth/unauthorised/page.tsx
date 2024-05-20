@@ -10,7 +10,7 @@ export default function Page() {
         title="You are not a member of this team"
         description="If you believe you should be a member of this team please contact your team administrator."
         showRefreshButton
-        showGoBackButton
+        showLogoutButton
       />
     </FullScreenPage>
   )
