@@ -1,7 +1,7 @@
 import Card from "@/components/Card"
 import { Modals } from "@/utils/modals"
-import { EditRow } from "./EditRow"
 import { DealDurationModal } from "./DealDurationModal"
+import { CardConfigRow } from "@/components/CardConfigRow"
 
 export const ControlCard = () => {
   return (
@@ -13,10 +13,13 @@ export const ControlCard = () => {
           users.
         </Card.Subtitle>
 
-        <EditRow
+        <CardConfigRow
           title="Restrict deal duration"
-          modalKey={Modals.DealDuration}
-          Modal={DealDurationModal}
+          modalConfig={{
+            showEditButton: true,
+            Modal: DealDurationModal,
+            modalKey: Modals.DealDuration,
+          }}
         />
       </Card>
     </>

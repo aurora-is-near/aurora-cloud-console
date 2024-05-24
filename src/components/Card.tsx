@@ -42,7 +42,11 @@ Body.displayName = "Body"
 const Row = ({ children }: { children: ReactNode }) => (
   <div className={clsx(HORIZONTAL_PADDING, "py-4 border-t")}>{children}</div>
 )
-Row.displayName = "Row"
+
+const Cell = ({ children }: { children: ReactNode }) => (
+  <div className={clsx(HORIZONTAL_PADDING, "py-4 border-t")}>{children}</div>
+)
+Cell.displayName = "Cell"
 
 const Card = ({
   className,
@@ -99,5 +103,6 @@ Card.Subtitle = Subtitle
 Card.Actions = Actions
 Card.Body = Body
 Card.Row = Row
+Card.Cell = Cell
 
 export default Card

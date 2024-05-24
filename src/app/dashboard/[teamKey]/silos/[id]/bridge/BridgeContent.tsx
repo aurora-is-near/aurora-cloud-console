@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation"
 import { BridgeBanner } from "./BridgeBanner"
-import { BridgeDeploymentSteps } from "./BridgeDeploymentSteps"
+import { BridgeConfiguration } from "./BridgeConfiguration"
 import { BridgeHighlightCards } from "./BridgeHighlightCards"
 import Loader from "@/components/Loader"
 import { getQueryFnAndKey } from "@/utils/api/queries"
@@ -31,7 +31,11 @@ export const BridgeContent = ({ siloId }: BridgeContentProps) => {
   return (
     <>
       <BridgeBanner siloId={siloId} isEnabled={isEnabled} />
-      {isEnabled ? <BridgeDeploymentSteps /> : <BridgeHighlightCards />}
+      {isEnabled ? (
+        <BridgeConfiguration siloId={siloId} />
+      ) : (
+        <BridgeHighlightCards />
+      )}
     </>
   )
 }

@@ -1,9 +1,14 @@
-import { LinkButton } from "@/components/LinkButton"
+import { LinkButton, LinkButtonProps } from "@/components/LinkButton"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { useQuery } from "@tanstack/react-query"
 
-export const BridgeOpenButton = ({ siloId }: { siloId: number }) => {
+type BridgeOpenButtonProps = {
+  siloId: number
+  size?: LinkButtonProps["size"]
+}
+
+export const BridgeOpenButton = ({ siloId, size }: BridgeOpenButtonProps) => {
   const { data: bridge, isPending } = useQuery(
     getQueryFnAndKey("getSiloBridge", {
       id: siloId,
@@ -16,7 +21,7 @@ export const BridgeOpenButton = ({ siloId }: { siloId: number }) => {
       target="_blank"
       className="w-full"
       disabled={isPending}
-      size="lg"
+      size={size}
     >
       <span className="flex flex-row items-center">
         Open bridge

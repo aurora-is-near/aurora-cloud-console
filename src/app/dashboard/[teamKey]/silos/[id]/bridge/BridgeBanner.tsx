@@ -19,7 +19,7 @@ export const BridgeBanner = ({ siloId, isEnabled }: BridgeBannerProps) => {
       imageSrc="/static/images/bridge.png"
     >
       {isEnabled ? (
-        <BridgeOpenButton siloId={siloId} />
+        <BridgeOpenButton siloId={siloId} size="lg" />
       ) : (
         <BridgeEnableButton siloId={siloId} />
       )}
