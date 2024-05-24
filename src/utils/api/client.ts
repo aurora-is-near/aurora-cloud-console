@@ -58,6 +58,13 @@ export const apiClient = {
   createSiloBridge: async ({ id }: ApiRequestParams<"createSiloBridge">) =>
     post<"createSiloBridge">(`/api/silos/${id}/bridge`, {}),
 
+  updateSiloBridge: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"updateSiloBridge"> &
+    ApiRequestBody<"updateSiloBridge">) =>
+    put<"updateSiloBridge">(`/api/silos/${id}/bridge`, data),
+
   getDeals: async () => get<"getDeals">("/api/deals"),
 
   getDeal: async ({ id }: ApiRequestParams<"getDeal">) =>

@@ -11,19 +11,15 @@ import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { DateInput } from "@/components/DateInput"
 import { InputWrapper } from "@/components/InputWrapper"
 import { useEffect } from "react"
+import { Modals } from "@/utils/modals"
 
 type Inputs = {
   startTime: string | null
   endTime: string | null
 }
 
-type DealDurationModalProps = {
-  title: string
-  open: boolean
-}
-
-export const DealDurationModal = ({ title, open }: DealDurationModalProps) => {
-  const { closeModal } = useModals()
+export const DealDurationModal = () => {
+  const { closeModal, activeModal } = useModals()
   const { deal, queueUpdate } = useRequiredContext(DealUpdateContext)
   const { register, getValues, setValue } = useFormContext<Inputs>()
 
@@ -48,6 +44,8 @@ export const DealDurationModal = ({ title, open }: DealDurationModalProps) => {
     closeModal()
   }
 
+  const open = activeModal === Modals.DealDuration
+
   // Set (or reset) initial values when modal is opened.
   useEffect(() => {
     if (!deal || !open) {
@@ -59,7 +57,7 @@ export const DealDurationModal = ({ title, open }: DealDurationModalProps) => {
   }, [deal, open, setValue])
 
   return (
-    <SlideOver title={title} open={open} close={closeModal}>
+    <SlideOver title="Restrict deal duration" open={open} close={closeModal}>
       <div className="space-y-8">
         <div className="gap-x-3 flex flex-row">
           <InputWrapper id="startTime" inputName="startTime" label="Start time">

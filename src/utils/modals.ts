@@ -14,4 +14,6 @@ export enum Modals {
   InviteConfirmed = "inviteConfirmed",
   DealDuration = "dealDuration",
   MetaMaskNotInstalled = "metaMaskNotInstalled",
+  BridgeToNetwork = "bridgeToNetwork",
+  BridgeFromNetwork = "bridgeFromNetwork",
 }

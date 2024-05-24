@@ -39,6 +39,8 @@ export type TokenType = Enums<"token_type">
 
 export type TransactionDatabaseType = Enums<"transaction_database_type">
 
+export type BridgeNetworkType = Enums<"bridge_network_type">
+
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">

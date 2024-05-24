@@ -3,6 +3,7 @@ import { z } from "zod"
 import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { LIST_TYPES } from "@/constants/lists"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
+import { BRIDGE_NETWORKS } from "@/constants/bridge"
 
 extendZodWithOpenApi(z)
 
@@ -82,10 +83,16 @@ export const OracleSchema = z.object({
   deployedAt: z.string().nullable(),
 })
 
+const BridgeNetwork = z.string().openapi({
+  enum: BRIDGE_NETWORKS,
+})
+
 export const BridgeSchema = z.object({
   enabled: z.boolean(),
   createdAt: z.string().nullable(),
   updatedAt: z.string().nullable(),
+  fromNetworks: z.array(BridgeNetwork).nullable(),
+  toNetworks: z.array(BridgeNetwork).nullable(),
 })
 
 export const TransactionDataSchema = z.object({
@@ -292,6 +299,24 @@ export const contract = c.router({
       scopes: ["silos:write"],
     },
     body: z.object({}),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  updateSiloBridge: {
+    summary: "Update the bridge configuration for a silo",
+    method: "PUT",
+    path: "/api/silos/:id/bridge",
+    responses: {
+      200: BridgeSchema,
+    },
+    metadata: {
+      scopes: ["silos:write"],
+    },
+    body: z.object({
+      fromNetworks: z.array(BridgeNetwork).optional(),
+      toNetworks: z.array(BridgeNetwork).optional(),
+    }),
     pathParams: z.object({
       id: z.number(),
     }),

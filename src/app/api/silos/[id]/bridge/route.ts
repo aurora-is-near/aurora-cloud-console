@@ -3,8 +3,21 @@ import { abort } from "../../../../../utils/abort"
 import { getSilo } from "@/actions/silos/get-silo"
 import { getSiloBridge } from "@/actions/silo-bridge/get-silo-bridge"
 import { createSiloBridge } from "@/actions/silo-bridge/create-silo-bridge"
-import { Bridge } from "@/types/types"
+import { Bridge, BridgeNetworkType } from "@/types/types"
 import { BridgeSchema } from "@/types/api-schemas"
+import { updateSiloBridge } from "@/actions/silo-bridge/update-silo-bridge"
+import { isValidNetwork } from "@/utils/bridge"
+
+const getValidNetworks = (networks: string[]): BridgeNetworkType[] => {
+  const validNetworks = networks.filter(isValidNetwork)
+  const invalidNetworks = networks.filter((network) => !isValidNetwork(network))
+
+  if (invalidNetworks.length) {
+    abort(400, `Invalid network(s): ${invalidNetworks.join(", ")}`)
+  }
+
+  return validNetworks
+}
 
 const getBridgeSchema = (bridge?: Bridge): BridgeSchema => {
   if (!bridge) {
@@ -12,6 +25,8 @@ const getBridgeSchema = (bridge?: Bridge): BridgeSchema => {
       enabled: false,
       createdAt: null,
       updatedAt: null,
+      fromNetworks: null,
+      toNetworks: null,
     }
   }
 
@@ -19,17 +34,13 @@ const getBridgeSchema = (bridge?: Bridge): BridgeSchema => {
     enabled: true,
     createdAt: bridge.created_at,
     updatedAt: bridge.updated_at,
+    fromNetworks: bridge.from_networks,
+    toNetworks: bridge.to_networks,
   }
 }
 
 export const GET = createApiEndpoint("getSiloBridge", async (_req, ctx) => {
-  const silo = await getSilo(Number(ctx.params.id))
-
-  if (!silo) {
-    abort(404)
-  }
-
-  const bridge = await getSiloBridge(silo.id)
+  const bridge = await getSiloBridge(Number(ctx.params.id))
 
   if (!bridge) {
     return getBridgeSchema()
@@ -54,4 +65,21 @@ export const POST = createApiEndpoint("createSiloBridge", async (_req, ctx) => {
   const bridge = await createSiloBridge({ silo_id: silo.id })
 
   return getBridgeSchema(bridge)
+})
+
+export const PUT = createApiEndpoint("updateSiloBridge", async (_req, ctx) => {
+  const siloId = Number(ctx.params.id)
+  const bridge = await getSiloBridge(siloId)
+
+  if (!bridge) {
+    abort(404)
+  }
+
+  const { fromNetworks, toNetworks } = ctx.body
+  const updatedBridge = await updateSiloBridge(siloId, {
+    fromNetworks: fromNetworks ? getValidNetworks(fromNetworks) : undefined,
+    toNetworks: toNetworks ? getValidNetworks(toNetworks) : undefined,
+  })
+
+  return getBridgeSchema(updatedBridge)
 })

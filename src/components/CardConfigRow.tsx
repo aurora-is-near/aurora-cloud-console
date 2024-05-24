@@ -4,7 +4,6 @@ import Card from "@/components/Card"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { PencilSquareIcon } from "@heroicons/react/24/outline"
-import { ComponentType } from "react"
 
 type CardConfigRowProps = {
   title: string
@@ -17,20 +16,15 @@ type CardConfigRowProps = {
         type: "labels"
         value: string[]
       }
-  modalConfig?: {
-    showEditButton: boolean
-    Modal: ComponentType<{ title: string; open: boolean }>
-    modalKey: Modals
-  }
+  modalKey?: Modals
 }
 
 export const CardConfigRow = ({
   title,
   content,
-  modalConfig,
+  modalKey,
 }: CardConfigRowProps) => {
   const { openModal, activeModal } = useModals()
-  const { Modal, modalKey, showEditButton } = modalConfig ?? {}
 
   const onEditClick = () => {
     if (modalKey) {
@@ -46,7 +40,7 @@ export const CardConfigRow = ({
 
       <Card.Cell>
         {content?.type === "text" && (
-          <div className="text-gray-500">{content.value}</div>
+          <div className="text-gray-500 text-sm">{content.value}</div>
         )}
 
         {content?.type === "labels" && (
@@ -54,7 +48,7 @@ export const CardConfigRow = ({
             {content.value.map((label) => (
               <span
                 key={label}
-                className="text-gray-900 bg-cyan-100 rounded-md px-2 py-1 text-sm whitespace-nowrap"
+                className="text-gray-900 bg-cyan-100 rounded-md px-2 py-1 text-sm whitespace-nowrap font-medium"
               >
                 {label}
               </span>
@@ -65,7 +59,7 @@ export const CardConfigRow = ({
 
       <Card.Cell>
         <div className="flex items-center justify-end space-x-3">
-          {showEditButton && (
+          {!!modalKey && (
             <button
               onClick={onEditClick}
               className="text-gray-500 hover:text-gray-900"
@@ -76,7 +70,6 @@ export const CardConfigRow = ({
           )}
         </div>
       </Card.Cell>
-      {Modal && <Modal title={title} open={activeModal === modalKey} />}
     </>
   )
 }

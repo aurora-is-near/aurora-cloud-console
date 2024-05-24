@@ -15,13 +15,10 @@ export const ControlCard = () => {
 
         <CardConfigRow
           title="Restrict deal duration"
-          modalConfig={{
-            showEditButton: true,
-            Modal: DealDurationModal,
-            modalKey: Modals.DealDuration,
-          }}
+          modalKey={Modals.DealDuration}
         />
       </Card>
+      <DealDurationModal />
     </>
   )
 }

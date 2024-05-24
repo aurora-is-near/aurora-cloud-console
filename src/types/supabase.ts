@@ -50,27 +50,45 @@ export type Database = {
       bridges: {
         Row: {
           created_at: string
+          from_networks:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
           id: number
           silo_id: number
+          to_networks:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
           updated_at: string
         }
         Insert: {
           created_at?: string
+          from_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
           id?: number
           silo_id: number
+          to_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
           updated_at?: string
         }
         Update: {
           created_at?: string
+          from_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
           id?: number
           silo_id?: number
+          to_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
           updated_at?: string
         }
         Relationships: [
           {
             foreignKeyName: "bridges_silo_id_fkey"
             columns: ["silo_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "silos"
             referencedColumns: ["id"]
           },
@@ -444,6 +462,7 @@ export type Database = {
         | "users:write"
         | "lists:read"
         | "lists:write"
+      bridge_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       transaction_database_type: "AURORA" | "AURORA_DEMO" | "SILO"
       user_type: "customer" | "admin"
