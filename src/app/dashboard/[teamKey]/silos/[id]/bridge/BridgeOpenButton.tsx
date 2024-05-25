@@ -12,8 +12,8 @@ type BridgeOpenButtonProps = {
 
 export const BridgeOpenButton = ({ siloId, size }: BridgeOpenButtonProps) => {
   const { toNetworks, fromNetworks, isPending } = useBridgeNetworks(siloId)
-  const { data: bridge } = useQuery(
-    getQueryFnAndKey("getSiloBridge", {
+  const { data: silo } = useQuery(
+    getQueryFnAndKey("getSilo", {
       id: siloId,
     }),
   )
@@ -32,6 +32,25 @@ export const BridgeOpenButton = ({ siloId, size }: BridgeOpenButtonProps) => {
       "fromNetworks",
       JSON.stringify(fromNetworks.map(({ evm }) => evm).filter(Boolean)),
     )
+
+    // if (silo?.engineAccount) {
+    //   url.searchParams.set(
+    //     "customChains",
+    //     JSON.stringify({
+    //       id: silo.chainId,
+    //       name: silo.name,
+    //       network: "TPRO Network",
+    //       nativeCurrency: {
+    //         decimals: 18,
+    //         name: "TPRO",
+    //         symbol: "TPRO",
+    //       },
+    //       rpcUrl: silo.rpcUrl,
+    //       auroraEvmAccount: silo.engineAccount,
+    //       // logo: "/static/images/tpro.png",
+    //     }),
+    //   )
+    // }
 
     return url.href
   }, [fromNetworks, toNetworks])
