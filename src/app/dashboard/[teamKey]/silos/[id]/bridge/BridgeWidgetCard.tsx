@@ -4,7 +4,6 @@ import BridgeNetworkModal from "@/app/dashboard/[teamKey]/silos/[id]/bridge/Brid
 import { BridgeOpenButton } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeOpenButton"
 import Card from "@/components/Card"
 import { CardConfigGrid } from "@/components/CardConfigGrid"
-import { CardConfigRow } from "@/components/CardConfigRow"
 import { useBridgeNetworks } from "@/hooks/useBridgeNetworks"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { formatDateAndTime } from "@/utils/helpers"

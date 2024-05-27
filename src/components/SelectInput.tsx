@@ -1,6 +1,6 @@
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   Path,
   RegisterOptions,
@@ -112,9 +112,13 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
   ) => option,
   ...restProps
 }: SelectInputProps<Inputs>) => {
+  const wasDefaultSet = useRef(false)
+  const { setValue, formState } = useFormContext()
   const [selectedOption, setSelectedOption] = useState<
     MultiValue<SelectInputOption> | SingleValue<SelectInputOption> | undefined
   >(defaultValue)
+
+  console.log(useFormContext())
 
   const onChange = (
     option?: MultiValue<SelectInputOption> | SingleValue<SelectInputOption>,
@@ -123,7 +127,14 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
     registerOptions?.onChange?.(option)
   }
 
-  const { setValue } = useFormContext()
+  useEffect(() => {
+    const contextDefaultValue = formState?.defaultValues?.[name]
+
+    if (!selectedOption && contextDefaultValue && !wasDefaultSet.current) {
+      setSelectedOption(contextDefaultValue)
+      wasDefaultSet.current = true
+    }
+  }, [formState?.defaultValues, name, selectedOption])
 
   useEffect(() => {
     setValue(
@@ -131,7 +142,7 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
       // @ts-ignore
       getValue(selectedOption),
     )
-  }, [name, setValue, selectedOption, defaultValue, getValue])
+  }, [name, setValue, selectedOption, getValue])
 
   return (
     <Select

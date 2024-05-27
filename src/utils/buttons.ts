@@ -20,7 +20,7 @@ export const getButtonClassName = (
   } = {},
 ) =>
   clsx(
-    "relative flex items-center justify-center rounded-md font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50",
+    "relative flex items-center justify-center rounded-md font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 whitespace-nowrap",
     {
       "px-2.5 h-8 text-sm": size === "sm",
       "px-3 h-9 text-sm": size === "md",
