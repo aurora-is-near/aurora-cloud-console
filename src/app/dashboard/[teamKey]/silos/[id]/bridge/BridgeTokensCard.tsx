@@ -46,9 +46,9 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
     EXISTING_TOKEN_TYPE,
   )
 
-  const onChange = (evt?: ChangeEvent) => {
+  const onSelectedTokenTypeChange = (evt?: ChangeEvent) => {
     console.log(evt)
-    setSelectedTokenType(evt?.target.value)
+    setSelectedTokenType((evt?.target as HTMLInputElement).value as TokenType)
   }
 
   return (
@@ -69,7 +69,7 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
                 value={EXISTING_TOKEN_TYPE}
                 register={register}
                 registerOptions={{
-                  onChange,
+                  onChange: onSelectedTokenTypeChange,
                 }}
               />
               <div
@@ -107,7 +107,7 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
                 value={CUSTOM_TOKEN_TYPE}
                 register={register}
                 registerOptions={{
-                  onChange,
+                  onChange: onSelectedTokenTypeChange,
                 }}
               />
               <div
