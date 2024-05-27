@@ -7,10 +7,12 @@ import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
 import { SelectInputOption } from "@/components/SelectInput"
 import { sentenceCase } from "change-case"
+import { usePathname, useRouter } from "next/navigation"
 
 type SiloFormProps = {
   silo?: Silo
   tokens: Token[]
+  teamId: number
 }
 
 type Inputs = Omit<Silo, "id" | "created_at">
@@ -32,17 +34,25 @@ const getTokenOption = (token: Token): SelectInputOption => ({
 const isNetworkOption = (value?: string): value is NetworkOption =>
   !!value && NETWORK_OPTIONS.includes(value as NetworkOption)
 
-export const SiloForm = ({ silo, tokens }: SiloFormProps) => {
+export const SiloForm = ({ silo, tokens, teamId }: SiloFormProps) => {
+  const pathname = usePathname()
+
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
     if (silo) {
+      console.log("updating ")
       await updateSilo(silo.id, inputs)
-      window.location.href = "/admin/silos?operation=updated"
+
+      window.location.href = pathname.split("/").slice(0, -2).join("/")
 
       return
     }
 
-    await createSilo(inputs)
-    window.location.href = "/admin/silos?operation=created"
+    await createSilo({
+      ...inputs,
+      team_id: teamId,
+    })
+
+    window.location.href = pathname.split("/").slice(0, -1).join("/")
   }
 
   const baseToken = tokens.find((token) => token.id === silo?.base_token_id)

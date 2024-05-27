@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { TeamDetailsCard } from "@/components/admin/TeamDetailsCard"
@@ -10,10 +9,6 @@ const Page = async ({
   params: { teamKey: string }
 }) => {
   const team = await getTeamByKey(teamKey)
-
-  if (!team) {
-    notFound()
-  }
 
   return (
     <DashboardPage

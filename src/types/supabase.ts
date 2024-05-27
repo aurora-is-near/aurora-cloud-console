@@ -47,6 +47,53 @@ export type Database = {
           },
         ]
       }
+      bridges: {
+        Row: {
+          created_at: string
+          from_networks:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          id: number
+          silo_id: number
+          to_networks:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          from_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          id?: number
+          silo_id: number
+          to_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          from_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          id?: number
+          silo_id?: number
+          to_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bridges_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: true
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       deals: {
         Row: {
           created_at: string
@@ -155,6 +202,7 @@ export type Database = {
           name: string
           network: string
           rpc_url: string
+          team_id: number
           updated_at: string
         }
         Insert: {
@@ -168,6 +216,7 @@ export type Database = {
           name: string
           network?: string
           rpc_url?: string
+          team_id?: number
           updated_at?: string
         }
         Update: {
@@ -181,6 +230,7 @@ export type Database = {
           name?: string
           network?: string
           rpc_url?: string
+          team_id?: number
           updated_at?: string
         }
         Relationships: [
@@ -189,6 +239,13 @@ export type Database = {
             columns: ["base_token_id"]
             isOneToOne: false
             referencedRelation: "tokens"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silos_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
             referencedColumns: ["id"]
           },
         ]
@@ -255,36 +312,6 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
-      }
-      teams_silos: {
-        Row: {
-          silo_id: number
-          team_id: number
-        }
-        Insert: {
-          silo_id: number
-          team_id?: number
-        }
-        Update: {
-          silo_id?: number
-          team_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "teams_silos_silo_id_fkey"
-            columns: ["silo_id"]
-            isOneToOne: false
-            referencedRelation: "silos"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "teams_silos_team_id_fkey"
-            columns: ["team_id"]
-            isOneToOne: false
-            referencedRelation: "teams"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       tokens: {
         Row: {
@@ -415,6 +442,7 @@ export type Database = {
         | "users:write"
         | "lists:read"
         | "lists:write"
+      bridge_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       transaction_database_type: "AURORA" | "AURORA_DEMO" | "SILO"
       user_type: "customer" | "admin"

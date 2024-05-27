@@ -5,7 +5,6 @@ import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import { RemoveTokenButton } from "./RemoveTokenButton"
 import { DashboardPage } from "@/components/DashboardPage"
-import { AdminToast } from "@/components/AdminToast"
 import { LinkButton } from "@/components/LinkButton"
 
 const Page = async () => {
@@ -54,7 +53,6 @@ const Page = async () => {
           }
         </section>
       </DashboardPage>
-      <AdminToast itemName="Token" />
     </>
   )
 }

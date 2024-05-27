@@ -51,7 +51,6 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   tokens: createTableClient(),
   silos: createTableClient(),
   silos_tokens: createTableClient(),
-  teams_silos: createTableClient(),
   users: createTableClient(),
   users_teams: createTableClient(),
   oracles: createTableClient(),

@@ -1,22 +1,25 @@
 import Table from "@/components/Table"
 import { formatDate } from "@/utils/helpers"
-import { getSilos } from "@/actions/silos/get-silos"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import TableButton from "@/components/TableButton"
 import { RemoveSiloButton } from "./RemoveSiloButton"
 import { DashboardPage } from "@/components/DashboardPage"
-import { AdminToast } from "@/components/AdminToast"
 import { LinkButton } from "@/components/LinkButton"
+import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
 
-const Page = async () => {
-  const silos = await getSilos()
+const Page = async ({
+  params: { teamKey },
+}: {
+  params: { teamKey: string }
+}) => {
+  const silos = await getTeamSilosByKey(teamKey)
 
   return (
     <>
       <DashboardPage
         heading="Silos"
         actions={
-          <LinkButton href="/admin/silos/add">
+          <LinkButton href={`/dashboard/${teamKey}/admin/silos/add`}>
             <PlusCircleIcon className="w-5 h-5" />
             <span>Add silo</span>
           </LinkButton>
@@ -47,7 +50,7 @@ const Page = async () => {
                       <TableButton
                         Icon={PencilSquareIcon}
                         srOnlyText={`Edit ${silo.name}`}
-                        href={`/admin/silos/edit/${silo.id}`}
+                        href={`/dashboard/${teamKey}/admin/silos/edit/${silo.id}`}
                       />
                       <RemoveSiloButton silo={silo} />
                     </div>
@@ -58,7 +61,6 @@ const Page = async () => {
           }
         </section>
       </DashboardPage>
-      <AdminToast itemName="Silo" />
     </>
   )
 }

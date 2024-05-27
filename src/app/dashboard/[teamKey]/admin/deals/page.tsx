@@ -5,7 +5,6 @@ import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import { RemoveDealButton } from "./RemoveDealButton"
 import { DashboardPage } from "@/components/DashboardPage"
-import { AdminToast } from "@/components/AdminToast"
 import { getTeams } from "@/actions/teams/get-teams"
 import { TeamFilter } from "./TeamFilter"
 import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
@@ -71,7 +70,6 @@ const Page = async ({
           }
         </section>
       </DashboardPage>
-      <AdminToast itemName="Deal" />
     </>
   )
 }
