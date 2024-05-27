@@ -2,6 +2,7 @@ import Card from "@/components/Card"
 import { Modals } from "@/utils/modals"
 import { DealDurationModal } from "./DealDurationModal"
 import { CardConfigRow } from "@/components/CardConfigRow"
+import { CardConfigGrid } from "@/components/CardConfigGrid"
 
 export const ControlCard = () => {
   return (
@@ -13,10 +14,12 @@ export const ControlCard = () => {
           users.
         </Card.Subtitle>
 
-        <CardConfigRow
-          title="Restrict deal duration"
-          modalKey={Modals.DealDuration}
-        />
+        <CardConfigGrid>
+          <CardConfigGrid.Row
+            title="Restrict deal duration"
+            modalKey={Modals.DealDuration}
+          />
+        </CardConfigGrid>
       </Card>
       <DealDurationModal />
     </>

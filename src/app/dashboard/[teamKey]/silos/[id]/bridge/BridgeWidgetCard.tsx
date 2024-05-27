@@ -3,6 +3,7 @@
 import BridgeNetworkModal from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeNetworkModal"
 import { BridgeOpenButton } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeOpenButton"
 import Card from "@/components/Card"
+import { CardConfigGrid } from "@/components/CardConfigGrid"
 import { CardConfigRow } from "@/components/CardConfigRow"
 import { useBridgeNetworks } from "@/hooks/useBridgeNetworks"
 import { getQueryFnAndKey } from "@/utils/api/queries"
@@ -41,8 +42,8 @@ export const BridgeWidgetCard = ({ siloId }: BridgeWidgetCardProps) => {
         <Card.Actions>
           <BridgeOpenButton siloId={siloId} />
         </Card.Actions>
-        <div className="grid grid-cols-3">
-          <CardConfigRow
+        <CardConfigGrid>
+          <CardConfigGrid.Row
             title="Origin networks"
             modalKey={Modals.BridgeFromNetwork}
             content={
@@ -57,7 +58,7 @@ export const BridgeWidgetCard = ({ siloId }: BridgeWidgetCardProps) => {
                   }
             }
           />
-          <CardConfigRow
+          <CardConfigGrid.Row
             title="Destination networks"
             modalKey={Modals.BridgeToNetwork}
             content={
@@ -72,14 +73,14 @@ export const BridgeWidgetCard = ({ siloId }: BridgeWidgetCardProps) => {
                   }
             }
           />
-          <CardConfigRow
+          <CardConfigGrid.Row
             title="Supported assets"
             content={{
               type: "text",
               value: "No token contracts deployed",
             }}
           />
-        </div>
+        </CardConfigGrid>
       </Card>
       <BridgeNetworkModal siloId={siloId} type="from" />
       <BridgeNetworkModal siloId={siloId} type="to" />
