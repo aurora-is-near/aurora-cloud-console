@@ -9,6 +9,7 @@ import { TRANSACTION_DATABASES } from "@/constants/databases"
 import { SelectInputOption } from "@/components/SelectInput"
 import { useRouter } from "next/navigation"
 import { HOME_ROUTE } from "@/constants/routes"
+import { createTeam } from "@/actions/teams/create-team"
 
 type TeamFormProps = {
   team?: Team
@@ -38,7 +39,8 @@ export const TeamForm = ({ team }: TeamFormProps) => {
       return
     }
 
-    router.push(`${HOME_ROUTE}/${teamInputs.team_key}`)
+    await createTeam(teamInputs)
+    window.location.href = `${HOME_ROUTE}/${teamInputs.team_key}`
   }
 
   const onCancel = () => {
