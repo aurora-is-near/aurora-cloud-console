@@ -1,6 +1,6 @@
 "use client"
 
-import { SaveChangesBar } from "@/app/dashboard/[teamKey]/borealis/deals/[id]/SaveChangesBar"
+import { SaveChangesBar } from "./SaveChangesBar"
 import { DashboardPage } from "@/components/DashboardPage"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"

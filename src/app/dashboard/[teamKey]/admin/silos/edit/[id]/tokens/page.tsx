@@ -1,25 +1,30 @@
 import Table from "@/components/Table"
 import { formatDate } from "@/utils/helpers"
-import { getTokens } from "@/actions/tokens/get-tokens"
 import TableButton from "@/components/TableButton"
-import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
+import { PencilSquareIcon } from "@heroicons/react/24/outline"
 import { DeleteTokenTableButton } from "./DeleteTokenTableButton"
 import { DashboardPage } from "@/components/DashboardPage"
-import { LinkButton } from "@/components/LinkButton"
+import { getSiloTokens } from "@/actions/silo-tokens/get-silo-tokens"
+import { getSilo } from "@/actions/silos/get-silo"
+import { notFound } from "next/navigation"
+import { AddTokenButton } from "../AddTokenButton"
 
-const Page = async () => {
-  const tokens = await getTokens()
+const Page = async ({
+  params: { id, teamKey },
+}: {
+  params: { id: number; teamKey: string }
+}) => {
+  const [tokens, silo] = await Promise.all([getSiloTokens(id), getSilo(id)])
+
+  if (!silo) {
+    notFound()
+  }
 
   return (
     <>
       <DashboardPage
-        heading="Tokens"
-        actions={
-          <LinkButton href="/admin/tokens/add">
-            <PlusCircleIcon className="w-5 h-5" />
-            <span>Add token</span>
-          </LinkButton>
-        }
+        heading={["Silos", silo.name, "Tokens"]}
+        actions={<AddTokenButton teamKey={teamKey} silo={silo} />}
       >
         <section>
           {
@@ -42,7 +47,7 @@ const Page = async () => {
                       <TableButton
                         Icon={PencilSquareIcon}
                         srOnlyText={`Edit ${token.symbol}`}
-                        href={`/admin/tokens/edit/${token.id}`}
+                        href={`/dashboard/${teamKey}/admin/silos/edit/${silo.id}/tokens/edit/${token.id}`}
                       />
                       <DeleteTokenTableButton token={token} />
                     </div>

@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { Spinner } from "@/components/Spinner"
 import { formatDate } from "@/utils/helpers"
-import { ViewListItemDetailsRow } from "@/app/dashboard/[teamKey]/lists/ViewListItemDetailsRow"
+import { ViewListItemDetailsRow } from "./ViewListItemDetailsRow"
 
 export const ViewListItemDetailsModal = () => {
   const { activeModal, closeModal, openModal } = useModals()

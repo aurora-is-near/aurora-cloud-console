@@ -1,7 +1,7 @@
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { TeamDetailsCard } from "@/components/admin/TeamDetailsCard"
-import { DeleteTeamButton } from "@/app/dashboard/[teamKey]/admin/team/DeleteTeamButton"
+import { DeleteTeamButton } from "./DeleteTeamButton"
 
 const Page = async ({
   params: { teamKey },

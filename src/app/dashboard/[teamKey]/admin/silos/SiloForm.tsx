@@ -39,7 +39,6 @@ export const SiloForm = ({ silo, tokens, teamId }: SiloFormProps) => {
 
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
     if (silo) {
-      console.log("updating ")
       await updateSilo(silo.id, inputs)
 
       window.location.href = pathname.split("/").slice(0, -2).join("/")

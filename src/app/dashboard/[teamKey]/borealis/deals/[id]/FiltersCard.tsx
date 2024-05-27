@@ -1,6 +1,6 @@
 "use client"
 
-import { FilterInput } from "@/app/dashboard/[teamKey]/borealis/deals/[id]/FiltersInput"
+import { FilterInput } from "./FiltersInput"
 import Card from "@/components/Card"
 
 export const FiltersCard = () => {

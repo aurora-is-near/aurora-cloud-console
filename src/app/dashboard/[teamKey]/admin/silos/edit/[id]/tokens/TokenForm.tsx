@@ -6,8 +6,10 @@ import { createToken } from "@/actions/tokens/create-token"
 import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
 import { SelectInputOption } from "@/components/SelectInput"
+import { usePathname } from "next/navigation"
 
 type TokenFormProps = {
+  siloId: number
   token?: Token
 }
 
@@ -15,17 +17,23 @@ type Inputs = Omit<Token, "id" | "created_at">
 
 const TOKEN_TYPES: TokenType[] = ["ERC20", "ERC721", "ERC1155"]
 
-export const TokenForm = ({ token }: TokenFormProps) => {
+export const TokenForm = ({ siloId, token }: TokenFormProps) => {
+  const pathname = usePathname()
+
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
     if (token) {
       await updateToken(token.id, inputs)
-      window.location.href = "/admin/tokens?operation=updated"
+      window.location.href = pathname.split("/").slice(0, -2).join("/")
 
       return
     }
 
-    await createToken(inputs)
-    window.location.href = "/admin/tokens?operation=created"
+    await createToken({
+      ...inputs,
+      silo_id: siloId,
+    })
+
+    window.location.href = pathname.split("/").slice(0, -1).join("/")
   }
 
   return (

@@ -14,7 +14,7 @@ import {
 import { isWalletAddress } from "@/utils/wallets"
 import { Button } from "@/components/Button"
 import { NoDataCta } from "@/components/NoDataCta"
-import { ImportListItemsButton } from "@/app/dashboard/[teamKey]/lists/ImportListItemsButton"
+import { ImportListItemsButton } from "./ImportListItemsButton"
 
 type ListItemsTableProps = {
   listId: number

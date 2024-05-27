@@ -1,6 +1,6 @@
 "use client"
 
-import { AddToMetaMaskButton } from "@/app/dashboard/[teamKey]/silos/[id]/configuration/AddToMetaMaskButton"
+import { AddToMetaMaskButton } from "./AddToMetaMaskButton"
 import { useMetaMask } from "@/hooks/useMetaMask"
 import { Silo, Token } from "@/types/types"
 

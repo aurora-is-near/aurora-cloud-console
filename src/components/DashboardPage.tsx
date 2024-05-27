@@ -7,7 +7,7 @@ import { DetailedHTMLProps, FormHTMLAttributes, ReactNode } from "react"
 
 type DashboardPageProps = {
   children: ReactNode
-  heading?: string | [string, string]
+  heading?: string | string[]
   actions?: ReactNode
   footer?: ReactNode
   banner?: ReactNode

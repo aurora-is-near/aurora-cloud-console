@@ -1,22 +1,22 @@
-import { getToken } from "@/actions/tokens/get-token"
-import { notFound } from "next/navigation"
 import Card from "@/components/Card"
-import { TokenForm } from "../../TokenForm"
+import { TokenForm } from "../TokenForm"
 import { DashboardPage } from "@/components/DashboardPage"
+import { notFound } from "next/navigation"
+import { getSilo } from "@/actions/silos/get-silo"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {
-  const token = await getToken(id)
+  const silo = await getSilo(id)
 
-  if (!token) {
+  if (!silo) {
     notFound()
   }
 
   return (
-    <DashboardPage heading={token.symbol}>
+    <DashboardPage heading={["Silos", silo.name, "Add token"]}>
       <Card>
         <Card.Title tag="h3">Token details</Card.Title>
         <Card.Body>
-          <TokenForm token={token} />
+          <TokenForm siloId={id} />
         </Card.Body>
       </Card>
     </DashboardPage>

@@ -6,21 +6,29 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { getTokens } from "@/actions/tokens/get-tokens"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { DeleteSiloButton } from "./DeleteSiloButton"
+import { LinkButton } from "@/components/LinkButton"
+import { getSiloTokens } from "@/actions/silo-tokens/get-silo-tokens"
+import { Tag } from "@/components/Tag"
+import Link from "next/link"
+import { AddTokenButton } from "./AddTokenButton"
 
 const Page = async ({
   params: { id, teamKey },
 }: {
   params: { id: number; teamKey: string }
 }) => {
-  const [silo, tokens, team] = await Promise.all([
+  const [silo, tokens, siloTokens, team] = await Promise.all([
     getSilo(id),
     getTokens(),
+    getSiloTokens(id),
     getTeamByKey(teamKey),
   ])
 
   if (!silo) {
     notFound()
   }
+
+  const tokensBaseRoute = `/dashboard/${teamKey}/admin/silos/edit/${silo.id}/tokens`
 
   return (
     <DashboardPage
@@ -32,6 +40,31 @@ const Page = async ({
         <Card.Body>
           <SiloForm silo={silo} tokens={tokens} teamId={team.id} />
         </Card.Body>
+      </Card>
+      <Card>
+        <Card.Title tag="h3">Silo tokens</Card.Title>
+        <Card.Subtitle>The tokens currently deployed to the silo</Card.Subtitle>
+        <Card.Actions>
+          <LinkButton variant="border" href={tokensBaseRoute}>
+            Manage tokens
+          </LinkButton>
+          <AddTokenButton teamKey={teamKey} silo={silo} />
+        </Card.Actions>
+        <Card.Row>
+          {siloTokens.length ? (
+            <ul className="flex flex-row flex-wrap gap-2">
+              {siloTokens.map((token) => (
+                <li key={token.id}>
+                  <Link href={`${tokensBaseRoute}/edit/${token.id}`}>
+                    <Tag text={token.symbol} />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500 text-sm">No available tokens</p>
+          )}
+        </Card.Row>
       </Card>
     </DashboardPage>
   )

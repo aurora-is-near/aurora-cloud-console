@@ -4,7 +4,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { DealForm } from "../../DealForm"
 import { getDeal } from "@/actions/deals/get-deal"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { DeleteDealButton } from "@/app/dashboard/[teamKey]/admin/deals/edit/[id]/DeleteDealButton"
+import { DeleteDealButton } from "./DeleteDealButton"
 
 const Page = async ({
   params: { id, teamKey },
