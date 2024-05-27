@@ -202,6 +202,7 @@ export type Database = {
           name: string
           network: string
           rpc_url: string
+          team_id: number
           updated_at: string
         }
         Insert: {
@@ -215,6 +216,7 @@ export type Database = {
           name: string
           network?: string
           rpc_url?: string
+          team_id: number
           updated_at?: string
         }
         Update: {
@@ -228,6 +230,7 @@ export type Database = {
           name?: string
           network?: string
           rpc_url?: string
+          team_id?: number
           updated_at?: string
         }
         Relationships: [
@@ -238,34 +241,11 @@ export type Database = {
             referencedRelation: "tokens"
             referencedColumns: ["id"]
           },
-        ]
-      }
-      silos_tokens: {
-        Row: {
-          silo_id: number
-          token_id: number
-        }
-        Insert: {
-          silo_id: number
-          token_id: number
-        }
-        Update: {
-          silo_id?: number
-          token_id?: number
-        }
-        Relationships: [
           {
-            foreignKeyName: "silos_tokens_silo_id_fkey"
-            columns: ["silo_id"]
+            foreignKeyName: "silos_team_id_fkey"
+            columns: ["team_id"]
             isOneToOne: false
-            referencedRelation: "silos"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "silos_tokens_token_id_fkey"
-            columns: ["token_id"]
-            isOneToOne: false
-            referencedRelation: "tokens"
+            referencedRelation: "teams"
             referencedColumns: ["id"]
           },
         ]
@@ -303,41 +283,12 @@ export type Database = {
         }
         Relationships: []
       }
-      teams_silos: {
-        Row: {
-          silo_id: number
-          team_id: number
-        }
-        Insert: {
-          silo_id: number
-          team_id?: number
-        }
-        Update: {
-          silo_id?: number
-          team_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "teams_silos_silo_id_fkey"
-            columns: ["silo_id"]
-            isOneToOne: false
-            referencedRelation: "silos"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "teams_silos_team_id_fkey"
-            columns: ["team_id"]
-            isOneToOne: false
-            referencedRelation: "teams"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       tokens: {
         Row: {
           address: string
           created_at: string
           id: number
+          silo_id: number
           symbol: string
           type: Database["public"]["Enums"]["token_type"]
         }
@@ -345,6 +296,7 @@ export type Database = {
           address: string
           created_at?: string
           id?: number
+          silo_id: number
           symbol: string
           type: Database["public"]["Enums"]["token_type"]
         }
@@ -352,10 +304,19 @@ export type Database = {
           address?: string
           created_at?: string
           id?: number
+          silo_id?: number
           symbol?: string
           type?: Database["public"]["Enums"]["token_type"]
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tokens_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       users: {
         Row: {

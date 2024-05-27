@@ -1,6 +1,6 @@
 "use client"
 
-import { BulkImportModal } from "@/app/dashboard/[teamKey]/lists/[id]/import/BulkImportModal"
+import { BulkImportModal } from "./BulkImportModal"
 import { Button } from "@/components/Button"
 import Table from "@/components/Table"
 import Papa from "papaparse"

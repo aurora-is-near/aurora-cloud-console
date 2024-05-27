@@ -2,6 +2,7 @@ import { Silo } from "@/types/types"
 
 export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   id: 1,
+  team_id: 1,
   name: "Test Silo",
   created_at: "2021-01-01T00:00:00Z",
   updated_at: "2021-01-01T00:00:00Z",

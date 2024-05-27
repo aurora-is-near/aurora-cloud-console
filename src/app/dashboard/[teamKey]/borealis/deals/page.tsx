@@ -1,7 +1,7 @@
 import Contact from "@/components/Contact"
 import Heading from "@/components/Heading"
 import DealsList from "./DealsList"
-import { DealsTransactionsCharts } from "@/app/dashboard/[teamKey]/borealis/deals/DealsTransactionsCharts"
+import { DealsTransactionsCharts } from "./DealsTransactionsCharts"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 

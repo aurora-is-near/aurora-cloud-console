@@ -6,8 +6,10 @@ import Card from "@/components/Card"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { DashboardPage } from "@/components/DashboardPage"
 import { FullScreenPage } from "@/components/FullScreenPage"
+import { LinkButton } from "@/components/LinkButton"
 import { getUserTeamKeys } from "@/utils/team"
 import { ChevronRightIcon } from "@heroicons/react/20/solid"
+import { PlusCircleIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 
@@ -28,6 +30,7 @@ const Page = async () => {
     return (
       <FullScreenPage>
         <NotAllowed
+          showLogoutButton
           title="No teams found"
           description="You are not currently a member of any teams. Please contact your team administrator for an invite."
         />
@@ -35,15 +38,25 @@ const Page = async () => {
     )
   }
 
-  if (currentUserTeams.length === 1) {
+  if (currentUserTeams.length === 1 && !isAdminUser) {
     return redirect(`/dashboard/${currentUserTeams[0].team_key}`)
   }
 
   return (
     <DashboardLayout>
-      <DashboardPage heading="Select a team">
+      <DashboardPage
+        heading="Select a team"
+        actions={
+          isAdminUser ? (
+            <LinkButton href="/dashboard/new">
+              <PlusCircleIcon className="w-5 h-5" />
+              <span>Create a team</span>
+            </LinkButton>
+          ) : null
+        }
+      >
         <ul className="grid grid-cols-2 xl:grid-cols-4 gap-4">
-          {currentUserTeams.map((team) => (
+          {teams.map((team) => (
             <li key={team.id}>
               <Link href={`/dashboard/${team.team_key}`}>
                 <Card>

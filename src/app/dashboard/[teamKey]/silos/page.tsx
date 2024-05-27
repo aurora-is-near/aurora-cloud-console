@@ -1,6 +1,6 @@
 import Contact from "@/components/Contact"
 import Chart from "./Chart"
-import { SilosTransactionsCharts } from "@/app/dashboard/[teamKey]/silos/SilosTransactionsCharts"
+import { SilosTransactionsCharts } from "./SilosTransactionsCharts"
 import { DashboardPage } from "@/components/DashboardPage"
 import { redirect } from "next/navigation"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"

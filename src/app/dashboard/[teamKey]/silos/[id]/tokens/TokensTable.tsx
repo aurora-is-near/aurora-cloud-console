@@ -16,7 +16,7 @@ const TokensTable = ({ siloId }: { siloId: number }) => {
   useNotFoundError(error)
 
   return (
-    <Table className="mt-7">
+    <Table>
       <Table.TH>Token</Table.TH>
       <Table.TH>Address</Table.TH>
       <Table.TH>Type</Table.TH>

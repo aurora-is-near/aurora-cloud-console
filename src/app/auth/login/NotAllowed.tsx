@@ -11,7 +11,7 @@ type NotAllowedProps = {
   title: string
   description: string
   showRefreshButton?: boolean
-  showGoBackButton?: boolean
+  showLogoutButton?: boolean
 }
 
 const MINUMUM_REFRESH_TIME = 1000
@@ -20,7 +20,7 @@ export const NotAllowed = ({
   title,
   description,
   showRefreshButton,
-  showGoBackButton,
+  showLogoutButton,
 }: NotAllowedProps) => {
   const router = useRouter()
   const [isRefreshing, setIsRefreshing] = useState(false)
@@ -67,7 +67,7 @@ export const NotAllowed = ({
           Refresh
         </Button>
       )}
-      {showGoBackButton && (
+      {showLogoutButton && (
         <button
           className="text-white w-full underline hover:no-underline"
           type="submit"

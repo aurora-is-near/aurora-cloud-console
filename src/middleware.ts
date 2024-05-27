@@ -44,9 +44,15 @@ export async function middleware(req: NextRequest) {
     },
   ] = await Promise.all([supabase.auth.getSession()])
 
-  // Do nothing if an auth callback or logout is in progress
+  // Do nothing for the routes below
   if (
-    [AUTH_CALLBACK_ROUTE, AUTH_ACCEPT_ROUTE, LOGOUT_ROUTE].includes(pathname)
+    [
+      HOME_ROUTE,
+      AUTH_CALLBACK_ROUTE,
+      AUTH_ACCEPT_ROUTE,
+      LOGOUT_ROUTE,
+      UNAUTHORISED_ROUTE,
+    ].includes(pathname)
   ) {
     return res
   }
@@ -70,7 +76,7 @@ export async function middleware(req: NextRequest) {
 
   // Finally, redirect to the home page if the user is logged in and on any
   // of the login pages, or the base path
-  if (session && ["/", LOGIN_ROUTE, UNAUTHORISED_ROUTE].includes(pathname)) {
+  if (session && ["/", LOGIN_ROUTE].includes(pathname)) {
     return homeRedirect(req, res)
   }
 
