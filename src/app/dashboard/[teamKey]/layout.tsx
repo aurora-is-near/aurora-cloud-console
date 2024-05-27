@@ -1,8 +1,9 @@
-import { ReactNode } from "react"
+import { ReactNode, use } from "react"
 import {
   Cog6ToothIcon,
   SquaresPlusIcon,
   ListBulletIcon,
+  AdjustmentsHorizontalIcon,
 } from "@heroicons/react/24/outline"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { Borealis, Silos } from "@/components/icons"
@@ -14,6 +15,9 @@ import { SettingsMenu } from "@/components/navigation/dashboard/SettingsMenu"
 import { MobileDealsMenu } from "@/components/navigation/dashboard/mobile/MobileDealsMenu"
 import { MobileListsMenu } from "@/components/navigation/dashboard/mobile/MobileListsMenu"
 import { MobileSettingsMenu } from "@/components/navigation/dashboard/mobile/MobileSettingsMenu"
+import { AdminMenu } from "@/components/navigation/admin/AdminMenu"
+import { isAdmin } from "@/actions/is-admin"
+import { MenuItem } from "@/types/menu"
 
 export default async function Layout({
   children,
@@ -22,6 +26,27 @@ export default async function Layout({
   children: ReactNode
   params: { teamKey: string }
 }) {
+  const isAdminUser = await isAdmin()
+
+  const extraMenuItems: MenuItem[] = [
+    {
+      name: "Settings",
+      href: `/dashboard/${teamKey}/settings`,
+      icon: <Cog6ToothIcon />,
+      SubMenu: SettingsMenu,
+      MobileSubMenu: MobileSettingsMenu,
+    },
+  ]
+
+  if (isAdminUser) {
+    extraMenuItems.unshift({
+      name: "Admin",
+      href: `/dashboard/${teamKey}/admin`,
+      icon: <AdjustmentsHorizontalIcon />,
+      SubMenu: AdminMenu,
+    })
+  }
+
   return (
     <DashboardLayout
       mainMenuItems={[
@@ -52,15 +77,7 @@ export default async function Layout({
           SubMenu: ServicesMenu,
         },
       ]}
-      extraMenuItems={[
-        {
-          name: "Settings",
-          href: `/dashboard/${teamKey}/settings`,
-          icon: <Cog6ToothIcon />,
-          SubMenu: SettingsMenu,
-          MobileSubMenu: MobileSettingsMenu,
-        },
-      ]}
+      extraMenuItems={extraMenuItems}
     >
       {children}
     </DashboardLayout>

@@ -63,6 +63,7 @@ type Input<Inputs extends Record<string, unknown>> =
 
 type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
   submitHandler: SubmitHandler<Inputs>
+  onCancel?: () => void
   inputs: Input<Inputs>[]
 }
 
@@ -77,6 +78,7 @@ const isToggleInput = <Inputs extends Record<string, unknown>>(
 export const HorizontalForm = <Inputs extends Record<string, unknown>>({
   inputs,
   submitHandler,
+  onCancel,
 }: HorizontalFormProps<Inputs>) => {
   const methods = useForm<Inputs>()
   const {
@@ -134,6 +136,17 @@ export const HorizontalForm = <Inputs extends Record<string, unknown>>({
           })}
         </div>
         <div className="flex justify-end mt-8">
+          {onCancel && (
+            <Button
+              type="button"
+              onClick={onCancel}
+              className="mr-2"
+              variant="secondary"
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+          )}
           <Button
             type="submit"
             onClick={handleSubmit(submitHandler)}
