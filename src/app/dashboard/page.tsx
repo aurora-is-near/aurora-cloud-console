@@ -2,13 +2,9 @@ import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { isAdmin } from "@/actions/is-admin"
 import { getTeams } from "@/actions/teams/get-teams"
 import { NotAllowed } from "@/app/auth/login/NotAllowed"
-import Card from "@/components/Card"
-import { DashboardLayout } from "@/components/DashboardLayout"
-import { DashboardPage } from "@/components/DashboardPage"
 import { FullScreenPage } from "@/components/FullScreenPage"
+import { TeamSelectPage } from "@/components/TeamSelectPage"
 import { getUserTeamKeys } from "@/utils/team"
-import { ChevronRightIcon } from "@heroicons/react/20/solid"
-import Link from "next/link"
 import { redirect } from "next/navigation"
 
 const Page = async () => {
@@ -40,31 +36,7 @@ const Page = async () => {
     return redirect(`/dashboard/${currentUserTeams[0].team_key}`)
   }
 
-  return (
-    <DashboardLayout>
-      <DashboardPage heading="Select a team">
-        <ul className="grid grid-cols-2 xl:grid-cols-4 gap-4">
-          {currentUserTeams.map((team) => (
-            <li key={team.id}>
-              <Link href={`/dashboard/${team.team_key}`}>
-                <Card>
-                  <Card.Title>{team.name}</Card.Title>
-                  <Card.Actions>
-                    <ChevronRightIcon className="h-5 w-5" />
-                  </Card.Actions>
-                  <Card.Body>
-                    <span className="text-xs text-gray-500">
-                      {team.website}
-                    </span>
-                  </Card.Body>
-                </Card>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </DashboardPage>
-    </DashboardLayout>
-  )
+  return <TeamSelectPage teams={currentUserTeams} baseRoute="dashboard" />
 }
 
 export default Page
