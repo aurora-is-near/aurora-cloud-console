@@ -1,17 +1,21 @@
 import Card from "@/components/Card"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTeams } from "@/actions/teams/get-teams"
 import { DealForm } from "../DealForm"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
-const Page = async () => {
-  const allTeams = await getTeams()
+const Page = async ({
+  params: { teamKey },
+}: {
+  params: { teamKey: string }
+}) => {
+  const team = await getTeamByKey(teamKey)
 
   return (
-    <DashboardPage heading="Add token">
+    <DashboardPage heading="Add deal">
       <Card>
         <Card.Title tag="h3">Deal details</Card.Title>
         <Card.Body>
-          <DealForm allTeams={allTeams} />
+          <DealForm teamId={team.id} />
         </Card.Body>
       </Card>
     </DashboardPage>

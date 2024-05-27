@@ -1,24 +1,18 @@
 import Table from "@/components/Table"
 import { formatDate } from "@/utils/helpers"
-import { getDeals } from "@/actions/deals/get-deals"
 import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import { RemoveDealButton } from "./RemoveDealButton"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTeams } from "@/actions/teams/get-teams"
-import { TeamFilter } from "./TeamFilter"
-import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 import { LinkButton } from "@/components/LinkButton"
+import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
 
 const Page = async ({
-  searchParams: { team },
+  params: { teamKey },
 }: {
-  searchParams: { team?: number }
+  params: { teamKey: string }
 }) => {
-  const [deals, teams] = await Promise.all([
-    team ? getTeamDeals(team) : getDeals(),
-    getTeams(),
-  ])
+  const deals = await getTeamDealsByKey(teamKey)
 
   return (
     <>
@@ -26,8 +20,7 @@ const Page = async ({
         heading="Deals"
         actions={
           <div className="flex flex-row space-x-3 items-center">
-            <TeamFilter teams={teams} />
-            <LinkButton href="/admin/deals/add">
+            <LinkButton href={`/dashboard/${teamKey}/admin/deals/add`}>
               <PlusCircleIcon className="w-5 h-5" />
               <span>Add deal</span>
             </LinkButton>
@@ -39,7 +32,6 @@ const Page = async ({
             <Table>
               <Table.TH>ID</Table.TH>
               <Table.TH>Name</Table.TH>
-              <Table.TH align="center">Team ID</Table.TH>
               <Table.TH align="center">Created at</Table.TH>
               <Table.TH align="center">Updated at</Table.TH>
               <Table.TH hidden>Actions</Table.TH>
@@ -47,7 +39,6 @@ const Page = async ({
                 <Table.TR key={deal.id}>
                   <Table.TD>{deal.id}</Table.TD>
                   <Table.TD>{deal.name}</Table.TD>
-                  <Table.TD align="center">{deal.team_id}</Table.TD>
                   <Table.TD align="center">
                     {formatDate(deal.created_at)}
                   </Table.TD>
@@ -59,7 +50,7 @@ const Page = async ({
                       <TableButton
                         Icon={PencilSquareIcon}
                         srOnlyText={`Edit ${deal.name}`}
-                        href={`/admin/deals/edit/${deal.id}`}
+                        href={`/dashboard/${teamKey}/admin/deals/edit/${deal.id}`}
                       />
                       <RemoveDealButton deal={deal} />
                     </div>

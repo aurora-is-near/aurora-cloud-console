@@ -1,41 +1,39 @@
 "use client"
 
-import { Deal, Team } from "@/types/types"
+import { Deal } from "@/types/types"
 import { updateDeal } from "@/actions/deals/update-deal"
 import { createDeal } from "@/actions/deals/create-deal"
 import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
-import { SelectInputOption } from "@/components/SelectInput"
+import { usePathname } from "next/navigation"
 
 type DealFormProps = {
   deal?: Deal
-  allTeams: Team[]
+  teamId: number
 }
 
 type Inputs = {
   name: string
-  team_id: number
 }
 
-const getTeamOption = (team: Team) => ({
-  label: team.name,
-  value: team.id,
-})
+export const DealForm = ({ deal, teamId }: DealFormProps) => {
+  const pathname = usePathname()
 
-export const DealForm = ({ deal, allTeams }: DealFormProps) => {
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
     if (deal) {
       await updateDeal(deal.id, inputs)
-      window.location.href = "/admin/deals?operation=updated"
+      window.location.href = pathname.split("/").slice(0, -2).join("/")
 
       return
     }
 
-    await createDeal(inputs)
-    window.location.href = "/admin/deals?operation=created"
-  }
+    await createDeal({
+      ...inputs,
+      team_id: teamId,
+    })
 
-  const selectedTeam = allTeams.find((team) => team.id === deal?.team_id)
+    window.location.href = pathname.split("/").slice(0, -1).join("/")
+  }
 
   return (
     <HorizontalForm
@@ -47,14 +45,6 @@ export const DealForm = ({ deal, allTeams }: DealFormProps) => {
           defaultValue: deal?.name ?? "",
           autoComplete: "name",
           required: true,
-        },
-        {
-          name: "team_id",
-          label: "Team",
-          getValue: (option?: SelectInputOption) => option?.value,
-          defaultValue: selectedTeam ? getTeamOption(selectedTeam) : undefined,
-          required: true,
-          options: allTeams.map(getTeamOption),
         },
       ]}
     />
