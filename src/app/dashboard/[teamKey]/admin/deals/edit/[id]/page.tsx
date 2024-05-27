@@ -4,6 +4,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { DealForm } from "../../DealForm"
 import { getDeal } from "@/actions/deals/get-deal"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { DeleteDealButton } from "@/app/dashboard/[teamKey]/admin/deals/edit/[id]/DeleteDealButton"
 
 const Page = async ({
   params: { id, teamKey },
@@ -17,7 +18,10 @@ const Page = async ({
   }
 
   return (
-    <DashboardPage heading={deal.name}>
+    <DashboardPage
+      heading={deal.name}
+      actions={<DeleteDealButton deal={deal} teamKey={teamKey} />}
+    >
       <Card>
         <Card.Title tag="h3">Deal details</Card.Title>
         <Card.Body>

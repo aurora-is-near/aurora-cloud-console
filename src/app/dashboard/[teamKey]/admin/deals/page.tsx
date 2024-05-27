@@ -2,7 +2,7 @@ import Table from "@/components/Table"
 import { formatDate } from "@/utils/helpers"
 import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
-import { RemoveDealButton } from "./RemoveDealButton"
+import { DeleteDealTableButton } from "./DeleteDealTableButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { LinkButton } from "@/components/LinkButton"
 import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
@@ -52,7 +52,7 @@ const Page = async ({
                         srOnlyText={`Edit ${deal.name}`}
                         href={`/dashboard/${teamKey}/admin/deals/edit/${deal.id}`}
                       />
-                      <RemoveDealButton deal={deal} />
+                      <DeleteDealTableButton deal={deal} />
                     </div>
                   </Table.TD>
                 </Table.TR>

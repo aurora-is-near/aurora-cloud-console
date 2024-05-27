@@ -3,7 +3,7 @@ import { formatDate } from "@/utils/helpers"
 import { getTokens } from "@/actions/tokens/get-tokens"
 import TableButton from "@/components/TableButton"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
-import { RemoveTokenButton } from "./RemoveTokenButton"
+import { DeleteTokenTableButton } from "./DeleteTokenTableButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { LinkButton } from "@/components/LinkButton"
 
@@ -44,7 +44,7 @@ const Page = async () => {
                         srOnlyText={`Edit ${token.symbol}`}
                         href={`/admin/tokens/edit/${token.id}`}
                       />
-                      <RemoveTokenButton token={token} />
+                      <DeleteTokenTableButton token={token} />
                     </div>
                   </Table.TD>
                 </Table.TR>

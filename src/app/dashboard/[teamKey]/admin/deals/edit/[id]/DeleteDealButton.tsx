@@ -1,0 +1,28 @@
+"use client"
+
+import { deleteDeal } from "@/actions/deals/delete-deal"
+import { DeleteButton } from "@/components/DeleteButton"
+import { Deal } from "@/types/types"
+import { useRouter } from "next/navigation"
+
+type DeleteDealButtonProps = {
+  teamKey: string
+  deal: Deal
+}
+
+export const DeleteDealButton = ({ teamKey, deal }: DeleteDealButtonProps) => {
+  const router = useRouter()
+
+  const onConfirmClick = async () => {
+    await deleteDeal(deal.id)
+    router.push(`/dashboard/${teamKey}/admin/deals`)
+  }
+
+  return (
+    <DeleteButton
+      title="Delete deal"
+      description={`Are you sure you want to delete the deal "${deal.name}"?`}
+      onDelete={onConfirmClick}
+    />
+  )
+}

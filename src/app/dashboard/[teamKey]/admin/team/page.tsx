@@ -1,7 +1,7 @@
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { TeamDetailsCard } from "@/components/admin/TeamDetailsCard"
-import { RemoveTeamButton } from "@/app/dashboard/[teamKey]/admin/team/RemoveTeamButton"
+import { DeleteTeamButton } from "@/app/dashboard/[teamKey]/admin/team/DeleteTeamButton"
 
 const Page = async ({
   params: { teamKey },
@@ -13,7 +13,7 @@ const Page = async ({
   return (
     <DashboardPage
       heading={team.name}
-      actions={<RemoveTeamButton team={team} />}
+      actions={<DeleteTeamButton team={team} />}
     >
       <TeamDetailsCard team={team} />
     </DashboardPage>

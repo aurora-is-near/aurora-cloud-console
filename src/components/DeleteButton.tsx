@@ -1,24 +1,24 @@
 "use client"
 
+import { Button } from "@/components/Button"
 import { DeleteModal } from "@/components/DeleteModal"
-import TableButton from "@/components/TableButton"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
 import toast from "react-hot-toast"
 
-type TableDeleteButtonProps = {
+type DeleteButtonProps = {
   title: string
   description: string
   onDelete: () => Promise<void>
 }
 
-export const TableDeleteButton = ({
+export const DeleteButton = ({
   title,
   description,
   onDelete,
-}: TableDeleteButtonProps) => {
+}: DeleteButtonProps) => {
   const [isPending, setIsPending] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const onDeleteClick = async () => {
     setIsPending(true)
@@ -28,30 +28,28 @@ export const TableDeleteButton = ({
     } catch (error) {
       toast.error("Failed to delete item")
       console.error(error)
-      setIsPending(false)
-
-      return
     }
 
-    window.location.reload()
     setIsPending(false)
   }
 
   return (
     <>
-      <TableButton
-        Icon={TrashIcon}
-        srOnlyText={title}
+      <Button
+        variant="destructive"
         onClick={() => {
-          setIsOpen(true)
+          setIsModalOpen(true)
         }}
-      />
+      >
+        <TrashIcon className="w-5 h-5" />
+        {title}
+      </Button>
       <DeleteModal
         title={title}
         description={description}
-        isOpen={isOpen}
+        isOpen={isModalOpen}
         onClose={() => {
-          setIsOpen(false)
+          setIsModalOpen(false)
         }}
         onDeleteClick={onDeleteClick}
         isPending={isPending}

@@ -2,7 +2,7 @@ import Table from "@/components/Table"
 import { formatDate } from "@/utils/helpers"
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
 import TableButton from "@/components/TableButton"
-import { RemoveSiloButton } from "./RemoveSiloButton"
+import { DeleteSiloTableButton } from "./DeleteSiloTableButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { LinkButton } from "@/components/LinkButton"
 import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
@@ -52,7 +52,7 @@ const Page = async ({
                         srOnlyText={`Edit ${silo.name}`}
                         href={`/dashboard/${teamKey}/admin/silos/edit/${silo.id}`}
                       />
-                      <RemoveSiloButton silo={silo} />
+                      <DeleteSiloTableButton silo={silo} />
                     </div>
                   </Table.TD>
                 </Table.TR>
