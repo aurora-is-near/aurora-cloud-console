@@ -24,7 +24,7 @@ const Page = async ({
 
   return (
     <DashboardPage
-      heading={silo.name}
+      heading={["Silos", silo.name]}
       actions={<DeleteSiloButton teamKey={teamKey} silo={silo} />}
     >
       <Card>

@@ -1,3 +1,4 @@
+import BreadcrumbHeading from "@/components/BreadcrumbHeading"
 import Heading from "@/components/Heading"
 import { Toaster } from "@/components/Toaster"
 import clsx from "clsx"
@@ -6,7 +7,7 @@ import { DetailedHTMLProps, FormHTMLAttributes, ReactNode } from "react"
 
 type DashboardPageProps = {
   children: ReactNode
-  heading?: string
+  heading?: string | [string, string]
   actions?: ReactNode
   footer?: ReactNode
   banner?: ReactNode
@@ -53,7 +54,11 @@ export const DashboardPage = ({
         >
           {heading && (
             <div className="flex justify-between items-center mb-7">
-              <Heading tag="h2">{heading}</Heading>
+              {typeof heading === "string" ? (
+                <Heading tag="h2">{heading}</Heading>
+              ) : (
+                <BreadcrumbHeading titles={heading} />
+              )}
               {actions && (
                 <div className="flex items-center gap-3">{actions}</div>
               )}

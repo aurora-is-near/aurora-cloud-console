@@ -19,7 +19,7 @@ const Page = async ({
 
   return (
     <DashboardPage
-      heading={deal.name}
+      heading={["Deals", deal.name]}
       actions={<DeleteDealButton deal={deal} teamKey={teamKey} />}
     >
       <Card>

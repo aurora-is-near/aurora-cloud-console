@@ -11,10 +11,7 @@ const Page = async ({
   const team = await getTeamByKey(teamKey)
 
   return (
-    <DashboardPage
-      heading={team.name}
-      actions={<DeleteTeamButton team={team} />}
-    >
+    <DashboardPage heading="Team" actions={<DeleteTeamButton team={team} />}>
       <TeamDetailsCard team={team} />
     </DashboardPage>
   )
