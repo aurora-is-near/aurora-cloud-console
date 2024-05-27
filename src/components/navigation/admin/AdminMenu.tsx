@@ -15,7 +15,7 @@ export const AdminMenu = () => {
     <>
       <ul className="space-y-4">
         <SubMenuButton
-          name="Team details"
+          name="Team"
           href={`/dashboard/${teamKey}/admin/team`}
           icon={<UserGroupIcon />}
         />
