@@ -9,14 +9,14 @@ const Page = async ({
 }: {
   params: { teamKey: string }
 }) => {
-  const [tokens, team] = await Promise.all([getTokens(), getTeamByKey(teamKey)])
+  const team = await getTeamByKey(teamKey)
 
   return (
     <DashboardPage heading="Add silo">
       <Card>
         <Card.Title tag="h3">Silo details</Card.Title>
         <Card.Body>
-          <SiloForm tokens={tokens} teamId={team.id} />
+          <SiloForm teamId={team.id} />
         </Card.Body>
       </Card>
     </DashboardPage>

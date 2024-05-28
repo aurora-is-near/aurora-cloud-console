@@ -61,7 +61,7 @@ type Input<Inputs extends Record<string, unknown>> =
   | SelectInputProps<Inputs>
   | ToggleInputProps<Inputs>
 
-type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
+export type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
   submitHandler: SubmitHandler<Inputs>
   onCancel?: () => void
   inputs: Input<Inputs>[]

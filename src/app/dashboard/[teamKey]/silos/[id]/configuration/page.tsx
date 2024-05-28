@@ -4,20 +4,18 @@ import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTokens } from "@/actions/tokens/get-tokens"
-import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { AddTokenToMetaMaskButton } from "./AddTokenToMetaMaskButton"
 import { AddSiloToMetaMaskButton } from "./AddSiloToMetaMaskButton"
 import { SiloHeading } from "../../SiloHeading"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 
 const Page = async ({
   params: { id, teamKey },
 }: {
   params: { id: string; teamKey: string }
 }) => {
-  const team = await getTeamByKey(teamKey)
   const [silo, tokens] = await Promise.all([
-    getTeamSilo(team.id, Number(id)),
+    getTeamSiloByKey(teamKey, Number(id)),
     getTokens(),
   ])
 
