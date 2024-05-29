@@ -97,7 +97,6 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
                 value: token.bridge_origin,
               }
             : undefined,
-          required: true,
           options: BRIDGE_ORIGINS.map((origin) => ({
             label: origin,
             value: origin,
