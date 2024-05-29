@@ -6,6 +6,8 @@ import Card from "@/components/Card"
 import { Input } from "@/components/Input"
 import { RadioInput } from "@/components/RadioInput"
 import { SelectInput, SelectInputOption } from "@/components/SelectInput"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import { ChangeEvent, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
@@ -19,25 +21,24 @@ const CUSTOM_TOKEN_TYPE = "custom-token"
 
 type TokenType = typeof EXISTING_TOKEN_TYPE | typeof CUSTOM_TOKEN_TYPE
 
-type Inputs = {
+type Inputs = Partial<{
   "select-token-type": TokenType
   "existing-token-symbol": SelectInputOption
   "existing-token-address": string
   "custom-token-symbol": string
   "custom-token-address": string
-}
+}>
 
 export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
+  const { data: tokens, error } = useQuery(
+    getQueryFnAndKey("getSiloTokens", {
+      id: siloId,
+    }),
+  )
+
   const methods = useForm<Inputs>({
     values: {
       "select-token-type": EXISTING_TOKEN_TYPE,
-      "existing-token-symbol": {
-        label: "NEAR",
-        value: "near",
-      },
-      "existing-token-address": "",
-      "custom-token-symbol": "",
-      "custom-token-address": "",
     },
   })
 
@@ -48,6 +49,18 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
 
   const onSelectedTokenTypeChange = (evt?: ChangeEvent) => {
     setSelectedTokenType((evt?.target as HTMLInputElement).value as TokenType)
+  }
+
+  const onExistingTokenSymbolChange = (option: SelectInputOption) => {
+    const selectedToken = tokens?.items.find(
+      (token) => token.id === Number(option.value),
+    )
+
+    if (!selectedToken) {
+      return
+    }
+
+    methods.setValue("existing-token-address", selectedToken.address)
   }
 
   return (
@@ -82,12 +95,13 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
                     id="existing-token-symbol"
                     name="existing-token-symbol"
                     register={register}
-                    options={[
-                      {
-                        label: "NEAR",
-                        value: "near",
-                      },
-                    ]}
+                    options={(tokens?.items ?? []).map((token) => ({
+                      label: token.symbol,
+                      value: token.id,
+                    }))}
+                    registerOptions={{
+                      onChange: onExistingTokenSymbolChange,
+                    }}
                   />
                 </div>
                 <Input
