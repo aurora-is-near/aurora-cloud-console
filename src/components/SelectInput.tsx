@@ -121,8 +121,6 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
     MultiValue<SelectInputOption> | SingleValue<SelectInputOption> | undefined
   >(defaultValue)
 
-  console.log(useFormContext())
-
   const onChange = (
     option?: MultiValue<SelectInputOption> | SingleValue<SelectInputOption>,
   ) => {

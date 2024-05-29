@@ -93,7 +93,7 @@ describe("Bridges route", () => {
       let error
 
       try {
-        console.log(await invokeApiHandler("POST", "/api/silos/1/bridge", POST))
+        await invokeApiHandler("POST", "/api/silos/1/bridge", POST)
       } catch (e) {
         error = e
       }

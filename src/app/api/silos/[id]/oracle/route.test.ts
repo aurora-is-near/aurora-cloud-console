@@ -94,7 +94,7 @@ describe("Oracles route", () => {
       let error
 
       try {
-        console.log(await invokeApiHandler("POST", "/api/silos/1/oracle", POST))
+        await invokeApiHandler("POST", "/api/silos/1/oracle", POST)
       } catch (e) {
         error = e
       }

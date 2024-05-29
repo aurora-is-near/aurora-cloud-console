@@ -47,7 +47,6 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
   )
 
   const onSelectedTokenTypeChange = (evt?: ChangeEvent) => {
-    console.log(evt)
     setSelectedTokenType((evt?.target as HTMLInputElement).value as TokenType)
   }
 
