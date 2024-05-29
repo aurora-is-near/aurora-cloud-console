@@ -3,8 +3,6 @@ import { Silo, Token } from "@/types/types"
 import { Modals } from "@/utils/modals"
 import { useCallback } from "react"
 
-const DECIMALS = 18
-
 export const useMetaMask = () => {
   const { openModal } = useModals()
 
@@ -27,7 +25,7 @@ export const useMetaMask = () => {
           options: {
             address: token.address,
             symbol: token.symbol,
-            decimals: DECIMALS,
+            decimals: token.decimals,
           },
         },
       })
@@ -51,7 +49,7 @@ export const useMetaMask = () => {
             chainName: silo.name,
             nativeCurrency: {
               symbol: baseToken.symbol,
-              decimals: DECIMALS,
+              decimals: baseToken.decimals,
             },
             rpcUrls: [`https://${silo.rpc_url.replace(/^[^:]*:\/\//, "")}`],
             blockExplorerUrls: ["https://etherscan.io"],
