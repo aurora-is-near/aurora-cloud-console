@@ -286,24 +286,36 @@ export type Database = {
       tokens: {
         Row: {
           address: string
+          bridge_origin: string
           created_at: string
+          decimals: number
+          fast_bridge: boolean
           id: number
+          name: string
           silo_id: number
           symbol: string
           type: Database["public"]["Enums"]["token_type"]
         }
         Insert: {
           address: string
+          bridge_origin?: string
           created_at?: string
+          decimals: number
+          fast_bridge?: boolean
           id?: number
+          name: string
           silo_id: number
           symbol: string
           type: Database["public"]["Enums"]["token_type"]
         }
         Update: {
           address?: string
+          bridge_origin?: string
           created_at?: string
+          decimals?: number
+          fast_bridge?: boolean
           id?: number
+          name?: string
           silo_id?: number
           symbol?: string
           type?: Database["public"]["Enums"]["token_type"]

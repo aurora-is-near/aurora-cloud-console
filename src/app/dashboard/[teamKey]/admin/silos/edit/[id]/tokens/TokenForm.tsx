@@ -16,6 +16,7 @@ type TokenFormProps = {
 type Inputs = Omit<Token, "id" | "created_at">
 
 const TOKEN_TYPES: TokenType[] = ["ERC20", "ERC721", "ERC1155"]
+const BRIDGE_ORIGINS = ["ethereum", "near"]
 
 export const TokenForm = ({ siloId, token }: TokenFormProps) => {
   const pathname = usePathname()
@@ -40,6 +41,13 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
     <HorizontalForm
       submitHandler={submitHandler}
       inputs={[
+        {
+          name: "name",
+          label: "Name",
+          defaultValue: token?.name ?? "",
+          autoComplete: "name",
+          required: true,
+        },
         {
           name: "symbol",
           label: "Symbol",
@@ -69,6 +77,39 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
             value: tokenType,
           })),
           getValue: (option?: SelectInputOption) => option?.value,
+        },
+        {
+          name: "decimals",
+          label: "Decimals",
+          type: "number",
+          defaultValue: token?.decimals ?? "",
+          required: true,
+        },
+        {
+          type: "divider",
+        },
+        {
+          name: "bridge_origin",
+          label: "Bridge origin",
+          defaultValue: token?.bridge_origin
+            ? {
+                label: token.bridge_origin,
+                value: token.bridge_origin,
+              }
+            : undefined,
+          required: true,
+          options: BRIDGE_ORIGINS.map((origin) => ({
+            label: origin,
+            value: origin,
+          })),
+          getValue: (option?: SelectInputOption) => option?.value,
+        },
+        {
+          name: "fast_bridge",
+          label: "Fast bridge",
+          type: "toggle",
+          defaultChecked: !!token?.fast_bridge,
+          required: true,
         },
       ]}
     />

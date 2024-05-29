@@ -31,6 +31,7 @@ type ToggleInputProps<Inputs extends Record<string, unknown>> =
       HTMLInputElement
     > & {
       type: "toggle"
+      defaultValue?: boolean
     }
 
 type SelectInputOption = {
@@ -56,10 +57,15 @@ type SelectInputProps<Inputs extends Record<string, unknown>> = Omit<
       }
   )
 
+type Divider = {
+  type: "divider"
+}
+
 type Input<Inputs extends Record<string, unknown>> =
   | InputProps<Inputs>
   | SelectInputProps<Inputs>
   | ToggleInputProps<Inputs>
+  | Divider
 
 export type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
   submitHandler: SubmitHandler<Inputs>
@@ -74,6 +80,10 @@ const isSelectInput = <Inputs extends Record<string, unknown>>(
 const isToggleInput = <Inputs extends Record<string, unknown>>(
   input: Input<Record<string, unknown>>,
 ): input is ToggleInputProps<Inputs> => input.type === "toggle"
+
+const isDivider = <Inputs extends Record<string, unknown>>(
+  input: Input<Record<string, unknown>>,
+): input is Divider => input.type === "divider"
 
 export const HorizontalForm = <Inputs extends Record<string, unknown>>({
   inputs,
@@ -92,6 +102,14 @@ export const HorizontalForm = <Inputs extends Record<string, unknown>>({
       <form onSubmit={handleSubmit(submitHandler)}>
         <div className="space-y-4">
           {inputs.map((inputProps) => {
+            if (isDivider(inputProps)) {
+              return (
+                <div key="divider" className="h-8 pt-2 flex items-center">
+                  <div className="border-b border-gray-200 w-full" />
+                </div>
+              )
+            }
+
             const commonProps = {
               name: inputProps.name,
               id: inputProps.id ?? inputProps.name,
