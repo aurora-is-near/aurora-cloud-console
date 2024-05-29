@@ -23,7 +23,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Add values to 'api_key_scopes'
 SELECT add_values_to_enum(
   'api_key_scopes',
   ARRAY[
@@ -38,7 +37,6 @@ SELECT add_values_to_enum(
   ]
 );
 
--- Add values to 'transaction_database_type'
 SELECT add_values_to_enum(
   'transaction_database_type',
   ARRAY[
@@ -57,7 +55,6 @@ SELECT add_values_to_enum(
   ]
 );
 
--- Add values to 'transaction_database_type'
 SELECT add_values_to_enum(
   'bridge_network_type',
   ARRAY[
@@ -68,4 +65,11 @@ SELECT add_values_to_enum(
   ]
 );
 
+SELECT add_values_to_enum(
+  'bridged_token_status',
+  ARRAY[
+    'PENDING',
+    'DEPLOYED'
+  ]
+);
 ```
