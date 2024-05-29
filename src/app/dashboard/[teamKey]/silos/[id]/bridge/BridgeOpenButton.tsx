@@ -33,27 +33,32 @@ export const BridgeOpenButton = ({ siloId, size }: BridgeOpenButtonProps) => {
       JSON.stringify(fromNetworks.map(({ evm }) => evm).filter(Boolean)),
     )
 
-    // if (silo?.engineAccount) {
-    //   url.searchParams.set(
-    //     "customChains",
-    //     JSON.stringify({
-    //       id: silo.chainId,
-    //       name: silo.name,
-    //       network: "TPRO Network",
-    //       nativeCurrency: {
-    //         decimals: 18,
-    //         name: "TPRO",
-    //         symbol: "TPRO",
-    //       },
-    //       rpcUrl: silo.rpcUrl,
-    //       auroraEvmAccount: silo.engineAccount,
-    //       // logo: "/static/images/tpro.png",
-    //     }),
-    //   )
-    // }
+    const hasCustomChain =
+      fromNetworks.some(({ key }) => key === "CUSTOM") ||
+      toNetworks.some(({ key }) => key === "CUSTOM")
+
+    if (hasCustomChain && silo && silo.nativeToken) {
+      url.searchParams.set(
+        "customChains",
+        JSON.stringify([
+          {
+            id: silo.chainId,
+            name: silo.name,
+            network: silo.name,
+            nativeCurrency: {
+              decimals: silo.nativeToken.decimals || 18,
+              name: silo.nativeToken.name,
+              symbol: silo.nativeToken?.symbol,
+            },
+            rpcUrl: silo.rpcUrl,
+            auroraEvmAccount: silo.engineAccount,
+          },
+        ]),
+      )
+    }
 
     return url.href
-  }, [fromNetworks, toNetworks])
+  }, [fromNetworks, silo, toNetworks])
 
   return (
     <LinkButton

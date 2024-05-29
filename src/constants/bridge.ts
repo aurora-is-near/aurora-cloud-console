@@ -5,4 +5,4 @@ export const BRIDGE_NETWORKS: BridgeNetworkType[] = [
   "ETHEREUM",
   "NEAR",
   "CUSTOM",
-] as const
+]

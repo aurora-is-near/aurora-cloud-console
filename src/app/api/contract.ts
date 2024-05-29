@@ -48,6 +48,15 @@ const DealPrioritiesSchema = z.array(
   }),
 )
 
+export const TokenSchema = z.object({
+  address: z.string(),
+  createdAt: z.string(),
+  id: z.number(),
+  symbol: z.string(),
+  name: z.string(),
+  decimals: z.number(),
+})
+
 export const SiloSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
@@ -59,6 +68,7 @@ export const SiloSchema = z.object({
   name: z.string(),
   network: z.string(),
   rpcUrl: z.string(),
+  nativeToken: TokenSchema.nullable(),
 })
 
 export const WalletDetailsSchema = z.object({
@@ -66,14 +76,6 @@ export const WalletDetailsSchema = z.object({
   numberOfTransactions: z.number(),
   firstTransactionAt: z.string(),
   lastTransactionAt: z.string(),
-})
-
-const TokenSchema = z.object({
-  address: z.string(),
-  createdAt: z.string(),
-  id: z.number(),
-  symbol: z.string(),
-  type: z.string(),
 })
 
 export const OracleSchema = z.object({

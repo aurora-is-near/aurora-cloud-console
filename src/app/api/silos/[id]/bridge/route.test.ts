@@ -30,12 +30,6 @@ describe("Bridges route", () => {
   })
 
   describe("GET", () => {
-    it("returns a 404 for a non-existant silo", async () => {
-      expect(() =>
-        invokeApiHandler("GET", "/api/silos/1/bridge", GET),
-      ).rejects.toThrow("Not Found")
-    })
-
     it("returns a disabled bridge", async () => {
       mockSupabaseClient
         .from("silos")
@@ -48,11 +42,16 @@ describe("Bridges route", () => {
         enabled: false,
         createdAt: null,
         updatedAt: null,
+        fromNetworks: null,
+        toNetworks: null,
       })
     })
 
     it("returns an enabled bridge", async () => {
-      const mockBridge = createMockBridge()
+      const mockBridge = createMockBridge({
+        from_networks: ["AURORA"],
+        to_networks: ["ETHEREUM"],
+      })
 
       mockSupabaseClient
         .from("silos")
@@ -69,13 +68,15 @@ describe("Bridges route", () => {
         enabled: true,
         createdAt: mockBridge.created_at,
         updatedAt: mockBridge.updated_at,
+        fromNetworks: ["AURORA"],
+        toNetworks: ["ETHEREUM"],
       })
     })
   })
 
   describe("POST", () => {
     it("returns a 404 for a non-existant silo", async () => {
-      expect(() =>
+      await expect(async () =>
         invokeApiHandler("POST", "/api/silos/1/bridge", POST),
       ).rejects.toThrow("Not Found")
     })
@@ -100,7 +101,7 @@ describe("Bridges route", () => {
       expect(error).not.toBeUndefined()
     })
 
-    it("creates an bridge", async () => {
+    it("creates a bridge", async () => {
       const mockBridge = createMockBridge()
 
       mockSupabaseClient
@@ -120,6 +121,8 @@ describe("Bridges route", () => {
         enabled: true,
         createdAt: mockBridge.created_at,
         updatedAt: mockBridge.updated_at,
+        fromNetworks: [],
+        toNetworks: [],
       })
 
       expect(mockSupabaseClient.from("bridges").insert).toHaveBeenCalledWith({

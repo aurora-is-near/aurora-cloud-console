@@ -31,7 +31,7 @@ describe("Oracles route", () => {
 
   describe("GET", () => {
     it("returns a 404 for a non-existant silo", async () => {
-      expect(() =>
+      await expect(async () =>
         invokeApiHandler("GET", "/api/silos/1/oracle", GET),
       ).rejects.toThrow("Not Found")
     })
@@ -77,7 +77,7 @@ describe("Oracles route", () => {
 
   describe("POST", () => {
     it("returns a 404 for a non-existant silo", async () => {
-      expect(() =>
+      await expect(async () =>
         invokeApiHandler("POST", "/api/silos/1/oracle", POST),
       ).rejects.toThrow("Not Found")
     })

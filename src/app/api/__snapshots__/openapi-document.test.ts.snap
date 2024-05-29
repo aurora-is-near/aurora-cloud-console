@@ -1413,6 +1413,38 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "name": {
                             "type": "string",
                           },
+                          "nativeToken": {
+                            "nullable": true,
+                            "properties": {
+                              "address": {
+                                "type": "string",
+                              },
+                              "createdAt": {
+                                "type": "string",
+                              },
+                              "decimals": {
+                                "type": "number",
+                              },
+                              "id": {
+                                "type": "number",
+                              },
+                              "name": {
+                                "type": "string",
+                              },
+                              "symbol": {
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "address",
+                              "createdAt",
+                              "id",
+                              "symbol",
+                              "name",
+                              "decimals",
+                            ],
+                            "type": "object",
+                          },
                           "network": {
                             "type": "string",
                           },
@@ -1434,6 +1466,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "name",
                           "network",
                           "rpcUrl",
+                          "nativeToken",
                         ],
                         "type": "object",
                       },
@@ -1505,6 +1538,38 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "name": {
                       "type": "string",
                     },
+                    "nativeToken": {
+                      "nullable": true,
+                      "properties": {
+                        "address": {
+                          "type": "string",
+                        },
+                        "createdAt": {
+                          "type": "string",
+                        },
+                        "decimals": {
+                          "type": "number",
+                        },
+                        "id": {
+                          "type": "number",
+                        },
+                        "name": {
+                          "type": "string",
+                        },
+                        "symbol": {
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "address",
+                        "createdAt",
+                        "id",
+                        "symbol",
+                        "name",
+                        "decimals",
+                      ],
+                      "type": "object",
+                    },
                     "network": {
                       "type": "string",
                     },
@@ -1526,6 +1591,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "name",
                     "network",
                     "rpcUrl",
+                    "nativeToken",
                   ],
                   "type": "object",
                 },
@@ -1542,6 +1608,307 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Get a single silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/bridge": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloBridge",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the bridge configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "createSiloBridge",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {},
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Create a bridge configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "updateSiloBridge",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "fromNetworks": {
+                    "items": {
+                      "enum": [
+                        "AURORA",
+                        "ETHEREUM",
+                        "NEAR",
+                        "CUSTOM",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "toNetworks": {
+                    "items": {
+                      "enum": [
+                        "AURORA",
+                        "ETHEREUM",
+                        "NEAR",
+                        "CUSTOM",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Update the bridge configuration for a silo",
         "tags": [
           "silos",
         ],
@@ -1604,7 +1971,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             ],
           },
         ],
-        "summary": "Get the oracle configuration for a single silo",
+        "summary": "Get the oracle configuration for a silo",
         "tags": [
           "silos",
         ],
@@ -1676,7 +2043,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             ],
           },
         ],
-        "summary": "Create an oracle configuration for a single silo",
+        "summary": "Create an oracle configuration for a silo",
         "tags": [
           "silos",
         ],
@@ -1712,13 +2079,16 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "createdAt": {
                             "type": "string",
                           },
+                          "decimals": {
+                            "type": "number",
+                          },
                           "id": {
                             "type": "number",
                           },
-                          "symbol": {
+                          "name": {
                             "type": "string",
                           },
-                          "type": {
+                          "symbol": {
                             "type": "string",
                           },
                         },
@@ -1727,7 +2097,8 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "createdAt",
                           "id",
                           "symbol",
-                          "type",
+                          "name",
+                          "decimals",
                         ],
                         "type": "object",
                       },

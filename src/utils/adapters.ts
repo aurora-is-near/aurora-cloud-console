@@ -4,10 +4,11 @@ import {
   ListSchema,
   SiloSchema,
   SimpleListSchema,
+  TokenSchema,
 } from "@/types/api-schemas"
 import { ProxyApiDealData } from "@/types/deal"
 import { ListType } from "@/types/lists"
-import { Deal, List, Silo } from "@/types/types"
+import { Deal, List, Silo, Token } from "@/types/types"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
@@ -67,7 +68,19 @@ export const adaptDeal = (
   }
 }
 
-export const adaptSilo = (silo: Silo): SiloSchema => ({
+export const adaptToken = (token: Token): TokenSchema => ({
+  id: token.id,
+  address: token.address,
+  createdAt: token.created_at,
+  symbol: token.symbol,
+  name: token.name,
+  decimals: token.decimals,
+})
+
+export const adaptSilo = (
+  silo: Silo,
+  nativeToken?: Token | null,
+): SiloSchema => ({
   id: silo.id,
   name: silo.name,
   chainId: silo.chain_id,
@@ -78,6 +91,7 @@ export const adaptSilo = (silo: Silo): SiloSchema => ({
   genesis: silo.genesis,
   network: silo.network,
   rpcUrl: silo.rpc_url,
+  nativeToken: nativeToken ? adaptToken(nativeToken) : null,
 })
 
 export const adaptList = (list: List): ListSchema => ({
