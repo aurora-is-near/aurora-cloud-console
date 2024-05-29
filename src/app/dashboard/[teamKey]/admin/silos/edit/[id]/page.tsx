@@ -3,7 +3,6 @@ import Card from "@/components/Card"
 import { SiloForm } from "../../SiloForm"
 import { getSilo } from "@/actions/silos/get-silo"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTokens } from "@/actions/tokens/get-tokens"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { DeleteSiloButton } from "./DeleteSiloButton"
 import { LinkButton } from "@/components/LinkButton"
@@ -19,7 +18,7 @@ const Page = async ({
 }) => {
   const [silo, tokens, siloTokens, team] = await Promise.all([
     getSilo(id),
-    getTokens(),
+    getSiloTokens(id),
     getSiloTokens(id),
     getTeamByKey(teamKey),
   ])

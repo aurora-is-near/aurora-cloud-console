@@ -15,6 +15,7 @@ import Select, {
   SingleValue,
   components,
 } from "react-select"
+import Creatable from "react-select/creatable"
 
 export type SelectInputOption = {
   label: string
@@ -28,6 +29,7 @@ export type SelectInputProps<Inputs extends Record<string, unknown>> = {
   registerOptions?: RegisterOptions<Inputs, Path<Inputs>>
   placeholder?: string
   isClearable?: boolean
+  isCreatable?: boolean
   options: SelectInputOption[]
 } & (
   | {
@@ -107,6 +109,7 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
   registerOptions,
   options,
   defaultValue,
+  isCreatable,
   getValue = (
     option?: MultiValue<SelectInputOption> | SingleValue<SelectInputOption>,
   ) => option,
@@ -144,8 +147,10 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
     )
   }, [name, setValue, selectedOption, getValue])
 
+  const Component = isCreatable ? Creatable : Select
+
   return (
-    <Select
+    <Component
       instanceId={id}
       name={name}
       isMulti={isMulti}
