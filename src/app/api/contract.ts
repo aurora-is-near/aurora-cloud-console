@@ -53,8 +53,8 @@ export const TokenSchema = z.object({
   createdAt: z.string(),
   id: z.number(),
   symbol: z.string(),
-  name: z.string(),
-  decimals: z.number(),
+  name: z.string().nullable(),
+  decimals: z.number().nullable(),
 })
 
 export const SiloSchema = z.object({
