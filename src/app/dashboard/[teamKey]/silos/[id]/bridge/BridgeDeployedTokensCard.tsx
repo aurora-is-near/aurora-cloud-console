@@ -3,6 +3,7 @@
 import Card from "@/components/Card"
 import Loader from "@/components/Loader"
 import { Tag } from "@/components/Tag"
+import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { CheckIcon, ClockIcon } from "@heroicons/react/24/outline"
@@ -17,15 +18,8 @@ type BridgeDeployedTokensCardProps = {
 export const BridgeDeployedTokensCard = ({
   siloId,
 }: BridgeDeployedTokensCardProps) => {
-  const { data: tokens, isPending } = useQuery(
-    getQueryFnAndKey("getSiloTokens", {
-      id: siloId,
-    }),
-  )
-
-  const bridgedTokens = tokens?.items.filter(
-    (token) => token.bridgeDeploymentStatus !== "NOT_DEPLOYED",
-  )
+  const { pendingTokens, deployedTokens, isPending } = useBridgeTokens(siloId)
+  const bridgedTokens = [...pendingTokens, ...deployedTokens]
 
   return (
     <>

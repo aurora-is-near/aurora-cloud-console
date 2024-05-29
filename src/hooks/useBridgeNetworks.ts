@@ -10,15 +10,6 @@ type Network = {
   evm?: string
 }
 
-type DefaultNetworks = Omit<Record<BridgeNetworkType, Network>, "CUSTOM">
-
-type Networks = DefaultNetworks & {
-  CUSTOM?: {
-    label: string
-    evm?: string
-  }
-}
-
 const DEFAULT_NETWORKS: Network[] = [
   {
     key: "AURORA",

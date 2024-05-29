@@ -6,10 +6,10 @@ import Card from "@/components/Card"
 import { Input } from "@/components/Input"
 import { RadioInput } from "@/components/RadioInput"
 import { SelectInput, SelectInputOption } from "@/components/SelectInput"
+import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import clsx from "clsx"
 import { ChangeEvent, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
@@ -33,12 +33,8 @@ type Inputs = Partial<{
 }>
 
 export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
+  const { undeployedTokens } = useBridgeTokens(siloId)
   const getSiloTokensUpdater = useOptimisticUpdater("getSiloTokens")
-  const { data: tokens } = useQuery(
-    getQueryFnAndKey("getSiloTokens", {
-      id: siloId,
-    }),
-  )
 
   const { mutate: bridgeSiloToken, isPending: isBridgeSiloTokenPending } =
     useMutation({
@@ -71,7 +67,7 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
   }
 
   const onExistingTokenSymbolChange = (option: SelectInputOption) => {
-    const selectedToken = tokens?.items.find(
+    const selectedToken = undeployedTokens.find(
       (token) => token.id === Number(option.value),
     )
 
@@ -126,7 +122,7 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
                     id="existing-token-symbol"
                     name="existing-token-symbol"
                     register={register}
-                    options={(tokens?.items ?? []).map((token) => ({
+                    options={undeployedTokens.map((token) => ({
                       label: token.symbol,
                       value: token.id,
                     }))}
