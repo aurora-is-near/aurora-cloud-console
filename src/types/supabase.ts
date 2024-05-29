@@ -286,7 +286,8 @@ export type Database = {
       tokens: {
         Row: {
           address: string
-          bridge_origin: string
+          bridge_addresses: string[] | null
+          bridge_origin: string | null
           created_at: string
           decimals: number
           fast_bridge: boolean
@@ -298,7 +299,8 @@ export type Database = {
         }
         Insert: {
           address: string
-          bridge_origin?: string
+          bridge_addresses?: string[] | null
+          bridge_origin?: string | null
           created_at?: string
           decimals: number
           fast_bridge?: boolean
@@ -310,7 +312,8 @@ export type Database = {
         }
         Update: {
           address?: string
-          bridge_origin?: string
+          bridge_addresses?: string[] | null
+          bridge_origin?: string | null
           created_at?: string
           decimals?: number
           fast_bridge?: boolean

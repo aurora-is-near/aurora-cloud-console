@@ -44,6 +44,8 @@ type SelectInputProps<Inputs extends Record<string, unknown>> = Omit<
   "defaultValue"
 > & {
   options: SelectInputOption[]
+  isCreatable?: boolean
+  noOptionsMessage?: () => string
 } & (
     | {
         isMulti: true
@@ -81,9 +83,8 @@ const isToggleInput = <Inputs extends Record<string, unknown>>(
   input: Input<Record<string, unknown>>,
 ): input is ToggleInputProps<Inputs> => input.type === "toggle"
 
-const isDivider = <Inputs extends Record<string, unknown>>(
-  input: Input<Record<string, unknown>>,
-): input is Divider => input.type === "divider"
+const isDivider = (input: Input<Record<string, unknown>>): input is Divider =>
+  input.type === "divider"
 
 export const HorizontalForm = <Inputs extends Record<string, unknown>>({
   inputs,

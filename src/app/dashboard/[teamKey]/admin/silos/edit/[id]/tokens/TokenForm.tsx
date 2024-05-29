@@ -18,6 +18,12 @@ type Inputs = Omit<Token, "id" | "created_at">
 const TOKEN_TYPES: TokenType[] = ["ERC20", "ERC721", "ERC1155"]
 const BRIDGE_ORIGINS = ["ethereum", "near"]
 
+const getBridgeAddressOptions = (bridgeAddresses: string[]) =>
+  bridgeAddresses.map((address) => ({
+    label: address,
+    value: address,
+  }))
+
 export const TokenForm = ({ siloId, token }: TokenFormProps) => {
   const pathname = usePathname()
 
@@ -109,6 +115,18 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
           type: "toggle",
           defaultChecked: !!token?.fast_bridge,
           required: true,
+        },
+        {
+          name: "bridge_addresses",
+          label: "Bridge addresses",
+          isMulti: true,
+          isCreatable: true,
+          placeholder: "e.g. ethereum:0x1234, near:0x5678",
+          noOptionsMessage: () =>
+            "Type to create a new bridge address (e.g. ethereum:0x1234)",
+          defaultValue: getBridgeAddressOptions(token?.bridge_addresses ?? []),
+          options: [],
+          getValue: (options) => options.map((option) => option.value),
         },
       ]}
     />
