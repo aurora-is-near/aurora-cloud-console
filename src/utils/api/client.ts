@@ -43,8 +43,17 @@ export const apiClient = {
 
   getSilos: async () => get<"getSilos">("/api/silos"),
 
+  getSiloToken: async ({ id, tokenId }: ApiRequestParams<"getSiloToken">) =>
+    get<"getSiloToken">(`/api/silos/${id}/tokens/${tokenId}`),
+
   getSiloTokens: async ({ id }: ApiRequestParams<"getSiloTokens">) =>
     get<"getSiloTokens">(`/api/silos/${id}/tokens`),
+
+  bridgeSiloToken: async ({
+    id,
+    tokenId,
+  }: ApiRequestParams<"bridgeSiloToken">) =>
+    post<"bridgeSiloToken">(`/api/silos/${id}/tokens/${tokenId}/bridge`, {}),
 
   getSiloOracle: async ({ id }: ApiRequestParams<"getSiloOracle">) =>
     get<"getSiloOracle">(`/api/silos/${id}/oracle`),

@@ -9,7 +9,7 @@ import {
 
 export const updateToken = async (
   tokenId: number,
-  inputs: Omit<Token, "id" | "created_at">,
+  inputs: Partial<Omit<Token, "id" | "created_at">>,
 ): Promise<Token> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase

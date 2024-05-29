@@ -6,11 +6,14 @@ import Card from "@/components/Card"
 import { Input } from "@/components/Input"
 import { RadioInput } from "@/components/RadioInput"
 import { SelectInput, SelectInputOption } from "@/components/SelectInput"
+import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { apiClient } from "@/utils/api/client"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import { ChangeEvent, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 
 type BridgeTokensCardProps = {
   siloId: number
@@ -30,11 +33,24 @@ type Inputs = Partial<{
 }>
 
 export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
-  const { data: tokens, error } = useQuery(
+  const getSiloTokensUpdater = useOptimisticUpdater("getSiloTokens")
+  const { data: tokens } = useQuery(
     getQueryFnAndKey("getSiloTokens", {
       id: siloId,
     }),
   )
+
+  const { mutate: bridgeSiloToken, isPending: isBridgeSiloTokenPending } =
+    useMutation({
+      mutationFn: apiClient.bridgeSiloToken,
+      onSettled: getSiloTokensUpdater.invalidate,
+      onSuccess: () => {
+        toast.success("Token deployment requested")
+      },
+      onError: () => {
+        toast.error("Request failed")
+      },
+    })
 
   const methods = useForm<Inputs>({
     values: {
@@ -42,10 +58,13 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
     },
   })
 
-  const { register, formState } = methods
+  const { register } = methods
   const [selectedTokenType, setSelectedTokenType] = useState<TokenType | null>(
     EXISTING_TOKEN_TYPE,
   )
+
+  const [selectedExistingToken, setSelectedExistingToken] =
+    useState<SelectInputOption | null>(null)
 
   const onSelectedTokenTypeChange = (evt?: ChangeEvent) => {
     setSelectedTokenType((evt?.target as HTMLInputElement).value as TokenType)
@@ -60,7 +79,19 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
       return
     }
 
+    setSelectedExistingToken(option)
     methods.setValue("existing-token-address", selectedToken.address)
+  }
+
+  const onRequestExistingTokenDeploymentClick = async () => {
+    if (!selectedExistingToken) {
+      return
+    }
+
+    bridgeSiloToken({
+      id: siloId,
+      tokenId: Number(selectedExistingToken.value),
+    })
   }
 
   return (
@@ -111,7 +142,13 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
                   disabled
                   register={register}
                 />
-                <Button className="h-full">Request deployment</Button>
+                <Button
+                  disabled={!selectedExistingToken || isBridgeSiloTokenPending}
+                  className="h-full"
+                  onClick={onRequestExistingTokenDeploymentClick}
+                >
+                  Request deployment
+                </Button>
               </div>
               <RadioInput
                 id="select-custom-token"

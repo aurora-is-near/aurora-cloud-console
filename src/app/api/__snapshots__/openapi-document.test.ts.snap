@@ -1419,16 +1419,34 @@ exports[`OpenAPI Document should be valid 1`] = `
                               "address": {
                                 "type": "string",
                               },
+                              "bridgeDeploymentStatus": {
+                                "enum": [
+                                  "NOT_DEPLOYED",
+                                  "PENDING",
+                                  "DEPLOYED",
+                                ],
+                                "type": "string",
+                              },
                               "createdAt": {
                                 "type": "string",
                               },
                               "decimals": {
+                                "nullable": true,
                                 "type": "number",
+                              },
+                              "deploymentStatus": {
+                                "enum": [
+                                  "NOT_DEPLOYED",
+                                  "PENDING",
+                                  "DEPLOYED",
+                                ],
+                                "type": "string",
                               },
                               "id": {
                                 "type": "number",
                               },
                               "name": {
+                                "nullable": true,
                                 "type": "string",
                               },
                               "symbol": {
@@ -1442,6 +1460,8 @@ exports[`OpenAPI Document should be valid 1`] = `
                               "symbol",
                               "name",
                               "decimals",
+                              "deploymentStatus",
+                              "bridgeDeploymentStatus",
                             ],
                             "type": "object",
                           },
@@ -1544,16 +1564,34 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "address": {
                           "type": "string",
                         },
+                        "bridgeDeploymentStatus": {
+                          "enum": [
+                            "NOT_DEPLOYED",
+                            "PENDING",
+                            "DEPLOYED",
+                          ],
+                          "type": "string",
+                        },
                         "createdAt": {
                           "type": "string",
                         },
                         "decimals": {
+                          "nullable": true,
                           "type": "number",
+                        },
+                        "deploymentStatus": {
+                          "enum": [
+                            "NOT_DEPLOYED",
+                            "PENDING",
+                            "DEPLOYED",
+                          ],
+                          "type": "string",
                         },
                         "id": {
                           "type": "number",
                         },
                         "name": {
+                          "nullable": true,
                           "type": "string",
                         },
                         "symbol": {
@@ -1567,6 +1605,8 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "symbol",
                         "name",
                         "decimals",
+                        "deploymentStatus",
+                        "bridgeDeploymentStatus",
                       ],
                       "type": "object",
                     },
@@ -2076,16 +2116,34 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "address": {
                             "type": "string",
                           },
+                          "bridgeDeploymentStatus": {
+                            "enum": [
+                              "NOT_DEPLOYED",
+                              "PENDING",
+                              "DEPLOYED",
+                            ],
+                            "type": "string",
+                          },
                           "createdAt": {
                             "type": "string",
                           },
                           "decimals": {
+                            "nullable": true,
                             "type": "number",
+                          },
+                          "deploymentStatus": {
+                            "enum": [
+                              "NOT_DEPLOYED",
+                              "PENDING",
+                              "DEPLOYED",
+                            ],
+                            "type": "string",
                           },
                           "id": {
                             "type": "number",
                           },
                           "name": {
+                            "nullable": true,
                             "type": "string",
                           },
                           "symbol": {
@@ -2099,6 +2157,8 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "symbol",
                           "name",
                           "decimals",
+                          "deploymentStatus",
+                          "bridgeDeploymentStatus",
                         ],
                         "type": "object",
                       },
@@ -2125,6 +2185,174 @@ exports[`OpenAPI Document should be valid 1`] = `
         "summary": "Get the tokens associated with a silo",
         "tags": [
           "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/tokens/{tokenId}": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
+            "name": "tokenId",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "address": {
+                      "type": "string",
+                    },
+                    "bridgeDeploymentStatus": {
+                      "enum": [
+                        "NOT_DEPLOYED",
+                        "PENDING",
+                        "DEPLOYED",
+                      ],
+                      "type": "string",
+                    },
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "decimals": {
+                      "nullable": true,
+                      "type": "number",
+                    },
+                    "deploymentStatus": {
+                      "enum": [
+                        "NOT_DEPLOYED",
+                        "PENDING",
+                        "DEPLOYED",
+                      ],
+                      "type": "string",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "name": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "symbol": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "address",
+                    "createdAt",
+                    "id",
+                    "symbol",
+                    "name",
+                    "decimals",
+                    "deploymentStatus",
+                    "bridgeDeploymentStatus",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get a token associated with a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/tokens/{id}/tokens/{tokenId}/bridge": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "bridgeSiloToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
+            "name": "tokenId",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {},
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "NOT_DEPLOYED",
+                        "PENDING",
+                        "DEPLOYED",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Request bridging of a silo token",
+        "tags": [
+          "tokens",
         ],
       },
     },

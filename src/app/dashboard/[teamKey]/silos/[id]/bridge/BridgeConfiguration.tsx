@@ -1,3 +1,4 @@
+import { BridgeDeployedTokensCard } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeDeployedTokensCard"
 import { BridgeTokensCard } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeTokensCard"
 import { BridgeWidgetCard } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeWidgetCard"
 
@@ -12,6 +13,7 @@ export const BridgeConfiguration = ({ siloId }: BridgeConfigurationProps) => {
         <h2 className="text-2xl font-bold text-gray-900">Configuration</h2>
         <div className="flex flex-col mt-6 space-y-6">
           <BridgeTokensCard siloId={siloId} />
+          <BridgeDeployedTokensCard siloId={siloId} />
           <BridgeWidgetCard siloId={siloId} />
         </div>
       </div>

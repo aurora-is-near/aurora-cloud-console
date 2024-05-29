@@ -55,7 +55,7 @@ const Page = async ({
               {siloTokens.map((token) => (
                 <li key={token.id}>
                   <Link href={`${tokensBaseRoute}/edit/${token.id}`}>
-                    <Tag text={token.symbol} />
+                    <Tag color="cyan" text={token.symbol} />
                   </Link>
                 </li>
               ))}

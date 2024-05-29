@@ -294,7 +294,6 @@ export type Database = {
           deployment_status: Database["public"]["Enums"]["deployment_status"]
           fast_bridge: boolean
           id: number
-          is_deployed: boolean
           name: string | null
           silo_id: number
           symbol: string
@@ -310,7 +309,6 @@ export type Database = {
           deployment_status?: Database["public"]["Enums"]["deployment_status"]
           fast_bridge?: boolean
           id?: number
-          is_deployed?: boolean
           name?: string | null
           silo_id: number
           symbol: string
@@ -326,7 +324,6 @@ export type Database = {
           deployment_status?: Database["public"]["Enums"]["deployment_status"]
           fast_bridge?: boolean
           id?: number
-          is_deployed?: boolean
           name?: string | null
           silo_id?: number
           symbol?: string

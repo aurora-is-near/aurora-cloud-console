@@ -43,8 +43,16 @@ const Row = ({ children }: { children: ReactNode }) => (
   <div className={clsx(HORIZONTAL_PADDING, "py-4 border-t")}>{children}</div>
 )
 
-const Cell = ({ children }: { children: ReactNode }) => (
-  <div className={clsx(HORIZONTAL_PADDING, "py-4 border-t")}>{children}</div>
+const Cell = ({
+  children,
+  className,
+}: {
+  children: ReactNode
+  className?: string
+}) => (
+  <div className={clsx(HORIZONTAL_PADDING, "py-4 border-t", className)}>
+    {children}
+  </div>
 )
 Cell.displayName = "Cell"
 

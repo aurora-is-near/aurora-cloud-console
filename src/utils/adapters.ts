@@ -75,6 +75,8 @@ export const adaptToken = (token: Token): TokenSchema => ({
   symbol: token.symbol,
   name: token.name,
   decimals: token.decimals,
+  deploymentStatus: token.deployment_status,
+  bridgeDeploymentStatus: token.bridge_deployment_status,
 })
 
 export const adaptSilo = (

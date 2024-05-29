@@ -1,12 +1,13 @@
 "use client"
 
-import { DeploymentStatus, Token, TokenType } from "@/types/types"
+import { Token, TokenType } from "@/types/types"
 import { updateToken } from "@/actions/tokens/update-token"
 import { createToken } from "@/actions/tokens/create-token"
 import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
 import { SelectInputOption } from "@/components/SelectInput"
 import { usePathname } from "next/navigation"
+import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
 
 type TokenFormProps = {
   siloId: number
@@ -17,11 +18,6 @@ type Inputs = Omit<Token, "id" | "created_at">
 
 const TOKEN_TYPES: TokenType[] = ["ERC20", "ERC721", "ERC1155"]
 const BRIDGE_ORIGINS = ["ethereum", "near"]
-const DEPLOYMENT_STATUSES: DeploymentStatus[] = [
-  "NOT_DEPLOYED",
-  "PENDING",
-  "DEPLOYED",
-]
 
 const getBridgeAddressOptions = (bridgeAddresses: string[]) =>
   bridgeAddresses.map((address) => ({

@@ -4,10 +4,15 @@ import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { LIST_TYPES } from "@/constants/lists"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 import { BRIDGE_NETWORKS } from "@/constants/bridge"
+import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
 
 extendZodWithOpenApi(z)
 
 const c = initContract()
+
+const DeploymentStatus = z.string().openapi({
+  enum: DEPLOYMENT_STATUSES,
+})
 
 export const ListSchema = z.object({
   id: z.number(),
@@ -55,6 +60,8 @@ export const TokenSchema = z.object({
   symbol: z.string(),
   name: z.string().nullable(),
   decimals: z.number().nullable(),
+  deploymentStatus: DeploymentStatus,
+  bridgeDeploymentStatus: DeploymentStatus,
 })
 
 export const SiloSchema = z.object({
@@ -245,6 +252,39 @@ export const contract = c.router({
     },
     pathParams: z.object({
       id: z.number(),
+    }),
+  },
+  getSiloToken: {
+    summary: "Get a token associated with a silo",
+    method: "GET",
+    path: "/api/silos/:id/tokens/:tokenId",
+    responses: {
+      200: TokenSchema,
+    },
+    metadata: {
+      scopes: ["silos:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+      tokenId: z.number(),
+    }),
+  },
+  bridgeSiloToken: {
+    summary: "Request bridging of a silo token",
+    method: "POST",
+    path: "/api/silos/:id/tokens/:tokenId/bridge",
+    responses: {
+      200: z.object({
+        status: DeploymentStatus,
+      }),
+    },
+    metadata: {
+      scopes: ["silos:write"],
+    },
+    body: z.object({}),
+    pathParams: z.object({
+      id: z.number(),
+      tokenId: z.number(),
     }),
   },
   getSiloOracle: {
