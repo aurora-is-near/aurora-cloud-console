@@ -66,8 +66,9 @@ SELECT add_values_to_enum(
 );
 
 SELECT add_values_to_enum(
-  'bridged_token_status',
+  'deployment_status',
   ARRAY[
+    'NOT_DEPLOYED',
     'PENDING',
     'DEPLOYED'
   ]

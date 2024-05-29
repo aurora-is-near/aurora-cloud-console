@@ -1,6 +1,6 @@
 "use client"
 
-import { BridgedTokenStatus, Token, TokenType } from "@/types/types"
+import { DeploymentStatus, Token, TokenType } from "@/types/types"
 import { updateToken } from "@/actions/tokens/update-token"
 import { createToken } from "@/actions/tokens/create-token"
 import { SubmitHandler } from "react-hook-form"
@@ -16,8 +16,12 @@ type TokenFormProps = {
 type Inputs = Omit<Token, "id" | "created_at">
 
 const TOKEN_TYPES: TokenType[] = ["ERC20", "ERC721", "ERC1155"]
-const BRIDGE_STATUSES: BridgedTokenStatus[] = ["PENDING", "DEPLOYED"]
 const BRIDGE_ORIGINS = ["ethereum", "near"]
+const DEPLOYMENT_STATUSES: DeploymentStatus[] = [
+  "NOT_DEPLOYED",
+  "PENDING",
+  "DEPLOYED",
+]
 
 const getBridgeAddressOptions = (bridgeAddresses: string[]) =>
   bridgeAddresses.map((address) => ({
@@ -49,17 +53,19 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
       submitHandler={submitHandler}
       inputs={[
         {
-          name: "is_deployed",
-          label: "Deployed",
-          type: "toggle",
-          defaultChecked: !!token?.is_deployed,
-        },
-        {
-          name: "name",
-          label: "Name",
-          defaultValue: token?.name ?? "",
-          autoComplete: "name",
-          required: true,
+          name: "deployment_status",
+          label: "Deployment status",
+          defaultValue: token?.deployment_status
+            ? {
+                label: token.deployment_status,
+                value: token.deployment_status,
+              }
+            : undefined,
+          options: DEPLOYMENT_STATUSES.map((status) => ({
+            label: status,
+            value: status,
+          })),
+          getValue: (option?: SelectInputOption) => option?.value,
         },
         {
           name: "symbol",
@@ -74,6 +80,12 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
           defaultValue: token?.address ?? "",
           autoComplete: "address",
           required: true,
+        },
+        {
+          name: "name",
+          label: "Name",
+          defaultValue: token?.name ?? "",
+          autoComplete: "name",
         },
         {
           name: "type",
@@ -102,15 +114,15 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
           type: "divider",
         },
         {
-          name: "bridge_status",
-          label: "Bridge status",
-          defaultValue: token?.bridge_status
+          name: "bridge_deployment_status",
+          label: "Bridge deployment status",
+          defaultValue: token?.bridge_deployment_status
             ? {
-                label: token.bridge_status,
-                value: token.bridge_status,
+                label: token.bridge_deployment_status,
+                value: token.bridge_deployment_status,
               }
             : undefined,
-          options: BRIDGE_STATUSES.map((status) => ({
+          options: DEPLOYMENT_STATUSES.map((status) => ({
             label: status,
             value: status,
           })),

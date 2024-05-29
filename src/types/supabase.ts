@@ -287,53 +287,50 @@ export type Database = {
         Row: {
           address: string
           bridge_addresses: string[] | null
+          bridge_deployment_status: Database["public"]["Enums"]["deployment_status"]
           bridge_origin: string | null
-          bridge_status:
-            | Database["public"]["Enums"]["bridged_token_status"]
-            | null
           created_at: string
-          decimals: number
+          decimals: number | null
+          deployment_status: Database["public"]["Enums"]["deployment_status"]
           fast_bridge: boolean
           id: number
           is_deployed: boolean
-          name: string
+          name: string | null
           silo_id: number
           symbol: string
-          type: Database["public"]["Enums"]["token_type"]
+          type: Database["public"]["Enums"]["token_type"] | null
         }
         Insert: {
           address: string
           bridge_addresses?: string[] | null
+          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
           bridge_origin?: string | null
-          bridge_status?:
-            | Database["public"]["Enums"]["bridged_token_status"]
-            | null
           created_at?: string
-          decimals: number
+          decimals?: number | null
+          deployment_status?: Database["public"]["Enums"]["deployment_status"]
           fast_bridge?: boolean
           id?: number
           is_deployed?: boolean
-          name: string
+          name?: string | null
           silo_id: number
           symbol: string
-          type: Database["public"]["Enums"]["token_type"]
+          type?: Database["public"]["Enums"]["token_type"] | null
         }
         Update: {
           address?: string
           bridge_addresses?: string[] | null
+          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
           bridge_origin?: string | null
-          bridge_status?:
-            | Database["public"]["Enums"]["bridged_token_status"]
-            | null
           created_at?: string
-          decimals?: number
+          decimals?: number | null
+          deployment_status?: Database["public"]["Enums"]["deployment_status"]
           fast_bridge?: boolean
           id?: number
           is_deployed?: boolean
-          name?: string
+          name?: string | null
           silo_id?: number
           symbol?: string
-          type?: Database["public"]["Enums"]["token_type"]
+          type?: Database["public"]["Enums"]["token_type"] | null
         }
         Relationships: [
           {
@@ -451,7 +448,7 @@ export type Database = {
         | "lists:read"
         | "lists:write"
       bridge_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
-      bridged_token_status: "PENDING" | "DEPLOYED"
+      deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       transaction_database_type: "AURORA" | "AURORA_DEMO" | "SILO"
       user_type: "customer" | "admin"
