@@ -37,6 +37,8 @@ export type PublicApiScope = Enums<"api_key_scopes">
 
 export type TokenType = Enums<"token_type">
 
+export type BridgedTokenStatus = Enums<"bridged_token_status">
+
 export type TransactionDatabaseType = Enums<"transaction_database_type">
 
 export type BridgeNetworkType = Enums<"bridge_network_type">

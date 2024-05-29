@@ -1,6 +1,6 @@
 "use client"
 
-import { Token, TokenType } from "@/types/types"
+import { BridgedTokenStatus, Token, TokenType } from "@/types/types"
 import { updateToken } from "@/actions/tokens/update-token"
 import { createToken } from "@/actions/tokens/create-token"
 import { SubmitHandler } from "react-hook-form"
@@ -16,6 +16,7 @@ type TokenFormProps = {
 type Inputs = Omit<Token, "id" | "created_at">
 
 const TOKEN_TYPES: TokenType[] = ["ERC20", "ERC721", "ERC1155"]
+const BRIDGE_STATUSES: BridgedTokenStatus[] = ["PENDING", "DEPLOYED"]
 const BRIDGE_ORIGINS = ["ethereum", "near"]
 
 const getBridgeAddressOptions = (bridgeAddresses: string[]) =>
@@ -101,10 +102,19 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
           type: "divider",
         },
         {
-          name: "is_bridged",
-          label: "Bridged",
-          type: "toggle",
-          defaultChecked: !!token?.is_bridged,
+          name: "bridge_status",
+          label: "Bridge status",
+          defaultValue: token?.bridge_status
+            ? {
+                label: token.bridge_status,
+                value: token.bridge_status,
+              }
+            : undefined,
+          options: BRIDGE_STATUSES.map((status) => ({
+            label: status,
+            value: status,
+          })),
+          getValue: (option?: SelectInputOption) => option?.value,
         },
         {
           name: "fast_bridge",

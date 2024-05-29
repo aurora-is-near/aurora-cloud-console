@@ -288,11 +288,13 @@ export type Database = {
           address: string
           bridge_addresses: string[] | null
           bridge_origin: string | null
+          bridge_status:
+            | Database["public"]["Enums"]["bridged_token_status"]
+            | null
           created_at: string
           decimals: number
           fast_bridge: boolean
           id: number
-          is_bridged: boolean
           is_deployed: boolean
           name: string
           silo_id: number
@@ -303,11 +305,13 @@ export type Database = {
           address: string
           bridge_addresses?: string[] | null
           bridge_origin?: string | null
+          bridge_status?:
+            | Database["public"]["Enums"]["bridged_token_status"]
+            | null
           created_at?: string
           decimals: number
           fast_bridge?: boolean
           id?: number
-          is_bridged?: boolean
           is_deployed?: boolean
           name: string
           silo_id: number
@@ -318,11 +322,13 @@ export type Database = {
           address?: string
           bridge_addresses?: string[] | null
           bridge_origin?: string | null
+          bridge_status?:
+            | Database["public"]["Enums"]["bridged_token_status"]
+            | null
           created_at?: string
           decimals?: number
           fast_bridge?: boolean
           id?: number
-          is_bridged?: boolean
           is_deployed?: boolean
           name?: string
           silo_id?: number
@@ -445,6 +451,7 @@ export type Database = {
         | "lists:read"
         | "lists:write"
       bridge_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
+      bridged_token_status: "PENDING" | "DEPLOYED"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       transaction_database_type: "AURORA" | "AURORA_DEMO" | "SILO"
       user_type: "customer" | "admin"
