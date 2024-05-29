@@ -48,6 +48,12 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
       submitHandler={submitHandler}
       inputs={[
         {
+          name: "is_deployed",
+          label: "Deployed",
+          type: "toggle",
+          defaultChecked: !!token?.is_deployed,
+        },
+        {
           name: "name",
           label: "Name",
           defaultValue: token?.name ?? "",
@@ -95,6 +101,18 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
           type: "divider",
         },
         {
+          name: "is_bridged",
+          label: "Bridged",
+          type: "toggle",
+          defaultChecked: !!token?.is_bridged,
+        },
+        {
+          name: "fast_bridge",
+          label: "Fast bridge",
+          type: "toggle",
+          defaultChecked: !!token?.fast_bridge,
+        },
+        {
           name: "bridge_origin",
           label: "Bridge origin",
           defaultValue: token?.bridge_origin
@@ -108,13 +126,6 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
             value: origin,
           })),
           getValue: (option?: SelectInputOption) => option?.value,
-        },
-        {
-          name: "fast_bridge",
-          label: "Fast bridge",
-          type: "toggle",
-          defaultChecked: !!token?.fast_bridge,
-          required: true,
         },
         {
           name: "bridge_addresses",

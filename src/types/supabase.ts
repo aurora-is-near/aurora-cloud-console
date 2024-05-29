@@ -292,6 +292,8 @@ export type Database = {
           decimals: number
           fast_bridge: boolean
           id: number
+          is_bridged: boolean
+          is_deployed: boolean
           name: string
           silo_id: number
           symbol: string
@@ -305,6 +307,8 @@ export type Database = {
           decimals: number
           fast_bridge?: boolean
           id?: number
+          is_bridged?: boolean
+          is_deployed?: boolean
           name: string
           silo_id: number
           symbol: string
@@ -318,6 +322,8 @@ export type Database = {
           decimals?: number
           fast_bridge?: boolean
           id?: number
+          is_bridged?: boolean
+          is_deployed?: boolean
           name?: string
           silo_id?: number
           symbol?: string
