@@ -58,6 +58,7 @@ export type Database = {
           to_networks:
             | Database["public"]["Enums"]["bridge_network_type"][]
             | null
+          tokens: number[]
           updated_at: string
         }
         Insert: {
@@ -70,6 +71,7 @@ export type Database = {
           to_networks?:
             | Database["public"]["Enums"]["bridge_network_type"][]
             | null
+          tokens?: number[]
           updated_at?: string
         }
         Update: {
@@ -82,6 +84,7 @@ export type Database = {
           to_networks?:
             | Database["public"]["Enums"]["bridge_network_type"][]
             | null
+          tokens?: number[]
           updated_at?: string
         }
         Relationships: [

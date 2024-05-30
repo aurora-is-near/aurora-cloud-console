@@ -27,6 +27,7 @@ const getBridgeSchema = (bridge?: Bridge): BridgeSchema => {
       updatedAt: null,
       fromNetworks: null,
       toNetworks: null,
+      tokens: [],
     }
   }
 
@@ -36,6 +37,7 @@ const getBridgeSchema = (bridge?: Bridge): BridgeSchema => {
     updatedAt: bridge.updated_at,
     fromNetworks: bridge.from_networks,
     toNetworks: bridge.to_networks,
+    tokens: bridge.tokens,
   }
 }
 
@@ -76,9 +78,11 @@ export const PUT = createApiEndpoint("updateSiloBridge", async (_req, ctx) => {
   }
 
   const { fromNetworks, toNetworks } = ctx.body
+
   const updatedBridge = await updateSiloBridge(siloId, {
     fromNetworks: fromNetworks ? getValidNetworks(fromNetworks) : undefined,
     toNetworks: toNetworks ? getValidNetworks(toNetworks) : undefined,
+    tokens: ctx.body.tokens,
   })
 
   return getBridgeSchema(updatedBridge)

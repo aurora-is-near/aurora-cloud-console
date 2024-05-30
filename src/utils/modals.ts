@@ -16,4 +16,5 @@ export enum Modals {
   MetaMaskNotInstalled = "metaMaskNotInstalled",
   BridgeToNetwork = "bridgeToNetwork",
   BridgeFromNetwork = "bridgeFromNetwork",
+  BridgeTokens = "bridgeTokens",
 }

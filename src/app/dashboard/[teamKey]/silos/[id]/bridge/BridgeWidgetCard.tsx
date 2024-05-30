@@ -2,9 +2,11 @@
 
 import BridgeNetworkModal from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeNetworkModal"
 import { BridgeOpenButton } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeOpenButton"
+import BridgeTokensModal from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeTokensModal"
 import Card from "@/components/Card"
 import { CardConfigGrid } from "@/components/CardConfigGrid"
 import { useBridgeNetworks } from "@/hooks/useBridgeNetworks"
+import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { formatDateAndTime } from "@/utils/helpers"
 import { Modals } from "@/utils/modals"
@@ -15,13 +17,16 @@ type BridgeWidgetCardProps = {
 }
 
 export const BridgeWidgetCard = ({ siloId }: BridgeWidgetCardProps) => {
-  const { data: bridge, isPending } = useQuery(
+  const { data: bridge } = useQuery(
     getQueryFnAndKey("getSiloBridge", {
       id: siloId,
     }),
   )
 
-  const { toNetworks, fromNetworks } = useBridgeNetworks(siloId)
+  const { deployedTokens, activeTokens } = useBridgeTokens(siloId)
+  const { toNetworks, fromNetworks, availableNetworks } =
+    useBridgeNetworks(siloId)
+
   const toNetworkLabels = Object.values(toNetworks).map(
     (network) => network.label,
   )
@@ -74,15 +79,38 @@ export const BridgeWidgetCard = ({ siloId }: BridgeWidgetCardProps) => {
           />
           <CardConfigGrid.Row
             title="Supported assets"
-            content={{
-              type: "text",
-              value: "No token contracts deployed",
-            }}
+            modalKey={Modals.BridgeTokens}
+            content={
+              activeTokens.length
+                ? {
+                    type: "labels",
+                    value: activeTokens.map((token) => token.symbol),
+                  }
+                : {
+                    type: "text",
+                    value: "No token contracts deployed",
+                  }
+            }
           />
         </CardConfigGrid>
       </Card>
-      <BridgeNetworkModal siloId={siloId} type="from" />
-      <BridgeNetworkModal siloId={siloId} type="to" />
+      <BridgeNetworkModal
+        siloId={siloId}
+        type="from"
+        networks={fromNetworks}
+        availableNetworks={availableNetworks}
+      />
+      <BridgeNetworkModal
+        siloId={siloId}
+        type="to"
+        networks={toNetworks}
+        availableNetworks={availableNetworks}
+      />
+      <BridgeTokensModal
+        siloId={siloId}
+        deployedTokens={deployedTokens}
+        activeTokens={activeTokens}
+      />
     </>
   )
 }

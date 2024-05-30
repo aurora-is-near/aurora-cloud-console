@@ -12,6 +12,7 @@ export const updateSiloBridge = async (
   inputs: {
     fromNetworks?: BridgeNetworkType[]
     toNetworks?: BridgeNetworkType[]
+    tokens?: number[]
   },
 ): Promise<Bridge> => {
   const supabase = createAdminSupabaseClient()
@@ -21,6 +22,7 @@ export const updateSiloBridge = async (
     .update({
       from_networks: inputs.fromNetworks,
       to_networks: inputs.toNetworks,
+      tokens: inputs.tokens,
     })
     .eq("silo_id", siloId)
     .select()

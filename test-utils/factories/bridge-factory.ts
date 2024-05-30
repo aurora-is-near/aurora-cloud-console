@@ -7,6 +7,7 @@ export const createMockBridge = (data?: Partial<Bridge>): Bridge => ({
   updated_at: "2021-01-01T00:00:00Z",
   from_networks: [],
   to_networks: [],
+  tokens: [],
   ...data,
 })
 

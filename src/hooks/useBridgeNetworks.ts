@@ -4,7 +4,7 @@ import { isValidNetwork } from "@/utils/bridge"
 import { useQuery } from "@tanstack/react-query"
 import { useCallback, useMemo } from "react"
 
-type Network = {
+export type Network = {
   key: BridgeNetworkType
   label: string
   evm?: string

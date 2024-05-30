@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { GET, POST } from "./route"
+import { GET, POST, PUT } from "./route"
 import {
   createInsertOrUpdate,
   createSelect,
@@ -11,6 +11,7 @@ import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openap
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
 import { createMockBridge } from "../../../../../../test-utils/factories/bridge-factory"
+import { BridgeNetworkType } from "@/types/types"
 
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -44,6 +45,7 @@ describe("Bridges route", () => {
         updatedAt: null,
         fromNetworks: null,
         toNetworks: null,
+        tokens: [],
       })
     })
 
@@ -51,6 +53,7 @@ describe("Bridges route", () => {
       const mockBridge = createMockBridge({
         from_networks: ["AURORA"],
         to_networks: ["ETHEREUM"],
+        tokens: [1],
       })
 
       mockSupabaseClient
@@ -70,6 +73,7 @@ describe("Bridges route", () => {
         updatedAt: mockBridge.updated_at,
         fromNetworks: ["AURORA"],
         toNetworks: ["ETHEREUM"],
+        tokens: [1],
       })
     })
   })
@@ -123,11 +127,83 @@ describe("Bridges route", () => {
         updatedAt: mockBridge.updated_at,
         fromNetworks: [],
         toNetworks: [],
+        tokens: [],
       })
 
       expect(mockSupabaseClient.from("bridges").insert).toHaveBeenCalledWith({
         silo_id: 1,
       })
+    })
+  })
+
+  describe("PUT", () => {
+    it("returns a 404 for a non-existant silo", async () => {
+      await expect(async () =>
+        invokeApiHandler("PUT", "/api/silos/1/bridge", POST),
+      ).rejects.toThrow("Not Found")
+    })
+
+    it("updates a bridge", async () => {
+      const mockSilo = createMockSilo()
+      const mockBridge = createMockBridge()
+      const updateQueries = createInsertOrUpdate(mockBridge)
+      const fromNetworks: BridgeNetworkType[] = ["AURORA"]
+      const toNetworks: BridgeNetworkType[] = ["ETHEREUM"]
+      const tokens = [1]
+
+      mockSupabaseClient
+        .from("silos")
+        .select.mockImplementation(() => createSelect(mockSilo))
+
+      mockSupabaseClient
+        .from("bridges")
+        .update.mockImplementation(() => updateQueries)
+
+      mockSupabaseClient
+        .from("bridges")
+        .select.mockImplementation(() => createSelect(mockBridge))
+
+      updateQueries.select.mockReturnValue(
+        createSelect({
+          ...mockBridge,
+          from_networks: fromNetworks,
+          to_networks: toNetworks,
+          tokens,
+        }),
+      )
+
+      const res = await invokeApiHandler(
+        "PUT",
+        `/api/silos/${mockSilo.id}/bridge`,
+        PUT,
+        {
+          params: { id: String(mockSilo.id) },
+          body: {
+            fromNetworks,
+            toNetworks,
+            tokens,
+          },
+        },
+      )
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
+        enabled: true,
+        createdAt: mockBridge.created_at,
+        updatedAt: mockBridge.updated_at,
+        fromNetworks,
+        toNetworks,
+        tokens,
+      })
+
+      expect(mockSupabaseClient.from("bridges").update).toHaveBeenCalledTimes(1)
+      expect(mockSupabaseClient.from("bridges").update).toHaveBeenCalledWith({
+        from_networks: fromNetworks,
+        to_networks: toNetworks,
+        tokens,
+      })
+
+      expect(updateQueries.eq).toHaveBeenCalledWith("silo_id", 1)
     })
   })
 })

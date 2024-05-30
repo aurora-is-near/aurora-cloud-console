@@ -102,6 +102,7 @@ export const BridgeSchema = z.object({
   updatedAt: z.string().nullable(),
   fromNetworks: z.array(BridgeNetwork).nullable(),
   toNetworks: z.array(BridgeNetwork).nullable(),
+  tokens: z.array(z.number()),
 })
 
 export const TransactionDataSchema = z.object({
@@ -358,6 +359,7 @@ export const contract = c.router({
     body: z.object({
       fromNetworks: z.array(BridgeNetwork).optional(),
       toNetworks: z.array(BridgeNetwork).optional(),
+      tokens: z.array(z.number()).optional(),
     }),
     pathParams: z.object({
       id: z.number(),
