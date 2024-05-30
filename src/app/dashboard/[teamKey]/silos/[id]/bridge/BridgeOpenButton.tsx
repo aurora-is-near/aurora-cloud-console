@@ -1,5 +1,6 @@
 import { LinkButton, LinkButtonProps } from "@/components/LinkButton"
 import { useBridgeNetworks } from "@/hooks/useBridgeNetworks"
+import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { useQuery } from "@tanstack/react-query"
@@ -11,7 +12,15 @@ type BridgeOpenButtonProps = {
 }
 
 export const BridgeOpenButton = ({ siloId, size }: BridgeOpenButtonProps) => {
-  const { toNetworks, fromNetworks, isPending } = useBridgeNetworks(siloId)
+  const {
+    toNetworks,
+    fromNetworks,
+    isPending: isBridgeNetworksPending,
+  } = useBridgeNetworks(siloId)
+
+  const { activeTokens, isPending: isBridgeTokensPending } =
+    useBridgeTokens(siloId)
+
   const { data: silo } = useQuery(
     getQueryFnAndKey("getSilo", {
       id: siloId,
@@ -57,15 +66,56 @@ export const BridgeOpenButton = ({ siloId, size }: BridgeOpenButtonProps) => {
       )
     }
 
+    if (activeTokens.length) {
+      url.searchParams.set(
+        "tokens",
+        JSON.stringify(activeTokens.map(({ symbol }) => symbol)),
+      )
+    }
+
+    const activeCustomTokens = activeTokens.filter(
+      ({ symbol }) => !["NEAR", "AURORA", "ETH"].includes(symbol),
+    )
+
+    if (activeCustomTokens.length) {
+      const customTokens = activeCustomTokens
+        .map(({ symbol, name, decimals, iconUrl, bridge }) => {
+          if (!bridge) {
+            return null
+          }
+
+          const data = {
+            symbol,
+            name,
+            decimals,
+            origin: bridge.origin,
+            isFast: bridge.isFast,
+            icon: iconUrl,
+            ...bridge.addresses.reduce(
+              (acc, { network, address }) => ({
+                ...acc,
+                [network]: address,
+              }),
+              {},
+            ),
+          }
+
+          return data
+        })
+        .filter(Boolean)
+
+      url.searchParams.set("customTokens", JSON.stringify(customTokens))
+    }
+
     return url.href
-  }, [fromNetworks, silo, toNetworks])
+  }, [fromNetworks, silo, toNetworks, activeTokens])
 
   return (
     <LinkButton
       href={href}
       target="_blank"
       className="w-full"
-      disabled={isPending}
+      disabled={isBridgeNetworksPending ?? isBridgeTokensPending}
       size={size}
     >
       <span className="flex flex-row items-center">

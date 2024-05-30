@@ -4,10 +4,7 @@ import Card from "@/components/Card"
 import Loader from "@/components/Loader"
 import { Tag } from "@/components/Tag"
 import { useBridgeTokens } from "@/hooks/useBridgeTokens"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { getQueryFnAndKey } from "@/utils/api/queries"
 import { CheckIcon, ClockIcon } from "@heroicons/react/24/outline"
-import { useQuery } from "@tanstack/react-query"
 import clsx from "clsx"
 import { Fragment } from "react"
 
@@ -42,7 +39,8 @@ export const BridgeDeployedTokensCard = ({
             ) : (
               <div className="grid grid-cols-3">
                 {bridgedTokens.map((token) => {
-                  const isDeployed = token.bridgeDeploymentStatus === "DEPLOYED"
+                  const isDeployed =
+                    token.bridge?.deploymentStatus === "DEPLOYED"
 
                   return (
                     <Fragment key={token.id}>

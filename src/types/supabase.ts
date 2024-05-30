@@ -296,6 +296,7 @@ export type Database = {
           decimals: number | null
           deployment_status: Database["public"]["Enums"]["deployment_status"]
           fast_bridge: boolean
+          icon_url: string | null
           id: number
           name: string | null
           silo_id: number
@@ -311,6 +312,7 @@ export type Database = {
           decimals?: number | null
           deployment_status?: Database["public"]["Enums"]["deployment_status"]
           fast_bridge?: boolean
+          icon_url?: string | null
           id?: number
           name?: string | null
           silo_id: number
@@ -326,6 +328,7 @@ export type Database = {
           decimals?: number | null
           deployment_status?: Database["public"]["Enums"]["deployment_status"]
           fast_bridge?: boolean
+          icon_url?: string | null
           id?: number
           name?: string | null
           silo_id?: number

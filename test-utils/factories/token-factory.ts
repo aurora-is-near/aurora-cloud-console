@@ -14,6 +14,7 @@ export const createMockToken = (data?: Partial<Token>): Token => ({
   bridge_origin: "ethereum",
   fast_bridge: false,
   type: "ERC20",
+  icon_url: "http://example.com/path/to/icon.png",
   ...data,
 })
 

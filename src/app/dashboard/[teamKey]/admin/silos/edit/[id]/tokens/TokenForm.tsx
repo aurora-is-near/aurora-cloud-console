@@ -107,6 +107,11 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
           required: true,
         },
         {
+          name: "icon_url",
+          label: "Icon URL",
+          defaultValue: token?.icon_url ?? "",
+        },
+        {
           type: "divider",
         },
         {

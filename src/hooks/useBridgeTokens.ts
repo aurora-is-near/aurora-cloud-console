@@ -4,7 +4,7 @@ import { getQueryFnAndKey } from "@/utils/api/queries"
 import { useQuery } from "@tanstack/react-query"
 
 const filterTokens = (status: DeploymentStatus, tokens: TokenSchema[] = []) =>
-  tokens.filter((token) => token.bridgeDeploymentStatus === status)
+  tokens.filter((token) => token.bridge?.deploymentStatus === status)
 
 export const useBridgeTokens = (siloId: number) => {
   const { data: tokens, isPending: isSiloTokensPending } = useQuery(

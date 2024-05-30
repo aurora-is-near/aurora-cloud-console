@@ -60,8 +60,21 @@ export const TokenSchema = z.object({
   symbol: z.string(),
   name: z.string().nullable(),
   decimals: z.number().nullable(),
+  iconUrl: z.string().nullable(),
   deploymentStatus: DeploymentStatus,
-  bridgeDeploymentStatus: DeploymentStatus,
+  bridge: z
+    .object({
+      deploymentStatus: DeploymentStatus,
+      isFast: z.boolean(),
+      addresses: z.array(
+        z.object({
+          network: z.string(),
+          address: z.string(),
+        }),
+      ),
+      origin: z.string().nullable(),
+    })
+    .nullable(),
 })
 
 export const SiloSchema = z.object({

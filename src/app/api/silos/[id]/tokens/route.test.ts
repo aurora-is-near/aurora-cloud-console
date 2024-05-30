@@ -10,6 +10,7 @@ import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openap
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
 import { createMockTokens } from "../../../../../../test-utils/factories/token-factory"
+import { DeploymentStatus } from "@/types/types"
 
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -36,7 +37,17 @@ describe("Silo tokens route", () => {
     })
 
     it("returns the silo tokens", async () => {
-      const mockTokens = createMockTokens(2)
+      const bridgeAddresses = [
+        { network: "ethereum", address: "0x123" },
+        { network: "near", address: "0x456" },
+      ]
+
+      const mockTokens = createMockTokens(2, {
+        bridge_deployment_status: "DEPLOYED",
+        bridge_addresses: bridgeAddresses.map(
+          ({ network, address }) => `${network}:${address}`,
+        ),
+      })
 
       mockSupabaseClient
         .from("silos")
@@ -52,16 +63,58 @@ describe("Silo tokens route", () => {
       expect(res.body).toEqual({
         items: Array.from({ length: 2 }, (_, index) => ({
           address: mockTokens[index].address,
-          bridgeDeploymentStatus: mockTokens[index].bridge_deployment_status,
           createdAt: mockTokens[index].created_at,
           decimals: mockTokens[index].decimals,
           deploymentStatus: mockTokens[index].deployment_status,
           id: mockTokens[index].id,
           name: mockTokens[index].name,
           symbol: mockTokens[index].symbol,
+          bridge: {
+            deploymentStatus: mockTokens[index].bridge_deployment_status,
+            isFast: mockTokens[index].fast_bridge,
+            addresses: bridgeAddresses,
+            origin: mockTokens[index].bridge_origin,
+          },
         })),
       })
     })
+
+    it.each(["NOT_DEPLOYED", "PENDING"] as DeploymentStatus[])(
+      "returns the silo tokens with no bridge when the token status is %s",
+      async (status) => {
+        const mockTokens = createMockTokens(1, {
+          bridge_deployment_status: status,
+        })
+
+        mockSupabaseClient
+          .from("silos")
+          .select.mockImplementation(() => createSelect(createMockSilo()))
+
+        mockSupabaseClient
+          .from("tokens")
+          .select.mockImplementation(() => createSelect(mockTokens))
+
+        const res = await invokeApiHandler("GET", "/api/silos/1/tokens", GET)
+
+        const [mockToken] = mockTokens
+
+        expect(res).toSatisfyApiSpec()
+        expect(res.body).toEqual({
+          items: [
+            {
+              address: mockToken.address,
+              createdAt: mockToken.created_at,
+              decimals: mockToken.decimals,
+              deploymentStatus: mockToken.deployment_status,
+              id: mockToken.id,
+              name: mockToken.name,
+              symbol: mockToken.symbol,
+              bridge: null,
+            },
+          ],
+        })
+      },
+    )
 
     it("returns an empty list if no tokens", async () => {
       mockSupabaseClient

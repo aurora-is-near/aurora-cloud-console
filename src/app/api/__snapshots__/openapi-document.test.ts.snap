@@ -1419,13 +1419,50 @@ exports[`OpenAPI Document should be valid 1`] = `
                               "address": {
                                 "type": "string",
                               },
-                              "bridgeDeploymentStatus": {
-                                "enum": [
-                                  "NOT_DEPLOYED",
-                                  "PENDING",
-                                  "DEPLOYED",
+                              "bridge": {
+                                "nullable": true,
+                                "properties": {
+                                  "addresses": {
+                                    "items": {
+                                      "properties": {
+                                        "address": {
+                                          "type": "string",
+                                        },
+                                        "network": {
+                                          "type": "string",
+                                        },
+                                      },
+                                      "required": [
+                                        "network",
+                                        "address",
+                                      ],
+                                      "type": "object",
+                                    },
+                                    "type": "array",
+                                  },
+                                  "deploymentStatus": {
+                                    "enum": [
+                                      "NOT_DEPLOYED",
+                                      "PENDING",
+                                      "DEPLOYED",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "isFast": {
+                                    "type": "boolean",
+                                  },
+                                  "origin": {
+                                    "nullable": true,
+                                    "type": "string",
+                                  },
+                                },
+                                "required": [
+                                  "deploymentStatus",
+                                  "isFast",
+                                  "addresses",
+                                  "origin",
                                 ],
-                                "type": "string",
+                                "type": "object",
                               },
                               "createdAt": {
                                 "type": "string",
@@ -1461,7 +1498,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                               "name",
                               "decimals",
                               "deploymentStatus",
-                              "bridgeDeploymentStatus",
+                              "bridge",
                             ],
                             "type": "object",
                           },
@@ -1564,13 +1601,50 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "address": {
                           "type": "string",
                         },
-                        "bridgeDeploymentStatus": {
-                          "enum": [
-                            "NOT_DEPLOYED",
-                            "PENDING",
-                            "DEPLOYED",
+                        "bridge": {
+                          "nullable": true,
+                          "properties": {
+                            "addresses": {
+                              "items": {
+                                "properties": {
+                                  "address": {
+                                    "type": "string",
+                                  },
+                                  "network": {
+                                    "type": "string",
+                                  },
+                                },
+                                "required": [
+                                  "network",
+                                  "address",
+                                ],
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                            "deploymentStatus": {
+                              "enum": [
+                                "NOT_DEPLOYED",
+                                "PENDING",
+                                "DEPLOYED",
+                              ],
+                              "type": "string",
+                            },
+                            "isFast": {
+                              "type": "boolean",
+                            },
+                            "origin": {
+                              "nullable": true,
+                              "type": "string",
+                            },
+                          },
+                          "required": [
+                            "deploymentStatus",
+                            "isFast",
+                            "addresses",
+                            "origin",
                           ],
-                          "type": "string",
+                          "type": "object",
                         },
                         "createdAt": {
                           "type": "string",
@@ -1606,7 +1680,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "name",
                         "decimals",
                         "deploymentStatus",
-                        "bridgeDeploymentStatus",
+                        "bridge",
                       ],
                       "type": "object",
                     },
@@ -2143,13 +2217,50 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "address": {
                             "type": "string",
                           },
-                          "bridgeDeploymentStatus": {
-                            "enum": [
-                              "NOT_DEPLOYED",
-                              "PENDING",
-                              "DEPLOYED",
+                          "bridge": {
+                            "nullable": true,
+                            "properties": {
+                              "addresses": {
+                                "items": {
+                                  "properties": {
+                                    "address": {
+                                      "type": "string",
+                                    },
+                                    "network": {
+                                      "type": "string",
+                                    },
+                                  },
+                                  "required": [
+                                    "network",
+                                    "address",
+                                  ],
+                                  "type": "object",
+                                },
+                                "type": "array",
+                              },
+                              "deploymentStatus": {
+                                "enum": [
+                                  "NOT_DEPLOYED",
+                                  "PENDING",
+                                  "DEPLOYED",
+                                ],
+                                "type": "string",
+                              },
+                              "isFast": {
+                                "type": "boolean",
+                              },
+                              "origin": {
+                                "nullable": true,
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "deploymentStatus",
+                              "isFast",
+                              "addresses",
+                              "origin",
                             ],
-                            "type": "string",
+                            "type": "object",
                           },
                           "createdAt": {
                             "type": "string",
@@ -2185,7 +2296,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "name",
                           "decimals",
                           "deploymentStatus",
-                          "bridgeDeploymentStatus",
+                          "bridge",
                         ],
                         "type": "object",
                       },
@@ -2247,13 +2358,50 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "address": {
                       "type": "string",
                     },
-                    "bridgeDeploymentStatus": {
-                      "enum": [
-                        "NOT_DEPLOYED",
-                        "PENDING",
-                        "DEPLOYED",
+                    "bridge": {
+                      "nullable": true,
+                      "properties": {
+                        "addresses": {
+                          "items": {
+                            "properties": {
+                              "address": {
+                                "type": "string",
+                              },
+                              "network": {
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "network",
+                              "address",
+                            ],
+                            "type": "object",
+                          },
+                          "type": "array",
+                        },
+                        "deploymentStatus": {
+                          "enum": [
+                            "NOT_DEPLOYED",
+                            "PENDING",
+                            "DEPLOYED",
+                          ],
+                          "type": "string",
+                        },
+                        "isFast": {
+                          "type": "boolean",
+                        },
+                        "origin": {
+                          "nullable": true,
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "deploymentStatus",
+                        "isFast",
+                        "addresses",
+                        "origin",
                       ],
-                      "type": "string",
+                      "type": "object",
                     },
                     "createdAt": {
                       "type": "string",
@@ -2289,7 +2437,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "name",
                     "decimals",
                     "deploymentStatus",
-                    "bridgeDeploymentStatus",
+                    "bridge",
                   ],
                   "type": "object",
                 },
