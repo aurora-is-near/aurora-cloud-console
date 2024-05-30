@@ -7,6 +7,7 @@ import { BridgeHighlightCards } from "./BridgeHighlightCards"
 import Loader from "@/components/Loader"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { useQuery } from "@tanstack/react-query"
+import { SiloHeading } from "../../SiloHeading"
 
 type BridgeContentProps = {
   siloId: number
@@ -30,6 +31,11 @@ export const BridgeContent = ({ siloId }: BridgeContentProps) => {
 
   return (
     <>
+      <SiloHeading
+        heading="Bridge"
+        siloId={siloId}
+        showActivatedTag={bridge.enabled}
+      />
       <BridgeBanner siloId={siloId} isEnabled={isEnabled} />
       {isEnabled ? (
         <BridgeConfiguration siloId={siloId} />

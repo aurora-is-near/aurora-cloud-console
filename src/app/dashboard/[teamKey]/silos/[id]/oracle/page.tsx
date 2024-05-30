@@ -9,7 +9,6 @@ const Page = async ({
 }) => {
   return (
     <DashboardPage>
-      <SiloHeading heading="Oracle" siloId={Number(id)} />
       <OracleContent siloId={Number(id)} />
     </DashboardPage>
   )

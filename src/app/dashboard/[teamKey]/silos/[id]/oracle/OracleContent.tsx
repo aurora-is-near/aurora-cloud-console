@@ -7,6 +7,7 @@ import { OracleHighlightCards } from "./OracleHighlightCards"
 import Loader from "@/components/Loader"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { useQuery } from "@tanstack/react-query"
+import { SiloHeading } from "@/app/dashboard/[teamKey]/silos/SiloHeading"
 
 type OracleContentProps = {
   siloId: number
@@ -30,6 +31,11 @@ export const OracleContent = ({ siloId }: OracleContentProps) => {
 
   return (
     <>
+      <SiloHeading
+        heading="Oracle"
+        siloId={siloId}
+        showActivatedTag={oracle.enabled}
+      />
       <OracleBanner siloId={siloId} isEnabled={isEnabled} />
       {isEnabled ? <OracleDeploymentSteps /> : <OracleHighlightCards />}
     </>
