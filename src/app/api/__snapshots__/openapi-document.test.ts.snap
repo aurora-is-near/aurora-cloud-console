@@ -1479,6 +1479,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                                 ],
                                 "type": "string",
                               },
+                              "iconUrl": {
+                                "nullable": true,
+                                "type": "string",
+                              },
                               "id": {
                                 "type": "number",
                               },
@@ -1497,6 +1501,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                               "symbol",
                               "name",
                               "decimals",
+                              "iconUrl",
                               "deploymentStatus",
                               "bridge",
                             ],
@@ -1661,6 +1666,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                           ],
                           "type": "string",
                         },
+                        "iconUrl": {
+                          "nullable": true,
+                          "type": "string",
+                        },
                         "id": {
                           "type": "number",
                         },
@@ -1679,6 +1688,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "symbol",
                         "name",
                         "decimals",
+                        "iconUrl",
                         "deploymentStatus",
                         "bridge",
                       ],
@@ -2055,6 +2065,80 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/silos/{id}/bridge/tokens": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "bridgeSiloToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "address": {
+                    "type": "string",
+                  },
+                  "symbol": {
+                    "type": "string",
+                  },
+                  "tokenId": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "NOT_DEPLOYED",
+                        "PENDING",
+                        "DEPLOYED",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Request bridging of a token for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
     "/api/silos/{id}/oracle": {
       "get": {
         "deprecated": undefined,
@@ -2277,6 +2361,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                             ],
                             "type": "string",
                           },
+                          "iconUrl": {
+                            "nullable": true,
+                            "type": "string",
+                          },
                           "id": {
                             "type": "number",
                           },
@@ -2295,6 +2383,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "symbol",
                           "name",
                           "decimals",
+                          "iconUrl",
                           "deploymentStatus",
                           "bridge",
                         ],
@@ -2321,211 +2410,6 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Get the tokens associated with a silo",
-        "tags": [
-          "silos",
-        ],
-      },
-    },
-    "/api/silos/{id}/tokens/{tokenId}": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`silos:read\`",
-        "operationId": "getSiloToken",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-          {
-            "in": "path",
-            "name": "tokenId",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "address": {
-                      "type": "string",
-                    },
-                    "bridge": {
-                      "nullable": true,
-                      "properties": {
-                        "addresses": {
-                          "items": {
-                            "properties": {
-                              "address": {
-                                "type": "string",
-                              },
-                              "network": {
-                                "type": "string",
-                              },
-                            },
-                            "required": [
-                              "network",
-                              "address",
-                            ],
-                            "type": "object",
-                          },
-                          "type": "array",
-                        },
-                        "deploymentStatus": {
-                          "enum": [
-                            "NOT_DEPLOYED",
-                            "PENDING",
-                            "DEPLOYED",
-                          ],
-                          "type": "string",
-                        },
-                        "isFast": {
-                          "type": "boolean",
-                        },
-                        "origin": {
-                          "nullable": true,
-                          "type": "string",
-                        },
-                      },
-                      "required": [
-                        "deploymentStatus",
-                        "isFast",
-                        "addresses",
-                        "origin",
-                      ],
-                      "type": "object",
-                    },
-                    "createdAt": {
-                      "type": "string",
-                    },
-                    "decimals": {
-                      "nullable": true,
-                      "type": "number",
-                    },
-                    "deploymentStatus": {
-                      "enum": [
-                        "NOT_DEPLOYED",
-                        "PENDING",
-                        "DEPLOYED",
-                      ],
-                      "type": "string",
-                    },
-                    "id": {
-                      "type": "number",
-                    },
-                    "name": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                    "symbol": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "address",
-                    "createdAt",
-                    "id",
-                    "symbol",
-                    "name",
-                    "decimals",
-                    "deploymentStatus",
-                    "bridge",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "silos:read",
-            ],
-          },
-        ],
-        "summary": "Get a token associated with a silo",
-        "tags": [
-          "silos",
-        ],
-      },
-    },
-    "/api/silos/{id}/tokens/{tokenId}/bridge": {
-      "post": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`silos:write\`",
-        "operationId": "bridgeSiloToken",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-          {
-            "in": "path",
-            "name": "tokenId",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {},
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "status": {
-                      "enum": [
-                        "NOT_DEPLOYED",
-                        "PENDING",
-                        "DEPLOYED",
-                      ],
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "status",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "silos:write",
-            ],
-          },
-        ],
-        "summary": "Request bridging of a silo token",
         "tags": [
           "silos",
         ],

@@ -42,7 +42,8 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
       onSuccess: () => {
         toast.success("Token deployment requested")
       },
-      onError: () => {
+      onError: (error) => {
+        console.error(error)
         toast.error("Request failed")
       },
     })
@@ -60,6 +61,14 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
 
   const [selectedExistingToken, setSelectedExistingToken] =
     useState<SelectInputOption | null>(null)
+
+  const [customTokenSymbol, setCustomTokenSymbol] = useState<string | null>(
+    null,
+  )
+
+  const [customTokenAddress, setCustomTokenAddress] = useState<string | null>(
+    null,
+  )
 
   const onSelectedTokenTypeChange = (evt?: ChangeEvent) => {
     setSelectedTokenType((evt?.target as HTMLInputElement).value as TokenType)
@@ -86,6 +95,18 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
     bridgeSiloToken({
       id: siloId,
       tokenId: Number(selectedExistingToken.value),
+    })
+  }
+
+  const onRequestCustomTokenDeploymentClick = async () => {
+    if (!customTokenSymbol || !customTokenAddress) {
+      return
+    }
+
+    bridgeSiloToken({
+      id: siloId,
+      symbol: customTokenSymbol,
+      address: customTokenAddress,
     })
   }
 
@@ -167,14 +188,38 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
                   name="custom-token-symbol"
                   placeholder="Symbol"
                   register={register}
+                  registerOptions={{
+                    onChange: (evt) => {
+                      setCustomTokenSymbol(
+                        (evt.target as HTMLInputElement).value,
+                      )
+                    },
+                  }}
                 />
                 <Input
                   id="custom-token-address"
                   name="custom-token-address"
                   placeholder="Address"
                   register={register}
+                  registerOptions={{
+                    onChange: (evt) => {
+                      setCustomTokenAddress(
+                        (evt.target as HTMLInputElement).value,
+                      )
+                    },
+                  }}
                 />
-                <Button className="h-full">Request deployment</Button>
+                <Button
+                  className="h-full"
+                  onClick={onRequestCustomTokenDeploymentClick}
+                  disabled={
+                    !customTokenSymbol ||
+                    !customTokenAddress ||
+                    isBridgeSiloTokenPending
+                  }
+                >
+                  Request deployment
+                </Button>
               </div>
             </div>
           </FormProvider>

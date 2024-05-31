@@ -1,5 +1,5 @@
 import { initContract } from "@ts-rest/core"
-import { z } from "zod"
+import { symbol, z } from "zod"
 import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { LIST_TYPES } from "@/constants/lists"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
@@ -268,39 +268,6 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
-  getSiloToken: {
-    summary: "Get a token associated with a silo",
-    method: "GET",
-    path: "/api/silos/:id/tokens/:tokenId",
-    responses: {
-      200: TokenSchema,
-    },
-    metadata: {
-      scopes: ["silos:read"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-      tokenId: z.number(),
-    }),
-  },
-  bridgeSiloToken: {
-    summary: "Request bridging of a silo token",
-    method: "POST",
-    path: "/api/silos/:id/tokens/:tokenId/bridge",
-    responses: {
-      200: z.object({
-        status: DeploymentStatus,
-      }),
-    },
-    metadata: {
-      scopes: ["silos:write"],
-    },
-    body: z.object({}),
-    pathParams: z.object({
-      id: z.number(),
-      tokenId: z.number(),
-    }),
-  },
   getSiloOracle: {
     summary: "Get the oracle configuration for a silo",
     method: "GET",
@@ -373,6 +340,27 @@ export const contract = c.router({
       fromNetworks: z.array(BridgeNetwork).optional(),
       toNetworks: z.array(BridgeNetwork).optional(),
       tokens: z.array(z.number()).optional(),
+    }),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  bridgeSiloToken: {
+    summary: "Request bridging of a token for a silo",
+    method: "POST",
+    path: "/api/silos/:id/bridge/tokens",
+    responses: {
+      200: z.object({
+        status: DeploymentStatus,
+      }),
+    },
+    metadata: {
+      scopes: ["silos:write"],
+    },
+    body: z.object({
+      tokenId: z.number().optional(),
+      symbol: z.string().optional(),
+      address: z.string().optional(),
     }),
     pathParams: z.object({
       id: z.number(),
