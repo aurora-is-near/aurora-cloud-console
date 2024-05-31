@@ -10,6 +10,8 @@ export type Network = {
   evm?: string
 }
 
+const AURORA_CHAIN_IDS = ["1313161554", "1313161555", "1313161556"]
+
 const DEFAULT_NETWORKS: Network[] = [
   {
     key: "AURORA",
@@ -42,7 +44,7 @@ export const useBridgeNetworks = (siloId: number) => {
   )
 
   const availableNetworks = useMemo((): Network[] => {
-    if (!silo) {
+    if (!silo || AURORA_CHAIN_IDS.includes(silo.chainId)) {
       return DEFAULT_NETWORKS
     }
 
