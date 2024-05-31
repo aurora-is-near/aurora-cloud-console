@@ -1,10 +1,11 @@
-import { LinkButton, LinkButtonProps } from "@/components/LinkButton"
+import { Button } from "@/components/Button"
+import { LinkButtonProps } from "@/components/LinkButton"
 import { useBridgeNetworks } from "@/hooks/useBridgeNetworks"
 import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { useQuery } from "@tanstack/react-query"
-import { useMemo } from "react"
+import { useCallback } from "react"
 
 type BridgeOpenButtonProps = {
   siloId: number
@@ -27,7 +28,7 @@ export const BridgeOpenButton = ({ siloId, size }: BridgeOpenButtonProps) => {
     }),
   )
 
-  const href = useMemo(() => {
+  const onClick = useCallback(() => {
     const url = new URL(
       "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud",
     )
@@ -105,15 +106,22 @@ export const BridgeOpenButton = ({ siloId, size }: BridgeOpenButtonProps) => {
         .filter(Boolean)
 
       url.searchParams.set("customTokens", JSON.stringify(customTokens))
+
+      window.open(
+        url.href,
+        "newwindow",
+        `width=${600},height=${800},left=${window.screen.width / 2 - 300},top=${
+          window.screen.height / 2 - 400
+        }`,
+      )
     }
 
     return url.href
   }, [fromNetworks, silo, toNetworks, activeTokens])
 
   return (
-    <LinkButton
-      href={href}
-      target="_blank"
+    <Button
+      onClick={onClick}
       className="w-full"
       disabled={isBridgeNetworksPending ?? isBridgeTokensPending}
       size={size}
@@ -122,6 +130,6 @@ export const BridgeOpenButton = ({ siloId, size }: BridgeOpenButtonProps) => {
         Open bridge
         <ArrowTopRightOnSquareIcon className="ml-2 w-6 h-6" />
       </span>
-    </LinkButton>
+    </Button>
   )
 }
