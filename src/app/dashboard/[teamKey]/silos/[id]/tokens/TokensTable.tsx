@@ -22,7 +22,17 @@ const TokensTable = ({ siloId }: { siloId: number }) => {
       <Table.TH>Token type</Table.TH>
       {tokens?.items.map((token) => (
         <Table.TR key={token.address}>
-          <Table.TD dark>{token.symbol}</Table.TD>
+          <Table.TD dark>
+            {token.iconUrl && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={token.iconUrl}
+                alt={`${token.name} icon`}
+                className="w-6 h-6 inline-block"
+              />
+            )}
+            {token.symbol}
+          </Table.TD>
           <Table.TD>
             {token.address} <CopyButton value={token.address} />
           </Table.TD>
