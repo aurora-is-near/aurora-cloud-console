@@ -16,7 +16,7 @@ export const BridgeDeployedTokensCard = ({
   siloId,
 }: BridgeDeployedTokensCardProps) => {
   const { pendingTokens, deployedTokens, isPending } = useBridgeTokens(siloId)
-  const bridgedTokens = [...pendingTokens, ...deployedTokens]
+  const bridgedTokens = [...deployedTokens, ...pendingTokens]
 
   return (
     <>

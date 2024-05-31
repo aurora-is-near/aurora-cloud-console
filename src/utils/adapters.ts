@@ -78,8 +78,9 @@ export const adaptToken = (token: Token): TokenSchema => ({
   deploymentStatus: token.deployment_status,
   iconUrl: token.icon_url,
   bridge:
-    token.bridge_deployment_status === "DEPLOYED"
-      ? {
+    token.bridge_deployment_status === "NOT_DEPLOYED"
+      ? null
+      : {
           deploymentStatus: token.bridge_deployment_status,
           isFast: token.fast_bridge,
           addresses: (token.bridge_addresses ?? []).map((bridgeAddress) => {
@@ -91,8 +92,7 @@ export const adaptToken = (token: Token): TokenSchema => ({
             }
           }),
           origin: token.bridge_origin,
-        }
-      : null,
+        },
 })
 
 export const adaptSilo = (
