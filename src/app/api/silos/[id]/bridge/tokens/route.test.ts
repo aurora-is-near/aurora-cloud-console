@@ -136,7 +136,7 @@ describe("Bridge silo token route", () => {
       )
     })
 
-    describe.only("updating by symbol and address", () => {
+    describe("updating by symbol and address", () => {
       it("creates a new token", async () => {
         const mockToken = createMockToken({ id: 42 })
         const insertQueries = createInsertOrUpdate(mockToken)

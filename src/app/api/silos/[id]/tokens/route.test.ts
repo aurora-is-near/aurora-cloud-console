@@ -37,16 +37,8 @@ describe("Silo tokens route", () => {
     })
 
     it("returns the silo tokens", async () => {
-      const bridgeAddresses = [
-        { network: "ethereum", address: "0x123" },
-        { network: "near", address: "0x456" },
-      ]
-
       const mockTokens = createMockTokens(2, {
-        bridge_deployment_status: "DEPLOYED",
-        bridge_addresses: bridgeAddresses.map(
-          ({ network, address }) => `${network}:${address}`,
-        ),
+        bridge_deployment_status: "NOT_DEPLOYED",
       })
 
       mockSupabaseClient
@@ -71,21 +63,24 @@ describe("Silo tokens route", () => {
           symbol: mockTokens[index].symbol,
           iconUrl: mockTokens[index].icon_url,
           type: mockTokens[index].type,
-          bridge: {
-            deploymentStatus: mockTokens[index].bridge_deployment_status,
-            isFast: mockTokens[index].fast_bridge,
-            addresses: bridgeAddresses,
-            origin: mockTokens[index].bridge_origin,
-          },
+          bridge: null,
         })),
       })
     })
 
-    it.each(["NOT_DEPLOYED", "PENDING"] as DeploymentStatus[])(
-      "returns the silo tokens with no bridge when the token status is %s",
+    it.each(["PENDING", "DEPLOYED"] as DeploymentStatus[])(
+      "returns the silo tokens with bridge data when the token status is %s",
       async (status) => {
+        const bridgeAddresses = [
+          { network: "ethereum", address: "0x123" },
+          { network: "near", address: "0x456" },
+        ]
+
         const mockTokens = createMockTokens(1, {
           bridge_deployment_status: status,
+          bridge_addresses: bridgeAddresses.map(
+            ({ network, address }) => `${network}:${address}`,
+          ),
         })
 
         mockSupabaseClient
@@ -113,7 +108,12 @@ describe("Silo tokens route", () => {
               name: mockToken.name,
               symbol: mockToken.symbol,
               type: mockToken.type,
-              bridge: null,
+              bridge: {
+                deploymentStatus: mockToken.bridge_deployment_status,
+                isFast: mockToken.fast_bridge,
+                addresses: bridgeAddresses,
+                origin: mockToken.bridge_origin,
+              },
             },
           ],
         })
