@@ -1493,6 +1493,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                               "symbol": {
                                 "type": "string",
                               },
+                              "type": {
+                                "nullable": true,
+                                "type": "string",
+                              },
                             },
                             "required": [
                               "address",
@@ -1502,6 +1506,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                               "name",
                               "decimals",
                               "iconUrl",
+                              "type",
                               "deploymentStatus",
                               "bridge",
                             ],
@@ -1680,6 +1685,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "symbol": {
                           "type": "string",
                         },
+                        "type": {
+                          "nullable": true,
+                          "type": "string",
+                        },
                       },
                       "required": [
                         "address",
@@ -1689,6 +1698,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "name",
                         "decimals",
                         "iconUrl",
+                        "type",
                         "deploymentStatus",
                         "bridge",
                       ],
@@ -2375,6 +2385,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "symbol": {
                             "type": "string",
                           },
+                          "type": {
+                            "nullable": true,
+                            "type": "string",
+                          },
                         },
                         "required": [
                           "address",
@@ -2384,6 +2398,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "name",
                           "decimals",
                           "iconUrl",
+                          "type",
                           "deploymentStatus",
                           "bridge",
                         ],

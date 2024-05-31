@@ -70,6 +70,7 @@ describe("Silo tokens route", () => {
           name: mockTokens[index].name,
           symbol: mockTokens[index].symbol,
           iconUrl: mockTokens[index].icon_url,
+          type: mockTokens[index].type,
           bridge: {
             deploymentStatus: mockTokens[index].bridge_deployment_status,
             isFast: mockTokens[index].fast_bridge,
@@ -111,6 +112,7 @@ describe("Silo tokens route", () => {
               id: mockToken.id,
               name: mockToken.name,
               symbol: mockToken.symbol,
+              type: mockToken.type,
               bridge: null,
             },
           ],

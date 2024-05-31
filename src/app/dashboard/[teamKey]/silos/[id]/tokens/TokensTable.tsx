@@ -19,14 +19,14 @@ const TokensTable = ({ siloId }: { siloId: number }) => {
     <Table>
       <Table.TH>Token</Table.TH>
       <Table.TH>Address</Table.TH>
-      <Table.TH>Decimals</Table.TH>
+      <Table.TH>Token type</Table.TH>
       {tokens?.items.map((token) => (
         <Table.TR key={token.address}>
           <Table.TD dark>{token.symbol}</Table.TD>
           <Table.TD>
             {token.address} <CopyButton value={token.address} />
           </Table.TD>
-          <Table.TD>{token.decimals}</Table.TD>
+          <Table.TD>{token.type}</Table.TD>
         </Table.TR>
       ))}
     </Table>

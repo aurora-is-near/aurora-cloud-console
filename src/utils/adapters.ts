@@ -77,6 +77,7 @@ export const adaptToken = (token: Token): TokenSchema => ({
   decimals: token.decimals,
   deploymentStatus: token.deployment_status,
   iconUrl: token.icon_url,
+  type: token.type,
   bridge:
     token.bridge_deployment_status === "NOT_DEPLOYED"
       ? null

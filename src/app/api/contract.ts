@@ -61,6 +61,7 @@ export const TokenSchema = z.object({
   name: z.string().nullable(),
   decimals: z.number().nullable(),
   iconUrl: z.string().nullable(),
+  type: z.string().nullable(),
   deploymentStatus: DeploymentStatus,
   bridge: z
     .object({
