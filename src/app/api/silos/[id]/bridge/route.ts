@@ -3,10 +3,12 @@ import { abort } from "../../../../../utils/abort"
 import { getSilo } from "@/actions/silos/get-silo"
 import { getSiloBridge } from "@/actions/silo-bridge/get-silo-bridge"
 import { createSiloBridge } from "@/actions/silo-bridge/create-silo-bridge"
-import { Bridge, BridgeNetworkType } from "@/types/types"
+import { Bridge, BridgeNetworkType, Silo, Token } from "@/types/types"
 import { BridgeSchema } from "@/types/api-schemas"
 import { updateSiloBridge } from "@/actions/silo-bridge/update-silo-bridge"
 import { isValidNetwork } from "@/utils/bridge"
+import { getTokens } from "@/actions/tokens/get-tokens"
+import { getWidgetUrl } from "@/actions/silo-bridge/get-widget-url"
 
 const getValidNetworks = (networks: string[]): BridgeNetworkType[] => {
   const validNetworks = networks.filter(isValidNetwork)
@@ -19,17 +21,12 @@ const getValidNetworks = (networks: string[]): BridgeNetworkType[] => {
   return validNetworks
 }
 
-const getBridgeSchema = (bridge?: Bridge): BridgeSchema => {
-  if (!bridge) {
-    return {
-      enabled: false,
-      createdAt: null,
-      updatedAt: null,
-      fromNetworks: null,
-      toNetworks: null,
-      tokens: [],
-    }
-  }
+const getBridgeSchema = (data: {
+  silo: Silo
+  bridge: Bridge
+  tokens: Token[]
+}): BridgeSchema => {
+  const { bridge } = data ?? {}
 
   return {
     enabled: true,
@@ -38,21 +35,43 @@ const getBridgeSchema = (bridge?: Bridge): BridgeSchema => {
     fromNetworks: bridge.from_networks,
     toNetworks: bridge.to_networks,
     tokens: bridge.tokens,
+    widgetUrl: getWidgetUrl(data),
   }
 }
 
-export const GET = createApiEndpoint("getSiloBridge", async (_req, ctx) => {
-  const bridge = await getSiloBridge(Number(ctx.params.id))
+const getDisabledBridgeSchema = (): BridgeSchema => ({
+  enabled: false,
+  createdAt: null,
+  updatedAt: null,
+  fromNetworks: null,
+  toNetworks: null,
+  tokens: [],
+  widgetUrl: null,
+})
 
-  if (!bridge) {
-    return getBridgeSchema()
+export const GET = createApiEndpoint("getSiloBridge", async (_req, ctx) => {
+  const [bridge, silo, tokens] = await Promise.all([
+    getSiloBridge(Number(ctx.params.id)),
+    getSilo(Number(ctx.params.id)),
+    getTokens(),
+  ])
+
+  if (!silo) {
+    abort(404)
   }
 
-  return getBridgeSchema(bridge)
+  if (!bridge) {
+    return getDisabledBridgeSchema()
+  }
+
+  return getBridgeSchema({ silo, bridge, tokens })
 })
 
 export const POST = createApiEndpoint("createSiloBridge", async (_req, ctx) => {
-  const silo = await getSilo(Number(ctx.params.id))
+  const [silo, tokens] = await Promise.all([
+    getSilo(Number(ctx.params.id)),
+    getTokens(),
+  ])
 
   if (!silo) {
     abort(404)
@@ -66,14 +85,18 @@ export const POST = createApiEndpoint("createSiloBridge", async (_req, ctx) => {
 
   const bridge = await createSiloBridge({ silo_id: silo.id })
 
-  return getBridgeSchema(bridge)
+  return getBridgeSchema({ bridge, silo, tokens })
 })
 
 export const PUT = createApiEndpoint("updateSiloBridge", async (_req, ctx) => {
   const siloId = Number(ctx.params.id)
-  const bridge = await getSiloBridge(siloId)
+  const [bridge, silo, tokens] = await Promise.all([
+    getSiloBridge(siloId),
+    getSilo(Number(ctx.params.id)),
+    getTokens(),
+  ])
 
-  if (!bridge) {
+  if (!silo || !bridge) {
     abort(404)
   }
 
@@ -85,5 +108,5 @@ export const PUT = createApiEndpoint("updateSiloBridge", async (_req, ctx) => {
     tokens: ctx.body.tokens,
   })
 
-  return getBridgeSchema(updatedBridge)
+  return getBridgeSchema({ bridge: updatedBridge, silo, tokens })
 })

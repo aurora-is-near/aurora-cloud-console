@@ -117,6 +117,7 @@ export const BridgeSchema = z.object({
   fromNetworks: z.array(BridgeNetwork).nullable(),
   toNetworks: z.array(BridgeNetwork).nullable(),
   tokens: z.array(z.number()),
+  widgetUrl: z.string().nullable(),
 })
 
 export const TransactionDataSchema = z.object({
