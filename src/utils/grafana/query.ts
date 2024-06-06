@@ -108,15 +108,6 @@ export const query = async (
 
   debug("Grafana request", href)
 
-  console.log(
-    `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`,
-    JSON.stringify({
-      from: interval,
-      to: "now",
-      queries,
-    }),
-  )
-
   const res = await fetch(href, {
     agent: httpsAgent,
     method: "POST",

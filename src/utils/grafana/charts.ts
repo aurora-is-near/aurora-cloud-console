@@ -18,8 +18,6 @@ export const getLatencyCharts = async (
 ): Promise<ChartData[]> => {
   const data = await queryLatency(percentiles, interval)
 
-  console.log(data)
-
   return Array.from({ length: percentiles.length }, (_, index): ChartData => {
     const [frame] = data.results[String(index)].frames
 
