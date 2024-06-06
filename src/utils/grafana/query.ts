@@ -2,10 +2,7 @@ import fetch from "node-fetch"
 import https from "https"
 import { createDebugger } from "@/debug"
 
-// TODO: Switch to the proxy API once the endpoint we need has been exposed. For
-// now this will only work when connected to the Aurora VPN.
-// const GRAFANA_BASE_URL = "https://rpc.api.grafana.aurora.dev"
-const GRAFANA_BASE_URL = "https://grafana.internal.aurora.dev:3000"
+const GRAFANA_BASE_URL = "https://grafana.aurora.dev/"
 const DEFAULT_INTERVAL = "now-24h"
 const MAX_DAYS = 90
 const GRAFANA_DATASOURCE = {
