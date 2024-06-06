@@ -1,17 +1,25 @@
+import { ChartSpinner } from "@/components/ChartSpinner"
 import Card from "@/components/Card"
 import clsx from "clsx"
+import { ReactNode } from "react"
+
+type ChartProps = {
+  title: string
+  subtitle?: ReactNode
+  className?: string
+  legend?: string[]
+  children?: ReactNode
+  isLoading?: boolean
+}
 
 const Chart = ({
   title,
   subtitle,
   className,
   legend,
-}: {
-  title: string
-  subtitle?: string
-  className?: string
-  legend?: string[]
-}) => {
+  children,
+  isLoading,
+}: ChartProps) => {
   return (
     <Card className={className}>
       <div className="px-6 pt-5 pb-6 space-y-5">
@@ -26,7 +34,15 @@ const Chart = ({
           ) : null}
         </div>
 
-        <div className="w-full bg-gray-200 h-44 rounded-md" />
+        <div className="w-full h-[250px] rounded-md relative">
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="opacity-80 bg-white w-full h-full absolute" />
+              <ChartSpinner />
+            </div>
+          )}
+          {children}
+        </div>
       </div>
       {legend && legend.length > 0 ? (
         <div className="px-1 pb-1">

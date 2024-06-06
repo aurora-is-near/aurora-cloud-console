@@ -62,3 +62,11 @@ export type List = Tables<"lists">
 export type Deal = Tables<"deals">
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
+
+type ChartData = {
+  label: string
+  chart: {
+    day: string
+    count: number
+  }[]
+}

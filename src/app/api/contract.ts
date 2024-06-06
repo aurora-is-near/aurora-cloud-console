@@ -3,6 +3,7 @@ import { symbol, z } from "zod"
 import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { LIST_TYPES } from "@/constants/lists"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
+import { LATENCY_PERCENTILES } from "@/constants/latency"
 import { BRIDGE_NETWORKS } from "@/constants/bridge"
 import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
 
@@ -131,6 +132,16 @@ export const TransactionDataSchema = z.object({
     }),
   ),
   walletsPerDay: z.array(
+    z.object({
+      day: z.string(),
+      count: z.number(),
+    }),
+  ),
+})
+
+export const ChartDataSchema = z.object({
+  label: z.string(),
+  chart: z.array(
     z.object({
       day: z.string(),
       count: z.number(),
@@ -638,5 +649,61 @@ export const contract = c.router({
     query: z.object({
       interval: TransactionDataIntervalQueryParamSchema,
     }),
+  },
+  getSiloFailureRate: {
+    summary: "Get the failure rate chart for a single silo",
+    method: "GET",
+    path: "/api/silos/:id/failure-rate",
+    responses: {
+      200: z.object({
+        items: z.array(ChartDataSchema),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silos:read"],
+    },
+  },
+  getSiloLatency: {
+    summary: "Get latency chart data",
+    method: "GET",
+    path: "/api/silos/:id/latency",
+    responses: {
+      200: z.object({
+        items: z.array(ChartDataSchema),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silos:read"],
+    },
+    query: z.object({
+      interval: z
+        .string()
+        .optional()
+        .openapi({
+          enum: ["now-24h", "now-12h", "now-1h", "now-15m"],
+        }),
+    }),
+  },
+  getSiloRpcRequests: {
+    summary: "Get RPC request chart data",
+    method: "GET",
+    path: "/api/silos/:id/rpc-requests",
+    responses: {
+      200: z.object({
+        items: z.array(ChartDataSchema),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silos:read"],
+    },
   },
 })
