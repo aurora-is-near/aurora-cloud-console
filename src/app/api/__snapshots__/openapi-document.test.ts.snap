@@ -1811,6 +1811,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "nullable": true,
                       "type": "string",
                     },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                   },
                   "required": [
                     "enabled",
@@ -1819,6 +1823,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "fromNetworks",
                     "toNetworks",
                     "tokens",
+                    "widgetUrl",
                   ],
                   "type": "object",
                 },
@@ -1913,6 +1918,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "nullable": true,
                       "type": "string",
                     },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                   },
                   "required": [
                     "enabled",
@@ -1921,6 +1930,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "fromNetworks",
                     "toNetworks",
                     "tokens",
+                    "widgetUrl",
                   ],
                   "type": "object",
                 },
@@ -2046,6 +2056,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "nullable": true,
                       "type": "string",
                     },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                   },
                   "required": [
                     "enabled",
@@ -2054,6 +2068,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "fromNetworks",
                     "toNetworks",
                     "tokens",
+                    "widgetUrl",
                   ],
                   "type": "object",
                 },
@@ -2144,6 +2159,175 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Request bridging of a token for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/failure-rate": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloFailureRate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "chart": {
+                            "items": {
+                              "properties": {
+                                "count": {
+                                  "type": "number",
+                                },
+                                "day": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "day",
+                                "count",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "label": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "label",
+                          "chart",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the failure rate chart for a single silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/latency": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloLatency",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "interval",
+            "schema": {
+              "enum": [
+                "now-24h",
+                "now-12h",
+                "now-1h",
+                "now-15m",
+              ],
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "chart": {
+                            "items": {
+                              "properties": {
+                                "count": {
+                                  "type": "number",
+                                },
+                                "day": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "day",
+                                "count",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "label": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "label",
+                          "chart",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get latency chart data",
         "tags": [
           "silos",
         ],
@@ -2279,6 +2463,84 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Create an oracle configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/rpc-requests": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloRpcRequests",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "chart": {
+                            "items": {
+                              "properties": {
+                                "count": {
+                                  "type": "number",
+                                },
+                                "day": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "day",
+                                "count",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "label": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "label",
+                          "chart",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get RPC request chart data",
         "tags": [
           "silos",
         ],
