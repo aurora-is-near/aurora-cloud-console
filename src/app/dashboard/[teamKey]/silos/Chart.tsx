@@ -22,9 +22,9 @@ const Chart = ({
 }: ChartProps) => {
   return (
     <Card className={className}>
-      <div className="px-6 pt-5 pb-6 space-y-5">
+      <div className="p-3 space-y-5">
         <div className="flex items-center justify-between">
-          <h2 className="text-base leading-none font-medium text-gray-900">
+          <h2 className="text-base leading-none font-medium text-gray-900 mb-2">
             {title}
           </h2>
           {subtitle ? (
