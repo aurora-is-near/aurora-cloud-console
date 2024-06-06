@@ -46,6 +46,7 @@ describe("Bridges route", () => {
         fromNetworks: null,
         toNetworks: null,
         tokens: [],
+        widgetUrl: null,
       })
     })
 
@@ -74,6 +75,8 @@ describe("Bridges route", () => {
         fromNetworks: ["AURORA"],
         toNetworks: ["ETHEREUM"],
         tokens: [1],
+        widgetUrl:
+          "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud?toNetworks=%5B%22ethereum%22%5D&fromNetworks=%5B%22aurora%22%5D",
       })
     })
   })
@@ -128,6 +131,8 @@ describe("Bridges route", () => {
         fromNetworks: [],
         toNetworks: [],
         tokens: [],
+        widgetUrl:
+          "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud?toNetworks=%5B%5D&fromNetworks=%5B%5D",
       })
 
       expect(mockSupabaseClient.from("bridges").insert).toHaveBeenCalledWith({
@@ -194,6 +199,8 @@ describe("Bridges route", () => {
         fromNetworks,
         toNetworks,
         tokens,
+        widgetUrl:
+          "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud?toNetworks=%5B%22ethereum%22%5D&fromNetworks=%5B%22aurora%22%5D",
       })
 
       expect(mockSupabaseClient.from("bridges").update).toHaveBeenCalledTimes(1)

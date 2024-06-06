@@ -1811,6 +1811,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "nullable": true,
                       "type": "string",
                     },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                   },
                   "required": [
                     "enabled",
@@ -1819,6 +1823,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "fromNetworks",
                     "toNetworks",
                     "tokens",
+                    "widgetUrl",
                   ],
                   "type": "object",
                 },
@@ -1913,6 +1918,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "nullable": true,
                       "type": "string",
                     },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                   },
                   "required": [
                     "enabled",
@@ -1921,6 +1930,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "fromNetworks",
                     "toNetworks",
                     "tokens",
+                    "widgetUrl",
                   ],
                   "type": "object",
                 },
@@ -2046,6 +2056,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "nullable": true,
                       "type": "string",
                     },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                   },
                   "required": [
                     "enabled",
@@ -2054,6 +2068,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "fromNetworks",
                     "toNetworks",
                     "tokens",
+                    "widgetUrl",
                   ],
                   "type": "object",
                 },
