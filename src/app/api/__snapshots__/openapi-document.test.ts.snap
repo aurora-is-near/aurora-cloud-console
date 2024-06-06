@@ -2195,7 +2195,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                                   "type": "number",
                                 },
                                 "day": {
-                                  "type": "string",
+                                  "type": "number",
                                 },
                               },
                               "required": [
@@ -2286,7 +2286,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                                   "type": "number",
                                 },
                                 "day": {
-                                  "type": "string",
+                                  "type": "number",
                                 },
                               },
                               "required": [
@@ -2499,7 +2499,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                                   "type": "number",
                                 },
                                 "day": {
-                                  "type": "string",
+                                  "type": "number",
                                 },
                               },
                               "required": [

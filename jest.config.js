@@ -1,3 +1,10 @@
+const nodeModulesToTransform = [
+  "node-fetch",
+  "data-uri-to-buffer",
+  "fetch-blob",
+  "formdata-polyfill",
+].join("|")
+
 module.exports = {
   clearMocks: true,
   setupFiles: ["./jest.setup.js"],
@@ -8,6 +15,7 @@ module.exports = {
     "^.+\\.(t|j)sx?$": ["@swc/jest"],
     ".+\\.(png|jpg)$": "jest-transform-stub",
   },
+  transformIgnorePatterns: [`node_modules/(?!(${nodeModulesToTransform})/)`],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
   },

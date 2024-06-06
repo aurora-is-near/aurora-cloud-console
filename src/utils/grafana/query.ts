@@ -136,7 +136,9 @@ export const query = async (
     throw new Error(`Failed to query Grafana: ${res.status} - ${message}`)
   }
 
-  return (await res.json()) as QueryResults
+  const result = await res.json()
+
+  return result as QueryResults
 }
 
 const getParameters = (obj: { [x: string]: unknown }) =>

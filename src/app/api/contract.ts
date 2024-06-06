@@ -143,7 +143,7 @@ export const ChartDataSchema = z.object({
   label: z.string(),
   chart: z.array(
     z.object({
-      day: z.string(),
+      day: z.number(),
       count: z.number(),
     }),
   ),

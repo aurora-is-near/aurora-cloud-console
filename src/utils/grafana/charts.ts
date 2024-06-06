@@ -28,11 +28,11 @@ export const getLatencyCharts = async (
   })
 
   return Array.from({ length: percentiles.length }, (_, index): ChartData => {
-    const [frame] = data.results[String(index)].frames
+    const [frame] = data.results[String(index)]?.frames ?? []
 
     return {
       label: `Latency (ms), ${percentiles[index] * 100}% quantile`,
-      chart: getValuesFromFrame(frame),
+      chart: frame ? getValuesFromFrame(frame) : [],
     }
   })
 }
@@ -43,11 +43,11 @@ export const getRpcChart = async ({
   network: string | null
 }): Promise<ChartData> => {
   const data = await queryRpc({ network })
-  const [frame] = data.results["0"].frames
+  const [frame] = data.results["0"]?.frames ?? []
 
   return {
     label: "RPC requests",
-    chart: getValuesFromFrame(frame),
+    chart: frame ? getValuesFromFrame(frame) : [],
   }
 }
 
@@ -57,10 +57,10 @@ export const getFailureRateChart = async ({
   network: string | null
 }): Promise<ChartData> => {
   const data = await queryFailureRate({ network })
-  const [frame] = data.results["0"].frames
+  const [frame] = data.results["0"]?.frames ?? []
 
   return {
     label: "Failure rate",
-    chart: getValuesFromFrame(frame),
+    chart: frame ? getValuesFromFrame(frame) : [],
   }
 }
