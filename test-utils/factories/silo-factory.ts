@@ -13,6 +13,7 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   rpc_url: "testnet.aurora.dev",
   engine_version: "2.0.22",
   network: "public",
+  grafana_network_key: "testnet",
   ...data,
 })
 

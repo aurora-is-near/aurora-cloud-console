@@ -117,6 +117,12 @@ export const SiloForm = ({ silo, tokens, teamId }: SiloFormProps) => {
       autoComplete: "rpc_url",
       required: true,
     },
+    {
+      name: "grafana_network_key",
+      label: "Grafanana network key",
+      defaultValue: silo?.grafana_network_key ?? "",
+      autoComplete: "grafanana_network_key",
+    },
   ]
 
   if (tokens) {

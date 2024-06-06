@@ -146,7 +146,13 @@ const getParameters = (obj: { [x: string]: unknown }) =>
 
 export const queryLatency = (
   percentiles: number[],
-  interval: string | null,
+  {
+    interval,
+    network,
+  }: {
+    interval: string | null
+    network: string | null
+  },
 ) => {
   return query(
     percentiles.map((quartile, index) => ({
@@ -154,7 +160,11 @@ export const queryLatency = (
       datasourceId: 8,
       editorMode: "builder",
       exemplar: false,
-      expr: `histogram_quantile(${quartile}, sum by(le) (rate(borealis_prober_entries_request_size_bucket{}[$__rate_interval])))`,
+      expr: `histogram_quantile(${quartile}, sum by(le) (rate(borealis_prober_entries_request_size_bucket{${getParameters(
+        {
+          network,
+        },
+      )}}[$__rate_interval])))`,
       hide: false,
       intervalMs: getIntervalMs(interval),
       range: true,
@@ -165,7 +175,7 @@ export const queryLatency = (
   )
 }
 
-export const queryRpc = () => {
+export const queryRpc = ({ network }: { network: string | null }) => {
   const interval = "now-90d"
 
   return query(
@@ -175,7 +185,9 @@ export const queryRpc = () => {
         datasourceId: 8,
         editorMode: "builder",
         exemplar: false,
-        expr: `sum(rate(borealis_prober_entries_count{}[$__rate_interval]))`,
+        expr: `sum(rate(borealis_prober_entries_count{${getParameters({
+          network,
+        })}}[$__rate_interval]))`,
         hide: false,
         intervalMs: getIntervalMs(interval),
         range: true,
@@ -187,7 +199,7 @@ export const queryRpc = () => {
   )
 }
 
-export const queryFailureRate = () => {
+export const queryFailureRate = ({ network }: { network: string | null }) => {
   const interval = "now-90d"
 
   return query(
@@ -199,6 +211,7 @@ export const queryFailureRate = () => {
         exemplar: false,
         expr: `sum(rate(borealis_prober_entries_count{${getParameters({
           rpcstatus: "error",
+          network,
         })}}[$__rate_interval])) / sum(rate(borealis_prober_entries_count{}[$__rate_interval]))`,
         hide: false,
         intervalMs: getIntervalMs(interval),

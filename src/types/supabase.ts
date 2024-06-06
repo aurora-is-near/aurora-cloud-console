@@ -201,6 +201,7 @@ export type Database = {
           engine_account: string
           engine_version: string
           genesis: string
+          grafana_network_key: string | null
           id: number
           name: string
           network: string
@@ -215,6 +216,7 @@ export type Database = {
           engine_account: string
           engine_version: string
           genesis: string
+          grafana_network_key?: string | null
           id?: number
           name: string
           network?: string
@@ -229,6 +231,7 @@ export type Database = {
           engine_account?: string
           engine_version?: string
           genesis?: string
+          grafana_network_key?: string | null
           id?: number
           name?: string
           network?: string

@@ -14,9 +14,18 @@ const getValuesFromFrame = (frame: { data: { values: number[][] } }) => {
 
 export const getLatencyCharts = async (
   percentiles: number[],
-  interval: string | null,
+  {
+    interval,
+    network,
+  }: {
+    interval: string | null
+    network: string | null
+  },
 ): Promise<ChartData[]> => {
-  const data = await queryLatency(percentiles, interval)
+  const data = await queryLatency(percentiles, {
+    interval,
+    network,
+  })
 
   return Array.from({ length: percentiles.length }, (_, index): ChartData => {
     const [frame] = data.results[String(index)].frames
@@ -28,8 +37,12 @@ export const getLatencyCharts = async (
   })
 }
 
-export const getRpcChart = async (): Promise<ChartData> => {
-  const data = await queryRpc()
+export const getRpcChart = async ({
+  network,
+}: {
+  network: string | null
+}): Promise<ChartData> => {
+  const data = await queryRpc({ network })
   const [frame] = data.results["0"].frames
 
   return {
@@ -38,8 +51,12 @@ export const getRpcChart = async (): Promise<ChartData> => {
   }
 }
 
-export const getFailureRateChart = async (): Promise<ChartData> => {
-  const data = await queryFailureRate()
+export const getFailureRateChart = async ({
+  network,
+}: {
+  network: string | null
+}): Promise<ChartData> => {
+  const data = await queryFailureRate({ network })
   const [frame] = data.results["0"].frames
 
   return {
