@@ -26,6 +26,10 @@ type Query = {
   utcOffsetSec: number
 }
 
+type QueryResults = {
+  results: Record<string, { frames: { data: { values: number[][] } }[] }>
+}
+
 const httpsAgent = new https.Agent({
   // At the time of writing the certificate for the Grafana API has expired.
   rejectUnauthorized: false,
@@ -96,7 +100,7 @@ const getIntervalMs = (interval: string | null) => {
 export const query = async (
   queries: Query[],
   interval: string | null = DEFAULT_INTERVAL,
-) => {
+): Promise<QueryResults> => {
   const { href } = new URL("/api/ds/query", GRAFANA_BASE_URL)
   const username = process.env.GRAFANA_USERNAME
   const password = process.env.GRAFANA_PASSWORD
@@ -130,12 +134,18 @@ export const query = async (
   })
 
   if (!res.ok) {
-    const { message } = await res.json().catch(() => undefined)
+    let message
+
+    try {
+      ;({ message } = (await res.json()) as { message: string })
+    } catch (e) {
+      message = "Unknown error"
+    }
 
     throw new Error(`Failed to query Grafana: ${res.status} - ${message}`)
   }
 
-  return res.json()
+  return (await res.json()) as QueryResults
 }
 
 const getParameters = (obj: { [x: string]: unknown }) =>

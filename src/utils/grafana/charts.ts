@@ -1,17 +1,24 @@
 import { ChartData } from "@/types/types"
 import { queryFailureRate, queryLatency, queryRpc } from "@/utils/grafana/query"
 
-const getValuesFromFrame = (frame: { data: { values: number[][] } }) =>
-  frame.data.values[0].map((value: any, i: number) => ({
+const getValuesFromFrame = (frame: { data: { values: number[][] } }) => {
+  const [items] = frame.data.values
+
+  if (!items) return []
+
+  return items.map((value: any, i: number) => ({
     day: value,
     count: frame.data.values[1][i],
   }))
+}
 
 export const getLatencyCharts = async (
   percentiles: number[],
   interval: string | null,
 ): Promise<ChartData[]> => {
   const data = await queryLatency(percentiles, interval)
+
+  console.log(data)
 
   return Array.from({ length: percentiles.length }, (_, index): ChartData => {
     const [frame] = data.results[String(index)].frames
