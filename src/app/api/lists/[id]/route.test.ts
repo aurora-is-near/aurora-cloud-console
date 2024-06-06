@@ -36,7 +36,7 @@ describe("Deal route", () => {
     })
 
     it("throws a not found error if no matching list", async () => {
-      expect(() =>
+      await expect(async () =>
         invokeApiHandler("GET", "/api/lists/1", GET),
       ).rejects.toThrow("Not Found")
     })

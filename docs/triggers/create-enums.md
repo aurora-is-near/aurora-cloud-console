@@ -23,7 +23,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Use the function to add values to 'api_key_scopes'
 SELECT add_values_to_enum(
   'api_key_scopes',
   ARRAY[
@@ -38,13 +37,40 @@ SELECT add_values_to_enum(
   ]
 );
 
--- Use the function to add values to 'token_type'
+SELECT add_values_to_enum(
+  'transaction_database_type',
+  ARRAY[
+    'AURORA',
+    'AURORA_DEMO',
+    'SILO'
+  ]
+);
+
 SELECT add_values_to_enum(
   'token_type',
   ARRAY[
     'ERC20',
     'ERC721',
     'ERC1155'
+  ]
+);
+
+SELECT add_values_to_enum(
+  'bridge_network_type',
+  ARRAY[
+    'AURORA',
+    'NEAR',
+    'ETHEREUM',
+    'CUSTOM'
+  ]
+);
+
+SELECT add_values_to_enum(
+  'deployment_status',
+  ARRAY[
+    'NOT_DEPLOYED',
+    'PENDING',
+    'DEPLOYED'
   ]
 );
 ```

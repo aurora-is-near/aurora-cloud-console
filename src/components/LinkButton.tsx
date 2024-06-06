@@ -5,9 +5,9 @@ import { ButtonContent } from "@/components/ButtonContent"
 import { getButtonClassName } from "@/utils/buttons"
 import Link from "next/link"
 
-type LinkButtonProps = ComponentProps<typeof Link> & {
+export type LinkButtonProps = ComponentProps<typeof Link> & {
   variant?: "primary" | "secondary" | "transparent" | "border" | "destructive"
-  size?: "sm" | "md"
+  size?: "sm" | "md" | "lg"
   loading?: boolean
   disabled?: boolean
   fullWidth?: boolean

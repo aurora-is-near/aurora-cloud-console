@@ -1,6 +1,6 @@
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
   Path,
   RegisterOptions,
@@ -15,6 +15,7 @@ import Select, {
   SingleValue,
   components,
 } from "react-select"
+import Creatable from "react-select/creatable"
 
 export type SelectInputOption = {
   label: string
@@ -28,6 +29,7 @@ export type SelectInputProps<Inputs extends Record<string, unknown>> = {
   registerOptions?: RegisterOptions<Inputs, Path<Inputs>>
   placeholder?: string
   isClearable?: boolean
+  isCreatable?: boolean
   options: SelectInputOption[]
 } & (
   | {
@@ -107,11 +109,14 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
   registerOptions,
   options,
   defaultValue,
+  isCreatable,
   getValue = (
     option?: MultiValue<SelectInputOption> | SingleValue<SelectInputOption>,
   ) => option,
   ...restProps
 }: SelectInputProps<Inputs>) => {
+  const wasDefaultSet = useRef(false)
+  const { setValue, formState } = useFormContext()
   const [selectedOption, setSelectedOption] = useState<
     MultiValue<SelectInputOption> | SingleValue<SelectInputOption> | undefined
   >(defaultValue)
@@ -123,7 +128,14 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
     registerOptions?.onChange?.(option)
   }
 
-  const { setValue } = useFormContext()
+  useEffect(() => {
+    const contextDefaultValue = formState?.defaultValues?.[name]
+
+    if (!selectedOption && contextDefaultValue && !wasDefaultSet.current) {
+      setSelectedOption(contextDefaultValue)
+      wasDefaultSet.current = true
+    }
+  }, [formState?.defaultValues, name, selectedOption])
 
   useEffect(() => {
     setValue(
@@ -131,10 +143,12 @@ export const SelectInput = <Inputs extends Record<string, unknown>>({
       // @ts-ignore
       getValue(selectedOption),
     )
-  }, [name, setValue, selectedOption, defaultValue, getValue])
+  }, [name, setValue, selectedOption, getValue])
+
+  const Component = isCreatable ? Creatable : Select
 
   return (
-    <Select
+    <Component
       instanceId={id}
       name={name}
       isMulti={isMulti}

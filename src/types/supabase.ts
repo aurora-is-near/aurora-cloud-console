@@ -17,7 +17,7 @@ export type Database = {
           last_used_at: string | null
           note: string | null
           scopes: Database["public"]["Enums"]["api_key_scopes"][]
-          user_id: string
+          team_id: number
         }
         Insert: {
           created_at?: string
@@ -26,7 +26,7 @@ export type Database = {
           last_used_at?: string | null
           note?: string | null
           scopes: Database["public"]["Enums"]["api_key_scopes"][]
-          user_id: string
+          team_id: number
         }
         Update: {
           created_at?: string
@@ -35,16 +35,66 @@ export type Database = {
           last_used_at?: string | null
           note?: string | null
           scopes?: Database["public"]["Enums"]["api_key_scopes"][]
-          user_id?: string
+          team_id?: number
         }
         Relationships: [
           {
-            foreignKeyName: "api_keys_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "public_api_keys_team_id_fkey"
+            columns: ["team_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "teams"
             referencedColumns: ["id"]
-          }
+          },
+        ]
+      }
+      bridges: {
+        Row: {
+          created_at: string
+          from_networks:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          id: number
+          silo_id: number
+          to_networks:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          tokens: number[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          from_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          id?: number
+          silo_id: number
+          to_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          tokens?: number[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          from_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          id?: number
+          silo_id?: number
+          to_networks?:
+            | Database["public"]["Enums"]["bridge_network_type"][]
+            | null
+          tokens?: number[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bridges_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: true
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
         ]
       }
       deals: {
@@ -79,7 +129,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "teams"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       lists: {
@@ -108,7 +158,39 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "teams"
             referencedColumns: ["id"]
-          }
+          },
+        ]
+      }
+      oracles: {
+        Row: {
+          created_at: string
+          deployed_at: string | null
+          id: number
+          silo_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deployed_at?: string | null
+          id?: number
+          silo_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deployed_at?: string | null
+          id?: number
+          silo_id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_oracles_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
         ]
       }
       silos: {
@@ -123,6 +205,7 @@ export type Database = {
           name: string
           network: string
           rpc_url: string
+          team_id: number
           updated_at: string
         }
         Insert: {
@@ -136,6 +219,7 @@ export type Database = {
           name: string
           network?: string
           rpc_url?: string
+          team_id: number
           updated_at?: string
         }
         Update: {
@@ -149,6 +233,7 @@ export type Database = {
           name?: string
           network?: string
           rpc_url?: string
+          team_id?: number
           updated_at?: string
         }
         Relationships: [
@@ -158,37 +243,14 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "tokens"
             referencedColumns: ["id"]
-          }
-        ]
-      }
-      silos_tokens: {
-        Row: {
-          silo_id: number
-          token_id: number
-        }
-        Insert: {
-          silo_id: number
-          token_id: number
-        }
-        Update: {
-          silo_id?: number
-          token_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "silos_tokens_silo_id_fkey"
-            columns: ["silo_id"]
-            isOneToOne: false
-            referencedRelation: "silos"
-            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "silos_tokens_token_id_fkey"
-            columns: ["token_id"]
+            foreignKeyName: "silos_team_id_fkey"
+            columns: ["team_id"]
             isOneToOne: false
-            referencedRelation: "tokens"
+            referencedRelation: "teams"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       teams: {
@@ -224,59 +286,64 @@ export type Database = {
         }
         Relationships: []
       }
-      teams_silos: {
+      tokens: {
         Row: {
+          address: string
+          bridge_addresses: string[] | null
+          bridge_deployment_status: Database["public"]["Enums"]["deployment_status"]
+          bridge_origin: string | null
+          created_at: string
+          decimals: number | null
+          deployment_status: Database["public"]["Enums"]["deployment_status"]
+          fast_bridge: boolean
+          icon_url: string | null
+          id: number
+          name: string | null
           silo_id: number
-          team_id: number
+          symbol: string
+          type: Database["public"]["Enums"]["token_type"] | null
         }
         Insert: {
+          address: string
+          bridge_addresses?: string[] | null
+          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
+          bridge_origin?: string | null
+          created_at?: string
+          decimals?: number | null
+          deployment_status?: Database["public"]["Enums"]["deployment_status"]
+          fast_bridge?: boolean
+          icon_url?: string | null
+          id?: number
+          name?: string | null
           silo_id: number
-          team_id?: number
+          symbol: string
+          type?: Database["public"]["Enums"]["token_type"] | null
         }
         Update: {
+          address?: string
+          bridge_addresses?: string[] | null
+          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
+          bridge_origin?: string | null
+          created_at?: string
+          decimals?: number | null
+          deployment_status?: Database["public"]["Enums"]["deployment_status"]
+          fast_bridge?: boolean
+          icon_url?: string | null
+          id?: number
+          name?: string | null
           silo_id?: number
-          team_id?: number
+          symbol?: string
+          type?: Database["public"]["Enums"]["token_type"] | null
         }
         Relationships: [
           {
-            foreignKeyName: "teams_silos_silo_id_fkey"
+            foreignKeyName: "tokens_silo_id_fkey"
             columns: ["silo_id"]
             isOneToOne: false
             referencedRelation: "silos"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "teams_silos_team_id_fkey"
-            columns: ["team_id"]
-            isOneToOne: false
-            referencedRelation: "teams"
-            referencedColumns: ["id"]
-          }
         ]
-      }
-      tokens: {
-        Row: {
-          address: string
-          created_at: string
-          id: number
-          symbol: string
-          type: Database["public"]["Enums"]["token_type"]
-        }
-        Insert: {
-          address: string
-          created_at?: string
-          id?: number
-          symbol: string
-          type: Database["public"]["Enums"]["token_type"]
-        }
-        Update: {
-          address?: string
-          created_at?: string
-          id?: number
-          symbol?: string
-          type?: Database["public"]["Enums"]["token_type"]
-        }
-        Relationships: []
       }
       users: {
         Row: {
@@ -332,7 +399,7 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
@@ -383,6 +450,8 @@ export type Database = {
         | "users:write"
         | "lists:read"
         | "lists:write"
+      bridge_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
+      deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       transaction_database_type: "AURORA" | "AURORA_DEMO" | "SILO"
       user_type: "customer" | "admin"
@@ -393,14 +462,16 @@ export type Database = {
   }
 }
 
+type PublicSchema = Database[Extract<keyof Database, "public">]
+
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -408,67 +479,67 @@ export type Tables<
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
-      Database["public"]["Views"])
-  ? (Database["public"]["Tables"] &
-      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R
-    }
-    ? R
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
     : never
-  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I
-    }
-    ? I
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
     : never
-  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
-    }
-    ? U
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
     : never
-  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof Database["public"]["Enums"]
+    | keyof PublicSchema["Enums"]
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never
+    : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
-  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
-  : never
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never

@@ -5,8 +5,14 @@ import { ButtonContent } from "@/components/ButtonContent"
 import { getButtonClassName } from "@/utils/buttons"
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "transparent" | "border" | "destructive"
-  size?: "sm" | "md"
+  variant?:
+    | "primary"
+    | "secondary"
+    | "transparent"
+    | "border"
+    | "destructive"
+    | "grey"
+  size?: "sm" | "md" | "lg"
   loading?: boolean
   disabled?: boolean
   fullWidth?: boolean

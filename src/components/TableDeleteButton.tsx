@@ -4,6 +4,7 @@ import { DeleteModal } from "@/components/DeleteModal"
 import TableButton from "@/components/TableButton"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
+import toast from "react-hot-toast"
 
 type TableDeleteButtonProps = {
   title: string
@@ -21,8 +22,19 @@ export const TableDeleteButton = ({
 
   const onDeleteClick = async () => {
     setIsPending(true)
-    await onDelete()
-    window.location.href = `${window.location.pathname}?operation=deleted`
+
+    try {
+      await onDelete()
+    } catch (error) {
+      toast.error("Failed to delete item")
+      console.error(error)
+      setIsPending(false)
+
+      return
+    }
+
+    window.location.reload()
+    setIsPending(false)
   }
 
   return (

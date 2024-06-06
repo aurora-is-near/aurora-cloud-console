@@ -1,17 +1,17 @@
 "use server"
 
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
-import { getCurrentUser } from "@/actions/current-user/get-current-user"
 
-export const getApiKeys = async () => {
+export const getApiKeys = async (teamKey: string) => {
   const supabase = createAdminSupabaseClient()
-  const user = await getCurrentUser()
+  const team = await getTeamByKey(teamKey)
   const result = await supabase
     .from("api_keys")
-    .select()
+    .select("*, teams(team_key)")
     .order("id", { ascending: true })
-    .eq("user_id", user.user_id)
+    .eq("team_id", team.id)
 
   assertValidSupabaseResult(result)
 

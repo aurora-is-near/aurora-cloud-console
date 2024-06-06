@@ -50,10 +50,10 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   api_keys: createTableClient(),
   tokens: createTableClient(),
   silos: createTableClient(),
-  silos_tokens: createTableClient(),
-  teams_silos: createTableClient(),
   users: createTableClient(),
   users_teams: createTableClient(),
+  oracles: createTableClient(),
+  bridges: createTableClient(),
 }
 
 export const mockSupabaseClient = {

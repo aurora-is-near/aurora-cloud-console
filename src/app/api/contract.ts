@@ -1,13 +1,19 @@
 import { initContract } from "@ts-rest/core"
-import { z } from "zod"
+import { symbol, z } from "zod"
 import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { LIST_TYPES } from "@/constants/lists"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 import { LATENCY_PERCENTILES } from "@/constants/latency"
+import { BRIDGE_NETWORKS } from "@/constants/bridge"
+import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
 
 extendZodWithOpenApi(z)
 
 const c = initContract()
+
+const DeploymentStatus = z.string().openapi({
+  enum: DEPLOYMENT_STATUSES,
+})
 
 export const ListSchema = z.object({
   id: z.number(),
@@ -48,6 +54,31 @@ const DealPrioritiesSchema = z.array(
   }),
 )
 
+export const TokenSchema = z.object({
+  address: z.string(),
+  createdAt: z.string(),
+  id: z.number(),
+  symbol: z.string(),
+  name: z.string().nullable(),
+  decimals: z.number().nullable(),
+  iconUrl: z.string().nullable(),
+  type: z.string().nullable(),
+  deploymentStatus: DeploymentStatus,
+  bridge: z
+    .object({
+      deploymentStatus: DeploymentStatus,
+      isFast: z.boolean(),
+      addresses: z.array(
+        z.object({
+          network: z.string(),
+          address: z.string(),
+        }),
+      ),
+      origin: z.string().nullable(),
+    })
+    .nullable(),
+})
+
 export const SiloSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
@@ -59,6 +90,7 @@ export const SiloSchema = z.object({
   name: z.string(),
   network: z.string(),
   rpcUrl: z.string(),
+  nativeToken: TokenSchema.nullable(),
 })
 
 export const WalletDetailsSchema = z.object({
@@ -68,12 +100,25 @@ export const WalletDetailsSchema = z.object({
   lastTransactionAt: z.string(),
 })
 
-const TokenSchema = z.object({
-  address: z.string(),
-  createdAt: z.string(),
-  id: z.number(),
-  symbol: z.string(),
-  type: z.string(),
+export const OracleSchema = z.object({
+  enabled: z.boolean(),
+  createdAt: z.string().nullable(),
+  updatedAt: z.string().nullable(),
+  deployedAt: z.string().nullable(),
+})
+
+const BridgeNetwork = z.string().openapi({
+  enum: BRIDGE_NETWORKS,
+})
+
+export const BridgeSchema = z.object({
+  enabled: z.boolean(),
+  createdAt: z.string().nullable(),
+  updatedAt: z.string().nullable(),
+  fromNetworks: z.array(BridgeNetwork).nullable(),
+  toNetworks: z.array(BridgeNetwork).nullable(),
+  tokens: z.array(z.number()),
+  widgetUrl: z.string().nullable(),
 })
 
 export const TransactionDataSchema = z.object({
@@ -232,6 +277,104 @@ export const contract = c.router({
     metadata: {
       scopes: ["silos:read"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  getSiloOracle: {
+    summary: "Get the oracle configuration for a silo",
+    method: "GET",
+    path: "/api/silos/:id/oracle",
+    responses: {
+      200: OracleSchema,
+    },
+    metadata: {
+      scopes: ["silos:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  createSiloOracle: {
+    summary: "Create an oracle configuration for a silo",
+    method: "POST",
+    path: "/api/silos/:id/oracle",
+    responses: {
+      200: OracleSchema,
+    },
+    metadata: {
+      scopes: ["silos:write"],
+    },
+    body: z.object({}),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  getSiloBridge: {
+    summary: "Get the bridge configuration for a silo",
+    method: "GET",
+    path: "/api/silos/:id/bridge",
+    responses: {
+      200: BridgeSchema,
+    },
+    metadata: {
+      scopes: ["silos:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  createSiloBridge: {
+    summary: "Create a bridge configuration for a silo",
+    method: "POST",
+    path: "/api/silos/:id/bridge",
+    responses: {
+      200: BridgeSchema,
+    },
+    metadata: {
+      scopes: ["silos:write"],
+    },
+    body: z.object({}),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  updateSiloBridge: {
+    summary: "Update the bridge configuration for a silo",
+    method: "PUT",
+    path: "/api/silos/:id/bridge",
+    responses: {
+      200: BridgeSchema,
+    },
+    metadata: {
+      scopes: ["silos:write"],
+    },
+    body: z.object({
+      fromNetworks: z.array(BridgeNetwork).optional(),
+      toNetworks: z.array(BridgeNetwork).optional(),
+      tokens: z.array(z.number()).optional(),
+    }),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  bridgeSiloToken: {
+    summary: "Request bridging of a token for a silo",
+    method: "POST",
+    path: "/api/silos/:id/bridge/tokens",
+    responses: {
+      200: z.object({
+        status: DeploymentStatus,
+      }),
+    },
+    metadata: {
+      scopes: ["silos:write"],
+    },
+    body: z.object({
+      tokenId: z.number().optional(),
+      symbol: z.string().optional(),
+      address: z.string().optional(),
+    }),
     pathParams: z.object({
       id: z.number(),
     }),

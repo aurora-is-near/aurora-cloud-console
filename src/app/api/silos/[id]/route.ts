@@ -2,13 +2,17 @@ import { createApiEndpoint } from "@/utils/api"
 import { abort } from "../../../../utils/abort"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { adaptSilo } from "@/utils/adapters"
+import { getToken } from "@/actions/tokens/get-token"
 
 export const GET = createApiEndpoint("getSilo", async (_req, ctx) => {
   const silo = await getTeamSilo(ctx.team.id, Number(ctx.params.id))
+  const token = silo?.base_token_id
+    ? await getToken(silo?.base_token_id)
+    : undefined
 
   if (!silo) {
     abort(404)
   }
 
-  return adaptSilo(silo)
+  return adaptSilo(silo, token)
 })

@@ -1,12 +1,12 @@
 "use server"
 
-import { getCurrentTeam } from "@/actions/current-team/get-current-team"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
-export const deleteTeamMember = async (id: number) => {
+export const deleteTeamMember = async (teamKey: string, id: number) => {
   const supabase = createAdminSupabaseClient()
-  const team = await getCurrentTeam()
+  const team = await getTeamByKey(teamKey)
   const result = await supabase
     .from("users_teams")
     .delete()

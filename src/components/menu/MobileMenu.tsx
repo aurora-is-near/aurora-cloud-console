@@ -2,106 +2,38 @@
 
 import { Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
-import {
-  Bars3Icon,
-  ClipboardDocumentCheckIcon,
-  XMarkIcon,
-  PlusIcon,
-} from "@heroicons/react/24/outline"
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import { MenuItem } from "@/types/menu"
-import { MobileMainMenuButton, MobileSubMenuButton } from "./MenuButtons"
+import { MobileMainMenuButton } from "./MenuButtons"
 import { usePathname, useSelectedLayoutSegments } from "next/navigation"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
-import { useDeals } from "@/hooks/useDeals"
-import { useLists } from "@/hooks/useLists"
-import { Modals } from "@/utils/modals"
-import { useSubroutes } from "@/hooks/useSubroutes"
 
-type SubrouteMenuProps = {
-  isAdmin?: boolean
-}
-
-const DealsSubrouteMenu = () => {
-  const { data } = useDeals()
-
-  return (
-    <ul className="space-y-2">
-      {data?.items.map((deal) => (
-        <li key={deal.id}>
-          <MobileSubMenuButton
-            href={`/borealis/deals/${deal.id}`}
-            name={deal.name}
-            icon={<ClipboardDocumentCheckIcon />}
-          />
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-const ListsSubrouteMenu = () => {
-  const { data } = useLists()
-
-  return (
-    <ul className="space-y-2">
-      {data?.items.map((list) => (
-        <li key={list.id}>
-          <MobileSubMenuButton
-            href={`/lists/${list.id}`}
-            name={list.name}
-            icon={<ClipboardDocumentCheckIcon />}
-          />
-        </li>
-      ))}
-      <li>
-        <MobileSubMenuButton
-          href={`/lists?modal=${Modals.AddList}`}
-          name="New list"
-          icon={<PlusIcon />}
-        />
-      </li>
-    </ul>
-  )
-}
-
-const SubrouteMenu = ({ isAdmin }: SubrouteMenuProps) => {
+const SubrouteMenu = ({ menuItems }: { menuItems: MenuItem[] }) => {
   const pathname = usePathname()
-  const [route] = useSelectedLayoutSegments()
-  const { menuItems } = useSubroutes(pathname, isAdmin)
+  const activeMenu = menuItems.find((item) => pathname.startsWith(item.href))
+  const { MobileSubMenu } = activeMenu ?? {}
 
   return (
     <nav className="mt-6 flex-1 pt-6 border-t border-gray-800 space-y-2">
-      <ul className="space-y-2">
-        {menuItems.map((item) => (
-          <li key={item.name}>
-            <MobileSubMenuButton {...item} />
-          </li>
-        ))}
-      </ul>
-
-      {!isAdmin && (
-        <>
-          {route === "borealis" && <DealsSubrouteMenu />}
-          {route === "lists" && <ListsSubrouteMenu />}
-        </>
-      )}
+      {MobileSubMenu && <MobileSubMenu />}
     </nav>
   )
 }
 
 type MobileMenuProps = {
   menuItems: MenuItem[]
-  isAdmin?: boolean
 }
 
-export default function MobileMenu({ menuItems, isAdmin }: MobileMenuProps) {
+export default function MobileMenu({ menuItems }: MobileMenuProps) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [route, subroute] = useSelectedLayoutSegments()
-  const isSettingsRoute = route === "settings"
+  const [route, subRoute] = useSelectedLayoutSegments()
+  const pathname = usePathname()
 
-  useEffect(() => setMenuOpen(false), [route, subroute])
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
 
   return (
     <>
@@ -164,7 +96,7 @@ export default function MobileMenu({ menuItems, isAdmin }: MobileMenuProps) {
                   </div>
 
                   <nav className="mt-6">
-                    <ul role="list" className="grid grid-cols-2 gap-2">
+                    <ul className="grid grid-cols-2 gap-2">
                       {menuItems.map((item) => (
                         <li key={item.name}>
                           <MobileMainMenuButton {...item} />
@@ -173,9 +105,7 @@ export default function MobileMenu({ menuItems, isAdmin }: MobileMenuProps) {
                     </ul>
                   </nav>
 
-                  <SubrouteMenu isAdmin={isAdmin} />
-
-                  {isSettingsRoute && <SignoutButton />}
+                  <SubrouteMenu menuItems={menuItems} />
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -186,10 +116,10 @@ export default function MobileMenu({ menuItems, isAdmin }: MobileMenuProps) {
       <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
         <div className="flex-1 text-sm font-semibold leading-6 text-white space-x-2">
           <span>{capitalizeFirstLetter(route)}</span>
-          {subroute && (
+          {subRoute && (
             <>
               <span className="text-gray-500">/</span>
-              <span>{capitalizeFirstLetter(subroute)}</span>
+              <span>{capitalizeFirstLetter(subRoute)}</span>
             </>
           )}
         </div>

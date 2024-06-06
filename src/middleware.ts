@@ -1,18 +1,15 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import { findCurrentTeam } from "@/utils/current-team"
 import {
   AUTH_CALLBACK_ROUTE,
   AUTH_ACCEPT_ROUTE,
   LOGIN_ROUTE,
-  LOGIN_UNAUTHORISED_ROUTE,
-  LOGIN_UNKNOWN_ROUTE,
+  UNAUTHORISED_ROUTE,
   LOGOUT_ROUTE,
   HOME_ROUTE,
 } from "./constants/routes"
-import { isAdminSubdomain, isAdminUser } from "@/utils/admin"
+import { isAdminUser } from "@/utils/admin"
 import { createMiddlewareClient } from "@/supabase/create-middleware-client"
-import { Session } from "@supabase/supabase-js"
 
 const redirect = (req: NextRequest, res: NextResponse, route: string) => {
   const pathname = req.nextUrl.pathname
@@ -31,63 +28,31 @@ const homeRedirect = (req: NextRequest, res: NextResponse) =>
   redirect(req, res, HOME_ROUTE)
 
 const unauthorisedRedirect = (req: NextRequest, res: NextResponse) =>
-  redirect(req, res, LOGIN_UNAUTHORISED_ROUTE)
-
-const unknownRedirect = (req: NextRequest, res: NextResponse) =>
-  redirect(req, res, LOGIN_UNKNOWN_ROUTE)
-
-const rewriteAdminSubdomain = (req: NextRequest, session: Session) => {
-  const res = NextResponse.next()
-  const { pathname } = req.nextUrl
-
-  if (!isAdminUser(session.user)) {
-    return unauthorisedRedirect(req, res)
-  }
-
-  if (pathname.startsWith("/admin")) {
-    return redirect(req, res, pathname.replace(/^\/admin/, ""))
-  }
-
-  return NextResponse.rewrite(
-    new URL(`/admin${req.nextUrl.pathname.replace(/^\/admin/, "")}`, req.url),
-  )
-}
-
-const handleInvalidSubdomain = (req: NextRequest, res: NextResponse) => {
-  if (req.nextUrl.pathname.startsWith("/api")) {
-    return NextResponse.rewrite(new URL("/404", req.url))
-  }
-
-  return unknownRedirect(req, res)
-}
+  redirect(req, res, UNAUTHORISED_ROUTE)
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
   const supabase = createMiddlewareClient(req)
-  const pathname = req.nextUrl.pathname
+  const { pathname } = req.nextUrl
+  const pathParts = pathname.split("/")
+  const isDashboardRoute = pathParts[1] === "dashboard"
+  const teamKey = isDashboardRoute ? pathParts[2] : null
 
   const [
     {
       data: { session },
     },
-    team,
-  ] = await Promise.all([
-    supabase.auth.getSession(),
-    findCurrentTeam(req.headers),
-  ])
+  ] = await Promise.all([supabase.auth.getSession()])
 
-  const { team_key: teamKey } = team ?? {}
-  const isValidSubdomain = !!teamKey || isAdminSubdomain(req)
-
-  // Show the unknown team page if no team found for the current subdomain, and
-  // this is not a request for the admin subdomain
-  if (!isValidSubdomain) {
-    return handleInvalidSubdomain(req, res)
-  }
-
-  // Do nothing if an auth callback or logout is in progress
+  // Do nothing for the routes below
   if (
-    [AUTH_CALLBACK_ROUTE, AUTH_ACCEPT_ROUTE, LOGOUT_ROUTE].includes(pathname)
+    [
+      HOME_ROUTE,
+      AUTH_CALLBACK_ROUTE,
+      AUTH_ACCEPT_ROUTE,
+      LOGOUT_ROUTE,
+      UNAUTHORISED_ROUTE,
+    ].includes(pathname)
   ) {
     return res
   }
@@ -97,29 +62,10 @@ export async function middleware(req: NextRequest) {
     return loginRedirect(req, res)
   }
 
-  // Redirect away from the unknown team page if there is a valid team associated
-  // with the current subdomain
-  if (pathname === LOGIN_UNKNOWN_ROUTE && isValidSubdomain) {
-    return homeRedirect(req, res)
-  }
-
-  // Rewrite admin subdomain to /admin
-  // e.g. https://admin.auroracloud.dev/teams > /admin/teams
-  if (isAdminSubdomain(req)) {
-    return rewriteAdminSubdomain(req, session)
-  }
-
-  // 404 for /admin requests in production
+  // Redirect to the unauthorised page if viewing a dashboard page and there is
+  // no team key, or the user is not authorised to access that team.
   if (
-    process.env.VERCEL_ENV === "production" &&
-    pathname.startsWith("/admin")
-  ) {
-    return NextResponse.rewrite(new URL("/404", req.url))
-  }
-
-  // Redirect to the unauthorised page if there is no team key, or if the user
-  // is not authorised to access that team
-  if (
+    isDashboardRoute &&
     !(
       session.user.user_metadata.teams?.includes(teamKey) ||
       isAdminUser(session.user)
@@ -130,10 +76,7 @@ export async function middleware(req: NextRequest) {
 
   // Finally, redirect to the home page if the user is logged in and on any
   // of the login pages, or the base path
-  if (
-    session &&
-    ["/", LOGIN_ROUTE, LOGIN_UNAUTHORISED_ROUTE].includes(pathname)
-  ) {
+  if (session && ["/", LOGIN_ROUTE].includes(pathname)) {
     return homeRedirect(req, res)
   }
 

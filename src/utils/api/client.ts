@@ -46,6 +46,31 @@ export const apiClient = {
   getSiloTokens: async ({ id }: ApiRequestParams<"getSiloTokens">) =>
     get<"getSiloTokens">(`/api/silos/${id}/tokens`),
 
+  bridgeSiloToken: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"bridgeSiloToken"> & ApiRequestBody<"bridgeSiloToken">) =>
+    post<"bridgeSiloToken">(`/api/silos/${id}/bridge/tokens`, data),
+
+  getSiloOracle: async ({ id }: ApiRequestParams<"getSiloOracle">) =>
+    get<"getSiloOracle">(`/api/silos/${id}/oracle`),
+
+  createSiloOracle: async ({ id }: ApiRequestParams<"createSiloOracle">) =>
+    post<"createSiloOracle">(`/api/silos/${id}/oracle`, {}),
+
+  getSiloBridge: async ({ id }: ApiRequestParams<"getSiloBridge">) =>
+    get<"getSiloBridge">(`/api/silos/${id}/bridge`),
+
+  createSiloBridge: async ({ id }: ApiRequestParams<"createSiloBridge">) =>
+    post<"createSiloBridge">(`/api/silos/${id}/bridge`, {}),
+
+  updateSiloBridge: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"updateSiloBridge"> &
+    ApiRequestBody<"updateSiloBridge">) =>
+    put<"updateSiloBridge">(`/api/silos/${id}/bridge`, data),
+
   getDeals: async () => get<"getDeals">("/api/deals"),
 
   getDeal: async ({ id }: ApiRequestParams<"getDeal">) =>

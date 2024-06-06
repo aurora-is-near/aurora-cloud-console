@@ -22,7 +22,7 @@ export default async function MainMenu({
       </Link>
 
       <nav className="flex-1 flex-col flex gap-y-4">
-        <ul role="list" className="flex flex-col items-center gap-y-4">
+        <ul className="flex flex-col items-center gap-y-4">
           {mainMenuItems.map((item) => (
             <li key={item.name}>
               <MainMenuButton {...item} />
@@ -30,7 +30,7 @@ export default async function MainMenu({
           ))}
         </ul>
 
-        <ul role="list" className="mt-auto flex flex-col items-center gap-y-4">
+        <ul className="mt-auto flex flex-col items-center gap-y-4">
           {extraMenuItems.map((item) => (
             <li key={item.name}>
               <MainMenuButton {...item} />

@@ -37,13 +37,21 @@ export type PublicApiScope = Enums<"api_key_scopes">
 
 export type TokenType = Enums<"token_type">
 
+export type DeploymentStatus = Enums<"deployment_status">
+
 export type TransactionDatabaseType = Enums<"transaction_database_type">
+
+export type BridgeNetworkType = Enums<"bridge_network_type">
 
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
 
 export type Token = Tables<"tokens">
+
+export type Oracle = Tables<"oracles">
+
+export type Bridge = Tables<"bridges">
 
 export type Team = Tables<"teams">
 
@@ -52,11 +60,6 @@ export type Silo = Tables<"silos">
 export type List = Tables<"lists">
 
 export type Deal = Tables<"deals">
-
-export type ApiUser = User & {
-  scopes: ApiScope[]
-  teams: string[]
-}
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
 

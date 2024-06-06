@@ -1413,6 +1413,105 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "name": {
                             "type": "string",
                           },
+                          "nativeToken": {
+                            "nullable": true,
+                            "properties": {
+                              "address": {
+                                "type": "string",
+                              },
+                              "bridge": {
+                                "nullable": true,
+                                "properties": {
+                                  "addresses": {
+                                    "items": {
+                                      "properties": {
+                                        "address": {
+                                          "type": "string",
+                                        },
+                                        "network": {
+                                          "type": "string",
+                                        },
+                                      },
+                                      "required": [
+                                        "network",
+                                        "address",
+                                      ],
+                                      "type": "object",
+                                    },
+                                    "type": "array",
+                                  },
+                                  "deploymentStatus": {
+                                    "enum": [
+                                      "NOT_DEPLOYED",
+                                      "PENDING",
+                                      "DEPLOYED",
+                                    ],
+                                    "type": "string",
+                                  },
+                                  "isFast": {
+                                    "type": "boolean",
+                                  },
+                                  "origin": {
+                                    "nullable": true,
+                                    "type": "string",
+                                  },
+                                },
+                                "required": [
+                                  "deploymentStatus",
+                                  "isFast",
+                                  "addresses",
+                                  "origin",
+                                ],
+                                "type": "object",
+                              },
+                              "createdAt": {
+                                "type": "string",
+                              },
+                              "decimals": {
+                                "nullable": true,
+                                "type": "number",
+                              },
+                              "deploymentStatus": {
+                                "enum": [
+                                  "NOT_DEPLOYED",
+                                  "PENDING",
+                                  "DEPLOYED",
+                                ],
+                                "type": "string",
+                              },
+                              "iconUrl": {
+                                "nullable": true,
+                                "type": "string",
+                              },
+                              "id": {
+                                "type": "number",
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string",
+                              },
+                              "symbol": {
+                                "type": "string",
+                              },
+                              "type": {
+                                "nullable": true,
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "address",
+                              "createdAt",
+                              "id",
+                              "symbol",
+                              "name",
+                              "decimals",
+                              "iconUrl",
+                              "type",
+                              "deploymentStatus",
+                              "bridge",
+                            ],
+                            "type": "object",
+                          },
                           "network": {
                             "type": "string",
                           },
@@ -1434,6 +1533,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "name",
                           "network",
                           "rpcUrl",
+                          "nativeToken",
                         ],
                         "type": "object",
                       },
@@ -1505,6 +1605,105 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "name": {
                       "type": "string",
                     },
+                    "nativeToken": {
+                      "nullable": true,
+                      "properties": {
+                        "address": {
+                          "type": "string",
+                        },
+                        "bridge": {
+                          "nullable": true,
+                          "properties": {
+                            "addresses": {
+                              "items": {
+                                "properties": {
+                                  "address": {
+                                    "type": "string",
+                                  },
+                                  "network": {
+                                    "type": "string",
+                                  },
+                                },
+                                "required": [
+                                  "network",
+                                  "address",
+                                ],
+                                "type": "object",
+                              },
+                              "type": "array",
+                            },
+                            "deploymentStatus": {
+                              "enum": [
+                                "NOT_DEPLOYED",
+                                "PENDING",
+                                "DEPLOYED",
+                              ],
+                              "type": "string",
+                            },
+                            "isFast": {
+                              "type": "boolean",
+                            },
+                            "origin": {
+                              "nullable": true,
+                              "type": "string",
+                            },
+                          },
+                          "required": [
+                            "deploymentStatus",
+                            "isFast",
+                            "addresses",
+                            "origin",
+                          ],
+                          "type": "object",
+                        },
+                        "createdAt": {
+                          "type": "string",
+                        },
+                        "decimals": {
+                          "nullable": true,
+                          "type": "number",
+                        },
+                        "deploymentStatus": {
+                          "enum": [
+                            "NOT_DEPLOYED",
+                            "PENDING",
+                            "DEPLOYED",
+                          ],
+                          "type": "string",
+                        },
+                        "iconUrl": {
+                          "nullable": true,
+                          "type": "string",
+                        },
+                        "id": {
+                          "type": "number",
+                        },
+                        "name": {
+                          "nullable": true,
+                          "type": "string",
+                        },
+                        "symbol": {
+                          "type": "string",
+                        },
+                        "type": {
+                          "nullable": true,
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "address",
+                        "createdAt",
+                        "id",
+                        "symbol",
+                        "name",
+                        "decimals",
+                        "iconUrl",
+                        "type",
+                        "deploymentStatus",
+                        "bridge",
+                      ],
+                      "type": "object",
+                    },
                     "network": {
                       "type": "string",
                     },
@@ -1526,6 +1725,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "name",
                     "network",
                     "rpcUrl",
+                    "nativeToken",
                   ],
                   "type": "object",
                 },
@@ -1542,6 +1742,543 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Get a single silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/bridge": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloBridge",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "tokens": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                    "tokens",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the bridge configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "createSiloBridge",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {},
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "tokens": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                    "tokens",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Create a bridge configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "updateSiloBridge",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "fromNetworks": {
+                    "items": {
+                      "enum": [
+                        "AURORA",
+                        "ETHEREUM",
+                        "NEAR",
+                        "CUSTOM",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "toNetworks": {
+                    "items": {
+                      "enum": [
+                        "AURORA",
+                        "ETHEREUM",
+                        "NEAR",
+                        "CUSTOM",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "tokens": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "tokens": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                    "tokens",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Update the bridge configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/bridge/tokens": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "bridgeSiloToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "address": {
+                    "type": "string",
+                  },
+                  "symbol": {
+                    "type": "string",
+                  },
+                  "tokenId": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "NOT_DEPLOYED",
+                        "PENDING",
+                        "DEPLOYED",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Request bridging of a token for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/oracle": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloOracle",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "deployedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "deployedAt",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the oracle configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "createSiloOracle",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {},
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "deployedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "deployedAt",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Create an oracle configuration for a silo",
         "tags": [
           "silos",
         ],
@@ -1574,16 +2311,82 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "address": {
                             "type": "string",
                           },
+                          "bridge": {
+                            "nullable": true,
+                            "properties": {
+                              "addresses": {
+                                "items": {
+                                  "properties": {
+                                    "address": {
+                                      "type": "string",
+                                    },
+                                    "network": {
+                                      "type": "string",
+                                    },
+                                  },
+                                  "required": [
+                                    "network",
+                                    "address",
+                                  ],
+                                  "type": "object",
+                                },
+                                "type": "array",
+                              },
+                              "deploymentStatus": {
+                                "enum": [
+                                  "NOT_DEPLOYED",
+                                  "PENDING",
+                                  "DEPLOYED",
+                                ],
+                                "type": "string",
+                              },
+                              "isFast": {
+                                "type": "boolean",
+                              },
+                              "origin": {
+                                "nullable": true,
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "deploymentStatus",
+                              "isFast",
+                              "addresses",
+                              "origin",
+                            ],
+                            "type": "object",
+                          },
                           "createdAt": {
+                            "type": "string",
+                          },
+                          "decimals": {
+                            "nullable": true,
+                            "type": "number",
+                          },
+                          "deploymentStatus": {
+                            "enum": [
+                              "NOT_DEPLOYED",
+                              "PENDING",
+                              "DEPLOYED",
+                            ],
+                            "type": "string",
+                          },
+                          "iconUrl": {
+                            "nullable": true,
                             "type": "string",
                           },
                           "id": {
                             "type": "number",
                           },
+                          "name": {
+                            "nullable": true,
+                            "type": "string",
+                          },
                           "symbol": {
                             "type": "string",
                           },
                           "type": {
+                            "nullable": true,
                             "type": "string",
                           },
                         },
@@ -1592,7 +2395,12 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "createdAt",
                           "id",
                           "symbol",
+                          "name",
+                          "decimals",
+                          "iconUrl",
                           "type",
+                          "deploymentStatus",
+                          "bridge",
                         ],
                         "type": "object",
                       },
