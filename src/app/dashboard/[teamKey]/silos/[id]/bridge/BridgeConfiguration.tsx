@@ -2,7 +2,6 @@ import { BridgeDeployedTokensCard } from "@/app/dashboard/[teamKey]/silos/[id]/b
 import { BridgeEmbedCodeCard } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeEmbedCodeCard"
 import { BridgeTokensCard } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeTokensCard"
 import { BridgeWidgetCard } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeWidgetCard"
-import Card from "@/components/Card"
 
 type BridgeConfigurationProps = {
   siloId: number
@@ -17,7 +16,7 @@ export const BridgeConfiguration = ({ siloId }: BridgeConfigurationProps) => {
           <BridgeTokensCard siloId={siloId} />
           <BridgeDeployedTokensCard siloId={siloId} />
           <BridgeWidgetCard siloId={siloId} />
-          <BridgeEmbedCodeCard siloId={siloId} />
+          <BridgeEmbedCodeCard />
         </div>
       </div>
     </>

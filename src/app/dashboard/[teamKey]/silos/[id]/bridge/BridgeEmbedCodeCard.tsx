@@ -1,16 +1,11 @@
 "use client"
 
 import Card from "@/components/Card"
-import { useBridgeUrl } from "@/hooks/useBridgeUrl"
 import { usePathname } from "next/navigation"
-
-type BridgeEmbedCodeCardProps = {
-  siloId: number
-}
 
 const ORIGIN = "https://app.auroracloud.dev"
 
-export const BridgeEmbedCodeCard = ({ siloId }: BridgeEmbedCodeCardProps) => {
+export const BridgeEmbedCodeCard = () => {
   const pathname = usePathname()
 
   return (
