@@ -11,11 +11,11 @@ import {
   Title,
   Tooltip,
 } from "chart.js"
-import Chart from "@/app/(dashboard)/silos/Chart"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getGenericLineChartData } from "@/utils/charts"
 import { Line } from "react-chartjs-2"
 import { useQuery } from "@tanstack/react-query"
+import Chart from "./Chart"
 
 type FailureRateChartProps = {
   id: string
