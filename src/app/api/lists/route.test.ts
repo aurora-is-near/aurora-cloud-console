@@ -15,6 +15,9 @@ import { setupJestOpenApi } from "../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../test-utils/invoke-api-handler"
 import { mockTeam } from "../../../../test-utils/mock-team"
 import { proxyApiClient } from "@/utils/proxy-api/client"
+import { createProxyApiObject } from "../../../../test-utils/create-proxy-api-object"
+
+const originalConsoleWarn = console.warn
 
 jest.mock("../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -25,11 +28,16 @@ jest.mock("../../../utils/proxy-api/client")
 describe("Lists route", () => {
   beforeAll(setupJestOpenApi)
 
+  beforeEach(() => {
+    console.warn = originalConsoleWarn
+  })
+
   describe("GET", () => {
     beforeEach(() => {
       mockSupabaseClient
         .from("lists")
         .select.mockImplementation(() => createSelect([]))
+      ;(proxyApiClient.view as jest.Mock).mockResolvedValue({ responses: [] })
     })
 
     it("returns empty items", async () => {
@@ -48,6 +56,18 @@ describe("Lists route", () => {
       mockSupabaseClient
         .from("lists")
         .select.mockImplementation(() => selectQueries)
+      ;(proxyApiClient.view as jest.Mock).mockResolvedValue({
+        responses: [
+          {
+            objects: mockLists.map((list) =>
+              createProxyApiObject(
+                `deal::acc::customers::${mockTeam.id}::lists::${list.id}`,
+                { SetVar: { length: 1 } },
+              ),
+            ),
+          },
+        ],
+      })
 
       const res = await invokeApiHandler("GET", "/api/lists", GET)
 
@@ -69,6 +89,47 @@ describe("Lists route", () => {
 
       expect(selectQueries.eq).toHaveBeenCalledTimes(1)
       expect(selectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
+    })
+
+    it("logs a warning if a list is found in the database but not the Proxy API", async () => {
+      console.warn = jest.fn()
+
+      const mockLists = createMockLists(2)
+      const selectQueries = createSelect(mockLists)
+
+      mockSupabaseClient
+        .from("lists")
+        .select.mockImplementation(() => selectQueries)
+      ;(proxyApiClient.view as jest.Mock).mockResolvedValue({
+        responses: [
+          {
+            objects: [
+              createProxyApiObject(
+                `deal::acc::customers::${mockTeam.id}::lists::${mockLists[0].id}`,
+                { SetVar: { length: 1 } },
+              ),
+            ],
+          },
+        ],
+      })
+
+      const res = await invokeApiHandler("GET", "/api/lists", GET)
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
+        items: [
+          {
+            createdAt: mockLists[0].created_at,
+            id: mockLists[0].id,
+            name: mockLists[0].name,
+          },
+        ],
+      })
+
+      expect(console.warn).toHaveBeenCalledTimes(1)
+      expect(console.warn).toHaveBeenCalledWith(
+        `Found list ${mockLists[1].id} in the database but not in the proxy API`,
+      )
     })
   })
 

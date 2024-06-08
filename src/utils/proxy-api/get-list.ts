@@ -25,6 +25,7 @@ export const getList = async (
   }
 
   return {
+    id: listId,
     length: objectVar.length ?? 0,
   }
 }
