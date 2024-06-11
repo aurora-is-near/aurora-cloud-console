@@ -1,8 +1,8 @@
 "use client"
 
 import CopyButton from "@/components/CopyButton"
+import { ErrorCard } from "@/components/ErrorCard"
 import Table from "@/components/Table"
-import { useNotFoundError } from "@/hooks/useNotFoundError"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { useQuery } from "@tanstack/react-query"
 
@@ -13,7 +13,9 @@ const TokensTable = ({ siloId }: { siloId: number }) => {
     }),
   )
 
-  useNotFoundError(error)
+  if (error) {
+    return <ErrorCard error={error} />
+  }
 
   return (
     <Table>

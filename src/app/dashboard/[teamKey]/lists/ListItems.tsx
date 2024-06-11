@@ -11,6 +11,8 @@ import { ImportListItemsButton } from "./ImportListItemsButton"
 import { apiClient } from "@/utils/api/client"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getQueryKey } from "@/utils/api/query-keys"
+import { isRequestError } from "@/utils/api/request"
+import { ErrorCard } from "@/components/ErrorCard"
 
 const PER_PAGE = 20
 
@@ -23,19 +25,25 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
   const searchParams = useSearchParams()
   const search = searchParams.get("search") ?? ""
 
-  const { data, isLoading, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryFn: ({ pageParam: cursor }) =>
-        apiClient.getListItems({ id: listId, limit: PER_PAGE, cursor }),
-      queryKey: getQueryKey("getListItems", { id: listId, limit: PER_PAGE }),
-      getNextPageParam: (lastPage, allPages) => {
-        const hasMore = allPages.length * PER_PAGE < lastPage.total
-        const lastItem = lastPage.items[lastPage.items.length - 1]
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    isFetchingNextPage,
+    isError: isGetListItemsError,
+    error: getListItemsError,
+  } = useInfiniteQuery({
+    queryFn: ({ pageParam: cursor }) =>
+      apiClient.getListItems({ id: listId, limit: PER_PAGE, cursor }),
+    queryKey: getQueryKey("getListItems", { id: listId, limit: PER_PAGE }),
+    getNextPageParam: (lastPage, allPages) => {
+      const hasMore = allPages.length * PER_PAGE < lastPage.total
+      const lastItem = lastPage.items[lastPage.items.length - 1]
 
-        return hasMore ? lastItem : undefined
-      },
-      initialPageParam: "",
-    })
+      return hasMore ? lastItem : undefined
+    },
+    initialPageParam: "",
+  })
 
   const { data: foundListItem } = useQuery({
     ...getQueryFnAndKey("getListItem", {
@@ -52,7 +60,7 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
     : data?.pages.flatMap((page) => page.items) ?? []
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 flex flex-col flex-1">
       <header className="flex space-y-3 md:space-y-0 md:flex-row flex-col md:items-center md:justify-between lg:flex-col lg:space-y-3 xl:flex-row xl:space-y-0 lg:items-start xl:items-center xl:justify-between">
         <div className="flex space-x-3.5">
           <Heading tag="h2">{title}</Heading>
@@ -61,30 +69,36 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
           </Heading>
         </div>
         <div className="flex items-start sm:flex-row flex-col-reverse gap-3">
-          <SearchInput search={search} />
+          {!isGetListItemsError && !isLoading && (
+            <SearchInput search={search} />
+          )}
 
           <div className="flex space-x-3">
-            <ImportListItemsButton id={listId} />
-            <EditListButton id={listId} />
+            <ImportListItemsButton disabled={isGetListItemsError} id={listId} />
+            <EditListButton disabled={isGetListItemsError} id={listId} />
           </div>
         </div>
       </header>
 
-      <section>
-        {!data || isLoading ? (
-          <TableLoader />
-        ) : (
-          <ListItemsTable
-            isSearching={!!search}
-            listId={listId}
-            listItems={listItems}
-            total={search ? foundItems.length : total}
-            perPage={PER_PAGE}
-            fetchNextPage={fetchNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-          />
-        )}
-      </section>
+      {!!getListItemsError ? (
+        <ErrorCard error={getListItemsError} />
+      ) : (
+        <section>
+          {!data || isLoading ? (
+            <TableLoader />
+          ) : (
+            <ListItemsTable
+              isSearching={!!search}
+              listId={listId}
+              listItems={listItems}
+              total={search ? foundItems.length : total}
+              perPage={PER_PAGE}
+              fetchNextPage={fetchNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+            />
+          )}
+        </section>
+      )}
     </div>
   )
 }

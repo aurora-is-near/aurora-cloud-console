@@ -35,6 +35,7 @@ type TabChartsProps<T> = {
     value: T
   }[]
   colors?: ChartColor[]
+  hasError?: boolean
 }
 
 const TabCharts = <T extends unknown>({
@@ -45,6 +46,7 @@ const TabCharts = <T extends unknown>({
   onDateOptionChange,
   dateOptions,
   colors,
+  hasError,
 }: TabChartsProps<T>) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
 
@@ -134,12 +136,20 @@ const TabCharts = <T extends unknown>({
             {tabs.map(({ title, chart, legend, value }) => (
               <Tab.Panel key={title}>
                 <div className="mx-4 mt-5 mb-5 md:mb-6 sm:mx-5 md:mx-6 h-[400px] relative">
-                  {!isLoading && !value && (
-                    <div className="absolute w-full h-full flex items-center justify-center text-sm text-gray-500">
-                      Not enough data
-                    </div>
+                  {hasError ? (
+                    <p className="text-sm text-gray-500 h-full w-full flex items-center justify-center">
+                      Sorry, something went wrong while loading the chart data
+                    </p>
+                  ) : (
+                    <>
+                      {!isLoading && !value && (
+                        <div className="absolute w-full h-full flex items-center justify-center text-sm text-gray-500">
+                          Not enough data
+                        </div>
+                      )}
+                      {chart ?? <ChartSpinner />}
+                    </>
                   )}
-                  {chart ?? <ChartSpinner />}
                 </div>
                 <div className="px-1 pb-1">
                   <TabLegend legend={legend} colors={colors} />

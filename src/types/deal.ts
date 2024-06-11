@@ -9,5 +9,10 @@ export type ProxyApiDealData = {
 }
 
 export type ProxyApiListData = {
+  id: number
   length: number
+}
+
+export type ProxyApiListOfListsData = {
+  id: number
 }

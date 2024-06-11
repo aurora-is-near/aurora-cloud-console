@@ -34,7 +34,7 @@ type TransactionsChartsProps = {
   charts?: TransactionDataSchema[]
   interval: string | null
   setInterval: (value: string | null) => void
-  isLoading?: boolean
+  hasError?: boolean
 }
 
 const CHART_OPTIONS: ComponentProps<typeof Line>["options"] = {
@@ -65,6 +65,7 @@ const TransactionsCharts = ({
   charts,
   interval,
   setInterval,
+  hasError,
 }: TransactionsChartsProps) => {
   const legend = charts?.map(({ label }) => label) ?? []
   const transactionsCount = getTotalCount("transactionsCount", charts)
@@ -83,6 +84,7 @@ const TransactionsCharts = ({
       dateOptions={CHART_DATE_OPTIONS}
       selectedDateOption={interval}
       onDateOptionChange={setInterval}
+      hasError={hasError}
       tabs={[
         {
           title: "Total transactions",

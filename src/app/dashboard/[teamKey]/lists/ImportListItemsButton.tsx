@@ -8,9 +8,13 @@ import { useQueryState } from "next-usequerystate"
 
 type ImportListItemsButtonProps = {
   id: number
+  disabled?: boolean
 }
 
-export const ImportListItemsButton = ({ id }: ImportListItemsButtonProps) => {
+export const ImportListItemsButton = ({
+  id,
+  disabled,
+}: ImportListItemsButtonProps) => {
   const { openModal } = useModals()
   const [, setId] = useQueryState("id")
 
@@ -20,7 +24,7 @@ export const ImportListItemsButton = ({ id }: ImportListItemsButtonProps) => {
   }
 
   return (
-    <Button onClick={onClick}>
+    <Button disabled={disabled} onClick={onClick}>
       <ArrowUpTrayIcon className="w-5 h-5" />
       Import
     </Button>

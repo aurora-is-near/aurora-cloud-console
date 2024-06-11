@@ -4,7 +4,12 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline"
 import { usePathname, useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 
-const SearchInput = ({ search }: { search?: string }) => {
+type SearchInputProps = {
+  search?: string
+  disabled?: boolean
+}
+
+const SearchInput = ({ search, disabled }: SearchInputProps) => {
   const router = useRouter()
   const pathname = usePathname()
 
@@ -40,6 +45,7 @@ const SearchInput = ({ search }: { search?: string }) => {
           className="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 bg-transparent"
           placeholder="Search"
           defaultValue={search}
+          disabled={disabled}
           onChange={(event) => {
             clearTimeout(timeoutId)
 

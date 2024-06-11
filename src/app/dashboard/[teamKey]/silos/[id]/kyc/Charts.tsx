@@ -12,7 +12,6 @@ import {
   Tooltip,
   BarElement,
 } from "chart.js"
-import { useNotFoundError } from "@/hooks/useNotFoundError"
 import { Bar } from "react-chartjs-2"
 import { getChartColor } from "@/utils/charts"
 import { ChartColor } from "@/types/types"
@@ -50,13 +49,11 @@ const LABELS = ["06", "07", "08", "09", "10", "11"]
   .flat()
 
 const Charts = ({ siloId }: ChartsProps) => {
-  const { data: silo, error } = useQuery(
+  const { data: silo } = useQuery(
     getQueryFnAndKey("getSilo", {
       id: siloId,
     }),
   )
-
-  useNotFoundError(error)
 
   return (
     <section>

@@ -64,7 +64,9 @@ export const DashboardPage = ({
               )}
             </div>
           )}
-          <div className="space-y-4 sm:space-y-5">{children}</div>
+          <div className="space-y-4 sm:space-y-5 flex flex-col flex-1">
+            {children}
+          </div>
         </div>
       </main>
       {footer}

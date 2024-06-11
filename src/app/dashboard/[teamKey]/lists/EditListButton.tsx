@@ -8,9 +8,10 @@ import { useQueryState } from "next-usequerystate"
 
 type EditListButtonProps = {
   id: number
+  disabled?: boolean
 }
 
-export const EditListButton = ({ id }: EditListButtonProps) => {
+export const EditListButton = ({ id, disabled }: EditListButtonProps) => {
   const { openModal } = useModals()
   const [, setId] = useQueryState("id")
 
@@ -20,7 +21,7 @@ export const EditListButton = ({ id }: EditListButtonProps) => {
   }
 
   return (
-    <Button onClick={onClick}>
+    <Button disabled={disabled} onClick={onClick}>
       <Cog6ToothIcon className="w-5 h-5" />
       Edit
     </Button>

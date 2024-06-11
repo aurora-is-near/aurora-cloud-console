@@ -2,7 +2,6 @@
 
 import TransactionsCharts from "../../../../../../components/TransactionsCharts"
 import { useChartInterval } from "../../../../../../hooks/useChartInterval"
-import { useNotFoundError } from "../../../../../../hooks/useNotFoundError"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { useQuery } from "@tanstack/react-query"
 
@@ -14,20 +13,18 @@ export const SiloTransactionsCharts = ({
   siloId,
 }: SiloTransactionsChartsProps) => {
   const [interval, setInterval] = useChartInterval()
-  const { data: silo, error } = useQuery(
+  const { data: silo } = useQuery(
     getQueryFnAndKey("getSilo", {
       id: siloId,
     }),
   )
 
-  const { data: transactions } = useQuery(
+  const { data: transactions, isError: isGetSiloTransactionsError } = useQuery(
     getQueryFnAndKey("getSiloTransactions", {
       id: siloId,
       interval: interval ?? undefined,
     }),
   )
-
-  useNotFoundError(error)
 
   return (
     <TransactionsCharts
@@ -35,6 +32,7 @@ export const SiloTransactionsCharts = ({
       charts={transactions?.items.map((item) => item.data)}
       interval={interval}
       setInterval={setInterval}
+      hasError={isGetSiloTransactionsError}
     />
   )
 }
