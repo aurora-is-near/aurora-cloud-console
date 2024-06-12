@@ -44,10 +44,9 @@ export async function middleware(req: NextRequest) {
     },
   ] = await Promise.all([supabase.auth.getSession()])
 
-  // Do nothing for the routes below
+  // Do nothing if an auth callback or logout is in progress
   if (
     [
-      HOME_ROUTE,
       AUTH_CALLBACK_ROUTE,
       AUTH_ACCEPT_ROUTE,
       LOGOUT_ROUTE,
@@ -60,6 +59,11 @@ export async function middleware(req: NextRequest) {
   // Redirect to the login page if the user is not logged in
   if (!session) {
     return loginRedirect(req, res)
+  }
+
+  // Do nothing if viewing the main dashboard route where we select a team
+  if (HOME_ROUTE === pathname) {
+    return res
   }
 
   // Redirect to the unauthorised page if viewing a dashboard page and there is
