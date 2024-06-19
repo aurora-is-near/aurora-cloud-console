@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
+const { withSentryConfig } = require("@sentry/nextjs")
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   webpack(config) {
@@ -17,4 +18,13 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+const sentryConfig = {
+  org: "aurora-k2",
+  project: "aurora-cloud-console",
+  silent: true,
+  widenClientFileUpload: true,
+  hideSourceMaps: true,
+  disableLogger: true,
+}
+
+module.exports = withSentryConfig(nextConfig, sentryConfig)
