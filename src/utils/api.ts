@@ -18,6 +18,7 @@ import {
 import { contract } from "@/app/api/contract"
 import { openApiDocument } from "@/app/api/openapi-document"
 import { ApiScope } from "@/types/types"
+import { logger } from "@/logger"
 import { abort, isAbortError } from "./abort"
 import { toError } from "./errors"
 import { authorise } from "./auth"
@@ -61,6 +62,7 @@ const getErrorResponse = (error: unknown): NextResponse<ApiErrorResponse> => {
 
 const getRequestBody = async (req: NextRequest) => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await req.json()
   } catch {
     return {}
@@ -102,7 +104,7 @@ const handleRequest = async <TResponseBody, TRequestBody>({
     team = await authorise(scopes)
     data = await handler(req, { ...ctx, team, body })
   } catch (error: unknown) {
-    console.error(error)
+    logger.error(error)
 
     return getErrorResponse(error)
   }

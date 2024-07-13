@@ -8,6 +8,7 @@ import { DealSchema } from "@/types/api-schemas"
 import { ApiRequestBody } from "@/types/api"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { logger } from "@/logger"
 
 type DealUpdateProviderProps = {
   dealId: number
@@ -60,7 +61,7 @@ export const DealUpdateProvider = ({
     },
     onError: (error) => {
       toast.error("Failed to update deal")
-      console.error(error)
+      logger.error(error)
     },
   })
 

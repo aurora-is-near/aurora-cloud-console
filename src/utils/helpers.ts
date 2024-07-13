@@ -1,4 +1,5 @@
 import { Children, isValidElement, ReactNode } from "react"
+import { logger } from "@/logger"
 
 export const capitalizeFirstLetter = (string: string) => {
   if (!string || typeof string !== "string") {
@@ -46,7 +47,7 @@ const dateTimeFormat = (
   const dateObj = new Date(date)
 
   if (Number.isNaN(dateObj.getTime())) {
-    console.error(`Attempted to format an invalid date: ${date}`)
+    logger.error(`Attempted to format an invalid date: ${date}`)
 
     return ""
   }

@@ -13,6 +13,7 @@ import { HorizontalInput } from "@/components/HorizontalInput"
 import { updateCurrentUser } from "@/actions/current-user/update-current-user"
 import { User } from "@/types/types"
 import { useTeamKey } from "@/hooks/useTeamKey"
+import { logger } from "@/logger"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -107,7 +108,7 @@ const UserInfoForm = ({
 
       setShowForm(false)
     } catch (error) {
-      console.error(error)
+      logger.error(error)
     }
   }
 

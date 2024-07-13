@@ -1,6 +1,7 @@
 import fetch from "node-fetch"
 import https from "https"
 import { createDebugger } from "@/debug"
+import { logger } from "@/logger"
 
 const GRAFANA_BASE_URL = "https://grafana.aurora.dev/"
 const DEFAULT_INTERVAL = "now-24h"
@@ -59,7 +60,7 @@ const getIntervalMs = (interval: string | null) => {
   const days = hours / 24
 
   if (days > MAX_DAYS) {
-    console.warn(
+    logger.warn(
       `Requested interval (${days} days) is too long, data is available for a maximum of ${MAX_DAYS} days.`,
     )
   }

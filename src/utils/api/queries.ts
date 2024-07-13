@@ -15,6 +15,7 @@ export const getQueryFnAndKey = <
 } => {
   const queryKey: TQueryKey = getQueryKey(functionName, params)
   const queryFn = async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = await apiClient[functionName](params as any)
 
     return data as TQueryFnData

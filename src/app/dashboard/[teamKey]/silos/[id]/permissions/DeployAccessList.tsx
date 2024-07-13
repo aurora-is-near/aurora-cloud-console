@@ -3,6 +3,7 @@
 import { Cog6ToothIcon, XMarkIcon } from "@heroicons/react/24/outline"
 import CopyButton from "@/components/CopyButton"
 import ListItem from "@/components/ListItem"
+import { logger } from "@/logger"
 
 const DeployAccessList = () => {
   return (
@@ -23,7 +24,7 @@ const DeployAccessList = () => {
           </button>
           <button
             type="button"
-            onClick={() => console.log("remove list")}
+            onClick={() => logger.debug("remove list")}
             className="text-gray-500 hover:text-gray-900"
           >
             <span className="sr-only">Remove list</span>

@@ -13,6 +13,7 @@ import { SelectInput, SelectInputOption } from "@/components/SelectInput"
 import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
+import { logger } from "@/logger"
 
 type BridgeTokensCardProps = {
   siloId: number
@@ -43,7 +44,7 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
         toast.success("Token deployment requested")
       },
       onError: (error) => {
-        console.error(error)
+        logger.error(error)
         toast.error("Request failed")
       },
     })

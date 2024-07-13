@@ -1,7 +1,6 @@
 import { initContract } from "@ts-rest/core"
 import { z } from "zod"
 import { extendZodWithOpenApi } from "@anatine/zod-openapi"
-import { LIST_TYPES } from "@/constants/lists"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 import { BRIDGE_NETWORKS } from "@/constants/bridge"
 import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
@@ -34,15 +33,7 @@ export const DealSchema = z.object({
   enabled: z.boolean(),
   startTime: z.string().nullable(),
   endTime: z.string().nullable(),
-  lists: z.object(
-    LIST_TYPES.reduce<Record<string, z.ZodType<unknown>>>(
-      (acc, listType) => ({
-        ...acc,
-        [listType]: SimpleListSchema.nullable(),
-      }),
-      {},
-    ),
-  ),
+  lists: z.record(z.string(), SimpleListSchema.nullable()),
 })
 
 const DealPrioritiesSchema = z.array(

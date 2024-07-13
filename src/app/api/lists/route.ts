@@ -4,6 +4,7 @@ import { assertValidSupabaseResult } from "@/utils/supabase"
 import { adaptList } from "@/utils/adapters"
 import { createList } from "@/utils/proxy-api/create-list"
 import { getLists } from "@/utils/proxy-api/get-lists"
+import { logger } from "@/logger"
 
 export const GET = createApiEndpoint("getLists", async (_req, ctx) => {
   const supabase = createAdminSupabaseClient()
@@ -25,7 +26,7 @@ export const GET = createApiEndpoint("getLists", async (_req, ctx) => {
   )
 
   invalidLists.forEach(({ id }) => {
-    console.warn(`Found list ${id} in the database but not in the proxy API`)
+    logger.warn(`Found list ${id} in the database but not in the proxy API`)
   })
 
   return {

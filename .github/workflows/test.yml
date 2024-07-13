@@ -13,7 +13,7 @@ jobs:
       - name: Check types
         run: yarn run typecheck
       - name: Lint
-        run: yarn run lint
+        run: yarn run lint --max-warnings 0
       - name: Find dead code
         run: yarn run knip
       - name: Test

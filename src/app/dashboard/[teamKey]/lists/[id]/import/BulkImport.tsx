@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState } from "react"
 import toast from "react-hot-toast"
 import Table from "@/components/Table"
 import { Button } from "@/components/Button"
+import { logger } from "@/logger"
 import { BulkImportModal } from "./BulkImportModal"
 
 type BulkImportProps = {
@@ -26,7 +27,7 @@ export const BulkImport = ({ listId, teamKey }: BulkImportProps) => {
     Papa.parse<string[]>(file, {
       complete(results) {
         if (results.errors.length) {
-          console.error("Parsing errors:", results.errors)
+          logger.error("Parsing errors:", results.errors)
           toast.error("Failed to parse file.")
 
           return

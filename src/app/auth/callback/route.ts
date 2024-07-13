@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { HOME_ROUTE, LOGIN_ROUTE } from "@/constants/routes"
 import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
+import { logger } from "@/logger"
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.redirect(new URL(HOME_ROUTE, request.url))
   } catch (error) {
-    console.error(error)
+    logger.error(error)
 
     return NextResponse.redirect(new URL(LOGIN_ROUTE, request.url))
   }

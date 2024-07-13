@@ -6,6 +6,7 @@ import { HorizontalSelectInput } from "@/components/HorizontalSelectInput"
 import { useLists } from "@/hooks/useLists"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
+import { DealSchema } from "@/types/api-schemas"
 
 type FilterInputProps = {
   name:
@@ -17,7 +18,7 @@ type FilterInputProps = {
   label: string
 }
 
-const getDefaultValue = (listKey: string, deal: any) => {
+const getDefaultValue = (listKey: string, deal: DealSchema) => {
   const { id, name } = deal?.lists[listKey] ?? {}
 
   if (id && name) {

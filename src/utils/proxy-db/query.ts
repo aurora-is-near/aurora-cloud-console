@@ -2,6 +2,7 @@ import { Pool, QueryResult, QueryResultRow } from "pg"
 import { createDebugger } from "@/debug"
 import { TRANSACTION_DATABASES } from "@/constants/databases"
 import { TransactionDatabaseType } from "@/types/types"
+import { logger } from "@/logger"
 import { toError } from "../errors"
 
 const POOLS: { [key in TransactionDatabaseType]: Pool } = {
@@ -24,7 +25,7 @@ export const query = async <TRow extends QueryResultRow>(
   try {
     res = await POOLS[transactionDatabase].query<TRow>(text, params)
   } catch (err) {
-    console.error(`Proxy DB query error: ${toError(err).message}'\n${text}`)
+    logger.error(`Proxy DB query error: ${toError(err).message}'\n${text}`)
     throw err
   }
 

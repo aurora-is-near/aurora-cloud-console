@@ -1,11 +1,12 @@
 import * as ReactDropdownMenu from "@radix-ui/react-dropdown-menu"
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline"
+import { ComponentType } from "react"
 
 type DropdownMenuProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   menuItems: {
-    Icon: any
+    Icon: ComponentType<{ className: string }>
     text: string
     onClick: () => void
   }[]

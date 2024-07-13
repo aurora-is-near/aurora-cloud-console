@@ -4,6 +4,7 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
 import { toError } from "@/utils/errors"
 import { abort } from "@/utils/abort"
+import { logger } from "@/logger"
 
 type AuthContext = {
   team: Team
@@ -58,7 +59,7 @@ const getTeamAndScopesFromApiKey = async (): Promise<AuthContext | null> => {
     .single()
 
   if (!data?.teams) {
-    console.warn(`Invalid API key: ${toError(error).message}`)
+    logger.warn(`Invalid API key: ${toError(error).message}`)
 
     return null
   }

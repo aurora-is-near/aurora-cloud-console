@@ -5,6 +5,7 @@ import { useState } from "react"
 import toast from "react-hot-toast"
 import { DeleteModal } from "@/components/DeleteModal"
 import { Button } from "@/components/Button"
+import { logger } from "@/logger"
 
 type DeleteButtonProps = {
   title: string
@@ -27,7 +28,7 @@ export const DeleteButton = ({
       await onDelete()
     } catch (error) {
       toast.error("Failed to delete item")
-      console.error(error)
+      logger.error(error)
     }
 
     setIsPending(false)
