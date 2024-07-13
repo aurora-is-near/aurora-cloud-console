@@ -1,16 +1,16 @@
 "use client"
 
-import Table from "@/components/Table"
 import { useParams } from "next/navigation"
-import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
-import DropdownMenu from "@/components/DropdownMenu"
 import {
   InformationCircleIcon,
   ListBulletIcon,
   TrashIcon,
 } from "@heroicons/react/20/solid"
+import Table from "@/components/Table"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
+import DropdownMenu from "@/components/DropdownMenu"
 import { isWalletAddress } from "@/utils/wallets"
 import { Button } from "@/components/Button"
 import { NoDataCta } from "@/components/NoDataCta"

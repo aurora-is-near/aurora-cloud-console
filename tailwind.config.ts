@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss"
-const defaultTheme = require("tailwindcss/defaultTheme")
+import defaultTheme from "tailwindcss/defaultTheme"
 
 const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
@@ -26,4 +26,5 @@ const config: Config = {
   },
   plugins: [require("@headlessui/tailwindcss"), require("@tailwindcss/forms")],
 }
+
 export default config

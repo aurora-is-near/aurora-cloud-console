@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation"
+import Link from "next/link"
 import Card from "@/components/Card"
-import { SiloForm } from "../../SiloForm"
 import { getSilo } from "@/actions/silos/get-silo"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { DeleteSiloButton } from "./DeleteSiloButton"
 import { LinkButton } from "@/components/LinkButton"
 import { getSiloTokens } from "@/actions/silo-tokens/get-silo-tokens"
 import { Tag } from "@/components/Tag"
-import Link from "next/link"
+import { DeleteSiloButton } from "./DeleteSiloButton"
+import { SiloForm } from "../../SiloForm"
 import { AddTokenButton } from "./AddTokenButton"
 
 const Page = async ({

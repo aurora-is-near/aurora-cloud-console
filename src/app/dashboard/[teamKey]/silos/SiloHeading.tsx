@@ -1,10 +1,10 @@
 "use client"
 
+import { CheckIcon } from "@heroicons/react/24/outline"
+import { useQuery } from "@tanstack/react-query"
 import BreadcrumbHeading from "@/components/BreadcrumbHeading"
 import { Tag } from "@/components/Tag"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { CheckIcon } from "@heroicons/react/24/outline"
-import { useQuery } from "@tanstack/react-query"
 
 type SiloHeadingProps = {
   siloId: number

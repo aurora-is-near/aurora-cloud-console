@@ -1,8 +1,8 @@
+import { NextRequest, NextResponse } from "next/server"
 import { getSiloBridge } from "@/actions/silo-bridge/get-silo-bridge"
 import { getWidgetUrl } from "@/actions/silo-bridge/get-widget-url"
 import { getSilo } from "@/actions/silos/get-silo"
 import { getTokens } from "@/actions/tokens/get-tokens"
-import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(req: NextRequest) {
   const siloId = Number(req.nextUrl.pathname.match(/\/silos\/(\d+)/)?.[1])

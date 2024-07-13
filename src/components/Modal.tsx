@@ -1,9 +1,9 @@
 "use client"
 
-import { useModalAfterLeave } from "@/hooks/useModalAfterLeave"
 import { Dialog, Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { Fragment, ReactNode } from "react"
+import { useModalAfterLeave } from "@/hooks/useModalAfterLeave"
 
 const Modal = ({
   title,

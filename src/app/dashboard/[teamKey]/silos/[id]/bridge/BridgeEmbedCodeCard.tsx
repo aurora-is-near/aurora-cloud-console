@@ -1,7 +1,7 @@
 "use client"
 
-import Card from "@/components/Card"
 import { usePathname } from "next/navigation"
+import Card from "@/components/Card"
 
 const ORIGIN = "https://app.auroracloud.dev"
 
@@ -24,7 +24,7 @@ export const BridgeEmbedCodeCard = () => {
           Open the widget by calling the following function:
         </p>
         <pre className="text-sm font-mono bg-gray-100 p-4 rounded-md whitespace-pre-wrap">
-          {`window.auroraBridge.open()`}
+          window.auroraBridge.open()
         </pre>
       </Card.Body>
     </Card>

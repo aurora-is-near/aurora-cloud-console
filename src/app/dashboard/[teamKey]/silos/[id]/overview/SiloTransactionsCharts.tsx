@@ -1,9 +1,9 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 import TransactionsCharts from "../../../../../../components/TransactionsCharts"
 import { useChartInterval } from "../../../../../../hooks/useChartInterval"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
 
 type SiloTransactionsChartsProps = {
   siloId: number

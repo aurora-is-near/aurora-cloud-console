@@ -1,9 +1,9 @@
 "use client"
 
 import { ComponentProps, forwardRef } from "react"
+import Link from "next/link"
 import { ButtonContent } from "@/components/ButtonContent"
 import { getButtonClassName } from "@/utils/buttons"
-import Link from "next/link"
 
 export type LinkButtonProps = ComponentProps<typeof Link> & {
   variant?: "primary" | "secondary" | "transparent" | "border" | "destructive"

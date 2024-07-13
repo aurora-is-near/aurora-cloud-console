@@ -1,5 +1,6 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
 import BridgeNetworkModal from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeNetworkModal"
 import { BridgeOpenButton } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeOpenButton"
 import BridgeTokensModal from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeTokensModal"
@@ -10,7 +11,6 @@ import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { formatDateAndTime } from "@/utils/helpers"
 import { Modals } from "@/utils/modals"
-import { useQuery } from "@tanstack/react-query"
 
 type BridgeWidgetCardProps = {
   siloId: number

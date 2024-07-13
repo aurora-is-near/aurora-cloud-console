@@ -1,7 +1,7 @@
 import Card from "@/components/Card"
 import { DashboardPage } from "@/components/DashboardPage"
-import { DealForm } from "../DealForm"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { DealForm } from "../DealForm"
 
 const Page = async ({
   params: { teamKey },

@@ -1,8 +1,8 @@
 "use client"
 
-import { isRequestError } from "@/utils/api/request"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactNode } from "react"
+import { isRequestError } from "@/utils/api/request"
 
 const MAX_RETRIES = 2
 const HTTP_STATUS_TO_NOT_RETRY = [400, 401, 403, 404]

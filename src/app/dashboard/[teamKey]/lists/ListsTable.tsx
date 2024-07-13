@@ -1,23 +1,23 @@
 "use client"
 
-import Table from "@/components/Table"
 import {
   ArrowUpTrayIcon,
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline"
-import { AddListButton } from "./AddListButton"
-import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { useQueryState } from "next-usequerystate"
-import TableLoader from "../../../../components/TableLoader"
-import { useLists } from "@/hooks/useLists"
-import { NoDataCta } from "@/components/NoDataCta"
 import { ListBulletIcon } from "@heroicons/react/20/solid"
-import { formatDate } from "@/utils/helpers"
-import DropdownMenu from "@/components/DropdownMenu"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { useLists } from "@/hooks/useLists"
+import { NoDataCta } from "@/components/NoDataCta"
+import { formatDate } from "@/utils/helpers"
+import DropdownMenu from "@/components/DropdownMenu"
+import { Modals } from "@/utils/modals"
+import { useModals } from "@/hooks/useModals"
+import Table from "@/components/Table"
+import TableLoader from "../../../../components/TableLoader"
+import { AddListButton } from "./AddListButton"
 
 type ListsTableProps = {
   teamKey: string
@@ -47,7 +47,7 @@ export const ListsTable = ({ teamKey }: ListsTableProps) => {
 
   const onMenuOpenChange = (id: number, open: boolean) => {
     // See https://github.com/radix-ui/primitives/issues/1241
-    if (open === false) {
+    if (!open) {
       document.body.style.pointerEvents = "auto"
     }
 

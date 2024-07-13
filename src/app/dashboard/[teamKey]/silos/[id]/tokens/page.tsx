@@ -1,7 +1,7 @@
-import TokensTable from "./TokensTable"
 import { Suspense } from "react"
 import TableLoader from "@/components/TableLoader"
 import { DashboardPage } from "@/components/DashboardPage"
+import TokensTable from "./TokensTable"
 import { SiloHeading } from "../../SiloHeading"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {

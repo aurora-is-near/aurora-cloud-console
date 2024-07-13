@@ -1,9 +1,9 @@
 "use client"
 
+import { PlusIcon } from "@heroicons/react/20/solid"
 import { Button } from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { PlusIcon } from "@heroicons/react/20/solid"
 
 export const AddListButton = () => {
   const { openModal } = useModals()

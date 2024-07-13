@@ -1,6 +1,6 @@
-import { contract } from "./contract"
 import { generateOpenApi } from "@ts-rest/open-api"
 import { OpenAPIV3 } from "openapi-types"
+import { contract } from "./contract"
 
 const SECURITY_SCHEME = "bearerAuth"
 

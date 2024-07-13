@@ -4,7 +4,9 @@ import { queryFailureRate, queryLatency, queryRpc } from "@/utils/grafana/query"
 const getValuesFromFrame = (frame: { data: { values: number[][] } }) => {
   const [items] = frame.data.values
 
-  if (!items) return []
+  if (!items) {
+    return []
+  }
 
   return items.map((value: any, i: number) => ({
     day: value,

@@ -1,9 +1,9 @@
 import { createApiEndpoint } from "@/utils/api"
-import { queryWallets } from "../../../../utils/proxy-db/query-users"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 import { abort } from "@/utils/abort"
 import { getWalletDetails } from "@/utils/wallets"
+import { queryWallets } from "../../../../utils/proxy-db/query-users"
 
 export const GET = createApiEndpoint("getWallet", async (req, ctx) => {
   const silos = await getTeamSilos(ctx.team.id)

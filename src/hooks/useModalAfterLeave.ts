@@ -1,5 +1,5 @@
-import { useModals } from "@/hooks/useModals"
 import { useCallback } from "react"
+import { useModals } from "@/hooks/useModals"
 
 export const useModalAfterLeave = () => {
   const { activeModal } = useModals()

@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { proxyApiClient } from "@/utils/proxy-api/client"
 import { GET, POST } from "./route"
 import {
   createInsertOrUpdate,
@@ -14,7 +15,6 @@ import {
 import { setupJestOpenApi } from "../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../test-utils/invoke-api-handler"
 import { mockTeam } from "../../../../test-utils/mock-team"
-import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createProxyApiObject } from "../../../../test-utils/create-proxy-api-object"
 
 const originalConsoleWarn = console.warn

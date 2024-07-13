@@ -1,16 +1,16 @@
 "use client"
 
-import { Button } from "@/components/Button"
-import SlideOver from "@/components/SlideOver"
-import { useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { useFormContext } from "react-hook-form"
 import { XCircleIcon } from "@heroicons/react/20/solid"
+import { useEffect } from "react"
+import { Button } from "@/components/Button"
+import SlideOver from "@/components/SlideOver"
+import { useModals } from "@/hooks/useModals"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { DateInput } from "@/components/DateInput"
 import { InputWrapper } from "@/components/InputWrapper"
-import { useEffect } from "react"
 import { Modals } from "@/utils/modals"
 
 type Inputs = {

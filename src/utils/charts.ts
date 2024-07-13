@@ -1,7 +1,7 @@
-import { TransactionDataSchema } from "@/types/api-schemas"
-import { CHART_COLOURS, CHART_COLOUR_HEXES } from "../constants/charts"
-import { ChartColor } from "../types/types"
 import { ChartData } from "chart.js"
+import { TransactionDataSchema } from "@/types/api-schemas"
+import { CHART_COLOUR_HEXES, CHART_COLOURS } from "../constants/charts"
+import { ChartColor } from "../types/types"
 
 type DailyMetricKey = "transactionsPerDay" | "walletsPerDay"
 

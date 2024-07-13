@@ -1,7 +1,7 @@
-import { contract } from "@/app/api/contract"
-import { Team } from "@/types/types"
 import { ServerInferRequest, ServerInferResponseBody } from "@ts-rest/core"
 import { NextRequest, NextResponse } from "next/server"
+import { contract } from "@/app/api/contract"
+import { Team } from "@/types/types"
 
 export type BaseApiRequestContext = {
   params: {

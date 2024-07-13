@@ -1,8 +1,8 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import Heading from "../Heading"
 import { MenuItem } from "@/types/menu"
+import Heading from "../Heading"
 
 const SubMenuNav = ({ menuItems }: { menuItems: MenuItem[] }) => {
   const pathname = usePathname()

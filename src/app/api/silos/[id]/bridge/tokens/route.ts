@@ -1,11 +1,11 @@
 import { createApiEndpoint } from "@/utils/api"
-import { abort } from "../../../../../../utils/abort"
 import { getSilo } from "@/actions/silos/get-silo"
 import { getSiloToken } from "@/actions/silo-tokens/get-silo-token"
 import { updateToken } from "@/actions/tokens/update-token"
 import { ApiResponseBody } from "@/types/api"
 import { getSiloTokenByAddress } from "@/actions/silo-tokens/get-silo-token-by-address"
 import { createToken } from "@/actions/tokens/create-token"
+import { abort } from "../../../../../../utils/abort"
 
 const bridgeToken = async (tokenId: number) => {
   const updatedToken = await updateToken(tokenId, {

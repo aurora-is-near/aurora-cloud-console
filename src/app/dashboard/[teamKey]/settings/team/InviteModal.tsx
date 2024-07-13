@@ -2,16 +2,16 @@
 
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { useQueryState } from "next-usequerystate"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
-import { useQueryState } from "next-usequerystate"
 import { toError } from "@/utils/errors"
 import { inviteUser } from "@/actions/invite/invite-user"
-import { useState } from "react"
 import { Team } from "@/types/types"
-import { useRouter } from "next/navigation"
 
 type Inputs = {
   name: string

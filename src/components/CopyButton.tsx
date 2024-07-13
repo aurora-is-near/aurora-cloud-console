@@ -9,6 +9,7 @@ const CopyButton = ({ value }: { value: string }) => {
 
   useEffect(() => {
     const timeout = setTimeout(() => setCopied(false), 1000)
+
     return () => clearTimeout(timeout)
   }, [copied])
 

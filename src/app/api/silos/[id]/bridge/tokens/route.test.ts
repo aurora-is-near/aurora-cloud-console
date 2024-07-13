@@ -1,6 +1,8 @@
 /**
  * @jest-environment node
  */
+import { symbol } from "zod"
+import { DeploymentStatus } from "@/types/types"
 import { POST } from "./route"
 import {
   createInsertOrUpdate,
@@ -11,8 +13,6 @@ import { setupJestOpenApi } from "../../../../../../../test-utils/setup-jest-ope
 import { invokeApiHandler } from "../../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../../test-utils/factories/silo-factory"
 import { createMockToken } from "../../../../../../../test-utils/factories/token-factory"
-import { symbol } from "zod"
-import { DeploymentStatus } from "@/types/types"
 
 jest.mock("../../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),

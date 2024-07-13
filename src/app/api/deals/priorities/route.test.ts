@@ -1,13 +1,13 @@
 /**
  * @jest-environment node
  */
+import { proxyApiClient } from "@/utils/proxy-api/client"
 import { GET, PUT } from "./route"
 import {
   createSelect,
   mockSupabaseClient,
 } from "../../../../../test-utils/mock-supabase-client"
 import { createMockDeals } from "../../../../../test-utils/factories/deal-factory"
-import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createProxyApiObject } from "../../../../../test-utils/create-proxy-api-object"
 import { mockTeam } from "../../../../../test-utils/mock-team"
 import { invokeApiHandler } from "../../../../../test-utils/invoke-api-handler"

@@ -1,7 +1,7 @@
 import { createApiEndpoint } from "@/utils/api"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
 import { getTransactionData } from "../../../../utils/transactions"
-import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 
 export const GET = createApiEndpoint(
   "getSilosTransactions",

@@ -2,22 +2,22 @@
 
 import "chartjs-adapter-date-fns"
 import {
-  Chart as ChartJS,
   CategoryScale,
-  TimeScale,
+  Chart as ChartJS,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
+  TimeScale,
   Title,
   Tooltip,
 } from "chart.js"
+import { Line } from "react-chartjs-2"
+import { ComponentProps, ReactNode } from "react"
 import Heading from "@/components/Heading"
 import TabCharts from "@/components/TabCharts"
-import { Line } from "react-chartjs-2"
+import { TransactionDataSchema } from "@/types/api-schemas"
 import { CHART_DATE_OPTIONS } from "../constants/charts"
 import { getTransactionLineChartData } from "../utils/charts"
-import { ComponentProps, ReactNode } from "react"
-import { TransactionDataSchema } from "@/types/api-schemas"
 
 ChartJS.register(
   CategoryScale,

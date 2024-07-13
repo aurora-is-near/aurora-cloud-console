@@ -1,6 +1,6 @@
 import { Children, ReactNode } from "react"
-import { findChildren, findOtherChildren } from "@/utils/helpers"
 import clsx from "clsx"
+import { findChildren, findOtherChildren } from "@/utils/helpers"
 
 const Title = ({
   children,
@@ -9,16 +9,19 @@ const Title = ({
   children: ReactNode
   tag?: keyof JSX.IntrinsicElements
 }) => <Tag className="text-sm leading-none text-gray-900">{children}</Tag>
+
 Title.displayName = "Title"
 
 const Subtitle = ({ children }: { children: ReactNode }) => (
   <span className="text-sm leading-none text-gray-500">{children}</span>
 )
+
 Subtitle.displayName = "Subtitle"
 
 const Actions = ({ children }: { children: ReactNode }) => (
   <div className="flex items-center space-x-3">{children}</div>
 )
+
 Actions.displayName = "Actions"
 
 const ListItem = ({
@@ -55,6 +58,7 @@ const ListItem = ({
     </li>
   )
 }
+
 ListItem.Title = Title
 ListItem.Subtitle = Subtitle
 ListItem.Actions = Actions

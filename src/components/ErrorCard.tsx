@@ -1,8 +1,8 @@
 import httpStatus from "http-status"
-import { isRequestError } from "@/utils/api/request"
 import { XCircleIcon } from "@heroicons/react/24/outline"
 import { useMemo } from "react"
 import { notFound } from "next/navigation"
+import { isRequestError } from "@/utils/api/request"
 
 type ErrorCardProps = {
   error: unknown

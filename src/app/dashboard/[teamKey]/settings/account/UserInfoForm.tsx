@@ -1,7 +1,7 @@
 "use client"
 
 import { CheckIcon, PencilIcon } from "@heroicons/react/20/solid"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
@@ -40,14 +40,20 @@ const UserInfoForm = ({
 
   // Handle coming back to page from email change confirmation
   useEffect(() => {
-    if (alerted || !pathname || !router) return
+    if (alerted || !pathname || !router) {
+      return
+    }
 
     const fragment = window.location.hash.substring(1)
-    if (!fragment) return
+
+    if (!fragment) {
+      return
+    }
 
     const params = new URLSearchParams(fragment)
 
     const message = params.get("message")
+
     if (message) {
       // Show toast with prompt to open second email
       toast.success(message)
@@ -56,6 +62,7 @@ const UserInfoForm = ({
     }
 
     const accessToken = params.get("access_token")
+
     if (accessToken) {
       // Session is gone, refresh to direct to login page
       router.refresh()
@@ -83,13 +90,15 @@ const UserInfoForm = ({
         const supabase = createClientComponentClient()
 
         const { error } = await supabase.auth.updateUser(
-          { email: email },
+          { email },
           {
             emailRedirectTo: `${location.origin}/dashboard/${teamKey}/settings/account`,
           },
         )
 
-        if (error) throw "Email change failed."
+        if (error) {
+          throw "Email change failed."
+        }
       }
 
       if (name && name !== user.name) {

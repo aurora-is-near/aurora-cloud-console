@@ -1,10 +1,10 @@
 "use client"
 
-import { Button } from "@/components/Button"
-import { DeleteModal } from "@/components/DeleteModal"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
 import toast from "react-hot-toast"
+import { DeleteModal } from "@/components/DeleteModal"
+import { Button } from "@/components/Button"
 
 type DeleteButtonProps = {
   title: string

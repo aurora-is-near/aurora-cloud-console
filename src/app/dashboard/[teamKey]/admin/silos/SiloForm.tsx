@@ -1,16 +1,16 @@
 "use client"
 
+import { SubmitHandler } from "react-hook-form"
+import { sentenceCase } from "change-case"
+import { usePathname } from "next/navigation"
 import { Silo, Token } from "@/types/types"
 import { updateSilo } from "@/actions/silos/update-silo"
 import { createSilo } from "@/actions/silos/create-silo"
-import { SubmitHandler } from "react-hook-form"
 import {
   HorizontalForm,
   HorizontalFormProps,
 } from "@/components/HorizontalForm"
 import { SelectInputOption } from "@/components/SelectInput"
-import { sentenceCase } from "change-case"
-import { usePathname } from "next/navigation"
 
 type SiloFormProps = {
   silo?: Silo

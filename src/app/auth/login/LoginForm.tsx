@@ -1,12 +1,12 @@
 "use client"
 
-import { Database } from "@/types/supabase"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import { CheckCircleIcon } from "@heroicons/react/20/solid"
+import { useEffect } from "react"
+import { Database } from "@/types/supabase"
 import { Button } from "@/components/Button"
 import { AUTH_CALLBACK_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
-import { useEffect } from "react"
 
 type Inputs = {
   email: string
@@ -40,7 +40,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     // http://localhost:3000/login#error=unauthorized_client&error_code=401&error_description=Email+link+is+invalid+or+has+expired
-    const hash = window.location.hash
+    const { hash } = window.location
 
     if (!hash) {
       return

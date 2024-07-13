@@ -1,8 +1,8 @@
 "use client"
 
+import { useTransition } from "react"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
-import { useTransition } from "react"
 
 type DeleteModalProps = {
   title: string

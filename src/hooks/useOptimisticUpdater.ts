@@ -9,7 +9,7 @@ export const useOptimisticUpdater = <
   Data extends Awaited<ReturnType<(typeof apiClient)[Operation]>>,
 >(
   operation: Operation,
-  params?: any,
+  params?: unknown,
 ) => {
   const queryClient = useQueryClient()
   const queryKey = useMemo(
@@ -34,7 +34,7 @@ export const useOptimisticUpdater = <
    */
   const update = useCallback(
     async <T = Data>(newData: T) => {
-      set((oldData?: Partial<T>) => ({
+      await set((oldData?: Partial<T>) => ({
         ...oldData,
         ...newData,
       }))
@@ -47,7 +47,7 @@ export const useOptimisticUpdater = <
    */
   const replace = useCallback(
     async (newData: Data) => {
-      set(() => newData)
+      await set(() => newData)
     },
     [set],
   )
@@ -60,7 +60,7 @@ export const useOptimisticUpdater = <
       const previousData = queryClient.getQueryData(queryKey)
       const previousDataArray = Array.isArray(previousData) ? previousData : []
 
-      set(() => [newData, ...previousDataArray])
+      await set(() => [newData, ...previousDataArray] as T)
     },
     [queryClient, queryKey, set],
   )
@@ -69,7 +69,7 @@ export const useOptimisticUpdater = <
    * Invalidate a query to trigger a refetch of the latest data.
    */
   const invalidate = useCallback(() => {
-    queryClient.invalidateQueries({ queryKey })
+    void queryClient.invalidateQueries({ queryKey })
   }, [queryClient, queryKey])
 
   return {

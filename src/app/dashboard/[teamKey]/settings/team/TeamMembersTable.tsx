@@ -1,17 +1,17 @@
 "use client"
 
+import { PaperAirplaneIcon } from "@heroicons/react/24/outline"
+import { useQueryState } from "next-usequerystate"
+import { useCallback } from "react"
+import { useRouter } from "next/navigation"
 import Table from "@/components/Table"
 import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { TeamMember, User } from "@/types/types"
-import { PaperAirplaneIcon } from "@heroicons/react/24/outline"
-import { useQueryState } from "next-usequerystate"
-import { useCallback } from "react"
 import { reinviteUser } from "@/actions/invite/reinvite-user"
 import { toError } from "@/utils/errors"
 import { deleteTeamMember } from "@/actions/team-members/delete-team-member"
-import { useRouter } from "next/navigation"
 import { TableDeleteButton } from "@/components/TableDeleteButton"
 
 type TeamMembersTableProps = {
@@ -50,6 +50,7 @@ export const TeamMembersTable = ({
         setErrorTitle("Invite failed")
         setErrorDescription(toError(err).message)
         openModal(Modals.Error)
+
         return
       }
 

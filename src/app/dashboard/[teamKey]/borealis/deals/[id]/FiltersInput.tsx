@@ -1,11 +1,11 @@
 "use client"
 
+import { useFormContext } from "react-hook-form"
 import Card from "@/components/Card"
 import { HorizontalSelectInput } from "@/components/HorizontalSelectInput"
 import { useLists } from "@/hooks/useLists"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
-import { useFormContext } from "react-hook-form"
 
 type FilterInputProps = {
   name:

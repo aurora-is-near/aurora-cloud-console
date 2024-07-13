@@ -1,5 +1,5 @@
-import { AuroraTriangle } from "@/components/icons"
 import { PropsWithChildren } from "react"
+import { AuroraTriangle } from "@/components/icons"
 
 export const FullScreenPage = ({ children }: PropsWithChildren) => (
   <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">

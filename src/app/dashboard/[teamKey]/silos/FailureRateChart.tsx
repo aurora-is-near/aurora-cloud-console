@@ -2,19 +2,19 @@
 
 import "chartjs-adapter-date-fns"
 import {
-  Chart as ChartJS,
   CategoryScale,
-  TimeScale,
+  Chart as ChartJS,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
+  TimeScale,
   Title,
   Tooltip,
 } from "chart.js"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import { getGenericLineChartData } from "@/utils/charts"
 import { Line } from "react-chartjs-2"
 import { useQuery } from "@tanstack/react-query"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import { getGenericLineChartData } from "@/utils/charts"
 import Chart from "./Chart"
 
 type FailureRateChartProps = {

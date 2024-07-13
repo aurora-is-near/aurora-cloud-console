@@ -1,7 +1,7 @@
 import { getApiKeys } from "@/actions/api-keys/get-api-keys"
+import { DashboardPage } from "@/components/DashboardPage"
 import AddApiKeyButton from "./AddApiKeyButton"
 import { ApiKeysTable } from "./ApiKeysTable"
-import { DashboardPage } from "@/components/DashboardPage"
 
 const Page = async ({
   params: { teamKey },

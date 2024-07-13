@@ -1,11 +1,11 @@
 "use client"
 
+import Image from "next/image"
 import { Button } from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
 import { DashboardPage } from "@/components/DashboardPage"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import Image from "next/image"
 
 const services = [
   {

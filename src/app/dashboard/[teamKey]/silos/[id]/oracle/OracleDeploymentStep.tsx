@@ -1,6 +1,6 @@
-import Card from "@/components/Card"
 import clsx from "clsx"
 import { ReactNode } from "react"
+import Card from "@/components/Card"
 
 type OracleDeploymentStepProps = {
   stepNumber: number

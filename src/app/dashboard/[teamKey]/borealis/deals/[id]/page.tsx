@@ -1,7 +1,7 @@
 import Contact from "@/components/Contact"
+import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
 import { DealTransactionCharts } from "./DealTransactionsCharts"
 import { FiltersCard } from "./FiltersCard"
-import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
 import { DealUpdatePage } from "./DealUpdatePage"
 import { ControlCard } from "./ControlCard"
 

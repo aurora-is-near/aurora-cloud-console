@@ -1,4 +1,4 @@
-import { ListMap, ListType } from "@/types/lists"
+import { ListMap } from "@/types/lists"
 import { ProxyApiUpateOperation } from "@/types/proxy-api"
 
 const getTimeOperations = (

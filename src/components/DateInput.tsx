@@ -7,8 +7,8 @@ import format from "date-fns/format"
 import {
   Path,
   RegisterOptions,
-  UseFormRegister,
   useFormContext,
+  UseFormRegister,
   useWatch,
 } from "react-hook-form"
 
@@ -33,7 +33,7 @@ export const DateInput = <Inputs extends Record<string, unknown>>({
     defaultValue ? new Date(defaultValue) : null,
   )
 
-  const { setValue, watch } = useFormContext()
+  const { setValue } = useFormContext()
   const watchedValue = useWatch({ name })
 
   useEffect(() => {

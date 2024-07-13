@@ -1,5 +1,5 @@
-import { TransactionDatabaseType } from "@/types/types"
 import { PoolConfig } from "pg"
+import { TransactionDatabaseType } from "@/types/types"
 
 export const TRANSACTION_DATABASES: Record<
   TransactionDatabaseType,

@@ -1,6 +1,6 @@
-import Card from "@/components/Card"
 import Image from "next/image"
 import { ReactNode } from "react"
+import Card from "@/components/Card"
 
 type ServiceBannerProps = {
   name: string
@@ -30,9 +30,9 @@ export const ServiceBanner = ({
             </>
           )}
         </h1>
-        {description.map((text, index) => (
+        {description.map((text) => (
           <p
-            key={index}
+            key={text}
             className="xl:max-w-[500px] 2xl:max-w-[650px] mt-5 text-gray-600"
           >
             {text}

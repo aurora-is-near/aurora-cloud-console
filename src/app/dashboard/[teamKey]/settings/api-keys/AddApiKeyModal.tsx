@@ -1,11 +1,11 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { PublicApiScope } from "@/types/types"
-import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
 import { createApiKey } from "@/actions/api-keys/create-api-key"
-import { useRouter } from "next/navigation"
+import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
 
 type AddApiKeyModalProps = {
   teamKey: string

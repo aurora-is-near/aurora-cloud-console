@@ -1,6 +1,6 @@
 import { ApiRequestContext } from "@/types/api"
-import { mockTeam } from "./mock-team"
 import { Team } from "@/types/types"
+import { mockTeam } from "./mock-team"
 
 export const createMockApiContext = <TRequestBody = unknown>({
   params = {},

@@ -1,7 +1,7 @@
+import Link from "next/link"
 import { AuroraTriangle } from "@/components/icons"
 import { MenuItem } from "@/types/menu"
 import { MainMenuButton } from "./MenuButtons"
-import Link from "next/link"
 
 type MainMenuProps = {
   mainMenuItems: MenuItem[]

@@ -1,6 +1,6 @@
+import { PlusCircleIcon } from "@heroicons/react/24/outline"
 import { LinkButton } from "@/components/LinkButton"
 import { Silo } from "@/types/types"
-import { PlusCircleIcon } from "@heroicons/react/24/outline"
 
 type AddTokenButtonProps = {
   teamKey: string

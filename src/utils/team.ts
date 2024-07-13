@@ -1,4 +1,3 @@
-import { Team } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 

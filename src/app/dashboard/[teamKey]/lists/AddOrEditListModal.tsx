@@ -1,13 +1,13 @@
 "use client"
 
-import SlideOver from "@/components/SlideOver"
-import { useModals } from "@/hooks/useModals"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useEffect } from "react"
-import { Button } from "@/components/Button"
 import { CheckIcon, TrashIcon } from "@heroicons/react/20/solid"
-import { Modals } from "@/utils/modals"
 import clsx from "clsx"
+import SlideOver from "@/components/SlideOver"
+import { useModals } from "@/hooks/useModals"
+import { Button } from "@/components/Button"
+import { Modals } from "@/utils/modals"
 
 type Inputs = {
   name: string

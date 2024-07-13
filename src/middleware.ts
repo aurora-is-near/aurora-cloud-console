@@ -1,18 +1,18 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
-import {
-  AUTH_CALLBACK_ROUTE,
-  AUTH_ACCEPT_ROUTE,
-  LOGIN_ROUTE,
-  UNAUTHORISED_ROUTE,
-  LOGOUT_ROUTE,
-  HOME_ROUTE,
-} from "./constants/routes"
 import { isAdminUser } from "@/utils/admin"
 import { createMiddlewareClient } from "@/supabase/create-middleware-client"
+import {
+  AUTH_ACCEPT_ROUTE,
+  AUTH_CALLBACK_ROUTE,
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  LOGOUT_ROUTE,
+  UNAUTHORISED_ROUTE,
+} from "./constants/routes"
 
 const redirect = (req: NextRequest, res: NextResponse, route: string) => {
-  const pathname = req.nextUrl.pathname
+  const { pathname } = req.nextUrl
 
   if (pathname === route) {
     return res

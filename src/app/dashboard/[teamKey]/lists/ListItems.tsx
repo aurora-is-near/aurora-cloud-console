@@ -1,18 +1,18 @@
 "use client"
 
-import Heading from "@/components/Heading"
-import SearchInput from "./SearchInput"
-import { ListItemsTable } from "./ListItemsTable"
-import TableLoader from "@/components/TableLoader"
 import { useSearchParams } from "next/navigation"
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
-import { EditListButton } from "./EditListButton"
-import { ImportListItemsButton } from "./ImportListItemsButton"
+import TableLoader from "@/components/TableLoader"
+import Heading from "@/components/Heading"
 import { apiClient } from "@/utils/api/client"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getQueryKey } from "@/utils/api/query-keys"
 import { isRequestError } from "@/utils/api/request"
 import { ErrorCard } from "@/components/ErrorCard"
+import { EditListButton } from "./EditListButton"
+import { ListItemsTable } from "./ListItemsTable"
+import SearchInput from "./SearchInput"
+import { ImportListItemsButton } from "./ImportListItemsButton"
 
 const PER_PAGE = 20
 
@@ -55,7 +55,7 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
 
   const total = data?.pages[0]?.total ?? 0
   const foundItems = foundListItem ? [foundListItem] : []
-  const listItems = !!search
+  const listItems = search
     ? foundItems
     : data?.pages.flatMap((page) => page.items) ?? []
 
@@ -80,7 +80,7 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
         </div>
       </header>
 
-      {!!getListItemsError ? (
+      {getListItemsError ? (
         <ErrorCard error={getListItemsError} />
       ) : (
         <section>

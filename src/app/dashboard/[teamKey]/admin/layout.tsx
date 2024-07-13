@@ -1,6 +1,6 @@
+import { redirect } from "next/navigation"
 import { isAdmin } from "@/actions/is-admin"
 import { UNAUTHORISED_ROUTE } from "@/constants/routes"
-import { redirect } from "next/navigation"
 
 // Opt out of caching for all admin routes.
 // https://nextjs.org/docs/app/building-your-application/caching#opting-out-1

@@ -1,7 +1,7 @@
+import { useCallback } from "react"
 import { useModals } from "@/hooks/useModals"
 import { Silo, Token } from "@/types/types"
 import { Modals } from "@/utils/modals"
-import { useCallback } from "react"
 
 export const useMetaMask = () => {
   const { openModal } = useModals()

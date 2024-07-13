@@ -1,8 +1,8 @@
 import Card from "@/components/Card"
+import { DashboardPage } from "@/components/DashboardPage"
 import TransactionAccessList from "./TransactionAccessList"
 import DeployAccessList from "./DeployAccessList"
 import AddListButton from "./AddListButton"
-import { DashboardPage } from "@/components/DashboardPage"
 import { SiloHeading } from "../../SiloHeading"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {

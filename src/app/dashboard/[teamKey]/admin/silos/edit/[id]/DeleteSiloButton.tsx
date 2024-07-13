@@ -1,9 +1,9 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { deleteSilo } from "@/actions/silos/delete-silo"
 import { DeleteButton } from "@/components/DeleteButton"
 import { Silo } from "@/types/types"
-import { useRouter } from "next/navigation"
 
 type DeleteSiloButtonProps = {
   teamKey: string

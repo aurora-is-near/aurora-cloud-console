@@ -1,10 +1,10 @@
 "use client"
 
+import { Cog6ToothIcon } from "@heroicons/react/20/solid"
+import { useQueryState } from "next-usequerystate"
 import { Button } from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { Cog6ToothIcon } from "@heroicons/react/20/solid"
-import { useQueryState } from "next-usequerystate"
 
 type EditListButtonProps = {
   id: number

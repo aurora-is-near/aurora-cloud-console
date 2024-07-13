@@ -9,16 +9,14 @@ type BridgeConfigurationProps = {
 
 export const BridgeConfiguration = ({ siloId }: BridgeConfigurationProps) => {
   return (
-    <>
-      <div className="pt-4">
-        <h2 className="text-2xl font-bold text-gray-900">Configuration</h2>
-        <div className="flex flex-col mt-6 space-y-6">
-          <BridgeTokensCard siloId={siloId} />
-          <BridgeDeployedTokensCard siloId={siloId} />
-          <BridgeWidgetCard siloId={siloId} />
-          <BridgeEmbedCodeCard />
-        </div>
+    <div className="pt-4">
+      <h2 className="text-2xl font-bold text-gray-900">Configuration</h2>
+      <div className="flex flex-col mt-6 space-y-6">
+        <BridgeTokensCard siloId={siloId} />
+        <BridgeDeployedTokensCard siloId={siloId} />
+        <BridgeWidgetCard siloId={siloId} />
+        <BridgeEmbedCodeCard />
       </div>
-    </>
+    </div>
   )
 }

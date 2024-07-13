@@ -1,10 +1,10 @@
 "use client"
 
 import { useQueryState } from "next-usequerystate"
+import { useMutation } from "@tanstack/react-query"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { DeleteModal } from "@/components/DeleteModal"
-import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 
@@ -13,8 +13,8 @@ export const DeleteListItemModal = () => {
   const [id] = useQueryState("id")
   const [item, setItem] = useQueryState("item")
 
-  const onClose = () => {
-    setItem(null)
+  const onClose = async () => {
+    await setItem(null)
     closeModal()
   }
 

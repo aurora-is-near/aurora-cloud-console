@@ -1,6 +1,6 @@
-import { TeamForm } from "./TeamForm"
 import Card from "@/components/Card"
 import { Team } from "@/types/types"
+import { TeamForm } from "./TeamForm"
 
 type TeamDetailsCardProps = {
   team?: Team

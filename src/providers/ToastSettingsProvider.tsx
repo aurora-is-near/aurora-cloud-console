@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, createContext, useMemo } from "react"
+import { createContext, ReactNode, useMemo } from "react"
 import { ToastOptions, ToastPosition } from "react-hot-toast"
 
 type ToastSettingsProviderProps = {

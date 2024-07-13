@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { BridgeNetworkType } from "@/types/types"
 import { GET, POST, PUT } from "./route"
 import {
   createInsertOrUpdate,
@@ -11,7 +12,6 @@ import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openap
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
 import { createMockBridge } from "../../../../../../test-utils/factories/bridge-factory"
-import { BridgeNetworkType } from "@/types/types"
 
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -105,7 +105,7 @@ describe("Bridges route", () => {
         error = e
       }
 
-      expect(error).not.toBeUndefined()
+      expect(error).toBeDefined()
     })
 
     it("creates a bridge", async () => {

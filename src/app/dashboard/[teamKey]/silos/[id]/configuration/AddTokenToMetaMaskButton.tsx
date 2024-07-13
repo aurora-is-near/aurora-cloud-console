@@ -1,8 +1,8 @@
 "use client"
 
-import { AddToMetaMaskButton } from "./AddToMetaMaskButton"
 import { useMetaMask } from "@/hooks/useMetaMask"
 import { Token } from "@/types/types"
+import { AddToMetaMaskButton } from "./AddToMetaMaskButton"
 
 type AddTokenToMetaMaskButtonProps = {
   token: Token

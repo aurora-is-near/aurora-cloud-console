@@ -3,10 +3,10 @@
 import { Fragment, useEffect, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
-import { MenuItem } from "@/types/menu"
-import { MobileMainMenuButton } from "./MenuButtons"
 import { usePathname, useSelectedLayoutSegments } from "next/navigation"
+import { MenuItem } from "@/types/menu"
 import { capitalizeFirstLetter } from "@/utils/helpers"
+import { MobileMainMenuButton } from "./MenuButtons"
 import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
 

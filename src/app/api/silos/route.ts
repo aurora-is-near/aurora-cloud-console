@@ -11,7 +11,7 @@ export const GET = createApiEndpoint("getSilos", async (_req, ctx) => {
 
   return {
     items: (silos ?? []).map((silo) => {
-      const token = tokens.find((token) => token.id === silo.base_token_id)
+      const token = tokens.find(({ id }) => id === silo.base_token_id)
 
       return adaptSilo(silo, token)
     }),

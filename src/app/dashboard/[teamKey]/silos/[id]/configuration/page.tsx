@@ -1,13 +1,13 @@
-import Card from "@/components/Card"
-import InfoList from "@/components/InfoList"
 import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
+import Card from "@/components/Card"
+import InfoList from "@/components/InfoList"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTokens } from "@/actions/tokens/get-tokens"
+import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { AddTokenToMetaMaskButton } from "./AddTokenToMetaMaskButton"
 import { AddSiloToMetaMaskButton } from "./AddSiloToMetaMaskButton"
 import { SiloHeading } from "../../SiloHeading"
-import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 
 const Page = async ({
   params: { id, teamKey },

@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server"
-import { mockTeam } from "./mock-team"
 import { ApiRequestContext, ApiRequestHandler } from "@/types/api"
 import { Team } from "@/types/types"
+import { mockTeam } from "./mock-team"
 
 type CreateMockApiContextOptions<TRequestBody> = {
   params?: Record<string, string>

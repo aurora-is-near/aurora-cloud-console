@@ -1,10 +1,10 @@
 import { createApiEndpoint } from "@/utils/api"
-import { abort } from "../../../../utils/abort"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 import { getDealPriorities } from "@/utils/proxy-api/get-deal-priorities"
 import { createDealPriority } from "@/utils/proxy-api/create-deal-priority"
 import { removeDealPriority } from "@/utils/proxy-api/remove-deal-priority"
+import { abort } from "../../../../utils/abort"
 
 /**
  * Get a map of deal IDs to their priorities.

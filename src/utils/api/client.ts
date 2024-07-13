@@ -1,6 +1,5 @@
 "use client"
 
-import { request } from "./request"
 import {
   ApiOperation,
   ApiRequestBody,
@@ -8,6 +7,7 @@ import {
   ApiRequestQuery,
   ApiResponseBody,
 } from "@/types/api"
+import { request } from "./request"
 
 const get = async <T extends ApiOperation>(
   url: string,

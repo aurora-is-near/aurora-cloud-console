@@ -1,9 +1,8 @@
+import clsx from "clsx"
+import { DetailedHTMLProps, FormHTMLAttributes, ReactNode } from "react"
 import BreadcrumbHeading from "@/components/BreadcrumbHeading"
 import Heading from "@/components/Heading"
 import { Toaster } from "@/components/Toaster"
-import clsx from "clsx"
-
-import { DetailedHTMLProps, FormHTMLAttributes, ReactNode } from "react"
 
 type DashboardPageProps = {
   children: ReactNode

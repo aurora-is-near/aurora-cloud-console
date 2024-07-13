@@ -1,10 +1,10 @@
 import { createApiEndpoint } from "@/utils/api"
-import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
-import { abort } from "../../../../../utils/abort"
-import { getTransactionData } from "../../../../../utils/transactions"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getTeamDeal } from "@/actions/team-deals/get-team-deal"
+import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
+import { abort } from "../../../../../utils/abort"
+import { getTransactionData } from "../../../../../utils/transactions"
 
 export const GET = createApiEndpoint(
   "getDealTransactions",

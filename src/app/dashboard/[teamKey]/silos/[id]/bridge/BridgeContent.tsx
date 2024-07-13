@@ -1,12 +1,12 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
+import Loader from "@/components/Loader"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 import { BridgeBanner } from "./BridgeBanner"
 import { BridgeConfiguration } from "./BridgeConfiguration"
 import { BridgeHighlightCards } from "./BridgeHighlightCards"
-import Loader from "@/components/Loader"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
 import { SiloHeading } from "../../SiloHeading"
 
 type BridgeContentProps = {

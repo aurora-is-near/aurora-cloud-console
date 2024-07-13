@@ -1,11 +1,11 @@
 "use client"
 
-import TransactionsCharts from "../../../../../../components/TransactionsCharts"
-import { useChartInterval } from "../../../../../../hooks/useChartInterval"
 import { useQuery } from "@tanstack/react-query"
-import { getQueryFnAndKey } from "@/utils/api/queries"
 import { useParams } from "next/navigation"
+import { getQueryFnAndKey } from "@/utils/api/queries"
 import ToggleDeal from "@/components/ToggleDeal"
+import { useChartInterval } from "../../../../../../hooks/useChartInterval"
+import TransactionsCharts from "../../../../../../components/TransactionsCharts"
 
 export const DealTransactionCharts = () => {
   const { id } = useParams<{ id: string }>()

@@ -1,6 +1,6 @@
 import { Button } from "@/components/Button"
-import { OracleDeploymentStep } from "./OracleDeploymentStep"
 import Card from "@/components/Card"
+import { OracleDeploymentStep } from "./OracleDeploymentStep"
 
 export const OracleDeploymentSteps = () => {
   const isWalletConnected = false

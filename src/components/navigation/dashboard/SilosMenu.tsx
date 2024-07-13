@@ -10,12 +10,12 @@ import {
   StopCircleIcon,
   WrenchIcon,
 } from "@heroicons/react/24/outline"
+import { useEffect, useState } from "react"
+import { useRouter, useSelectedLayoutSegments } from "next/navigation"
 import { MenuItemsLoader } from "@/components/menu/MenuItemsLoader"
 import { SubMenuButton } from "@/components/menu/MenuButtons"
 import { MenuDivider } from "@/components/menu/MenuDivider"
-import { useEffect, useState } from "react"
 import { useSilos } from "@/hooks/useSilos"
-import { useRouter, useSelectedLayoutSegments } from "next/navigation"
 import { useTeamKey } from "@/hooks/useTeamKey"
 
 export const SilosMenu = () => {
@@ -30,9 +30,13 @@ export const SilosMenu = () => {
     setOption(id ?? "Select silo")
   }, [id])
 
-  if (isLoading) return <MenuItemsLoader />
+  if (isLoading) {
+    return <MenuItemsLoader />
+  }
 
-  if (!silos?.items.length) return null
+  if (!silos?.items.length) {
+    return null
+  }
 
   return (
     <>

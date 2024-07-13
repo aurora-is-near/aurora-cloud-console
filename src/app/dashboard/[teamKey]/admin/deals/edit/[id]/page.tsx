@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation"
 import Card from "@/components/Card"
 import { DashboardPage } from "@/components/DashboardPage"
-import { DealForm } from "../../DealForm"
 import { getDeal } from "@/actions/deals/get-deal"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { DealForm } from "../../DealForm"
 import { DeleteDealButton } from "./DeleteDealButton"
 
 const Page = async ({

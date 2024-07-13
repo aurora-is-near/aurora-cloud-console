@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { DeploymentStatus } from "@/types/types"
 import { GET } from "./route"
 import {
   createSelect,
@@ -10,7 +11,6 @@ import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openap
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
 import { createMockTokens } from "../../../../../../test-utils/factories/token-factory"
-import { DeploymentStatus } from "@/types/types"
 
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),

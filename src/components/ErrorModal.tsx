@@ -1,11 +1,11 @@
 "use client"
 
+import { XCircleIcon } from "@heroicons/react/24/outline"
+import { useQueryState } from "next-usequerystate"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { XCircleIcon } from "@heroicons/react/24/outline"
-import { useQueryState } from "next-usequerystate"
 
 export const ErrorModal = () => {
   const { closeModal, activeModal } = useModals()
@@ -15,8 +15,8 @@ export const ErrorModal = () => {
 
   const onClose = () => {
     closeModal()
-    setErrorTitle(null)
-    setErrorDescription(null)
+    void setErrorTitle(null)
+    void setErrorDescription(null)
   }
 
   return (

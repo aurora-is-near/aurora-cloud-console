@@ -1,7 +1,7 @@
 import Card from "@/components/Card"
-import DealItem from "./DealItem"
 import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 import { Team } from "@/types/types"
+import DealItem from "./DealItem"
 
 type DealsListProps = {
   team: Team

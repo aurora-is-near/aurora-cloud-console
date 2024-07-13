@@ -1,11 +1,11 @@
 "use client"
 
-import { SaveChangesBar } from "./SaveChangesBar"
+import { ReactNode } from "react"
+import { FormProvider, useForm } from "react-hook-form"
 import { DashboardPage } from "@/components/DashboardPage"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
-import { ReactNode } from "react"
-import { FormProvider, useForm } from "react-hook-form"
+import { SaveChangesBar } from "./SaveChangesBar"
 
 type DealUpdatePageProps = {
   children: ReactNode

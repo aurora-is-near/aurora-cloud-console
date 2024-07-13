@@ -1,9 +1,9 @@
 "use client"
 
-import { LOGIN_ROUTE } from "@/constants/routes"
-import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect } from "react"
+import { LOGIN_ROUTE } from "@/constants/routes"
+import { createClientComponentClient } from "@/supabase/create-client-component-client"
 
 export default function Page() {
   const router = useRouter()

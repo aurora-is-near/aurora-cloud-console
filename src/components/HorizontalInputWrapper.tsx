@@ -1,5 +1,5 @@
-import { InputWrapper, InputWrapperProps } from "@/components/InputWrapper"
 import clsx from "clsx"
+import { InputWrapper, InputWrapperProps } from "@/components/InputWrapper"
 
 export const HorizontalInputWrapper = <Inputs extends Record<string, unknown>>({
   className,

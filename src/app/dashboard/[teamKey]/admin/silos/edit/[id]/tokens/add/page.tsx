@@ -1,8 +1,8 @@
-import Card from "@/components/Card"
-import { TokenForm } from "../TokenForm"
-import { DashboardPage } from "@/components/DashboardPage"
 import { notFound } from "next/navigation"
+import Card from "@/components/Card"
+import { DashboardPage } from "@/components/DashboardPage"
 import { getSilo } from "@/actions/silos/get-silo"
+import { TokenForm } from "../TokenForm"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {
   const silo = await getSilo(id)

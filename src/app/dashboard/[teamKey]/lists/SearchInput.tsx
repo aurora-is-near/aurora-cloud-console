@@ -15,7 +15,7 @@ const SearchInput = ({ search, disabled }: SearchInputProps) => {
 
   const [isPending, startTransition] = useTransition()
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>()
-  const isSearching = timeoutId || isPending
+  const isSearching = !!timeoutId || isPending
 
   return (
     <div>
@@ -51,7 +51,8 @@ const SearchInput = ({ search, disabled }: SearchInputProps) => {
 
             const id = setTimeout(() => {
               startTransition(() => {
-                const value = event.target.value
+                const { value } = event.target
+
                 router.push(`${pathname}${value ? `?search=${value}` : ""}`)
                 setTimeoutId(undefined)
               })

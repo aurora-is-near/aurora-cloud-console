@@ -1,7 +1,7 @@
+import { useQuery } from "@tanstack/react-query"
 import { TokenSchema } from "@/types/api-schemas"
 import { DeploymentStatus } from "@/types/types"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
 
 const filterTokens = (status: DeploymentStatus, tokens: TokenSchema[] = []) =>
   tokens.filter((token) => token.bridge?.deploymentStatus === status)

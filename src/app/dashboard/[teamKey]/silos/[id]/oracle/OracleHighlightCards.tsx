@@ -1,9 +1,9 @@
-import { ServiceHighlightCards } from "@/components/ServiceHighlightCards"
 import {
   BoltIcon,
   ClipboardDocumentCheckIcon,
   LockClosedIcon,
 } from "@heroicons/react/20/solid"
+import { ServiceHighlightCards } from "@/components/ServiceHighlightCards"
 
 export const OracleHighlightCards = () => {
   return (

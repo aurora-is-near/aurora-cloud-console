@@ -1,9 +1,9 @@
 "use client"
 
+import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline"
 import { MobileSubMenuButton } from "@/components/menu/MenuButtons"
 import { useDeals } from "@/hooks/useDeals"
 import { useTeamKey } from "@/hooks/useTeamKey"
-import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline"
 
 export const MobileDealsMenu = () => {
   const { data } = useDeals()

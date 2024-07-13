@@ -1,5 +1,4 @@
 import { createApiEndpoint } from "@/utils/api"
-import { abort } from "../../../../../utils/abort"
 import { getSilo } from "@/actions/silos/get-silo"
 import { getSiloBridge } from "@/actions/silo-bridge/get-silo-bridge"
 import { createSiloBridge } from "@/actions/silo-bridge/create-silo-bridge"
@@ -9,6 +8,7 @@ import { updateSiloBridge } from "@/actions/silo-bridge/update-silo-bridge"
 import { isValidNetwork } from "@/utils/bridge"
 import { getTokens } from "@/actions/tokens/get-tokens"
 import { getWidgetUrl } from "@/actions/silo-bridge/get-widget-url"
+import { abort } from "../../../../../utils/abort"
 
 const getValidNetworks = (networks: string[]): BridgeNetworkType[] => {
   const validNetworks = networks.filter(isValidNetwork)

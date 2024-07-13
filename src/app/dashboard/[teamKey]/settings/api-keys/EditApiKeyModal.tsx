@@ -1,14 +1,14 @@
 "use client"
 
+import { useQueryState } from "next-usequerystate"
+import { useMemo } from "react"
+import { useRouter } from "next/navigation"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { API_KEY_SCOPES } from "@/constants/scopes"
 import { ApiKey, PublicApiScope } from "@/types/types"
-import { useQueryState } from "next-usequerystate"
-import { useMemo } from "react"
-import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
 import { updateApiKey } from "@/actions/api-keys/update-api-key"
-import { useRouter } from "next/navigation"
+import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
 
 type EditApiKeyModalProps = {
   apiKeys: ApiKey[]

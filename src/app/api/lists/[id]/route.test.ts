@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { proxyApiClient } from "@/utils/proxy-api/client"
 import { DELETE, GET, PUT } from "./route"
 import {
   createDelete,
@@ -8,7 +9,6 @@ import {
   createSelect,
   mockSupabaseClient,
 } from "../../../../../test-utils/mock-supabase-client"
-import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createMockList } from "../../../../../test-utils/factories/list-factory"
 import { setupJestOpenApi } from "../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../test-utils/invoke-api-handler"

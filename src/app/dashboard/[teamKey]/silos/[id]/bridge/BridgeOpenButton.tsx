@@ -1,8 +1,8 @@
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
+import { useCallback } from "react"
 import { Button } from "@/components/Button"
 import { LinkButtonProps } from "@/components/LinkButton"
 import { useBridgeUrl } from "@/hooks/useBridgeUrl"
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import { useCallback } from "react"
 
 type BridgeOpenButtonProps = {
   siloId: number

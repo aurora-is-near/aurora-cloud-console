@@ -1,6 +1,6 @@
-import { MouseEventHandler, ReactElement, ReactNode, cloneElement } from "react"
-import { findChildren } from "@/utils/helpers"
+import { cloneElement, MouseEventHandler, ReactElement, ReactNode } from "react"
 import clsx from "clsx"
+import { findChildren } from "@/utils/helpers"
 
 const TH = ({
   children,
@@ -30,6 +30,7 @@ const TH = ({
     {hidden ? <span className="sr-only">{children}</span> : children}
   </th>
 )
+
 TH.displayName = "TH"
 
 const TD = ({
@@ -73,6 +74,7 @@ const TD = ({
     </div>
   </td>
 )
+
 TD.displayName = "TD"
 
 const TR = ({
@@ -93,7 +95,7 @@ const TR = ({
         const isFirst = i === 0
         const isLast = i === tds.length - 1
 
-        return cloneElement(td as ReactElement<any>, {
+        return cloneElement(td as ReactElement, {
           isFirst,
           isLast,
         })
@@ -101,6 +103,7 @@ const TR = ({
     </tr>
   )
 }
+
 TR.displayName = "TR"
 
 const Table = ({
@@ -125,7 +128,7 @@ const Table = ({
                     const isFirst = i === 0
                     const isLast = i === ths.length - 1
 
-                    return cloneElement(th as ReactElement<any>, {
+                    return cloneElement(th as ReactElement, {
                       isFirst,
                       isLast,
                     })

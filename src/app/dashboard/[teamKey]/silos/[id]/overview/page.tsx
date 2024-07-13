@@ -1,11 +1,11 @@
+import { notFound } from "next/navigation"
 import Contact from "@/components/Contact"
-import { SiloTransactionsCharts } from "./SiloTransactionsCharts"
 import { DashboardPage } from "@/components/DashboardPage"
+import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
+import { SiloTransactionsCharts } from "./SiloTransactionsCharts"
 import { LatencyChart } from "../../LatencyChart"
 import { RpcRequestsChart } from "../../RpcRequestsChart"
 import { FailureRateChart } from "../../FailureRateChart"
-import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
-import { notFound } from "next/navigation"
 
 const Page = async ({
   params: { id, teamKey },

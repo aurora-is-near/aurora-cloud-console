@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { quintInOut } from "eases"
 
 type Props = {
@@ -34,14 +34,16 @@ function useInterval(callback: () => void, delay: number | null) {
     function tick() {
       savedCallback.current()
     }
+
     if (delay !== null) {
-      let id = setInterval(tick, delay)
+      const id = setInterval(tick, delay)
+
       return () => clearInterval(id)
     }
   }, [delay])
 }
 
-function NumberEasing({ value, speed = 500, decimals = 0 }: Props) {
+const NumberEasing = ({ value, speed = 500, decimals = 0 }: Props) => {
   const [renderValue, renderValueSet] = useState(value)
   const [lastTarget, lastTargetSet] = useState(value)
 
@@ -61,6 +63,7 @@ function NumberEasing({ value, speed = 500, decimals = 0 }: Props) {
       renderValueSet(value)
     } else {
       const easedProgress = quintInOut(absoluteProgress)
+
       renderValueSet(lastTarget + (value - lastTarget) * easedProgress)
     }
   }, SIXTY_FPS)

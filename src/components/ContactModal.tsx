@@ -2,13 +2,13 @@
 
 import { CheckCircleIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { useState } from "react"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
 import { submitContactForm } from "@/actions/contact/submit-contact-form"
 import { toError } from "@/utils/errors"
-import { useState } from "react"
 
 type ContactModalProps = {
   teamKey: string

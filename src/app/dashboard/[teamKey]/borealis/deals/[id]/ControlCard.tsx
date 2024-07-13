@@ -1,8 +1,7 @@
 import Card from "@/components/Card"
 import { Modals } from "@/utils/modals"
-import { DealDurationModal } from "./DealDurationModal"
-import { CardConfigRow } from "@/components/CardConfigRow"
 import { CardConfigGrid } from "@/components/CardConfigGrid"
+import { DealDurationModal } from "./DealDurationModal"
 
 export const ControlCard = () => {
   return (

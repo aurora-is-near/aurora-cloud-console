@@ -1,13 +1,13 @@
 "use client"
 
 import { useSearchParams } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
+import Loader from "@/components/Loader"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import { SiloHeading } from "@/app/dashboard/[teamKey]/silos/SiloHeading"
 import { OracleBanner } from "./OracleBanner"
 import { OracleDeploymentSteps } from "./OracleDeploymentSteps"
 import { OracleHighlightCards } from "./OracleHighlightCards"
-import Loader from "@/components/Loader"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import { useQuery } from "@tanstack/react-query"
-import { SiloHeading } from "@/app/dashboard/[teamKey]/silos/SiloHeading"
 
 type OracleContentProps = {
   siloId: number

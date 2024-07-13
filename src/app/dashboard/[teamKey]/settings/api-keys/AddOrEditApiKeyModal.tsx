@@ -1,13 +1,13 @@
 "use client"
 
+import { CheckIcon } from "@heroicons/react/24/outline"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { useEffect } from "react"
 import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
-import { CheckIcon } from "@heroicons/react/24/outline"
-import { SubmitHandler, useForm } from "react-hook-form"
 import { API_KEY_SCOPES } from "@/constants/scopes"
 import { PublicApiScope } from "@/types/types"
-import { useEffect } from "react"
 
 type Inputs = Partial<Record<PublicApiScope, boolean>> & {
   note: string

@@ -1,16 +1,16 @@
 "use client"
 
-import { Button } from "@/components/Button"
-import SlideOver from "@/components/SlideOver"
-import { useModals } from "@/hooks/useModals"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useEffect } from "react"
 import { useMutation } from "@tanstack/react-query"
+import toast from "react-hot-toast"
+import { Button } from "@/components/Button"
+import SlideOver from "@/components/SlideOver"
+import { useModals } from "@/hooks/useModals"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Modals } from "@/utils/modals"
-import toast from "react-hot-toast"
 import { TokenSchema } from "@/types/api-schemas"
 
 type Inputs = Partial<Record<string, boolean>>
@@ -56,7 +56,7 @@ const BridgeTokensModal = ({
       tokens: selectedTokens,
     }
 
-    await updateSiloBridge(data)
+    updateSiloBridge(data)
   }
 
   useEffect(() => {

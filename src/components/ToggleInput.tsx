@@ -1,7 +1,6 @@
 "use client"
 
-import { Toggle } from "@/components/Toggle"
-import React, {
+import {
   DetailedHTMLProps,
   InputHTMLAttributes,
   useEffect,
@@ -10,9 +9,10 @@ import React, {
 import {
   Path,
   RegisterOptions,
-  UseFormRegister,
   useFormContext,
+  UseFormRegister,
 } from "react-hook-form"
+import { Toggle } from "@/components/Toggle"
 
 export type ToggleInputProps<Inputs extends Record<string, unknown>> =
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {

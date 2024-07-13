@@ -1,5 +1,5 @@
-import { TransactionDataSchema } from "@/types/api-schemas"
 import { QueryResult } from "pg"
+import { TransactionDataSchema } from "@/types/api-schemas"
 
 export const getTransactionData = (
   label: string,

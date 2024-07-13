@@ -32,10 +32,11 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
     },
     ref,
   ) => {
-    const isDisabled = disabled || loading
+    const isDisabled = !!disabled || loading
 
     return (
       <button
+        type="button"
         className={getButtonClassName(variant, size, {
           className,
           isDisabled,

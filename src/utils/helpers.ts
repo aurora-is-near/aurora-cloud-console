@@ -1,9 +1,10 @@
-import { Children, ReactNode, isValidElement } from "react"
+import { Children, isValidElement, ReactNode } from "react"
 
 export const capitalizeFirstLetter = (string: string) => {
   if (!string || typeof string !== "string") {
     return ""
   }
+
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
@@ -24,12 +25,14 @@ export const findOtherChildren = (
     .filter(isValidElement)
     .filter((child) => {
       const { displayName } = child.type as any
+
       if (
         typeof displayName === "string" &&
         displayNames.includes(displayName)
       ) {
         return false
       }
+
       return true
     })
 

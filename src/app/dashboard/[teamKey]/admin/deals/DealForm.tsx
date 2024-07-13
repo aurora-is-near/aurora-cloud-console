@@ -1,11 +1,11 @@
 "use client"
 
+import { SubmitHandler } from "react-hook-form"
+import { usePathname } from "next/navigation"
 import { Deal } from "@/types/types"
 import { updateDeal } from "@/actions/deals/update-deal"
 import { createDeal } from "@/actions/deals/create-deal"
-import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
-import { usePathname } from "next/navigation"
 
 type DealFormProps = {
   deal?: Deal

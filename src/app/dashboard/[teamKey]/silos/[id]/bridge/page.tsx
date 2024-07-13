@@ -1,5 +1,5 @@
-import { BridgeContent } from "./BridgeContent"
 import { DashboardPage } from "@/components/DashboardPage"
+import { BridgeContent } from "./BridgeContent"
 
 const Page = async ({ params: { id } }: { params: { id: string } }) => {
   return (

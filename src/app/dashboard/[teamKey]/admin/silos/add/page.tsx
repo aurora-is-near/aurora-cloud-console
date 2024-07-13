@@ -1,8 +1,7 @@
 import Card from "@/components/Card"
-import { SiloForm } from "../SiloForm"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTokens } from "@/actions/tokens/get-tokens"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { SiloForm } from "../SiloForm"
 
 const Page = async ({
   params: { teamKey },

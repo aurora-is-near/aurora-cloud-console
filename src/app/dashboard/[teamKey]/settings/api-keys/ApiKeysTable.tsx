@@ -1,16 +1,16 @@
 "use client"
 
-import Table from "@/components/Table"
 import { KeyIcon } from "@heroicons/react/24/outline"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
-import AddApiKeyButton from "./AddApiKeyButton"
 import { relativeTime } from "human-date"
+import { useQueryState } from "next-usequerystate"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { useQueryState } from "next-usequerystate"
+import Table from "@/components/Table"
 import { NoDataCta } from "@/components/NoDataCta"
 import DropdownMenu from "@/components/DropdownMenu"
 import { ApiKey } from "@/types/types"
+import AddApiKeyButton from "./AddApiKeyButton"
 
 type ApiKeysTableProps = {
   apiKeys: ApiKey[]
@@ -20,13 +20,13 @@ export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
   const [, setId] = useQueryState("id")
   const { openModal } = useModals()
 
-  const onEditClick = (id: number) => {
-    setId(String(id))
+  const onEditClick = async (id: number) => {
+    await setId(String(id))
     openModal(Modals.EditApiKey)
   }
 
-  const onDeleteClick = (id: number) => {
-    setId(String(id))
+  const onDeleteClick = async (id: number) => {
+    await setId(String(id))
     openModal(Modals.DeleteApiKey)
   }
 
@@ -65,14 +65,14 @@ export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
                   Icon: PencilSquareIcon,
                   text: "Edit",
                   onClick: () => {
-                    onEditClick(apiKey.id)
+                    void onEditClick(apiKey.id)
                   },
                 },
                 {
                   Icon: TrashIcon,
                   text: "Delete",
                   onClick: () => {
-                    onDeleteClick(apiKey.id)
+                    void onDeleteClick(apiKey.id)
                   },
                 },
               ]}

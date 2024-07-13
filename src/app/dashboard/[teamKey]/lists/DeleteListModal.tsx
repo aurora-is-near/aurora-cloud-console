@@ -1,13 +1,13 @@
 "use client"
 
 import { useQueryState } from "next-usequerystate"
+import { useMutation } from "@tanstack/react-query"
+import { usePathname, useRouter } from "next/navigation"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { DeleteModal } from "@/components/DeleteModal"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
-import { useRouter, usePathname } from "next/navigation"
 
 type DeleteListModalProps = {
   teamKey: string

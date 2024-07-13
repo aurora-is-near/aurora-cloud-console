@@ -1,10 +1,10 @@
-import { getToken } from "@/actions/tokens/get-token"
 import { notFound } from "next/navigation"
+import { getToken } from "@/actions/tokens/get-token"
 import Card from "@/components/Card"
-import { TokenForm } from "../../TokenForm"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getSilo } from "@/actions/silos/get-silo"
 import { DeleteTokenButton } from "@/app/dashboard/[teamKey]/admin/silos/edit/[id]/tokens/edit/[tokenId]/DeleteTokenButton"
+import { TokenForm } from "../../TokenForm"
 
 const Page = async ({
   params: { id, tokenId, teamKey },

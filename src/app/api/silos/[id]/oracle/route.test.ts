@@ -99,7 +99,7 @@ describe("Oracles route", () => {
         error = e
       }
 
-      expect(error).not.toBeUndefined()
+      expect(error).toBeDefined()
     })
 
     it("creates an oracle", async () => {

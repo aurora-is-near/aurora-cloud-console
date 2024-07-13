@@ -1,12 +1,12 @@
 "use client"
 
+import { SubmitHandler } from "react-hook-form"
+import { usePathname } from "next/navigation"
 import { Token, TokenType } from "@/types/types"
 import { updateToken } from "@/actions/tokens/update-token"
 import { createToken } from "@/actions/tokens/create-token"
-import { SubmitHandler } from "react-hook-form"
 import { HorizontalForm } from "@/components/HorizontalForm"
 import { SelectInputOption } from "@/components/SelectInput"
-import { usePathname } from "next/navigation"
 import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
 
 type TokenFormProps = {

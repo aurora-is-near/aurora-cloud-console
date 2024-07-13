@@ -1,9 +1,9 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { deleteToken } from "@/actions/tokens/delete-token"
 import { DeleteButton } from "@/components/DeleteButton"
 import { Deal, Token } from "@/types/types"
-import { useRouter } from "next/navigation"
 
 type DeleteTokenButtonProps = {
   teamKey: string

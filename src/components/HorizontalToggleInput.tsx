@@ -1,6 +1,6 @@
+import { FieldErrors } from "react-hook-form"
 import { HorizontalInputWrapper } from "@/components/HorizontalInputWrapper"
 import { ToggleInput, ToggleInputProps } from "@/components/ToggleInput"
-import { FieldErrors } from "react-hook-form"
 
 type HorizontalToggleInputProps<Inputs extends Record<string, unknown>> =
   ToggleInputProps<Inputs> & {

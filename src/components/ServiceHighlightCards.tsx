@@ -1,5 +1,5 @@
-import Card from "@/components/Card"
 import { ComponentType } from "react"
+import Card from "@/components/Card"
 
 type ServiceHighlightCardsProps = {
   highlights: {

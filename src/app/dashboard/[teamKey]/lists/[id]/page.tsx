@@ -1,12 +1,12 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { ListItems } from "../ListItems"
 import { useQuery } from "@tanstack/react-query"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import ListItemLoader from "@/components/ListItemLoader"
 import { DashboardPage } from "@/components/DashboardPage"
 import { ErrorCard } from "@/components/ErrorCard"
+import { ListItems } from "../ListItems"
 
 const Page = () => {
   const params = useParams()
@@ -16,7 +16,7 @@ const Page = () => {
 
   return (
     <DashboardPage>
-      {!!error ? (
+      {error ? (
         <ErrorCard error={error} showNotFoundPage />
       ) : (
         <>

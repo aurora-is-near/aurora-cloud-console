@@ -1,8 +1,8 @@
 import { Pool, QueryResult, QueryResultRow } from "pg"
-import { toError } from "../errors"
 import { createDebugger } from "@/debug"
 import { TRANSACTION_DATABASES } from "@/constants/databases"
 import { TransactionDatabaseType } from "@/types/types"
+import { toError } from "../errors"
 
 const POOLS: { [key in TransactionDatabaseType]: Pool } = {
   SILO: new Pool(TRANSACTION_DATABASES.SILO.config),

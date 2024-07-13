@@ -1,12 +1,7 @@
-import { OracleContent } from "./OracleContent"
-import { SiloHeading } from "../../SiloHeading"
 import { DashboardPage } from "@/components/DashboardPage"
+import { OracleContent } from "./OracleContent"
 
-const Page = async ({
-  params: { id, teamKey },
-}: {
-  params: { id: string; teamKey: string }
-}) => {
+const Page = async ({ params: { id } }: { params: { id: string } }) => {
   return (
     <DashboardPage>
       <OracleContent siloId={Number(id)} />

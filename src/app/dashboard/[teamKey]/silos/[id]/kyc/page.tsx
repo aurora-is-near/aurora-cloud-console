@@ -1,11 +1,11 @@
+import { Cog6ToothIcon } from "@heroicons/react/20/solid"
+import { Suspense } from "react"
 import { Button } from "@/components/Button"
 import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
-import { Cog6ToothIcon } from "@heroicons/react/20/solid"
-import Charts from "./Charts"
-import { Suspense } from "react"
 import ChartsLoader from "@/components/ChartsLoader"
 import { DashboardPage } from "@/components/DashboardPage"
+import Charts from "./Charts"
 
 const Page = ({ params: { id } }: { params: { id: string } }) => {
   return (

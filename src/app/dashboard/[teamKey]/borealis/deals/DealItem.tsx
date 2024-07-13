@@ -1,7 +1,7 @@
 import { Deal } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
-import ToggleDeal from "../../../../../components/ToggleDeal"
 import { formatDate } from "@/utils/helpers"
+import ToggleDeal from "../../../../../components/ToggleDeal"
 
 type DealItemProps = {
   deal: Deal

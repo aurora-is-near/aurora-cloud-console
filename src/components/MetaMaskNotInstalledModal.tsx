@@ -1,9 +1,9 @@
 "use client"
 
+import { useQueryState } from "next-usequerystate"
 import Modal from "@/components/Modal"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { useQueryState } from "next-usequerystate"
 import { MetaMask } from "@/components/icons"
 import { LinkButton } from "@/components/LinkButton"
 

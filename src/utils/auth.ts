@@ -57,7 +57,7 @@ const getTeamAndScopesFromApiKey = async (): Promise<AuthContext | null> => {
     .select("id, team_id, scopes, teams(*)")
     .single()
 
-  if (!data || !data.teams) {
+  if (!data?.teams) {
     console.warn(`Invalid API key: ${toError(error).message}`)
 
     return null

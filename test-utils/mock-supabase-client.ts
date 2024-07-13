@@ -1,5 +1,5 @@
-import { mockUser } from "./mock-user"
 import { TableName } from "@/types/types"
+import { mockUser } from "./mock-user"
 
 export const createSelect = <T>(data?: T) => ({
   eq: jest.fn().mockReturnThis(),

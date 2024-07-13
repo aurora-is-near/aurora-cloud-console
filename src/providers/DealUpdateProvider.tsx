@@ -1,6 +1,6 @@
 "use client"
 
-import { ReactNode, createContext, useCallback, useMemo, useState } from "react"
+import { createContext, ReactNode, useCallback, useMemo, useState } from "react"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import { getQueryFnAndKey } from "@/utils/api/queries"
@@ -35,10 +35,10 @@ export const DealUpdateContext = createContext<DealUpdateContextType | null>(
   null,
 )
 
-export function DealUpdateProvider({
+export const DealUpdateProvider = ({
   children,
   dealId,
-}: DealUpdateProviderProps) {
+}: DealUpdateProviderProps) => {
   const { data: deal, refetch: refetchDeal } = useQuery(
     getQueryFnAndKey("getDeal", { id: dealId }),
   )

@@ -1,7 +1,7 @@
-import { ChartSpinner } from "@/components/ChartSpinner"
-import Card from "@/components/Card"
 import clsx from "clsx"
 import { ReactNode } from "react"
+import { ChartSpinner } from "@/components/ChartSpinner"
+import Card from "@/components/Card"
 
 type ChartProps = {
   title: string

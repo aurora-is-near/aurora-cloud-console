@@ -1,8 +1,8 @@
+import { useMutation } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/Button"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
-import { useMutation } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
 
 export const BridgeEnableButton = ({ siloId }: { siloId: number }) => {
   const getSiloBridgeUpdater = useOptimisticUpdater("getSiloBridge")

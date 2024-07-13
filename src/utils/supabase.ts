@@ -5,6 +5,7 @@ export function assertValidSupabaseResult<T>(
   result: PostgrestResponse<T>,
 ): asserts result is PostgrestResponseSuccess<T> {
   if (result.error) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw result.error
   }
 }

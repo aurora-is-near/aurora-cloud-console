@@ -1,5 +1,10 @@
 "use client"
 
+import { useMutation } from "@tanstack/react-query"
+import clsx from "clsx"
+import { ChangeEvent, useState } from "react"
+import { FormProvider, useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import { Button } from "@/components/Button"
 import Card from "@/components/Card"
 import { Input } from "@/components/Input"
@@ -8,11 +13,6 @@ import { SelectInput, SelectInputOption } from "@/components/SelectInput"
 import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
-import { useMutation } from "@tanstack/react-query"
-import clsx from "clsx"
-import { ChangeEvent, useState } from "react"
-import { FormProvider, useForm } from "react-hook-form"
-import toast from "react-hot-toast"
 
 type BridgeTokensCardProps = {
   siloId: number
@@ -111,120 +111,115 @@ export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
   }
 
   return (
-    <>
-      <Card tag="section">
-        <Card.Title>Deploy token contracts</Card.Title>
-        <Card.Subtitle>
-          In order to be bridged, the token must be deployed on your Aurora
-          Chain.
-        </Card.Subtitle>
-        <Card.Row>
-          <FormProvider {...methods}>
-            <div className="grid grid-cols-3 gap-2">
-              <RadioInput
-                id="select-existing-token"
-                name="select-token-type"
-                label="Deploy an existing token"
-                value={EXISTING_TOKEN_TYPE}
-                register={register}
-                registerOptions={{
-                  onChange: onSelectedTokenTypeChange,
-                }}
-              />
-              <div
-                className={clsx(
-                  "col-span-2 flex flex-row space-x-2",
-                  selectedTokenType !== EXISTING_TOKEN_TYPE && "invisible",
-                )}
-              >
-                <div className="min-w-[150px] w-[150px]">
-                  <SelectInput
-                    id="existing-token-symbol"
-                    name="existing-token-symbol"
-                    register={register}
-                    options={undeployedTokens.map((token) => ({
-                      label: token.symbol,
-                      value: token.id,
-                    }))}
-                    registerOptions={{
-                      onChange: onExistingTokenSymbolChange,
-                    }}
-                  />
-                </div>
-                <Input
-                  id="existing-token-address"
-                  name="existing-token-address"
-                  placeholder="Address"
-                  disabled
+    <Card tag="section">
+      <Card.Title>Deploy token contracts</Card.Title>
+      <Card.Subtitle>
+        In order to be bridged, the token must be deployed on your Aurora Chain.
+      </Card.Subtitle>
+      <Card.Row>
+        <FormProvider {...methods}>
+          <div className="grid grid-cols-3 gap-2">
+            <RadioInput
+              id="select-existing-token"
+              name="select-token-type"
+              label="Deploy an existing token"
+              value={EXISTING_TOKEN_TYPE}
+              register={register}
+              registerOptions={{
+                onChange: onSelectedTokenTypeChange,
+              }}
+            />
+            <div
+              className={clsx(
+                "col-span-2 flex flex-row space-x-2",
+                selectedTokenType !== EXISTING_TOKEN_TYPE && "invisible",
+              )}
+            >
+              <div className="min-w-[150px] w-[150px]">
+                <SelectInput
+                  id="existing-token-symbol"
+                  name="existing-token-symbol"
                   register={register}
-                />
-                <Button
-                  disabled={!selectedExistingToken || isBridgeSiloTokenPending}
-                  className="h-full"
-                  onClick={onRequestExistingTokenDeploymentClick}
-                >
-                  Request deployment
-                </Button>
-              </div>
-              <RadioInput
-                id="select-custom-token"
-                name="select-token-type"
-                label="Or add a custom token"
-                value={CUSTOM_TOKEN_TYPE}
-                register={register}
-                registerOptions={{
-                  onChange: onSelectedTokenTypeChange,
-                }}
-              />
-              <div
-                className={clsx(
-                  "col-span-2 flex flex-row space-x-2",
-                  selectedTokenType !== CUSTOM_TOKEN_TYPE && "invisible",
-                )}
-              >
-                <Input
-                  className="min-w-[150px] w-[150px]"
-                  id="custom-token-symbol"
-                  name="custom-token-symbol"
-                  placeholder="Symbol"
-                  register={register}
+                  options={undeployedTokens.map((token) => ({
+                    label: token.symbol,
+                    value: token.id,
+                  }))}
                   registerOptions={{
-                    onChange: (evt) => {
-                      setCustomTokenSymbol(
-                        (evt.target as HTMLInputElement).value,
-                      )
-                    },
+                    onChange: onExistingTokenSymbolChange,
                   }}
                 />
-                <Input
-                  id="custom-token-address"
-                  name="custom-token-address"
-                  placeholder="Address"
-                  register={register}
-                  registerOptions={{
-                    onChange: (evt) => {
-                      setCustomTokenAddress(
-                        (evt.target as HTMLInputElement).value,
-                      )
-                    },
-                  }}
-                />
-                <Button
-                  className="h-full"
-                  onClick={onRequestCustomTokenDeploymentClick}
-                  disabled={
-                    !customTokenSymbol ||
-                    !customTokenAddress ||
-                    isBridgeSiloTokenPending
-                  }
-                >
-                  Request deployment
-                </Button>
               </div>
+              <Input
+                id="existing-token-address"
+                name="existing-token-address"
+                placeholder="Address"
+                disabled
+                register={register}
+              />
+              <Button
+                disabled={!selectedExistingToken || isBridgeSiloTokenPending}
+                className="h-full"
+                onClick={onRequestExistingTokenDeploymentClick}
+              >
+                Request deployment
+              </Button>
             </div>
-          </FormProvider>
-        </Card.Row>
-      </Card>
-    </>
+            <RadioInput
+              id="select-custom-token"
+              name="select-token-type"
+              label="Or add a custom token"
+              value={CUSTOM_TOKEN_TYPE}
+              register={register}
+              registerOptions={{
+                onChange: onSelectedTokenTypeChange,
+              }}
+            />
+            <div
+              className={clsx(
+                "col-span-2 flex flex-row space-x-2",
+                selectedTokenType !== CUSTOM_TOKEN_TYPE && "invisible",
+              )}
+            >
+              <Input
+                className="min-w-[150px] w-[150px]"
+                id="custom-token-symbol"
+                name="custom-token-symbol"
+                placeholder="Symbol"
+                register={register}
+                registerOptions={{
+                  onChange: (evt) => {
+                    setCustomTokenSymbol((evt.target as HTMLInputElement).value)
+                  },
+                }}
+              />
+              <Input
+                id="custom-token-address"
+                name="custom-token-address"
+                placeholder="Address"
+                register={register}
+                registerOptions={{
+                  onChange: (evt) => {
+                    setCustomTokenAddress(
+                      (evt.target as HTMLInputElement).value,
+                    )
+                  },
+                }}
+              />
+              <Button
+                className="h-full"
+                onClick={onRequestCustomTokenDeploymentClick}
+                disabled={
+                  !customTokenSymbol ||
+                  !customTokenAddress ||
+                  isBridgeSiloTokenPending
+                }
+              >
+                Request deployment
+              </Button>
+            </div>
+          </div>
+        </FormProvider>
+      </Card.Row>
+    </Card>
   )
 }

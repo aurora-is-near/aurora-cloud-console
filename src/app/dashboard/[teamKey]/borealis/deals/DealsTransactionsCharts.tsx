@@ -1,8 +1,8 @@
 "use client"
 
+import { useDealsTransactions } from "@/hooks/useDealsTransactions"
 import TransactionsCharts from "../../../../../components/TransactionsCharts"
 import { useChartInterval } from "../../../../../hooks/useChartInterval"
-import { useDealsTransactions } from "@/hooks/useDealsTransactions"
 
 export const DealsTransactionsCharts = () => {
   const [interval, setInterval] = useChartInterval()

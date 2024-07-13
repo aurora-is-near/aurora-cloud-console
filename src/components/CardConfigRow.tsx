@@ -1,9 +1,9 @@
 "use client"
 
+import { PencilSquareIcon } from "@heroicons/react/24/outline"
 import Card from "@/components/Card"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { PencilSquareIcon } from "@heroicons/react/24/outline"
 
 type CardConfigRowProps = {
   title: string
@@ -24,7 +24,7 @@ export const CardConfigRow = ({
   content,
   modalKey,
 }: CardConfigRowProps) => {
-  const { openModal, activeModal } = useModals()
+  const { openModal } = useModals()
 
   const onEditClick = () => {
     if (modalKey) {

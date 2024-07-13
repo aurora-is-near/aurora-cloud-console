@@ -1,12 +1,12 @@
 "use client"
 
 import { useQueryState } from "next-usequerystate"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { DeleteModal } from "@/components/DeleteModal"
 import { deleteApiKey } from "@/actions/api-keys/delete-api-key"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
 
 export const DeleteApiKeyModal = () => {
   const [isPending, setIsPending] = useState(false)

@@ -1,19 +1,19 @@
 "use client"
 
+import { CheckIcon } from "@heroicons/react/24/outline"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { useEffect } from "react"
+import { useMutation } from "@tanstack/react-query"
+import toast from "react-hot-toast"
 import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
-import { CheckIcon } from "@heroicons/react/24/outline"
-import { SubmitHandler, useForm } from "react-hook-form"
 import { BridgeNetworkType } from "@/types/types"
-import { useEffect } from "react"
-import { useMutation } from "@tanstack/react-query"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Network } from "@/hooks/useBridgeNetworks"
 import { isValidNetwork } from "@/utils/bridge"
 import { Modals } from "@/utils/modals"
-import toast from "react-hot-toast"
 
 type Inputs = Partial<Record<BridgeNetworkType, boolean>>
 
@@ -68,7 +68,7 @@ const BridgeNetworkModal = ({
       data.toNetworks = selectedNetworks
     }
 
-    await updateSiloBridge(data)
+    updateSiloBridge(data)
   }
 
   useEffect(() => {

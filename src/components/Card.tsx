@@ -22,21 +22,25 @@ const Title = ({
     {children}
   </Tag>
 )
+
 Title.displayName = "Title"
 
 const Subtitle = ({ children }: { children: ReactNode }) => (
   <p className="mt-1 text-sm leading-5 text-gray-500 sm:mt-2">{children}</p>
 )
+
 Subtitle.displayName = "Subtitle"
 
 const Actions = ({ children }: { children: ReactNode }) => (
   <div className="flex items-center space-x-3">{children}</div>
 )
+
 Actions.displayName = "Actions"
 
 const Body = ({ children }: { children: ReactNode }) => (
   <div className={clsx(HORIZONTAL_PADDING, "pb-7")}>{children}</div>
 )
+
 Body.displayName = "Body"
 
 const Row = ({ children }: { children: ReactNode }) => (
@@ -54,6 +58,7 @@ const Cell = ({
     {children}
   </div>
 )
+
 Cell.displayName = "Cell"
 
 const Card = ({
@@ -76,7 +81,7 @@ const Card = ({
   const actions = findChildren(children, "Actions")
   const content = findOtherChildren(children, ["Title", "Subtitle", "Actions"])
 
-  const hasHeader = !!(title || subtitle || actions)
+  const hasHeader = !!(title ?? subtitle ?? actions)
 
   return (
     <Tag
@@ -106,6 +111,7 @@ const Card = ({
     </Tag>
   )
 }
+
 Card.Title = Title
 Card.Subtitle = Subtitle
 Card.Actions = Actions

@@ -1,7 +1,7 @@
 "use client"
 
-import { FilterInput } from "./FiltersInput"
 import Card from "@/components/Card"
+import { FilterInput } from "./FiltersInput"
 
 export const FiltersCard = () => {
   return (

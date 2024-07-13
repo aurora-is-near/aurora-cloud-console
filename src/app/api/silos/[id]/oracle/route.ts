@@ -1,10 +1,10 @@
 import { createApiEndpoint } from "@/utils/api"
-import { abort } from "../../../../../utils/abort"
 import { getSilo } from "@/actions/silos/get-silo"
 import { getSiloOracle } from "@/actions/silo-oracle/get-silo-oracle"
 import { createSiloOracle } from "@/actions/silo-oracle/create-silo-oracle"
 import { Oracle } from "@/types/types"
 import { OracleSchema } from "@/types/api-schemas"
+import { abort } from "../../../../../utils/abort"
 
 const getOracleSchema = (oracle?: Oracle): OracleSchema => {
   if (!oracle) {

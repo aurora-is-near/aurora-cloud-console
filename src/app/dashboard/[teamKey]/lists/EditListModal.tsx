@@ -1,14 +1,14 @@
 "use client"
 
-import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { apiClient } from "@/utils/api/client"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { useQueryState } from "next-usequerystate"
 import { useMemo } from "react"
-import { AddOrEditListModal } from "./AddOrEditListModal"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
+import { apiClient } from "@/utils/api/client"
+import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { getQueryFnAndKey } from "@/utils/api/queries"
+import { AddOrEditListModal } from "./AddOrEditListModal"
 
 export const EditListModal = () => {
   const { activeModal, closeModal } = useModals()

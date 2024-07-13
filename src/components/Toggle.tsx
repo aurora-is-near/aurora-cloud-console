@@ -2,7 +2,7 @@
 
 import { Switch } from "@headlessui/react"
 import clsx from "clsx"
-import React, { ComponentProps } from "react"
+import { ComponentProps } from "react"
 
 export const Toggle = ({
   checked,

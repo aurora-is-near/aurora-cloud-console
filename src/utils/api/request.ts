@@ -5,7 +5,9 @@ import cleanDeep from "clean-deep"
 
 class RequestError extends Error {
   statusCode: number
+
   responseBody?: string
+
   _is_request_error: boolean
 
   constructor(message: string, statusCode: number, responseBody?: string) {
@@ -26,7 +28,7 @@ export const request = async <T = unknown>(
   },
 ) => {
   const cleanQuery = cleanDeep(init?.query ?? {})
-  const url = !!Object.keys(cleanQuery).length
+  const url = Object.keys(cleanQuery).length
     ? `${input}?${qs.stringify(cleanQuery)}`
     : input
 

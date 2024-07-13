@@ -1,8 +1,8 @@
+import { useQuery } from "@tanstack/react-query"
+import { useCallback, useMemo } from "react"
 import { BridgeNetworkType } from "@/types/types"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { isValidNetwork } from "@/utils/bridge"
-import { useQuery } from "@tanstack/react-query"
-import { useCallback, useMemo } from "react"
 
 export type Network = {
   key: BridgeNetworkType

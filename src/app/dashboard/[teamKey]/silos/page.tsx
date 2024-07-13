@@ -1,9 +1,9 @@
-import Contact from "@/components/Contact"
-import { SilosTransactionsCharts } from "./SilosTransactionsCharts"
-import { DashboardPage } from "@/components/DashboardPage"
 import { redirect } from "next/navigation"
+import { DashboardPage } from "@/components/DashboardPage"
+import Contact from "@/components/Contact"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
+import { SilosTransactionsCharts } from "./SilosTransactionsCharts"
 
 const Page = async ({
   params: { teamKey },

@@ -1,10 +1,10 @@
 "use client"
 
+import { CheckIcon } from "@heroicons/react/20/solid"
 import { Button } from "@/components/Button"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { formatDateAndTime } from "@/utils/helpers"
-import { CheckIcon } from "@heroicons/react/20/solid"
 
 export const SaveChangesBar = () => {
   const { clearPendingUpdates, deal, hasPendingUpdates, isUpdating } =

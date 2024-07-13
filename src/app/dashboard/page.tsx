@@ -1,3 +1,7 @@
+import { ChevronRightIcon } from "@heroicons/react/20/solid"
+import { PlusCircleIcon } from "@heroicons/react/24/outline"
+import Link from "next/link"
+import { redirect } from "next/navigation"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { isAdmin } from "@/actions/is-admin"
 import { getTeams } from "@/actions/teams/get-teams"
@@ -8,10 +12,6 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { FullScreenPage } from "@/components/FullScreenPage"
 import { LinkButton } from "@/components/LinkButton"
 import { getUserTeamKeys } from "@/utils/team"
-import { ChevronRightIcon } from "@heroicons/react/20/solid"
-import { PlusCircleIcon } from "@heroicons/react/24/outline"
-import Link from "next/link"
-import { redirect } from "next/navigation"
 
 const Page = async () => {
   const [currentUser, teams, isAdminUser] = await Promise.all([

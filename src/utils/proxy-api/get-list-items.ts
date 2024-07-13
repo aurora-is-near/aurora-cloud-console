@@ -1,6 +1,6 @@
+import cleanDeep from "clean-deep"
 import { ProxyApiViewOperation } from "@/types/proxy-api"
 import { proxyApiClient } from "@/utils/proxy-api/client"
-import cleanDeep from "clean-deep"
 
 const getLimit = (hasCursor: boolean, limit?: number | null) => {
   if (!limit) {

@@ -29,10 +29,11 @@ export const createListItems = async (
 ) => {
   const batches = Math.ceil(values.length / BATCH_SIZE)
 
-  for (let index = 0; index < batches; index++) {
+  for (let index = 0; index < batches; index += 1) {
     const start = index * BATCH_SIZE
     const end = start + BATCH_SIZE
 
+    // eslint-disable-next-line no-await-in-loop
     await createListItemsBatch(teamId, listId, values.slice(start, end))
   }
 }
