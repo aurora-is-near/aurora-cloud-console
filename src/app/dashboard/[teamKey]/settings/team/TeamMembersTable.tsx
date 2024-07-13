@@ -47,14 +47,16 @@ export const TeamMembersTable = ({
           origin: window.location.origin,
         })
       } catch (err) {
-        setErrorTitle("Invite failed")
-        setErrorDescription(toError(err).message)
+        await Promise.all([
+          setErrorTitle("Invite failed"),
+          setErrorDescription(toError(err).message),
+        ])
         openModal(Modals.Error)
 
         return
       }
 
-      setEmail(teamMember.email)
+      await setEmail(teamMember.email)
       openModal(Modals.InviteConfirmed)
     },
     [openModal, setEmail, setErrorDescription, setErrorTitle],
@@ -80,8 +82,8 @@ export const TeamMembersTable = ({
                   Icon={PaperAirplaneIcon}
                   disabled={currentUser.id === teamMember.id}
                   srOnlyText={`Reinvite ${teamMember.name ?? "user"}`}
-                  onClick={() => {
-                    onReinviteTeamMemberClick(teamMember)
+                  onClick={async () => {
+                    await onReinviteTeamMemberClick(teamMember)
                   }}
                 />
               ) : (

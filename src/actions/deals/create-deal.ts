@@ -2,7 +2,6 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Deal } from "@/types/types"
-import { proxyApiClient } from "@/utils/proxy-api/client"
 import { createDeal as createProxyApiDeal } from "@/utils/proxy-api/create-deal"
 import { createDealPriority } from "@/utils/proxy-api/create-deal-priority"
 import { getDealPriorities } from "@/utils/proxy-api/get-deal-priorities"
@@ -28,7 +27,7 @@ const getNextPriority = async (teamId: number): Promise<string> => {
     return acc
   }, "0000")
 
-  return String(parseInt(highestPriority) + 1).padStart(4, "0")
+  return String(parseInt(highestPriority, 10) + 1).padStart(4, "0")
 }
 
 /**

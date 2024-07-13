@@ -96,8 +96,8 @@ export const PUT = createApiEndpoint(
     const newPriorityMap: Record<number, string> = {}
 
     // Validate priorities for the set of deals to be updated
-    priorities.forEach(({ dealId, priority }, _index, arr) => {
-      const deal = dealsResult.data?.find((deal) => deal.id === dealId)
+    priorities.forEach(({ dealId, priority }, _index) => {
+      const deal = dealsResult.data?.find(({ id }) => id === dealId)
 
       if (!deal) {
         abort(400, `No deal found with id ${dealId}`)
@@ -141,7 +141,7 @@ export const PUT = createApiEndpoint(
 
     await Promise.all(
       Object.entries(newPriorityMap).map(async ([dealId, priority]) => {
-        createDealPriority(ctx.team.id, Number(dealId), priority)
+        return createDealPriority(ctx.team.id, Number(dealId), priority)
       }),
     )
 

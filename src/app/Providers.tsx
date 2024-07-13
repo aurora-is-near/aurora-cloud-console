@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 import { QueryProvider } from "@/providers/QueryProvider"
 import { ModalsProvider } from "@/providers/ModalsProvider"
 
-export default async function Providers({ children }: { children: ReactNode }) {
+export const Providers = async ({ children }: { children: ReactNode }) => {
   return (
     <QueryProvider>
       <ModalsProvider>{children}</ModalsProvider>

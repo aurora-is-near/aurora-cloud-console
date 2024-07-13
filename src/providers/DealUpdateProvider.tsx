@@ -49,7 +49,7 @@ export const DealUpdateProvider = ({
 
   const clearPendingUpdates = useCallback(() => {
     setPendingUpdate(null)
-    refetchDeal()
+    void refetchDeal()
   }, [refetchDeal])
 
   const { mutate: updateDeal, isPending: isUpdatePending } = useMutation({
@@ -66,7 +66,7 @@ export const DealUpdateProvider = ({
 
   const savePendingUpdates = useCallback(async () => {
     if (deal && pendingUpdate) {
-      await updateDeal({ id: deal.id, ...pendingUpdate })
+      updateDeal({ id: deal.id, ...pendingUpdate })
     }
 
     clearPendingUpdates()

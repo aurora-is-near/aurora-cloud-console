@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { circular } from "@/styles/fonts/fonts"
 import "../styles/globals.css"
-import Providers from "@/app/Providers"
+import { Providers } from "@/app/Providers"
 import { ErrorModal } from "@/components/ErrorModal"
 import { MetaMaskNotInstalledModal } from "@/components/MetaMaskNotInstalledModal"
 
@@ -10,11 +10,7 @@ export const metadata: Metadata = {
   description: "",
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" className="h-full">
       <body className={`${circular.variable} font-sans h-full bg-gray-50`}>
@@ -27,3 +23,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+export default RootLayout

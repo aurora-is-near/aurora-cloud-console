@@ -92,12 +92,12 @@ const UserInfoForm = ({
         const { error } = await supabase.auth.updateUser(
           { email },
           {
-            emailRedirectTo: `${location.origin}/dashboard/${teamKey}/settings/account`,
+            emailRedirectTo: `${document.location.origin}/dashboard/${teamKey}/settings/account`,
           },
         )
 
         if (error) {
-          throw "Email change failed."
+          throw new Error("Email change failed.")
         }
       }
 
@@ -173,7 +173,7 @@ const UserInfoForm = ({
                 Name
               </dt>
               <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-                {user.name || "-"}
+                {user.name ?? "-"}
               </dd>
             </div>
             <div className="items-center sm:grid sm:grid-cols-2 h-9">

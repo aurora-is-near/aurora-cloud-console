@@ -73,7 +73,7 @@ export const POST = createApiEndpoint("bridgeSiloToken", async (_req, ctx) => {
     abort(404)
   }
 
-  if (ctx.body.tokenId && (ctx.body.symbol || ctx.body.address)) {
+  if (ctx.body.tokenId && (ctx.body.symbol ?? ctx.body.address)) {
     abort(400, badRequestMessage)
   }
 

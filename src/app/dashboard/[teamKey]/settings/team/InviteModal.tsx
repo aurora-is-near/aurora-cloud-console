@@ -65,7 +65,7 @@ const InviteModal = ({ team }: InviteModalProps) => {
 
     setIsLoading(false)
     resetForm()
-    setEmail(email)
+    await setEmail(email)
     closeModal()
     openModal(Modals.InviteConfirmed)
   }

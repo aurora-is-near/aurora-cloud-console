@@ -28,6 +28,7 @@ export const TeamForm = ({ team }: TeamFormProps) => {
   const router = useRouter()
 
   const submitHandler: SubmitHandler<Inputs> = async ({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     siloIds,
     ...teamInputs
   }: Inputs) => {

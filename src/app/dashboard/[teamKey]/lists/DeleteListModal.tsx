@@ -19,8 +19,8 @@ export const DeleteListModal = ({ teamKey }: DeleteListModalProps) => {
   const router = useRouter()
   const [id, setId] = useQueryState("id")
 
-  const onClose = () => {
-    setId(null)
+  const onClose = async () => {
+    await setId(null)
     closeModal()
   }
 

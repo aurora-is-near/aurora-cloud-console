@@ -18,7 +18,7 @@ const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
       {error ? (
         <ErrorCard error={error} showNotFoundPage />
       ) : (
-        <>{data && <BulkImport teamKey={teamKey} listId={data?.id} />}</>
+        data && <BulkImport teamKey={teamKey} listId={data?.id} />
       )}
     </DashboardPage>
   )

@@ -14,19 +14,15 @@ const Page = () => {
     getQueryFnAndKey("getList", { id: Number(params.id) }),
   )
 
+  const listItems = data ? (
+    <ListItems title={data.name ?? ""} listId={data.id} />
+  ) : (
+    <ListItemLoader />
+  )
+
   return (
     <DashboardPage>
-      {error ? (
-        <ErrorCard error={error} showNotFoundPage />
-      ) : (
-        <>
-          {data ? (
-            <ListItems title={data?.name ?? ""} listId={data?.id} />
-          ) : (
-            <ListItemLoader />
-          )}
-        </>
-      )}
+      {error ? <ErrorCard error={error} showNotFoundPage /> : listItems}
     </DashboardPage>
   )
 }

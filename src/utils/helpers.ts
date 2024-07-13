@@ -11,7 +11,10 @@ export const capitalizeFirstLetter = (string: string) => {
 export const findChildren = (children: ReactNode, displayName: string) => {
   const foundChildren = Children.toArray(children).filter(
     (child) =>
-      isValidElement(child) && (child.type as any).displayName === displayName,
+      isValidElement(child) &&
+      typeof child.type !== "string" &&
+      "displayName" in child.type &&
+      child.type.displayName === displayName,
   )
 
   return foundChildren.length ? foundChildren : null
@@ -24,11 +27,11 @@ export const findOtherChildren = (
   Children.toArray(children)
     .filter(isValidElement)
     .filter((child) => {
-      const { displayName } = child.type as any
-
       if (
-        typeof displayName === "string" &&
-        displayNames.includes(displayName)
+        typeof child.type !== "string" &&
+        "displayName" in child.type &&
+        typeof child.type.displayName === "string" &&
+        displayNames.includes(child.type.displayName)
       ) {
         return false
       }

@@ -19,7 +19,7 @@ const EditApiKeyModal = ({ apiKeys }: EditApiKeyModalProps) => {
   const [id] = useQueryState("id")
   const isOpen = activeModal === Modals.EditApiKey
   const apiKeyId = id ? Number(id) : undefined
-  const apiKey = apiKeys.find((apiKey) => apiKey.id === apiKeyId)
+  const apiKey = apiKeys.find((key) => key.id === apiKeyId)
   const router = useRouter()
 
   const onSubmit = async (data: { note: string; scopes: PublicApiScope[] }) => {

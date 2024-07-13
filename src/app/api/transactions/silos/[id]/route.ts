@@ -16,7 +16,7 @@ export const GET = createApiEndpoint(
       getTeamDeals(ctx.team.id),
     ])
 
-    const silo = silos.find((silo) => silo.id === Number(ctx.params.id))
+    const silo = silos.find(({ id }) => id === Number(ctx.params.id))
 
     if (!silo) {
       abort(404)

@@ -28,6 +28,7 @@ export const BridgeDeployedTokensCard = ({
           </Loader>
         </Card.Row>
       ) : (
+        // eslint-disable-next-line react/jsx-no-useless-fragment
         <>
           {!bridgedTokens?.length ? (
             <Card.Row>

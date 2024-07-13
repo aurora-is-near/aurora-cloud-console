@@ -17,11 +17,12 @@ const DeployAccessList = () => {
           <CopyButton value="auroracloud.api/lsjkh4lkfjsd9" />
         </div>
         <ListItem.Actions>
-          <button className="text-gray-500 hover:text-gray-900">
+          <button type="button" className="text-gray-500 hover:text-gray-900">
             <span className="sr-only">Edit list</span>
             <Cog6ToothIcon className="h-5 w-5" />
           </button>
           <button
+            type="button"
             onClick={() => console.log("remove list")}
             className="text-gray-500 hover:text-gray-900"
           >

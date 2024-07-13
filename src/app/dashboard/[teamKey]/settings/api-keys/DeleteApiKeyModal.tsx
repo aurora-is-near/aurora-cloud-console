@@ -14,8 +14,8 @@ export const DeleteApiKeyModal = () => {
   const [id, setId] = useQueryState("id")
   const router = useRouter()
 
-  const onClose = () => {
-    setId(null)
+  const onClose = async () => {
+    await setId(null)
     closeModal()
   }
 
@@ -23,7 +23,7 @@ export const DeleteApiKeyModal = () => {
     setIsPending(true)
     await deleteApiKey(Number(id))
     setIsPending(false)
-    onClose()
+    await onClose()
     router.refresh()
   }
 

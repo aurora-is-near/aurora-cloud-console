@@ -6,16 +6,15 @@ import { UNAUTHORISED_ROUTE } from "@/constants/routes"
 // https://nextjs.org/docs/app/building-your-application/caching#opting-out-1
 export const dynamic = "force-dynamic"
 
-export default async function Layout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export const Layout = async ({ children }: { children: React.ReactNode }) => {
   const isAdminUser = await isAdmin()
 
   if (!isAdminUser) {
     return redirect(UNAUTHORISED_ROUTE)
   }
 
+  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{children}</>
 }
+
+export default Layout

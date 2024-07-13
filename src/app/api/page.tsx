@@ -7,6 +7,8 @@ const DynamicSwaggerUI = dynamic(() => import("swagger-ui-react"), {
   ssr: false,
 })
 
-export default function Page() {
+const Page = () => {
   return <DynamicSwaggerUI url="/api/docs" />
 }
+
+export default Page

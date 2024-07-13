@@ -40,14 +40,13 @@ export const ListItemsTable = ({
   const [, setId] = useQueryState("id")
   const [, setItem] = useQueryState("item")
 
-  const onDeleteClick = (listItem: string) => {
-    setId(String(id))
-    setItem(listItem)
+  const onDeleteClick = async (listItem: string) => {
+    await Promise.all([setId(String(id)), setItem(listItem)])
     openModal(Modals.DeleteListItem)
   }
 
-  const onViewDetailsClick = (listItem: string) => {
-    setItem(listItem)
+  const onViewDetailsClick = async (listItem: string) => {
+    await setItem(listItem)
     openModal(Modals.ViewListItemDetails)
   }
 
@@ -79,7 +78,7 @@ export const ListItemsTable = ({
               Icon: TrashIcon,
               text: "Delete",
               onClick: () => {
-                onDeleteClick(listItem)
+                void onDeleteClick(listItem)
               },
             },
           ]
@@ -89,7 +88,7 @@ export const ListItemsTable = ({
               Icon: InformationCircleIcon,
               text: "View details",
               onClick: () => {
-                onViewDetailsClick(listItem)
+                void onViewDetailsClick(listItem)
               },
             })
           }

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { deleteToken } from "@/actions/tokens/delete-token"
 import { DeleteButton } from "@/components/DeleteButton"
-import { Deal, Token } from "@/types/types"
+import { Token } from "@/types/types"
 
 type DeleteTokenButtonProps = {
   teamKey: string

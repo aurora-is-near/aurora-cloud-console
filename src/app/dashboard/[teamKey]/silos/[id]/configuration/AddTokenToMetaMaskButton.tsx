@@ -13,8 +13,8 @@ export const AddTokenToMetaMaskButton = ({
 }: AddTokenToMetaMaskButtonProps) => {
   const { watchAsset } = useMetaMask()
 
-  const onClick = () => {
-    watchAsset(token)
+  const onClick = async () => {
+    await watchAsset(token)
   }
 
   return <AddToMetaMaskButton onClick={onClick} />

@@ -1,7 +1,7 @@
 import LoginForm from "@/app/auth/login/LoginForm"
 import { Heading } from "./Heading"
 
-export default function Page() {
+const Page = () => {
   return (
     <>
       <Heading className="mb-10">Sign in to your account</Heading>
@@ -9,3 +9,5 @@ export default function Page() {
     </>
   )
 }
+
+export default Page

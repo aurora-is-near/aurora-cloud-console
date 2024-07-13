@@ -3,7 +3,7 @@
 import { NotAllowed } from "@/app/auth/login/NotAllowed"
 import { FullScreenPage } from "@/components/FullScreenPage"
 
-export default function Page() {
+const Page = () => {
   return (
     <FullScreenPage>
       <NotAllowed
@@ -15,3 +15,5 @@ export default function Page() {
     </FullScreenPage>
   )
 }
+
+export default Page

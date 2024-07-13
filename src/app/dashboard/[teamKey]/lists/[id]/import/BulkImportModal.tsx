@@ -58,6 +58,7 @@ export const BulkImportModal = ({
             .filter(Boolean)
             .slice(0, 10)
             .map((item, index) => (
+              // eslint-disable-next-line react/no-array-index-key
               <li key={index} className="mt-1 overflow-hidden text-ellipsis">
                 {item}
               </li>

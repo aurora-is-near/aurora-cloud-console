@@ -62,6 +62,7 @@ export const CardConfigRow = ({
           {!!modalKey && (
             <button
               onClick={onEditClick}
+              type="button"
               className="text-gray-500 hover:text-gray-900"
             >
               <span className="sr-only">Open modal</span>

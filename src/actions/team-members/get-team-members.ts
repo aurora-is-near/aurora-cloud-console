@@ -16,6 +16,7 @@ export const getTeamMembers = async (
     .eq("users_teams.team_id", team.id)
 
   if (usersError) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw usersError
   }
 

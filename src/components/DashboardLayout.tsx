@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import MainMenu from "@/components/menu/MainMenu"
+import { MainMenu } from "@/components/menu/MainMenu"
 import MobileMenu from "@/components/menu/MobileMenu"
 import SubMenuNav from "@/components/menu/SubMenuNav"
 import { MenuItem } from "@/types/menu"

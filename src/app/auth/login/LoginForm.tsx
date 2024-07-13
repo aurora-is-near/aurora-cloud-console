@@ -3,7 +3,6 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 import { CheckCircleIcon } from "@heroicons/react/20/solid"
 import { useEffect } from "react"
-import { Database } from "@/types/supabase"
 import { Button } from "@/components/Button"
 import { AUTH_CALLBACK_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
@@ -27,7 +26,7 @@ const LoginForm = () => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${location.origin}${AUTH_CALLBACK_ROUTE}`,
+        emailRedirectTo: `${document.location.origin}${AUTH_CALLBACK_ROUTE}`,
       },
     })
 
@@ -58,7 +57,7 @@ const LoginForm = () => {
     })
   }, [setError])
 
-  const error = errors.email || errors.root
+  const error = errors.email ?? errors.root
 
   return isSubmitSuccessful ? (
     <div className="flex items-start justify-center text-white">
@@ -73,6 +72,7 @@ const LoginForm = () => {
         <p className="mt-2 text-sm text-gray-400">
           Didn’t receive it?{" "}
           <button
+            type="button"
             className="underline hover:text-white"
             onClick={() => reset(undefined, { keepValues: true })}
           >

@@ -16,6 +16,7 @@ const DropdownMenu = ({ menuItems, open, onOpenChange }: DropdownMenuProps) => {
     <ReactDropdownMenu.Root open={open} onOpenChange={onOpenChange}>
       <ReactDropdownMenu.Trigger asChild>
         <button
+          type="button"
           className="flex items-center text-gray-600 rounded-full hover:text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-600"
           aria-label="Open option"
           onClick={(e) => e.preventDefault()}

@@ -8,7 +8,7 @@ export const getQueryKey = <
   TQueryKey extends QueryKey = QueryKey,
 >(
   baseName: K,
-  params?: any,
+  params?: unknown,
 ): TQueryKey => {
   const queryKey: QueryKey = [baseName, params].filter((x) => x)
 

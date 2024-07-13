@@ -11,7 +11,7 @@ type GenericChartData = {
   [x: string]: string | number | ChartItem[]
 }
 
-const toArray = (item: unknown): ChartItem[] => {
+const toArray = (item: string | number | ChartItem[]): ChartItem[] => {
   if (!Array.isArray(item)) {
     throw new Error("Expected item to be an array")
   }

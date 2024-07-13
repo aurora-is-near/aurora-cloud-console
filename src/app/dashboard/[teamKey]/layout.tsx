@@ -20,13 +20,13 @@ import { AdminMenu } from "@/components/navigation/admin/AdminMenu"
 import { isAdmin } from "@/actions/is-admin"
 import { MenuItem } from "@/types/menu"
 
-export default async function Layout({
+export const Layout = async ({
   children,
   params: { teamKey },
 }: {
   children: ReactNode
   params: { teamKey: string }
-}) {
+}) => {
   const isAdminUser = await isAdmin()
 
   const extraMenuItems: MenuItem[] = [
@@ -84,3 +84,5 @@ export default async function Layout({
     </DashboardLayout>
   )
 }
+
+export default Layout

@@ -6,7 +6,6 @@ import { quintInOut } from "eases"
 type Props = {
   value: number
   speed?: number
-  decimals?: number
 }
 
 const SIXTY_FPS = 1000 / 60
@@ -43,7 +42,7 @@ function useInterval(callback: () => void, delay: number | null) {
   }, [delay])
 }
 
-const NumberEasing = ({ value, speed = 500, decimals = 0 }: Props) => {
+const NumberEasing = ({ value, speed = 500 }: Props) => {
   const [renderValue, renderValueSet] = useState(value)
   const [lastTarget, lastTargetSet] = useState(value)
 

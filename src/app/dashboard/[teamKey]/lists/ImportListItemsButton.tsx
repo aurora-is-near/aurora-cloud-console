@@ -18,8 +18,8 @@ export const ImportListItemsButton = ({
   const { openModal } = useModals()
   const [, setId] = useQueryState("id")
 
-  const onClick = () => {
-    setId(String(id))
+  const onClick = async () => {
+    await setId(String(id))
     openModal(Modals.ImportListItems)
   }
 

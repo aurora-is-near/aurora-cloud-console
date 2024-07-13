@@ -31,7 +31,7 @@ export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
     },
     ref,
   ) => {
-    const isDisabled = disabled || loading
+    const isDisabled = !!disabled || loading
     const Component = isExternal ? "a" : Link
 
     return (

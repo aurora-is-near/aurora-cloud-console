@@ -74,6 +74,7 @@ export const BulkImport = ({ listId, teamKey }: BulkImportProps) => {
                 }
 
                 return (
+                  // eslint-disable-next-line react/no-array-index-key
                   <Table.TR key={index}>
                     <Table.TD dark>{index + 1}</Table.TD>
                     <Table.TD dark>{sampleValue}</Table.TD>

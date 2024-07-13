@@ -172,6 +172,7 @@ const getSearchParamsObject = (
 ) => {
   const obj: Record<string, unknown> = {}
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const [key, value] of req.nextUrl.searchParams) {
     const parameter = parameters.find((param) => param.name === key)
     const parameterType = getParameterType(parameter)
@@ -195,6 +196,7 @@ const getSearchParamsObject = (
 const getHeadersObject = (req: NextRequest) => {
   const obj: Record<string, string> = {}
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const [key, value] of req.headers) {
     obj[key] = value
   }

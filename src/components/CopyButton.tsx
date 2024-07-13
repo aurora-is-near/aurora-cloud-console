@@ -17,7 +17,10 @@ const CopyButton = ({ value }: { value: string }) => {
     <CheckIcon className="flex-shrink-0 w-5 h-5 text-green-700" />
   ) : (
     <CopyToClipboard text={value} onCopy={() => setCopied(true)}>
-      <button className="text-gray-500 hover:text-gray-900 flex-shrink-0">
+      <button
+        type="button"
+        className="text-gray-500 hover:text-gray-900 flex-shrink-0"
+      >
         <span className="sr-only">Copy to clipboard</span>
         <Square2StackIcon className="w-5 h-5" />
       </button>

@@ -3,13 +3,13 @@ import { notFound } from "next/navigation"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
-export default async function Layout({
+export const Layout = async ({
   children,
   params: { id, teamKey },
 }: {
   children: ReactNode
   params: { id: string; teamKey: string }
-}) {
+}) => {
   const team = await getTeamByKey(teamKey)
   const silo = await getTeamSilo(team.id, Number(id))
 
@@ -18,5 +18,8 @@ export default async function Layout({
     notFound()
   }
 
+  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{children}</>
 }
+
+export default Layout

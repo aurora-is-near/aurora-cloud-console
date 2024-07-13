@@ -36,7 +36,7 @@ type TabChartsProps<T> = {
   hasError?: boolean
 }
 
-const TabCharts = <T extends unknown>({
+const TabCharts = <T extends number | string | null>({
   children,
   isLoading,
   tabs,
@@ -125,7 +125,7 @@ const TabCharts = <T extends unknown>({
                     },
                   )}
                 >
-                  <NumberEasing value={value || 0} />
+                  <NumberEasing value={value ?? 0} />
                 </div>
               </Tab>
             ))}

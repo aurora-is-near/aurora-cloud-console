@@ -24,12 +24,7 @@ const Actions = ({ children }: { children: ReactNode }) => (
 
 Actions.displayName = "Actions"
 
-const ListItem = ({
-  children,
-}: {
-  className?: string
-  children: ReactNode
-}) => {
+const ListItem = ({ children }: { children: ReactNode }) => {
   const actions = findChildren(children, "Actions")
   const otherChildren = findOtherChildren(children, ["Actions"])
   const amountOfChildren = Children.count(children)

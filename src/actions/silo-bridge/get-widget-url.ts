@@ -56,7 +56,7 @@ export const getWidgetUrl = ({
   }
 
   const hasCustomChain =
-    bridge.from_networks?.some((network) => network === "CUSTOM") ||
+    bridge.from_networks?.some((network) => network === "CUSTOM") ??
     bridge.to_networks?.some((network) => network === "CUSTOM")
 
   if (hasCustomChain && silo && baseToken) {
@@ -68,7 +68,7 @@ export const getWidgetUrl = ({
           name: silo.name,
           network: silo.name,
           nativeCurrency: {
-            decimals: baseToken.decimals || 18,
+            decimals: baseToken.decimals ?? 18,
             name: baseToken.name,
             symbol: baseToken.symbol,
           },

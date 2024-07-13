@@ -8,7 +8,7 @@ const getValuesFromFrame = (frame: { data: { values: number[][] } }) => {
     return []
   }
 
-  return items.map((value: any, i: number) => ({
+  return items.map((value: number, i: number) => ({
     day: value,
     count: frame.data.values[1][i],
   }))

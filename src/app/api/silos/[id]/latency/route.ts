@@ -1,4 +1,3 @@
-import { NextRequest } from "next/server"
 import { createApiEndpoint } from "@/utils/api"
 import { getLatencyCharts } from "@/utils/grafana/charts"
 import { LATENCY_PERCENTILES } from "@/constants/latency"

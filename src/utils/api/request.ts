@@ -18,6 +18,18 @@ class RequestError extends Error {
   }
 }
 
+const getBaseUrl = (input: RequestInfo | URL): string => {
+  if (typeof input === "string") {
+    return input
+  }
+
+  if (input instanceof URL) {
+    return input.href
+  }
+
+  return input.url
+}
+
 export const isRequestError = (error: unknown): error is RequestError =>
   typeof error === "object" && !!error && "_is_request_error" in error
 
@@ -28,8 +40,9 @@ export const request = async <T = unknown>(
   },
 ) => {
   const cleanQuery = cleanDeep(init?.query ?? {})
+  const baseUrl = getBaseUrl(input)
   const url = Object.keys(cleanQuery).length
-    ? `${input}?${qs.stringify(cleanQuery)}`
+    ? `${baseUrl}?${qs.stringify(cleanQuery)}`
     : input
 
   const res = await fetch(url, {
@@ -44,7 +57,7 @@ export const request = async <T = unknown>(
     const { message } = await res.json().catch(() => undefined)
 
     throw new RequestError(
-      `Failed to fetch ${input}: ${res.statusText}`,
+      `Failed to fetch ${baseUrl}: ${res.statusText}`,
       res.status,
       message,
     )

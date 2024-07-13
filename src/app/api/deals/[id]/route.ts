@@ -1,5 +1,4 @@
 import { createApiEndpoint } from "@/utils/api"
-import { ApiRequestBody } from "@/types/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import {
   abortIfNoSupabaseResult,
@@ -22,7 +21,7 @@ const parseTimeParam = (time?: string | null) => {
 
   const parsed = Date.parse(time)
 
-  if (isNaN(parsed)) {
+  if (Number.isNaN(parsed)) {
     abort(400, `Invalid request body: time must be a date string`)
   }
 

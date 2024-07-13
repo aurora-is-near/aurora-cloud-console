@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, ReactNode } from "react"
+import { createContext, ReactNode, useCallback, useMemo } from "react"
 import { useQueryState } from "next-usequerystate"
 import { Modals } from "@/utils/modals"
 
@@ -24,18 +24,21 @@ export const ModalsProvider = ({ children }: { children: ReactNode }) => {
   const [queryModal, setQueryModal] = useQueryState("modal")
   const activeModal = validateModal(queryModal)
 
-  const openModal = (modal: Modals) => setQueryModal(modal)
-  const closeModal = () => setQueryModal(null)
-
-  return (
-    <ModalsContext.Provider
-      value={{
-        activeModal,
-        openModal,
-        closeModal,
-      }}
-    >
-      {children}
-    </ModalsContext.Provider>
+  const openModal = useCallback(
+    (modal: Modals) => setQueryModal(modal),
+    [setQueryModal],
   )
+
+  const closeModal = useCallback(() => setQueryModal(null), [setQueryModal])
+
+  const ctx = useMemo(
+    () => ({
+      activeModal,
+      openModal,
+      closeModal,
+    }),
+    [activeModal, closeModal, openModal],
+  )
+
+  return <ModalsContext.Provider value={ctx}>{children}</ModalsContext.Provider>
 }

@@ -7,10 +7,13 @@ import clsx from "clsx"
 import { paramCase } from "change-case"
 import { Tooltip } from "@/components/Tooltip"
 
-type MenuButtonProps = {
+type BaseMenuButtonProps = {
   href: string
   name: string
   icon?: ReactNode
+}
+
+type SubMenuButtonProps = BaseMenuButtonProps & {
   disabled?: boolean
 }
 
@@ -23,7 +26,7 @@ const generateIcon = (icon: ReactNode, className: string) => {
     : null
 }
 
-const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
+const MainMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
   const pathname = usePathname()
   const isCurrentRoute = pathname.startsWith(href)
 
@@ -52,7 +55,7 @@ const MainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
   )
 }
 
-const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
+const SubMenuButton = ({ href, name, icon, disabled }: SubMenuButtonProps) => {
   const pathname = usePathname()
   const isCurrentRoute = pathname === href
 
@@ -73,6 +76,7 @@ const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
     return (
       <button
         disabled
+        type="button"
         className={clsx(commonClasses, "text-gray-500 opacity-50")}
       >
         {icon}
@@ -98,7 +102,7 @@ const SubMenuButton = ({ href, name, icon, disabled }: MenuButtonProps) => {
   )
 }
 
-const MobileMainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
+const MobileMainMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
   const pathname = usePathname()
   const isCurrentRoute = pathname.startsWith(href)
 
@@ -120,7 +124,7 @@ const MobileMainMenuButton = ({ href, name, icon }: MenuButtonProps) => {
   )
 }
 
-const MobileSubMenuButton = ({ href, name, icon }: MenuButtonProps) => {
+const MobileSubMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
   const pathname = usePathname()
   const isCurrentRoute = pathname === href
 

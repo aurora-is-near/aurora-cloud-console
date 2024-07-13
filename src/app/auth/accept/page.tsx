@@ -5,7 +5,7 @@ import { useCallback, useEffect } from "react"
 import { LOGIN_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 
-export default function Page() {
+const Page = () => {
   const router = useRouter()
   const supabase = createClientComponentClient()
 
@@ -28,3 +28,5 @@ export default function Page() {
 
   return null
 }
+
+export default Page

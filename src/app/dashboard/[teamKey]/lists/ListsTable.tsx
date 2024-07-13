@@ -30,18 +30,18 @@ export const ListsTable = ({ teamKey }: ListsTableProps) => {
   const router = useRouter()
   const [openMenu, setOpenMenu] = useState<number>()
 
-  const onEditListClick = (id: number) => {
-    setId(String(id))
+  const onEditListClick = async (id: number) => {
+    await setId(String(id))
     openModal(Modals.EditList)
   }
 
-  const onImportListItemsClick = (id: number) => {
-    setId(String(id))
+  const onImportListItemsClick = async (id: number) => {
+    await setId(String(id))
     openModal(Modals.ImportListItems)
   }
 
-  const onDeleteClick = (id: number) => {
-    setId(String(id))
+  const onDeleteClick = async (id: number) => {
+    await setId(String(id))
     openModal(Modals.DeleteList)
   }
 
@@ -99,22 +99,22 @@ export const ListsTable = ({ teamKey }: ListsTableProps) => {
                 {
                   Icon: PencilSquareIcon,
                   text: "Edit",
-                  onClick: () => {
-                    onEditListClick(list.id)
+                  onClick: async () => {
+                    await onEditListClick(list.id)
                   },
                 },
                 {
                   Icon: ArrowUpTrayIcon,
                   text: "Import",
-                  onClick: () => {
-                    onImportListItemsClick(list.id)
+                  onClick: async () => {
+                    await onImportListItemsClick(list.id)
                   },
                 },
                 {
                   Icon: TrashIcon,
                   text: "Delete",
-                  onClick: () => {
-                    onDeleteClick(list.id)
+                  onClick: async () => {
+                    await onDeleteClick(list.id)
                   },
                 },
               ]}

@@ -7,7 +7,6 @@ import { usePathname, useSelectedLayoutSegments } from "next/navigation"
 import { MenuItem } from "@/types/menu"
 import { capitalizeFirstLetter } from "@/utils/helpers"
 import { MobileMainMenuButton } from "./MenuButtons"
-import SignoutButton from "./SignoutButton"
 import { AuroraTriangle } from "../icons"
 
 const SubrouteMenu = ({ menuItems }: { menuItems: MenuItem[] }) => {
@@ -26,7 +25,7 @@ type MobileMenuProps = {
   menuItems: MenuItem[]
 }
 
-export default function MobileMenu({ menuItems }: MobileMenuProps) {
+const MobileMenu = ({ menuItems }: MobileMenuProps) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [route, subRoute] = useSelectedLayoutSegments()
   const pathname = usePathname()
@@ -136,3 +135,5 @@ export default function MobileMenu({ menuItems }: MobileMenuProps) {
     </>
   )
 }
+
+export default MobileMenu
