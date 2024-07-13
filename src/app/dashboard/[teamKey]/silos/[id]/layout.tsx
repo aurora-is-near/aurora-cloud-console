@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
-export const Layout = async ({
+const Layout = async ({
   children,
   params: { id, teamKey },
 }: {

@@ -20,7 +20,7 @@ import { AdminMenu } from "@/components/navigation/admin/AdminMenu"
 import { isAdmin } from "@/actions/is-admin"
 import { MenuItem } from "@/types/menu"
 
-export const Layout = async ({
+const Layout = async ({
   children,
   params: { teamKey },
 }: {

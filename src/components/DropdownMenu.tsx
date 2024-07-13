@@ -6,7 +6,7 @@ type DropdownMenuProps = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   menuItems: {
-    Icon: ComponentType<{ className: string }>
+    Icon: ComponentType<{ className?: string }>
     text: string
     onClick: () => void
   }[]

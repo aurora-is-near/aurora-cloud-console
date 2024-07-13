@@ -6,7 +6,7 @@ import { UNAUTHORISED_ROUTE } from "@/constants/routes"
 // https://nextjs.org/docs/app/building-your-application/caching#opting-out-1
 export const dynamic = "force-dynamic"
 
-export const Layout = async ({ children }: { children: React.ReactNode }) => {
+const Layout = async ({ children }: { children: React.ReactNode }) => {
   const isAdminUser = await isAdmin()
 
   if (!isAdminUser) {
