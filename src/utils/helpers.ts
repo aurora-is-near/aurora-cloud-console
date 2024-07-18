@@ -9,13 +9,14 @@ export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
+const hasDisplayName = (
+  child: ReactNode,
+): child is ReactNode & { type: { displayName?: string } } =>
+  isValidElement(child) && typeof child.type !== "string"
+
 export const findChildren = (children: ReactNode, displayName: string) => {
   const foundChildren = Children.toArray(children).filter(
-    (child) =>
-      isValidElement(child) &&
-      typeof child.type !== "string" &&
-      "displayName" in child.type &&
-      child.type.displayName === displayName,
+    (child) => hasDisplayName(child) && child.type.displayName === displayName,
   )
 
   return foundChildren.length ? foundChildren : null
@@ -25,20 +26,17 @@ export const findOtherChildren = (
   children: ReactNode,
   displayNames: string[],
 ) =>
-  Children.toArray(children)
-    .filter(isValidElement)
-    .filter((child) => {
-      if (
-        typeof child.type !== "string" &&
-        "displayName" in child.type &&
-        typeof child.type.displayName === "string" &&
-        displayNames.includes(child.type.displayName)
-      ) {
-        return false
-      }
+  Children.toArray(children).filter((child) => {
+    if (
+      hasDisplayName(child) &&
+      typeof child.type.displayName === "string" &&
+      displayNames.includes(child.type.displayName)
+    ) {
+      return false
+    }
 
-      return true
-    })
+    return true
+  })
 
 const dateTimeFormat = (
   date: Date | string,
