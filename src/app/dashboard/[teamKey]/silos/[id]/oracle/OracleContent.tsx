@@ -6,14 +6,15 @@ import Loader from "@/components/Loader"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { SiloHeading } from "@/app/dashboard/[teamKey]/silos/SiloHeading"
 import { OracleBanner } from "./OracleBanner"
-import { OracleDeploymentSteps } from "./OracleDeploymentSteps"
+import { OracleDeployment } from "./OracleDeployment"
 import { OracleHighlightCards } from "./OracleHighlightCards"
 
 type OracleContentProps = {
   siloId: number
+  teamKey: string
 }
 
-export const OracleContent = ({ siloId }: OracleContentProps) => {
+export const OracleContent = ({ siloId, teamKey }: OracleContentProps) => {
   const searchParams = useSearchParams()
   const { data: oracle } = useQuery(
     getQueryFnAndKey("getSiloOracle", {
@@ -37,7 +38,11 @@ export const OracleContent = ({ siloId }: OracleContentProps) => {
         showActivatedTag={oracle.enabled}
       />
       <OracleBanner siloId={siloId} isEnabled={isEnabled} />
-      {isEnabled ? <OracleDeploymentSteps /> : <OracleHighlightCards />}
+      {isEnabled ? (
+        <OracleDeployment oracle={oracle} teamKey={teamKey} />
+      ) : (
+        <OracleHighlightCards />
+      )}
     </>
   )
 }

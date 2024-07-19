@@ -2,42 +2,27 @@ import { createApiEndpoint } from "@/utils/api"
 import { getSilo } from "@/actions/silos/get-silo"
 import { getSiloOracle } from "@/actions/silo-oracle/get-silo-oracle"
 import { createSiloOracle } from "@/actions/silo-oracle/create-silo-oracle"
-import { Oracle } from "@/types/types"
-import { OracleSchema } from "@/types/api-schemas"
+import { auroraOracleApiClient } from "@/utils/aurora-oracle-api/client"
 import { abort } from "../../../../../utils/abort"
-
-const getOracleSchema = (oracle?: Oracle): OracleSchema => {
-  if (!oracle) {
-    return {
-      enabled: false,
-      createdAt: null,
-      updatedAt: null,
-      deployedAt: null,
-    }
-  }
-
-  return {
-    enabled: true,
-    createdAt: oracle.created_at,
-    updatedAt: oracle.updated_at,
-    deployedAt: oracle.deployed_at,
-  }
-}
+import { adaptOracle } from "../../../../../utils/adapters"
 
 export const GET = createApiEndpoint("getSiloOracle", async (_req, ctx) => {
-  const silo = await getSilo(Number(ctx.params.id))
+  const siloId = Number(ctx.params.id)
+  const [silo, oracle, contracts] = await Promise.all([
+    getSilo(siloId),
+    getSiloOracle(siloId),
+    auroraOracleApiClient.getContracts(),
+  ])
 
-  if (!silo) {
+  if (!oracle) {
     abort(404)
   }
 
-  const oracle = await getSiloOracle(silo.id)
+  const contract = contracts.items.find(
+    ({ chainId }) => chainId === silo?.chain_id,
+  )
 
-  if (!oracle) {
-    return getOracleSchema()
-  }
-
-  return getOracleSchema(oracle)
+  return adaptOracle(oracle, contract)
 })
 
 export const POST = createApiEndpoint("createSiloOracle", async (_req, ctx) => {
@@ -55,5 +40,5 @@ export const POST = createApiEndpoint("createSiloOracle", async (_req, ctx) => {
 
   const oracle = await createSiloOracle({ silo_id: silo.id })
 
-  return getOracleSchema(oracle)
+  return adaptOracle(oracle)
 })

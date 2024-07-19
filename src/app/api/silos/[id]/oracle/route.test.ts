@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { auroraOracleApiClient } from "@/utils/aurora-oracle-api/client"
 import { GET, POST } from "./route"
 import {
   createInsertOrUpdate,
@@ -12,6 +13,7 @@ import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handle
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
 import { createMockOracle } from "../../../../../../test-utils/factories/oracle-factory"
 
+jest.mock("../../../../../utils/aurora-oracle-api/client")
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
@@ -27,6 +29,9 @@ describe("Oracles route", () => {
     mockSupabaseClient
       .from("oracles")
       .select.mockImplementation(() => createSelect())
+    ;(auroraOracleApiClient.getContracts as jest.Mock).mockResolvedValue({
+      items: [],
+    })
   })
 
   describe("GET", () => {
@@ -36,20 +41,10 @@ describe("Oracles route", () => {
       ).rejects.toThrow("Not Found")
     })
 
-    it("returns a disabled oracle", async () => {
-      mockSupabaseClient
-        .from("silos")
-        .select.mockImplementation(() => createSelect(createMockSilo()))
-
-      const res = await invokeApiHandler("GET", "/api/silos/1/oracle", GET)
-
-      expect(res).toSatisfyApiSpec()
-      expect(res.body).toEqual({
-        enabled: false,
-        createdAt: null,
-        updatedAt: null,
-        deployedAt: null,
-      })
+    it("returns a 404 for a non-existant oracle", async () => {
+      await expect(async () =>
+        invokeApiHandler("GET", "/api/silos/1/oracle", GET),
+      ).rejects.toThrow("Not Found")
     })
 
     it("returns an enabled oracle", async () => {
@@ -70,7 +65,42 @@ describe("Oracles route", () => {
         enabled: true,
         createdAt: mockOracle.created_at,
         updatedAt: mockOracle.updated_at,
-        deployedAt: mockOracle.deployed_at,
+        address: null,
+      })
+    })
+
+    it("returns an enabled and deployed oracle", async () => {
+      const mockOracle = createMockOracle()
+      const mockSilo = createMockSilo()
+
+      ;(auroraOracleApiClient.getContracts as jest.Mock).mockResolvedValue({
+        items: [
+          {
+            id: 1,
+            rpcUrl: mockSilo.rpc_url,
+            chainId: mockSilo.chain_id,
+            name: mockSilo.name,
+            address: "0x123",
+          },
+        ],
+      })
+
+      mockSupabaseClient
+        .from("silos")
+        .select.mockImplementation(() => createSelect(mockSilo))
+
+      mockSupabaseClient
+        .from("oracles")
+        .select.mockImplementation(() => createSelect(mockOracle))
+
+      const res = await invokeApiHandler("GET", "/api/silos/1/oracle", GET)
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
+        enabled: true,
+        createdAt: mockOracle.created_at,
+        updatedAt: mockOracle.updated_at,
+        address: "0x123",
       })
     })
   })
@@ -122,7 +152,7 @@ describe("Oracles route", () => {
         enabled: true,
         createdAt: mockOracle.created_at,
         updatedAt: mockOracle.updated_at,
-        deployedAt: mockOracle.deployed_at,
+        address: null,
       })
 
       expect(mockSupabaseClient.from("oracles").insert).toHaveBeenCalledWith({

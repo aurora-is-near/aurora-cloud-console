@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 import { proxyApiClient } from "@/utils/proxy-api/client"
+import { logger } from "@/logger"
 import { GET, POST } from "./route"
 import {
   createInsertOrUpdate,
@@ -17,19 +18,18 @@ import { invokeApiHandler } from "../../../../test-utils/invoke-api-handler"
 import { mockTeam } from "../../../../test-utils/mock-team"
 import { createProxyApiObject } from "../../../../test-utils/create-proxy-api-object"
 
-const originalConsoleWarn = console.warn
+const originalLoggerWarn = logger.warn
 
+jest.mock("../../../utils/proxy-api/client")
 jest.mock("../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
-
-jest.mock("../../../utils/proxy-api/client")
 
 describe("Lists route", () => {
   beforeAll(setupJestOpenApi)
 
   beforeEach(() => {
-    console.warn = originalConsoleWarn
+    logger.warn = originalLoggerWarn
   })
 
   describe("GET", () => {
@@ -92,7 +92,7 @@ describe("Lists route", () => {
     })
 
     it("logs a warning if a list is found in the database but not the Proxy API", async () => {
-      console.warn = jest.fn()
+      logger.warn = jest.fn()
 
       const mockLists = createMockLists(2)
       const selectQueries = createSelect(mockLists)
@@ -126,8 +126,8 @@ describe("Lists route", () => {
         ],
       })
 
-      expect(console.warn).toHaveBeenCalledTimes(1)
-      expect(console.warn).toHaveBeenCalledWith(
+      expect(logger.warn).toHaveBeenCalledTimes(1)
+      expect(logger.warn).toHaveBeenCalledWith(
         `Found list ${mockLists[1].id} in the database but not in the proxy API`,
       )
     })

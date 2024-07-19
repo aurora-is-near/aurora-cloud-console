@@ -94,7 +94,7 @@ export const OracleSchema = z.object({
   enabled: z.boolean(),
   createdAt: z.string().nullable(),
   updatedAt: z.string().nullable(),
-  deployedAt: z.string().nullable(),
+  address: z.string().nullable(),
 })
 
 const BridgeNetwork = z.string().openapi({

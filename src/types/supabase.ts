@@ -164,21 +164,18 @@ export type Database = {
       oracles: {
         Row: {
           created_at: string
-          deployed_at: string | null
           id: number
           silo_id: number
           updated_at: string
         }
         Insert: {
           created_at?: string
-          deployed_at?: string | null
           id?: number
           silo_id: number
           updated_at?: string
         }
         Update: {
           created_at?: string
-          deployed_at?: string | null
           id?: number
           silo_id?: number
           updated_at?: string

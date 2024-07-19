@@ -34,4 +34,10 @@ drop trigger if exists set_oracles_updated_at on oracles;
 create trigger set_oracles_updated_at
   before update on oracles
   for each row execute procedure public.update_modified_column();
+
+-- trigger to execute the function on update of bridges table
+drop trigger if exists set_bridges_updated_at on bridges;
+create trigger set_bridges_updated_at
+  before update on bridges
+  for each row execute procedure public.update_modified_column();
 ```

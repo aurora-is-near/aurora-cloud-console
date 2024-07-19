@@ -41,7 +41,7 @@ export const BridgeDeployedTokensCard = ({
 
                 return (
                   <Fragment key={token.id}>
-                    <Card.Cell className="text-sm	 font-medium">
+                    <Card.Cell className="text-sm font-medium">
                       {token.symbol}
                     </Card.Cell>
                     <Card.Cell

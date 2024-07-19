@@ -2,13 +2,15 @@ import { LIST_TYPES } from "@/constants/lists"
 import {
   DealSchema,
   ListSchema,
+  OracleSchema,
   SiloSchema,
   SimpleListSchema,
   TokenSchema,
 } from "@/types/api-schemas"
+import { AuroraOracleContract } from "@/types/aurora-oracle-api"
 import { ProxyApiDealData } from "@/types/deal"
 import { ListType } from "@/types/lists"
-import { Deal, List, Silo, Token } from "@/types/types"
+import { Deal, List, Oracle, Silo, Token } from "@/types/types"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
@@ -117,4 +119,14 @@ export const adaptList = (list: List): ListSchema => ({
   id: list.id,
   createdAt: list.created_at,
   name: list.name,
+})
+
+export const adaptOracle = (
+  oracle: Oracle,
+  contract?: AuroraOracleContract,
+): OracleSchema => ({
+  enabled: true,
+  createdAt: oracle.created_at,
+  updatedAt: oracle.updated_at,
+  address: contract?.address ?? null,
 })

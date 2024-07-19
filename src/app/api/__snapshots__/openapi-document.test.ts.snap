@@ -48,146 +48,22 @@ exports[`OpenAPI Document should be valid 1`] = `
                             "type": "number",
                           },
                           "lists": {
-                            "properties": {
-                              "autoSubList": {
-                                "nullable": true,
-                                "properties": {
-                                  "id": {
-                                    "type": "number",
-                                  },
-                                  "name": {
-                                    "type": "string",
-                                  },
+                            "additionalProperties": {
+                              "nullable": true,
+                              "properties": {
+                                "id": {
+                                  "type": "number",
                                 },
-                                "required": [
-                                  "id",
-                                  "name",
-                                ],
-                                "type": "object",
-                              },
-                              "chainFilter": {
-                                "nullable": true,
-                                "properties": {
-                                  "id": {
-                                    "type": "number",
-                                  },
-                                  "name": {
-                                    "type": "string",
-                                  },
+                                "name": {
+                                  "type": "string",
                                 },
-                                "required": [
-                                  "id",
-                                  "name",
-                                ],
-                                "type": "object",
                               },
-                              "contractFilter": {
-                                "nullable": true,
-                                "properties": {
-                                  "id": {
-                                    "type": "number",
-                                  },
-                                  "name": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "id",
-                                  "name",
-                                ],
-                                "type": "object",
-                              },
-                              "eoaBlacklist": {
-                                "nullable": true,
-                                "properties": {
-                                  "id": {
-                                    "type": "number",
-                                  },
-                                  "name": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "id",
-                                  "name",
-                                ],
-                                "type": "object",
-                              },
-                              "eoaFilter": {
-                                "nullable": true,
-                                "properties": {
-                                  "id": {
-                                    "type": "number",
-                                  },
-                                  "name": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "id",
-                                  "name",
-                                ],
-                                "type": "object",
-                              },
-                              "revokedTokens": {
-                                "nullable": true,
-                                "properties": {
-                                  "id": {
-                                    "type": "number",
-                                  },
-                                  "name": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "id",
-                                  "name",
-                                ],
-                                "type": "object",
-                              },
-                              "userIdBlacklist": {
-                                "nullable": true,
-                                "properties": {
-                                  "id": {
-                                    "type": "number",
-                                  },
-                                  "name": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "id",
-                                  "name",
-                                ],
-                                "type": "object",
-                              },
-                              "userIdFilter": {
-                                "nullable": true,
-                                "properties": {
-                                  "id": {
-                                    "type": "number",
-                                  },
-                                  "name": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "id",
-                                  "name",
-                                ],
-                                "type": "object",
-                              },
+                              "required": [
+                                "id",
+                                "name",
+                              ],
+                              "type": "object",
                             },
-                            "required": [
-                              "chainFilter",
-                              "contractFilter",
-                              "revokedTokens",
-                              "userIdFilter",
-                              "userIdBlacklist",
-                              "eoaFilter",
-                              "eoaBlacklist",
-                              "autoSubList",
-                            ],
                             "type": "object",
                           },
                           "name": {
@@ -426,146 +302,22 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "type": "number",
                     },
                     "lists": {
-                      "properties": {
-                        "autoSubList": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
+                      "additionalProperties": {
+                        "nullable": true,
+                        "properties": {
+                          "id": {
+                            "type": "number",
                           },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "chainFilter": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
+                          "name": {
+                            "type": "string",
                           },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
                         },
-                        "contractFilter": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "eoaBlacklist": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "eoaFilter": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "revokedTokens": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "userIdBlacklist": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "userIdFilter": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
+                        "required": [
+                          "id",
+                          "name",
+                        ],
+                        "type": "object",
                       },
-                      "required": [
-                        "chainFilter",
-                        "contractFilter",
-                        "revokedTokens",
-                        "userIdFilter",
-                        "userIdBlacklist",
-                        "eoaFilter",
-                        "eoaBlacklist",
-                        "autoSubList",
-                      ],
                       "type": "object",
                     },
                     "name": {
@@ -686,146 +438,22 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "type": "number",
                     },
                     "lists": {
-                      "properties": {
-                        "autoSubList": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
+                      "additionalProperties": {
+                        "nullable": true,
+                        "properties": {
+                          "id": {
+                            "type": "number",
                           },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "chainFilter": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
+                          "name": {
+                            "type": "string",
                           },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
                         },
-                        "contractFilter": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "eoaBlacklist": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "eoaFilter": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "revokedTokens": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "userIdBlacklist": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
-                        "userIdFilter": {
-                          "nullable": true,
-                          "properties": {
-                            "id": {
-                              "type": "number",
-                            },
-                            "name": {
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                          ],
-                          "type": "object",
-                        },
+                        "required": [
+                          "id",
+                          "name",
+                        ],
+                        "type": "object",
                       },
-                      "required": [
-                        "chainFilter",
-                        "contractFilter",
-                        "revokedTokens",
-                        "userIdFilter",
-                        "userIdBlacklist",
-                        "eoaFilter",
-                        "eoaBlacklist",
-                        "autoSubList",
-                      ],
                       "type": "object",
                     },
                     "name": {
@@ -2354,11 +1982,11 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "createdAt": {
+                    "address": {
                       "nullable": true,
                       "type": "string",
                     },
-                    "deployedAt": {
+                    "createdAt": {
                       "nullable": true,
                       "type": "string",
                     },
@@ -2374,7 +2002,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "enabled",
                     "createdAt",
                     "updatedAt",
-                    "deployedAt",
+                    "address",
                   ],
                   "type": "object",
                 },
@@ -2426,11 +2054,11 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "createdAt": {
+                    "address": {
                       "nullable": true,
                       "type": "string",
                     },
-                    "deployedAt": {
+                    "createdAt": {
                       "nullable": true,
                       "type": "string",
                     },
@@ -2446,7 +2074,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "enabled",
                     "createdAt",
                     "updatedAt",
-                    "deployedAt",
+                    "address",
                   ],
                   "type": "object",
                 },
