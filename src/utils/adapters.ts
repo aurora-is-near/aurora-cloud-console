@@ -125,7 +125,6 @@ export const adaptOracle = (
   oracle: Oracle,
   contract?: AuroraOracleContract,
 ): OracleSchema => ({
-  enabled: true,
   createdAt: oracle.created_at,
   updatedAt: oracle.updated_at,
   address: contract?.address ?? null,

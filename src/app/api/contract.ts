@@ -91,7 +91,6 @@ export const WalletDetailsSchema = z.object({
 })
 
 export const OracleSchema = z.object({
-  enabled: z.boolean(),
   createdAt: z.string().nullable(),
   updatedAt: z.string().nullable(),
   address: z.string().nullable(),
