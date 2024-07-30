@@ -8,7 +8,7 @@ type MainMenuProps = {
 }
 
 export const MainMenu = async ({
-  mainMenuItems,
+  // mainMenuItems,
   extraMenuItems,
 }: MainMenuProps) => {
   return (
