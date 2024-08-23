@@ -1,9 +1,9 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import BridgeNetworkModal from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeNetworkModal"
-import { BridgeOpenButton } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeOpenButton"
-import BridgeTokensModal from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeTokensModal"
+import BridgeNetworkModal from "@/app/dashboard_v1/[teamKey]/silos/[id]/bridge/BridgeNetworkModal"
+import { BridgeOpenButton } from "@/app/dashboard_v1/[teamKey]/silos/[id]/bridge/BridgeOpenButton"
+import BridgeTokensModal from "@/app/dashboard_v1/[teamKey]/silos/[id]/bridge/BridgeTokensModal"
 import Card from "@/components/Card"
 import { CardConfigGrid } from "@/components/CardConfigGrid"
 import { useBridgeNetworks } from "@/hooks/useBridgeNetworks"

@@ -3,7 +3,7 @@ import { getToken } from "@/actions/tokens/get-token"
 import Card from "@/components/Card"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getSilo } from "@/actions/silos/get-silo"
-import { DeleteTokenButton } from "@/app/dashboard/[teamKey]/admin/silos/edit/[id]/tokens/edit/[tokenId]/DeleteTokenButton"
+import { DeleteTokenButton } from "@/app/dashboard_v1/[teamKey]/admin/silos/edit/[id]/tokens/edit/[tokenId]/DeleteTokenButton"
 import { TokenForm } from "../../TokenForm"
 
 const Page = async ({

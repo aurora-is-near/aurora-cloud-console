@@ -1,7 +1,7 @@
-import { BridgeDeployedTokensCard } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeDeployedTokensCard"
-import { BridgeEmbedCodeCard } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeEmbedCodeCard"
-import { BridgeTokensCard } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeTokensCard"
-import { BridgeWidgetCard } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeWidgetCard"
+import { BridgeDeployedTokensCard } from "@/app/dashboard_v1/[teamKey]/silos/[id]/bridge/BridgeDeployedTokensCard"
+import { BridgeEmbedCodeCard } from "@/app/dashboard_v1/[teamKey]/silos/[id]/bridge/BridgeEmbedCodeCard"
+import { BridgeTokensCard } from "@/app/dashboard_v1/[teamKey]/silos/[id]/bridge/BridgeTokensCard"
+import { BridgeWidgetCard } from "@/app/dashboard_v1/[teamKey]/silos/[id]/bridge/BridgeWidgetCard"
 
 type BridgeConfigurationProps = {
   siloId: number

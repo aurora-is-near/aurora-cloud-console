@@ -12,7 +12,7 @@ export const MainMenu = async ({
   extraMenuItems,
 }: MainMenuProps) => {
   return (
-    <div className="hidden lg:relative lg:inset-x-0 lg:top-0 lg:z-50 lg:flex lg:flex-row lg:items-center lg:px-2 lg:bg-gray-900 lg:px-4 lg:py-4 lg:gap-x-8">
+    <div className="hidden lg:relative lg:inset-x-0 lg:top-0 lg:z-50 lg:flex lg:flex-row lg:items-center lg:bg-gray-900 lg:px-4 lg:py-4 lg:gap-x-8">
       <Link href="/" className="flex h-15 shrink-0 items-center justify-center">
         <div
           className="mr-2 pr-2 py-0.5"

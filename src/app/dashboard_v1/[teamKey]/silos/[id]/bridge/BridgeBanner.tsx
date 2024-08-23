@@ -1,5 +1,5 @@
 import { ServiceBanner } from "@/components/ServiceBanner"
-import { BridgeOpenButton } from "@/app/dashboard/[teamKey]/silos/[id]/bridge/BridgeOpenButton"
+import { BridgeOpenButton } from "@/app/dashboard_v1/[teamKey]/silos/[id]/bridge/BridgeOpenButton"
 import { BridgeEnableButton } from "./BridgeEnableButton"
 
 type BridgeBannerProps = {
