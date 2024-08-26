@@ -5,6 +5,11 @@ import HeroTitle from "@/components/v2/Hero/HeroTitle"
 import HeroContent from "@/components/v2/Hero/HeroContent"
 import AuroraButton from "@/components/v2/AuroraButton"
 import { redirect } from "next/navigation"
+import {
+  Partner1,
+  Partner2,
+  Partner3,
+} from "../../../../public/static/v2/images/icons/icons"
 
 const ExploreItem = ({ title, description, icon }: ExploreItemProps) => {
   return (
@@ -21,6 +26,23 @@ const ExploreItem = ({ title, description, icon }: ExploreItemProps) => {
     </div>
   )
 }
+
+const partnerFeatures = [
+  {
+    icon: Partner1,
+    title: "Dedicated integration team",
+  },
+  {
+    icon: Partner2,
+    title: "Expert consultancy and guidance",
+  },
+  {
+    icon: Partner3,
+    title: "Community marketing",
+  },
+]
+
+const meetingLink = "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
 
 const Page = async ({
   params: { teamKey },
@@ -93,6 +115,41 @@ const Page = async ({
                 description="Join our Aurora Cloud developers community on Discord."
                 icon="/static/v2/images/examples/talk.png"
               />
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl border border-slate-200 bg-slate-100">
+            <div className="flex flex-row justify-between">
+              <div className="flex flex-col">
+                <span className="text-green-900 text-xs font-bold uppercase tracking-widest">
+                  Aurora Labs
+                </span>
+                <span className="font-bold text-slate-900 text-xl tracking-tighter">
+                  Your dedicated development team
+                </span>
+              </div>
+
+              <button
+                type="button"
+                className="border border-slate-400 rounded-lg p-3"
+                // onClick={() => window.open(meetingLink)}
+              >
+                Book a call
+              </button>
+            </div>
+
+            <div className="mt-10 grid w-full max-w-sm flex-1 gap-4 md:mt-16 md:max-w-none md:grid-cols-3 md:gap-8">
+              {partnerFeatures.map((feature) => (
+                <div
+                  className="flex flex-col items-start justify-center rounded-[10px] bg-white p-5 md:p-7 border border-slate-200"
+                  key={feature.title}
+                >
+                  <feature.icon className="h-5 w-5 text-green-800 md:h-10 md:w-10" />
+                  <h3 className="mt-4 max-w-[50%] text-center text-base font-normal leading-5 tracking-[-1px] text-slate-900 md:mt-5 md:text-[16px] md:leading-6">
+                    {feature.title}
+                  </h3>
+                </div>
+              ))}
             </div>
           </div>
         </div>
