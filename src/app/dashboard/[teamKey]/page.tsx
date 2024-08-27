@@ -11,6 +11,8 @@ import {
   Partner3,
 } from "../../../../public/static/v2/images/icons/index"
 import Link from "next/link"
+import Hero from "@/components/v2/dashboard/Hero"
+import { IconPlus } from "../../../../public/static/v2/images/menuIcons"
 
 const ExploreItem = ({ title, description, icon }: ExploreItemProps) => {
   return (
@@ -60,40 +62,26 @@ const Page = async ({
     <Layout>
       <div className="w-full">
         <div className="divide-y flex flex-col gap-10">
-          <div className="flex flex-row gap-48 justify-between">
-            <div className="flex flex-col gap-5">
-              <HeroTitle>Welcome to Aurora Cloud</HeroTitle>
-              <HeroContent>
-                Get all the infrastructure and integrations needed to start your
-                dApp. Validators, oracles, onramps—all come ready to be
-                pre-configured on your chain, freeing up your time and resources
-                to focus on what really matters: your dApp!
-              </HeroContent>
-              <div className="flex justify-items-start">
-                <AuroraButton
-                  icon={
-                    <Image
-                      width="16"
-                      height="16"
-                      src="/static/v2/images/menuIcons/ic_plus.svg"
-                      alt="Create Aurora Chain"
-                      style={{ filter: "invert(1)" }}
-                    />
-                  }
-                >
-                  Create Aurora Chain
-                </AuroraButton>
-              </div>
-            </div>
-            <div>
+          <Hero
+            title="Welcome to Aurora Cloud"
+            description="Get all the infrastructure and integrations needed to start your dApp.
+          Validators, oracles, onramps—all come ready to be pre-configured on
+          your chain, freeing up your time and resources to focus on what really
+          matters: your dApp!"
+            button={{
+              path: `/dashboard/${teamKey}/create_chain`,
+              text: "Create Aurora Chain",
+              icon: <IconPlus className="h-4 w-4" />,
+            }}
+            image={
               <Image
                 width="360"
                 height="360"
                 src="/static/v2/images/heroIcons/cloud.png"
                 alt="Aurora Cloud"
               />
-            </div>
-          </div>
+            }
+          />
           <div className="flex flex-col pt-10 gap-10">
             <span className="text-xl text-slate-900 font-bold">
               Expore what you can do

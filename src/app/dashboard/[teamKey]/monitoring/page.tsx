@@ -1,9 +1,10 @@
 import Layout from "@/app/dashboard/Layout"
+import { DealsTransactionsCharts } from "./DealsTransactionsChart"
 
 const Page = () => {
   return (
     <Layout>
-      <div>Monitoring</div>
+      <DealsTransactionsCharts />
     </Layout>
   )
 }

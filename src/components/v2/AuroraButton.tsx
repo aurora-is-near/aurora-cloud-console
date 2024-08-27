@@ -11,9 +11,16 @@ interface AuroraButtonProps
   onClick?: () => void
 }
 
-const AuroraButton = ({ ...props }: AuroraButtonProps) => {
+const AuroraButton = ({ path, ...props }: AuroraButtonProps) => {
   return (
-    <Button className="bg-green-400 hover:bg-green-300" {...props}>
+    <Button
+      className={`${
+        path
+          ? "bg-green-400 hover:bg-green-500 text-slate-900"
+          : "bg-slate-200 text-slate-500 font-normal"
+      }`}
+      {...props}
+    >
       {props.children}
     </Button>
   )
