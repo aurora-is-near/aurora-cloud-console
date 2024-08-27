@@ -76,7 +76,7 @@ export const stackMenuButtons = (teamKey?: string) => {
     <Button
       title="Oracle"
       key="Oracle"
-      path="/dashboard/oracle"
+      path={`/dashboard/${teamKey}/oracle`}
       className="text-slate-500"
       bordered
       icon={<IconOracle className="h-7 w-7" />}
@@ -84,7 +84,7 @@ export const stackMenuButtons = (teamKey?: string) => {
     <Button
       title="Onramp"
       key="Onramp"
-      path="/dashboard/onramp"
+      path={`/dashboard/${teamKey}/onramp`}
       className="text-slate-500"
       bordered
       icon={<IconOnramp className="h-7 w-7" />}
@@ -92,7 +92,7 @@ export const stackMenuButtons = (teamKey?: string) => {
     <Button
       title="CEX withdrawals"
       key="CEX withdrawals"
-      path="/dashboard/create"
+      path={`/dashboard/${teamKey}/cex_withdrawals`}
       className="text-slate-500"
       bordered
       icon={<IconCEXwithdraw className="h-7 w-7" />}
@@ -100,6 +100,7 @@ export const stackMenuButtons = (teamKey?: string) => {
     <Button
       title="Block explorer"
       key="Block explorer"
+      path={`/dashboard/${teamKey}/block_explorer`}
       className="text-slate-500"
       bordered
       icon={<IconBlockExplorer className="h-7 w-7" />}
@@ -107,6 +108,7 @@ export const stackMenuButtons = (teamKey?: string) => {
     <Button
       title="Marketplace"
       key="Marketplace"
+      path={`/dashboard/${teamKey}/marketplace`}
       className="text-slate-500"
       icon={<IconMarketplace className="h-7 w-7" />}
     />,

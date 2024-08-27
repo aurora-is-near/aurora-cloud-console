@@ -16,7 +16,7 @@ const Title = ({
   <Tag
     className={clsx(
       "text-base font-medium !leading-none sm:text-lg",
-      isDisabled ? "text-gray-500" : "text-gray-900",
+      isDisabled ? "text-slate-500" : "text-slate-900",
     )}
   >
     {children}
@@ -26,7 +26,7 @@ const Title = ({
 Title.displayName = "Title"
 
 const Subtitle = ({ children }: { children: ReactNode }) => (
-  <p className="mt-1 text-sm leading-5 text-gray-500 sm:mt-2">{children}</p>
+  <p className="mt-1 text-sm leading-5 text-slate-500 sm:mt-2">{children}</p>
 )
 
 Subtitle.displayName = "Subtitle"
@@ -86,14 +86,14 @@ const Card = ({
   return (
     <Tag
       className={clsx(
-        "border",
+        "border shadow-sm shadow-slate-200",
         {
           "rounded-md": borderRadius === "md",
           "rounded-xl": borderRadius === "xl",
           "rounded-2xl": borderRadius === "2xl",
           "px-4 py-5 sm:px-5 md:px-6 sm:py-6": !hasHeader,
         },
-        isDisabled ? "bg-gray-100" : "bg-white",
+        isDisabled ? "bg-slate-100" : "bg-white",
         className,
       )}
       {...rest}

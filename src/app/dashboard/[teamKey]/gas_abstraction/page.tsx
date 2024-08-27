@@ -1,6 +1,10 @@
 import Image from "next/image"
 import Layout from "@/app/dashboard/Layout"
 import Hero from "@/components/v2/dashboard/Hero"
+import { Button } from "@/components/Button"
+
+// TODO
+// Link on Create Chain Button
 
 const Page = () => {
   return (
@@ -36,12 +40,11 @@ const Page = () => {
                 Set up devnet or mainnet chain on Aurora Cloud.
               </span>
             </div>
-            <button
-              type="button"
-              className="flex self-center text-sm border border-slate-400 rounded-lg p-1 px-2"
-            >
-              Create chain
-            </button>
+            <div className="self-center">
+              <Button size="sm" variant="border">
+                Create chain
+              </Button>
+            </div>
           </div>
         </div>
       </div>

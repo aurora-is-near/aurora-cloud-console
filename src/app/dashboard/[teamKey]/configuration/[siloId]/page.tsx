@@ -7,6 +7,12 @@ import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
 import { AddSiloToMetaMaskButton } from "@/app/dashboard_v1/[teamKey]/silos/[id]/configuration/AddSiloToMetaMaskButton"
 import { AddTokenToMetaMaskButton } from "@/app/dashboard_v1/[teamKey]/silos/[id]/configuration/AddTokenToMetaMaskButton"
+import Contact from "@/components/Contact"
+import { Button } from "@/components/Button"
+import { External } from "../../../../../../public/static/v2/images/icons"
+
+// TODO
+// Link on BlockExplorer
 
 const Page = async ({
   params: { teamKey, siloId },
@@ -27,8 +33,16 @@ const Page = async ({
   return (
     <Layout>
       <div className="flex flex-col gap-5">
-        <Card tag="section">
-          <Card.Title tag="h4">Silo configuration</Card.Title>
+        <div className="flex flex-row items-center justify-between">
+          <h1 className="text-2xl font-semibold">Configuration</h1>
+
+          <Button size="sm" variant="border">
+            <span>Block Explorer</span>
+            <External />
+          </Button>
+        </div>
+        <Card borderRadius="xl" tag="section">
+          <Card.Title tag="h4">Chain details</Card.Title>
 
           <InfoList>
             <InfoList.Item
@@ -72,7 +86,7 @@ const Page = async ({
           </InfoList>
         </Card>
 
-        <Card tag="section">
+        <Card borderRadius="xl" tag="section">
           <Card.Title tag="h4">Relayer</Card.Title>
 
           <InfoList>
@@ -91,7 +105,7 @@ const Page = async ({
           </InfoList>
         </Card>
 
-        <Card tag="section">
+        <Card borderRadius="xl" tag="section">
           <Card.Title tag="h4">Token & gas</Card.Title>
 
           <InfoList>
@@ -111,7 +125,7 @@ const Page = async ({
           </InfoList>
         </Card>
 
-        <Card tag="section">
+        <Card borderRadius="xl" tag="section">
           <Card.Title tag="h4">Permissions</Card.Title>
 
           <InfoList>
@@ -128,6 +142,8 @@ const Page = async ({
             />
           </InfoList>
         </Card>
+
+        <Contact text="Need help configuring your chain?" teamKey={teamKey} />
       </div>
     </Layout>
   )
