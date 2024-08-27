@@ -35,7 +35,12 @@ const Button: React.FC<ButtonProps> = ({
 
   filteredProps.className = ""
 
-  const borderedIconStyles = "bg-slate-200 rounded-lg"
+  const borderedIconStyles = `rounded-lg ${
+    active ? "bg-slate-900" : "bg-slate-200"
+  }`
+
+  const activeIconStyles =
+    active && bordered ? "text-slate-50 bg-slate-900" : ""
 
   const handleClick = () => {
     if (onClick) {
@@ -55,7 +60,8 @@ const Button: React.FC<ButtonProps> = ({
     >
       <div
         className={`
-          w-[30px] h-[30px] flex items-center justify-center group-hover 
+          w-[30px] h-[30px] flex items-center justify-center
+          ${activeIconStyles} 
           ${bordered && borderedIconStyles}
         `}
       >

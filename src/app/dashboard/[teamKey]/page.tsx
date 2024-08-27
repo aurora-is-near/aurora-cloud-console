@@ -1,15 +1,16 @@
 import Image from "next/image"
+import { redirect } from "next/navigation"
 import Layout from "@/app/dashboard/Layout"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import HeroTitle from "@/components/v2/Hero/HeroTitle"
 import HeroContent from "@/components/v2/Hero/HeroContent"
 import AuroraButton from "@/components/v2/AuroraButton"
-import { redirect } from "next/navigation"
 import {
   Partner1,
   Partner2,
   Partner3,
-} from "../../../../public/static/v2/images/icons/icons"
+} from "../../../../public/static/v2/images/icons/index"
+import Link from "next/link"
 
 const ExploreItem = ({ title, description, icon }: ExploreItemProps) => {
   return (
@@ -27,7 +28,7 @@ const ExploreItem = ({ title, description, icon }: ExploreItemProps) => {
   )
 }
 
-const partnerFeatures = [
+const features = [
   {
     icon: Partner1,
     title: "Dedicated integration team",
@@ -118,7 +119,7 @@ const Page = async ({
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl border border-slate-200 bg-slate-100">
+          <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100">
             <div className="flex flex-row justify-between">
               <div className="flex flex-col">
                 <span className="text-green-900 text-xs font-bold uppercase tracking-widest">
@@ -129,23 +130,24 @@ const Page = async ({
                 </span>
               </div>
 
-              <button
-                type="button"
-                className="border border-slate-400 rounded-lg p-3"
-                // onClick={() => window.open(meetingLink)}
-              >
-                Book a call
-              </button>
+              <Link href={meetingLink} target="_blank">
+                <button
+                  type="button"
+                  className="border border-slate-400 rounded-lg p-3"
+                >
+                  Book a call
+                </button>
+              </Link>
             </div>
 
-            <div className="mt-10 grid w-full max-w-sm flex-1 gap-4 md:mt-16 md:max-w-none md:grid-cols-3 md:gap-8">
-              {partnerFeatures.map((feature) => (
+            <div className="mt-5 grid w-full max-w-sm flex-1 gap-4 md:max-w-none md:grid-cols-3 md:gap-8">
+              {features.map((feature) => (
                 <div
-                  className="flex flex-col items-start justify-center rounded-[10px] bg-white p-5 md:p-7 border border-slate-200"
+                  className="flex flex-col items-start justify-center rounded-[10px] bg-white p-5 pb-0 md:p-7 border border-slate-200"
                   key={feature.title}
                 >
                   <feature.icon className="h-5 w-5 text-green-800 md:h-10 md:w-10" />
-                  <h3 className="mt-4 max-w-[50%] text-center text-base font-normal leading-5 tracking-[-1px] text-slate-900 md:mt-5 md:text-[16px] md:leading-6">
+                  <h3 className="mt-4 max-w-[65%] text-base font-bold leading-[18px] text-slate-900 md:mt-5 md:text-[16px]">
                     {feature.title}
                   </h3>
                 </div>

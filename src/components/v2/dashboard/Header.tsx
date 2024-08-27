@@ -31,7 +31,7 @@ const Header = async () => {
 
   return (
     <>
-      {teams.length && <SetupAlert />}
+      {teams?.length && <SetupAlert />}
       <div className="flex flex-row w-full lg:bg-slate-900 lg:px-4 lg:py-4">
         <Link
           href="/"

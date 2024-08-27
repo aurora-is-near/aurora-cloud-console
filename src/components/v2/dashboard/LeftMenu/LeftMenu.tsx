@@ -27,7 +27,7 @@ const LeftMenu = () => {
           <h3 className="text-xs font-bold m-3 uppercase text-slate-500">
             Your Stack
           </h3>
-          {...stackMenuButtons}
+          {...stackMenuButtons(teamKey)}
         </div>
       </div>
     </div>
