@@ -34,7 +34,9 @@ const Page = async ({
     <Layout>
       <div className="flex flex-col gap-5">
         <div className="flex flex-row items-center justify-between">
-          <h1 className="text-2xl font-semibold">Configuration</h1>
+          <h1 className="text-2xl font-semibold text-slate-900 tracking-tighter">
+            Configuration
+          </h1>
 
           <Button size="sm" variant="border">
             <span>Block Explorer</span>

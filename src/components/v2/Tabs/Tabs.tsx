@@ -49,7 +49,7 @@ const Tabs = ({ tabs }: TabsProps) => {
         </ul>
       </div>
       <div className="flex w-full rounded-lg">
-        <Card borderRadius="xl" tag="section">
+        <Card className="w-full" borderRadius="xl" tag="section">
           {activeTab.content}
         </Card>
       </div>
