@@ -13,14 +13,26 @@ interface HeroProps {
   title: string
   description: string
   button: HeroButtonProps
+  titlePrefix?: ReactNode
   image?: ReactNode
 }
 
-const Hero = ({ title, description, button, image }: HeroProps) => {
+const Hero = ({
+  title,
+  titlePrefix,
+  description,
+  button,
+  image,
+}: HeroProps) => {
   return (
-    <div className="flex flex-row gap-48 justify-between">
-      <div className="flex flex-col gap-5">
-        <HeroTitle>{title}</HeroTitle>
+    <div className="flex flex-row gap-2 justify-between items-center">
+      <div className="flex flex-col gap-5 max-w-[50%]">
+        <HeroTitle>
+          <div className="flex flex-row items-center gap-5">
+            {titlePrefix}
+            {title}
+          </div>
+        </HeroTitle>
         <HeroContent>{description}</HeroContent>
         <div className="flex justify-items-start">
           <AuroraButton
@@ -32,7 +44,7 @@ const Hero = ({ title, description, button, image }: HeroProps) => {
           </AuroraButton>
         </div>
       </div>
-      <div>{image}</div>
+      <div className="flex">{image}</div>
     </div>
   )
 }

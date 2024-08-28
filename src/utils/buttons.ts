@@ -26,21 +26,21 @@ export const getButtonClassName = (
       "px-3 h-9 text-sm": size === "md",
       "px-4 h-10 text-base": size === "lg",
       "shadow-sm": ["primary", "secondary"].includes(variant),
-      "bg-green-500 text-gray-900 focus-visible:outline-green-500":
+      "bg-green-500 text-slate-900 focus-visible:outline-green-500":
         variant === "primary",
-      "bg-gray-200 text-gray-900 focus-visible:outline-gray-600":
+      "bg-slate-200 text-slate-900 focus-visible:outline-slate-600":
         variant === "secondary",
-      "bg-transparent focus-visible:outline-gray-600":
+      "bg-transparent focus-visible:outline-slate-600":
         variant === "transparent",
-      "border border-gray-400 focus-visible:outline-gray-600":
+      "border border-slate-400 focus-visible:outline-slate-600":
         variant === "border",
       "bg-rose-500 text-white focus-visible:outline-rose-500":
         variant === "destructive",
       "bg-slate-200 text-slate-500": variant === "grey",
       "hover:bg-green-400": variant === "primary" && !isDisabled,
-      "hover:bg-gray-300": variant === "secondary" && !isDisabled,
-      "hover:bg-gray-200": variant === "transparent" && !isDisabled,
-      "hover:border-gray-600": variant === "border" && !isDisabled,
+      "hover:bg-slate-300": variant === "secondary" && !isDisabled,
+      "hover:bg-slate-200": variant === "transparent" && !isDisabled,
+      "hover:border-slate-600": variant === "border" && !isDisabled,
       "hover:bg-rose-600": variant === "destructive" && !isDisabled,
       "w-full": isFullWidth,
     },

@@ -1,18 +1,18 @@
 import Image from "next/image"
+import Link from "next/link"
 import { redirect } from "next/navigation"
+import Hero from "@/components/v2/dashboard/Hero"
 import Layout from "@/app/dashboard/Layout"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import HeroTitle from "@/components/v2/Hero/HeroTitle"
-import HeroContent from "@/components/v2/Hero/HeroContent"
-import AuroraButton from "@/components/v2/AuroraButton"
 import {
   Partner1,
   Partner2,
   Partner3,
 } from "../../../../public/static/v2/images/icons/index"
-import Link from "next/link"
-import Hero from "@/components/v2/dashboard/Hero"
 import { IconPlus } from "../../../../public/static/v2/images/menuIcons"
+
+// TODO
+// Links on all content blocks
 
 const ExploreItem = ({ title, description, icon }: ExploreItemProps) => {
   return (
@@ -75,8 +75,8 @@ const Page = async ({
             }}
             image={
               <Image
-                width="360"
-                height="360"
+                width="180"
+                height="180"
                 src="/static/v2/images/heroIcons/cloud.png"
                 alt="Aurora Cloud"
               />
