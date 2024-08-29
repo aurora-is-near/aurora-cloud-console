@@ -5,6 +5,7 @@ export { default as External } from "./external.svg"
 export { default as RainbowBridge } from "./rainbow_bridge_logo.svg"
 export { default as Pyth } from "./pyth.svg"
 
+export { default as MarketPyth } from "./marketplace/pyth.svg"
 export { default as Kyc } from "./marketplace/kyc.svg"
 export { default as BlockExplorer } from "./marketplace/block_explorer.svg"
 export { default as Bridge } from "./marketplace/bridge.svg"

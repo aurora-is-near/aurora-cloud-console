@@ -12,7 +12,7 @@ const SetupAlert = () => {
           You're currently viewing test data and configurations. Set up your own
           devnet or mainnet chain to get started.
         </span>
-        <Link href="/dashboard/setup">
+        <Link href="/src/app/dashboard_v2/setup">
           <div className="flex flex-row gap-2 mx-3 text-slate-100">
             Setup chain <img alt=">" src="/static/v2/images/rightArrow.svg" />
           </div>
