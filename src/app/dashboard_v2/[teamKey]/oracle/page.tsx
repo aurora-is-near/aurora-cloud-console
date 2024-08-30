@@ -1,11 +1,10 @@
+import { redirect } from "next/navigation"
+import Image from "next/image"
 import Layout from "@/app/dashboard_v2/Layout"
 import Hero from "@/components/v2/dashboard/Hero"
-import Image from "next/image"
-import {
-  Pyth,
-  RainbowBridge,
-} from "../../../../../public/static/v2/images/icons"
 import Tabs from "@/components/v2/Tabs/Tabs"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { Pyth } from "../../../../../public/static/v2/images/icons"
 
 const AboutTab = () => {
   return (
@@ -38,14 +37,24 @@ const ConfigurationTab = () => {
   return <div>Config</div>
 }
 
-const Page = () => {
+const Page = async ({
+  params: { teamKey },
+}: {
+  params: { teamKey: string }
+}) => {
+  if (!teamKey) {
+    redirect("/dashboard_v1")
+  }
+
+  const team = await getTeamByKey(teamKey)
+
   const tabs = [
     { title: "About", content: <AboutTab /> },
     { title: "Configuration", content: <ConfigurationTab /> },
   ]
 
   return (
-    <Layout>
+    <Layout team={team}>
       <div className="flex flex-col gap-10">
         <Hero
           title="Oracle"

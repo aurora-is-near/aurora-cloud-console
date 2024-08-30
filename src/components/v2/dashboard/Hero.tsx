@@ -12,7 +12,7 @@ interface HeroButtonProps {
 interface HeroProps {
   title: string
   description: string
-  button: HeroButtonProps
+  button?: HeroButtonProps
   titlePrefix?: ReactNode
   image?: ReactNode
 }
@@ -34,15 +34,17 @@ const Hero = ({
           </div>
         </HeroTitle>
         <HeroContent>{description}</HeroContent>
-        <div className="flex justify-items-start">
-          <AuroraButton
-            disabled={!button.path}
-            path={button.path}
-            icon={button.icon}
-          >
-            {button.text}
-          </AuroraButton>
-        </div>
+        {button && (
+          <div className="flex justify-items-start">
+            <AuroraButton
+              disabled={!button.path}
+              path={button.path}
+              icon={button.icon}
+            >
+              {button.text}
+            </AuroraButton>
+          </div>
+        )}
       </div>
       <div className="flex">{image}</div>
     </div>

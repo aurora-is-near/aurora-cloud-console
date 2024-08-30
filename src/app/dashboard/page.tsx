@@ -12,6 +12,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { FullScreenPage } from "@/components/FullScreenPage"
 import { LinkButton } from "@/components/LinkButton"
 import { getUserTeamKeys } from "@/utils/team"
+import { Button } from "@/components/Button"
 
 const Page = async () => {
   const [currentUser, teams, isAdminUser] = await Promise.all([
@@ -58,19 +59,20 @@ const Page = async () => {
         <ul className="grid grid-cols-2 xl:grid-cols-4 gap-4">
           {teams.map((team) => (
             <li key={team.id}>
-              <Link href={`/dashboard/${team.team_key}`}>
-                <Card>
-                  <Card.Title>{team.name}</Card.Title>
-                  <Card.Actions>
-                    <ChevronRightIcon className="h-5 w-5" />
-                  </Card.Actions>
-                  <Card.Body>
-                    <span className="text-xs text-gray-500">
-                      {team.website}
-                    </span>
-                  </Card.Body>
-                </Card>
-              </Link>
+              <Card>
+                <Card.Title>{team.name}</Card.Title>
+                <Card.Body>
+                  <div className="flex flex-row gap-3">
+                    <Link href={`/dashboard/${team.team_key}`}>
+                      <Button variant="border">Legacy Dashboard</Button>
+                    </Link>
+                    <Link href={`/dashboard_v2/${team.team_key}`}>
+                      <Button>New Dashboard!</Button>
+                    </Link>
+                  </div>
+                  <span className="text-xs text-gray-500">{team.website}</span>
+                </Card.Body>
+              </Card>
             </li>
           ))}
         </ul>

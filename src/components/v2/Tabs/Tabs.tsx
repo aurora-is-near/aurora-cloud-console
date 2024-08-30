@@ -10,6 +10,7 @@ interface TabProps {
 
 interface TabsProps {
   tabs: TabProps[]
+  unstyledContent?: boolean
 }
 
 const idleClassNames =
@@ -21,7 +22,7 @@ const activeClassNames =
 // const disabledClassNames =
 //   "inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed dark:text-gray-500"
 
-const Tabs = ({ tabs }: TabsProps) => {
+const Tabs = ({ tabs, unstyledContent }: TabsProps) => {
   const [activeTab, setActiveTab] = useState(tabs[0])
 
   const setTab = (e: React.MouseEvent<HTMLAnchorElement>, tab: TabProps) => {
@@ -48,10 +49,14 @@ const Tabs = ({ tabs }: TabsProps) => {
           ))}
         </ul>
       </div>
-      <div className="flex w-full rounded-lg">
-        <Card className="w-full" borderRadius="xl" tag="section">
-          {activeTab.content}
-        </Card>
+      <div className="flex w-full">
+        {unstyledContent ? (
+          activeTab.content
+        ) : (
+          <Card className="w-full" borderRadius="xl" tag="section">
+            {activeTab.content}
+          </Card>
+        )}
       </div>
     </div>
   )

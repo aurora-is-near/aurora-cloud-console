@@ -5,6 +5,7 @@ import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { getTokens } from "@/actions/tokens/get-tokens"
 import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { AddSiloToMetaMaskButton } from "@/app/dashboard/[teamKey]/silos/[id]/configuration/AddSiloToMetaMaskButton"
 import { AddTokenToMetaMaskButton } from "@/app/dashboard/[teamKey]/silos/[id]/configuration/AddTokenToMetaMaskButton"
 import Contact from "@/components/Contact"
@@ -19,9 +20,10 @@ const Page = async ({
 }: {
   params: { teamKey: string; siloId: string }
 }) => {
-  const [silo, tokens] = await Promise.all([
+  const [silo, tokens, team] = await Promise.all([
     getTeamSiloByKey(teamKey, Number(siloId)),
     getTokens(),
+    getTeamByKey(teamKey),
   ])
 
   if (!silo) {
@@ -31,7 +33,7 @@ const Page = async ({
   const baseToken = tokens.find((token) => token.id === silo.base_token_id)
 
   return (
-    <Layout>
+    <Layout team={team}>
       <div className="flex flex-col gap-5">
         <div className="flex flex-row items-center justify-between">
           <h1 className="text-2xl font-semibold text-slate-900 tracking-tighter">

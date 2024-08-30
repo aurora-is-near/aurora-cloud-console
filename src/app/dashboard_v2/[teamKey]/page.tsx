@@ -55,11 +55,12 @@ const Page = async ({
   if (!teamKey) {
     redirect("/dashboard_v1")
   }
+
   const team = await getTeamByKey(teamKey)
 
   // https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=3775-10045&t=PGhHmzDnXi5hsRI0-0
   return (
-    <Layout>
+    <Layout team={team}>
       <div className="w-full">
         <div className="divide-y flex flex-col gap-10">
           <Hero

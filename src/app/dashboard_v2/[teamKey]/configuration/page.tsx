@@ -15,11 +15,11 @@ const Page = async ({
 
   // If the team has a single silo, redirect to its overview page
   if (silos.length === 1) {
-    return redirect(`/dashboard/${teamKey}/configuration/${silos[0].id}`)
+    return redirect(`/dashboard_v2/${teamKey}/configuration/${silos[0].id}`)
   }
 
   return (
-    <Layout>
+    <Layout team={team}>
       <section>
         <SilosTransactionsCharts />
       </section>

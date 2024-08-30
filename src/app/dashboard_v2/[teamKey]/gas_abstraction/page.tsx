@@ -1,14 +1,26 @@
+import { redirect } from "next/navigation"
 import Image from "next/image"
 import Layout from "@/app/dashboard_v2/Layout"
 import Hero from "@/components/v2/dashboard/Hero"
 import { Button } from "@/components/Button"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
 // TODO
 // Link on Create Chain Button
 
-const Page = () => {
+const Page = async ({
+  params: { teamKey },
+}: {
+  params: { teamKey: string }
+}) => {
+  if (!teamKey) {
+    redirect("/dashboard_v1")
+  }
+
+  const team = await getTeamByKey(teamKey)
+
   return (
-    <Layout>
+    <Layout team={team}>
       <div className="divide-y flex flex-col gap-10">
         <Hero
           title="Gas Abstraction"
