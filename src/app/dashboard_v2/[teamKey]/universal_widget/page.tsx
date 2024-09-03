@@ -3,6 +3,8 @@ import Layout from "@/app/dashboard_v2/Layout"
 import Hero from "@/components/v2/dashboard/Hero"
 import Tabs from "@/components/v2/Tabs/Tabs"
 import { RainbowBridge } from "../../../../../public/static/v2/images/icons"
+import { redirect } from "next/navigation"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
 const AboutTab = () => {
   return (
@@ -35,14 +37,24 @@ const ConfigurationTab = () => {
   return <div>Config</div>
 }
 
-const Page = () => {
+const Page = async ({
+  params: { teamKey },
+}: {
+  params: { teamKey: string }
+}) => {
+  if (!teamKey) {
+    redirect("/dashboard_v1")
+  }
+
+  const team = await getTeamByKey(teamKey)
+
   const tabs = [
     { title: "About", content: <AboutTab /> },
     { title: "Configuration", content: <ConfigurationTab /> },
   ]
 
   return (
-    <Layout>
+    <Layout team={team}>
       <div className="flex flex-col gap-10">
         <Hero
           title="Universal Widget"

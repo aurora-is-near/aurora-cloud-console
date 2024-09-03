@@ -1,9 +1,12 @@
 import { redirect } from "next/navigation"
-import Image from "next/image"
 import Layout from "@/app/dashboard_v2/Layout"
-import Hero from "@/components/v2/dashboard/Hero"
-import { Button } from "@/components/Button"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import EmptyState from "@/app/dashboard_v2/[teamKey]/gas_abstraction/EmptyState"
+import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
+import GasAbstractionHero from "@/app/dashboard_v2/[teamKey]/gas_abstraction/GasAbstractionHero"
+import DealList from "@/app/dashboard_v2/[teamKey]/gas_abstraction/DealList"
+import Contact from "@/components/Contact"
+import SubTitle from "@/components/v2/dashboard/SubTitle"
 
 // TODO
 // Link on Create Chain Button
@@ -14,52 +17,32 @@ const Page = async ({
   params: { teamKey: string }
 }) => {
   if (!teamKey) {
-    redirect("/dashboard_v1")
+    redirect("/dashboard")
   }
 
   const team = await getTeamByKey(teamKey)
+  const deals = await getTeamDeals(team.id)
 
   return (
     <Layout team={team}>
-      <div className="divide-y flex flex-col gap-10">
-        <Hero
-          title="Gas Abstraction"
-          description="Boost user experience by covering gas fees and creating custom plans as part of your engagement strategy."
-          button={{
-            text: "Available on Devnet and Mainnet",
-          }}
-          image={
-            <Image
-              width="180"
-              height="180"
-              src="/static/v2/images/heroIcons/gas.png"
-              alt="Aurora Cloud"
-            />
-          }
-        />
+      {deals.length > 0 ? (
+        <div className="divide-y flex flex-col gap-10">
+          <GasAbstractionHero team={team} deals={deals} />
+          <div className="flex flex-col pt-10 gap-5">
+            <SubTitle>Your gas plans</SubTitle>
+            <DealList team={team} deals={deals} />
 
-        <div className="flex flex-col pt-10 gap-5">
-          <span className="text-2xl text-slate-900 font-bold">
-            Your Gas Plans
-          </span>
-
-          <div className="flex flex-row justify-between rounded-xl bg-slate-100 p-6">
-            <div className="flex flex-col gap-2">
-              <span className="text-slate-900 font-semibold text-[16px]">
-                Want to create your own plan?
-              </span>
-              <span className="text-sm text-slate-500">
-                Set up devnet or mainnet chain on Aurora Cloud.
-              </span>
-            </div>
-            <div className="self-center">
-              <Button size="sm" variant="border">
-                Create chain
-              </Button>
+            <div className="mt-10">
+              <Contact
+                text="Need help configuring your plans?"
+                teamKey={teamKey}
+              />
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <EmptyState team={team} />
+      )}
     </Layout>
   )
 }

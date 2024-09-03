@@ -1,11 +1,12 @@
-import { ReactNode } from "react"
 import { redirect } from "next/navigation"
 import Image from "next/image"
 import Layout from "@/app/dashboard_v2/Layout"
 import Card from "@/components/Card"
 import Hero from "@/components/v2/dashboard/Hero"
 import Tabs from "@/components/v2/Tabs/Tabs"
+import SubTitle from "@/components/v2/dashboard/SubTitle"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import FeatureCard from "@/app/dashboard_v2/[teamKey]/integrations/FeatureCard"
 import {
   BlockExplorer,
   Bridge,
@@ -20,12 +21,6 @@ import {
   TheGraph,
   Uniswap,
 } from "../../../../../public/static/v2/images/icons"
-
-interface CardProps {
-  title: string
-  description: string
-  icon: ReactNode
-}
 
 const categories = [
   { key: "all", name: "All" },
@@ -122,6 +117,25 @@ const services = [
   },
 ]
 
+const tabs = categories.map((cat) => {
+  return {
+    title: cat.name,
+    content: (
+      <div className="grid grid-cols-3 gap-4">
+        {services
+          .filter(
+            (t) => !t.native && (cat.key === "all" || t.category === cat.key),
+          )
+          .map((card) => (
+            <Card key={card.title} borderRadius="xl">
+              <FeatureCard card={card} />
+            </Card>
+          ))}
+      </div>
+    ),
+  }
+})
+
 const Page = async ({
   params: { teamKey },
 }: {
@@ -149,80 +163,24 @@ const Page = async ({
           }
         />
         <div className="flex flex-col w-full pt-10 gap-5">
-          <h1 className="text-2xl text-slate-900 tracking-tighter font-semibold">
-            Native integrations
-          </h1>
+          <SubTitle>Native integrations</SubTitle>
           <div className="grid grid-cols-3 gap-4">
             {services
               .filter((s) => s.native)
               .map((card) => (
-                <Card borderRadius="xl">
+                <Card key={card.title} borderRadius="xl">
                   <FeatureCard card={card} />
                 </Card>
               ))}
           </div>
         </div>
         <div className="flex flex-col w-full pt-10 gap-5 pb-10">
-          <h1 className="text-2xl text-slate-900 tracking-tighter font-semibold">
-            Other integrations
-          </h1>
+          <SubTitle>Other integrations</SubTitle>
           <Tabs unstyledContent tabs={tabs} />
         </div>
       </div>
     </Layout>
   )
 }
-
-const FeatureCard = ({ card }: { card: CardProps }) => {
-  return (
-    <div className="flex flex-row items-start justify-around gap-3">
-      <div className="max-w-fit w-fit">{card.icon}</div>
-      <div className="flex flex-col gap-2 w-full">
-        <h2 className="text-[16px] text-slate-900 font-medium">{card.title}</h2>
-        <span className="text-slate-500 text-xs">{card.description}</span>
-      </div>
-      <div className="w-[30px] h-[20px] border border-red-500">
-        {/* Placeholder for Check/Radio */}
-      </div>
-    </div>
-  )
-}
-
-const tabs = categories.map((cat) => {
-  return {
-    title: cat.name,
-    content: (
-      <div className="grid grid-cols-3 gap-4">
-        {services
-          .filter(
-            (t) => !t.native && (cat.key === "all" || t.category === cat.key),
-          )
-          .map((card) => (
-            <Card borderRadius="xl">
-              <FeatureCard card={card} />
-            </Card>
-          ))}
-      </div>
-    ),
-  }
-})
-
-// const tabs = [
-//   {
-//     title: "All",
-//     content: (
-//       <div className="grid grid-cols-3 gap-4">
-//         {services
-//           .filter((s) => !s.native)
-//           .map((card) => (
-//             <Card borderRadius="xl">
-//               <FeatureCard card={card} />
-//             </Card>
-//           ))}
-//       </div>
-//     ),
-//   },
-//   { title: "Finance", content: <div></div> },
-// ]
 
 export default Page
