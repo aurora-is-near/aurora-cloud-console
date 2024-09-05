@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { getTeams } from "@/actions/teams/get-teams"
 import { isAdmin } from "@/actions/is-admin"
@@ -14,7 +15,13 @@ const SetupAlert = () => {
         </span>
         <Link href="/src/app/dashboard_v2/setup">
           <div className="flex flex-row gap-2 mx-3 text-slate-100">
-            Setup chain <img alt=">" src="/static/v2/images/rightArrow.svg" />
+            Setup chain
+            <Image
+              width={10}
+              height={10}
+              alt=">"
+              src="/static/v2/images/rightArrow.svg"
+            />
           </div>
         </Link>
       </div>
@@ -23,7 +30,7 @@ const SetupAlert = () => {
 }
 
 const Header = async () => {
-  const [currentUser, teams, isAdminUser] = await Promise.all([
+  const [_currentUser, teams, _isAdminUser] = await Promise.all([
     getCurrentUser(),
     getTeams(),
     isAdmin(),
@@ -41,16 +48,18 @@ const Header = async () => {
             className="mr-2 pr-2 py-0.5"
             style={{ borderRight: "1px solid #64748B" }}
           >
-            <img
+            <Image
+              width={100}
+              height={15}
               src="/static/v2/images/Aurora.svg"
               alt="Aurora"
-              className="lg:w-100 lg:h-15"
             />
           </div>
-          <img
+          <Image
+            width={100}
+            height={15}
             src="/static/v2/images/AuroraCloud.svg"
             alt="AuroraCloud"
-            className="lg:w-84 lg:h-26"
           />
         </Link>
       </div>

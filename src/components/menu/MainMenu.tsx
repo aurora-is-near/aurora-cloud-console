@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { MenuItem } from "@/types/menu"
 import { MainMenuButton } from "./MenuButtons"
 
@@ -18,16 +19,18 @@ export const MainMenu = async ({
           className="mr-2 pr-2 py-0.5"
           style={{ borderRight: "1px solid #64748B" }}
         >
-          <img
+          <Image
+            width={100}
+            height={15}
             src="/static/v2/images/Aurora.svg"
             alt="Aurora"
-            className="lg:w-100 lg:h-15"
           />
         </div>
-        <img
+        <Image
+          width={100}
+          height={15}
           src="/static/v2/images/AuroraCloud.svg"
           alt="AuroraCloud"
-          className="lg:w-84 lg:h-26"
         />
       </Link>
 

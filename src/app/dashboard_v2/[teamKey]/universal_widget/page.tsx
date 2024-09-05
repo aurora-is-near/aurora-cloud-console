@@ -1,10 +1,10 @@
 import Image from "next/image"
+import { redirect } from "next/navigation"
 import Layout from "@/app/dashboard_v2/Layout"
 import Hero from "@/components/v2/dashboard/Hero"
 import Tabs from "@/components/v2/Tabs/Tabs"
-import { RainbowBridge } from "../../../../../public/static/v2/images/icons"
-import { redirect } from "next/navigation"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { RainbowBridge } from "../../../../../public/static/v2/images/icons"
 
 const AboutTab = () => {
   return (

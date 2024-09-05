@@ -6,8 +6,8 @@ import { FiltersCard } from "@/app/dashboard/[teamKey]/borealis/deals/[id]/Filte
 import { ControlCard } from "@/app/dashboard/[teamKey]/borealis/deals/[id]/ControlCard"
 import Layout from "@/app/dashboard_v2/Layout"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { Update } from "./Update"
 import { ActionsBar } from "@/app/dashboard_v2/[teamKey]/gas_abstraction/[dealId]/ActionsBar"
+import { Update } from "./Update"
 
 const Page = async ({
   params: { dealId, teamKey },
