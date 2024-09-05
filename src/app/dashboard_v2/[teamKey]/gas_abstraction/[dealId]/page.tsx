@@ -7,6 +7,7 @@ import { ControlCard } from "@/app/dashboard/[teamKey]/borealis/deals/[id]/Contr
 import Layout from "@/app/dashboard_v2/Layout"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { Update } from "./Update"
+import { ActionsBar } from "@/app/dashboard_v2/[teamKey]/gas_abstraction/[dealId]/ActionsBar"
 
 const Page = async ({
   params: { dealId, teamKey },
@@ -17,20 +18,22 @@ const Page = async ({
   const deal = await getDeal(Number(dealId))
 
   return (
-    <Layout team={team}>
-      <DealUpdateProvider dealId={Number(dealId)}>
+    <DealUpdateProvider dealId={Number(dealId)}>
+      <Layout team={team}>
         <Update>
           <section>
             <DealsTransactionsCharts title={deal?.name ?? "Deals"} />
           </section>
+
+          <ActionsBar />
 
           <FiltersCard />
           <ControlCard />
 
           <Contact teamKey={teamKey} />
         </Update>
-      </DealUpdateProvider>
-    </Layout>
+      </Layout>
+    </DealUpdateProvider>
   )
 }
 

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" className="h-full">
-      <body className={`${circular.variable} font-sans h-full bg-gray-50`}>
+      <body className={`${circular.variable} font-sans h-full bg-gray-50 overflow-hidden`}>
         <Providers>
           {children}
           <ErrorModal />

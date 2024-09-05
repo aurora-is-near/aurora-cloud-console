@@ -10,7 +10,7 @@ interface LayoutProps {
 
 const Layout = ({ team, children }: LayoutProps) => {
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col overflow-hidden">
       <Header />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
         <LeftMenu team={team} />
