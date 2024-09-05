@@ -1,9 +1,7 @@
-import Image from "next/image"
 import Button from "@/components/v2/Button"
 
 import {
   IconBlockExplorer,
-  IconBridge,
   IconCEXwithdraw,
   IconConfig,
   IconDashboard,
