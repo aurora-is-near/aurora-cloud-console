@@ -1,6 +1,8 @@
+"use client"
+
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
 import { useRouter } from "next/navigation"
-import { createClientComponentClient } from "@/supabase/create-client-component-client"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
 const SignoutButton = () => {
   const supabase = createClientComponentClient()

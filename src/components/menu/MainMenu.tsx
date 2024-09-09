@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { MenuItem } from "@/types/menu"
 import { MainMenuButton } from "./MenuButtons"
+import SignoutButton from "@/components/menu/SignoutButton"
 
 type MainMenuProps = {
   mainMenuItems: MenuItem[]
@@ -49,6 +50,9 @@ export const MainMenu = async ({
               <MainMenuButton {...item} />
             </li>
           ))}
+          <li>
+            <SignoutButton />
+          </li>
         </ul>
       </nav>
     </div>

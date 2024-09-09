@@ -1,7 +1,5 @@
-import { FullScreenPage } from "@/components/FullScreenPage"
-
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return <FullScreenPage>{children}</FullScreenPage>
+  return <div className="w-full h-full bg-slate-800">{children}</div>
 }
 
 export default Layout

@@ -38,9 +38,9 @@ export const EnvironmentSelector = ({ teamKey }: EnvironmentSelectorProps) => {
   return (
     <Listbox value={selectedEnvironment} onChange={setSelectedEnvironment}>
       <div className="relative mt-1 mb-3">
-        <Listbox.Button className="relative w-full cursor-default rounded-lg border border-slate-300 bg-white p-2 pl-4 text-left text-slate-900 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 group hover:bg-slate-100">
+        <Listbox.Button className="relative w-full cursor-default rounded-lg border border-slate-200 bg-white p-2 text-left text-slate-900 shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 group hover:bg-slate-100">
           <div className="flex items-center justify-between">
-            <span className="block truncate text-[16px] font-medium text-slate-900">
+            <span className="block truncate">
               {selectedEnvironment ?? "Select Environment"}
             </span>
             <div className="w-[30px] h-[30px] flex items-center justify-center">

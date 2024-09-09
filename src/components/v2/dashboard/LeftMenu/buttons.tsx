@@ -3,7 +3,6 @@ import { EnvironmentSelector } from "./EnvironmentSelector"
 
 import {
   IconBlockExplorer,
-  IconCEXwithdraw,
   IconConfig,
   IconDashboard,
   IconGas,
@@ -11,7 +10,6 @@ import {
   IconMonitoring,
   IconOnramp,
   IconOracle,
-  IconUniversalWidget,
 } from "../../../../../public/static/v2/images/menuIcons/index"
 
 export const mainMenuButtons = (teamKey?: string) => {
