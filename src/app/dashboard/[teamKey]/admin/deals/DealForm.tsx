@@ -22,7 +22,7 @@ export const DealForm = ({ deal, teamId }: DealFormProps) => {
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
     if (deal) {
       await updateDeal(deal.id, inputs)
-      window.location.href = pathname.split("/").slice(0, -2).join("/")
+      window.location.href = pathname?.split("/").slice(0, -2).join("/") ?? "/"
 
       return
     }
@@ -32,7 +32,7 @@ export const DealForm = ({ deal, teamId }: DealFormProps) => {
       team_id: teamId,
     })
 
-    window.location.href = pathname.split("/").slice(0, -1).join("/")
+    window.location.href = pathname?.split("/").slice(0, -1).join("/") ?? "/"
   }
 
   return (
