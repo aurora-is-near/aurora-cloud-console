@@ -1,4 +1,5 @@
 import Button from "@/components/v2/Button"
+import { EnvironmentSelector } from "./EnvironmentSelector"
 
 import {
   IconBlockExplorer,
@@ -10,7 +11,6 @@ import {
   IconMonitoring,
   IconOnramp,
   IconOracle,
-  IconPlus,
   IconUniversalWidget,
 } from "../../../../../public/static/v2/images/menuIcons/index"
 
@@ -20,13 +20,7 @@ export const mainMenuButtons = (teamKey?: string) => {
   }
 
   return [
-    <Button
-      title="Create Aurora Chain"
-      key="Create Aurora Chain"
-      path={`/dashboard_v2/${teamKey}/create_chain`}
-      className="bg-slate-900 text-slate-100 hover:bg-slate-800"
-      icon={<IconPlus className="h-4 w-4" />}
-    />,
+    <EnvironmentSelector key="EnvironmentSelector" teamKey={teamKey} />,
     <Button
       className="text-slate-500"
       title="Dashboard"
@@ -72,22 +66,6 @@ export const stackMenuButtons = (teamKey?: string) => {
 
   return [
     <Button
-      title="Universal Widget"
-      key="Universal Widget"
-      path={`/dashboard_v2/${teamKey}/universal_widget`}
-      className="text-slate-500"
-      bordered
-      icon={<IconUniversalWidget className="h-4 w-5" />}
-    />,
-    <Button
-      title="Oracle"
-      key="Oracle"
-      path={`/dashboard_v2/${teamKey}/oracle`}
-      className="text-slate-500"
-      bordered
-      icon={<IconOracle className="h-7 w-7" />}
-    />,
-    <Button
       title="Onramp"
       key="Onramp"
       path={`/dashboard_v2/${teamKey}/onramp`}
@@ -96,12 +74,12 @@ export const stackMenuButtons = (teamKey?: string) => {
       icon={<IconOnramp className="h-7 w-7" />}
     />,
     <Button
-      title="CEX withdrawals"
-      key="CEX withdrawals"
-      path={`/dashboard_v2/${teamKey}/cex_withdrawals`}
+      title="Oracle"
+      key="Oracle"
+      path={`/dashboard_v2/${teamKey}/oracle`}
       className="text-slate-500"
       bordered
-      icon={<IconCEXwithdraw className="h-7 w-7" />}
+      icon={<IconOracle className="h-7 w-7" />}
     />,
     <Button
       title="Block explorer"
