@@ -1,8 +1,8 @@
 import Link from "next/link"
 import Image from "next/image"
+import SignoutButton from "@/components/menu/SignoutButton"
 import { MenuItem } from "@/types/menu"
 import { MainMenuButton } from "./MenuButtons"
-import SignoutButton from "@/components/menu/SignoutButton"
 
 type MainMenuProps = {
   mainMenuItems: MenuItem[]
