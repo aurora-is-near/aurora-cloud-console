@@ -3,6 +3,7 @@ import Image from "next/image"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { getTeams } from "@/actions/teams/get-teams"
 import { isAdmin } from "@/actions/is-admin"
+import AuroraLogo from "@/components/v2/AuroraLogo"
 
 const SetupAlert = () => {
   return (
@@ -40,28 +41,7 @@ const Header = async () => {
     <>
       {teams?.length && <SetupAlert />}
       <div className="flex flex-row w-full lg:bg-slate-900 lg:px-4 lg:py-4">
-        <Link
-          href="/"
-          className="flex h-15 shrink-0 items-center justify-center"
-        >
-          <div
-            className="mr-2 pr-2 py-0.5"
-            style={{ borderRight: "1px solid #64748B" }}
-          >
-            <Image
-              width={100}
-              height={15}
-              src="/static/v2/images/Aurora.svg"
-              alt="Aurora"
-            />
-          </div>
-          <Image
-            width={100}
-            height={15}
-            src="/static/v2/images/AuroraCloud.svg"
-            alt="AuroraCloud"
-          />
-        </Link>
+        <AuroraLogo />
       </div>
     </>
   )

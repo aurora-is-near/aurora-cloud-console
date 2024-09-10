@@ -3,10 +3,10 @@ import { Heading } from "./Heading"
 
 const Page = () => {
   return (
-    <>
-      <Heading className="mb-10">Sign in to your account</Heading>
+    <div className="flex flex-col items-center justify-center">
+      <Heading className="mb-10">Sign in</Heading>
       <LoginForm />
-    </>
+    </div>
   )
 }
 
