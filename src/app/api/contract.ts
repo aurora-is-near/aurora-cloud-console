@@ -138,11 +138,33 @@ export const ChartDataSchema = z.object({
   ),
 })
 
+const UserSchema = z.object({
+  id: z.number(),
+  email: z.string(),
+  name: z.string(),
+  company: z.string(),
+  createdAt: z.string(),
+})
+
 const TransactionDataIntervalQueryParamSchema = z.string().optional().openapi({
   enum: CHART_DATE_OPTION_VALUES,
 })
 
 export const contract = c.router({
+  createUser: {
+    summary: "Create a user",
+    method: "POST",
+    path: "/api/users",
+    responses: {
+      200: UserSchema,
+    },
+    body: z.object({
+      email: z.string().email(),
+      name: z.string(),
+      company: z.string(),
+      marketing_consent: z.boolean(),
+    }),
+  },
   getDeals: {
     summary: "Get all deals",
     method: "GET",

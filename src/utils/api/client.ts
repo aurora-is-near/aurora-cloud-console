@@ -162,6 +162,9 @@ export const apiClient = {
 
   getSiloFailureRate: async ({ id }: ApiRequestParams<"getSiloFailureRate">) =>
     get<"getSiloFailureRate">(`/api/silos/${id}/failure-rate`),
+
+  createUser: async (data: ApiRequestParams<"createUser">) =>
+    post<"createUser">("/api/users", data),
 }
 
 export type ApiClient = typeof apiClient

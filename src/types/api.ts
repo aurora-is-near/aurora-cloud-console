@@ -70,3 +70,19 @@ export type ApiEndpointCacheOptions = {
 export type ApiEndpointOptions = {
   cache?: ApiEndpointCacheOptions
 }
+
+// Add this to the existing types
+export type CreateUserRequest = {
+  email: string
+  name: string
+  company: string
+  marketing_consent: boolean
+}
+
+export type CreateUserResponse = {
+  id: number
+  email: string
+  name: string
+  company: string
+  createdAt: string
+}

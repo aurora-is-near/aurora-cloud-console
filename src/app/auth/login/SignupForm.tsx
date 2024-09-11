@@ -2,12 +2,13 @@ import { useState } from "react"
 import { useForm, UseFormRegister } from "react-hook-form"
 import Link from "next/link"
 import { Button } from "@/components/Button"
+import { createUser } from "@/actions/users/create-user"
 
 type SignupFormData = {
-  firstName: string
+  name: string
   email: string
-  companyName: string
-  marketingConsent: boolean
+  company: string
+  marketing_consent: boolean
 }
 
 const FormInput = ({
@@ -48,8 +49,7 @@ const SignupForm = () => {
 
   const signUp = async (data: SignupFormData) => {
     try {
-      // TODO
-      console.log("Signup data:", data)
+      await createUser(data)
     } catch (err) {
       setError(err as Error)
     }
@@ -65,14 +65,14 @@ const SignupForm = () => {
         register={register}
       />
       <FormInput
-        id="firstName"
+        id="name"
         type="text"
         autoComplete="given-name"
         placeholder="Full name"
         register={register}
       />
       <FormInput
-        id="companyName"
+        id="company"
         type="text"
         autoComplete="organization"
         placeholder="Company name"
@@ -81,13 +81,13 @@ const SignupForm = () => {
 
       <div className="flex items-start ">
         <input
-          id="marketingConsent"
+          id="marketing_consent"
           type="checkbox"
           className="h-4 w-4 bg-slate-800 rounded mt-1 border-gray-300 text-green-600 focus:ring-green-500"
-          {...register("marketingConsent")}
+          {...register("marketing_consent")}
         />
         <label
-          htmlFor="marketingConsent"
+          htmlFor="marketing_consent"
           className="ml-2 block text-xs text-slate-300"
         >
           Get emails from Aurora Cloud about product updates, industry news, and
