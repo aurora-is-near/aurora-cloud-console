@@ -513,12 +513,12 @@ exports[`OpenAPI Document should be valid 1`] = `
             "application/json": {
               "schema": {
                 "properties": {
-                  "targetAddress": {
+                  "address": {
                     "type": "string",
                   },
                 },
                 "required": [
-                  "targetAddress",
+                  "address",
                 ],
                 "type": "object",
               },
@@ -560,7 +560,7 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
-    "/api/forwarder/{targetAddress}": {
+    "/api/forwarder/{address}": {
       "get": {
         "deprecated": undefined,
         "description": "**Required scopes:** \`forwarder:read\`",
@@ -568,7 +568,7 @@ exports[`OpenAPI Document should be valid 1`] = `
         "parameters": [
           {
             "in": "path",
-            "name": "targetAddress",
+            "name": "address",
             "required": true,
             "schema": {
               "type": "string",
@@ -582,7 +582,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                 "schema": {
                   "properties": {
                     "forwarderAddress": {
-                      "nullable": true,
                       "type": "string",
                     },
                   },
