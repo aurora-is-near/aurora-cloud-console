@@ -1,4 +1,3 @@
-import fetch from "node-fetch"
 import { createDebugger } from "@/debug"
 import {
   ForwarderApiCreateContractResponse,
