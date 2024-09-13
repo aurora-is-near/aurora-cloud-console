@@ -62,7 +62,6 @@ describe("Oracles route", () => {
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
-        enabled: true,
         createdAt: mockOracle.created_at,
         updatedAt: mockOracle.updated_at,
         address: null,
@@ -97,7 +96,6 @@ describe("Oracles route", () => {
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
-        enabled: true,
         createdAt: mockOracle.created_at,
         updatedAt: mockOracle.updated_at,
         address: "0x123",
@@ -149,7 +147,6 @@ describe("Oracles route", () => {
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
-        enabled: true,
         createdAt: mockOracle.created_at,
         updatedAt: mockOracle.updated_at,
         address: null,
