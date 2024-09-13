@@ -1,6 +1,7 @@
 import { z } from "zod"
 import {
   BridgeSchema as Bridge,
+  ChartDataSchema as ChartData,
   DealSchema as Deal,
   ListSchema as List,
   OracleSchema as Oracle,
@@ -18,5 +19,6 @@ export type ListSchema = z.infer<typeof List>
 export type SimpleListSchema = z.infer<typeof SimpleList>
 export type WalletDetailsSchema = z.infer<typeof WalletDetails>
 export type TransactionDataSchema = z.infer<typeof TransactionData>
+export type ChartDataSchema = z.infer<typeof ChartData>
 export type OracleSchema = z.infer<typeof Oracle>
 export type BridgeSchema = z.infer<typeof Bridge>
