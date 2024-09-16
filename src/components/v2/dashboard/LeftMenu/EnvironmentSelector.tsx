@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Listbox } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import Button from "@/components/v2/Button"
+import { useTeamContext } from "@/contexts/TeamContext"
 import { IconPlus } from "../../../../../public/static/v2/images/menuIcons"
 
 type Environment = "Devnet" | "Mainnet"
@@ -9,11 +10,11 @@ type Environment = "Devnet" | "Mainnet"
 // Need to figure out how to get the environments from the backend
 const mockEnvironments: Environment[] = ["Devnet", "Mainnet"]
 
-interface EnvironmentSelectorProps {
-  teamKey: string
-}
+export const EnvironmentSelector = () => {
+  const { team, silos } = useTeamContext()
 
-export const EnvironmentSelector = ({ teamKey }: EnvironmentSelectorProps) => {
+  const teamKey = team.team_key
+
   const [selectedEnvironment, setSelectedEnvironment] =
     useState<Environment | null>(
       mockEnvironments.length > 0 ? mockEnvironments[1] : null,
@@ -23,13 +24,13 @@ export const EnvironmentSelector = ({ teamKey }: EnvironmentSelectorProps) => {
     return null
   }
 
-  if (!teamKey) {
+  if (silos.length === 0) {
     return (
       <Button
         title="Create Aurora Chain"
         key="Create Aurora Chain"
         path={`/dashboard_v2/${teamKey}/create_chain`}
-        className="bg-slate-900 text-slate-100 hover:bg-slate-800"
+        className="bg-slate-900 text-slate-100 hover:bg-slate-800 mb-3"
         icon={<IconPlus className="h-4 w-4" />}
       />
     )

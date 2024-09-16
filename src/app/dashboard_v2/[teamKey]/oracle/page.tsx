@@ -1,9 +1,8 @@
-import { redirect } from "next/navigation"
+"use client"
+
 import Image from "next/image"
-import Layout from "@/app/dashboard_v2/Layout"
 import Hero from "@/components/v2/dashboard/Hero"
 import Tabs from "@/components/v2/Tabs/Tabs"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { Pyth } from "../../../../../public/static/v2/images/icons"
 
 const AboutTab = () => {
@@ -37,53 +36,41 @@ const ConfigurationTab = () => {
   return <div>Config</div>
 }
 
-const Page = async ({
-  params: { teamKey },
-}: {
-  params: { teamKey: string }
-}) => {
-  if (!teamKey) {
-    redirect("/dashboard_v1")
-  }
-
-  const team = await getTeamByKey(teamKey)
-
+const Page = () => {
   const tabs = [
     { title: "About", content: <AboutTab /> },
     { title: "Configuration", content: <ConfigurationTab /> },
   ]
 
   return (
-    <Layout team={team}>
-      <div className="flex flex-col gap-10">
-        <Hero
-          title="Oracle"
-          description="Secure your smart contracts with reliable, low-latency market data from institutional sources."
-          button={{
-            text: "Enable feature",
-            path: "/",
-          }}
-          titlePrefix={
-            <Image
-              width="48"
-              height="48"
-              src="/static/v2/images/feature/oracle.svg"
-              alt="Oracle Logo"
-            />
-          }
-          image={
-            <Image
-              width="400"
-              height="240"
-              src="/static/v2/images/feature/hero/oracle.png"
-              alt="Oracle Preview"
-            />
-          }
-        />
+    <div className="flex flex-col gap-10">
+      <Hero
+        title="Oracle"
+        description="Secure your smart contracts with reliable, low-latency market data from institutional sources."
+        button={{
+          text: "Enable feature",
+          path: "/",
+        }}
+        titlePrefix={
+          <Image
+            width="48"
+            height="48"
+            src="/static/v2/images/feature/oracle.svg"
+            alt="Oracle Logo"
+          />
+        }
+        image={
+          <Image
+            width="400"
+            height="240"
+            src="/static/v2/images/feature/hero/oracle.png"
+            alt="Oracle Preview"
+          />
+        }
+      />
 
-        <Tabs tabs={tabs} />
-      </div>
-    </Layout>
+      <Tabs tabs={tabs} />
+    </div>
   )
 }
 

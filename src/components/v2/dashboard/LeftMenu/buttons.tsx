@@ -18,7 +18,7 @@ export const mainMenuButtons = (teamKey?: string) => {
   }
 
   return [
-    <EnvironmentSelector key="EnvironmentSelector" teamKey={teamKey} />,
+    <EnvironmentSelector key="EnvironmentSelector" />,
     <Button
       className="text-slate-500"
       title="Dashboard"

@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation"
-import Layout from "@/app/dashboard_v2/Layout"
 import { getTeams } from "@/actions/teams/get-teams" // Assuming this function exists
 
 const Page = async () => {
@@ -12,7 +11,7 @@ const Page = async () => {
   }
 
   // This return statement will never be reached due to the redirects above
-  return <Layout team={teams[0]}>Redirecting...</Layout>
+  return <div>Redirecting...</div>
 }
 
 export default Page

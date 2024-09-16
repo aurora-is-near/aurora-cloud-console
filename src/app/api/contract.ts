@@ -164,6 +164,9 @@ export const contract = c.router({
       company: z.string(),
       marketing_consent: z.boolean(),
     }),
+    metadata: {
+      scopes: ["users:write"],
+    },
   },
   getDeals: {
     summary: "Get all deals",

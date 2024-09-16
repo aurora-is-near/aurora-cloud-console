@@ -6,4 +6,6 @@ export const mockUser: User = {
   id: 1,
   name: "John Doe",
   user_id: "1",
+  company: null,
+  marketing_consent: true,
 }

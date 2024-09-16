@@ -1,31 +1,28 @@
+"use client"
+
 import { redirect } from "next/navigation"
 import Contact from "@/components/Contact"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
-import Layout from "@/app/dashboard_v2/Layout"
 import { SilosTransactionsCharts } from "@/app/dashboard/[teamKey]/silos/SilosTransactionsCharts"
+import { useTeamContext } from "@/contexts/TeamContext"
 
-const Page = async ({
-  params: { teamKey },
-}: {
-  params: { teamKey: string }
-}) => {
-  const team = await getTeamByKey(teamKey)
-  const silos = await getTeamSilos(team.id)
+const Page = () => {
+  const { team, silos } = useTeamContext()
 
-  // If the team has a single silo, redirect to its overview page
+  // If the team has a single silo, redirect to it
   if (silos.length === 1) {
-    return redirect(`/dashboard_v2/${teamKey}/configuration/${silos[0].id}`)
+    return redirect(
+      `/dashboard_v2/${team.team_key}/configuration/${silos[0].id}`,
+    )
   }
 
   return (
-    <Layout team={team}>
-      <section>
+    <>
+      <section className="mb-3">
         <SilosTransactionsCharts />
       </section>
 
-      <Contact teamKey={teamKey} text="Need help setting up a silo?" />
-    </Layout>
+      <Contact teamKey={team.team_key} text="Need help setting up a silo?" />
+    </>
   )
 }
 

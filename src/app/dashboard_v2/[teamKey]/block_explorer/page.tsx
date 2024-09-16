@@ -1,23 +1,16 @@
-import { redirect } from "next/navigation"
-import Layout from "@/app/dashboard_v2/Layout"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+"use client"
 
-const Page = async ({
-  params: { teamKey },
-}: {
-  params: { teamKey: string }
-}) => {
-  if (!teamKey) {
-    redirect("/dashboard_v1")
-  }
+import { useTeamContext } from "@/contexts/TeamContext"
 
-  const team = await getTeamByKey(teamKey)
+const BlockExplorerPage = () => {
+  const { team } = useTeamContext()
 
   return (
-    <Layout team={team}>
-      <div>Explorer</div>
-    </Layout>
+    <div>
+      <h1>Block Explorer for {team.name}</h1>
+      {/* Add your block explorer content here */}
+    </div>
   )
 }
 
-export default Page
+export default BlockExplorerPage

@@ -1,30 +1,17 @@
-import { redirect } from "next/navigation"
-import Layout from "@/app/dashboard_v2/Layout"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+"use client"
+
 import EmptyState from "@/app/dashboard_v2/[teamKey]/gas_abstraction/EmptyState"
-import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 import GasAbstractionHero from "@/app/dashboard_v2/[teamKey]/gas_abstraction/GasAbstractionHero"
 import DealList from "@/app/dashboard_v2/[teamKey]/gas_abstraction/DealList"
 import Contact from "@/components/Contact"
 import SubTitle from "@/components/v2/dashboard/SubTitle"
+import { useTeamContext } from "@/contexts/TeamContext"
 
-// TODO
-// Link on Create Chain Button
-
-const Page = async ({
-  params: { teamKey },
-}: {
-  params: { teamKey: string }
-}) => {
-  if (!teamKey) {
-    redirect("/dashboard")
-  }
-
-  const team = await getTeamByKey(teamKey)
-  const deals = await getTeamDeals(team.id)
+const GasAbstractionPage = () => {
+  const { team, deals } = useTeamContext()
 
   return (
-    <Layout team={team}>
+    <div>
       {deals.length > 0 ? (
         <div className="divide-y flex flex-col gap-10">
           <GasAbstractionHero team={team} deals={deals} />
@@ -35,7 +22,7 @@ const Page = async ({
             <div className="mt-10">
               <Contact
                 text="Need help configuring your plans?"
-                teamKey={teamKey}
+                teamKey={team.team_key}
               />
             </div>
           </div>
@@ -43,8 +30,8 @@ const Page = async ({
       ) : (
         <EmptyState team={team} />
       )}
-    </Layout>
+    </div>
   )
 }
 
-export default Page
+export default GasAbstractionPage

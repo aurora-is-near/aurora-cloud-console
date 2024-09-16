@@ -1,11 +1,8 @@
-import { redirect } from "next/navigation"
 import Image from "next/image"
-import Layout from "@/app/dashboard_v2/Layout"
 import Card from "@/components/Card"
 import Hero from "@/components/v2/dashboard/Hero"
 import Tabs from "@/components/v2/Tabs/Tabs"
 import SubTitle from "@/components/v2/dashboard/SubTitle"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import FeatureCard from "@/app/dashboard_v2/[teamKey]/integrations/FeatureCard"
 import {
   BlockExplorer,
@@ -136,50 +133,38 @@ const tabs = categories.map((cat) => {
   }
 })
 
-const Page = async ({
-  params: { teamKey },
-}: {
-  params: { teamKey: string }
-}) => {
-  if (!teamKey) {
-    redirect("/dashboard_v1")
-  }
-
-  const team = await getTeamByKey(teamKey)
-
+const Page = () => {
   return (
-    <Layout team={team}>
-      <div className="divide-y flex flex-col gap-10">
-        <Hero
-          title="Integrations"
-          description="Supercharge your chain with our marketplace. Boost user experience by covering gas fees and creating custom plans as part of your engagement strategy. Supercharge your chain with our marketplace. "
-          image={
-            <Image
-              width="180"
-              height="180"
-              src="/static/v2/images/heroIcons/integrations.png"
-              alt="Aurora Cloud"
-            />
-          }
-        />
-        <div className="flex flex-col w-full pt-10 gap-5">
-          <SubTitle>Native integrations</SubTitle>
-          <div className="grid grid-cols-3 gap-4">
-            {services
-              .filter((s) => s.native)
-              .map((card) => (
-                <Card key={card.title} borderRadius="xl">
-                  <FeatureCard card={card} />
-                </Card>
-              ))}
-          </div>
-        </div>
-        <div className="flex flex-col w-full pt-10 gap-5 pb-10">
-          <SubTitle>Other integrations</SubTitle>
-          <Tabs unstyledContent tabs={tabs} />
+    <div className="divide-y flex flex-col gap-10">
+      <Hero
+        title="Integrations"
+        description="Supercharge your chain with our marketplace. Boost user experience by covering gas fees and creating custom plans as part of your engagement strategy. Supercharge your chain with our marketplace. "
+        image={
+          <Image
+            width="180"
+            height="180"
+            src="/static/v2/images/heroIcons/integrations.png"
+            alt="Aurora Cloud"
+          />
+        }
+      />
+      <div className="flex flex-col w-full pt-10 gap-5">
+        <SubTitle>Native integrations</SubTitle>
+        <div className="grid grid-cols-3 gap-4">
+          {services
+            .filter((s) => s.native)
+            .map((card) => (
+              <Card key={card.title} borderRadius="xl">
+                <FeatureCard card={card} />
+              </Card>
+            ))}
         </div>
       </div>
-    </Layout>
+      <div className="flex flex-col w-full pt-10 gap-5 pb-10">
+        <SubTitle>Other integrations</SubTitle>
+        <Tabs unstyledContent tabs={tabs} />
+      </div>
+    </div>
   )
 }
 

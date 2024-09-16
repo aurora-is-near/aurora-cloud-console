@@ -21,7 +21,11 @@ const Page = () => {
       </span>
       <div className="flex flex-col divide-y divide-slate-700 items-center justify-center bg-slate-800 border border-slate-700 rounded-2xl">
         <div className="p-8 w-96">
-          {isSigningUp ? <SignupForm /> : <LoginForm />}
+          {isSigningUp ? (
+            <SignupForm toggleForm={() => setIsSigningUp(false)} />
+          ) : (
+            <LoginForm />
+          )}
         </div>
         <div className="p-4 w-full flex flex-row gap-2 justify-center items-center">
           {isSigningUp ? (

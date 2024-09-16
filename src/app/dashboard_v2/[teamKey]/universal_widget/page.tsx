@@ -1,9 +1,8 @@
+"use client"
+
 import Image from "next/image"
-import { redirect } from "next/navigation"
-import Layout from "@/app/dashboard_v2/Layout"
 import Hero from "@/components/v2/dashboard/Hero"
 import Tabs from "@/components/v2/Tabs/Tabs"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { RainbowBridge } from "../../../../../public/static/v2/images/icons"
 
 const AboutTab = () => {
@@ -37,53 +36,41 @@ const ConfigurationTab = () => {
   return <div>Config</div>
 }
 
-const Page = async ({
-  params: { teamKey },
-}: {
-  params: { teamKey: string }
-}) => {
-  if (!teamKey) {
-    redirect("/dashboard_v1")
-  }
-
-  const team = await getTeamByKey(teamKey)
-
+const Page = () => {
   const tabs = [
     { title: "About", content: <AboutTab /> },
     { title: "Configuration", content: <ConfigurationTab /> },
   ]
 
   return (
-    <Layout team={team}>
-      <div className="flex flex-col gap-10">
-        <Hero
-          title="Universal Widget"
-          description="Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum."
-          button={{
-            text: "Enable feature",
-            path: "/",
-          }}
-          titlePrefix={
-            <Image
-              width="48"
-              height="48"
-              src="/static/v2/images/feature/universal_widget.svg"
-              alt="Universal Widget Logo"
-            />
-          }
-          image={
-            <Image
-              width="400"
-              height="240"
-              src="/static/v2/images/feature/hero/universal_widget.png"
-              alt="Universal Widget Preview"
-            />
-          }
-        />
+    <div className="flex flex-col gap-10">
+      <Hero
+        title="Universal Widget"
+        description="Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum."
+        button={{
+          text: "Enable feature",
+          path: "/",
+        }}
+        titlePrefix={
+          <Image
+            width="48"
+            height="48"
+            src="/static/v2/images/feature/universal_widget.svg"
+            alt="Universal Widget Logo"
+          />
+        }
+        image={
+          <Image
+            width="400"
+            height="240"
+            src="/static/v2/images/feature/hero/universal_widget.png"
+            alt="Universal Widget Preview"
+          />
+        }
+      />
 
-        <Tabs tabs={tabs} />
-      </div>
-    </Layout>
+      <Tabs tabs={tabs} />
+    </div>
   )
 }
 

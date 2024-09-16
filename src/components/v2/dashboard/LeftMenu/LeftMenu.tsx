@@ -4,13 +4,11 @@ import {
   mainMenuButtons,
   stackMenuButtons,
 } from "@/components/v2/dashboard/LeftMenu/buttons"
-import { Team } from "@/types/types"
+import { useTeamContext } from "@/contexts/TeamContext"
 
-interface LeftMenuProps {
-  team: Team
-}
+const LeftMenu = () => {
+  const { team } = useTeamContext()
 
-const LeftMenu = ({ team }: LeftMenuProps) => {
   return (
     <div className="w-[320px] flex flex-col gap-5 bg-white border-r-2 border-slate-200 h-full p-6">
       <h1 className="text-slate-900 text-2xl font-bold tracking-tighter">

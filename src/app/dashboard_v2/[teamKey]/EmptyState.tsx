@@ -1,7 +1,9 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
-import { Team } from "@/types/types"
 import Hero from "@/components/v2/dashboard/Hero"
+import { useTeamContext } from "@/contexts/TeamContext"
 import { IconPlus } from "../../../../public/static/v2/images/menuIcons"
 import {
   Partner1,
@@ -58,7 +60,9 @@ const features = [
 ]
 
 // https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=3775-10045&t=PGhHmzDnXi5hsRI0-0
-const EmptyState = ({ team }: { team: Team }) => {
+const EmptyState = () => {
+  const { team } = useTeamContext()
+
   return (
     <div className="w-full">
       <div className="divide-y flex flex-col gap-10">

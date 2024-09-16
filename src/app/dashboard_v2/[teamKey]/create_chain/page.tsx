@@ -1,17 +1,10 @@
+"use client"
+
 import Link from "next/link"
-import { redirect } from "next/navigation"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { useTeamContext } from "@/contexts/TeamContext"
 
-const Page = async ({
-  params: { teamKey },
-}: {
-  params: { teamKey: string }
-}) => {
-  if (!teamKey) {
-    redirect("/dashboard_v1")
-  }
-
-  const team = await getTeamByKey(teamKey)
+const Page = () => {
+  const { team } = useTeamContext()
 
   return (
     <div className="full-w full-h flex flex-col">

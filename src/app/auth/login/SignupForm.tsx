@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { useForm, UseFormRegister } from "react-hook-form"
 import Link from "next/link"
+import { CheckCircleIcon } from "@heroicons/react/24/outline"
 import { Button } from "@/components/Button"
 import { createUser } from "@/actions/users/create-user"
+import { AUTH_CALLBACK_ROUTE } from "@/constants/routes"
 
 type SignupFormData = {
   name: string
@@ -39,23 +41,56 @@ const FormInput = ({
   </div>
 )
 
-const SignupForm = () => {
+const SignupForm = ({ toggleForm }: { toggleForm: () => void }) => {
   const [error, setError] = useState<Error | null>(null)
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isSubmitSuccessful, isValid },
   } = useForm<SignupFormData>()
 
   const signUp = async (data: SignupFormData) => {
     try {
-      await createUser(data)
+      await createUser({
+        ...data,
+        ...{
+          redirect_url: `${document.location.origin}${AUTH_CALLBACK_ROUTE}`,
+        },
+      })
     } catch (err) {
-      setError(err as Error)
+      if (err instanceof Error) {
+        setError(err)
+      } else {
+        setError(new Error("An unknown error occurred during signup"))
+      }
     }
   }
 
-  return (
+  return isSubmitSuccessful && isValid ? (
+    <div className="flex items-start justify-center text-white">
+      <div className="flex-shrink-0">
+        <CheckCircleIcon
+          className="w-5 h-5 text-green-400"
+          aria-hidden="true"
+        />
+      </div>
+      <div className="ml-3">
+        <h2 className="text-sm font-medium text-white">
+          Done! You will receive a link on your email to Sign In.
+        </h2>
+        <p className="mt-2 text-sm text-gray-400">
+          Didn’t receive it?{" "}
+          <button
+            type="button"
+            className="underline hover:text-white"
+            onClick={toggleForm}
+          >
+            Try signing in.
+          </button>
+        </p>
+      </div>
+    </div>
+  ) : (
     <form className="space-y-6" onSubmit={handleSubmit(signUp)}>
       <FormInput
         id="email"
