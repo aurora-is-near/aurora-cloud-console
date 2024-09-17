@@ -25,6 +25,7 @@ const sentryConfig = {
   widenClientFileUpload: true,
   hideSourceMaps: true,
   disableLogger: true,
+  tunnelRoute: "/monitoring-tunnel",
 }
 
 module.exports = withSentryConfig(nextConfig, sentryConfig)
