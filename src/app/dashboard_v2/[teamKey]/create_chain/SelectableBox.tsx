@@ -15,7 +15,7 @@ const SelectableBox: React.FC<SelectableBoxProps> = ({
   className = "",
   disabled = false,
 }) => {
-  const baseClasses = "rounded-lg p-6 transition-colors duration-200"
+  const baseClasses = "rounded-lg transition-colors duration-200"
   const enabledClasses = selected
     ? "border-2 border-green-600 bg-green-50"
     : "border border-slate-300 bg-white"
@@ -29,7 +29,7 @@ const SelectableBox: React.FC<SelectableBoxProps> = ({
     <div
       className={`${baseClasses} ${
         disabled ? disabledClasses : enabledClasses
-      } ${className} ${textClasses}`}
+      } ${textClasses} ${className}`}
       onClick={disabled ? undefined : onClick}
       onKeyDown={
         disabled

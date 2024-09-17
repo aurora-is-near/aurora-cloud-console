@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ComponentType } from "react"
 import SelectableBox from "./SelectableBox"
 import { ChainPermission } from "./useChainCreationForm"
 import {
@@ -49,11 +49,13 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
   const getIcon = (perm: ChainPermission) => {
     switch (perm) {
       case "public":
-        return ChainPublic as React.FC
+        return ChainPublic as ComponentType<React.SVGProps<SVGSVGElement>>
       case "public_permissioned":
-        return ChainPublicPermissioned as React.FC
+        return ChainPublicPermissioned as ComponentType<
+          React.SVGProps<SVGSVGElement>
+        >
       case "private":
-        return ChainPrivate as React.FC
+        return ChainPrivate as ComponentType<React.SVGProps<SVGSVGElement>>
       default:
         return null
     }
@@ -65,7 +67,7 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
     <SelectableBox
       selected={selected}
       onClick={onClick}
-      className="w-full"
+      className="w-full p-6"
       disabled={disabled}
     >
       <div className="flex items-center mb-4">

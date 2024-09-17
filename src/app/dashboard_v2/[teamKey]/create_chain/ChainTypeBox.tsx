@@ -31,7 +31,11 @@ const ChainTypeBox: React.FC<ChainTypeBoxProps> = ({
   selected,
 }) => {
   return (
-    <SelectableBox selected={selected} onClick={onClick} className="w-[50%]">
+    <SelectableBox
+      selected={selected}
+      onClick={onClick}
+      className="w-[50%] p-6"
+    >
       <div className="flex flex-row justify-between items-start">
         <h3 className="font-semibold text-lg mb-2 text-slate-900">{title}</h3>
         <Label type={type} />
