@@ -1990,16 +1990,12 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "nullable": true,
                       "type": "string",
                     },
-                    "enabled": {
-                      "type": "boolean",
-                    },
                     "updatedAt": {
                       "nullable": true,
                       "type": "string",
                     },
                   },
                   "required": [
-                    "enabled",
                     "createdAt",
                     "updatedAt",
                     "address",
@@ -2062,16 +2058,12 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "nullable": true,
                       "type": "string",
                     },
-                    "enabled": {
-                      "type": "boolean",
-                    },
                     "updatedAt": {
                       "nullable": true,
                       "type": "string",
                     },
                   },
                   "required": [
-                    "enabled",
                     "createdAt",
                     "updatedAt",
                     "address",
