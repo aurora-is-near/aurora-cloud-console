@@ -17,3 +17,7 @@ export { default as Onramp } from "./marketplace/onramp.svg"
 export { default as Safe } from "./marketplace/safe.svg"
 export { default as TheGraph } from "./marketplace/the_graph.svg"
 export { default as Uniswap } from "./marketplace/uniswap.svg"
+
+export { default as ChainPublic } from "./chain_public.svg"
+export { default as ChainPublicPermissioned } from "./chain_public_permissioned.svg"
+export { default as ChainPrivate } from "./chain_private.svg"
