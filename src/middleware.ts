@@ -95,7 +95,8 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - img/ (images in static/img folder)
+     * - monitoring-tunnel (Sentry monitoring tunnel)
      */
-    "/((?!_next/static|_next/image|favicon.ico|img/).*)",
+    "/((?!_next/static|_next/image|favicon.ico|img/|monitoring-tunnel).*)",
   ],
 }
