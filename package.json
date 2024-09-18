@@ -89,7 +89,7 @@
     "jest-openapi": "^0.14.2",
     "jest-transform-stub": "^2.0.0",
     "knip": "^4.1.0",
-    "nock": "^13.5.4",
+    "nock": "14.0.0-beta.13",
     "openapi-types": "^12.1.3",
     "openapi3-ts": "^4.2.2",
     "postcss": "8.4.28",
@@ -99,6 +99,8 @@
     "typescript": "5.1.6"
   },
   "resolutions": {
-    "strip-ansi": "6.0.1"
+    "strip-ansi": "^6.0.1",
+    "string-width": "^4.2.0",
+    "wrap-ansi": "^7.0.0"
   }
 }

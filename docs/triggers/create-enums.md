@@ -33,7 +33,9 @@ SELECT add_values_to_enum(
     'users:write',
     'lists:read',
     'lists:write',
-    'transactions:read'
+    'transactions:read',
+    'forwarder:read',
+    'forwarder:write',
   ]
 );
 

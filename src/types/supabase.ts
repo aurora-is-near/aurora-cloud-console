@@ -450,6 +450,8 @@ export type Database = {
         | "users:write"
         | "lists:read"
         | "lists:write"
+        | "forwarder:read"
+        | "forwarder:write"
       bridge_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       token_type: "ERC20" | "ERC721" | "ERC1155"

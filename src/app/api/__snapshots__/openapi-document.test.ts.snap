@@ -502,6 +502,112 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/forwarder": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "createForwarderAddress",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "address": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "address",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "forwarderAddress": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "forwarderAddress",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Create a forwarder address for given target address",
+        "tags": [
+          "forwarder",
+        ],
+      },
+    },
+    "/api/forwarder/{address}": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:read\`",
+        "operationId": "getForwarderAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "forwarderAddress": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "forwarderAddress",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:read",
+            ],
+          },
+        ],
+        "summary": "Get the forwarder address for given target address",
+        "tags": [
+          "forwarder",
+        ],
+      },
+    },
     "/api/lists": {
       "get": {
         "deprecated": undefined,
