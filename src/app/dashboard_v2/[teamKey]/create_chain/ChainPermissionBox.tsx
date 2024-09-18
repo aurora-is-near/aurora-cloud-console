@@ -38,7 +38,7 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
       case "public":
         return "Anyone can freely interact and deploy contracts on your chain."
       case "public_permissioned":
-        return "On devnet, permissions are set to public permissioned by default."
+        return "Select who can interact or deploy contracts on your chain."
       case "private":
         return "A permissionned chain with fully private data."
       default:

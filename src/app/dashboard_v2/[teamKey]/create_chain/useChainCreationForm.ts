@@ -12,6 +12,11 @@ export type NetworkType = "devnet" | "mainnet"
 export type ChainPermission = "public" | "public_permissioned" | "private"
 export type BaseToken = string
 export type GasMechanics = "usage" | "free" | "custom"
+export type Integration =
+  | "onramp"
+  | "oracle"
+  | "bridge_widget"
+  | "cex_withdrawals_widget"
 
 export interface TokenOption {
   id: string
@@ -33,11 +38,11 @@ interface ChainCreationForm {
   chainPermission: ChainPermission | null
   baseToken: BaseToken | null
   gasMechanics: GasMechanics | null
-  integrations: string[]
+  integrations: Integration[]
   chainName: string
 }
 
-const initialState: ChainCreationForm = {
+const initialForm: ChainCreationForm = {
   networkType: null,
   chainPermission: null,
   baseToken: null,
@@ -47,7 +52,7 @@ const initialState: ChainCreationForm = {
 }
 
 export const useChainCreationForm = () => {
-  const [form, setForm] = useState<ChainCreationForm>(initialState)
+  const [form, setForm] = useState<ChainCreationForm>(initialForm)
 
   const updateForm = <K extends keyof ChainCreationForm>(
     field: K,

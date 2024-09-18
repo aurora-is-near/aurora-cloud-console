@@ -29,3 +29,9 @@ export { default as USDTToken } from "./tokens/usdt.svg"
 export { default as USDCToken } from "./tokens/usdc.svg"
 export { default as Bitcoin } from "./tokens/bitcoin.svg"
 export { default as EtherToken } from "./tokens/ether.svg"
+
+// Integration icons
+export { default as IntegrationOracle } from "./integrations/oracle.svg"
+export { default as IntegrationBridgeWidget } from "./integrations/bridge.svg"
+export { default as IntegrationCexWithdrawalsWidget } from "./integrations/cex_withdrawals.svg"
+export { default as IntegrationOnramp } from "./integrations/onramp.svg"

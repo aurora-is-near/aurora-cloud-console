@@ -1,16 +1,19 @@
 "use client"
 
-import React from "react"
 import Link from "next/link"
+import { useState } from "react"
 import { useTeamContext } from "@/contexts/TeamContext"
 import Step from "@/app/dashboard_v2/[teamKey]/create_chain/Step"
 import ChainTypeBox from "@/app/dashboard_v2/[teamKey]/create_chain/ChainTypeBox"
 import ChainPermissionBox from "@/app/dashboard_v2/[teamKey]/create_chain/ChainPermissionBox"
 import SelectableBox from "@/app/dashboard_v2/[teamKey]/create_chain/SelectableBox"
 import GasMechanicsBox from "@/app/dashboard_v2/[teamKey]/create_chain/GasMechanicsBox"
+import IntegrationBox from "@/app/dashboard_v2/[teamKey]/create_chain/IntegrationBox"
+import { Button } from "@/components/Button"
 import {
   ChainPermission,
   GasMechanics,
+  Integration,
   NetworkType,
   TokenOption,
   tokenOptions,
@@ -20,6 +23,7 @@ import {
 const Page = () => {
   const { team } = useTeamContext()
   const { form, updateForm } = useChainCreationForm()
+  const [selectedIntegrations, setSelectedIntegrations] = useState<string[]>([])
 
   const handleNetworkTypeSelect = (type: NetworkType) => {
     updateForm("networkType", type)
@@ -27,9 +31,6 @@ const Page = () => {
     // If devnet is selected, automatically set chainPermission to public_permissioned
     if (type === "devnet") {
       updateForm("chainPermission", "public_permissioned")
-    } else {
-      // Reset chainPermission when switching to mainnet
-      updateForm("chainPermission", null)
     }
   }
 
@@ -43,26 +44,28 @@ const Page = () => {
 
   const isDevnet = form.networkType === "devnet"
 
-  // Set Aurora as the default base token and "usage" as the default gas mechanics
-  React.useEffect(() => {
-    if (!form.baseToken) {
-      const auroraToken = tokenOptions.find(
-        (token) => token.name.toLowerCase() === "aurora",
-      )
-
-      if (auroraToken) {
-        updateForm("baseToken", auroraToken.id)
-      }
-    }
-
-    if (!form.gasMechanics) {
-      updateForm("gasMechanics", "usage")
-    }
-  }, [form.baseToken, form.gasMechanics, updateForm])
-
   const handleGasMechanicsSelect = (mechanic: GasMechanics) => {
     updateForm("gasMechanics", mechanic)
   }
+
+  const handleDeselectAll = () => {
+    setSelectedIntegrations([])
+  }
+
+  const handleIntegrationToggle = (integration: Integration) => {
+    const newIntegrations = form.integrations.includes(integration)
+      ? form.integrations.filter((i) => i !== integration)
+      : [...form.integrations, integration]
+
+    updateForm("integrations", newIntegrations)
+  }
+
+  const integrationOptions: Integration[] = [
+    "onramp",
+    "oracle",
+    "bridge_widget",
+    "cex_withdrawals_widget",
+  ]
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-slate-50 flex flex-col">
@@ -177,8 +180,25 @@ const Page = () => {
                   number={5}
                   title="Integrations"
                   description="These integrations are available from day 1 on your chain."
+                  actionButton={
+                    <Button
+                      type="button"
+                      variant="border"
+                      onClick={handleDeselectAll}
+                      className="text-sm"
+                    >
+                      Deselect All
+                    </Button>
+                  }
                 >
-                  e
+                  <div className="flex flex-col space-y-4">
+                    {integrationOptions.map((integration) => (
+                      <IntegrationBox
+                        key={integration}
+                        integration={integration}
+                      />
+                    ))}
+                  </div>
                 </Step>
                 <Step
                   number={6}

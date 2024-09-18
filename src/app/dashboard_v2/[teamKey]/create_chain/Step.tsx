@@ -5,6 +5,7 @@ interface StepProps {
   title: string
   description: string
   children: React.ReactNode
+  actionButton?: React.ReactNode
 }
 
 const Step: React.FC<StepProps> = ({
@@ -12,6 +13,7 @@ const Step: React.FC<StepProps> = ({
   title,
   description,
   children,
+  actionButton,
 }) => {
   return (
     <div className="mb-8 flex">
@@ -25,9 +27,12 @@ const Step: React.FC<StepProps> = ({
         </div>
       </div>
       <div className="w-full">
-        <h2 className="text-2xl tracking-tighter font-semibold text-slate-900 mb-1">
-          {title}
-        </h2>
+        <div className="flex justify-between items-start mb-1">
+          <h2 className="text-2xl tracking-tighter font-semibold text-slate-900">
+            {title}
+          </h2>
+          {actionButton && <div>{actionButton}</div>}
+        </div>
         <p className="text-slate-500 mb-4">{description}</p>
         <div className="py-3 ">{children}</div>
       </div>
