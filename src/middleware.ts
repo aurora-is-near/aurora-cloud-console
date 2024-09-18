@@ -56,6 +56,11 @@ export async function middleware(req: NextRequest) {
     return res
   }
 
+  // Do nothing for API requests (which are authenticated separately)
+  if (pathname.startsWith("/api")) {
+    return res
+  }
+
   // Redirect to the login page if the user is not logged in
   if (!session) {
     return loginRedirect(req, res)
