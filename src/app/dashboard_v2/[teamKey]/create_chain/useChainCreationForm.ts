@@ -18,6 +18,13 @@ export type Integration =
   | "bridge_widget"
   | "cex_withdrawals_widget"
 
+export const integrationOptions: Integration[] = [
+  "onramp",
+  "oracle",
+  "bridge_widget",
+  "cex_withdrawals_widget",
+]
+
 export interface TokenOption {
   id: string
   name: string
@@ -40,6 +47,8 @@ interface ChainCreationForm {
   gasMechanics: GasMechanics | null
   integrations: Integration[]
   chainName: string
+  chainId: string
+  comments: string
 }
 
 const initialForm: ChainCreationForm = {
@@ -49,6 +58,8 @@ const initialForm: ChainCreationForm = {
   gasMechanics: null,
   integrations: [],
   chainName: "",
+  chainId: "",
+  comments: "",
 }
 
 export const useChainCreationForm = () => {
@@ -61,17 +72,14 @@ export const useChainCreationForm = () => {
     setForm((prevForm) => ({ ...prevForm, [field]: value }))
   }
 
-  const handleIntegrationToggle = useCallback(() => {
+  const handleIntegrationToggle = useCallback((integration: Integration) => {
     setForm((prevForm) => ({
       ...prevForm,
-      integrations:
-        prevForm.integrations.length > 0
-          ? []
-          : ["onramp", "oracle", "bridge_widget", "cex_withdrawals_widget"],
+      integrations: prevForm.integrations.includes(integration)
+        ? prevForm.integrations.filter((i) => i !== integration)
+        : [...prevForm.integrations, integration],
     }))
   }, [])
-
-  const integrationEnabled = form.integrations.length > 0
 
   const handleDeselectAllIntegrations = useCallback(() => {
     setForm((prevForm) => ({
@@ -80,11 +88,25 @@ export const useChainCreationForm = () => {
     }))
   }, [])
 
+  const handleSubmit = useCallback(() => {
+    if (form.networkType === "devnet") {
+      // console.log("Deploying devnet chain:", form)
+    } else if (form.networkType === "mainnet") {
+      // console.log("Booking a call for mainnet chain:", form)
+    }
+  }, [form])
+
+  const submitButtonText =
+    form.networkType === "mainnet"
+      ? "Book a call with the Aurora team"
+      : "Deploy now"
+
   return {
     form,
     updateForm,
     handleIntegrationToggle,
-    integrationEnabled,
     handleDeselectAllIntegrations,
+    handleSubmit,
+    submitButtonText,
   }
 }

@@ -9,10 +9,11 @@ import SelectableBox from "@/app/dashboard_v2/[teamKey]/create_chain/SelectableB
 import GasMechanicsBox from "@/app/dashboard_v2/[teamKey]/create_chain/GasMechanicsBox"
 import IntegrationBox from "@/app/dashboard_v2/[teamKey]/create_chain/IntegrationBox"
 import { Button } from "@/components/Button"
+import RoundedBox from "@/app/dashboard_v2/[teamKey]/create_chain/RoundedBox"
 import {
   ChainPermission,
   GasMechanics,
-  Integration,
+  integrationOptions,
   NetworkType,
   TokenOption,
   tokenOptions,
@@ -21,8 +22,16 @@ import {
 
 const CreateChainPage = () => {
   const { team } = useTeamContext()
-  const { form, updateForm, handleDeselectAllIntegrations } =
-    useChainCreationForm()
+  const {
+    form,
+    updateForm,
+    handleIntegrationToggle,
+    handleDeselectAllIntegrations,
+    handleSubmit,
+    submitButtonText,
+  } = useChainCreationForm()
+
+  const isDevnet = form.networkType === "devnet"
 
   const handleNetworkTypeSelect = (type: NetworkType) => {
     updateForm("networkType", type)
@@ -48,26 +57,8 @@ const CreateChainPage = () => {
     updateForm("baseToken", token.id)
   }
 
-  const isDevnet = form.networkType === "devnet"
-
   const handleGasMechanicsSelect = (mechanic: GasMechanics) => {
     updateForm("gasMechanics", mechanic)
-  }
-
-  const integrationOptions: Integration[] = [
-    "onramp",
-    "oracle",
-    "bridge_widget",
-    "cex_withdrawals_widget",
-  ]
-
-  const handleIntegrationToggle = (integration: Integration) => {
-    updateForm(
-      "integrations",
-      form.integrations.includes(integration)
-        ? form.integrations.filter((i) => i !== integration)
-        : [...form.integrations, integration],
-    )
   }
 
   return (
@@ -224,7 +215,91 @@ const CreateChainPage = () => {
                       title="Name your chain"
                       description="Unique identifiers will primarily be relevant for internal use to ensure distinction between your chain deployments."
                     >
-                      f
+                      <div
+                        className={`grid ${
+                          isDevnet
+                            ? "grid-cols-2 space-x-4"
+                            : "grid-cols-1 space-y-4"
+                        } `}
+                      >
+                        <RoundedBox>
+                          <label
+                            htmlFor="chainName"
+                            className="block mb-2 font-semibold"
+                          >
+                            Chain name
+                          </label>
+                          <input
+                            type="text"
+                            id="chainName"
+                            value={form.chainName}
+                            onChange={(e) =>
+                              updateForm("chainName", e.target.value)
+                            }
+                            className="w-full p-2 border border-slate-300 rounded"
+                            placeholder="Enter chain name"
+                          />
+                          <div className="text-sm text-slate-500 mt-2">
+                            Set the name that your chain will appear as on
+                            Aurora Cloud platform.
+                          </div>
+                        </RoundedBox>
+                        {isDevnet ? (
+                          <RoundedBox>
+                            <label
+                              htmlFor="chainId"
+                              className="block mb-2 font-semibold"
+                            >
+                              Chain ID
+                            </label>
+                            <input
+                              type="text"
+                              id="chainId"
+                              value={form.chainId}
+                              onChange={(e) =>
+                                updateForm("chainId", e.target.value)
+                              }
+                              className="w-full p-2 border border-slate-300 rounded"
+                              placeholder="Enter chain ID"
+                            />
+                            <div className="text-sm text-slate-500 mt-2">
+                              Enter a unique number to identify your chain with.
+                            </div>
+                          </RoundedBox>
+                        ) : (
+                          <RoundedBox>
+                            <label
+                              htmlFor="comments"
+                              className="block mb-2 font-semibold"
+                            >
+                              Tell us more about your needs
+                            </label>
+                            <textarea
+                              id="comments"
+                              value={form.comments}
+                              onChange={(e) =>
+                                updateForm("comments", e.target.value)
+                              }
+                              className="w-full p-2 border border-slate-300 rounded"
+                              placeholder="Tell us about your specific requirements or any questions you have"
+                              rows={4}
+                            />
+                            <div className="text-sm text-slate-500 mt-2">
+                              Provide any relevant information related to your
+                              request that will help us better prepare for our
+                              call.
+                            </div>
+                          </RoundedBox>
+                        )}
+                      </div>
+
+                      <Button
+                        className="w-full my-10 py-8 text-2xl"
+                        size="lg"
+                        onClick={handleSubmit}
+                      >
+                        {submitButtonText}
+                      </Button>
                     </Step>
                   </>
                 )}
