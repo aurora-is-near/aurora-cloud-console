@@ -1,4 +1,4 @@
-import { ComponentType, useState } from "react"
+import { ComponentType, useCallback, useState } from "react"
 import {
   AuroraToken,
   Bitcoin,
@@ -26,10 +26,10 @@ export interface TokenOption {
 
 export const tokenOptions: TokenOption[] = [
   { id: "aurora", name: "Aurora", icon: AuroraToken },
+  { id: "eth", name: "ETH", icon: EtherToken },
   { id: "usdt", name: "USDT", icon: USDTToken },
   { id: "usdc", name: "USDC", icon: USDCToken },
   { id: "btc", name: "BTC", icon: Bitcoin },
-  { id: "eth", name: "ETH", icon: EtherToken },
   { id: "custom", name: "My Token", icon: CustomToken },
 ]
 
@@ -61,8 +61,30 @@ export const useChainCreationForm = () => {
     setForm((prevForm) => ({ ...prevForm, [field]: value }))
   }
 
+  const handleIntegrationToggle = useCallback(() => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      integrations:
+        prevForm.integrations.length > 0
+          ? []
+          : ["onramp", "oracle", "bridge_widget", "cex_withdrawals_widget"],
+    }))
+  }, [])
+
+  const integrationEnabled = form.integrations.length > 0
+
+  const handleDeselectAllIntegrations = useCallback(() => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      integrations: [],
+    }))
+  }, [])
+
   return {
     form,
     updateForm,
+    handleIntegrationToggle,
+    integrationEnabled,
+    handleDeselectAllIntegrations,
   }
 }

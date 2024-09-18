@@ -1,5 +1,7 @@
 import React, { ComponentType } from "react"
 import RoundedBox from "@/app/dashboard_v2/[teamKey]/create_chain/RoundedBox"
+import { Toggle } from "@/components/Toggle"
+import { Button } from "@/components/Button"
 import { Integration } from "./useChainCreationForm"
 import {
   IntegrationBridgeWidget,
@@ -10,9 +12,15 @@ import {
 
 interface IntegrationBoxProps {
   integration: Integration
+  isEnabled: boolean
+  onToggle: () => void
 }
 
-const IntegrationBox: React.FC<IntegrationBoxProps> = ({ integration }) => {
+const IntegrationBox: React.FC<IntegrationBoxProps> = ({
+  integration,
+  isEnabled,
+  onToggle,
+}) => {
   const getTitle = (int: Integration) => {
     switch (int) {
       case "onramp":
@@ -67,10 +75,21 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({ integration }) => {
   return (
     <RoundedBox className="w-full p-4">
       <div className="flex items-center mb-2">
-        {Icon && <Icon />}
-        <div>
-          <h3 className="font-semibold text-base">{getTitle(integration)}</h3>
-          <p className="text-sm">{getDescription(integration)}</p>
+        {Icon && <Icon className="w-14 h-10" />}
+        <div className="w-full px-3">
+          <h3 className="font-semibold text-xl text-slate-900 tracking-tighter">
+            {getTitle(integration)}
+          </h3>
+          <p className="text-sm text-slate-700">
+            {getDescription(integration)}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <Button variant="border" className="text-sm">
+            Learn more
+          </Button>
+          <Toggle checked={isEnabled} onChange={onToggle} />
         </div>
       </div>
     </RoundedBox>

@@ -12,6 +12,7 @@ interface ChainPermissionBoxProps {
   onClick: () => void
   selected: boolean
   disabled?: boolean
+  isDevnet?: boolean
 }
 
 const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
@@ -19,6 +20,7 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
   onClick,
   selected,
   disabled = false,
+  isDevnet = false,
 }) => {
   const getTitle = (perm: ChainPermission) => {
     switch (perm) {
@@ -38,7 +40,9 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
       case "public":
         return "Anyone can freely interact and deploy contracts on your chain."
       case "public_permissioned":
-        return "Select who can interact or deploy contracts on your chain."
+        return isDevnet
+          ? "On devnet, permissions are set to public permissioned by default."
+          : "You decide who can interact and deploy contracts on your chain."
       case "private":
         return "A permissionned chain with fully private data."
       default:

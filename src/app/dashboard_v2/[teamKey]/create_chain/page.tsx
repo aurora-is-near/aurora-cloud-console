@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
 import { useTeamContext } from "@/contexts/TeamContext"
 import Step from "@/app/dashboard_v2/[teamKey]/create_chain/Step"
 import ChainTypeBox from "@/app/dashboard_v2/[teamKey]/create_chain/ChainTypeBox"
@@ -20,17 +19,24 @@ import {
   useChainCreationForm,
 } from "./useChainCreationForm"
 
-const Page = () => {
+const CreateChainPage = () => {
   const { team } = useTeamContext()
-  const { form, updateForm } = useChainCreationForm()
-  const [selectedIntegrations, setSelectedIntegrations] = useState<string[]>([])
+  const { form, updateForm, handleDeselectAllIntegrations } =
+    useChainCreationForm()
 
   const handleNetworkTypeSelect = (type: NetworkType) => {
     updateForm("networkType", type)
 
-    // If devnet is selected, automatically set chainPermission to public_permissioned
     if (type === "devnet") {
       updateForm("chainPermission", "public_permissioned")
+      updateForm("baseToken", "eth")
+      updateForm("gasMechanics", "free")
+      updateForm("integrations", [
+        "onramp",
+        "oracle",
+        "bridge_widget",
+        "cex_withdrawals_widget",
+      ])
     }
   }
 
@@ -48,24 +54,21 @@ const Page = () => {
     updateForm("gasMechanics", mechanic)
   }
 
-  const handleDeselectAll = () => {
-    setSelectedIntegrations([])
-  }
-
-  const handleIntegrationToggle = (integration: Integration) => {
-    const newIntegrations = form.integrations.includes(integration)
-      ? form.integrations.filter((i) => i !== integration)
-      : [...form.integrations, integration]
-
-    updateForm("integrations", newIntegrations)
-  }
-
   const integrationOptions: Integration[] = [
     "onramp",
     "oracle",
     "bridge_widget",
     "cex_withdrawals_widget",
   ]
+
+  const handleIntegrationToggle = (integration: Integration) => {
+    updateForm(
+      "integrations",
+      form.integrations.includes(integration)
+        ? form.integrations.filter((i) => i !== integration)
+        : [...form.integrations, integration],
+    )
+  }
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-slate-50 flex flex-col">
@@ -121,6 +124,7 @@ const Page = () => {
                         handleChainPermissionSelect("public_permissioned")
                       }
                       selected={form.chainPermission === "public_permissioned"}
+                      isDevnet={isDevnet}
                     />
                     <ChainPermissionBox
                       permission="private"
@@ -130,83 +134,100 @@ const Page = () => {
                     />
                   </div>
                 </Step>
-                <Step
-                  number={3}
-                  title="Select the base token of your chain"
-                  description="The base token of your chain will be used to pay for transaction fees on your chain. It supports any ERC-20 or NEP-141 token, including your own custom token."
-                >
-                  <div className="grid grid-cols-6 gap-4">
-                    {tokenOptions.map((token) => (
-                      <SelectableBox
-                        key={token.id}
-                        selected={form.baseToken === token.id}
-                        onClick={() => handleBaseTokenSelect(token)}
-                        className="p-2 pt-3"
-                      >
-                        <div className="flex flex-col items-center space-y-2">
-                          <token.icon className="w-10 h-10" />
-                          <span className="uppercase text-base font-bold leading-5 tracking-[1px]">
-                            {token.name}
-                          </span>
-                        </div>
-                      </SelectableBox>
-                    ))}
-                  </div>
-                </Step>
-                <Step
-                  number={4}
-                  title="Define the gas mechanics"
-                  description="Aurora Cloud lets you define your chain's gas mechanics, including the option to remove gas fees entirely for your customers."
-                >
-                  <div className="flex flex-row space-x-4">
-                    <GasMechanicsBox
-                      mechanic="usage"
-                      onClick={() => handleGasMechanicsSelect("usage")}
-                      selected={form.gasMechanics === "usage"}
-                    />
-                    <GasMechanicsBox
-                      mechanic="free"
-                      onClick={() => handleGasMechanicsSelect("free")}
-                      selected={form.gasMechanics === "free"}
-                    />
-                    <GasMechanicsBox
-                      mechanic="custom"
-                      onClick={() => handleGasMechanicsSelect("custom")}
-                      selected={form.gasMechanics === "custom"}
-                    />
-                  </div>
-                </Step>
-                <Step
-                  number={5}
-                  title="Integrations"
-                  description="These integrations are available from day 1 on your chain."
-                  actionButton={
-                    <Button
-                      type="button"
-                      variant="border"
-                      onClick={handleDeselectAll}
-                      className="text-sm"
-                    >
-                      Deselect All
-                    </Button>
-                  }
-                >
-                  <div className="flex flex-col space-y-4">
-                    {integrationOptions.map((integration) => (
-                      <IntegrationBox
-                        key={integration}
-                        integration={integration}
+                {form.chainPermission && (
+                  <Step
+                    frozen={isDevnet}
+                    number={3}
+                    title="Select the base token of your chain"
+                    description="The base token of your chain will be used to pay for transaction fees on your chain. It supports any ERC-20 or NEP-141 token, including your own custom token."
+                  >
+                    <div className="grid grid-cols-6 gap-4">
+                      {tokenOptions.map((token) => (
+                        <SelectableBox
+                          key={token.id}
+                          selected={form.baseToken === token.id}
+                          onClick={() => handleBaseTokenSelect(token)}
+                          className="p-2 pt-3"
+                        >
+                          <div className="flex flex-col items-center space-y-2">
+                            <token.icon className="w-10 h-10" />
+                            <span className="uppercase text-base font-bold leading-5 tracking-[1px]">
+                              {token.name}
+                            </span>
+                          </div>
+                        </SelectableBox>
+                      ))}
+                    </div>
+                  </Step>
+                )}
+                {form.baseToken && (
+                  <Step
+                    frozen={isDevnet}
+                    number={4}
+                    title="Define the gas mechanics"
+                    description="Aurora Cloud lets you define your chain's gas mechanics, including the option to remove gas fees entirely for your customers."
+                  >
+                    <div className="flex flex-row space-x-4">
+                      <GasMechanicsBox
+                        mechanic="usage"
+                        onClick={() => handleGasMechanicsSelect("usage")}
+                        selected={form.gasMechanics === "usage"}
                       />
-                    ))}
-                  </div>
-                </Step>
-                <Step
-                  number={6}
-                  title="Name your chain"
-                  description="Unique identifiers will primarily be relevant for internal use to ensure distinction between your chain deployments."
-                >
-                  f
-                </Step>
+                      <GasMechanicsBox
+                        mechanic="free"
+                        onClick={() => handleGasMechanicsSelect("free")}
+                        selected={form.gasMechanics === "free"}
+                      />
+                      <GasMechanicsBox
+                        mechanic="custom"
+                        onClick={() => handleGasMechanicsSelect("custom")}
+                        selected={form.gasMechanics === "custom"}
+                      />
+                    </div>
+                  </Step>
+                )}
+                {form.gasMechanics && (
+                  <>
+                    <Step
+                      frozen={isDevnet}
+                      number={5}
+                      title="Integrations"
+                      description="These integrations are available from day 1 on your chain."
+                      actionButton={
+                        form.integrations.length > 0 ? (
+                          <Button
+                            type="button"
+                            variant="border"
+                            className="text-sm"
+                            onClick={handleDeselectAllIntegrations}
+                          >
+                            Deselect All
+                          </Button>
+                        ) : null
+                      }
+                    >
+                      <div className="flex flex-col space-y-4">
+                        {integrationOptions.map((integration) => (
+                          <IntegrationBox
+                            key={integration}
+                            integration={integration}
+                            isEnabled={form.integrations.includes(integration)}
+                            onToggle={() =>
+                              handleIntegrationToggle(integration)
+                            }
+                          />
+                        ))}
+                      </div>
+                    </Step>
+                    <Step
+                      number={6}
+                      title="Name your chain"
+                      description="Unique identifiers will primarily be relevant for internal use to ensure distinction between your chain deployments."
+                    >
+                      f
+                    </Step>
+                  </>
+                )}
               </>
             )}
             <div className="absolute top-[calc(2rem+10px)] left-4 w-[2px] h-[calc(100%-2rem-10px)] bg-slate-200" />
@@ -217,4 +238,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default CreateChainPage
