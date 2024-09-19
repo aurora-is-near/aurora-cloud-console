@@ -1,7 +1,9 @@
 "use client"
 
+import EmptyState from "@/app/dashboard_v2/[teamKey]/onramp/EmptyState"
+
 const Page = () => {
-  return <div>Onramp</div>
+  return <EmptyState />
 }
 
 export default Page

@@ -4,6 +4,7 @@ export { default as Partner3 } from "./Partner3.svg"
 export { default as External } from "./external.svg"
 export { default as RainbowBridge } from "./rainbow_bridge_logo.svg"
 export { default as Pyth } from "./pyth.svg"
+export { default as Blockscout } from "./blockscout.svg"
 
 export { default as MarketPyth } from "./marketplace/pyth.svg"
 export { default as Kyc } from "./marketplace/kyc.svg"

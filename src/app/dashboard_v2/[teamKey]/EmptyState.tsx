@@ -73,7 +73,7 @@ const EmptyState = () => {
           your chain, freeing up your time and resources to focus on what really
           matters: your dApp!"
           button={{
-            path: `/dashboard/${team.team_key}/create_chain`,
+            path: `/dashboard_v2/${team.team_key}/create_chain`,
             text: "Create Aurora Chain",
             icon: <IconPlus className="h-4 w-4" />,
           }}

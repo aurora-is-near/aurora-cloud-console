@@ -32,14 +32,14 @@ const AboutTab = () => {
   )
 }
 
-const ConfigurationTab = () => {
-  return <div>Config</div>
-}
+// const ConfigurationTab = () => {
+//   return <div>Config</div>
+// }
 
 const Page = () => {
   const tabs = [
     { title: "About", content: <AboutTab /> },
-    { title: "Configuration", content: <ConfigurationTab /> },
+    // { title: "Configuration", content: <ConfigurationTab /> },
   ]
 
   return (
@@ -55,7 +55,7 @@ const Page = () => {
           <Image
             width="48"
             height="48"
-            src="/static/v2/images/feature/oracle.svg"
+            src="/static/v2/images/icons/marketplace/oracle.svg"
             alt="Oracle Logo"
           />
         }

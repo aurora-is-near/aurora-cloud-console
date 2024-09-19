@@ -1,11 +1,16 @@
+"use client"
+
+import Link from "next/link"
 import { Button } from "@/components/Button"
 import GasAbstractionHero from "@/app/dashboard_v2/[teamKey]/gas_abstraction/GasAbstractionHero"
-import { Team } from "@/types/types"
+import { useTeamContext } from "@/contexts/TeamContext"
 
-const EmptyState = ({ team }: { team: Team }) => {
+const EmptyState = () => {
+  const { team } = useTeamContext()
+
   return (
     <div className="divide-y flex flex-col gap-10">
-      <GasAbstractionHero team={team} deals={[]} />
+      <GasAbstractionHero />
       <div className="flex flex-col pt-10 gap-5">
         <span className="text-2xl text-slate-900 font-bold">
           Your Gas Plans
@@ -21,9 +26,11 @@ const EmptyState = ({ team }: { team: Team }) => {
             </span>
           </div>
           <div className="self-center">
-            <Button size="sm" variant="border">
-              Create chain
-            </Button>
+            <Link href={`/dashboard_v2/${team.team_key}/create_chain`}>
+              <Button size="sm" variant="border">
+                Create chain
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

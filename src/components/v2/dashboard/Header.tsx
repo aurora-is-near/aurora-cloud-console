@@ -1,11 +1,13 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
-import { getCurrentUser } from "@/actions/current-user/get-current-user"
-import { getTeams } from "@/actions/teams/get-teams"
-import { isAdmin } from "@/actions/is-admin"
 import AuroraLogo from "@/components/v2/AuroraLogo"
+import { useTeamContext } from "@/contexts/TeamContext"
 
 const SetupAlert = () => {
+  const { team } = useTeamContext()
+
   return (
     <div className="flex flex-row w-full bg-slate-600">
       <div className="flex flex-row w-full justify-between py-2">
@@ -14,7 +16,7 @@ const SetupAlert = () => {
           You're currently viewing test data and configurations. Set up your own
           devnet or mainnet chain to get started.
         </span>
-        <Link href="/src/app/dashboard_v2/setup">
+        <Link href={`/dashboard_v2/${team.team_key}/create_chain`}>
           <div className="flex flex-row gap-2 mx-3 text-slate-100">
             Setup chain
             <Image
@@ -30,16 +32,12 @@ const SetupAlert = () => {
   )
 }
 
-const Header = async () => {
-  const [_currentUser, teams, _isAdminUser] = await Promise.all([
-    getCurrentUser(),
-    getTeams(),
-    isAdmin(),
-  ])
+const Header = () => {
+  const { silos } = useTeamContext()
 
   return (
     <>
-      {teams?.length && <SetupAlert />}
+      {silos.length === 0 && <SetupAlert />}
       <div className="flex flex-row w-full lg:bg-slate-900 lg:px-4 lg:py-4">
         <AuroraLogo />
       </div>

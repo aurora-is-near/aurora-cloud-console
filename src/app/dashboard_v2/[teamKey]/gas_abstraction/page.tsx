@@ -14,7 +14,7 @@ const GasAbstractionPage = () => {
     <div>
       {deals.length > 0 ? (
         <div className="divide-y flex flex-col gap-10">
-          <GasAbstractionHero team={team} deals={deals} />
+          <GasAbstractionHero />
           <div className="flex flex-col pt-10 gap-5">
             <SubTitle>Your gas plans</SubTitle>
             <DealList team={team} deals={deals} />
@@ -28,7 +28,7 @@ const GasAbstractionPage = () => {
           </div>
         </div>
       ) : (
-        <EmptyState team={team} />
+        <EmptyState />
       )}
     </div>
   )

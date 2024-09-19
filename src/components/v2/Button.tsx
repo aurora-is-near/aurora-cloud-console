@@ -27,8 +27,8 @@ const Button: React.FC<ButtonProps> = ({
   const active = path === pathname
 
   const overriddenClassName = `
-    group rounded-lg text-md flex flex-row items-center gap-2 p-2 hover:bg-slate-100
-    ${icon ? "pr-5 font-semibold " : "px-5 font-normal"} 
+    group rounded-lg text-md flex flex-row items-center gap-2 p-2
+    ${icon ? "pr-5 font-semibold " : "px-5 font-normal"}
     ${className} ${active && "bg-slate-100 text-slate-900"}
   `
 
@@ -63,7 +63,7 @@ const Button: React.FC<ButtonProps> = ({
         <div
           className={`
           w-[30px] h-[30px] flex items-center justify-center
-          ${activeIconStyles} 
+          ${activeIconStyles}
           ${bordered && borderedIconStyles}
         `}
         >

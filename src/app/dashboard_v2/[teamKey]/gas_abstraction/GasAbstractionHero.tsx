@@ -1,13 +1,11 @@
+"use client"
+
 import Image from "next/image"
-import { Deal, Team } from "@/types/types"
 import Hero from "@/components/v2/dashboard/Hero"
+import { useTeamContext } from "@/contexts/TeamContext"
 
-interface GasAbstractionHeroProps {
-  team: Team
-  deals: Deal[]
-}
-
-const GasAbstractionHero = ({ team, deals }: GasAbstractionHeroProps) => {
+const GasAbstractionHero = () => {
+  const { team, deals } = useTeamContext()
   const buttonText = deals.length > 0 ? "New plan" : "Create plan"
 
   return (
@@ -22,7 +20,7 @@ const GasAbstractionHero = ({ team, deals }: GasAbstractionHeroProps) => {
         <Image
           width="180"
           height="180"
-          src="/static/v2/images/heroIcons/gas.png"
+          src="/static/v2/images/heroIcons/onramp.png"
           alt="Aurora Cloud"
         />
       }

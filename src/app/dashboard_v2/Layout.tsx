@@ -13,7 +13,7 @@ const Layout = ({ children }: LayoutProps) => {
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
         <LeftMenu />
         <div className="flex justify-center w-full h-full overflow-x-hidden overflow-y-auto">
-          <div className="w-full max-w-[980px] py-6">{children}</div>
+          <div className="w-full max-w-[980px] py-10">{children}</div>
         </div>
       </div>
     </div>

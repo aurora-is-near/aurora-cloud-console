@@ -1,6 +1,7 @@
 "use client"
 
 import { ReactNode } from "react"
+import Link from "next/link"
 import Button from "@/components/v2/Button"
 
 interface AuroraButtonProps
@@ -12,18 +13,20 @@ interface AuroraButtonProps
 }
 
 const AuroraButton = ({ path, ...props }: AuroraButtonProps) => {
-  return (
+  const buttonContent = (
     <Button
       className={`${
         path
           ? "bg-green-400 hover:bg-green-500 text-slate-900"
-          : "bg-slate-200 text-slate-500 font-normal"
+          : "bg-green-400 text-slate-500 font-normal"
       }`}
       {...props}
     >
       {props.children}
     </Button>
   )
+
+  return path ? <Link href={path}>{buttonContent}</Link> : buttonContent
 }
 
 export default AuroraButton
