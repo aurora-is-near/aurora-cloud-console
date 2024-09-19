@@ -1,15 +1,16 @@
 "use client"
 
 import Link from "next/link"
+import { XMarkIcon } from "@heroicons/react/20/solid"
 import { useTeamContext } from "@/contexts/TeamContext"
 import Step from "@/app/dashboard_v2/[teamKey]/create_chain/Step"
 import ChainTypeBox from "@/app/dashboard_v2/[teamKey]/create_chain/ChainTypeBox"
 import ChainPermissionBox from "@/app/dashboard_v2/[teamKey]/create_chain/ChainPermissionBox"
-import SelectableBox from "@/app/dashboard_v2/[teamKey]/create_chain/SelectableBox"
+import SelectableBox from "@/components/v2/dashboard/SelectableBox"
 import GasMechanicsBox from "@/app/dashboard_v2/[teamKey]/create_chain/GasMechanicsBox"
 import IntegrationBox from "@/app/dashboard_v2/[teamKey]/create_chain/IntegrationBox"
 import { Button } from "@/components/Button"
-import RoundedBox from "@/app/dashboard_v2/[teamKey]/create_chain/RoundedBox"
+import RoundedBox from "@/components/v2/dashboard/RoundedBox"
 import {
   ChainPermission,
   GasMechanics,
@@ -67,7 +68,7 @@ const CreateChainPage = () => {
         <div />
         <span>Set up your Aurora Chain</span>
         <Link href={`/dashboard_v2/${team.team_key}`}>
-          <span>+</span>
+          <XMarkIcon className="w-6 h-6" />
         </Link>
       </div>
       <div className="flex mt-10 justify-center w-full h-full overflow-x-hidden overflow-y-auto">
@@ -82,14 +83,14 @@ const CreateChainPage = () => {
                 <ChainTypeBox
                   title="Devnet"
                   description="Get access to a shared Aurora Chain that is an exact replica of the production chain."
-                  type="free"
+                  type="devnet"
                   onClick={() => handleNetworkTypeSelect("devnet")}
                   selected={form.networkType === "devnet"}
                 />
                 <ChainTypeBox
                   title="Mainnet"
                   description="A production ready Aurora Chain with all the functionalities to start building dapps."
-                  type="enterprise"
+                  type="mainnet"
                   onClick={() => handleNetworkTypeSelect("mainnet")}
                   selected={form.networkType === "mainnet"}
                 />
@@ -222,10 +223,10 @@ const CreateChainPage = () => {
                             : "grid-cols-1 space-y-4"
                         } `}
                       >
-                        <RoundedBox>
+                        <RoundedBox className="p-6">
                           <label
                             htmlFor="chainName"
-                            className="block mb-2 font-semibold"
+                            className="block mb-2 font-semibold text-xl"
                           >
                             Chain name
                           </label>
@@ -245,10 +246,10 @@ const CreateChainPage = () => {
                           </div>
                         </RoundedBox>
                         {isDevnet ? (
-                          <RoundedBox>
+                          <RoundedBox className="p-6">
                             <label
                               htmlFor="chainId"
-                              className="block mb-2 font-semibold"
+                              className="block mb-2 font-semibold text-xl"
                             >
                               Chain ID
                             </label>
@@ -267,10 +268,10 @@ const CreateChainPage = () => {
                             </div>
                           </RoundedBox>
                         ) : (
-                          <RoundedBox>
+                          <RoundedBox className="p-6">
                             <label
                               htmlFor="comments"
-                              className="block mb-2 font-semibold"
+                              className="block mb-2 font-semibold text-xl"
                             >
                               Tell us more about your needs
                             </label>
@@ -305,7 +306,7 @@ const CreateChainPage = () => {
                 )}
               </>
             )}
-            <div className="absolute top-[calc(2rem+10px)] left-4 w-[2px] h-[calc(100%-2rem-10px)] bg-slate-200" />
+            <div className="absolute top-[calc(2rem+10px)] left-[19px] w-[2px] h-[calc(100%-2rem-10px)] bg-slate-200" />
           </div>
         </div>
       </div>

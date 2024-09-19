@@ -1,6 +1,6 @@
 import React, { ComponentType } from "react"
 import { FireIcon, SparklesIcon, StarIcon } from "@heroicons/react/20/solid"
-import SelectableBox from "./SelectableBox"
+import SelectableBox from "../../../../components/v2/dashboard/SelectableBox"
 import { GasMechanics } from "./useChainCreationForm"
 
 interface GasMechanicsBoxProps {
@@ -47,9 +47,9 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
       case "usage":
         return FireIcon as ComponentType<React.SVGProps<SVGSVGElement>>
       case "custom":
-        return StarIcon as ComponentType<React.SVGProps<SVGSVGElement>>
-      case "free":
         return SparklesIcon as ComponentType<React.SVGProps<SVGSVGElement>>
+      case "free":
+        return StarIcon as ComponentType<React.SVGProps<SVGSVGElement>>
       default:
         return null
     }
@@ -64,9 +64,9 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
       className="w-full p-6"
       disabled={disabled}
     >
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-2">
         <div
-          className={`bg-gray-100 p-2 rounded-full mr-4 ${
+          className={`bg-gray-100 p-1 rounded-full mr-2 ${
             selected ? "text-slate-50 bg-slate-900" : "text-slate-900"
           }`}
         >
@@ -74,7 +74,7 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
         </div>
         <h3 className="font-semibold text-lg">{getTitle(mechanic)}</h3>
       </div>
-      <p className="text-sm">{getDescription(mechanic)}</p>
+      <p className="text-sm text-slate-700">{getDescription(mechanic)}</p>
     </SelectableBox>
   )
 }

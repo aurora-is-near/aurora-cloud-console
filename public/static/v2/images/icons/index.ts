@@ -35,3 +35,5 @@ export { default as IntegrationOracle } from "./integrations/oracle.svg"
 export { default as IntegrationBridgeWidget } from "./integrations/bridge.svg"
 export { default as IntegrationCexWithdrawalsWidget } from "./integrations/cex_withdrawals.svg"
 export { default as IntegrationOnramp } from "./integrations/onramp.svg"
+
+export { default as WarningOctagon } from "./warning_octagon.svg"

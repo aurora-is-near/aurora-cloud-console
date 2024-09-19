@@ -6,7 +6,7 @@ interface StepProps {
   description: string
   children: React.ReactNode
   actionButton?: React.ReactNode
-  frozen?: boolean // New prop
+  frozen?: boolean
 }
 
 const Step: React.FC<StepProps> = ({
@@ -15,23 +15,23 @@ const Step: React.FC<StepProps> = ({
   description,
   children,
   actionButton,
-  frozen = false, // Default to false
+  frozen = false,
 }) => {
   return (
     <div className={`mb-8 flex ${frozen ? "pointer-events-none" : ""}`}>
-      <div className="relative w-8 h-8 mr-4 flex-shrink-0 z-10">
+      <div className="relative w-10 h-10 mr-4 flex-shrink-0 z-10">
         <div
           className="absolute inset-0 bg-slate-50 rounded-full"
           style={{ transform: "scale(1.5)" }}
         />
-        <div className="absolute inset-0 bg-slate-900 text-white rounded-full flex items-center justify-center">
+        <div className="absolute inset-0 bg-slate-900 text-white text-lg font-semibold rounded-full flex items-center justify-center">
           {number}
         </div>
       </div>
       <div className="w-full">
         <div className="flex justify-between items-start mb-1">
           <div className="flex flex-col">
-            <h2 className="text-2xl tracking-tighter font-semibold text-slate-900">
+            <h2 className="text-2xl tracking-[-1px] font-semibold text-slate-900">
               {title}
             </h2>
             <p className="text-slate-500 mb-4">{description}</p>

@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react"
-import SelectableBox from "./SelectableBox"
+import SelectableBox from "../../../../components/v2/dashboard/SelectableBox"
 import { ChainPermission } from "./useChainCreationForm"
 import {
   ChainPrivate,
@@ -74,15 +74,17 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
       className="w-full p-6"
       disabled={disabled}
     >
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-2">
         <div
-          className={`bg-gray-100 p-2 rounded-full mr-4 ${
+          className={`bg-gray-100 p-2 rounded-full mr-2 ${
             selected ? "text-slate-900" : "text-slate-500"
           }`}
         >
           {Icon && <Icon />}
         </div>
-        <h3 className="font-semibold text-lg">{getTitle(permission)}</h3>
+        <h3 className="font-semibold text-xl tracking-[-1px]">
+          {getTitle(permission)}
+        </h3>
       </div>
       <p className="text-sm">{getDescription(permission)}</p>
     </SelectableBox>

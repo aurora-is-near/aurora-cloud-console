@@ -1,5 +1,5 @@
 import React, { ComponentType } from "react"
-import RoundedBox from "@/app/dashboard_v2/[teamKey]/create_chain/RoundedBox"
+import RoundedBox from "@/components/v2/dashboard/RoundedBox"
 import { Toggle } from "@/components/Toggle"
 import { Button } from "@/components/Button"
 import { Integration } from "./useChainCreationForm"
@@ -39,13 +39,13 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
   const getDescription = (int: Integration) => {
     switch (int) {
       case "onramp":
-        return "Enable fiat to crypto conversions for your users."
+        return "Enable your users to onramp from fiat to crypto directly on your chain."
       case "oracle":
-        return "Access real-world data and off-chain computation."
+        return "Fuel your smart contracts with reliable, low-latency market data from institutional sources."
       case "bridge_widget":
-        return "Allow users to bridge assets between chains."
+        return "Attract liquidity by enabling bridging from other chains and transfers from CEXes to your chain."
       case "cex_withdrawals_widget":
-        return "Enable withdrawals from centralized exchanges."
+        return "Allow your users to deposit assets directly from centralized exchanges to your chain."
       default:
         return "Unknown"
     }

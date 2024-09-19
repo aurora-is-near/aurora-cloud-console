@@ -12,8 +12,7 @@ const RoundedBox: React.FC<RoundedBoxProps> = ({
   className,
   ...props
 }) => {
-  const baseClasses =
-    "rounded-lg border border-slate-300 bg-white p-4 transition-all duration-200"
+  const baseClasses = "rounded-lg border border-slate-300 bg-white p-4"
 
   const disabledClasses = disabled ? "opacity-50" : ""
 

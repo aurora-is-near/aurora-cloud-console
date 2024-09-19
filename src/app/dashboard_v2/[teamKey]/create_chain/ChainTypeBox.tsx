@@ -1,10 +1,12 @@
 import React from "react"
-import SelectableBox from "./SelectableBox"
+import { NetworkType } from "@/app/dashboard_v2/[teamKey]/create_chain/useChainCreationForm"
+import SelectableBox from "../../../../components/v2/dashboard/SelectableBox"
+import { WarningOctagon } from "../../../../../public/static/v2/images/icons"
 
 interface ChainTypeBoxProps {
   title: string
   description: string
-  type: "free" | "enterprise"
+  type: NetworkType
   onClick: () => void
   selected: boolean
 }
@@ -37,10 +39,21 @@ const ChainTypeBox: React.FC<ChainTypeBoxProps> = ({
       className="w-[50%] p-6"
     >
       <div className="flex flex-row justify-between items-start">
-        <h3 className="font-semibold text-lg mb-2 text-slate-900">{title}</h3>
-        <Label type={type} />
+        <h3 className="font-semibold mb-2 text-slate-900 text-xl tracking-[-1px]">
+          {title}
+        </h3>
+        <Label type={type === "devnet" ? "free" : "enterprise"} />
       </div>
       <p className="text-sm text-gray-600">{description}</p>
+      {type === "devnet" && (
+        <div className="flex flex-row items-start mt-2">
+          <WarningOctagon className="w-5 h-4 mr-[5px]" />
+          <p className="text-xs text-slate-500">
+            Devnet is limited in functionalities and native assets cannot be
+            bridged out.
+          </p>
+        </div>
+      )}
     </SelectableBox>
   )
 }
