@@ -1,5 +1,13 @@
+import {
+  ArrowLeftIcon,
+  CreditCardIcon,
+  InformationCircleIcon,
+  UserIcon,
+  UsersIcon,
+} from "@heroicons/react/20/solid"
 import Button from "@/components/v2/Button"
-import { EnvironmentSelector } from "./EnvironmentSelector"
+import SignoutButton from "@/components/menu/SignoutButton"
+// import { EnvironmentSelector } from "./EnvironmentSelector"
 
 import {
   IconBlockExplorer,
@@ -18,7 +26,7 @@ export const mainMenuButtons = (teamKey?: string) => {
   }
 
   return [
-    <EnvironmentSelector key="EnvironmentSelector" />,
+    // <EnvironmentSelector key="EnvironmentSelector" />,
     <Button
       className="text-slate-500"
       title="Dashboard"
@@ -87,5 +95,50 @@ export const stackMenuButtons = (teamKey?: string) => {
       bordered
       icon={<IconBlockExplorer className="h-7 w-7" />}
     />,
+  ]
+}
+
+export const settingsMenuButtons = (teamKey?: string) => {
+  if (!teamKey) {
+    return []
+  }
+
+  return [
+    <Button
+      className="text-slate-500"
+      title="Billing"
+      key="Billing"
+      path={`/dashboard_v2/${teamKey}/settings/billing`}
+      icon={<CreditCardIcon className="h-6 w-6" />}
+    />,
+    <Button
+      className="text-slate-500"
+      title="Teammates"
+      key="Teammates"
+      path={`/dashboard_v2/${teamKey}/settings/team`}
+      icon={<UsersIcon className="h-6 w-6" />}
+    />,
+    <Button
+      className="text-slate-500"
+      title="Company"
+      key="Company"
+      path={`/dashboard_v2/${teamKey}/settings/company`}
+      icon={<InformationCircleIcon className="h-6 w-6" />}
+    />,
+    <Button
+      className="text-slate-500"
+      title="Account"
+      key="Account"
+      path={`/dashboard_v2/${teamKey}/settings/account`}
+      icon={<UserIcon className="h-6 w-6" />}
+    />,
+    <Button
+      className="text-slate-500 mt-3 pt-6 border-t border-slate-200"
+      title="Dashboard"
+      key="Dashboard"
+      path={`/dashboard_v2/${teamKey}`}
+      icon={<ArrowLeftIcon className="h-6 w-6" />}
+    />,
+    <SignoutButton key="SignoutButton" />,
   ]
 }

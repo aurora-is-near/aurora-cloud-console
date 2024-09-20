@@ -2,8 +2,12 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { useEffect, useState } from "react"
+import { Cog6ToothIcon } from "@heroicons/react/24/outline"
 import AuroraLogo from "@/components/v2/AuroraLogo"
 import { useTeamContext } from "@/contexts/TeamContext"
+import { isAdmin } from "@/actions/is-admin"
+import SignoutButton from "@/components/v2/SignoutButton"
 
 const SetupAlert = () => {
   const { team } = useTeamContext()
@@ -33,13 +37,34 @@ const SetupAlert = () => {
 }
 
 const Header = () => {
-  const { silos } = useTeamContext()
+  const { silos, team } = useTeamContext()
+  const [isAdminUser, setIsAdminUser] = useState(false)
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      try {
+        const adminStatus = await isAdmin()
+
+        setIsAdminUser(adminStatus)
+      } catch (error) {
+        console.error("Error checking admin status:", error)
+      }
+    }
+
+    void checkAdminStatus()
+  }, [])
 
   return (
     <>
       {silos.length === 0 && <SetupAlert />}
-      <div className="flex flex-row w-full lg:bg-slate-900 lg:px-4 lg:py-4">
+      <div className="flex flex-row justify-between w-full bg-slate-900 px-4 py-4">
         <AuroraLogo />
+        <div className="flex flex-row gap-4 divide-x divide-slate-300 items-center">
+          <Link href={`/dashboard_v2/${team.team_key}/settings/billing`}>
+            <Cog6ToothIcon className="w-6 h-6 text-slate-300" />
+          </Link>
+          <SignoutButton />
+        </div>
       </div>
     </>
   )

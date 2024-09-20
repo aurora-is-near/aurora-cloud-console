@@ -11,7 +11,8 @@ import {
   Partner3,
 } from "../../../../public/static/v2/images/icons"
 
-const meetingLink = "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
+export const meetingLink =
+  "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
 
 interface ExploreItemProps {
   title: string
@@ -20,7 +21,12 @@ interface ExploreItemProps {
   link: string
 }
 
-const ExploreItem = ({ title, description, icon, link }: ExploreItemProps) => {
+export const ExploreItem = ({
+  title,
+  description,
+  icon,
+  link,
+}: ExploreItemProps) => {
   const isExternalLink = link.startsWith("http")
 
   return (
@@ -44,7 +50,7 @@ const ExploreItem = ({ title, description, icon, link }: ExploreItemProps) => {
   )
 }
 
-const features = [
+export const features = [
   {
     icon: Partner1,
     title: "Dedicated integration team",
