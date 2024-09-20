@@ -98,7 +98,7 @@ const getIntervalMs = (interval: string | null) => {
  * The actual `expr`ession was built by inspecting what happens in the Grafana UI.
  * @see https://grafana.com/docs/grafana/latest/developers/http_api/data_source/#query-a-data-source
  */
-export const query = async (
+const query = async (
   queries: Query[],
   interval: string | null = DEFAULT_INTERVAL,
 ): Promise<QueryResults> => {

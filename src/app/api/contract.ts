@@ -720,4 +720,36 @@ export const contract = c.router({
       scopes: ["silos:read"],
     },
   },
+  getForwarderAddress: {
+    summary: "Get the forwarder address for given target address",
+    method: "GET",
+    path: "/api/forwarder/:address",
+    responses: {
+      200: z.object({
+        forwarderAddress: z.string(),
+      }),
+    },
+    pathParams: z.object({
+      address: z.string(),
+    }),
+    metadata: {
+      scopes: ["forwarder:read"],
+    },
+  },
+  createForwarderAddress: {
+    summary: "Create a forwarder address for given target address",
+    method: "POST",
+    path: "/api/forwarder",
+    responses: {
+      200: z.object({
+        forwarderAddress: z.string().nullable(),
+      }),
+    },
+    body: z.object({
+      address: z.string(),
+    }),
+    metadata: {
+      scopes: ["forwarder:write"],
+    },
+  },
 })

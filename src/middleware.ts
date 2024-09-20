@@ -56,6 +56,11 @@ export async function middleware(req: NextRequest) {
     return res
   }
 
+  // Do nothing for API requests (which are authenticated separately)
+  if (pathname.startsWith("/api")) {
+    return res
+  }
+
   // Redirect to the login page if the user is not logged in
   if (!session) {
     return loginRedirect(req, res)
@@ -95,7 +100,8 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - img/ (images in static/img folder)
+     * - monitoring-tunnel (Sentry monitoring tunnel)
      */
-    "/((?!_next/static|_next/image|favicon.ico|img/).*)",
+    "/((?!_next/static|_next/image|favicon.ico|img/|monitoring-tunnel).*)",
   ],
 }
