@@ -1,5 +1,5 @@
-import Image from "next/image"
 import Link from "next/link"
+import { Aurora, AuroraCloud } from "../../../public/static/v2/images"
 
 type AuroraLogoProps = {
   href?: string
@@ -11,19 +11,11 @@ const AuroraLogo = ({ href = "/" }: AuroraLogoProps) => (
       className="mr-2 pr-2 py-0.5"
       style={{ borderRight: "1px solid #64748B" }}
     >
-      <Image
-        width={100}
-        height={15}
-        src="/static/v2/images/Aurora.svg"
-        alt="Aurora"
-      />
+      <Aurora className="w-[100px] h-[16px]" />
     </div>
-    <Image
-      width={100}
-      height={15}
-      src="/static/v2/images/AuroraCloud.svg"
-      alt="AuroraCloud"
-    />
+    <div className="flex items-center justify-center">
+      <AuroraCloud className="w-[100px] h-[23px]" />
+    </div>
   </Link>
 )
 

@@ -27,7 +27,7 @@ const Page = () => {
             <LoginForm />
           )}
         </div>
-        <div className="p-4 w-full flex flex-row gap-2 justify-center items-center">
+        <div className="p-4 w-full flex flex-row gap-2 justify-center items-center hidden">
           {isSigningUp ? (
             <>
               <span className="text-sm text-slate-400">
