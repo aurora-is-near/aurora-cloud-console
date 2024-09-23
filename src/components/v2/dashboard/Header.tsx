@@ -2,11 +2,11 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { useEffect, useState } from "react"
+// import { useEffect, useState } from "react"
 import { Cog6ToothIcon } from "@heroicons/react/24/outline"
 import AuroraLogo from "@/components/v2/AuroraLogo"
 import { useTeamContext } from "@/contexts/TeamContext"
-import { isAdmin } from "@/actions/is-admin"
+// import { isAdmin } from "@/actions/is-admin"
 import SignoutButton from "@/components/v2/SignoutButton"
 
 const SetupAlert = () => {
@@ -38,21 +38,21 @@ const SetupAlert = () => {
 
 const Header = () => {
   const { silos, team } = useTeamContext()
-  const [isAdminUser, setIsAdminUser] = useState(false)
+  // const [isAdminUser, setIsAdminUser] = useState(false)
 
-  useEffect(() => {
-    const checkAdminStatus = async () => {
-      try {
-        const adminStatus = await isAdmin()
+  // useEffect(() => {
+  //   const checkAdminStatus = async () => {
+  //     try {
+  //       const adminStatus = await isAdmin()
 
-        setIsAdminUser(adminStatus)
-      } catch (error) {
-        console.error("Error checking admin status:", error)
-      }
-    }
+  //       setIsAdminUser(adminStatus)
+  //     } catch (error) {
+  //       console.error("Error checking admin status:", error)
+  //     }
+  //   }
 
-    void checkAdminStatus()
-  }, [])
+  //   void checkAdminStatus()
+  // }, [])
 
   return (
     <>
