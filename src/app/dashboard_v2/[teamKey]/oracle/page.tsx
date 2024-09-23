@@ -48,8 +48,7 @@ const Page = () => {
         title="Oracle"
         description="Secure your smart contracts with reliable, low-latency market data from institutional sources."
         button={{
-          text: "Enable feature",
-          path: "/",
+          text: "Coming soon",
         }}
         titlePrefix={
           <Image

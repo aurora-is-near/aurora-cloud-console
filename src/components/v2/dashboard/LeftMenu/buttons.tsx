@@ -16,7 +16,7 @@ import {
   IconGas,
   IconMarketplace,
   IconMonitoring,
-  IconOnramp,
+  // IconOnramp,
   IconOracle,
 } from "../../../../../public/static/v2/images/menuIcons/index"
 
@@ -71,14 +71,14 @@ export const stackMenuButtons = (teamKey?: string) => {
   }
 
   return [
-    <Button
-      title="Onramp"
-      key="Onramp"
-      path={`/dashboard_v2/${teamKey}/onramp`}
-      className="text-slate-500"
-      bordered
-      icon={<IconOnramp className="h-7 w-7" />}
-    />,
+    // <Button
+    //   title="Onramp"
+    //   key="Onramp"
+    //   path={`/dashboard_v2/${teamKey}/onramp`}
+    //   className="text-slate-500"
+    //   bordered
+    //   icon={<IconOnramp className="h-7 w-7" />}
+    // />,
     <Button
       title="Oracle"
       key="Oracle"

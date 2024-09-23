@@ -14,7 +14,7 @@ const FeatureCard = ({ card }: { card: CardProps }) => {
         <h2 className="text-[16px] text-slate-900 font-medium">{card.title}</h2>
         <span className="text-slate-500 text-xs">{card.description}</span>
       </div>
-      <div className="w-[30px] h-[20px] border border-red-500">
+      <div className="w-[30px] h-[20px]">
         {/* Placeholder for Check/Radio */}
       </div>
     </div>
