@@ -2,19 +2,19 @@ import { ReactNode } from "react"
 import {
   AdjustmentsHorizontalIcon,
   Cog6ToothIcon,
-  // CubeIcon,
-  // ListBulletIcon,
-  // SquaresPlusIcon,
+  CubeIcon,
+  ListBulletIcon,
+  SquaresPlusIcon,
 } from "@heroicons/react/24/outline"
 import { DashboardLayout } from "@/components/DashboardLayout"
-// import { Borealis } from "@/components/icons"
-// import { ServicesMenu } from "@/components/navigation/dashboard/ServicesMenu"
-// import { ListsMenu } from "@/components/navigation/dashboard/ListsMenu"
-// import { SilosMenu } from "@/components/navigation/dashboard/SilosMenu"
-// import { DealsMenu } from "@/components/navigation/dashboard/DealsMenu"
+import { Borealis } from "@/components/icons"
+import { ServicesMenu } from "@/components/navigation/dashboard/ServicesMenu"
+import { ListsMenu } from "@/components/navigation/dashboard/ListsMenu"
+import { SilosMenu } from "@/components/navigation/dashboard/SilosMenu"
+import { DealsMenu } from "@/components/navigation/dashboard/DealsMenu"
 import { SettingsMenu } from "@/components/navigation/dashboard/SettingsMenu"
-// import { MobileDealsMenu } from "@/components/navigation/dashboard/mobile/MobileDealsMenu"
-// import { MobileListsMenu } from "@/components/navigation/dashboard/mobile/MobileListsMenu"
+import { MobileDealsMenu } from "@/components/navigation/dashboard/mobile/MobileDealsMenu"
+import { MobileListsMenu } from "@/components/navigation/dashboard/mobile/MobileListsMenu"
 import { MobileSettingsMenu } from "@/components/navigation/dashboard/mobile/MobileSettingsMenu"
 import { AdminMenu } from "@/components/navigation/admin/AdminMenu"
 import { isAdmin } from "@/actions/is-admin"
@@ -50,34 +50,34 @@ const Layout = async ({
 
   return (
     <DashboardLayout
-      // mainMenuItems={[
-      //   {
-      //     name: "Borealis",
-      //     href: `/dashboard/${teamKey}/borealis/deals`,
-      //     icon: <Borealis />,
-      //     SubMenu: DealsMenu,
-      //     MobileSubMenu: MobileDealsMenu,
-      //   },
-      //   {
-      //     name: "Silos",
-      //     href: `/dashboard/${teamKey}/silos`,
-      //     icon: <CubeIcon />,
-      //     SubMenu: SilosMenu,
-      //   },
-      //   {
-      //     name: "Lists",
-      //     href: `/dashboard/${teamKey}/lists`,
-      //     icon: <ListBulletIcon />,
-      //     SubMenu: ListsMenu,
-      //     MobileSubMenu: MobileListsMenu,
-      //   },
-      //   {
-      //     name: "Services",
-      //     href: `/dashboard/${teamKey}/services`,
-      //     icon: <SquaresPlusIcon />,
-      //     SubMenu: ServicesMenu,
-      //   },
-      // ]}
+      mainMenuItems={[
+        {
+          name: "Borealis",
+          href: `/dashboard/${teamKey}/borealis/deals`,
+          icon: <Borealis />,
+          SubMenu: DealsMenu,
+          MobileSubMenu: MobileDealsMenu,
+        },
+        {
+          name: "Silos",
+          href: `/dashboard/${teamKey}/silos`,
+          icon: <CubeIcon />,
+          SubMenu: SilosMenu,
+        },
+        {
+          name: "Lists",
+          href: `/dashboard/${teamKey}/lists`,
+          icon: <ListBulletIcon />,
+          SubMenu: ListsMenu,
+          MobileSubMenu: MobileListsMenu,
+        },
+        {
+          name: "Services",
+          href: `/dashboard/${teamKey}/services`,
+          icon: <SquaresPlusIcon />,
+          SubMenu: ServicesMenu,
+        },
+      ]}
       extraMenuItems={extraMenuItems}
     >
       {children}
