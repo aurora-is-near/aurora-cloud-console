@@ -15,7 +15,7 @@ export const ActionsBar = () => {
       <SubTitle>Plan Configuration</SubTitle>
 
       <div className="flex items-center space-x-4">
-        <Button variant="secondary">View API</Button>
+        {/* <Button variant="secondary">View API</Button> */}
         <Button
           disabled={!hasPendingUpdates || isUpdating}
           variant="secondary"

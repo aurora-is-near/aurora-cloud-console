@@ -2,6 +2,7 @@
 
 import { sentenceCase } from "change-case"
 import { notFound } from "next/navigation"
+import Link from "next/link"
 import { useTeamContext } from "@/contexts/TeamContext"
 import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
@@ -31,10 +32,12 @@ const Page = ({ params: { siloId } }: { params: { siloId: string } }) => {
           Configuration
         </h1>
 
-        <Button size="sm" variant="border">
-          <span>Block Explorer</span>
-          <External />
-        </Button>
+        <Link href={silo.rpc_url} target="_blank">
+          <Button size="sm" variant="border">
+            <span>Block Explorer</span>
+            <External />
+          </Button>
+        </Link>
       </div>
       <Card borderRadius="xl" tag="section">
         <Card.Title tag="h4">Chain details</Card.Title>
