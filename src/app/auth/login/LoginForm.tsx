@@ -3,9 +3,10 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-import { Button } from "@/components/Button"
 import { AUTH_CALLBACK_ROUTE, LINK_SENT_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
+import { AuthInput } from "@/components/AuthInput"
+import { AuthForm } from "@/components/AuthForm"
 
 type Inputs = {
   email: string
@@ -69,36 +70,21 @@ const LoginForm = () => {
   const error = errors.email ?? errors.root
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(signIn)}>
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium leading-6 text-white"
-        >
-          Email address
-        </label>
-        <div className="mt-2">
-          <input
-            id="email"
-            type="email"
-            autoComplete="email"
-            required
-            className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-green-500 sm:text-sm sm:leading-6"
-            {...register("email", { required: true })}
-          />
-        </div>
-      </div>
-
-      <Button loading={isSubmitting} type="submit" fullWidth>
-        Sign in
-      </Button>
-
-      <div className="h-5">
-        {error && (
-          <p className="text-sm text-center text-red-500">{error.message}</p>
-        )}
-      </div>
-    </form>
+    <AuthForm
+      onSubmit={handleSubmit(signIn)}
+      submitButtonText="Sign in"
+      errorMessage={error?.message}
+      isSubmitting={isSubmitting}
+    >
+      <AuthInput
+        required
+        id="email"
+        name="email"
+        register={register}
+        registerOptions={{ required: true }}
+        autoComplete="email"
+      />
+    </AuthForm>
   )
 }
 
