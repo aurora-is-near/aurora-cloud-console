@@ -5,6 +5,7 @@ export type AuthInputProps<Inputs extends Record<string, unknown>> =
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
     id: string
     name: Path<Inputs>
+    label: string
     className?: string
     register?: UseFormRegister<Inputs>
     registerOptions?: RegisterOptions<Inputs, Path<Inputs>>
@@ -13,6 +14,7 @@ export type AuthInputProps<Inputs extends Record<string, unknown>> =
 export const AuthInput = <Inputs extends Record<string, unknown>>({
   id,
   name,
+  label,
   className,
   register,
   registerOptions,
@@ -23,7 +25,7 @@ export const AuthInput = <Inputs extends Record<string, unknown>>({
       htmlFor={id}
       className="block text-sm font-medium leading-6 text-white"
     >
-      Email address
+      {label}
     </label>
     <div className="mt-2">
       <input

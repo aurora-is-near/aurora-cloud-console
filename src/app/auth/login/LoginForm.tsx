@@ -80,6 +80,7 @@ const LoginForm = () => {
         required
         id="email"
         name="email"
+        label="Email address"
         register={register}
         registerOptions={{ required: true }}
         autoComplete="email"
