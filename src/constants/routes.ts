@@ -1,6 +1,7 @@
 export const AUTH_CALLBACK_ROUTE = "/auth/callback"
 export const AUTH_ACCEPT_ROUTE = "/auth/accept"
 export const LOGIN_ROUTE = "/auth/login"
+export const SIGNUP_ROUTE = "/auth/signup"
 export const UNAUTHORISED_ROUTE = "/auth/unauthorised"
 export const LOGOUT_ROUTE = "/auth/logout"
 export const LINK_SENT_ROUTE = "/auth/link-sent"

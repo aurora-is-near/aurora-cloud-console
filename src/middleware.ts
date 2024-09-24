@@ -9,6 +9,7 @@ import {
   LINK_SENT_ROUTE,
   LOGIN_ROUTE,
   LOGOUT_ROUTE,
+  SIGNUP_ROUTE,
   UNAUTHORISED_ROUTE,
 } from "./constants/routes"
 
@@ -53,6 +54,7 @@ export async function middleware(req: NextRequest) {
       LOGOUT_ROUTE,
       UNAUTHORISED_ROUTE,
       LINK_SENT_ROUTE,
+      SIGNUP_ROUTE,
     ].includes(pathname)
   ) {
     return res
