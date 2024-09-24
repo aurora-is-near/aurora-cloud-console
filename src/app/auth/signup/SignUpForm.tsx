@@ -31,8 +31,8 @@ export const SignUpForm = () => {
       options: {
         emailRedirectTo: `${document.location.origin}${AUTH_CALLBACK_ROUTE}`,
 
-        // A database trigger that is fired on `auth.user` creation will insert
-        // this data into the associated `users` table
+        // A database trigger that is fired on `auth.user` creation will use
+        // this data to set the user's name and create a team
         data: {
           name,
           company,
