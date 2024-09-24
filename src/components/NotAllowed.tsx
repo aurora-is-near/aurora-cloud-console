@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { Heading } from "@/app/auth/login/Heading"
+import { AuthHeading } from "@/components/AuthHeading"
 import { Button } from "@/components/Button"
 import { LOGIN_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
@@ -52,7 +52,7 @@ export const NotAllowed = ({
 
   return (
     <>
-      <Heading className="mb-6">{title}</Heading>
+      <AuthHeading className="mt-10 mb-6">{title}</AuthHeading>
       <p className="mb-8 text-center font-medium leading-7 tracking-snug text-white">
         {description}
       </p>

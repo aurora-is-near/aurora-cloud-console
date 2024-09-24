@@ -1,10 +1,10 @@
 "use client"
 
 import { SubmitHandler, useForm } from "react-hook-form"
-import { CheckCircleIcon } from "@heroicons/react/20/solid"
+import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Button } from "@/components/Button"
-import { AUTH_CALLBACK_ROUTE } from "@/constants/routes"
+import { AUTH_CALLBACK_ROUTE, LINK_SENT_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 
 type Inputs = {
@@ -13,12 +13,12 @@ type Inputs = {
 
 const LoginForm = () => {
   const supabase = createClientComponentClient()
+  const router = useRouter()
 
   const {
     register,
     handleSubmit,
     setError,
-    reset,
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<Inputs>()
 
@@ -57,31 +57,18 @@ const LoginForm = () => {
     })
   }, [setError])
 
+  // Redirect to a link sent screen once the form submission is successful
+  useEffect(() => {
+    if (!isSubmitSuccessful) {
+      return
+    }
+
+    router.push(LINK_SENT_ROUTE)
+  }, [isSubmitSuccessful, router])
+
   const error = errors.email ?? errors.root
 
-  return isSubmitSuccessful ? (
-    <div className="flex items-start justify-center text-white">
-      <div className="flex-shrink-0">
-        <CheckCircleIcon
-          className="w-5 h-5 text-green-400"
-          aria-hidden="true"
-        />
-      </div>
-      <div className="ml-3">
-        <h2 className="text-sm font-medium text-white">Email link sent!</h2>
-        <p className="mt-2 text-sm text-gray-400">
-          Didn’t receive it?{" "}
-          <button
-            type="button"
-            className="underline hover:text-white"
-            onClick={() => reset(undefined, { keepValues: true })}
-          >
-            Try again.
-          </button>
-        </p>
-      </div>
-    </div>
-  ) : (
+  return (
     <form className="space-y-6" onSubmit={handleSubmit(signIn)}>
       <div>
         <label
