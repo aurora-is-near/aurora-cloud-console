@@ -1,5 +1,6 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid"
-import { TryAgainButton } from "@/app/auth/link-sent/TryAgainButton"
+import { TryAgainButton } from "./TryAgainButton"
+import { LinkSentText } from "./LinkSentText"
 import { Heading } from "./Heading"
 
 const Page = () => {
@@ -14,7 +15,10 @@ const Page = () => {
           />
         </div>
         <div className="ml-3">
-          <h2 className="text-sm font-medium text-white">Email link sent!</h2>
+          <LinkSentText />
+          <p className="text-sm font-medium text-white">
+            Click the link in the email to login.
+          </p>
           <p className="mt-2 text-sm text-gray-400">
             Didn’t receive it? <TryAgainButton />
           </p>

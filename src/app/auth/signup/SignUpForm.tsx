@@ -2,12 +2,11 @@
 
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
 import { AUTH_CALLBACK_ROUTE, LINK_SENT_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { AuthInput } from "@/components/AuthInput"
 import { AuthForm } from "@/components/AuthForm"
-import { SIGNUP_QUERY_PARAM } from "@/constants/auth"
+import { EMAIL_QUERY_PARAM, SIGNUP_QUERY_PARAM } from "@/constants/auth"
 
 type Inputs = {
   email: string
@@ -23,7 +22,7 @@ export const SignUpForm = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<Inputs>()
 
   const signUp: SubmitHandler<Inputs> = async ({ email, name, company }) => {
@@ -45,17 +44,17 @@ export const SignUpForm = () => {
       setError("root", {
         message: error.message,
       })
-    }
-  }
 
-  // Redirect to a link sent screen once the form submission is successful
-  useEffect(() => {
-    if (!isSubmitSuccessful) {
       return
     }
 
-    router.push(`${LINK_SENT_ROUTE}?${SIGNUP_QUERY_PARAM}=1`)
-  }, [isSubmitSuccessful, router])
+    const searchParams = new URLSearchParams()
+
+    searchParams.set(EMAIL_QUERY_PARAM, email)
+    searchParams.set(SIGNUP_QUERY_PARAM, "1")
+
+    router.push(`${LINK_SENT_ROUTE}?${searchParams}`)
+  }
 
   const error = errors.email ?? errors.root
 
