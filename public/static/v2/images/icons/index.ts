@@ -1,0 +1,40 @@
+export { default as Partner1 } from "./Partner1.svg"
+export { default as Partner2 } from "./Partner2.svg"
+export { default as Partner3 } from "./Partner3.svg"
+export { default as External } from "./external.svg"
+export { default as RainbowBridge } from "./rainbow_bridge_logo.svg"
+export { default as Pyth } from "./pyth.svg"
+export { default as Blockscout } from "./blockscout.svg"
+
+export { default as MarketPyth } from "./marketplace/pyth.svg"
+export { default as Kyc } from "./marketplace/kyc.svg"
+export { default as BlockExplorer } from "./marketplace/block_explorer.svg"
+export { default as Bridge } from "./marketplace/bridge.svg"
+export { default as CexWithdrawals } from "./marketplace/cex_withdrawals.svg"
+export { default as DIA } from "./marketplace/DIA.svg"
+export { default as Ocean } from "./marketplace/ocean.svg"
+export { default as Oracle } from "./marketplace/oracle.svg"
+export { default as Onramp } from "./marketplace/onramp.svg"
+export { default as Safe } from "./marketplace/safe.svg"
+export { default as TheGraph } from "./marketplace/the_graph.svg"
+export { default as Uniswap } from "./marketplace/uniswap.svg"
+
+export { default as ChainPublic } from "./chain_public.svg"
+export { default as ChainPublicPermissioned } from "./chain_public_permissioned.svg"
+export { default as ChainPrivate } from "./chain_private.svg"
+
+// Token icons
+export { default as CustomToken } from "./tokens/custom.svg"
+export { default as AuroraToken } from "./tokens/aurora.svg"
+export { default as USDTToken } from "./tokens/usdt.svg"
+export { default as USDCToken } from "./tokens/usdc.svg"
+export { default as Bitcoin } from "./tokens/bitcoin.svg"
+export { default as EtherToken } from "./tokens/ether.svg"
+
+// Integration icons
+export { default as IntegrationOracle } from "./integrations/oracle.svg"
+export { default as IntegrationBridgeWidget } from "./integrations/bridge.svg"
+export { default as IntegrationCexWithdrawalsWidget } from "./integrations/cex_withdrawals.svg"
+export { default as IntegrationOnramp } from "./integrations/onramp.svg"
+
+export { default as WarningOctagon } from "./warning_octagon.svg"
