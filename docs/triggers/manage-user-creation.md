@@ -19,6 +19,8 @@ returns trigger as $$
 declare
   new_user_id bigint;
   new_team_id bigint;
+  new_team_key text;
+  sanitized_slug text;
 begin
   -- Insert a row into public.users
   insert into public.users (user_id, email, created_at)
@@ -50,54 +52,33 @@ begin
   -- For the case where they signed up via a form
   if public.has_metadata_key(new.raw_user_meta_data, 'company') then
 
-    -- Generate a team_key by sanitizing the company name
-    with sanitized_company as (
-      select lower(
-        regexp_replace(
+    -- Generate a sanitized slug from the company name
+    select lower(
+      regexp_replace(
 
-          -- Replace spaces with hyphens
-          regexp_replace(new.raw_user_meta_data->>'company', '\s+', '-', 'g'),
+        -- Replace spaces with hyphens
+        regexp_replace(new.raw_user_meta_data->>'company', '\s+', '-', 'g'),
 
-          -- Remove all non-alphanumeric characters except hyphens
-          '[^a-z0-9-]', '', 'g'
-        )
-      ) as company_slug
-    ),
+        -- Remove all non-alphanumeric characters except hyphens
+        '[^a-z0-9-]', '', 'g'
+      )
+    ) into sanitized_slug;
 
-    -- Check if the base slug exists and find the next available increment
-    incremented_key as (
-      select case
+    -- Start with the sanitized slug
+    new_team_key := sanitized_slug;
 
-        -- Check if the base team_key exists in the teams table
-        when exists(select 1 from public.teams where team_key = (select company_slug from sanitized_company)) then
+    -- Check if the base team_key already exists
+    if exists(select 1 from public.teams where team_key = new_team_key) then
 
-          -- Find the highest incremented number for similar slugs and add 1
-          coalesce(
-            (
-              select team_key || '-' || (regexp_matches(max(team_key), '-(\d+)$'))[1]::int + 1
-              from public.teams
-
-              -- Match slugs like 'company-1', 'company-2', etc.
-              where team_key ~ (select company_slug || '-\d+$' from sanitized_company)
-
-              group by team_key
-            ),
-
-            -- If no numbered slug exists, start with '-1'
-            (select company_slug || '-1' from sanitized_company)
-          )
-        else
-
-          -- Use the base slug if no conflict
-          (select company_slug from sanitized_company)
-      end as final_team_key
-    )
+      -- If it exists, append an MD5 hash to ensure uniqueness
+      new_team_key := sanitized_slug || '-' || substr(md5(sanitized_slug), 1, 10);
+    end if;
 
     -- Insert a new team for the user
     insert into public.teams (name, team_key, created_at)
     values (
       new.raw_user_meta_data->>'company',
-      (select final_team_key from incremented_key), -- Use the unique or incremented team_key
+      new_team_key,
       new.created_at
     )
 
