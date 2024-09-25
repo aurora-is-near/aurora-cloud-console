@@ -1,24 +1,33 @@
 "use client"
 
 import { SubmitHandler, useForm } from "react-hook-form"
-import { CheckCircleIcon } from "@heroicons/react/20/solid"
+import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-import { Button } from "@/components/Button"
-import { AUTH_CALLBACK_ROUTE } from "@/constants/routes"
+import { AUTH_CALLBACK_ROUTE, LINK_SENT_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
+import { AuthInput } from "@/components/AuthInput"
+import { AuthForm } from "@/components/AuthForm"
 
 type Inputs = {
   email: string
 }
 
+const getErrorMessage = (originalMessage: string) => {
+  if (originalMessage === "Signups not allowed for otp") {
+    return "We couldn't find your account. Please sign up first."
+  }
+
+  return originalMessage
+}
+
 const LoginForm = () => {
   const supabase = createClientComponentClient()
+  const router = useRouter()
 
   const {
     register,
     handleSubmit,
     setError,
-    reset,
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<Inputs>()
 
@@ -26,13 +35,14 @@ const LoginForm = () => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
+        shouldCreateUser: false,
         emailRedirectTo: `${document.location.origin}${AUTH_CALLBACK_ROUTE}`,
       },
     })
 
     if (error) {
-      setError("email", {
-        message: error.message,
+      setError("root", {
+        message: getErrorMessage(error.message),
       })
     }
   }
@@ -57,61 +67,34 @@ const LoginForm = () => {
     })
   }, [setError])
 
+  // Redirect to a link sent screen once the form submission is successful
+  useEffect(() => {
+    if (!isSubmitSuccessful) {
+      return
+    }
+
+    router.push(LINK_SENT_ROUTE)
+  }, [isSubmitSuccessful, router])
+
   const error = errors.email ?? errors.root
 
-  return isSubmitSuccessful ? (
-    <div className="flex items-start justify-center text-white">
-      <div className="flex-shrink-0">
-        <CheckCircleIcon
-          className="w-5 h-5 text-green-400"
-          aria-hidden="true"
-        />
-      </div>
-      <div className="ml-3">
-        <h2 className="text-sm font-medium text-white">Email link sent!</h2>
-        <p className="mt-2 text-sm text-gray-400">
-          Didn’t receive it?{" "}
-          <button
-            type="button"
-            className="underline hover:text-white"
-            onClick={() => reset(undefined, { keepValues: true })}
-          >
-            Try again.
-          </button>
-        </p>
-      </div>
-    </div>
-  ) : (
-    <form className="space-y-6" onSubmit={handleSubmit(signIn)}>
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium leading-6 text-white"
-        >
-          Email address
-        </label>
-        <div className="mt-2">
-          <input
-            id="email"
-            type="email"
-            autoComplete="email"
-            required
-            className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-green-500 sm:text-sm sm:leading-6"
-            {...register("email", { required: true })}
-          />
-        </div>
-      </div>
-
-      <Button loading={isSubmitting} type="submit" fullWidth>
-        Sign in
-      </Button>
-
-      <div className="h-5">
-        {error && (
-          <p className="text-sm text-center text-red-500">{error.message}</p>
-        )}
-      </div>
-    </form>
+  return (
+    <AuthForm
+      onSubmit={handleSubmit(signIn)}
+      submitButtonText="Sign in"
+      errorMessage={error?.message}
+      isSubmitting={isSubmitting}
+    >
+      <AuthInput
+        required
+        id="email"
+        name="email"
+        label="Email address"
+        register={register}
+        registerOptions={{ required: true }}
+        autoComplete="email"
+      />
+    </AuthForm>
   )
 }
 

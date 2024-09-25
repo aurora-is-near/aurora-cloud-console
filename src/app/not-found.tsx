@@ -1,4 +1,4 @@
-import { NotAllowed } from "@/app/auth/login/NotAllowed"
+import { NotAllowed } from "@/components/NotAllowed"
 import { FullScreenPage } from "@/components/FullScreenPage"
 
 const Page = () => {

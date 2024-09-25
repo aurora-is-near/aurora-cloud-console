@@ -1,10 +1,10 @@
 import LoginForm from "@/app/auth/login/LoginForm"
-import { Heading } from "./Heading"
+import { AuthHeading } from "@/components/AuthHeading"
 
 const Page = () => {
   return (
     <>
-      <Heading className="mb-10">Sign in to your account</Heading>
+      <AuthHeading className="my-10">Sign in to your account</AuthHeading>
       <LoginForm />
     </>
   )
