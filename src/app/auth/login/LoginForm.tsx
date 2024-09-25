@@ -12,6 +12,14 @@ type Inputs = {
   email: string
 }
 
+const getErrorMessage = (originalMessage: string) => {
+  if (originalMessage === "Signups not allowed for otp") {
+    return "We couldn't find your account. Please sign up first."
+  }
+
+  return originalMessage
+}
+
 const LoginForm = () => {
   const supabase = createClientComponentClient()
   const router = useRouter()
@@ -27,13 +35,14 @@ const LoginForm = () => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
+        shouldCreateUser: false,
         emailRedirectTo: `${document.location.origin}${AUTH_CALLBACK_ROUTE}`,
       },
     })
 
     if (error) {
-      setError("email", {
-        message: error.message,
+      setError("root", {
+        message: getErrorMessage(error.message),
       })
     }
   }
