@@ -19,6 +19,8 @@ returns trigger as $$
 declare
   new_user_id bigint;
   new_team_id bigint;
+  new_team_key text;
+  sanitized_slug text;
 begin
   -- Insert a row into public.users
   insert into public.users (user_id, email, created_at)
@@ -30,6 +32,7 @@ begin
   where user_id = new.id::uuid;
 
   -- Set the user's initial team
+  -- For the case where the user was invited to a specific team
   if public.has_metadata_key(new.raw_user_meta_data, 'new_team') then
     -- Retrieve team_id from teams where team_key matches new_team value from metadata
     select id into new_team_id
@@ -43,6 +46,46 @@ begin
       insert into public.users_teams (user_id, team_id)
       values (new_user_id, new_team_id);
     end if;
+  end if;
+
+  -- Create a team for the user
+  -- For the case where they signed up via a form
+  if public.has_metadata_key(new.raw_user_meta_data, 'company') then
+
+    -- Generate a sanitized slug from the company name
+    select lower(
+      regexp_replace(
+
+        -- Replace spaces with hyphens
+        regexp_replace(new.raw_user_meta_data->>'company', '\s+', '-', 'g'),
+
+        -- Remove all non-alphanumeric characters except hyphens
+        '[^a-z0-9-]', '', 'g'
+      )
+    ) into sanitized_slug;
+
+    -- Start with the sanitized slug
+    new_team_key := sanitized_slug;
+
+    -- If the base team_key already exists append an MD5 hash to ensure uniqueness
+    if exists(select 1 from public.teams where team_key = new_team_key) then
+      new_team_key := sanitized_slug || '-' || substr(md5(random()::text), 1, 10);
+    end if;
+
+    -- Insert a new team for the user
+    insert into public.teams (name, team_key, created_at)
+    values (
+      new.raw_user_meta_data->>'company',
+      new_team_key,
+      new.created_at
+    )
+
+    -- Store the newly created team_id
+    returning id into new_team_id;
+
+    -- Insert into users_teams linking the user to the newly created team
+    insert into public.users_teams (user_id, team_id)
+    values (new_user_id, new_team_id);
   end if;
 
   -- Set the user's initial name

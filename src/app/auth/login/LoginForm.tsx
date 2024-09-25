@@ -2,11 +2,12 @@
 
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { AUTH_CALLBACK_ROUTE, LINK_SENT_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { AuthInput } from "@/components/AuthInput"
 import { AuthForm } from "@/components/AuthForm"
+import { EMAIL_QUERY_PARAM } from "@/constants/auth"
 
 type Inputs = {
   email: string
@@ -28,24 +29,35 @@ const LoginForm = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<Inputs>()
 
-  const signIn: SubmitHandler<Inputs> = async ({ email }) => {
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        shouldCreateUser: false,
-        emailRedirectTo: `${document.location.origin}${AUTH_CALLBACK_ROUTE}`,
-      },
-    })
-
-    if (error) {
-      setError("root", {
-        message: getErrorMessage(error.message),
+  const signIn: SubmitHandler<Inputs> = useCallback(
+    async ({ email }) => {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: `${document.location.origin}${AUTH_CALLBACK_ROUTE}`,
+        },
       })
-    }
-  }
+
+      if (error) {
+        setError("email", {
+          message: getErrorMessage(error.message),
+        })
+
+        return
+      }
+
+      const searchParams = new URLSearchParams()
+
+      searchParams.set(EMAIL_QUERY_PARAM, email)
+
+      router.push(`${LINK_SENT_ROUTE}?${searchParams}`)
+    },
+    [router, setError, supabase],
+  )
 
   useEffect(() => {
     // http://localhost:3000/login#error=unauthorized_client&error_code=401&error_description=Email+link+is+invalid+or+has+expired
@@ -66,15 +78,6 @@ const LoginForm = () => {
       message: errorDescription,
     })
   }, [setError])
-
-  // Redirect to a link sent screen once the form submission is successful
-  useEffect(() => {
-    if (!isSubmitSuccessful) {
-      return
-    }
-
-    router.push(LINK_SENT_ROUTE)
-  }, [isSubmitSuccessful, router])
 
   const error = errors.email ?? errors.root
 
