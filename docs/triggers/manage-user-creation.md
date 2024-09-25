@@ -69,7 +69,7 @@ begin
 
     -- If the base team_key already exists append an MD5 hash to ensure uniqueness
     if exists(select 1 from public.teams where team_key = new_team_key) then
-      new_team_key := substr(md5(sanitized_slug), 1, 10);
+      new_team_key := sanitized_slug || '-' || substr(md5(random()::text), 1, 10);
     end if;
 
     -- Insert a new team for the user
