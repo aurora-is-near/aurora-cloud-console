@@ -7,6 +7,7 @@ import { AUTH_CALLBACK_ROUTE, LINK_SENT_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { AuthInput } from "@/components/AuthInput"
 import { AuthForm } from "@/components/AuthForm"
+import { SIGNUP_QUERY_PARAM } from "@/constants/auth"
 
 type Inputs = {
   email: string
@@ -53,7 +54,7 @@ export const SignUpForm = () => {
       return
     }
 
-    router.push(LINK_SENT_ROUTE)
+    router.push(`${LINK_SENT_ROUTE}?${SIGNUP_QUERY_PARAM}=1`)
   }, [isSubmitSuccessful, router])
 
   const error = errors.email ?? errors.root
