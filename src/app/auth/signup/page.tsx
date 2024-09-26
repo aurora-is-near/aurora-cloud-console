@@ -1,13 +1,15 @@
 import { SignUpForm } from "@/app/auth/signup/SignUpForm"
 import { AuthHeading } from "@/components/AuthHeading"
-import { FullScreenPage } from "@/components/FullScreenPage"
 
 const Page = () => {
   return (
-    <FullScreenPage>
-      <AuthHeading className="my-10">Create account</AuthHeading>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <AuthHeading className="mb-5 text-2xl lg:text-5xl">Sign up</AuthHeading>
+      <span className="text-base text-slate-400 mb-5">
+        Enter your information to create an account.
+      </span>
       <SignUpForm />
-    </FullScreenPage>
+    </div>
   )
 }
 

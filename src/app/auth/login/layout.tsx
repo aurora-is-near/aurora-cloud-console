@@ -1,7 +1,7 @@
-import { FullScreenPage } from "@/components/FullScreenPage"
+import AuthLayoutWrapper from "@/components/AuthLayoutWrapper"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return <FullScreenPage>{children}</FullScreenPage>
+  return <AuthLayoutWrapper>{children}</AuthLayoutWrapper>
 }
 
 export default Layout

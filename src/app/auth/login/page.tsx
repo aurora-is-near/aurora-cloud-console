@@ -3,10 +3,13 @@ import { AuthHeading } from "@/components/AuthHeading"
 
 const Page = () => {
   return (
-    <>
-      <AuthHeading className="my-10">Sign in to your account</AuthHeading>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <AuthHeading className="mb-5 text-2xl lg:text-5xl">Sign in</AuthHeading>
+      <span className="text-base text-slate-400 mb-5">
+        Enter your email to receive a sign-in link.
+      </span>
       <LoginForm />
-    </>
+    </div>
   )
 }
 
