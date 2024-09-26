@@ -4,9 +4,12 @@ import { AuthHeading } from "@/components/AuthHeading"
 const Page = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <AuthHeading className="mb-5 text-2xl lg:text-5xl">Sign up</AuthHeading>
-      <span className="text-base text-slate-400 mb-5">
-        Enter your information to create an account.
+      <AuthHeading className="mb-5 text-2xl lg:text-5xl">
+        Create account
+      </AuthHeading>
+      <span className="text-base text-slate-400 mb-5 max-w-sm text-center">
+        You are one step away from exploring infrastructure and integrations
+        available on Aurora Cloud.
       </span>
       <SignUpForm />
     </div>

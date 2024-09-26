@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import Link from "next/link"
 import { Button } from "@/components/Button"
 
 type AuthFormProps = {
@@ -7,6 +8,7 @@ type AuthFormProps = {
   children: ReactNode
   submitButtonText: string
   errorMessage?: string
+  isSignup?: boolean
 }
 
 export const AuthForm = ({
@@ -15,14 +17,15 @@ export const AuthForm = ({
   onSubmit,
   submitButtonText,
   errorMessage,
+  isSignup,
 }: AuthFormProps) => {
   return (
-    <div className="flex flex-col divide-y divide-slate-700 items-center justify-center bg-slate-800 border border-slate-700 rounded-2xl">
-      <div className="p-4 md:p-8 w-full md:w-96">
-        <form className="space-y-6" onSubmit={onSubmit}>
+    <div className="flex flex-col divide-y divide-slate-700 items-center justify-center bg-slate-800 border border-slate-700 rounded-3xl">
+      <div className="p-6 md:p-10 w-full md:w-[457px]">
+        <form className="space-y-4" onSubmit={onSubmit}>
           {children}
 
-          <Button loading={isSubmitting} type="submit" fullWidth>
+          <Button loading={isSubmitting} size="lg" type="submit" fullWidth>
             {submitButtonText}
           </Button>
 
@@ -32,6 +35,26 @@ export const AuthForm = ({
             </div>
           )}
         </form>
+      </div>
+
+      <div className="p-4 w-full flex flex-row gap-2 justify-center items-center">
+        {isSignup ? (
+          <>
+            <span className="text-base text-slate-400">
+              Already have an account?
+            </span>
+            <Link href="/auth/login">
+              <span className="text-sm text-green-400">Sign in</span>
+            </Link>
+          </>
+        ) : (
+          <>
+            <span className="text-base text-slate-400">New to Aurora?</span>
+            <Link href="/auth/signup">
+              <span className="text-base text-green-400">Create account</span>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   )

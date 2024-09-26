@@ -2,6 +2,7 @@
 
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { AUTH_CALLBACK_ROUTE, LINK_SENT_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { AuthInput } from "@/components/AuthInput"
@@ -12,6 +13,7 @@ type Inputs = {
   email: string
   name: string
   company: string
+  marketing_consent?: boolean
 }
 
 export const SignUpForm = () => {
@@ -64,6 +66,7 @@ export const SignUpForm = () => {
       submitButtonText="Sign up"
       errorMessage={error?.message}
       isSubmitting={isSubmitting}
+      isSignup
     >
       <AuthInput
         required
@@ -90,6 +93,30 @@ export const SignUpForm = () => {
         register={register}
         registerOptions={{ required: true }}
       />
+
+      <div className="flex items-start ">
+        <input
+          id="marketing_consent"
+          type="checkbox"
+          className="h-4 w-4 bg-slate-800 rounded mt-1 border-gray-300 text-green-600 focus:ring-green-500"
+          {...register("marketing_consent")}
+        />
+        <label
+          htmlFor="marketing_consent"
+          className="ml-2 block text-sm text-slate-300"
+        >
+          Get emails from Aurora Cloud about product updates, industry news, and
+          events. Unsubscribe at any time.
+          <br />
+          <Link
+            target="_blank"
+            href="/privacy-policy"
+            className="text-slate-100"
+          >
+            Privacy Policy
+          </Link>
+        </label>
+      </div>
     </AuthForm>
   )
 }
