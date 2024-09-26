@@ -6,12 +6,14 @@ import { LinkSentText } from "./LinkSentText"
 const Page = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <AuthHeading className="mb-5 text-5xl">Check your email</AuthHeading>
-      <span className="text-[16px] text-slate-400 mb-5">
+      <AuthHeading className="mb-5 text-2xl lg:text-5xl">
+        Check your email
+      </AuthHeading>
+      <span className="text-base text-slate-400 mb-5">
         You will receive an email with a sign-in link.
       </span>
       <div className="flex flex-col divide-y divide-slate-700 items-center justify-center bg-slate-800 border border-slate-700 rounded-2xl">
-        <div className="p-8 w-96">
+        <div className="p-4 lg:p-8 w-full lg:w-96">
           <div className="flex items-start justify-center text-white">
             <div className="flex-shrink-0">
               <CheckCircleIcon
