@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Aurora, AuroraCloud } from "../../../public/static/v2/images"
+import { Aurora, AuroraCloud } from "../../public/static/v2/images"
 
 type AuroraLogoProps = {
   href?: string
