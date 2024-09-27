@@ -66,7 +66,11 @@ export const SignUpForm = () => {
       submitButtonText="Sign up"
       errorMessage={error?.message}
       isSubmitting={isSubmitting}
-      isSignup
+      footer={{
+        text: "Already have an account?",
+        link: "/auth/login",
+        linkText: "Sign in",
+      }}
     >
       <AuthInput
         required
@@ -110,7 +114,7 @@ export const SignUpForm = () => {
           <br />
           <Link
             target="_blank"
-            href="/privacy-policy"
+            href="https://auroracloud.dev/privacy"
             className="text-slate-100"
           >
             Privacy Policy

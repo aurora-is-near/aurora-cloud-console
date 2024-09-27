@@ -87,6 +87,11 @@ const LoginForm = () => {
       submitButtonText="Sign in"
       errorMessage={error?.message}
       isSubmitting={isSubmitting}
+      footer={{
+        text: "New to Aurora?",
+        link: "/auth/signup",
+        linkText: "Create account",
+      }}
     >
       <AuthInput
         required

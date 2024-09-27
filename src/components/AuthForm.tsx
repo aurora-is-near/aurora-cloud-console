@@ -8,7 +8,11 @@ type AuthFormProps = {
   children: ReactNode
   submitButtonText: string
   errorMessage?: string
-  isSignup?: boolean
+  footer?: {
+    text: string
+    link: string
+    linkText: string
+  }
 }
 
 export const AuthForm = ({
@@ -17,7 +21,7 @@ export const AuthForm = ({
   onSubmit,
   submitButtonText,
   errorMessage,
-  isSignup,
+  footer,
 }: AuthFormProps) => {
   return (
     <div className="flex flex-col divide-y divide-slate-700 items-center justify-center bg-slate-800 border border-slate-700 rounded-3xl">
@@ -37,25 +41,14 @@ export const AuthForm = ({
         </form>
       </div>
 
-      <div className="p-4 w-full flex flex-row gap-2 justify-center items-center">
-        {isSignup ? (
-          <>
-            <span className="text-base text-slate-400">
-              Already have an account?
-            </span>
-            <Link href="/auth/login">
-              <span className="text-sm text-green-400">Sign in</span>
-            </Link>
-          </>
-        ) : (
-          <>
-            <span className="text-base text-slate-400">New to Aurora?</span>
-            <Link href="/auth/signup">
-              <span className="text-base text-green-400">Create account</span>
-            </Link>
-          </>
-        )}
-      </div>
+      {footer && (
+        <div className="p-4 w-full flex flex-row gap-2 justify-center items-center">
+          <span className="text-slate-400">{footer.text}</span>
+          <Link href={footer.link}>
+            <span className="text-green-400">{footer.linkText}</span>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

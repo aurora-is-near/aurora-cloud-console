@@ -21,6 +21,9 @@ export const AuthInput = <Inputs extends Record<string, unknown>>({
   ...restProps
 }: AuthInputProps<Inputs>) => (
   <div className={className}>
+    <label htmlFor={id} className="sr-only">
+      {label}
+    </label>
     <input
       id={id}
       placeholder={label}
