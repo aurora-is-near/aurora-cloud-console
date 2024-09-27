@@ -48,8 +48,7 @@ const Page = () => {
         title="Block Explorer"
         description="Access a dedicated blockchain explorer for real-time transaction and contract tracking on your chain."
         button={{
-          text: "Enable feature",
-          path: "/",
+          text: "Coming soon",
         }}
         titlePrefix={
           <Image

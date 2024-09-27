@@ -18,7 +18,7 @@ const AuroraButton = ({ path, ...props }: AuroraButtonProps) => {
       className={`${
         path
           ? "bg-green-400 hover:bg-green-500 text-slate-900"
-          : "bg-green-400 text-slate-500 font-normal"
+          : "bg-slate-200 text-slate-500 font-normal"
       }`}
       {...props}
     >
