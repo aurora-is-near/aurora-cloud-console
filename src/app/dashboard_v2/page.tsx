@@ -41,7 +41,7 @@ const Page = async () => {
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
-      <div className="flex flex-row w-full lg:bg-slate-900 lg:px-4 lg:py-4">
+      <div className="flex flex-row w-full lg:bg-slate-900 lg:p-6">
         <AuroraLogo />
       </div>
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
@@ -54,7 +54,7 @@ const Page = async () => {
               <ul className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                 {teams.map((team) => (
                   <li key={team.id}>
-                    <Link href={`/dashboard/${team.team_key}`}>
+                    <Link href={`/dashboard_v2/${team.team_key}`}>
                       <Card borderRadius="xl">
                         <Card.Title>
                           <Image
