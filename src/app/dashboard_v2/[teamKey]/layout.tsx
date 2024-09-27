@@ -4,8 +4,8 @@ import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 import { getTokens } from "@/actions/tokens/get-tokens" // Import the getTokens function
 import { TeamProvider } from "@/providers/TeamProvider"
-import Header from "@/components/v2/dashboard/Header"
-import LeftMenu from "@/components/v2/dashboard/LeftMenu/LeftMenu"
+import Header from "@/components/dashboard/Header"
+import LeftMenu from "@/components/dashboard/LeftMenu/LeftMenu"
 
 interface TeamLayoutProps {
   children: React.ReactNode

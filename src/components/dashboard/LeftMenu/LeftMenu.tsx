@@ -3,7 +3,7 @@
 import {
   mainMenuButtons,
   stackMenuButtons,
-} from "@/components/v2/dashboard/LeftMenu/buttons"
+} from "@/components/dashboard/LeftMenu/buttons"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 

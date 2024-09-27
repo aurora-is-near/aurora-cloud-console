@@ -4,7 +4,7 @@ import EmptyState from "@/app/dashboard_v2/[teamKey]/gas_abstraction/EmptyState"
 import GasAbstractionHero from "@/app/dashboard_v2/[teamKey]/gas_abstraction/GasAbstractionHero"
 import DealList from "@/app/dashboard_v2/[teamKey]/gas_abstraction/DealList"
 import Contact from "@/components/Contact"
-import SubTitle from "@/components/v2/dashboard/SubTitle"
+import SubTitle from "@/components/dashboard/SubTitle"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 

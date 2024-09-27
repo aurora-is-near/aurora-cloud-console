@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react"
 import Link from "next/link"
-import Button from "@/components/v2/Button"
+import Button from "@/components/dashboard/Button"
 
 interface AuroraButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {

@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import Hero from "@/components/v2/dashboard/Hero"
-import Tabs from "@/components/v2/Tabs/Tabs"
+import Hero from "@/components/dashboard/Hero"
+import Tabs from "@/components/Tabs/Tabs"
 import { Pyth } from "../../../../../public/static/v2/images/icons"
 
 const AboutTab = () => {

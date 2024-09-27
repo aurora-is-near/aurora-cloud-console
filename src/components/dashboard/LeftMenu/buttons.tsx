@@ -1,4 +1,4 @@
-import Button from "@/components/v2/Button"
+import Button from "@/components/dashboard/Button"
 
 import {
   IconBlockExplorer,
@@ -9,7 +9,7 @@ import {
   IconMonitoring,
   IconOnramp,
   IconOracle,
-} from "../../../../../public/static/v2/images/menuIcons/index"
+} from "../../../../public/static/v2/images/menuIcons/index"
 
 export const mainMenuButtons = (teamKey?: string) => {
   if (!teamKey) {

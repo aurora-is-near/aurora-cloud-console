@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import AuroraLogo from "@/components/v2/AuroraLogo"
+import AuroraLogo from "@/components/AuroraLogo"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 

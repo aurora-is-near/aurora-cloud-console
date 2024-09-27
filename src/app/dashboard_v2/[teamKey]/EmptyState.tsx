@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import Hero from "@/components/v2/dashboard/Hero"
+import Hero from "@/components/dashboard/Hero"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 import { IconPlus } from "../../../../public/static/v2/images/menuIcons"

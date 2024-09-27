@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import Hero from "@/components/v2/dashboard/Hero"
+import Hero from "@/components/dashboard/Hero"
 
 const OnrampHero = () => {
   return (

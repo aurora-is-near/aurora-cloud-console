@@ -4,7 +4,7 @@ import { CheckIcon } from "@heroicons/react/20/solid"
 import { Button } from "@/components/Button"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
-import SubTitle from "@/components/v2/dashboard/SubTitle"
+import SubTitle from "@/components/dashboard/SubTitle"
 
 export const ActionsBar = () => {
   const { clearPendingUpdates, hasPendingUpdates, isUpdating } =

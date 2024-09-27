@@ -1,8 +1,8 @@
 import Image from "next/image"
 import Card from "@/components/Card"
-import Hero from "@/components/v2/dashboard/Hero"
-import Tabs from "@/components/v2/Tabs/Tabs"
-import SubTitle from "@/components/v2/dashboard/SubTitle"
+import Hero from "@/components/dashboard/Hero"
+import Tabs from "@/components/Tabs/Tabs"
+import SubTitle from "@/components/dashboard/SubTitle"
 import FeatureCard from "@/app/dashboard_v2/[teamKey]/integrations/FeatureCard"
 import {
   BlockExplorer,

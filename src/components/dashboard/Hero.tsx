@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
-import HeroTitle from "@/components/v2/Hero/HeroTitle"
-import HeroContent from "@/components/v2/Hero/HeroContent"
-import AuroraButton from "@/components/v2/AuroraButton"
+import HeroTitle from "@/components/Hero/HeroTitle"
+import HeroContent from "@/components/Hero/HeroContent"
+import AuroraButton from "@/components/AuroraButton"
 
 interface HeroButtonProps {
   text: string
