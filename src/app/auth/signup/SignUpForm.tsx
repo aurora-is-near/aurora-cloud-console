@@ -27,17 +27,24 @@ export const SignUpForm = () => {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>()
 
-  const signUp: SubmitHandler<Inputs> = async ({ email, name, company }) => {
+  const signUp: SubmitHandler<Inputs> = async ({
+    email,
+    name,
+    company,
+    marketing_consent,
+  }) => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
         emailRedirectTo: `${document.location.origin}${AUTH_CALLBACK_ROUTE}`,
 
         // A database trigger that is fired on `auth.user` creation will use
-        // this data to set the user's name and create a team
+        // this data to set the user's name, marketing consent flag and to
+        // create a team
         data: {
           name,
           company,
+          marketing_consent,
         },
       },
     })
