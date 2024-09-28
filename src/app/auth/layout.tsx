@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           src="/static/v2/images/authBg.svg"
           layout="fill"
           objectFit="cover"
-          objectPosition="0 20%"
+          style={{ objectPosition: "0 20%" }}
           sizes="100vw"
           alt=""
         />
