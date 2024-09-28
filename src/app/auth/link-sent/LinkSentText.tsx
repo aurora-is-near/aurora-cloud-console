@@ -8,9 +8,5 @@ export const LinkSentText = () => {
   const emailAddress =
     seachParams.get(EMAIL_QUERY_PARAM) ?? "your email address"
 
-  return (
-    <p className="text-sm font-medium text-white">
-      We sent a link to {emailAddress}.
-    </p>
-  )
+  return <p className="text-slate-400">We sent a link to {emailAddress}.</p>
 }
