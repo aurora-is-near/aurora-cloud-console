@@ -122,7 +122,7 @@ export const SignUpForm = () => {
           <Link
             target="_blank"
             href="https://auroracloud.dev/privacy"
-            className="text-slate-100"
+            className="text-slate-100 hover:underline"
           >
             Privacy Policy
           </Link>
