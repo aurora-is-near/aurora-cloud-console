@@ -5,7 +5,7 @@ import { LinkSentText } from "./LinkSentText"
 
 const Page = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <>
       <AuthHeading className="mb-5 text-2xl lg:text-5xl">
         Check your email
       </AuthHeading>
@@ -33,7 +33,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
