@@ -20,7 +20,9 @@ export const DeleteTokenButton = ({
 
   const onConfirmClick = async () => {
     await deleteToken(token.id)
-    router.push(`/dashboard/${teamKey}/admin/silos/edit/${siloId}/tokens`)
+    router.push(
+      `/legacy_dashboard/${teamKey}/admin/silos/edit/${siloId}/tokens`,
+    )
   }
 
   return (

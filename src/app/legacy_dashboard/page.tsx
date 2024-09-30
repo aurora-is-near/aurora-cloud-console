@@ -39,7 +39,7 @@ const Page = async () => {
   }
 
   if (currentUserTeams.length === 1 && !isAdminUser) {
-    return redirect(`/dashboard/${currentUserTeams[0].team_key}`)
+    return redirect(`/legacy_dashboard/${currentUserTeams[0].team_key}`)
   }
 
   return (
@@ -48,7 +48,7 @@ const Page = async () => {
         heading="Select a team"
         actions={
           isAdminUser ? (
-            <LinkButton href="/dashboard/new">
+            <LinkButton href="/legacy_dashboard/new">
               <PlusCircleIcon className="w-5 h-5" />
               <span>Create a team</span>
             </LinkButton>
@@ -58,7 +58,7 @@ const Page = async () => {
         <ul className="grid grid-cols-2 xl:grid-cols-4 gap-4">
           {teams.map((team) => (
             <li key={team.id}>
-              <Link href={`/dashboard/${team.team_key}`}>
+              <Link href={`/legacy_dashboard/${team.team_key}`}>
                 <Card>
                   <Card.Title>{team.name}</Card.Title>
                   <Card.Actions>

@@ -4,6 +4,6 @@ const Page = ({
   params: { id, teamKey },
 }: {
   params: { id: number; teamKey: string }
-}) => redirect(`/dashboard/${teamKey}/admin/silos/edit/${id}`)
+}) => redirect(`/legacy_dashboard/${teamKey}/admin/silos/edit/${id}`)
 
 export default Page

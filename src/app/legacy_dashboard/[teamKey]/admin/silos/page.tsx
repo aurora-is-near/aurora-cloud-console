@@ -18,7 +18,7 @@ const Page = async ({
     <DashboardPage
       heading="Silos"
       actions={
-        <LinkButton href={`/dashboard/${teamKey}/admin/silos/add`}>
+        <LinkButton href={`/legacy_dashboard/${teamKey}/admin/silos/add`}>
           <PlusCircleIcon className="w-5 h-5" />
           <span>Add silo</span>
         </LinkButton>
@@ -44,7 +44,7 @@ const Page = async ({
                   <TableButton
                     Icon={PencilSquareIcon}
                     srOnlyText={`Edit ${silo.name}`}
-                    href={`/dashboard/${teamKey}/admin/silos/edit/${silo.id}`}
+                    href={`/legacy_dashboard/${teamKey}/admin/silos/edit/${silo.id}`}
                   />
                   <DeleteSiloTableButton silo={silo} />
                 </div>

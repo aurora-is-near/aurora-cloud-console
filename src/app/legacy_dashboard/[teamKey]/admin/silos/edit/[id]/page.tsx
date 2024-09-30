@@ -27,7 +27,7 @@ const Page = async ({
     notFound()
   }
 
-  const tokensBaseRoute = `/dashboard/${teamKey}/admin/silos/edit/${silo.id}/tokens`
+  const tokensBaseRoute = `/legacy_dashboard/${teamKey}/admin/silos/edit/${silo.id}/tokens`
 
   return (
     <DashboardPage

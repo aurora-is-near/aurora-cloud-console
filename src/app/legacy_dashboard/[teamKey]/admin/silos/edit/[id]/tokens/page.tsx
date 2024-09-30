@@ -45,7 +45,7 @@ const Page = async ({
                   <TableButton
                     Icon={PencilSquareIcon}
                     srOnlyText={`Edit ${token.symbol}`}
-                    href={`/dashboard/${teamKey}/admin/silos/edit/${silo.id}/tokens/edit/${token.id}`}
+                    href={`/legacy_dashboard/${teamKey}/admin/silos/edit/${silo.id}/tokens/edit/${token.id}`}
                   />
                   <DeleteTokenTableButton token={token} />
                 </div>

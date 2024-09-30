@@ -15,7 +15,7 @@ export const DeleteSiloButton = ({ teamKey, silo }: DeleteSiloButtonProps) => {
 
   const onConfirmClick = async () => {
     await deleteSilo(silo.id)
-    router.push(`/dashboard/${teamKey}/admin/silos`)
+    router.push(`/legacy_dashboard/${teamKey}/admin/silos`)
   }
 
   return (

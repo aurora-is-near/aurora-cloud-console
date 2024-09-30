@@ -19,7 +19,7 @@ const Page = async ({
       heading="Deals"
       actions={
         <div className="flex flex-row space-x-3 items-center">
-          <LinkButton href={`/dashboard/${teamKey}/admin/deals/add`}>
+          <LinkButton href={`/legacy_dashboard/${teamKey}/admin/deals/add`}>
             <PlusCircleIcon className="w-5 h-5" />
             <span>Add deal</span>
           </LinkButton>
@@ -44,7 +44,7 @@ const Page = async ({
                   <TableButton
                     Icon={PencilSquareIcon}
                     srOnlyText={`Edit ${deal.name}`}
-                    href={`/dashboard/${teamKey}/admin/deals/edit/${deal.id}`}
+                    href={`/legacy_dashboard/${teamKey}/admin/deals/edit/${deal.id}`}
                   />
                   <DeleteDealTableButton deal={deal} />
                 </div>

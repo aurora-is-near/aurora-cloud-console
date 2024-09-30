@@ -32,7 +32,7 @@ const Layout = async ({
   const extraMenuItems: MenuItem[] = [
     {
       name: "Settings",
-      href: `/dashboard/${teamKey}/settings`,
+      href: `/legacy_dashboard/${teamKey}/settings`,
       icon: <Cog6ToothIcon />,
       SubMenu: SettingsMenu,
       MobileSubMenu: MobileSettingsMenu,
@@ -42,7 +42,7 @@ const Layout = async ({
   if (isAdminUser) {
     extraMenuItems.unshift({
       name: "Admin",
-      href: `/dashboard/${teamKey}/admin`,
+      href: `/legacy_dashboard/${teamKey}/admin`,
       icon: <AdjustmentsHorizontalIcon />,
       SubMenu: AdminMenu,
     })
@@ -53,27 +53,27 @@ const Layout = async ({
       mainMenuItems={[
         {
           name: "Borealis",
-          href: `/dashboard/${teamKey}/borealis/deals`,
+          href: `/legacy_dashboard/${teamKey}/borealis/deals`,
           icon: <Borealis />,
           SubMenu: DealsMenu,
           MobileSubMenu: MobileDealsMenu,
         },
         {
           name: "Silos",
-          href: `/dashboard/${teamKey}/silos`,
+          href: `/legacy_dashboard/${teamKey}/silos`,
           icon: <CubeIcon />,
           SubMenu: SilosMenu,
         },
         {
           name: "Lists",
-          href: `/dashboard/${teamKey}/lists`,
+          href: `/legacy_dashboard/${teamKey}/lists`,
           icon: <ListBulletIcon />,
           SubMenu: ListsMenu,
           MobileSubMenu: MobileListsMenu,
         },
         {
           name: "Services",
-          href: `/dashboard/${teamKey}/services`,
+          href: `/legacy_dashboard/${teamKey}/services`,
           icon: <SquaresPlusIcon />,
           SubMenu: ServicesMenu,
         },

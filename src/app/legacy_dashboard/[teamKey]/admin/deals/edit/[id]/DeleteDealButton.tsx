@@ -15,7 +15,7 @@ export const DeleteDealButton = ({ teamKey, deal }: DeleteDealButtonProps) => {
 
   const onConfirmClick = async () => {
     await deleteDeal(deal.id)
-    router.push(`/dashboard/${teamKey}/admin/deals`)
+    router.push(`/legacy_dashboard/${teamKey}/admin/deals`)
   }
 
   return (

@@ -32,7 +32,7 @@ export const BulkImportModal = ({
 
   const { createListItems, isPending } = useCreateListItems(listId, {
     onSuccess: () => {
-      router.push(`/dashboard/${teamKey}/lists/${listId}`)
+      router.push(`/legacy_dashboard/${teamKey}/lists/${listId}`)
     },
   })
 

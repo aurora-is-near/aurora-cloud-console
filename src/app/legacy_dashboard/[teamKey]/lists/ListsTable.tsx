@@ -81,7 +81,7 @@ export const ListsTable = ({ teamKey }: ListsTableProps) => {
           key={list.id}
           onClick={() => {
             if (!openMenu) {
-              router.push(`/dashboard/${teamKey}/lists/${list.id}`)
+              router.push(`/legacy_dashboard/${teamKey}/lists/${list.id}`)
             }
           }}
         >

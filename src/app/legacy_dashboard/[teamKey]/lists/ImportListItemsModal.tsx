@@ -45,7 +45,7 @@ export const ImportListItemsModal = ({
 
   const onBulkImportClick: MouseEventHandler<HTMLButtonElement> = (evt) => {
     evt.preventDefault()
-    router.push(`/dashboard/${teamKey}/lists/${id}/import`)
+    router.push(`/legacy_dashboard/${teamKey}/lists/${id}/import`)
   }
 
   return (

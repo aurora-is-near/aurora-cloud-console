@@ -44,8 +44,8 @@ export const DeleteListModal = ({ teamKey }: DeleteListModalProps) => {
 
           // If we're on a subpage of the deleted list then go back to the lists
           // overview page.
-          if (pathname.startsWith(`/dashboard/${teamKey}/lists/${id}`)) {
-            router.push(`/dashboard/${teamKey}/lists`)
+          if (pathname.startsWith(`/legacy_dashboard/${teamKey}/lists/${id}`)) {
+            router.push(`/legacy_dashboard/${teamKey}/lists`)
           }
         },
       },

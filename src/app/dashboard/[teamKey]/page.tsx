@@ -1,12 +1,12 @@
 import Link from "next/link"
 import Image from "next/image"
+import Hero from "@/components/dashboard/Hero"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import EmptyState, {
   ExploreItem,
   meetingLink,
 } from "@/app/dashboard/[teamKey]/EmptyState"
-import Hero from "@/components/dashboard/Hero"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import FeatureList from "@/app/dashboard/[teamKey]/FeatureList"
 
 const Page = async ({

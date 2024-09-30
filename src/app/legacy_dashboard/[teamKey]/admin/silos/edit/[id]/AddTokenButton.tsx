@@ -9,7 +9,7 @@ type AddTokenButtonProps = {
 
 export const AddTokenButton = ({ teamKey, silo }: AddTokenButtonProps) => (
   <LinkButton
-    href={`/dashboard/${teamKey}/admin/silos/edit/${silo.id}/tokens/add`}
+    href={`/legacy_dashboard/${teamKey}/admin/silos/edit/${silo.id}/tokens/add`}
   >
     <PlusCircleIcon className="w-5 h-5" />
     <span>Add token</span>

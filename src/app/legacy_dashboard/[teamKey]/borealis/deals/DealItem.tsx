@@ -20,7 +20,7 @@ const DealItem = ({ deal, teamKey }: DealItemProps) => (
         </p>
       </div>
       <LinkButton
-        href={`/dashboard/${teamKey}/borealis/deals/${deal.id}`}
+        href={`/legacy_dashboard/${teamKey}/borealis/deals/${deal.id}`}
         variant="border"
         size="sm"
       >
