@@ -45,7 +45,9 @@ export const AuthForm = ({
         <div className="p-4 w-full flex flex-row gap-2 justify-center items-center">
           <span className="text-slate-400">{footer.text}</span>
           <Link href={footer.link}>
-            <span className="text-green-400">{footer.linkText}</span>
+            <span className="text-green-400 hover:underline">
+              {footer.linkText}
+            </span>
           </Link>
         </div>
       )}

@@ -27,7 +27,7 @@ export const AuthInput = <Inputs extends Record<string, unknown>>({
     <input
       id={id}
       placeholder={label}
-      className="block w-full rounded-md border-0 bg-slate-700 py-3 text-slate-400 shadow-sm ocus:ring-2 focus:ring-inset focus:ring-green-500 text-base"
+      className="block w-full rounded-md border-0 bg-slate-700 py-3 text-slate-50 placeholder:text-slate-400 shadow-sm focus:ring-2 focus:ring-inset focus:ring-green-500 text-base"
       {...restProps}
       {...register?.(name, registerOptions)}
     />

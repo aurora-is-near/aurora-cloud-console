@@ -3,7 +3,7 @@ import { AuthHeading } from "@/components/AuthHeading"
 
 const Page = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <>
       <AuthHeading className="mb-5 text-2xl lg:text-5xl">
         Create account
       </AuthHeading>
@@ -12,7 +12,7 @@ const Page = () => {
         available on Aurora Cloud.
       </span>
       <SignUpForm />
-    </div>
+    </>
   )
 }
 

@@ -102,10 +102,10 @@ export const config = {
      * Match all request paths except for the ones starting with:
      * - _next/static (static files)
      * - _next/image (image optimization files)
+     * - static/ (static content in the static/ folder)
      * - favicon.ico (favicon file)
-     * - img/ (images in static/img folder)
      * - monitoring-tunnel (Sentry monitoring tunnel)
      */
-    "/((?!_next/static|_next/image|favicon.ico|img/|monitoring-tunnel).*)",
+    "/((?!_next/static|_next/image|static/|favicon.ico|monitoring-tunnel).*)",
   ],
 }

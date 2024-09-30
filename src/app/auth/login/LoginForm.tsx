@@ -88,7 +88,7 @@ const LoginForm = () => {
       errorMessage={error?.message}
       isSubmitting={isSubmitting}
       footer={{
-        text: "New to Aurora?",
+        text: "New to Aurora Cloud?",
         link: "/auth/signup",
         linkText: "Create account",
       }}
