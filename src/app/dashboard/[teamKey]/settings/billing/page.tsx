@@ -3,7 +3,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 const PLAN_DETAILS = [
   {
     title: "Plan",
-    value: "Free trial",
+    value: "-",
   },
   {
     title: "Cost / month",
