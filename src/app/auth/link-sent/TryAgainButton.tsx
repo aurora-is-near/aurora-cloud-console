@@ -19,10 +19,10 @@ export const TryAgainButton = () => {
   return (
     <button
       type="button"
-      className="underline hover:text-white"
+      className="text-green-400 hover:underline"
       onClick={onClick}
     >
-      Try again.
+      Send again
     </button>
   )
 }

@@ -2,6 +2,7 @@
 
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { AUTH_CALLBACK_ROUTE, LINK_SENT_ROUTE } from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { AuthInput } from "@/components/AuthInput"
@@ -12,6 +13,7 @@ type Inputs = {
   email: string
   name: string
   company: string
+  marketing_consent?: boolean
 }
 
 export const SignUpForm = () => {
@@ -25,17 +27,24 @@ export const SignUpForm = () => {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>()
 
-  const signUp: SubmitHandler<Inputs> = async ({ email, name, company }) => {
+  const signUp: SubmitHandler<Inputs> = async ({
+    email,
+    name,
+    company,
+    marketing_consent,
+  }) => {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
         emailRedirectTo: `${document.location.origin}${AUTH_CALLBACK_ROUTE}`,
 
         // A database trigger that is fired on `auth.user` creation will use
-        // this data to set the user's name and create a team
+        // this data to set the user's name, marketing consent flag and to
+        // create a team
         data: {
           name,
           company,
+          marketing_consent,
         },
       },
     })
@@ -64,6 +73,11 @@ export const SignUpForm = () => {
       submitButtonText="Sign up"
       errorMessage={error?.message}
       isSubmitting={isSubmitting}
+      footer={{
+        text: "Already have an account?",
+        link: "/auth/login",
+        linkText: "Sign in",
+      }}
     >
       <AuthInput
         required
@@ -90,6 +104,30 @@ export const SignUpForm = () => {
         register={register}
         registerOptions={{ required: true }}
       />
+
+      <div className="flex items-start ">
+        <input
+          id="marketing_consent"
+          type="checkbox"
+          className="h-4 w-4 bg-slate-800 rounded mt-1 border-gray-300 text-green-600 focus:ring-green-500"
+          {...register("marketing_consent")}
+        />
+        <label
+          htmlFor="marketing_consent"
+          className="ml-2 block text-sm text-slate-300"
+        >
+          Get emails from Aurora Cloud about product updates, industry news, and
+          events. Unsubscribe at any time.
+          <br />
+          <Link
+            target="_blank"
+            href="https://auroracloud.dev/privacy"
+            className="text-slate-100 hover:underline"
+          >
+            Privacy Policy
+          </Link>
+        </label>
+      </div>
     </AuthForm>
   )
 }
