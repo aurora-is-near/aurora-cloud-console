@@ -1,13 +1,16 @@
-"use client"
-
 import { redirect } from "next/navigation"
 import Contact from "@/components/Contact"
 import { SilosTransactionsCharts } from "@/app/dashboard/[teamKey]/silos/SilosTransactionsCharts"
-import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { TeamContext } from "@/providers/TeamProvider"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
-const Page = () => {
-  const { team, silos } = useRequiredContext(TeamContext)
+const Page = async ({
+  params: { teamKey },
+}: {
+  params: { teamKey: string }
+}) => {
+  const team = await getTeamByKey(teamKey)
+  const silos = await getTeamSilos(team.id)
 
   // If the team has a single silo, redirect to it
   if (silos.length === 1) {
@@ -22,7 +25,7 @@ const Page = () => {
         <SilosTransactionsCharts />
       </section>
 
-      <Contact teamKey={team.team_key} text="Need help setting up a silo?" />
+      <Contact teamKey={teamKey} text="Need help setting up a silo?" />
     </>
   )
 }

@@ -1,18 +1,21 @@
-"use client"
-
 import Link from "next/link"
 import Image from "next/image"
 import EmptyState, {
   ExploreItem,
-  features,
   meetingLink,
 } from "@/app/dashboard_v2/[teamKey]/EmptyState"
-import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { TeamContext } from "@/providers/TeamProvider"
 import Hero from "@/components/dashboard/Hero"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
+import FeatureList from "@/app/dashboard_v2/[teamKey]/FeatureList"
 
-const Page = () => {
-  const { silos, team } = useRequiredContext(TeamContext)
+const Page = async ({
+  params: { teamKey },
+}: {
+  params: { teamKey: string }
+}) => {
+  const team = await getTeamByKey(teamKey)
+  const silos = await getTeamSilos(team.id)
 
   return silos.length === 0 ? (
     <EmptyState />
@@ -80,19 +83,7 @@ manage gas mechanics, and configure integrations effortlessly. Maintain control 
             </Link>
           </div>
 
-          <div className="mt-5 grid w-full max-w-sm flex-1 gap-4 md:max-w-none md:grid-cols-3 md:gap-8">
-            {features.map((feature) => (
-              <div
-                className="flex flex-col items-start justify-center rounded-[10px] bg-white p-5 pb-0 md:p-7 border border-slate-200"
-                key={feature.title}
-              >
-                <feature.icon className="h-5 w-5 text-green-800 md:h-10 md:w-10" />
-                <h3 className="mt-4 max-w-[65%] text-base font-bold leading-[18px] text-slate-900 md:mt-5 md:text-[16px]">
-                  {feature.title}
-                </h3>
-              </div>
-            ))}
-          </div>
+          <FeatureList />
         </div>
       </div>
     </div>
