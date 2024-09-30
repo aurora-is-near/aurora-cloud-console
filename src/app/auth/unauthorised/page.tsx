@@ -1,18 +1,15 @@
-"use client"
-
 import { NotAllowed } from "@/components/NotAllowed"
-import { FullScreenPage } from "@/components/FullScreenPage"
 
 const Page = () => {
   return (
-    <FullScreenPage>
+    <div className="sm:mx-auto sm:w-full sm:max-w-sm">
       <NotAllowed
         title="You are not a member of this team"
         description="If you believe you should be a member of this team please contact your team administrator."
         showRefreshButton
         showLogoutButton
       />
-    </FullScreenPage>
+    </div>
   )
 }
 

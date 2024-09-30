@@ -95,6 +95,13 @@ begin
     where id = new_user_id;
   end if;
 
+  -- Set the user's initial marketing consent flag
+  if public.has_metadata_key(new.raw_user_meta_data, 'marketing_consent') then
+    update public.users
+    set marketing_consent = (new.raw_user_meta_data->>'marketing_consent')::bool
+    where id = new_user_id;
+  end if;
+
   return new;
 end;
 $$ language plpgsql security definer;

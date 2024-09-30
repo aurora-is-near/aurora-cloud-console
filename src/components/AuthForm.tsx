@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import Link from "next/link"
 import { Button } from "@/components/Button"
 
 type AuthFormProps = {
@@ -7,6 +8,11 @@ type AuthFormProps = {
   children: ReactNode
   submitButtonText: string
   errorMessage?: string
+  footer?: {
+    text: string
+    link: string
+    linkText: string
+  }
 }
 
 export const AuthForm = ({
@@ -15,14 +21,15 @@ export const AuthForm = ({
   onSubmit,
   submitButtonText,
   errorMessage,
+  footer,
 }: AuthFormProps) => {
   return (
-    <div className="flex flex-col divide-y divide-slate-700 items-center justify-center bg-slate-800 border border-slate-700 rounded-2xl">
-      <div className="p-4 md:p-8 w-full md:w-96">
-        <form className="space-y-6" onSubmit={onSubmit}>
+    <div className="flex flex-col divide-y divide-slate-700 items-center justify-center bg-slate-800 border border-slate-700 rounded-3xl">
+      <div className="p-6 md:p-10 w-full md:w-[457px]">
+        <form className="space-y-4" onSubmit={onSubmit}>
           {children}
 
-          <Button loading={isSubmitting} type="submit" fullWidth>
+          <Button loading={isSubmitting} size="lg" type="submit" fullWidth>
             {submitButtonText}
           </Button>
 
@@ -33,6 +40,17 @@ export const AuthForm = ({
           )}
         </form>
       </div>
+
+      {footer && (
+        <div className="p-4 w-full flex flex-row gap-2 justify-center items-center">
+          <span className="text-slate-400">{footer.text}</span>
+          <Link href={footer.link}>
+            <span className="text-green-400 hover:underline">
+              {footer.linkText}
+            </span>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }
