@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
 import Contact from "@/components/Contact"
-import { SilosTransactionsCharts } from "@/app/dashboard/[teamKey]/silos/SilosTransactionsCharts"
+import { SilosTransactionsCharts } from "@/app/legacy_dashboard/[teamKey]/silos/SilosTransactionsCharts"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
@@ -14,9 +14,7 @@ const Page = async ({
 
   // If the team has a single silo, redirect to it
   if (silos.length === 1) {
-    return redirect(
-      `/dashboard_v2/${team.team_key}/configuration/${silos[0].id}`,
-    )
+    return redirect(`/dashboard/${team.team_key}/configuration/${silos[0].id}`)
   }
 
   return (
