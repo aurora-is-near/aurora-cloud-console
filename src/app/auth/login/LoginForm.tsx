@@ -8,6 +8,7 @@ import { createClientComponentClient } from "@/supabase/create-client-component-
 import { AuthInput } from "@/components/AuthInput"
 import { AuthForm } from "@/components/AuthForm"
 import { EMAIL_QUERY_PARAM } from "@/constants/auth"
+import { isAdminUser } from "@/utils/admin"
 
 type Inputs = {
   email: string
@@ -34,10 +35,16 @@ const LoginForm = () => {
 
   const signIn: SubmitHandler<Inputs> = useCallback(
     async ({ email }) => {
+      // For regular users we need some additional information from them in
+      // order to create an account, so we force them through the sign up flow.
+      // Admin users can sign in directly, as they will have access to all teams
+      // by default.
+      const shouldCreateUser = isAdminUser(email)
+
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          shouldCreateUser: false,
+          shouldCreateUser,
           emailRedirectTo: `${document.location.origin}${AUTH_CALLBACK_ROUTE}`,
         },
       })
