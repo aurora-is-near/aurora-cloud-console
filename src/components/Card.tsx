@@ -2,21 +2,25 @@ import { ReactNode } from "react"
 import clsx from "clsx"
 import { findChildren, findOtherChildren } from "@/utils/helpers"
 
-const HORIZONTAL_PADDING = "px-6 sm:px-5 md:px-6"
+const HORIZONTAL_PADDING = "px-5"
 
 const Title = ({
   children,
   tag: Tag = "h2",
   isDisabled,
+  size = "medium",
 }: {
   children: ReactNode
   tag?: keyof JSX.IntrinsicElements
   isDisabled?: boolean
+  size?: "small" | "medium" | "large"
 }) => (
   <Tag
     className={clsx(
-      "text-base font-medium !leading-none sm:text-lg",
-      isDisabled ? "text-gray-500" : "text-gray-900",
+      "text-base font-medium !leading-none",
+      size === "medium" && "sm:text-lg",
+      size === "large" && "md:text-xl",
+      isDisabled ? "text-slate-500" : "text-slate-900",
     )}
   >
     {children}
@@ -26,7 +30,7 @@ const Title = ({
 Title.displayName = "Title"
 
 const Subtitle = ({ children }: { children: ReactNode }) => (
-  <p className="mt-1 text-sm leading-5 text-gray-500 sm:mt-2">{children}</p>
+  <p className="mt-1 text-sm leading-5 text-slate-500 sm:mt-2">{children}</p>
 )
 
 Subtitle.displayName = "Subtitle"
@@ -38,7 +42,7 @@ const Actions = ({ children }: { children: ReactNode }) => (
 Actions.displayName = "Actions"
 
 const Body = ({ children }: { children: ReactNode }) => (
-  <div className={clsx(HORIZONTAL_PADDING, "pb-7")}>{children}</div>
+  <div className={clsx(HORIZONTAL_PADDING, "pb-5")}>{children}</div>
 )
 
 Body.displayName = "Body"
@@ -46,6 +50,12 @@ Body.displayName = "Body"
 const Row = ({ children }: { children: ReactNode }) => (
   <div className={clsx(HORIZONTAL_PADDING, "py-4 border-t")}>{children}</div>
 )
+
+const Header = ({ children }: { children: ReactNode }) => (
+  <div className="pb-5">{children}</div>
+)
+
+Header.displayName = "Header"
 
 const Cell = ({
   children,
@@ -79,19 +89,25 @@ const Card = ({
   const title = findChildren(children, "Title")
   const subtitle = findChildren(children, "Subtitle")
   const actions = findChildren(children, "Actions")
-  const content = findOtherChildren(children, ["Title", "Subtitle", "Actions"])
+  const head = findChildren(children, "Header")
+  const content = findOtherChildren(children, [
+    "Title",
+    "Subtitle",
+    "Actions",
+    "Header",
+  ])
 
   const hasHeader = !!(title ?? subtitle ?? actions)
 
   return (
     <Tag
       className={clsx(
-        "border",
+        "border border-slate-200",
         {
-          "rounded-md": borderRadius === "md",
+          "rounded-[10px]": borderRadius === "md",
           "rounded-xl": borderRadius === "xl",
           "rounded-2xl": borderRadius === "2xl",
-          "px-4 py-5 sm:px-5 md:px-6 sm:py-6": !hasHeader,
+          "p-5": !hasHeader,
         },
         isDisabled ? "bg-gray-100" : "bg-white",
         className,
@@ -101,6 +117,7 @@ const Card = ({
       {hasHeader && (
         <header className="flex flex-col items-start justify-between px-4 py-5 gap-y-3 sm:gap-y-0 sm:flex-row sm:px-5 md:px-6 sm:py-6">
           <div className="sm:self-center">
+            {head}
             {title}
             {subtitle}
           </div>
@@ -118,5 +135,6 @@ Card.Actions = Actions
 Card.Body = Body
 Card.Row = Row
 Card.Cell = Cell
+Card.Header = Header
 
 export default Card

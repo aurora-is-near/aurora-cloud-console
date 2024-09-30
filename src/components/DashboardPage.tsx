@@ -7,6 +7,7 @@ import { Toaster } from "@/components/Toaster"
 type DashboardPageProps = {
   children: ReactNode
   heading?: string | string[]
+  headingSize?: "sm" | "md" | "lg"
   actions?: ReactNode
   footer?: ReactNode
   banner?: ReactNode
@@ -25,12 +26,14 @@ type DashboardPageProps = {
 )
 
 const WRAPPER_CLASSNAME = "max-h-full flex-1 flex flex-col"
-const CONTAINER_CLASSNAME = "px-4 py-6 md:px-6 lg:px-8"
+const CONTAINER_CLASSNAME =
+  "px-4 py-6 md:px-6 lg:px-8 w-full mx-auto max-w-[1044px]"
 
 export const DashboardPage = ({
   children,
   footer,
   heading,
+  headingSize,
   actions,
   isForm,
   formProps,
@@ -54,7 +57,9 @@ export const DashboardPage = ({
           {heading && (
             <div className="flex justify-between items-center mb-7">
               {typeof heading === "string" ? (
-                <Heading tag="h2">{heading}</Heading>
+                <Heading tag="h1" size={headingSize}>
+                  {heading}
+                </Heading>
               ) : (
                 <BreadcrumbHeading titles={heading} />
               )}
