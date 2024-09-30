@@ -1,14 +1,11 @@
 import Button from "@/components/dashboard/Button"
 
 import {
-  IconBlockExplorer,
   IconConfig,
   IconDashboard,
   IconGas,
   IconMarketplace,
   IconMonitoring,
-  IconOnramp,
-  IconOracle,
 } from "../../../../public/static/v2/images/menuIcons/index"
 
 export const mainMenuButtons = (teamKey?: string) => {
@@ -51,39 +48,6 @@ export const mainMenuButtons = (teamKey?: string) => {
       path={`/dashboard_v2/${teamKey}/integrations`}
       className="text-slate-500"
       icon={<IconMarketplace className="h-7 w-7" />}
-    />,
-  ]
-}
-
-export const stackMenuButtons = (teamKey?: string) => {
-  if (!teamKey) {
-    return []
-  }
-
-  return [
-    <Button
-      title="Onramp"
-      key="Onramp"
-      path={`/dashboard_v2/${teamKey}/onramp`}
-      className="text-slate-500"
-      bordered
-      icon={<IconOnramp className="h-7 w-7" />}
-    />,
-    <Button
-      title="Oracle"
-      key="Oracle"
-      path={`/dashboard_v2/${teamKey}/oracle`}
-      className="text-slate-500"
-      bordered
-      icon={<IconOracle className="h-7 w-7" />}
-    />,
-    <Button
-      title="Block explorer"
-      key="Block explorer"
-      path={`/dashboard_v2/${teamKey}/block_explorer`}
-      className="text-slate-500"
-      bordered
-      icon={<IconBlockExplorer className="h-7 w-7" />}
     />,
   ]
 }
