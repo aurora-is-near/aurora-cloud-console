@@ -3,7 +3,7 @@ import Card from "@/components/Card"
 import Hero from "@/components/dashboard/Hero"
 import Tabs from "@/components/Tabs/Tabs"
 import SubTitle from "@/components/dashboard/SubTitle"
-import FeatureCard from "@/app/dashboard_v2/[teamKey]/integrations/FeatureCard"
+import FeatureCard from "@/app/dashboard/[teamKey]/integrations/FeatureCard"
 import {
   BlockExplorer,
   Bridge,

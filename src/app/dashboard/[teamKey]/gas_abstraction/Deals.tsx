@@ -1,8 +1,8 @@
 "use client"
 
-import EmptyState from "@/app/dashboard_v2/[teamKey]/gas_abstraction/EmptyState"
-import GasAbstractionHero from "@/app/dashboard_v2/[teamKey]/gas_abstraction/GasAbstractionHero"
-import DealList from "@/app/dashboard_v2/[teamKey]/gas_abstraction/DealList"
+import EmptyState from "@/app/dashboard/[teamKey]/gas_abstraction/EmptyState"
+import GasAbstractionHero from "@/app/dashboard/[teamKey]/gas_abstraction/GasAbstractionHero"
+import DealList from "@/app/dashboard/[teamKey]/gas_abstraction/DealList"
 import Contact from "@/components/Contact"
 import SubTitle from "@/components/dashboard/SubTitle"
 import { useRequiredContext } from "@/hooks/useRequiredContext"

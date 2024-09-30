@@ -25,7 +25,7 @@ const DealList = ({ team, deals }: DealListProps) => {
           </p>
         </div>
         <LinkButton
-          href={`/dashboard_v2/${team.team_key}/gas_abstraction/${deal.id}`}
+          href={`/dashboard/${team.team_key}/gas_abstraction/${deal.id}`}
           variant="border"
           size="sm"
         >

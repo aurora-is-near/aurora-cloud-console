@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/Button"
-import GasAbstractionHero from "@/app/dashboard_v2/[teamKey]/gas_abstraction/GasAbstractionHero"
+import GasAbstractionHero from "@/app/dashboard/[teamKey]/gas_abstraction/GasAbstractionHero"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 
@@ -27,7 +27,7 @@ const EmptyState = () => {
             </span>
           </div>
           <div className="self-center">
-            <Link href={`/dashboard_v2/${team.team_key}/create_chain`}>
+            <Link href={`/dashboard/${team.team_key}/create_chain`}>
               <Button size="sm" variant="border">
                 Create chain
               </Button>
