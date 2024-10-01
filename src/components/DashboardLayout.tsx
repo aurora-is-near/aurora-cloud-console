@@ -18,11 +18,13 @@ export const DashboardLayout = ({
   const menuItems = [...mainMenuItems, ...extraMenuItems]
 
   return (
-    <div className="w-full lg:flex lg:flex-row lg:h-screen overflow-hidden">
-      <MainMenu mainMenuItems={mainMenuItems} extraMenuItems={extraMenuItems} />
+    <div className="w-full h-full flex flex-col overflow-hidden">
+      <MainMenu menuItems={extraMenuItems} />
       <MobileMenu menuItems={menuItems} />
-      {!!menuItems.length && <SubMenuNav menuItems={menuItems} />}
-      <div className="w-full">{children}</div>
+      <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
+        {!!menuItems.length && <SubMenuNav menuItems={menuItems} />}
+        <div className="w-full">{children}</div>
+      </div>
     </div>
   )
 }

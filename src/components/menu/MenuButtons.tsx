@@ -30,7 +30,7 @@ const MainMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
   const pathname = usePathname()
   const isCurrentRoute = pathname.startsWith(href)
 
-  icon = generateIcon(icon, "w-6 h-6 shrink-0")
+  icon = generateIcon(icon, "w-6 h-6 shrink-0 text-slate-300")
 
   return (
     <Tooltip
@@ -106,7 +106,7 @@ const MobileMainMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
   const pathname = usePathname()
   const isCurrentRoute = pathname.startsWith(href)
 
-  icon = generateIcon(icon, "w-6 h-6 shrink-0")
+  icon = generateIcon(icon, "w-6 h-6 shrink-0 text-slate-300")
 
   return (
     <Link
