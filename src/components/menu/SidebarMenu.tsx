@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 import { MenuItem } from "@/types/menu"
 import Heading from "../Heading"
 
-const SubMenuNav = ({ menuItems }: { menuItems: MenuItem[] }) => {
+export const SidebarMenu = ({ menuItems }: { menuItems: MenuItem[] }) => {
   const pathname = usePathname()
   const activeMenu = menuItems.find((item) => pathname.startsWith(item.href))
   const { name, SubMenu } = activeMenu ?? {}
@@ -23,5 +23,3 @@ const SubMenuNav = ({ menuItems }: { menuItems: MenuItem[] }) => {
     </aside>
   )
 }
-
-export default SubMenuNav
