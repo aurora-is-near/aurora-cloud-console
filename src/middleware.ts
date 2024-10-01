@@ -81,7 +81,7 @@ export async function middleware(req: NextRequest) {
     isDashboardRoute &&
     !(
       session.user.user_metadata.teams?.includes(teamKey) ||
-      isAdminUser(session.user)
+      isAdminUser(session.user.email)
     )
   ) {
     return unauthorisedRedirect(req, res)

@@ -1,7 +1,7 @@
-import { ChevronRightIcon } from "@heroicons/react/20/solid"
-import { PlusCircleIcon } from "@heroicons/react/24/outline"
+import { PlusIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
 import { redirect } from "next/navigation"
+import Image from "next/image"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { isAdmin } from "@/actions/is-admin"
 import { getTeams } from "@/actions/teams/get-teams"
@@ -45,30 +45,34 @@ const Page = async () => {
   return (
     <DashboardLayout>
       <DashboardPage
-        heading="Select a team"
+        heading="Your teams"
+        headingSize="lg"
         actions={
           isAdminUser ? (
             <LinkButton href="/dashboard/new">
-              <PlusCircleIcon className="w-5 h-5" />
-              <span>Create a team</span>
+              <PlusIcon className="w-5 h-5" />
+              <span>New team</span>
             </LinkButton>
           ) : null
         }
       >
-        <ul className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+        <ul className="grid grid-cols-2 xl:grid-cols-3 gap-6">
           {teams.map((team) => (
-            <li key={team.id}>
-              <Link href={`/dashboard/${team.team_key}`}>
-                <Card>
-                  <Card.Title>{team.name}</Card.Title>
-                  <Card.Actions>
-                    <ChevronRightIcon className="h-5 w-5" />
-                  </Card.Actions>
-                  <Card.Body>
-                    <span className="text-xs text-gray-500">
-                      {team.website}
-                    </span>
-                  </Card.Body>
+            <li key={team.id} className="flex">
+              <Link
+                href={`/dashboard/${team.team_key}`}
+                className="flex w-full"
+              >
+                <Card className="w-full">
+                  <Card.Header>
+                    <Image
+                      width={64}
+                      height={64}
+                      src="/static/v2/images/heroIcons/cloud.png"
+                      alt="Aurora Cloud Console"
+                    />
+                  </Card.Header>
+                  <Card.Title size="large">{team.name}</Card.Title>
                 </Card>
               </Link>
             </li>
