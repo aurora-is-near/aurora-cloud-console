@@ -56,14 +56,14 @@ const Page = async () => {
                   <li key={team.id}>
                     <Link href={`/dashboard_v2/${team.team_key}`}>
                       <Card borderRadius="xl">
-                        <Card.Title>
+                        <Card.Header>
                           <Image
                             width={40}
                             height={40}
                             src="/static/v2/images/heroIcons/cloud.png"
                             alt="Aurora Cloud Console"
                           />
-                        </Card.Title>
+                        </Card.Header>
                         <Card.Body>
                           <div className="flex">
                             <div className="flex-grow pr-4">
