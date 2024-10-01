@@ -45,7 +45,7 @@ const MainMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
           isCurrentRoute
             ? "bg-green-500 text-gray-900"
             : "text-gray-400 hover:text-white hover:bg-gray-800",
-          "group flex rounded-lg p-3 text-sm leading-6 font-semibold items-center justify-center",
+          "group flex rounded-lg p-2 text-sm leading-6 font-semibold items-center justify-center",
         )}
       >
         {icon}
