@@ -1,28 +1,28 @@
 import { ReactNode } from "react"
 import { MainMenu } from "@/components/menu/MainMenu"
 import MobileMenu from "@/components/menu/MobileMenu"
-import SubMenuNav from "@/components/menu/SubMenuNav"
 import { MenuItem } from "@/types/menu"
+import { SidebarMenu } from "@/components/menu/SidebarMenu"
 
 type DashboardLayoutProps = {
   children: ReactNode
+  sidebarMenuItems?: MenuItem[]
   mainMenuItems?: MenuItem[]
-  extraMenuItems?: MenuItem[]
 }
 
 export const DashboardLayout = ({
   children,
+  sidebarMenuItems = [],
   mainMenuItems = [],
-  extraMenuItems = [],
 }: DashboardLayoutProps) => {
-  const menuItems = [...mainMenuItems, ...extraMenuItems]
-
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
-      <MainMenu menuItems={extraMenuItems} />
-      <MobileMenu menuItems={menuItems} />
+      <MainMenu menuItems={mainMenuItems} />
+      <MobileMenu menuItems={[...sidebarMenuItems, ...mainMenuItems]} />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
-        {!!menuItems.length && <SubMenuNav menuItems={menuItems} />}
+        {!!sidebarMenuItems.length && (
+          <SidebarMenu menuItems={sidebarMenuItems} />
+        )}
         <div className="w-full">{children}</div>
       </div>
     </div>
