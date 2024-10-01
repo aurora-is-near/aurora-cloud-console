@@ -36,7 +36,7 @@ const MainMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
     <Tooltip
       id={`menu-item-${paramCase(name)}`}
       content={name}
-      place="right"
+      place="bottom"
       type="white"
     >
       <Link
