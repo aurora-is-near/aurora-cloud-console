@@ -6,6 +6,7 @@ import { Silo, Team } from "@/types/types"
 import FeatureList, {
   FeatureBanner,
 } from "@/app/dashboard/[teamKey]/FeatureList"
+import { Button } from "@/components/Button"
 import {
   Partner1,
   Partner2,
@@ -163,12 +164,9 @@ const Dashboard = ({ team, silos }: { team: Team; silos: Silo[] }) => {
             </div>
 
             <Link href={meetingLink} target="_blank">
-              <button
-                type="button"
-                className="border border-slate-400 rounded-lg p-3"
-              >
+              <Button variant="border" size="lg">
                 Book a call
-              </button>
+              </Button>
             </Link>
           </div>
 
