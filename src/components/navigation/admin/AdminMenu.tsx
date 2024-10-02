@@ -5,7 +5,7 @@ import {
   TicketIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline"
-import { SubMenuButton } from "@/components/menu/MenuButtons"
+import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
 import { useTeamKey } from "@/hooks/useTeamKey"
 
 export const AdminMenu = () => {
@@ -13,17 +13,17 @@ export const AdminMenu = () => {
 
   return (
     <ul className="space-y-4">
-      <SubMenuButton
+      <SidebarMenuButton
         name="Team"
         href={`/dashboard/${teamKey}/admin/team`}
         icon={<UserGroupIcon />}
       />
-      <SubMenuButton
+      <SidebarMenuButton
         name="Silos"
         href={`/dashboard/${teamKey}/admin/silos`}
         icon={<CubeIcon />}
       />
-      <SubMenuButton
+      <SidebarMenuButton
         name="Deals"
         href={`/dashboard/${teamKey}/admin/deals`}
         icon={<TicketIcon />}

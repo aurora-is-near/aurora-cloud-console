@@ -1,6 +1,5 @@
 import { ReactNode } from "react"
 import { MainMenu } from "@/components/menu/MainMenu"
-import MobileMenu from "@/components/menu/MobileMenu"
 import { MenuItem } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 
@@ -20,7 +19,6 @@ export const DashboardLayout = ({
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
       <MainMenu menuItems={mainMenuItems} />
-      <MobileMenu menuItems={[...sidebarMenuItems, ...mainMenuItems]} />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
         {!!sidebarMenuItems.length && (
           <SidebarMenu

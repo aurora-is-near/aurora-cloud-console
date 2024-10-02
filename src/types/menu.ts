@@ -5,6 +5,5 @@ export type MenuItem = {
   href: string
   icon: JSX.Element
   disabled?: boolean
-  SubMenu: ComponentType
-  MobileSubMenu?: ComponentType
+  Menu: ComponentType
 }

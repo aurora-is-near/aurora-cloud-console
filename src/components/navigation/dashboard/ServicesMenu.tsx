@@ -1,7 +1,7 @@
 "use client"
 
 import { ListBulletIcon } from "@heroicons/react/24/outline"
-import { SubMenuButton } from "@/components/menu/MenuButtons"
+import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
 import { useTeamKey } from "@/hooks/useTeamKey"
 
 export const ServicesMenu = () => {
@@ -9,7 +9,7 @@ export const ServicesMenu = () => {
 
   return (
     <ul className="space-y-4">
-      <SubMenuButton
+      <SidebarMenuButton
         href={`/dashboard/${teamKey}/services`}
         name="All services"
         icon={<ListBulletIcon />}

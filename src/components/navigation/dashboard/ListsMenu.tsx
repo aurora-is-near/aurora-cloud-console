@@ -8,7 +8,7 @@ import {
 import { useLists } from "@/hooks/useLists"
 import { Modals } from "@/utils/modals"
 import { MenuItemsLoader } from "@/components/menu/MenuItemsLoader"
-import { SubMenuButton } from "@/components/menu/MenuButtons"
+import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
 import { MenuDivider } from "@/components/menu/MenuDivider"
 import { useTeamKey } from "@/hooks/useTeamKey"
 
@@ -27,7 +27,7 @@ export const ListsMenu = () => {
   return (
     <>
       <ul className="space-y-4">
-        <SubMenuButton
+        <SidebarMenuButton
           href={`/dashboard/${teamKey}/lists`}
           name="All lists"
           icon={<ListBulletIcon />}
@@ -39,7 +39,7 @@ export const ListsMenu = () => {
       <ul className="space-y-4">
         {data.items.map((deal) => (
           <li key={deal.id}>
-            <SubMenuButton
+            <SidebarMenuButton
               href={`/dashboard/${teamKey}/lists/${deal.id}`}
               name={deal.name}
               icon={<ClipboardDocumentCheckIcon />}
@@ -47,7 +47,7 @@ export const ListsMenu = () => {
           </li>
         ))}
         <li>
-          <SubMenuButton
+          <SidebarMenuButton
             href={`/dashboard/${teamKey}/lists?modal=${Modals.AddList}`}
             name="New list"
             icon={<PlusIcon />}
