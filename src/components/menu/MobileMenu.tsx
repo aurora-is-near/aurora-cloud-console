@@ -15,7 +15,7 @@ const SubrouteMenu = ({ menuItems }: { menuItems: MenuItem[] }) => {
   const { MobileSubMenu } = activeMenu ?? {}
 
   return (
-    <nav className="mt-6 flex-1 pt-6 border-t border-gray-800 space-y-2">
+    <nav className="mt-6 flex-1 pt-6 border-t border-slate-800 space-y-2">
       {MobileSubMenu && <MobileSubMenu />}
     </nav>
   )
@@ -51,7 +51,7 @@ const MobileMenu = ({ menuItems }: MobileMenuProps) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-900/80" />
+            <div className="fixed inset-0 bg-slate-900/80" />
           </Transition.Child>
 
           <div className="fixed inset-0 flex">
@@ -89,7 +89,7 @@ const MobileMenu = ({ menuItems }: MobileMenuProps) => {
                   </div>
                 </Transition.Child>
 
-                <div className="flex grow flex-col overflow-y-auto bg-gray-900 p-6 ring-1 ring-white/10">
+                <div className="flex grow flex-col overflow-y-auto bg-slate-900 p-6 ring-1 ring-white/10">
                   <div className="shrink-0">
                     <AuroraTriangle className="w-6 h-6" />
                   </div>
@@ -112,12 +112,12 @@ const MobileMenu = ({ menuItems }: MobileMenuProps) => {
         </Dialog>
       </Transition.Root>
 
-      <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+      <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-slate-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
         <div className="flex-1 text-sm font-semibold leading-6 text-white space-x-2">
           <span>{capitalizeFirstLetter(route)}</span>
           {subRoute && (
             <>
-              <span className="text-gray-500">/</span>
+              <span className="text-slate-500">/</span>
               <span>{capitalizeFirstLetter(subRoute)}</span>
             </>
           )}
@@ -125,7 +125,7 @@ const MobileMenu = ({ menuItems }: MobileMenuProps) => {
 
         <button
           type="button"
-          className="-m-2.5 p-2.5 text-gray-400 lg:hidden"
+          className="-m-2.5 p-2.5 text-slate-400 lg:hidden"
           onClick={() => setMenuOpen(true)}
         >
           <span className="sr-only">Open navigation</span>

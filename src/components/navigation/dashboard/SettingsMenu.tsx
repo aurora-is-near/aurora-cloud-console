@@ -43,7 +43,7 @@ export const SettingsMenu = () => {
           icon={<KeyIcon />}
         />
       </ul>
-      <div className="pt-4 border-t border-gray-200">
+      <div className="pt-4 border-t border-slate-200">
         <SignoutButton />
       </div>
     </>

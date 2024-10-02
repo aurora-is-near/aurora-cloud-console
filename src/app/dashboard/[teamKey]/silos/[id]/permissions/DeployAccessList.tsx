@@ -12,20 +12,20 @@ const DeployAccessList = () => {
         <ListItem.Title>All users</ListItem.Title>
         <ListItem.Subtitle>5,223 users</ListItem.Subtitle>
         <div className="flex items-center gap-x-2.5">
-          <span className="text-gray-500 text-sm leading-none">
+          <span className="text-slate-500 text-sm leading-none">
             auroracloud.api/lsjkh4lkfjsd9
           </span>
           <CopyButton value="auroracloud.api/lsjkh4lkfjsd9" />
         </div>
         <ListItem.Actions>
-          <button type="button" className="text-gray-500 hover:text-gray-900">
+          <button type="button" className="text-slate-500 hover:text-slate-900">
             <span className="sr-only">Edit list</span>
             <Cog6ToothIcon className="h-5 w-5" />
           </button>
           <button
             type="button"
             onClick={() => logger.debug("remove list")}
-            className="text-gray-500 hover:text-gray-900"
+            className="text-slate-500 hover:text-slate-900"
           >
             <span className="sr-only">Remove list</span>
             <XMarkIcon className="h-5 w-5" />

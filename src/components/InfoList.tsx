@@ -5,9 +5,9 @@ import CopyButton from "./CopyButton"
 
 const Tooltip = ({ text }: { text: string }) => (
   <div className="h-5 w-5 relative flex items-center justify-center group cursor-pointer">
-    <InformationCircleIcon className="w-4 h-4 text-gray-400 group-hover:text-gray-700" />
+    <InformationCircleIcon className="w-4 h-4 text-slate-400 group-hover:text-slate-700" />
     <div className="cursor-auto pt-1 hidden group-hover:block absolute top-full left-1">
-      <div className="relative z-10 bg-gray-700 shadow-lg rounded-lg text-sm py-2 px-3 break-words w-52 text-white">
+      <div className="relative z-10 bg-slate-700 shadow-lg rounded-lg text-sm py-2 px-3 break-words w-52 text-white">
         {text}
       </div>
     </div>
@@ -29,12 +29,12 @@ const Item = ({
 }) => (
   <div className="sm:grid sm:grid-cols-5 items-center">
     <div className="sm:col-span-2 flex items-center sm:py-2 gap-x-0.5">
-      <dt className="text-sm font-medium leading-5 text-gray-500">{term}</dt>
+      <dt className="text-sm font-medium leading-5 text-slate-500">{term}</dt>
       {explainer ? <Tooltip text={explainer} /> : null}
     </div>
     <div className="sm:col-span-3 flex flex-col items-start gap-y-1 sm:gap-y-0 sm:flex-row sm:items-center">
       <div className="flex items-center flex-1 gap-x-2.5">
-        <dd className="text-sm leading-5 text-gray-900 py-2">{description}</dd>
+        <dd className="text-sm leading-5 text-slate-900 py-2">{description}</dd>
         {showCopyButton ? <CopyButton value={description} /> : null}
       </div>
       {action}

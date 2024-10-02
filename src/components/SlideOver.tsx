@@ -12,7 +12,7 @@ const Actions = ({
   children: ReactNode
   justifyClassName?: string
 }) => (
-  <div className="flex-shrink-0 px-4 py-5 border-t border-gray-200 sm:px-6">
+  <div className="flex-shrink-0 px-4 py-5 border-t border-slate-200 sm:px-6">
     <div className={clsx("flex space-x-3", justifyClassName)}>{children}</div>
   </div>
 )
@@ -46,7 +46,7 @@ const SlideOver = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75 backdrop-blur-sm" />
+          <div className="fixed inset-0 transition-opacity bg-slate-900 bg-opacity-75 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">
@@ -66,14 +66,14 @@ const SlideOver = ({
                   <div className="flex flex-col h-full overflow-y-auto bg-white shadow-xl">
                     <div className="flex-1">
                       {/* Header */}
-                      <header className="px-4 py-6 bg-gray-50 sm:px-6">
+                      <header className="px-4 py-6 bg-slate-50 sm:px-6">
                         <div className="flex items-start justify-between space-x-3">
-                          <Dialog.Title className="text-base font-medium leading-6 text-gray-900">
+                          <Dialog.Title className="text-base font-medium leading-6 text-slate-900">
                             {title}
                           </Dialog.Title>
                           <button
                             type="button"
-                            className="relative text-gray-900"
+                            className="relative text-slate-900"
                             onClick={close}
                           >
                             <span className="absolute -inset-2.5" />

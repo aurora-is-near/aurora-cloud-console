@@ -62,18 +62,18 @@ const AddOrEditApiKeyModal = ({
         <div>
           <label
             htmlFor="name"
-            className="block text-sm font-medium leading-none text-gray-900"
+            className="block text-sm font-medium leading-none text-slate-900"
           >
             Note
           </label>
           <input
             type="text"
             id="name"
-            className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+            className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
             required
             {...register("note")}
           />
-          <p className="mt-2 text-xs text-gray-500">
+          <p className="mt-2 text-xs text-slate-500">
             What&apos;s this token used for?
           </p>
           {errors.note?.message && (
@@ -83,7 +83,7 @@ const AddOrEditApiKeyModal = ({
           )}
         </div>
         <div>
-          <h2 className="block text-sm font-medium leading-none text-gray-900">
+          <h2 className="block text-sm font-medium leading-none text-slate-900">
             Scopes
           </h2>
           <div className="mt-5 space-y-3">
@@ -93,13 +93,13 @@ const AddOrEditApiKeyModal = ({
                   <input
                     id={key}
                     type="checkbox"
-                    className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600"
+                    className="w-4 h-4 text-green-600 border-slate-300 rounded focus:ring-green-600"
                     {...register(key)}
                   />
                 </div>
                 <label
                   htmlFor={key}
-                  className="ml-3 text-sm leading-6 text-gray-900"
+                  className="ml-3 text-sm leading-6 text-slate-900"
                 >
                   {key}
                 </label>

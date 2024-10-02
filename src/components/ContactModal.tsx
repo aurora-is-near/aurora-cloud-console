@@ -71,10 +71,10 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
             className="w-8 h-8 text-green-600"
             aria-hidden="true"
           />
-          <h2 className="mt-3 text-base font-medium leading-4 text-gray-900">
+          <h2 className="mt-3 text-base font-medium leading-4 text-slate-900">
             Message sent!
           </h2>
-          <p className="mt-1 text-sm leading-5 text-gray-500">
+          <p className="mt-1 text-sm leading-5 text-slate-500">
             We will respond within 24 hours.
           </p>
           <Button
@@ -88,7 +88,7 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
         </div>
       ) : (
         <>
-          <p className="mt-2 text-sm leading-5 text-gray-500">
+          <p className="mt-2 text-sm leading-5 text-slate-500">
             We’re here to help! Fill out this quick form and you’ll hear from us
             within 24 hours.
           </p>
@@ -96,14 +96,14 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
             <div>
               <label
                 htmlFor="subject"
-                className="block text-sm font-medium leading-none text-gray-900"
+                className="block text-sm font-medium leading-none text-slate-900"
               >
                 Subject
               </label>
               <input
                 type="text"
                 id="subject"
-                className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 required
                 {...register("subject", {
                   required: "Please enter a subject for your message.",
@@ -119,13 +119,13 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
             <div>
               <label
                 htmlFor="message"
-                className="block text-sm font-medium leading-none text-gray-900"
+                className="block text-sm font-medium leading-none text-slate-900"
               >
                 Message
               </label>
               <textarea
                 id="message"
-                className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 placeholder="Your message..."
                 rows={5}
                 required

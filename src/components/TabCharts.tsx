@@ -66,7 +66,7 @@ const TabCharts = <T extends number | string | null>({
                 <RadioGroup.Option
                   key={option.label}
                   value={option.value}
-                  className="justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-2.5 py-1.5 ui-checked:bg-gray-200 cursor-pointer"
+                  className="justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-2.5 py-1.5 ui-checked:bg-slate-200 cursor-pointer"
                 >
                   <RadioGroup.Label as="span">{option.label}</RadioGroup.Label>
                 </RadioGroup.Option>
@@ -84,7 +84,7 @@ const TabCharts = <T extends number | string | null>({
             <select
               id="silo"
               name="silo"
-              className="block w-full py-4 pl-3 pr-8 leading-none text-gray-900 border-0 rounded-md ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-green-600"
+              className="block w-full py-4 pl-3 pr-8 leading-none text-slate-900 border-0 rounded-md ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-green-600"
               onChange={(e) => setSelectedIndex(Number(e.target.value))}
               value={selectedIndex}
             >
@@ -95,7 +95,7 @@ const TabCharts = <T extends number | string | null>({
               ))}
             </select>
 
-            <div className="mt-3 text-3xl font-bold text-gray-900">
+            <div className="mt-3 text-3xl font-bold text-slate-900">
               {tabs[selectedIndex].value}
             </div>
           </div>
@@ -111,16 +111,16 @@ const TabCharts = <T extends number | string | null>({
             {tabs.map(({ title, value }) => (
               <Tab
                 key={title}
-                className="px-4 py-4 md:py-5 text-left border border-gray-200 sm:px-5 md:px-6 rounded-t-md ui-selected:bg-white ui-selected:border-b-white ui-not-selected:bg-gray-50"
+                className="px-4 py-4 md:py-5 text-left border border-slate-200 sm:px-5 md:px-6 rounded-t-md ui-selected:bg-white ui-selected:border-b-white ui-not-selected:bg-slate-50"
               >
-                <div className="text-sm font-medium leading-none text-gray-500">
+                <div className="text-sm font-medium leading-none text-slate-500">
                   {title}
                 </div>
                 <div
                   className={clsx(
-                    "text-gray-900 text-3xl md:text-4xl font-bold mt-1.5",
+                    "text-slate-900 text-3xl md:text-4xl font-bold mt-1.5",
                     {
-                      "animate-pulse bg-clip-text text-transparent bg-gray-300":
+                      "animate-pulse bg-clip-text text-transparent bg-slate-300":
                         isLoading,
                     },
                   )}
@@ -130,18 +130,18 @@ const TabCharts = <T extends number | string | null>({
               </Tab>
             ))}
           </Tab.List>
-          <Tab.Panels className="bg-white border border-gray-200 rounded-b-md">
+          <Tab.Panels className="bg-white border border-slate-200 rounded-b-md">
             {tabs.map(({ title, chart, legend, value }) => (
               <Tab.Panel key={title}>
                 <div className="mx-4 mt-5 mb-5 md:mb-6 sm:mx-5 md:mx-6 h-[400px] relative">
                   {hasError ? (
-                    <p className="text-sm text-gray-500 h-full w-full flex items-center justify-center">
+                    <p className="text-sm text-slate-500 h-full w-full flex items-center justify-center">
                       Sorry, something went wrong while loading the chart data
                     </p>
                   ) : (
                     <>
                       {!isLoading && !value && (
-                        <div className="absolute w-full h-full flex items-center justify-center text-sm text-gray-500">
+                        <div className="absolute w-full h-full flex items-center justify-center text-sm text-slate-500">
                           Not enough data
                         </div>
                       )}

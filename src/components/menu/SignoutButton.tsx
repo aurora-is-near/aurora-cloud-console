@@ -15,7 +15,7 @@ const SignoutButton = () => {
     <button
       onClick={signOut}
       type="button"
-      className="text-gray-500 w-full hover:lg:text-gray-900 hover:lg:bg-gray-100 flex items-center gap-x-2.5 rounded-lg py-3 px-3 lg:px-3.5 text-base leading-4 font-semibold"
+      className="text-slate-500 w-full hover:lg:text-slate-900 hover:lg:bg-slate-100 flex items-center gap-x-2.5 rounded-lg py-3 px-3 lg:px-3.5 text-base leading-4 font-semibold"
     >
       <ArrowRightOnRectangleIcon className="w-6 h-6" aria-hidden="true" />
       <span>Log out</span>

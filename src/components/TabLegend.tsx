@@ -10,7 +10,7 @@ export type TabLegendProps = {
 
 const TabLegend = ({ legend, colors }: TabLegendProps) => {
   return (
-    <div className="flex items-center w-full px-5 space-x-6 rounded-b-sm bg-gray-50 h-9">
+    <div className="flex items-center w-full px-5 space-x-6 rounded-b-sm bg-slate-50 h-9">
       {legend.map((text, i) => (
         <div key={text} className="flex items-center space-x-2">
           <div
@@ -19,7 +19,7 @@ const TabLegend = ({ legend, colors }: TabLegendProps) => {
               backgroundColor: getChartColor(i, colors),
             }}
           />
-          <span className="text-xs font-medium leading-3 text-gray-900">
+          <span className="text-xs font-medium leading-3 text-slate-900">
             {text}
           </span>
         </div>

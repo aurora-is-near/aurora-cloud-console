@@ -20,7 +20,7 @@ export const ServiceBanner = ({
   return (
     <Card borderRadius="xl" className="relative overflow-hidden flex flex-row">
       <div className="flex-1 xl:pr-20">
-        <h1 className="flex flex-wrap gap-x-1 lg:flex-col lg:gap-x-0 text-2xl md:text-4xl	font-bold text-gray-900">
+        <h1 className="flex flex-wrap gap-x-1 lg:flex-col lg:gap-x-0 text-2xl md:text-4xl	font-bold text-slate-900">
           {isEnabled ? (
             <span>{name}</span>
           ) : (
@@ -33,7 +33,7 @@ export const ServiceBanner = ({
         {description.map((text) => (
           <p
             key={text}
-            className="xl:max-w-[500px] 2xl:max-w-[650px] mt-5 text-gray-600"
+            className="xl:max-w-[500px] 2xl:max-w-[650px] mt-5 text-slate-600"
           >
             {text}
           </p>

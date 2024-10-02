@@ -14,7 +14,7 @@ export const Toggle = ({
       {...restProps}
       checked={checked}
       className={clsx(
-        checked ? "bg-green-500" : "bg-gray-200",
+        checked ? "bg-green-500" : "bg-slate-200",
         "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2",
         className,
       )}

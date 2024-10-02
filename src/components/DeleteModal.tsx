@@ -27,7 +27,7 @@ export const DeleteModal = ({
 
   return (
     <Modal title={title} open={isOpen} close={onClose}>
-      <p className="text-sm leading-5 text-gray-500">{description}</p>
+      <p className="text-sm leading-5 text-slate-500">{description}</p>
       <Button
         className="mt-4"
         variant="destructive"

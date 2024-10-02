@@ -10,7 +10,7 @@ export const ViewListItemDetailsRow = ({
   children,
 }: ViewListItemDetailsRowProps) => (
   <div className="flex w-full font-medium text-sm">
-    <span className="flex-1 text-gray-500">{label}</span>
-    <span className="gray-900">{children}</span>
+    <span className="flex-1 text-slate-500">{label}</span>
+    <span className="slate-900">{children}</span>
   </div>
 )

@@ -81,7 +81,7 @@ export const DealDurationModal = () => {
       <SlideOver.Actions>
         <div className="flex items-center flex-1 justify-between">
           <Button variant="secondary" onClick={onClear}>
-            <XCircleIcon className="w-5 h-5 text-gray-900" />
+            <XCircleIcon className="w-5 h-5 text-slate-900" />
             Clear values
           </Button>
           <div className="flex items-center gap-3">

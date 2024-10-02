@@ -17,13 +17,13 @@ export const BridgeEmbedCodeCard = () => {
           the opening <pre className="font-mono inline-block">&lt;body&gt;</pre>{" "}
           tag.
         </p>
-        <pre className="text-sm font-mono bg-gray-100 p-4 rounded-md whitespace-pre-wrap">
+        <pre className="text-sm font-mono bg-slate-100 p-4 rounded-md whitespace-pre-wrap">
           {`<script src="${ORIGIN}${pathname}/script.js"></script>`}
         </pre>
         <p className="text-sm mt-6 mb-3">
           Open the widget by calling the following function:
         </p>
-        <pre className="text-sm font-mono bg-gray-100 p-4 rounded-md whitespace-pre-wrap">
+        <pre className="text-sm font-mono bg-slate-100 p-4 rounded-md whitespace-pre-wrap">
           window.auroraBridge.open()
         </pre>
       </Card.Body>

@@ -26,10 +26,10 @@ const InviteConfirmedModal = () => {
           className="w-8 h-8 text-green-600"
           aria-hidden="true"
         />
-        <h2 className="mt-3 text-base font-medium leading-4 text-gray-900">
+        <h2 className="mt-3 text-base font-medium leading-4 text-slate-900">
           Invitation sent!
         </h2>
-        <p className="mt-1 text-sm leading-5 text-gray-500">
+        <p className="mt-1 text-sm leading-5 text-slate-500">
           Invitation was sent to <br />
           {email}
         </p>

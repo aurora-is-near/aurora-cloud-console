@@ -62,7 +62,7 @@ export const SilosMenu = () => {
           <select
             id="silo"
             name="silo"
-            className="block w-full py-4 pl-3 pr-8 leading-none text-gray-900 border-0 rounded-md ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-green-600"
+            className="block w-full py-4 pl-3 pr-8 leading-none text-slate-900 border-0 rounded-md ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-green-600"
             value={option}
             onChange={(e) =>
               router.push(

@@ -32,7 +32,7 @@ export const BridgeDeployedTokensCard = ({
         <>
           {!bridgedTokens?.length ? (
             <Card.Row>
-              <span className="text-gray-400 text-sm">No tokens deployed</span>
+              <span className="text-slate-400 text-sm">No tokens deployed</span>
             </Card.Row>
           ) : (
             <div className="grid grid-cols-3">
@@ -47,7 +47,7 @@ export const BridgeDeployedTokensCard = ({
                     <Card.Cell
                       className={clsx(
                         "text-sm",
-                        isDeployed ? "" : "text-gray-400",
+                        isDeployed ? "" : "text-slate-400",
                       )}
                     >
                       {isDeployed ? "" : "Not deployed yet"}

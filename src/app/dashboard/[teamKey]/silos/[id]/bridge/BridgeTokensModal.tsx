@@ -83,13 +83,13 @@ const BridgeTokensModal = ({
                     <input
                       id={tokenId}
                       type="checkbox"
-                      className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600"
+                      className="w-4 h-4 text-green-600 border-slate-300 rounded focus:ring-green-600"
                       {...register(tokenId)}
                     />
                   </div>
                   <label
                     htmlFor={tokenId}
-                    className="ml-3 text-sm leading-6 text-gray-900"
+                    className="ml-3 text-sm leading-6 text-slate-900"
                   >
                     {token.symbol}
                   </label>

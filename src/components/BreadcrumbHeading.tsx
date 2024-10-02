@@ -18,12 +18,12 @@ const BreadcrumbHeading = ({ titles, isLoading }: BreadcrumbHeadingProps) => {
           <Fragment key={title}>
             <Heading
               tag={isLast ? "h2" : "span"}
-              textColorClassName={clsx({ "text-gray-500": !isLast })}
+              textColorClassName={clsx({ "text-slate-500": !isLast })}
             >
               {isLoading ? <>&nbsp;</> : title}
             </Heading>
             {!isLast && !isLoading ? (
-              <ChevronRightIcon className="w-5 h-5 text-gray-500" />
+              <ChevronRightIcon className="w-5 h-5 text-slate-500" />
             ) : null}
           </Fragment>
         )

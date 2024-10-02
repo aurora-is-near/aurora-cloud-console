@@ -8,12 +8,12 @@ const Title = ({
 }: {
   children: ReactNode
   tag?: keyof JSX.IntrinsicElements
-}) => <Tag className="text-sm leading-none text-gray-900">{children}</Tag>
+}) => <Tag className="text-sm leading-none text-slate-900">{children}</Tag>
 
 Title.displayName = "Title"
 
 const Subtitle = ({ children }: { children: ReactNode }) => (
-  <span className="text-sm leading-none text-gray-500">{children}</span>
+  <span className="text-sm leading-none text-slate-500">{children}</span>
 )
 
 Subtitle.displayName = "Subtitle"

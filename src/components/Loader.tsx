@@ -9,7 +9,7 @@ const Loader = ({
   className?: string
 }) => (
   <div
-    className={clsx("bg-gray-100 animate-pulse", className)}
+    className={clsx("bg-slate-100 animate-pulse", className)}
     aria-hidden="true"
   >
     {children}

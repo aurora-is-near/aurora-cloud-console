@@ -28,11 +28,11 @@ export const RadioInput = <Inputs extends Record<string, unknown>>({
       id={id}
       name={name}
       type="radio"
-      className="w-4 h-4 text-green-600 border-gray-300 rounded-full focus:ring-green-600"
+      className="w-4 h-4 text-green-600 border-slate-300 rounded-full focus:ring-green-600"
       {...restProps}
       {...register?.(name, registerOptions)}
     />
-    <label htmlFor={id} className="ml-3 text-sm leading-none text-gray-900">
+    <label htmlFor={id} className="ml-3 text-sm leading-none text-slate-900">
       {label}
     </label>
   </div>

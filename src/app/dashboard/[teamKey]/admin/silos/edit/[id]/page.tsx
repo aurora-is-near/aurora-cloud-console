@@ -61,7 +61,7 @@ const Page = async ({
               ))}
             </ul>
           ) : (
-            <p className="text-gray-500 text-sm">No available tokens</p>
+            <p className="text-slate-500 text-sm">No available tokens</p>
           )}
         </Card.Row>
       </Card>

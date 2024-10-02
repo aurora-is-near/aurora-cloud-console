@@ -73,39 +73,39 @@ const MultiValueRemove = (props: MultiValueRemoveProps<SelectInputOption>) => {
 const controlStyles = {
   base: "border rounded-lg bg-white hover:cursor-pointer",
   focus: "border-primary-600 ring-1 ring-primary-500",
-  nonFocus: "border-gray-300 hover:border-gray-400",
+  nonFocus: "border-slate-300 hover:border-slate-400",
 }
 
-const placeholderStyles = "text-gray-500 pl-1 py-0.5"
+const placeholderStyles = "text-slate-500 pl-1 py-0.5"
 const selectInputStyles = "pl-1 py-0.5"
 const valueContainerStyles = "p-1 gap-1"
 const singleValueStyles = "leading-7 ml-1"
 const multiValueStyles =
-  "bg-gray-100 rounded items-center py-0.5 pl-2 pr-1 gap-1.5"
+  "bg-slate-100 rounded items-center py-0.5 pl-2 pr-1 gap-1.5"
 
 const multiValueLabelStyles = "leading-6 py-0.5"
 const multiValueRemoveStyles =
-  "border border-gray-200 bg-white hover:bg-red-50 hover:text-red-800 text-gray-500 hover:border-red-300 rounded-md"
+  "border border-slate-200 bg-white hover:bg-red-50 hover:text-red-800 text-slate-500 hover:border-red-300 rounded-md"
 
 const indicatorsContainerStyles = "p-1 gap-1"
 const clearIndicatorStyles =
-  "text-gray-500 p-1 rounded-md hover:bg-red-50 hover:text-red-800"
+  "text-slate-500 p-1 rounded-md hover:bg-red-50 hover:text-red-800"
 
-const indicatorSeparatorStyles = "bg-gray-300"
+const indicatorSeparatorStyles = "bg-slate-300"
 const dropdownIndicatorStyles =
-  "p-1 hover:bg-gray-100 text-gray-500 rounded-md hover:text-black"
+  "p-1 hover:bg-slate-100 text-slate-500 rounded-md hover:text-black"
 
-const menuStyles = "p-1 mt-2 border border-gray-200 bg-white rounded-lg"
-const groupHeadingStyles = "ml-3 mt-2 mb-1 text-gray-500 text-sm"
+const menuStyles = "p-1 mt-2 border border-slate-200 bg-white rounded-lg"
+const groupHeadingStyles = "ml-3 mt-2 mb-1 text-slate-500 text-sm"
 const optionStyles = {
   base: "hover:cursor-pointer px-3 py-2 rounded",
-  focus: "bg-gray-100 active:bg-gray-200",
+  focus: "bg-slate-100 active:bg-slate-200",
   selected:
-    "after:content-['✔'] after:ml-2 after:text-green-500 text-gray-500",
+    "after:content-['✔'] after:ml-2 after:text-green-500 text-slate-500",
 }
 
 const noOptionsMessageStyles =
-  "text-gray-500 p-2 bg-gray-50 border border-dashed border-gray-200 rounded-sm"
+  "text-slate-500 p-2 bg-slate-50 border border-dashed border-slate-200 rounded-sm"
 
 export const SelectInput = <Inputs extends Record<string, unknown>>({
   id,

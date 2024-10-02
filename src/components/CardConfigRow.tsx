@@ -35,12 +35,12 @@ export const CardConfigRow = ({
   return (
     <>
       <Card.Cell>
-        <div className="text-gray-900 font-medium">{title}</div>
+        <div className="text-slate-900 font-medium">{title}</div>
       </Card.Cell>
 
       <Card.Cell>
         {content?.type === "text" && (
-          <div className="text-gray-500 text-sm">{content.value}</div>
+          <div className="text-slate-500 text-sm">{content.value}</div>
         )}
 
         {content?.type === "labels" && (
@@ -48,7 +48,7 @@ export const CardConfigRow = ({
             {content.value.map((label) => (
               <span
                 key={label}
-                className="text-gray-900 bg-cyan-100 rounded-md px-2 py-1 text-sm whitespace-nowrap font-medium"
+                className="text-slate-900 bg-cyan-100 rounded-md px-2 py-1 text-sm whitespace-nowrap font-medium"
               >
                 {label}
               </span>
@@ -63,7 +63,7 @@ export const CardConfigRow = ({
             <button
               onClick={onEditClick}
               type="button"
-              className="text-gray-500 hover:text-gray-900"
+              className="text-slate-500 hover:text-slate-900"
             >
               <span className="sr-only">Open modal</span>
               <PencilSquareIcon className="h-5 w-5" />

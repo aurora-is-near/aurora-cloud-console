@@ -56,7 +56,7 @@ const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
           {services.map(({ title, description, imageSrc }) => (
             <div
               key={title}
-              className="px-4 py-5 sm:px-5 md:px-6 sm:py-6 rounded-[10px] bg-white border border-gray-200 shadow flex items-start md:items-center gap-x-4 md:gap-x-5"
+              className="px-4 py-5 sm:px-5 md:px-6 sm:py-6 rounded-[10px] bg-white border border-slate-200 shadow flex items-start md:items-center gap-x-4 md:gap-x-5"
             >
               <Image
                 objectFit="contain"
@@ -68,10 +68,10 @@ const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
               />
               <div className="flex flex-1 md:flex-row flex-col md:items-center gap-y-2.5 items-start md:justify-between gap-x-5">
                 <div>
-                  <h3 className="text-base leading-none font-medium text-gray-900">
+                  <h3 className="text-base leading-none font-medium text-slate-900">
                     {title}
                   </h3>
-                  <p className="text-sm mt-1.5 text-gray-500">{description}</p>
+                  <p className="text-sm mt-1.5 text-slate-500">{description}</p>
                 </div>
                 <Button
                   variant="border"

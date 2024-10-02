@@ -30,7 +30,7 @@ const Modal = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75 backdrop-blur-sm" />
+          <div className="fixed inset-0 transition-opacity bg-slate-900 bg-opacity-75 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -47,12 +47,12 @@ const Modal = ({
             >
               <Dialog.Panel className="relative p-5 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                 <div className="flex items-center justify-between">
-                  <Dialog.Title className="text-base font-medium leading-4 text-gray-900">
+                  <Dialog.Title className="text-base font-medium leading-4 text-slate-900">
                     {title}
                   </Dialog.Title>
                   <button
                     type="button"
-                    className="absolute text-gray-400 bg-white rounded-md top-4 right-4 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+                    className="absolute text-slate-400 bg-white rounded-md top-4 right-4 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
                     onClick={close}
                   >
                     <span className="sr-only">Close modal</span>

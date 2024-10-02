@@ -24,8 +24,8 @@ const TableButton = ({
       href={href}
       className={clsx(
         disabled
-          ? "text-gray-300 cursor-not-allowed"
-          : "text-gray-900 hover:text-red-500",
+          ? "text-slate-300 cursor-not-allowed"
+          : "text-slate-900 hover:text-red-500",
       )}
       onClick={onClick}
       disabled={disabled}

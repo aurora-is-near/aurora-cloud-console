@@ -95,13 +95,13 @@ const BridgeNetworkModal = ({
                   <input
                     id={network.key}
                     type="checkbox"
-                    className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600"
+                    className="w-4 h-4 text-green-600 border-slate-300 rounded focus:ring-green-600"
                     {...register(network.key)}
                   />
                 </div>
                 <label
                   htmlFor={network.key}
-                  className="ml-3 text-sm leading-6 text-gray-900"
+                  className="ml-3 text-sm leading-6 text-slate-900"
                 >
                   {network.label}
                 </label>

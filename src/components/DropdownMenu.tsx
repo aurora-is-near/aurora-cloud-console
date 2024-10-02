@@ -18,7 +18,7 @@ const DropdownMenu = ({ menuItems, open, onOpenChange }: DropdownMenuProps) => {
       <ReactDropdownMenu.Trigger asChild>
         <button
           type="button"
-          className="flex items-center text-gray-600 rounded-full hover:text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="flex items-center text-slate-600 rounded-full hover:text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-green-600"
           aria-label="Open option"
           onClick={(e) => e.preventDefault()}
         >
@@ -35,7 +35,7 @@ const DropdownMenu = ({ menuItems, open, onOpenChange }: DropdownMenuProps) => {
               <button
                 type="button"
                 onClick={item.onClick}
-                className="flex w-full items-center py-2.5 text-sm space-x-1 text-gray-700 px-4"
+                className="flex w-full items-center py-2.5 text-sm space-x-1 text-slate-700 px-4"
               >
                 <item.Icon className="w-5 h-5" />
                 <span className="whitespace-nowrap">{item.text}</span>

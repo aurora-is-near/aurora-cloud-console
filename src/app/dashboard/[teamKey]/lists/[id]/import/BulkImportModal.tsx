@@ -51,7 +51,7 @@ export const BulkImportModal = ({
         onClose()
       }}
     >
-      <div className="text-sm leading-5 text-gray-500">
+      <div className="text-sm leading-5 text-slate-500">
         <p>Click the import button if the sample data below looks correct.</p>
         <ul className="mt-4">
           {items
@@ -72,7 +72,7 @@ export const BulkImportModal = ({
             setExcludeHeader(!excludeHeader)
           }}
         />
-        <label className="flex items-center text-sm text-gray-500">
+        <label className="flex items-center text-sm text-slate-500">
           <span>Exclude header</span>
         </label>
       </div>

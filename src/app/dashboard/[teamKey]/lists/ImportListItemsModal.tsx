@@ -56,10 +56,10 @@ export const ImportListItemsModal = ({
     >
       <form className="space-y-8" onSubmit={handleSubmit(submitList)}>
         <div>
-          <h3 className="block text-sm font-medium text-gray-900">
+          <h3 className="block text-sm font-medium text-slate-900">
             Bulk Import with CSV
           </h3>
-          <p className="block text-sm text-gray-500">
+          <p className="block text-sm text-slate-500">
             Include one item per row.
           </p>
           <Button onClick={onBulkImportClick} className="mt-3">
@@ -70,14 +70,14 @@ export const ImportListItemsModal = ({
         <div>
           <label
             htmlFor="items"
-            className="block text-sm font-medium text-gray-900"
+            className="block text-sm font-medium text-slate-900"
           >
             Input manually
           </label>
-          <p className="block text-sm text-gray-500">Add one item per line.</p>
+          <p className="block text-sm text-slate-500">Add one item per line.</p>
           <textarea
             id="items"
-            className="block w-full mt-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+            className="block w-full mt-3 rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
             placeholder={`0x82os...\n0x38d1...\n0x9sa1...`}
             rows={8}
             required

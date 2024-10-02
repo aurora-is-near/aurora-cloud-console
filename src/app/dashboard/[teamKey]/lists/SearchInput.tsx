@@ -27,13 +27,13 @@ const SearchInput = ({ search, disabled }: SearchInputProps) => {
           {isSearching ? (
             <div className="w-5 h-5 flex items-center justify-center">
               <div
-                className="w-3.5 h-3.5 border-2 border-gray-500 rounded-full animate-spin"
+                className="w-3.5 h-3.5 border-2 border-slate-500 rounded-full animate-spin"
                 style={{ borderRightColor: "transparent" }}
               />
             </div>
           ) : (
             <MagnifyingGlassIcon
-              className="h-5 w-5 text-gray-500"
+              className="h-5 w-5 text-slate-500"
               aria-hidden="true"
             />
           )}
@@ -42,7 +42,7 @@ const SearchInput = ({ search, disabled }: SearchInputProps) => {
           type="search"
           name="search"
           id="search"
-          className="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 bg-transparent"
+          className="block w-full rounded-md border-0 py-1.5 pl-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-500 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 bg-transparent"
           placeholder="Search"
           defaultValue={search}
           disabled={disabled}

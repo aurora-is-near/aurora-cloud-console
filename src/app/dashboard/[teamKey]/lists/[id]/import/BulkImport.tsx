@@ -49,14 +49,14 @@ export const BulkImport = ({ listId, teamKey }: BulkImportProps) => {
   return (
     <>
       {rows.length === 0 && (
-        <p className="text-gray-500">Choose a CSV file to import</p>
+        <p className="text-slate-500">Choose a CSV file to import</p>
       )}
 
       <input type="file" onChange={onChange} accept=".csv" />
 
       {rows.length > 0 && (
         <>
-          <p className="text-gray-500">
+          <p className="text-slate-500">
             Select the column you want to import from
           </p>
           <Table>

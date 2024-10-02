@@ -106,7 +106,7 @@ export const HorizontalForm = <Inputs extends Record<string, unknown>>({
             if (isDivider(inputProps)) {
               return (
                 <div key="divider" className="h-8 pt-2 flex items-center">
-                  <div className="border-b border-gray-200 w-full" />
+                  <div className="border-b border-slate-200 w-full" />
                 </div>
               )
             }

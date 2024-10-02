@@ -52,16 +52,16 @@ export const ErrorCard = ({ error, showNotFoundPage }: ErrorCardProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center flex-1">
-      <div className="bg-white py-8 px-10 rounded-lg flex flex-col items-center border border-gray-200">
+      <div className="bg-white py-8 px-10 rounded-lg flex flex-col items-center border border-slate-200">
         <XCircleIcon
           className="w-12 h-12 text-red-600 mb-3"
           aria-hidden="true"
         />
-        <h2 className="text-lg font-medium text-gray-900 mb-2">
+        <h2 className="text-lg font-medium text-slate-900 mb-2">
           {errorDetails.title}
         </h2>
 
-        <p className="text-gray-500">{errorDetails.description}</p>
+        <p className="text-slate-500">{errorDetails.description}</p>
       </div>
     </div>
   )

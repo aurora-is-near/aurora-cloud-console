@@ -11,7 +11,7 @@ const DealsList = async ({ team }: DealsListProps) => {
   const deals = await getTeamDeals(team.id)
 
   return (
-    <Card className="divide-y divide-gray-200" tag="ul" role="list">
+    <Card className="divide-y divide-slate-200" tag="ul" role="list">
       {deals.map((deal) => (
         <DealItem key={deal.id} deal={deal} teamKey={team.team_key} />
       ))}

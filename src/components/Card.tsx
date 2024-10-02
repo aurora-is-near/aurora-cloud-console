@@ -109,7 +109,7 @@ const Card = ({
           "rounded-2xl": borderRadius === "2xl",
           "p-5": !hasHeader,
         },
-        isDisabled ? "bg-gray-100" : "bg-white",
+        isDisabled ? "bg-slate-100" : "bg-white",
         className,
       )}
       {...rest}

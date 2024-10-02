@@ -24,11 +24,11 @@ const Chart = ({
     <Card className={className}>
       <div className="p-3 space-y-5">
         <div className="flex items-center justify-between">
-          <h2 className="text-base leading-none font-medium text-gray-900 mb-2">
+          <h2 className="text-base leading-none font-medium text-slate-900 mb-2">
             {title}
           </h2>
           {subtitle ? (
-            <p className="text-gray-500 text-xs leading-none font-medium">
+            <p className="text-slate-500 text-xs leading-none font-medium">
               {subtitle}
             </p>
           ) : null}
@@ -46,7 +46,7 @@ const Chart = ({
       </div>
       {legend && legend.length > 0 ? (
         <div className="px-1 pb-1">
-          <div className="bg-gray-50 w-full h-9 rounded-b-sm flex space-x-6 items-center px-5">
+          <div className="bg-slate-50 w-full h-9 rounded-b-sm flex space-x-6 items-center px-5">
             {legend.map((text, i) => (
               <div key={text} className="flex items-center space-x-2">
                 <div
@@ -57,7 +57,7 @@ const Chart = ({
                     "bg-purple-400": i === 3,
                   })}
                 />
-                <span className="text-xs text-gray-900 leading-3 font-medium">
+                <span className="text-xs text-slate-900 leading-3 font-medium">
                   {text}
                 </span>
               </div>

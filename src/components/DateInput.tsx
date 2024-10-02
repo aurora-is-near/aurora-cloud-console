@@ -47,12 +47,12 @@ export const DateInput = <Inputs extends Record<string, unknown>>({
   return (
     <div className="relative">
       <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none Z-10">
-        <CalendarDaysIcon className="w-5 h-5 text-gray-500 z-50" />
+        <CalendarDaysIcon className="w-5 h-5 text-slate-500 z-50" />
       </div>
       <DatePicker
         id={id}
         placeholderText={placeholder}
-        className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 ps-10"
+        className="block w-full rounded-md border-0 py-2 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-500 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 ps-10"
         {...register?.(name, registerOptions)}
         onChange={setStartDate}
         value={

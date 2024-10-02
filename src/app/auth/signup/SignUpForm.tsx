@@ -109,7 +109,7 @@ export const SignUpForm = () => {
         <input
           id="marketing_consent"
           type="checkbox"
-          className="h-4 w-4 bg-slate-800 rounded mt-1 border-gray-300 text-green-600 focus:ring-green-500"
+          className="h-4 w-4 bg-slate-800 rounded mt-1 border-slate-300 text-green-600 focus:ring-green-500"
           {...register("marketing_consent")}
         />
         <label

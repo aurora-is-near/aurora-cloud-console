@@ -17,12 +17,12 @@ export const NoDataCta = ({
 }: NoDataCtaProps) => (
   <div className={className}>
     <div className="text-center flex flex-col items-center">
-      <div className="bg-gray-200 rounded-lg p-3 flex justify-center items-center mx-auto">
-        <Icon className="text-gray-900 w-6 h-6 shrink-0" />
+      <div className="bg-slate-200 rounded-lg p-3 flex justify-center items-center mx-auto">
+        <Icon className="text-slate-900 w-6 h-6 shrink-0" />
       </div>
-      <h3 className="mt-4 text-sm font-semibold text-gray-900">{title}</h3>
+      <h3 className="mt-4 text-sm font-semibold text-slate-900">{title}</h3>
       {description && (
-        <p className="mt-1 text-sm text-gray-500">{description}</p>
+        <p className="mt-1 text-sm text-slate-500">{description}</p>
       )}
       {children && <div className="mt-6">{children}</div>}
     </div>

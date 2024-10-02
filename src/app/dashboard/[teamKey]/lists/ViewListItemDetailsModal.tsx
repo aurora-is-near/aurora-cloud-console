@@ -54,7 +54,7 @@ export const ViewListItemDetailsModal = () => {
         <div className="flex items-center flex-1 justify-end">
           <div className="flex items-center gap-3">
             <Button variant="secondary" onClick={deleteList}>
-              <TrashIcon className="w-5 h-5 text-gray-900" />
+              <TrashIcon className="w-5 h-5 text-slate-900" />
               Delete
             </Button>
           </div>

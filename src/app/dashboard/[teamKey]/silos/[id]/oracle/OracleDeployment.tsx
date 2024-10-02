@@ -31,7 +31,7 @@ export const OracleDeployment = ({
 
   return (
     <div className="pt-4">
-      <h2 className="text-2xl font-bold text-gray-900">Configuration</h2>
+      <h2 className="text-2xl font-bold text-slate-900">Configuration</h2>
       <Card className="mt-6">
         <Card.Title tag="h3">Oracle contract</Card.Title>
         <div className="grid grid-cols-3">

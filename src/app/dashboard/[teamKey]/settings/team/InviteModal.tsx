@@ -72,7 +72,7 @@ const InviteModal = ({ team }: InviteModalProps) => {
 
   return (
     <Modal title="Invite team member" open={isOpen} close={handleClose}>
-      <p className="mt-2 text-sm leading-5 text-gray-500">
+      <p className="mt-2 text-sm leading-5 text-slate-500">
         An invitation will be sent to the specified email address. The link in
         the email will be valid for 24 hours.
       </p>
@@ -80,14 +80,14 @@ const InviteModal = ({ team }: InviteModalProps) => {
         <div>
           <label
             htmlFor="name"
-            className="block text-sm font-medium leading-none text-gray-900"
+            className="block text-sm font-medium leading-none text-slate-900"
           >
             Name
           </label>
           <input
             type="text"
             id="name"
-            className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+            className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
             required
             {...register("name", {
               required: "Please enter a name.",
@@ -103,14 +103,14 @@ const InviteModal = ({ team }: InviteModalProps) => {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium leading-none text-gray-900"
+            className="block text-sm font-medium leading-none text-slate-900"
           >
             Email
           </label>
           <input
             type="email"
             id="email"
-            className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+            className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
             required
             {...register("email", {
               required: "Please enter an email address.",
