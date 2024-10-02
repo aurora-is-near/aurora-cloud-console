@@ -1,43 +1,36 @@
-import Link from "next/link"
-import { AuroraTriangle } from "@/components/icons"
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
+import clsx from "clsx"
 import { MenuItem } from "@/types/menu"
+import AuroraLogo from "@/components/AuroraLogo"
 import { MainMenuButton } from "./MenuButtons"
 
 type MainMenuProps = {
-  mainMenuItems: MenuItem[]
-  extraMenuItems: MenuItem[]
+  menuItems: MenuItem[]
 }
 
-export const MainMenu = async ({
-  mainMenuItems,
-  extraMenuItems,
-}: MainMenuProps) => {
+export const MainMenu = async ({ menuItems }: MainMenuProps) => {
   return (
-    <div className="hidden lg:relative lg:inset-y-0 lg:left-0 lg:z-50 lg:flex lg:flex-col lg:items-center lg:px-2 lg:bg-gray-900 lg:py-4 lg:gap-y-4">
-      <Link
-        href="/"
-        className="flex h-12 w-12 shrink-0 items-center justify-center"
-      >
-        <AuroraTriangle className="w-6 h-6" />
-      </Link>
-
-      <nav className="flex-1 flex-col flex gap-y-4">
-        <ul className="flex flex-col items-center gap-y-4">
-          {mainMenuItems.map((item) => (
-            <li key={item.name}>
-              <MainMenuButton {...item} />
-            </li>
-          ))}
-        </ul>
-
-        <ul className="mt-auto flex flex-col items-center gap-y-4">
-          {extraMenuItems.map((item) => (
-            <li key={item.name}>
-              <MainMenuButton {...item} />
-            </li>
-          ))}
-        </ul>
-      </nav>
+    <div className="flex flex-row justify-between w-full bg-slate-900 px-4 py-4">
+      <AuroraLogo />
+      <ul className="flex flex-row items-center">
+        {menuItems.map((item) => (
+          <li key={item.name} className="px-2">
+            <MainMenuButton {...item} />
+          </li>
+        ))}
+        <li
+          className={clsx(
+            "pl-2",
+            menuItems.length && "border-l border-slate-700",
+          )}
+        >
+          <MainMenuButton
+            name="Logout"
+            href="/logout"
+            icon={<ArrowRightOnRectangleIcon />}
+          />
+        </li>
+      </ul>
     </div>
   )
 }

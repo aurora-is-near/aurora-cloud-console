@@ -9,5 +9,5 @@ export const isAdmin = async (): Promise<boolean> => {
     data: { session },
   } = await supabase.auth.getSession()
 
-  return !!session?.user && isAdminUser(session.user)
+  return !!session?.user && isAdminUser(session.user.email)
 }

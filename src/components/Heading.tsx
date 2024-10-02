@@ -6,20 +6,24 @@ type HeadingTags = "h1" | "h2" | "h3" | "span"
 const Heading = ({
   children,
   className,
-  textColorClassName = "text-gray-900",
+  textColorClassName = "text-slate-900",
   tag = "h1",
+  size = "md",
 }: {
   children: ReactNode
   className?: string
   textColorClassName?: string
   tag?: HeadingTags
+  size?: "sm" | "md" | "lg"
 }) => {
   const Tag = tag
 
   return (
     <Tag
       className={clsx(
-        "text-xl sm:text-2xl leading-7 font-bold tracking-[-1px]",
+        "text-xl leading-7 font-bold tracking-[-1px]",
+        size === "md" && "sm:text-2xl",
+        size === "lg" && "md:text-4xl",
         textColorClassName,
         className,
       )}
