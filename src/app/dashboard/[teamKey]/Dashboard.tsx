@@ -1,7 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
 import { PlusIcon } from "@heroicons/react/20/solid"
-import Hero from "@/components/Hero/Hero"
+import { ReactNode } from "react"
+import Hero, { HeroButtonProps } from "@/components/Hero/Hero"
 import { Silo, Team } from "@/types/types"
 import FeatureList, {
   FeatureBanner,
@@ -13,8 +14,7 @@ import {
   Partner3,
 } from "../../../../public/static/v2/images/icons"
 
-export const meetingLink =
-  "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
+const meetingLink = "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
 
 interface ExploreItemProps {
   title: string
@@ -23,12 +23,7 @@ interface ExploreItemProps {
   link: string
 }
 
-export const ExploreItem = ({
-  title,
-  description,
-  icon,
-  link,
-}: ExploreItemProps) => {
+const ExploreItem = ({ title, description, icon, link }: ExploreItemProps) => {
   const isExternalLink = link.startsWith("http")
 
   return (
@@ -52,7 +47,7 @@ export const ExploreItem = ({
   )
 }
 
-const features = [
+const features: FeatureBanner[] = [
   {
     icon: <Partner1 />,
     title: "Dedicated integration team",
@@ -67,10 +62,29 @@ const features = [
   } as FeatureBanner,
 ]
 
+type NetworkVariant = string | ReactNode | HeroButtonProps
+
 // https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=3775-10045&t=PGhHmzDnXi5hsRI0-0
 const Dashboard = ({ team, silos }: { team: Team; silos: Silo[] }) => {
   const teamKey = team.team_key
   const isNewTeam = silos.length === 0
+  const isDevNet = silos[0].network === "devnet"
+
+  const getNetworkVariant = (
+    empty: NetworkVariant,
+    devnet: NetworkVariant,
+    mainnet?: NetworkVariant,
+  ): NetworkVariant => {
+    if (isNewTeam) {
+      return empty
+    }
+
+    if (isDevNet) {
+      return devnet
+    }
+
+    return mainnet ?? devnet
+  }
 
   return (
     <div className="w-full">
@@ -80,9 +94,11 @@ const Dashboard = ({ team, silos }: { team: Team; silos: Silo[] }) => {
             isNewTeam ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`
           }
           description={
-            isNewTeam
-              ? "Get all the infrastructure and integrations needed to start your dApp. Validators, oracles, onramps—all come ready to be pre-configured on your chain, freeing up your time and resources to focus on what really matters: your dApp!"
-              : "Welcome to your chain’s control center—monitor data, manage gas mechanics, and configure integrations effortlessly. Maintain control as you optimize performance and ensure smooth operations on the live network."
+            getNetworkVariant(
+              "Get all the infrastructure and integrations needed to start your dApp. Validators, oracles, onramps—all come ready to be pre-configured on your chain, freeing up your time and resources to focus on what really matters: your dApp!",
+              "You now have access to a shared Aurora Chain identical to production. Test transactions, explore integrations, and simulate real-world scenarios in a risk-free environment.",
+              "Welcome to your chain’s control center—monitor data, manage gas mechanics, and configure integrations effortlessly. Maintain control as you optimize performance and ensure smooth operations on the live network.",
+            ) as string
           }
           image={
             <Image
@@ -93,12 +109,14 @@ const Dashboard = ({ team, silos }: { team: Team; silos: Silo[] }) => {
             />
           }
           button={
-            isNewTeam
-              ? {
-                  text: "Create Aurora Chain",
-                  icon: <PlusIcon className="h-4 w-4" />,
-                }
-              : undefined
+            getNetworkVariant(
+              undefined,
+              {
+                text: "Create Aurora Chain",
+                icon: <PlusIcon className="h-4 w-4" />,
+              },
+              undefined,
+            ) as HeroButtonProps
           }
         />
         <div className="flex flex-col pt-10 gap-10">
@@ -106,50 +124,51 @@ const Dashboard = ({ team, silos }: { team: Team; silos: Silo[] }) => {
             Explore what you can do
           </h2>
 
-          {isNewTeam ? (
-            <div className="flex flex-row gap-10">
-              <ExploreItem
-                title="Set up your Devnet"
-                description="Get access to a shared Aurora Chain identical to the production
+          {
+            getNetworkVariant(
+              <div className="flex flex-row gap-10">
+                <ExploreItem
+                  title="Set up your Devnet"
+                  description="Get access to a shared Aurora Chain identical to the production
               ones."
-                icon="/static/v2/images/examples/devnet.png"
-                link={`/dashboard/${teamKey}/create_chain`}
-              />
-              <ExploreItem
-                title="Read documentation"
-                description="Explore our documentation to start developing and deploying on Aurora."
-                icon="/static/v2/images/examples/docs.png"
-                link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
-              />
-              <ExploreItem
-                title="Talk to a developer"
-                description="Join our Aurora Cloud developers community on Discord."
-                icon="/static/v2/images/examples/talk.png"
-                link="/"
-              />
-            </div>
-          ) : (
-            <div className="flex flex-row gap-10">
-              <ExploreItem
-                title="Monitor your chain"
-                description="Keep track of transaction volume,  latency and RPC requests in real-time."
-                icon="/static/v2/images/examples/monitor.png"
-                link={`/dashboard_v2/${team.team_key}/monitoring`}
-              />
-              <ExploreItem
-                title="Explore integrations"
-                description="Your chain supports by default a range of integrations."
-                icon="/static/v2/images/examples/integrations.png"
-                link={`/dashboard_v2/${team.team_key}/integrations`}
-              />
-              <ExploreItem
-                title="Read documentation"
-                description="Explore our documentation to start developing and deploying on Aurora."
-                icon="/static/v2/images/examples/docs.png"
-                link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
-              />
-            </div>
-          )}
+                  icon="/static/v2/images/examples/devnet.png"
+                  link={`/dashboard/${teamKey}/create_chain`}
+                />
+                <ExploreItem
+                  title="Read documentation"
+                  description="Explore our documentation to start developing and deploying on Aurora."
+                  icon="/static/v2/images/examples/docs.png"
+                  link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                />
+                <ExploreItem
+                  title="Talk to a developer"
+                  description="Join our Aurora Cloud developers community on Discord."
+                  icon="/static/v2/images/examples/talk.png"
+                  link="/"
+                />
+              </div>,
+              <div className="flex flex-row gap-10">
+                <ExploreItem
+                  title="Monitor your chain"
+                  description="Keep track of transaction volume,  latency and RPC requests in real-time."
+                  icon="/static/v2/images/examples/monitor.png"
+                  link={`/dashboard_v2/${team.team_key}/monitoring`}
+                />
+                <ExploreItem
+                  title="Explore integrations"
+                  description="Your chain supports by default a range of integrations."
+                  icon="/static/v2/images/examples/integrations.png"
+                  link={`/dashboard_v2/${team.team_key}/integrations`}
+                />
+                <ExploreItem
+                  title="Read documentation"
+                  description="Explore our documentation to start developing and deploying on Aurora."
+                  icon="/static/v2/images/examples/docs.png"
+                  link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                />
+              </div>,
+            ) as ReactNode
+          }
         </div>
 
         <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100">

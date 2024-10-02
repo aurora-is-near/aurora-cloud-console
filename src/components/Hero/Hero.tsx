@@ -4,7 +4,7 @@ import { Button } from "@/components/Button"
 import HeroTitle from "@/components/Hero/HeroTitle"
 import HeroContent from "@/components/Hero/HeroContent"
 
-interface HeroButtonProps {
+export interface HeroButtonProps {
   text: string
   path?: string
   icon?: ReactNode
