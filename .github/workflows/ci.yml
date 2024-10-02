@@ -9,3 +9,8 @@ concurrency:
 jobs:
   test:
     uses: ./.github/workflows/test.yml
+
+  dependabot:
+    uses: ./.github/workflows/dependabot-auto-merge.yml
+    secrets:
+      GH_TOKEN: "${{ secrets.GH_DEPENDABOT_TOKEN }}"
