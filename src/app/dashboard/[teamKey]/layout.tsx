@@ -6,6 +6,7 @@ import {
   ListBulletIcon,
   SquaresPlusIcon,
 } from "@heroicons/react/24/outline"
+import { HomeIcon } from "@heroicons/react/20/solid"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { Borealis } from "@/components/icons"
 import { ServicesMenu } from "@/components/navigation/dashboard/ServicesMenu"
@@ -19,6 +20,8 @@ import { MobileSettingsMenu } from "@/components/navigation/dashboard/mobile/Mob
 import { AdminMenu } from "@/components/navigation/admin/AdminMenu"
 import { isAdmin } from "@/actions/is-admin"
 import { MenuItem } from "@/types/menu"
+import { DashboardMenu } from "@/components/navigation/dashboard/DashboardMenu"
+import { MobileDashboardMenu } from "@/components/navigation/dashboard/mobile/MobileDashboardMenu"
 
 const Layout = async ({
   children,
@@ -50,6 +53,13 @@ const Layout = async ({
 
   return (
     <DashboardLayout
+      fallbackMenu={{
+        name: "Explore Aurora",
+        href: `/dashboard/${teamKey}`,
+        icon: <HomeIcon />,
+        SubMenu: DashboardMenu,
+        MobileSubMenu: MobileDashboardMenu,
+      }}
       sidebarMenuItems={[
         {
           name: "Borealis",
