@@ -1,6 +1,7 @@
-import { redirect } from "next/navigation"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { DashboardPage } from "@/components/DashboardPage"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
+import Dashboard from "@/app/dashboard/[teamKey]/Dashboard"
 
 const Page = async ({
   params: { teamKey },
@@ -8,16 +9,11 @@ const Page = async ({
   params: { teamKey: string }
 }) => {
   const team = await getTeamByKey(teamKey)
-
-  // Redirecting for now to separate the PRs
-  // Next PR will introduce the new dashboard "landing page"
-  redirect(`/dashboard/${teamKey}/borealis/deals`)
+  const silos = await getTeamSilos(team.id)
 
   return (
     <DashboardPage>
-      <div className="space-y-8 sm:space-y-10 md:space-y-12">
-        Hello {team.name}
-      </div>
+      <Dashboard team={team} silos={silos} />
     </DashboardPage>
   )
 }

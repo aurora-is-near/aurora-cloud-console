@@ -8,12 +8,14 @@ type DashboardLayoutProps = {
   children: ReactNode
   sidebarMenuItems?: MenuItem[]
   mainMenuItems?: MenuItem[]
+  fallbackMenu?: MenuItem
 }
 
 export const DashboardLayout = ({
   children,
   sidebarMenuItems = [],
   mainMenuItems = [],
+  fallbackMenu,
 }: DashboardLayoutProps) => {
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
@@ -21,7 +23,10 @@ export const DashboardLayout = ({
       <MobileMenu menuItems={[...sidebarMenuItems, ...mainMenuItems]} />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
         {!!sidebarMenuItems.length && (
-          <SidebarMenu menuItems={sidebarMenuItems} />
+          <SidebarMenu
+            menuItems={sidebarMenuItems}
+            fallbackMenu={fallbackMenu}
+          />
         )}
         <div className="w-full">{children}</div>
       </div>

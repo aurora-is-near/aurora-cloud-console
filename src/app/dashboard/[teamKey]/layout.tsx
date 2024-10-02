@@ -53,14 +53,14 @@ const Layout = async ({
 
   return (
     <DashboardLayout
+      fallbackMenu={{
+        name: "Explore Aurora",
+        href: `/dashboard/${teamKey}`,
+        icon: <HomeIcon />,
+        SubMenu: DashboardMenu,
+        MobileSubMenu: MobileDashboardMenu,
+      }}
       sidebarMenuItems={[
-        {
-          name: "Explore Aurora",
-          href: `/dashboard/${teamKey}`,
-          icon: <HomeIcon />,
-          SubMenu: DashboardMenu,
-          MobileSubMenu: MobileDashboardMenu,
-        },
         {
           name: "Borealis",
           href: `/dashboard/${teamKey}/borealis/deals`,

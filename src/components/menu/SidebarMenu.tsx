@@ -4,11 +4,17 @@ import { usePathname } from "next/navigation"
 import { MenuItem } from "@/types/menu"
 import Heading from "../Heading"
 
-export const SidebarMenu = ({ menuItems }: { menuItems: MenuItem[] }) => {
+export const SidebarMenu = ({
+  menuItems,
+  fallbackMenu,
+}: {
+  menuItems: MenuItem[]
+  fallbackMenu?: MenuItem
+}) => {
   const pathname = usePathname()
   const activeMenu = menuItems.find((item) => pathname.startsWith(item.href))
 
-  const { name, SubMenu } = activeMenu ?? {}
+  const { name, SubMenu } = activeMenu ?? fallbackMenu ?? {}
 
   if (!SubMenu) {
     return null
