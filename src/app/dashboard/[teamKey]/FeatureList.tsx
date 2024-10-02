@@ -1,5 +1,3 @@
-"use client"
-
 import { ReactNode } from "react"
 import Card from "@/components/Card"
 import { generateIcon } from "@/utils/buttons"
@@ -21,7 +19,7 @@ const FeatureList = ({ features }: { features: FeatureBanner[] }) => {
         return (
           <Card className="md:p-7" key={feature.title}>
             {icon}
-            <h3 className="mt-4 max-w-[65%] text-base font-bold leading-[18px] text-slate-900 md:mt-5 md:text-[16px]">
+            <h3 className="mt-4 max-w-[65%] font-bold leading-[18px] leading- text-slate-900 md:mt-5">
               {feature.title}
             </h3>
           </Card>
