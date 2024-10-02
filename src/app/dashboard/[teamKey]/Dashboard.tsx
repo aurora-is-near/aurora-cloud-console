@@ -102,9 +102,9 @@ const Dashboard = ({ team, silos }: { team: Team; silos: Silo[] }) => {
           }
         />
         <div className="flex flex-col pt-10 gap-10">
-          <span className="text-xl text-slate-900 font-bold">
+          <h2 className="text-xl text-slate-900 font-bold">
             Explore what you can do
-          </span>
+          </h2>
 
           {isNewTeam ? (
             <div className="flex flex-row gap-10">
