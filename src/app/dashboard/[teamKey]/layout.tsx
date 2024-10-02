@@ -29,7 +29,7 @@ const Layout = async ({
 }) => {
   const isAdminUser = await isAdmin()
 
-  const extraMenuItems: MenuItem[] = [
+  const mainMenuItems: MenuItem[] = [
     {
       name: "Settings",
       href: `/dashboard/${teamKey}/settings`,
@@ -40,7 +40,7 @@ const Layout = async ({
   ]
 
   if (isAdminUser) {
-    extraMenuItems.unshift({
+    mainMenuItems.unshift({
       name: "Admin",
       href: `/dashboard/${teamKey}/admin`,
       icon: <AdjustmentsHorizontalIcon />,
@@ -50,7 +50,7 @@ const Layout = async ({
 
   return (
     <DashboardLayout
-      mainMenuItems={[
+      sidebarMenuItems={[
         {
           name: "Borealis",
           href: `/dashboard/${teamKey}/borealis/deals`,
@@ -78,7 +78,7 @@ const Layout = async ({
           SubMenu: ServicesMenu,
         },
       ]}
-      extraMenuItems={extraMenuItems}
+      mainMenuItems={mainMenuItems}
     >
       {children}
     </DashboardLayout>
