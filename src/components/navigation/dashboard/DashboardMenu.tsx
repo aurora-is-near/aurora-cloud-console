@@ -13,7 +13,7 @@ export const DashboardMenu = () => {
 
   return (
     <ul className="space-y-1">
-      <li key="create_chain" className="mb-4">
+      <li className="mb-4">
         <SubMenuButton
           href={`/dashboard/${teamKey}/borealis`}
           name="Create Aurora Chain"
@@ -22,26 +22,26 @@ export const DashboardMenu = () => {
           disabled
         />
       </li>
-      <li key="dashboard">
+      <li>
         <SubMenuButton
           href={`/dashboard/${teamKey}`}
           name="Dashboard"
           icon={<HomeIcon />}
         />
       </li>
-      <li key="gas_abstraction">
+      <li>
         <SubMenuButton
           href={`/dashboard/${teamKey}/borealis/deals`}
           name="Gas Abstraction"
-          icon={<GasAbstraction className="w-2 h-2" />}
+          icon={<GasAbstraction />}
         />
       </li>
-      <li key="integrations">
+      <li>
         <SubMenuButton
           disabled
           href={`/dashboard/${teamKey}/integrations`}
           name="Integrations"
-          icon={<Integrations className="w-2 h-2" />}
+          icon={<Integrations />}
         />
       </li>
     </ul>

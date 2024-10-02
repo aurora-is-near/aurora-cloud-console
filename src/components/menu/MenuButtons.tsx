@@ -1,11 +1,12 @@
 "use client"
 
-import { cloneElement, isValidElement, ReactElement, ReactNode } from "react"
+import { ReactNode } from "react"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 import clsx from "clsx"
 import { paramCase } from "change-case"
 import { Tooltip } from "@/components/Tooltip"
+import { generateIcon } from "@/utils/buttons"
 
 type BaseMenuButtonProps = {
   href: string
@@ -15,15 +16,6 @@ type BaseMenuButtonProps = {
 
 type SubMenuButtonProps = BaseMenuButtonProps & {
   disabled?: boolean
-}
-
-const generateIcon = (icon: ReactNode, className: string) => {
-  return isValidElement(icon)
-    ? cloneElement(icon as ReactElement, {
-        className,
-        "aria-hidden": true,
-      })
-    : null
 }
 
 const MainMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {

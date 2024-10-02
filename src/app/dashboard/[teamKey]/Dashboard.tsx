@@ -1,10 +1,11 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
 import { PlusIcon } from "@heroicons/react/20/solid"
 import Hero from "@/components/Hero/Hero"
 import { Silo, Team } from "@/types/types"
+import FeatureList, {
+  FeatureBanner,
+} from "@/app/dashboard/[teamKey]/FeatureList"
 import {
   Partner1,
   Partner2,
@@ -50,19 +51,19 @@ export const ExploreItem = ({
   )
 }
 
-export const features = [
+const features = [
   {
-    icon: Partner1,
+    icon: <Partner1 />,
     title: "Dedicated integration team",
-  },
+  } as FeatureBanner,
   {
-    icon: Partner2,
+    icon: <Partner2 />,
     title: "Expert consultancy and guidance",
-  },
+  } as FeatureBanner,
   {
-    icon: Partner3,
+    icon: <Partner3 />,
     title: "Community marketing",
-  },
+  } as FeatureBanner,
 ]
 
 // https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=3775-10045&t=PGhHmzDnXi5hsRI0-0
@@ -171,19 +172,7 @@ const Dashboard = ({ team, silos }: { team: Team; silos: Silo[] }) => {
             </Link>
           </div>
 
-          <div className="mt-5 grid w-full max-w-sm flex-1 gap-4 md:max-w-none md:grid-cols-3 md:gap-8">
-            {features.map((feature) => (
-              <div
-                className="flex flex-col items-start justify-center rounded-[10px] bg-white p-5 pb-0 md:p-7 border border-slate-200"
-                key={feature.title}
-              >
-                <feature.icon className="h-5 w-5 text-green-800 md:h-10 md:w-10" />
-                <h3 className="mt-4 max-w-[65%] text-base font-bold leading-[18px] text-slate-900 md:mt-5 md:text-[16px]">
-                  {feature.title}
-                </h3>
-              </div>
-            ))}
-          </div>
+          <FeatureList features={features} />
         </div>
       </div>
     </div>
