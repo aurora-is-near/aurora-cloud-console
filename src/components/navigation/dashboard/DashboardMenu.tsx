@@ -31,13 +31,14 @@ export const DashboardMenu = () => {
       </li>
       <li key="gas_abstraction">
         <SubMenuButton
-          href={`/dashboard/${teamKey}/gas_abstraction`}
+          href={`/dashboard/${teamKey}/borealis/deals`}
           name="Gas Abstraction"
           icon={<GasAbstraction className="w-2 h-2" />}
         />
       </li>
       <li key="integrations">
         <SubMenuButton
+          disabled
           href={`/dashboard/${teamKey}/integrations`}
           name="Integrations"
           icon={<Integrations className="w-2 h-2" />}
