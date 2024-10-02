@@ -43,8 +43,8 @@ const MainMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
         href={href}
         className={clsx(
           isCurrentRoute
-            ? "bg-green-500 text-gray-900"
-            : "text-gray-400 hover:text-white hover:bg-gray-800",
+            ? "bg-green-500 text-slate-900"
+            : "text-slate-400 hover:text-white hover:bg-slate-800",
           "group flex rounded-lg p-3 text-sm leading-6 font-semibold items-center justify-center",
         )}
       >
@@ -55,19 +55,25 @@ const MainMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
   )
 }
 
-const SubMenuButton = ({ href, name, icon, disabled }: SubMenuButtonProps) => {
+const SubMenuButton = ({
+  href,
+  name,
+  icon,
+  disabled,
+  dark = false,
+}: SubMenuButtonProps & { dark?: boolean }) => {
   const pathname = usePathname()
   const isCurrentRoute = pathname === href
 
-  icon = generateIcon(
-    icon,
-    clsx(
-      isCurrentRoute
-        ? "text-gray-900"
-        : "text-gray-500 group-hover:text-gray-900",
-      "w-6 h-6 shrink-0",
-    ),
-  )
+  const getIconColor = () => {
+    if (isCurrentRoute) {
+      return dark ? "text-slate-100" : "text-slate-900"
+    }
+
+    return dark ? "text-slate-100" : "text-slate-500 group-hover:text-slate-900"
+  }
+
+  icon = generateIcon(icon, clsx(getIconColor(), "w-6 h-6 shrink-0"))
 
   const commonClasses =
     "w-full flex items-center gap-x-2.5 rounded-lg py-3 px-3.5 text-base leading-4 font-medium"
@@ -77,7 +83,12 @@ const SubMenuButton = ({ href, name, icon, disabled }: SubMenuButtonProps) => {
       <button
         disabled
         type="button"
-        className={clsx(commonClasses, "text-gray-500 opacity-50")}
+        className={clsx(
+          commonClasses,
+          dark
+            ? "text-slate-100 bg-slate-900 opacity-50"
+            : "text-slate-500 opacity-50",
+        )}
       >
         {icon}
         <span>{name}</span>
@@ -89,9 +100,17 @@ const SubMenuButton = ({ href, name, icon, disabled }: SubMenuButtonProps) => {
     <Link
       href={href}
       className={clsx(
-        isCurrentRoute
-          ? "bg-gray-100 text-gray-900"
-          : "text-gray-500 hover:text-gray-900 hover:bg-gray-100",
+        (() => {
+          if (isCurrentRoute) {
+            return dark
+              ? "bg-slate-800 text-slate-100"
+              : "bg-slate-100 text-slate-900"
+          }
+
+          return dark
+            ? "text-slate-100 hover:text-slate-100 bg-slate-800"
+            : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+        })(),
         commonClasses,
         "group",
       )}
@@ -113,8 +132,8 @@ const MobileMainMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
       href={href}
       className={clsx(
         isCurrentRoute
-          ? "bg-green-500 text-gray-900"
-          : "text-gray-400 hover:text-white hover:bg-gray-800 bg-gray-800",
+          ? "bg-green-500 text-slate-900"
+          : "text-slate-400 hover:text-white hover:bg-slate-800 bg-slate-800",
         "group flex rounded-lg gap-x-3 p-3 text-sm leading-6 font-semibold",
       )}
     >
@@ -130,14 +149,14 @@ const MobileSubMenuButton = ({ href, name, icon }: BaseMenuButtonProps) => {
 
   icon = generateIcon(
     icon,
-    clsx(isCurrentRoute ? "text-white" : "text-gray-500", "w-5 h-5 shrink-0"),
+    clsx(isCurrentRoute ? "text-white" : "text-slate-500", "w-5 h-5 shrink-0"),
   )
 
   return (
     <Link
       href={href}
       className={clsx(
-        isCurrentRoute ? "bg-gray-800 text-white" : "text-gray-500",
+        isCurrentRoute ? "bg-slate-800 text-white" : "text-slate-500",
         "group flex items-center gap-x-2.5 rounded-lg py-3 px-3 text-base leading-4 font-semibold",
       )}
     >
