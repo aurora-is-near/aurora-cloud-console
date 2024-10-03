@@ -53,15 +53,15 @@ const features: FeatureBanner[] = [
   {
     icon: <Partner1 />,
     title: "Dedicated integration team",
-  } as FeatureBanner,
+  },
   {
     icon: <Partner2 />,
     title: "Expert consultancy and guidance",
-  } as FeatureBanner,
+  },
   {
     icon: <Partner3 />,
     title: "Community marketing",
-  } as FeatureBanner,
+  },
 ]
 
 // https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=3775-10045&t=PGhHmzDnXi5hsRI0-0
