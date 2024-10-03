@@ -48,12 +48,7 @@ export const DashboardPage = ({
             {banner}
           </div>
         )}
-        <div
-          className={clsx(
-            "relative min-h-screen flex flex-col",
-            CONTAINER_CLASSNAME,
-          )}
-        >
+        <div className={clsx("relative flex flex-col", CONTAINER_CLASSNAME)}>
           {heading && (
             <div className="flex justify-between items-center mb-7">
               {typeof heading === "string" ? (
