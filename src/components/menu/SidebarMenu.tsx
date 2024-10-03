@@ -4,13 +4,13 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { useMenu } from "@/hooks/useMenu"
 import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
-import { SidebarMenuItem } from "@/types/menu"
+import { MenuItem } from "@/types/menu"
 import Heading from "../Heading"
 
 export type SidebarMenuProps = {
   heading?: string
   action?: JSX.Element
-  menuItems: SidebarMenuItem[]
+  menuItems: MenuItem[]
 }
 
 export const SidebarMenu = ({

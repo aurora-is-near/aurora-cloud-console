@@ -4,10 +4,10 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import clsx from "clsx"
 import { generateIcon } from "@/utils/buttons"
-import { SidebarMenuItem } from "@/types/menu"
+import { MenuItem } from "@/types/menu"
 
 type SidebarMenuButtonProps = {
-  menuItem: SidebarMenuItem
+  menuItem: MenuItem
 }
 
 export const SidebarMenuButton = ({

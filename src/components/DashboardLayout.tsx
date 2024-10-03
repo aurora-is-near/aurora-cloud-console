@@ -1,23 +1,45 @@
 import { ReactNode } from "react"
+import {
+  AdjustmentsHorizontalIcon,
+  Cog6ToothIcon,
+} from "@heroicons/react/24/outline"
 import { MainMenu } from "@/components/menu/MainMenu"
-import { MenuItem, SidebarMenuItem } from "@/types/menu"
+import { MenuItem } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 
 type DashboardLayoutProps = {
+  teamKey: string
+  showAdminMenu: boolean
   children: ReactNode
-  mainMenuItems?: MenuItem[]
   sidebarMenu?: {
     heading: string
     action?: JSX.Element
-    menuItems: SidebarMenuItem[]
+    menuItems: MenuItem[]
   }
 }
 
 export const DashboardLayout = ({
+  teamKey,
+  showAdminMenu,
   children,
   sidebarMenu,
-  mainMenuItems = [],
 }: DashboardLayoutProps) => {
+  const mainMenuItems: MenuItem[] = [
+    {
+      name: "Settings",
+      href: `/dashboard/${teamKey}/settings`,
+      icon: <Cog6ToothIcon />,
+    },
+  ]
+
+  if (showAdminMenu) {
+    mainMenuItems.unshift({
+      name: "Admin",
+      href: `/dashboard/${teamKey}/admin`,
+      icon: <AdjustmentsHorizontalIcon />,
+    })
+  }
+
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
       <MainMenu menuItems={mainMenuItems} />
