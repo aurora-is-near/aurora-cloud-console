@@ -19,7 +19,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <Suspense
           fallback={
             <FullScreenPage>
-              <div>Loading...</div>
+              <div className="text-slate-100 uppercase flex justify-center">
+                Loading
+              </div>
             </FullScreenPage>
           }
         >
