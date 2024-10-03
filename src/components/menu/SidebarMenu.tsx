@@ -1,28 +1,24 @@
 "use client"
 
-import { usePathname } from "next/navigation"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
-import { MenuItem } from "@/types/menu"
 import { useMenu } from "@/hooks/useMenu"
+import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
+import { SidebarMenuItem } from "@/types/menu"
 import Heading from "../Heading"
 
+export type SidebarMenuProps = {
+  heading?: string
+  action?: JSX.Element
+  menuItems: SidebarMenuItem[]
+}
+
 export const SidebarMenu = ({
+  heading,
+  action,
   menuItems,
-  fallbackMenu,
-}: {
-  menuItems: MenuItem[]
-  fallbackMenu?: MenuItem
-}) => {
-  const pathname = usePathname()
+}: SidebarMenuProps) => {
   const { isMenuOpen, closeMenu } = useMenu()
-  const activeMenu = menuItems.find((item) => pathname.startsWith(item.href))
-
-  const { name, Menu } = activeMenu ?? fallbackMenu ?? {}
-
-  if (!Menu) {
-    return null
-  }
 
   return (
     <div
@@ -42,13 +38,13 @@ export const SidebarMenu = ({
       {/* Menu */}
       <aside
         className={clsx(
-          "flex inset-y-0 flex-col p-6 overflow-y-auto bg-white sm:border-r border-slate-200 w-full sm:w-72 sm:min-w-72 gap-y-7 h-screen lg:transform-none transition ease-in-out duration-300",
+          "flex inset-y-0 flex-col p-6 overflow-y-auto bg-white sm:border-r border-slate-200 w-full sm:w-72 sm:min-w-72 h-screen lg:transform-none transition ease-in-out duration-300",
           isMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row justify-between items-center mb-6">
           <Heading tag="span" textColorClassName="text-slate-900">
-            {name}
+            {heading}
           </Heading>
           <button
             type="button"
@@ -60,7 +56,17 @@ export const SidebarMenu = ({
           </button>
         </div>
 
-        <nav className="flex flex-col flex-1 gap-y-4">{Menu && <Menu />}</nav>
+        {action}
+
+        <nav className="flex flex-col flex-1 gap-y-4 mt-4">
+          <ul className="space-y-1">
+            {menuItems.map((item) => (
+              <li key={item.name}>
+                <SidebarMenuButton menuItem={item} />
+              </li>
+            ))}
+          </ul>
+        </nav>
       </aside>
     </div>
   )

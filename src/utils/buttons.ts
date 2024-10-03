@@ -8,7 +8,8 @@ export const getButtonClassName = (
     | "transparent"
     | "border"
     | "destructive"
-    | "grey",
+    | "grey"
+    | "dark",
   size: "sm" | "md" | "lg",
   {
     className,
@@ -21,11 +22,11 @@ export const getButtonClassName = (
   } = {},
 ) =>
   clsx(
-    "relative flex items-center justify-center rounded-lg font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 whitespace-nowrap",
+    "relative flex items-center justify-center rounded-lg font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 whitespace-nowrap transition-colors duration-200",
     {
-      "px-2.5 h-8 text-sm": size === "sm",
-      "px-3 h-9 text-sm": size === "md",
-      "px-4 h-10 text-base": size === "lg",
+      "px-2 p-1.5 text-sm": size === "sm",
+      "px-2.5 py-2 text-sm": size === "md",
+      "px-4 py-4 text-base": size === "lg",
       "shadow-sm": ["primary", "secondary"].includes(variant),
       "bg-green-400 text-slate-900 focus-visible:outline-green-400":
         variant === "primary",
@@ -38,7 +39,8 @@ export const getButtonClassName = (
       "bg-rose-500 text-white focus-visible:outline-rose-500":
         variant === "destructive",
       "bg-slate-200 text-slate-500": variant === "grey",
-      "hover:bg-green-400": variant === "primary" && !isDisabled,
+      "bg-slate-900 text-slate-100": variant === "dark",
+      "hover:bg-green-500": variant === "primary" && !isDisabled,
       "hover:bg-gray-300": variant === "secondary" && !isDisabled,
       "hover:bg-gray-200": variant === "transparent" && !isDisabled,
       "hover:border-gray-600": variant === "border" && !isDisabled,
