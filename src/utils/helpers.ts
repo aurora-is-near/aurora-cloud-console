@@ -1,14 +1,6 @@
 import { Children, isValidElement, ReactNode } from "react"
 import { logger } from "@/logger"
 
-export const capitalizeFirstLetter = (string: string) => {
-  if (!string || typeof string !== "string") {
-    return ""
-  }
-
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
 const hasDisplayName = (
   child: ReactNode,
 ): child is ReactNode & { type: { displayName?: string } } =>

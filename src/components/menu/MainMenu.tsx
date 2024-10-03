@@ -2,7 +2,8 @@ import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { MenuItem } from "@/types/menu"
 import AuroraLogo from "@/components/AuroraLogo"
-import { MainMenuButton } from "./MenuButtons"
+import { MainMenuButton } from "@/components/menu/MainMenuButton"
+import { MobileMenuToggleButton } from "@/components/menu/MobileMenuToggleButton"
 
 type MainMenuProps = {
   menuItems: MenuItem[]
@@ -12,7 +13,7 @@ export const MainMenu = async ({ menuItems }: MainMenuProps) => {
   return (
     <div className="flex flex-row justify-between w-full bg-slate-900 px-4 py-4">
       <AuroraLogo />
-      <ul className="flex flex-row items-center">
+      <ul className="hidden lg:flex flex-row items-center">
         {menuItems.map((item) => (
           <li key={item.name} className="px-2">
             <MainMenuButton {...item} />
@@ -31,6 +32,7 @@ export const MainMenu = async ({ menuItems }: MainMenuProps) => {
           />
         </li>
       </ul>
+      <MobileMenuToggleButton />
     </div>
   )
 }

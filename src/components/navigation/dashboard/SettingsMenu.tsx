@@ -7,7 +7,7 @@ import {
   UserIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline"
-import { SubMenuButton } from "@/components/menu/MenuButtons"
+import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
 import SignoutButton from "@/components/menu/SignoutButton"
 import { useTeamKey } from "@/hooks/useTeamKey"
 
@@ -17,27 +17,27 @@ export const SettingsMenu = () => {
   return (
     <>
       <ul className="space-y-4">
-        <SubMenuButton
+        <SidebarMenuButton
           name="Billing"
           href={`/dashboard/${teamKey}/settings/billing`}
           icon={<CreditCardIcon />}
         />
-        <SubMenuButton
+        <SidebarMenuButton
           name="Team"
           href={`/dashboard/${teamKey}/settings/team`}
           icon={<UsersIcon />}
         />
-        <SubMenuButton
+        <SidebarMenuButton
           name="Company"
           href={`/dashboard/${teamKey}/settings/company`}
           icon={<InformationCircleIcon />}
         />
-        <SubMenuButton
+        <SidebarMenuButton
           name="Account"
           href={`/dashboard/${teamKey}/settings/account`}
           icon={<UserIcon />}
         />
-        <SubMenuButton
+        <SidebarMenuButton
           name="API Keys"
           href={`/dashboard/${teamKey}/settings/api-keys`}
           icon={<KeyIcon />}

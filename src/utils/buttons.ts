@@ -1,4 +1,5 @@
 import clsx from "clsx"
+import { cloneElement, isValidElement, ReactElement, ReactNode } from "react"
 
 export const getButtonClassName = (
   variant:
@@ -46,3 +47,12 @@ export const getButtonClassName = (
     },
     className,
   )
+
+export const generateIcon = (icon: ReactNode, className: string) => {
+  return isValidElement(icon)
+    ? cloneElement(icon as ReactElement, {
+        className,
+        "aria-hidden": true,
+      })
+    : null
+}
