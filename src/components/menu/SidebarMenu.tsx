@@ -28,7 +28,7 @@ export const SidebarMenu = ({
     <div
       className={clsx(
         "fixed lg:relative inset-0 z-50",
-        !isMenuOpen && "pointer-events-none",
+        !isMenuOpen && "pointer-events-none lg:pointer-events-auto",
       )}
     >
       {/* Backdrop */}
