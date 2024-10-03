@@ -1,0 +1,11 @@
+export { default as WarningOctagon } from "./warning_octagon.svg"
+export { default as ChainPrivate } from "./chain_private.svg"
+export { default as ChainPublic } from "./chain_public.svg"
+export { default as ChainPublicPermissioned } from "./chain_public_permissioned.svg"
+
+export { default as AuroraToken } from "./tokens/aurora.svg"
+export { default as Bitcoin } from "./tokens/bitcoin.svg"
+export { default as CustomToken } from "./tokens/custom.svg"
+export { default as EtherToken } from "./tokens/ether.svg"
+export { default as USDCToken } from "./tokens/usdc.svg"
+export { default as USDTToken } from "./tokens/usdt.svg"
