@@ -8,8 +8,8 @@ import { MenuItem } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 
 type DashboardLayoutProps = {
-  teamKey: string
-  showAdminMenu: boolean
+  teamKey?: string
+  showAdminMenu?: boolean
   children: ReactNode
   sidebarMenu?: {
     heading: string
