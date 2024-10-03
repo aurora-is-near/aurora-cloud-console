@@ -42,7 +42,12 @@ export const SidebarMenu = ({
           isMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <div className="flex flex-row justify-between items-center mb-6">
+        <div
+          className={clsx(
+            "flex flex-row justify-between items-center",
+            action && "mb-6",
+          )}
+        >
           <Heading tag="span" textColorClassName="text-slate-900">
             {heading}
           </Heading>
