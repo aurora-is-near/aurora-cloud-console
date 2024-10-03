@@ -16,6 +16,7 @@ const Page = async ({
     redirect(`/dashboard/${teamKey}/silos/${silo.id}`)
   }
 
+  // If the team has no silos return the "empty" state
   return (
     <DashboardPage>
       <Dashboard team={team} />
