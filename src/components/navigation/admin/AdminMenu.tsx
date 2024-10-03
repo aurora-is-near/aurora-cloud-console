@@ -14,19 +14,25 @@ export const AdminMenu = () => {
   return (
     <ul className="space-y-4">
       <SidebarMenuButton
-        name="Team"
-        href={`/dashboard/${teamKey}/admin/team`}
-        icon={<UserGroupIcon />}
+        menuItem={{
+          name: "Team",
+          href: `/dashboard/${teamKey}/admin/team`,
+          icon: <UserGroupIcon />,
+        }}
       />
       <SidebarMenuButton
-        name="Silos"
-        href={`/dashboard/${teamKey}/admin/silos`}
-        icon={<CubeIcon />}
+        menuItem={{
+          name: "Silos",
+          href: `/dashboard/${teamKey}/admin/silos`,
+          icon: <CubeIcon />,
+        }}
       />
       <SidebarMenuButton
-        name="Deals"
-        href={`/dashboard/${teamKey}/admin/deals`}
-        icon={<TicketIcon />}
+        menuItem={{
+          name: "Deals",
+          href: `/dashboard/${teamKey}/admin/deals`,
+          icon: <TicketIcon />,
+        }}
       />
     </ul>
   )

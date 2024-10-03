@@ -18,29 +18,39 @@ export const SettingsMenu = () => {
     <>
       <ul className="space-y-4">
         <SidebarMenuButton
-          name="Billing"
-          href={`/dashboard/${teamKey}/settings/billing`}
-          icon={<CreditCardIcon />}
+          menuItem={{
+            name: "Billing",
+            href: `/dashboard/${teamKey}/settings/billing`,
+            icon: <CreditCardIcon />,
+          }}
         />
         <SidebarMenuButton
-          name="Team"
-          href={`/dashboard/${teamKey}/settings/team`}
-          icon={<UsersIcon />}
+          menuItem={{
+            name: "Team",
+            href: `/dashboard/${teamKey}/settings/team`,
+            icon: <UsersIcon />,
+          }}
         />
         <SidebarMenuButton
-          name="Company"
-          href={`/dashboard/${teamKey}/settings/company`}
-          icon={<InformationCircleIcon />}
+          menuItem={{
+            name: "Company",
+            href: `/dashboard/${teamKey}/settings/company`,
+            icon: <InformationCircleIcon />,
+          }}
         />
         <SidebarMenuButton
-          name="Account"
-          href={`/dashboard/${teamKey}/settings/account`}
-          icon={<UserIcon />}
+          menuItem={{
+            name: "Account",
+            href: `/dashboard/${teamKey}/settings/account`,
+            icon: <UserIcon />,
+          }}
         />
         <SidebarMenuButton
-          name="API Keys"
-          href={`/dashboard/${teamKey}/settings/api-keys`}
-          icon={<KeyIcon />}
+          menuItem={{
+            name: "API Keys",
+            href: `/dashboard/${teamKey}/settings/api-keys`,
+            icon: <KeyIcon />,
+          }}
         />
       </ul>
       <div className="pt-4 border-t border-gray-200">
