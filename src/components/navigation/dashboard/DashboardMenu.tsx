@@ -15,11 +15,10 @@ export const DashboardMenu = () => {
     <ul className="space-y-1">
       <li className="mb-4">
         <SidebarMenuButton
-          href={`/dashboard/${teamKey}/borealis`}
+          href={`/dashboard/${teamKey}/create_chain`}
           name="Create Aurora Chain"
           icon={<PlusIcon />}
           dark
-          disabled
         />
       </li>
       <li>
