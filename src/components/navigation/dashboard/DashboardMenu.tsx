@@ -1,7 +1,7 @@
 "use client"
 
 import { HomeIcon, PlusIcon } from "@heroicons/react/20/solid"
-import { SubMenuButton } from "@/components/menu/MenuButtons"
+import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
 import { useTeamKey } from "@/hooks/useTeamKey"
 import {
   GasAbstraction,
@@ -14,7 +14,7 @@ export const DashboardMenu = () => {
   return (
     <ul className="space-y-1">
       <li className="mb-4">
-        <SubMenuButton
+        <SidebarMenuButton
           href={`/dashboard/${teamKey}/borealis`}
           name="Create Aurora Chain"
           icon={<PlusIcon />}
@@ -23,21 +23,21 @@ export const DashboardMenu = () => {
         />
       </li>
       <li>
-        <SubMenuButton
+        <SidebarMenuButton
           href={`/dashboard/${teamKey}`}
           name="Dashboard"
           icon={<HomeIcon />}
         />
       </li>
       <li>
-        <SubMenuButton
+        <SidebarMenuButton
           href={`/dashboard/${teamKey}/borealis/deals`}
           name="Gas Abstraction"
           icon={<GasAbstraction />}
         />
       </li>
       <li>
-        <SubMenuButton
+        <SidebarMenuButton
           disabled
           href={`/dashboard/${teamKey}/integrations`}
           name="Integrations"

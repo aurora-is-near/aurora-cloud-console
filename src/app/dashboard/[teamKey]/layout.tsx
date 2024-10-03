@@ -14,14 +14,10 @@ import { ListsMenu } from "@/components/navigation/dashboard/ListsMenu"
 import { SilosMenu } from "@/components/navigation/dashboard/SilosMenu"
 import { DealsMenu } from "@/components/navigation/dashboard/DealsMenu"
 import { SettingsMenu } from "@/components/navigation/dashboard/SettingsMenu"
-import { MobileDealsMenu } from "@/components/navigation/dashboard/mobile/MobileDealsMenu"
-import { MobileListsMenu } from "@/components/navigation/dashboard/mobile/MobileListsMenu"
-import { MobileSettingsMenu } from "@/components/navigation/dashboard/mobile/MobileSettingsMenu"
 import { AdminMenu } from "@/components/navigation/admin/AdminMenu"
 import { isAdmin } from "@/actions/is-admin"
 import { MenuItem } from "@/types/menu"
 import { DashboardMenu } from "@/components/navigation/dashboard/DashboardMenu"
-import { MobileDashboardMenu } from "@/components/navigation/dashboard/mobile/MobileDashboardMenu"
 
 const Layout = async ({
   children,
@@ -37,8 +33,7 @@ const Layout = async ({
       name: "Settings",
       href: `/dashboard/${teamKey}/settings`,
       icon: <Cog6ToothIcon />,
-      SubMenu: SettingsMenu,
-      MobileSubMenu: MobileSettingsMenu,
+      Menu: SettingsMenu,
     },
   ]
 
@@ -47,7 +42,7 @@ const Layout = async ({
       name: "Admin",
       href: `/dashboard/${teamKey}/admin`,
       icon: <AdjustmentsHorizontalIcon />,
-      SubMenu: AdminMenu,
+      Menu: AdminMenu,
     })
   }
 
@@ -57,35 +52,32 @@ const Layout = async ({
         name: "Explore Aurora",
         href: `/dashboard/${teamKey}`,
         icon: <HomeIcon />,
-        SubMenu: DashboardMenu,
-        MobileSubMenu: MobileDashboardMenu,
+        Menu: DashboardMenu,
       }}
       sidebarMenuItems={[
         {
           name: "Borealis",
           href: `/dashboard/${teamKey}/borealis/deals`,
           icon: <Borealis />,
-          SubMenu: DealsMenu,
-          MobileSubMenu: MobileDealsMenu,
+          Menu: DealsMenu,
         },
         {
           name: "Silos",
           href: `/dashboard/${teamKey}/silos`,
           icon: <CubeIcon />,
-          SubMenu: SilosMenu,
+          Menu: SilosMenu,
         },
         {
           name: "Lists",
           href: `/dashboard/${teamKey}/lists`,
           icon: <ListBulletIcon />,
-          SubMenu: ListsMenu,
-          MobileSubMenu: MobileListsMenu,
+          Menu: ListsMenu,
         },
         {
           name: "Services",
           href: `/dashboard/${teamKey}/services`,
           icon: <SquaresPlusIcon />,
-          SubMenu: ServicesMenu,
+          Menu: ServicesMenu,
         },
       ]}
       mainMenuItems={mainMenuItems}

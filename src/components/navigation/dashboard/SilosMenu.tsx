@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from "react"
 import { useRouter, useSelectedLayoutSegments } from "next/navigation"
 import { MenuItemsLoader } from "@/components/menu/MenuItemsLoader"
-import { SubMenuButton } from "@/components/menu/MenuButtons"
+import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
 import { MenuDivider } from "@/components/menu/MenuDivider"
 import { useSilos } from "@/hooks/useSilos"
 import { useTeamKey } from "@/hooks/useTeamKey"
@@ -41,7 +41,7 @@ export const SilosMenu = () => {
   return (
     <>
       <ul className="space-y-4">
-        <SubMenuButton
+        <SidebarMenuButton
           href={
             hasMultipleSilos
               ? `/dashboard/${teamKey}/silos`
@@ -83,44 +83,44 @@ export const SilosMenu = () => {
       )}
       <ul className="space-y-4">
         {hasMultipleSilos && (
-          <SubMenuButton
+          <SidebarMenuButton
             disabled={!id}
             href={`/dashboard/${teamKey}/silos/${id}/overview`}
             name="Overview"
             icon={<CubeIcon />}
           />
         )}
-        <SubMenuButton
+        <SidebarMenuButton
           disabled={!id}
           href={`/dashboard/${teamKey}/silos/${id}/configuration`}
           name="Configuration"
           icon={<WrenchIcon />}
         />
-        <SubMenuButton
+        <SidebarMenuButton
           disabled
           href={`/dashboard/${teamKey}/silos/${id}/permissions`}
           name="Permissions"
           icon={<LockClosedIcon />}
         />
-        <SubMenuButton
+        <SidebarMenuButton
           disabled={!id}
           href={`/dashboard/${teamKey}/silos/${id}/tokens`}
           name="Tokens"
           icon={<StopCircleIcon />}
         />
-        <SubMenuButton
+        <SidebarMenuButton
           disabled={!id}
           href={`/dashboard/${teamKey}/silos/${id}/oracle`}
           name="Oracle"
           icon={<MagnifyingGlassCircleIcon />}
         />
-        <SubMenuButton
+        <SidebarMenuButton
           disabled={!id}
           href={`/dashboard/${teamKey}/silos/${id}/bridge`}
           name="Bridge"
           icon={<ArrowRightCircleIcon />}
         />
-        <SubMenuButton
+        <SidebarMenuButton
           disabled
           href={`/dashboard/${teamKey}/silos/${id}/kyc`}
           name="KYC"
