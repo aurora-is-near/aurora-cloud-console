@@ -40,7 +40,10 @@ export const SiloSelect = ({ silos }: SiloSelectProps) => {
         <div className="relative mt-1 mb-3">
           <Listbox.Button className="relative w-full cursor-default rounded-lg border border-slate-200 bg-white p-2 text-left text-slate-900 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 group hover:bg-slate-100">
             <div className="flex items-center justify-between">
-              <span className="block truncate">{option ?? "Select silo"}</span>
+              <span className="block truncate">
+                {silos.find((silo) => silo.id === parseInt(id, 10))?.name ??
+                  silos[0].name}
+              </span>
               <div className="w-[30px] h-[30px] flex items-center justify-center">
                 <ChevronDownIcon
                   className="h-5 w-5 text-gray-400 group-hover:text-slate-900"
