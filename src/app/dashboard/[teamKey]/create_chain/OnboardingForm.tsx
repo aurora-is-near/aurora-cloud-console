@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import {
   ChainPermission,
   GasMechanics,
@@ -17,8 +18,11 @@ import GasMechanicsBox from "@/app/dashboard/[teamKey]/create_chain/GasMechanics
 import { Button } from "@/components/Button"
 import IntegrationBox from "@/app/dashboard/[teamKey]/create_chain/IntegrationBox"
 import Card from "@/components/Card"
+import { Team } from "@/types/types"
 
-const OnboardingForm = () => {
+const OnboardingForm = ({ team }: { team: Team }) => {
+  const router = useRouter()
+
   const {
     form,
     updateForm,
@@ -26,7 +30,7 @@ const OnboardingForm = () => {
     handleDeselectAllIntegrations,
     handleSubmit,
     submitButtonText,
-  } = useChainCreationForm()
+  } = useChainCreationForm(team)
 
   const isDevnet = form.networkType === "devnet"
 
@@ -56,6 +60,14 @@ const OnboardingForm = () => {
 
   const handleGasMechanicsSelect = (mechanic: GasMechanics) => {
     updateForm("gasMechanics", mechanic)
+  }
+
+  const handleOnboardingSubmit = async () => {
+    const record = await handleSubmit()
+
+    if (record) {
+      router.push(`/dashboard/${team.team_key}`)
+    }
   }
 
   return (
@@ -283,7 +295,7 @@ const OnboardingForm = () => {
                     <Button
                       className="w-full my-10 py-8 text-2xl"
                       size="lg"
-                      onClick={handleSubmit}
+                      onClick={handleOnboardingSubmit}
                     >
                       {submitButtonText}
                     </Button>

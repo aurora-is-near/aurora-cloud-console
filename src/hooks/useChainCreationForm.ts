@@ -1,4 +1,6 @@
 import { ComponentType, useCallback, useState } from "react"
+import { Team } from "@/types/types"
+import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
 import {
   AuroraToken,
   Bitcoin,
@@ -62,7 +64,7 @@ const initialForm: ChainCreationForm = {
   comments: "",
 }
 
-export const useChainCreationForm = () => {
+export const useChainCreationForm = (team: Team) => {
   const [form, setForm] = useState<ChainCreationForm>(initialForm)
 
   const updateForm = <K extends keyof ChainCreationForm>(
@@ -88,13 +90,23 @@ export const useChainCreationForm = () => {
     }))
   }, [])
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
+    const integrationsString = form.integrations.join(",")
+
+    const record = await saveOnboardingForm({
+      ...form,
+      integrations: integrationsString,
+      team_id: team.id,
+    })
+
     if (form.networkType === "devnet") {
-      // console.log("Deploying devnet chain:", form)
+      // TODO: "Deploy" devnet chain
     } else if (form.networkType === "mainnet") {
-      // console.log("Booking a call for mainnet chain:", form)
+      // TODO Booking a call for mainnet setup
     }
-  }, [form])
+
+    return record
+  }, [form, team])
 
   const submitButtonText =
     form.networkType === "mainnet"
