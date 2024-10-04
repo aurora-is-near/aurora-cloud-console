@@ -32,11 +32,14 @@ export const SidebarMenu = ({
       )}
     >
       {/* Backdrop */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         className={clsx(
           "lg:hidden transition-opacity ease-linear duration-300 fixed inset-0 bg-gray-900/80",
           isMenuOpen ? "opacity-100" : "opacity-0",
         )}
+        tabIndex={-1}
+        onClick={closeMenu}
       />
 
       {/* Menu */}
