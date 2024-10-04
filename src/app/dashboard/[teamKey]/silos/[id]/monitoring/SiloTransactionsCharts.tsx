@@ -13,11 +13,6 @@ export const SiloTransactionsCharts = ({
   siloId,
 }: SiloTransactionsChartsProps) => {
   const [interval, setInterval] = useChartInterval()
-  const { data: silo } = useQuery(
-    getQueryFnAndKey("getSilo", {
-      id: siloId,
-    }),
-  )
 
   const { data: transactions, isError: isGetSiloTransactionsError } = useQuery(
     getQueryFnAndKey("getSiloTransactions", {
@@ -28,7 +23,7 @@ export const SiloTransactionsCharts = ({
 
   return (
     <TransactionsCharts
-      title={silo?.name ?? ""}
+      title="Monitoring"
       charts={transactions?.items.map((item) => item.data)}
       interval={interval}
       setInterval={setInterval}

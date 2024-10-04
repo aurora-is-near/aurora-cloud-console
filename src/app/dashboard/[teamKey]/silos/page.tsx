@@ -1,9 +1,6 @@
 import { redirect } from "next/navigation"
-import { DashboardPage } from "@/components/DashboardPage"
-import Contact from "@/components/Contact"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
-import { SilosTransactionsCharts } from "./SilosTransactionsCharts"
 
 const Page = async ({
   params: { teamKey },
@@ -11,22 +8,13 @@ const Page = async ({
   params: { teamKey: string }
 }) => {
   const team = await getTeamByKey(teamKey)
-  const silos = await getTeamSilos(team.id)
+  const [firstSilo] = await getTeamSilos(team.id)
 
-  // If the team has a single silo, redirect to its overview page
-  if (silos.length === 1) {
-    return redirect(`/dashboard/${teamKey}/silos/${silos[0].id}/overview`)
+  if (!firstSilo) {
+    return redirect(`/dashboard/${teamKey}`)
   }
 
-  return (
-    <DashboardPage>
-      <section>
-        <SilosTransactionsCharts />
-      </section>
-
-      <Contact teamKey={teamKey} text="Need help setting up a silo?" />
-    </DashboardPage>
-  )
+  return redirect(`/dashboard/${teamKey}/silos/${firstSilo.id}/monitoring`)
 }
 
 export default Page

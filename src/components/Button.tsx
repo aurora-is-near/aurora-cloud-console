@@ -12,6 +12,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
     | "border"
     | "destructive"
     | "grey"
+    | "dark"
   size?: "sm" | "md" | "lg"
   loading?: boolean
   disabled?: boolean
