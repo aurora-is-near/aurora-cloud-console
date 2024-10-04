@@ -1,8 +1,7 @@
 import { ReactNode } from "react"
-import Link from "next/link"
-import { Button } from "@/components/Button"
 import HeroTitle from "@/components/Hero/HeroTitle"
 import HeroContent from "@/components/Hero/HeroContent"
+import { LinkButton } from "@/components/LinkButton"
 
 export interface HeroButtonProps {
   text: string
@@ -36,16 +35,18 @@ const Hero = ({
         </HeroTitle>
         <HeroContent>{description}</HeroContent>
         {button && (
-          <Link href={button.path ?? ""}>
-            <div className="flex justify-items-start">
-              <Button disabled={!button.path} size="lg">
-                <div className="flex flex-row gap-2">
-                  {button.icon}
-                  {button.text}
-                </div>
-              </Button>
-            </div>
-          </Link>
+          <div className="flex">
+            <LinkButton
+              size="lg"
+              href={button.path ?? ""}
+              disabled={!button.path}
+            >
+              <div className="flex flex-row gap-2">
+                {button.icon}
+                {button.text}
+              </div>
+            </LinkButton>
+          </div>
         )}
       </div>
       <div className="flex">{image}</div>
