@@ -197,6 +197,7 @@ export type Database = {
           created_at: string
           engine_account: string
           engine_version: string
+          explorer_url: string | null
           genesis: string
           grafana_network_key: string | null
           id: number
@@ -212,6 +213,7 @@ export type Database = {
           created_at?: string
           engine_account: string
           engine_version: string
+          explorer_url?: string | null
           genesis: string
           grafana_network_key?: string | null
           id?: number
@@ -227,6 +229,7 @@ export type Database = {
           created_at?: string
           engine_account?: string
           engine_version?: string
+          explorer_url?: string | null
           genesis?: string
           grafana_network_key?: string | null
           id?: number
@@ -270,7 +273,7 @@ export type Database = {
           id?: number
           name: string
           team_key: string
-          transaction_database: Database["public"]["Enums"]["transaction_database_type"]
+          transaction_database?: Database["public"]["Enums"]["transaction_database_type"]
           updated_at?: string
           website?: string | null
         }
@@ -347,23 +350,29 @@ export type Database = {
       }
       users: {
         Row: {
+          company: string | null
           created_at: string
           email: string
           id: number
+          marketing_consent: boolean | null
           name: string | null
           user_id: string
         }
         Insert: {
+          company?: string | null
           created_at?: string
           email: string
           id?: number
+          marketing_consent?: boolean | null
           name?: string | null
           user_id: string
         }
         Update: {
+          company?: string | null
           created_at?: string
           email?: string
           id?: number
+          marketing_consent?: boolean | null
           name?: string | null
           user_id?: string
         }

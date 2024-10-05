@@ -4,6 +4,7 @@ import { DashboardLayout } from "@/components/DashboardLayout"
 import { MenuItem } from "@/types/menu"
 import { Silo } from "@/types/types"
 import {
+  Configuration,
   GasAbstraction,
   Integrations,
   Monitoring,
@@ -34,11 +35,18 @@ export const MainDashboardLayout = async ({
   ]
 
   if (silo) {
-    sidebarMenuItems.push({
-      name: "Monitoring",
-      href: `/dashboard/${teamKey}${siloPrefix}/monitoring`,
-      icon: <Monitoring />,
-    })
+    sidebarMenuItems.push(
+      {
+        name: "Monitoring",
+        href: `/dashboard/${teamKey}${siloPrefix}/monitoring`,
+        icon: <Monitoring />,
+      },
+      {
+        name: "Configuration",
+        href: `/dashboard/${teamKey}${siloPrefix}/configuration`,
+        icon: <Configuration />,
+      },
+    )
   }
 
   sidebarMenuItems.push(
