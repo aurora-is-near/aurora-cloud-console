@@ -9,6 +9,7 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   base_token_id: 1,
   chain_id: "1313161555",
   engine_account: "testnet.aurora-silo-dev.near",
+  explorer_url: "https://explorer.testnet.aurora.dev",
   genesis: "1695870567776",
   rpc_url: "testnet.aurora.dev",
   engine_version: "2.0.22",
