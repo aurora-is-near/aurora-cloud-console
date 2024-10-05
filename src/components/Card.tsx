@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 import clsx from "clsx"
 import { findChildren, findOtherChildren } from "@/utils/helpers"
 
-const HORIZONTAL_PADDING = "px-5"
+const HORIZONTAL_PADDING = "px-5 md:px-6"
 
 const Title = ({
   children,
@@ -107,7 +107,7 @@ const Card = ({
           "rounded-[10px]": borderRadius === "md",
           "rounded-xl": borderRadius === "xl",
           "rounded-2xl": borderRadius === "2xl",
-          "p-5": !hasHeader,
+          "p-5 md:p-6": !hasHeader,
         },
         isDisabled ? "bg-gray-100" : "bg-white",
         className,
