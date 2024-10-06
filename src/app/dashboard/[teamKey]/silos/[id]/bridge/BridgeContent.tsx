@@ -1,6 +1,5 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import Loader from "@/components/Loader"
 import { getQueryFnAndKey } from "@/utils/api/queries"
@@ -14,7 +13,6 @@ type BridgeContentProps = {
 }
 
 export const BridgeContent = ({ siloId }: BridgeContentProps) => {
-  const searchParams = useSearchParams()
   const { data: bridge } = useQuery(
     getQueryFnAndKey("getSiloBridge", {
       id: siloId,
@@ -27,7 +25,7 @@ export const BridgeContent = ({ siloId }: BridgeContentProps) => {
 
   // The `intro` query param is to give us a way to view the initial intro
   // screen after the feature has been enabled.
-  const isEnabled = bridge.enabled && !searchParams.has("intro")
+  const isEnabled = bridge.enabled
 
   return (
     <>

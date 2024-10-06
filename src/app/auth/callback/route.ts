@@ -3,6 +3,8 @@ import { HOME_ROUTE, LOGIN_ROUTE } from "@/constants/routes"
 import { createRouteHandlerClient } from "@/supabase/create-route-handler-client"
 import { logger } from "@/logger"
 
+export const dynamic = "force-dynamic"
+
 export async function GET(request: NextRequest) {
   try {
     const requestUrl = new URL(request.url)

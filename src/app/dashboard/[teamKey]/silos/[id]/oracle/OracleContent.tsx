@@ -1,6 +1,5 @@
 "use client"
 
-import { useSearchParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import Loader from "@/components/Loader"
 import { getQueryFnAndKey } from "@/utils/api/queries"
@@ -15,7 +14,6 @@ type OracleContentProps = {
 }
 
 export const OracleContent = ({ siloId, teamKey }: OracleContentProps) => {
-  const searchParams = useSearchParams()
   const { data: oracle, isPending } = useQuery(
     getQueryFnAndKey("getSiloOracle", {
       id: siloId,
@@ -28,7 +26,7 @@ export const OracleContent = ({ siloId, teamKey }: OracleContentProps) => {
 
   // The `intro` query param is to give us a way to view the initial intro
   // screen after the feature has been enabled.
-  const isEnabled = !!oracle && !searchParams.has("intro")
+  const isEnabled = !!oracle
 
   return (
     <>
