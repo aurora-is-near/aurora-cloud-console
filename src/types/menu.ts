@@ -1,9 +1,8 @@
-import { ComponentType } from "react"
+import { ReactNode } from "react"
 
 export type MenuItem = {
-  name: string
   href: string
-  icon: JSX.Element
+  name: string
+  icon?: ReactNode
   disabled?: boolean
-  Menu: ComponentType
 }

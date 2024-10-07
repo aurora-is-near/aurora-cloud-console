@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation"
-import Contact from "@/components/Contact"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { SiloTransactionsCharts } from "./SiloTransactionsCharts"
@@ -31,8 +30,6 @@ const Page = async ({
           <FailureRateChart id={id} />
         </section>
       )}
-
-      <Contact teamKey={teamKey} text="Need help setting up a silo?" />
     </DashboardPage>
   )
 }
