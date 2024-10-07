@@ -50,7 +50,7 @@ export const DashboardPage = ({
         )}
         <div className={clsx("relative flex flex-col", CONTAINER_CLASSNAME)}>
           {heading && (
-            <div className="flex justify-between items-center mb-7">
+            <div className="flex justify-between items-center mb-5">
               {typeof heading === "string" ? (
                 <Heading tag="h1" size={headingSize}>
                   {heading}

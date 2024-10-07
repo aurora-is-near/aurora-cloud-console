@@ -247,6 +247,7 @@ export type Database = {
           created_at: string
           engine_account: string
           engine_version: string
+          explorer_url: string | null
           genesis: string
           grafana_network_key: string | null
           id: number
@@ -262,6 +263,7 @@ export type Database = {
           created_at?: string
           engine_account: string
           engine_version: string
+          explorer_url?: string | null
           genesis: string
           grafana_network_key?: string | null
           id?: number
@@ -277,6 +279,7 @@ export type Database = {
           created_at?: string
           engine_account?: string
           engine_version?: string
+          explorer_url?: string | null
           genesis?: string
           grafana_network_key?: string | null
           id?: number

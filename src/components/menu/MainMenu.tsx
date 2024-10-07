@@ -1,9 +1,9 @@
-import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { MenuItem } from "@/types/menu"
 import AuroraLogo from "@/components/AuroraLogo"
 import { MainMenuButton } from "@/components/menu/MainMenuButton"
 import { MobileMenuToggleButton } from "@/components/menu/MobileMenuToggleButton"
+import { MainMenuLogoutButton } from "@/components/menu/MainMenuLogoutButton"
 
 type MainMenuProps = {
   menuItems: MenuItem[]
@@ -25,11 +25,7 @@ export const MainMenu = async ({ menuItems }: MainMenuProps) => {
             menuItems.length && "border-l border-slate-700",
           )}
         >
-          <MainMenuButton
-            name="Logout"
-            href="/logout"
-            icon={<ArrowRightOnRectangleIcon />}
-          />
+          <MainMenuLogoutButton />
         </li>
       </ul>
       <MobileMenuToggleButton />
