@@ -8,7 +8,7 @@ import {
 } from "@/utils/supabase"
 
 export const createSilo = async (
-  inputs: Omit<Silo, "id" | "created_at" | "updated_at">,
+  inputs: Omit<Silo, "id" | "created_at">,
 ): Promise<Silo> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase.from("silos").insert(inputs).select().single()
