@@ -24,9 +24,7 @@ export const SidebarMenu = ({
   const activeMenu = menuItems.find((item) => pathname.startsWith(item.href))
   const isCreateChainPage = pathname.includes("create_chain")
 
-  const { name } = activeMenu ?? {}
-
-  if (!name || isCreateChainPage) {
+  if (!activeMenu || isCreateChainPage) {
     return null
   }
 
