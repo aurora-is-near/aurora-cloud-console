@@ -5,7 +5,6 @@ import {
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline"
-import { useQueryState } from "next-usequerystate"
 import { ListBulletIcon } from "@heroicons/react/20/solid"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -13,7 +12,6 @@ import { useLists } from "@/hooks/useLists"
 import { NoDataCta } from "@/components/NoDataCta"
 import { formatDate } from "@/utils/helpers"
 import DropdownMenu from "@/components/DropdownMenu"
-import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
 import Table from "@/components/Table"
 import TableLoader from "../../../../components/TableLoader"
@@ -25,24 +23,20 @@ type ListsTableProps = {
 
 export const ListsTable = ({ teamKey }: ListsTableProps) => {
   const { data: lists, isLoading } = useLists()
-  const [, setId] = useQueryState("id")
   const { openModal } = useModals()
   const router = useRouter()
   const [openMenu, setOpenMenu] = useState<number>()
 
   const onEditListClick = async (id: number) => {
-    await setId(String(id))
-    openModal(Modals.EditList)
+    openModal("EditList", { teamKey, id })
   }
 
   const onImportListItemsClick = async (id: number) => {
-    await setId(String(id))
-    openModal(Modals.ImportListItems)
+    openModal("ImportListItems", { teamKey, id })
   }
 
   const onDeleteClick = async (id: number) => {
-    await setId(String(id))
-    openModal(Modals.DeleteList)
+    openModal("DeleteList", { teamKey, id })
   }
 
   const onMenuOpenChange = (id: number, open: boolean) => {

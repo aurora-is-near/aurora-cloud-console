@@ -1,19 +1,22 @@
 "use client"
 
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { useQueryState } from "next-usequerystate"
 import { useMemo } from "react"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { AddOrEditListModal } from "./AddOrEditListModal"
 
-export const EditListModal = () => {
-  const { activeModal, closeModal } = useModals()
-  const [id] = useQueryState("id")
-  const isOpen = activeModal === Modals.EditList
+type EditListModalProps = {
+  teamKey: string
+  id: number
+}
+
+export const EditListModal = ({ teamKey, id }: EditListModalProps) => {
+  const { activeModal, openModal, closeModal } = useModals()
+  const isOpen = activeModal === "EditList"
+
   const { data: list } = useQuery({
     ...getQueryFnAndKey("getList", { id: Number(id) }),
     enabled: !!id,
@@ -34,9 +37,17 @@ export const EditListModal = () => {
 
   const onSubmit = async (data: { name: string }) => {
     updateList({
-      id: Number(id),
+      id,
       ...data,
     })
+  }
+
+  const onDelete = () => {
+    if (!id) {
+      throw new Error("An id is required to open the delete list modal")
+    }
+
+    openModal("DeleteList", { teamKey, id })
   }
 
   const values = useMemo(
@@ -51,6 +62,7 @@ export const EditListModal = () => {
       open={isOpen}
       values={values}
       onSubmit={onSubmit}
+      onDelete={onDelete}
       isPending={isPending}
     />
   )

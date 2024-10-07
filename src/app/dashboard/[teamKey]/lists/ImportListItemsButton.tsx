@@ -1,26 +1,24 @@
 "use client"
 
 import { ArrowUpTrayIcon } from "@heroicons/react/20/solid"
-import { useQueryState } from "next-usequerystate"
 import { Button } from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 
 type ImportListItemsButtonProps = {
+  teamKey: string
   id: number
   disabled?: boolean
 }
 
 export const ImportListItemsButton = ({
+  teamKey,
   id,
   disabled,
 }: ImportListItemsButtonProps) => {
   const { openModal } = useModals()
-  const [, setId] = useQueryState("id")
 
   const onClick = async () => {
-    await setId(String(id))
-    openModal(Modals.ImportListItems)
+    openModal("ImportListItems", { teamKey, id })
   }
 
   return (

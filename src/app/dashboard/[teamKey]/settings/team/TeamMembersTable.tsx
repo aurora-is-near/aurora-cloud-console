@@ -1,13 +1,11 @@
 "use client"
 
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline"
-import { useQueryState } from "next-usequerystate"
 import { useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Table from "@/components/Table"
 import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { TeamMember, User } from "@/types/types"
 import { reinviteUser } from "@/actions/invite/reinvite-user"
 import { toError } from "@/utils/errors"
@@ -25,10 +23,7 @@ export const TeamMembersTable = ({
   currentUser,
   teamMembers,
 }: TeamMembersTableProps) => {
-  const [, setErrorTitle] = useQueryState("error_title")
-  const [, setErrorDescription] = useQueryState("error_description")
   const { openModal } = useModals()
-  const [, setEmail] = useQueryState("email")
   const router = useRouter()
 
   const onDeleteTeamMemberClick = useCallback(
@@ -47,19 +42,17 @@ export const TeamMembersTable = ({
           origin: window.location.origin,
         })
       } catch (err) {
-        await Promise.all([
-          setErrorTitle("Invite failed"),
-          setErrorDescription(toError(err).message),
-        ])
-        openModal(Modals.Error)
+        openModal("Error", {
+          title: "Invite failed",
+          description: toError(err).message,
+        })
 
         return
       }
 
-      await setEmail(teamMember.email)
-      openModal(Modals.InviteConfirmed)
+      openModal("InviteConfirmed", { email: teamMember.email })
     },
-    [openModal, setEmail, setErrorDescription, setErrorTitle],
+    [openModal],
   )
 
   return (

@@ -10,7 +10,6 @@ import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { Modals } from "@/utils/modals"
 import { TokenSchema } from "@/types/api-schemas"
 
 type Inputs = Partial<Record<string, boolean>>
@@ -68,7 +67,7 @@ const BridgeTokensModal = ({
   return (
     <SlideOver
       title="Supported assets"
-      open={activeModal === Modals.BridgeTokens}
+      open={activeModal === "BridgeTokens"}
       close={closeModal}
     >
       <form onSubmit={handleSubmit(submit)}>

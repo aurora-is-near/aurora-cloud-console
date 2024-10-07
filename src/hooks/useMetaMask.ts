@@ -1,13 +1,12 @@
 import { useCallback } from "react"
 import { useModals } from "@/hooks/useModals"
 import { Silo, Token } from "@/types/types"
-import { Modals } from "@/utils/modals"
 
 export const useMetaMask = () => {
   const { openModal } = useModals()
 
   const openDownloadModal = useCallback(() => {
-    openModal(Modals.MetaMaskNotInstalled)
+    openModal("MetaMaskNotInstalled")
   }, [openModal])
 
   const watchAsset = useCallback(

@@ -3,9 +3,7 @@
 import { KeyIcon } from "@heroicons/react/24/outline"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { relativeTime } from "human-date"
-import { useQueryState } from "next-usequerystate"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import Table from "@/components/Table"
 import { NoDataCta } from "@/components/NoDataCta"
 import DropdownMenu from "@/components/DropdownMenu"
@@ -13,21 +11,19 @@ import { ApiKey } from "@/types/types"
 import AddApiKeyButton from "./AddApiKeyButton"
 
 type ApiKeysTableProps = {
+  teamKey: string
   apiKeys: ApiKey[]
 }
 
-export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
-  const [, setId] = useQueryState("id")
+export const ApiKeysTable = ({ teamKey, apiKeys }: ApiKeysTableProps) => {
   const { openModal } = useModals()
 
   const onEditClick = async (id: number) => {
-    await setId(String(id))
-    openModal(Modals.EditApiKey)
+    openModal("EditApiKey", { id, apiKeys })
   }
 
   const onDeleteClick = async (id: number) => {
-    await setId(String(id))
-    openModal(Modals.DeleteApiKey)
+    openModal("DeleteApiKey", { id })
   }
 
   if (!!apiKeys && !apiKeys?.length) {
@@ -38,7 +34,7 @@ export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
         className="mt-20"
         Icon={KeyIcon}
       >
-        <AddApiKeyButton />
+        <AddApiKeyButton teamKey={teamKey} />
       </NoDataCta>
     )
   }

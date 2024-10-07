@@ -2,7 +2,7 @@
 
 import Modal from "@/components/Modal"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
+
 import { MetaMask } from "@/components/icons"
 import { LinkButton } from "@/components/LinkButton"
 
@@ -12,7 +12,7 @@ export const MetaMaskNotInstalledModal = () => {
   return (
     <Modal
       title="MetaMask Not Installed"
-      open={activeModal === Modals.MetaMaskNotInstalled}
+      open={activeModal?.name === "MetaMaskNotInstalled"}
       close={closeModal}
     >
       <div className="flex flex-col items-center justify-center mt-6 text-center">

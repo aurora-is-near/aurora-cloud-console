@@ -13,7 +13,6 @@ import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Network } from "@/hooks/useBridgeNetworks"
 import { isValidNetwork } from "@/utils/bridge"
-import { Modals } from "@/utils/modals"
 
 type Inputs = Partial<Record<BridgeNetworkType, boolean>>
 
@@ -77,8 +76,7 @@ const BridgeNetworkModal = ({
     })
   }, [networks, setValue])
 
-  const modalType =
-    type === "to" ? Modals.BridgeToNetwork : Modals.BridgeFromNetwork
+  const modalType = type === "to" ? "BridgeToNetwork" : "BridgeFromNetwork"
 
   return (
     <SlideOver

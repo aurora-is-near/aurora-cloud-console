@@ -1,23 +1,33 @@
 "use client"
 
 import { TrashIcon } from "@heroicons/react/20/solid"
-import { useQueryState } from "next-usequerystate"
 import { useQuery } from "@tanstack/react-query"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
 import { Button } from "@/components/Button"
-import { Modals } from "@/utils/modals"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { Spinner } from "@/components/Spinner"
 import { formatDate } from "@/utils/helpers"
 import { ViewListItemDetailsRow } from "./ViewListItemDetailsRow"
 
-export const ViewListItemDetailsModal = () => {
+type ViewListItemDetailsModalProps = {
+  teamKey: string
+  id: number
+  item: string
+}
+
+export const ViewListItemDetailsModal = ({
+  teamKey,
+  id,
+  item,
+}: ViewListItemDetailsModalProps) => {
   const { activeModal, closeModal, openModal } = useModals()
-  const [item] = useQueryState("item")
 
   const deleteList = () => {
-    openModal(Modals.DeleteList)
+    openModal("DeleteList", {
+      teamKey,
+      id,
+    })
   }
 
   const { data } = useQuery({
@@ -30,7 +40,7 @@ export const ViewListItemDetailsModal = () => {
   return (
     <SlideOver
       title={item ?? ""}
-      open={activeModal === Modals.ViewListItemDetails}
+      open={activeModal === "ViewListItemDetails"}
       close={closeModal}
     >
       {!data ? (

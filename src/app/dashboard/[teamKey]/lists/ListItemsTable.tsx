@@ -1,7 +1,5 @@
 "use client"
 
-import { useParams } from "next/navigation"
-import { useQueryState } from "next-usequerystate"
 import {
   InformationCircleIcon,
   ListBulletIcon,
@@ -9,7 +7,6 @@ import {
 } from "@heroicons/react/20/solid"
 import Table from "@/components/Table"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import DropdownMenu from "@/components/DropdownMenu"
 import { isWalletAddress } from "@/utils/wallets"
 import { Button } from "@/components/Button"
@@ -35,19 +32,14 @@ export const ListItemsTable = ({
   perPage,
   isSearching,
 }: ListItemsTableProps) => {
-  const { id } = useParams()
   const { openModal } = useModals()
-  const [, setId] = useQueryState("id")
-  const [, setItem] = useQueryState("item")
 
-  const onDeleteClick = async (listItem: string) => {
-    await Promise.all([setId(String(id)), setItem(listItem)])
-    openModal(Modals.DeleteListItem)
+  const onDeleteClick = async (item: string) => {
+    openModal("DeleteListItem", { id: listId, item })
   }
 
-  const onViewDetailsClick = async (listItem: string) => {
-    await setItem(listItem)
-    openModal(Modals.ViewListItemDetails)
+  const onViewDetailsClick = async (item: string) => {
+    openModal("ViewListItemDetails", { id: listId, item })
   }
 
   if (!listItems.length) {

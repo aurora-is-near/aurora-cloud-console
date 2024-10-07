@@ -11,7 +11,6 @@ import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { DateInput } from "@/components/DateInput"
 import { InputWrapper } from "@/components/InputWrapper"
-import { Modals } from "@/utils/modals"
 
 type Inputs = {
   startTime: string | null
@@ -44,7 +43,7 @@ export const DealDurationModal = () => {
     closeModal()
   }
 
-  const open = activeModal === Modals.DealDuration
+  const open = activeModal === "DealDuration"
 
   // Set (or reset) initial values when modal is opened.
   useEffect(() => {

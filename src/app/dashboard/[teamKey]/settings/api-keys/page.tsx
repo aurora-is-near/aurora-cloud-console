@@ -11,8 +11,11 @@ const Page = async ({
   const apiKeys = await getApiKeys(teamKey)
 
   return (
-    <DashboardPage heading="API Keys" actions={<AddApiKeyButton />}>
-      <ApiKeysTable apiKeys={apiKeys} />
+    <DashboardPage
+      heading="API Keys"
+      actions={<AddApiKeyButton teamKey={teamKey} />}
+    >
+      <ApiKeysTable teamKey={teamKey} apiKeys={apiKeys} />
     </DashboardPage>
   )
 }

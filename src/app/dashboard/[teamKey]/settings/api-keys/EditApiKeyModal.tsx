@@ -1,10 +1,8 @@
 "use client"
 
-import { useQueryState } from "next-usequerystate"
 import { useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { API_KEY_SCOPES } from "@/constants/scopes"
 import { ApiKey, PublicApiScope } from "@/types/types"
 import { updateApiKey } from "@/actions/api-keys/update-api-key"
@@ -12,18 +10,21 @@ import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
 
 type EditApiKeyModalProps = {
   apiKeys: ApiKey[]
+  id: number
 }
 
-const EditApiKeyModal = ({ apiKeys }: EditApiKeyModalProps) => {
+const EditApiKeyModal = ({ apiKeys, id }: EditApiKeyModalProps) => {
   const { activeModal, closeModal } = useModals()
-  const [id] = useQueryState("id")
-  const isOpen = activeModal === Modals.EditApiKey
-  const apiKeyId = id ? Number(id) : undefined
-  const apiKey = apiKeys.find((key) => key.id === apiKeyId)
+  const isOpen = activeModal === "EditApiKey"
+  const apiKey = apiKeys.find((key) => key.id === id)
   const router = useRouter()
 
   const onSubmit = async (data: { note: string; scopes: PublicApiScope[] }) => {
-    await updateApiKey(Number(id), data)
+    if (!id) {
+      throw new Error("No API key ID  provided")
+    }
+
+    await updateApiKey(id, data)
     closeModal()
     router.refresh()
   }

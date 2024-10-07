@@ -2,10 +2,8 @@
 
 import { SubmitHandler, useForm } from "react-hook-form"
 import { CheckIcon } from "@heroicons/react/20/solid"
-import { useQueryState } from "next-usequerystate"
 import { useRouter } from "next/navigation"
 import { MouseEventHandler } from "react"
-import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
 import SlideOver from "@/components/SlideOver"
@@ -17,13 +15,13 @@ type Inputs = {
 
 type ImportListItemsModalProps = {
   teamKey: string
+  id: number
 }
 
 export const ImportListItemsModal = ({
   teamKey,
 }: ImportListItemsModalProps) => {
   const { activeModal, closeModal } = useModals()
-  const [id] = useQueryState("id")
   const router = useRouter()
   const {
     register,
@@ -51,7 +49,7 @@ export const ImportListItemsModal = ({
   return (
     <SlideOver
       title="Import items"
-      open={activeModal === Modals.ImportListItems}
+      open={activeModal === "ImportListItems"}
       close={closeModal}
     >
       <form className="space-y-8" onSubmit={handleSubmit(submitList)}>

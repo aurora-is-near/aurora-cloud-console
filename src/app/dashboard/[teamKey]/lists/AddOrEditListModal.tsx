@@ -7,7 +7,6 @@ import clsx from "clsx"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
 import { Button } from "@/components/Button"
-import { Modals } from "@/utils/modals"
 
 type Inputs = {
   name: string
@@ -16,6 +15,7 @@ type Inputs = {
 type AddOrEditListModalProps = {
   values?: Inputs
   onSubmit: SubmitHandler<Inputs>
+  onDelete?: () => void
   open: boolean
   isPending?: boolean
 }
@@ -23,20 +23,17 @@ type AddOrEditListModalProps = {
 export const AddOrEditListModal = ({
   values,
   onSubmit,
+  onDelete,
   open,
   isPending,
 }: AddOrEditListModalProps) => {
-  const { closeModal, openModal } = useModals()
+  const { closeModal } = useModals()
   const {
     register,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>()
-
-  const deleteList = () => {
-    openModal(Modals.DeleteList)
-  }
 
   useEffect(() => {
     setValue("name", values?.name ?? "")
@@ -78,11 +75,7 @@ export const AddOrEditListModal = ({
           )}
         >
           {values && (
-            <Button
-              disabled={isPending}
-              variant="secondary"
-              onClick={deleteList}
-            >
+            <Button disabled={isPending} variant="secondary" onClick={onDelete}>
               <TrashIcon className="w-5 h-5 text-gray-900" />
               Delete
             </Button>

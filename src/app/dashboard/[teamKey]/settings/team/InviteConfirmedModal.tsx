@@ -1,17 +1,17 @@
 "use client"
 
 import { CheckCircleIcon } from "@heroicons/react/24/outline"
-import { useQueryState } from "next-usequerystate"
 import { useRouter } from "next/navigation"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
 
-const InviteConfirmedModal = () => {
+type InviteConfirmedModalProps = {
+  email: string
+}
+
+const InviteConfirmedModal = ({ email }: InviteConfirmedModalProps) => {
   const { activeModal, closeModal } = useModals()
-  const isOpen = activeModal === Modals.InviteConfirmed
-  const [email] = useQueryState("email")
   const router = useRouter()
 
   const handleClose = () => {
@@ -20,7 +20,11 @@ const InviteConfirmedModal = () => {
   }
 
   return (
-    <Modal title="Team member invited" open={isOpen} close={handleClose}>
+    <Modal
+      title="Team member invited"
+      open={activeModal === "InviteConfirmed"}
+      close={handleClose}
+    >
       <div className="flex flex-col items-center justify-center mt-8 text-center">
         <CheckCircleIcon
           className="w-8 h-8 text-green-600"

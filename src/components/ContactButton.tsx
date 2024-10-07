@@ -3,7 +3,6 @@
 import { useModals } from "@/hooks/useModals"
 import { Button } from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
-import { Modals } from "@/utils/modals"
 
 type ContactButtonProps = {
   teamKey: string
@@ -16,7 +15,9 @@ export const ContactButton = ({ teamKey }: ContactButtonProps) => {
     <>
       <Button
         className="flex-shrink-0"
-        onClick={() => openModal(Modals.Contact)}
+        onClick={() => {
+          openModal("Contact", { teamKey })
+        }}
         variant="border"
         size="sm"
       >

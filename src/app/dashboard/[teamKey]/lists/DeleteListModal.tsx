@@ -1,28 +1,21 @@
 "use client"
 
-import { useQueryState } from "next-usequerystate"
 import { useMutation } from "@tanstack/react-query"
 import { usePathname, useRouter } from "next/navigation"
-import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { DeleteModal } from "@/components/DeleteModal"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
+import { useModals } from "@/hooks/useModals"
 
 type DeleteListModalProps = {
   teamKey: string
+  id: number
 }
 
-export const DeleteListModal = ({ teamKey }: DeleteListModalProps) => {
+export const DeleteListModal = ({ teamKey, id }: DeleteListModalProps) => {
   const { activeModal, closeModal } = useModals()
   const pathname = usePathname()
   const router = useRouter()
-  const [id, setId] = useQueryState("id")
-
-  const onClose = async () => {
-    await setId(null)
-    closeModal()
-  }
 
   const getListsUpdater = useOptimisticUpdater("getLists")
 
@@ -32,12 +25,8 @@ export const DeleteListModal = ({ teamKey }: DeleteListModalProps) => {
   })
 
   const onDeleteClick = async () => {
-    if (!id) {
-      throw new Error("An ID is required to delete the list")
-    }
-
     deleteList(
-      { id: Number(id) },
+      { id },
       {
         onSettled: () => {
           closeModal()
@@ -56,8 +45,8 @@ export const DeleteListModal = ({ teamKey }: DeleteListModalProps) => {
     <DeleteModal
       title="Delete list"
       description="You are about to delete this list. It will also be removed from any associated deals. Are you sure you want to proceed?"
-      isOpen={activeModal === Modals.DeleteList}
-      onClose={onClose}
+      isOpen={activeModal === "DeleteList"}
+      onClose={closeModal}
       onDeleteClick={onDeleteClick}
       isPending={isPending}
     />

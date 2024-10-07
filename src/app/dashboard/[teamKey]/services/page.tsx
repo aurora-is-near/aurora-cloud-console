@@ -5,7 +5,6 @@ import { Button } from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
 import { DashboardPage } from "@/components/DashboardPage"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 
 const services = [
   {
@@ -77,7 +76,9 @@ const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
                   variant="border"
                   size="sm"
                   className="flex-shrink-0"
-                  onClick={() => openModal(Modals.Contact)}
+                  onClick={() => {
+                    openModal("Contact", { teamKey })
+                  }}
                 >
                   Contact us
                 </Button>

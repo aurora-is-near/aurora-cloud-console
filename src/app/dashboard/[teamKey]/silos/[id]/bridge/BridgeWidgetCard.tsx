@@ -10,7 +10,6 @@ import { useBridgeNetworks } from "@/hooks/useBridgeNetworks"
 import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { formatDateAndTime } from "@/utils/helpers"
-import { Modals } from "@/utils/modals"
 
 type BridgeWidgetCardProps = {
   siloId: number
@@ -49,7 +48,7 @@ export const BridgeWidgetCard = ({ siloId }: BridgeWidgetCardProps) => {
         <CardConfigGrid>
           <CardConfigGrid.Row
             title="Origin networks"
-            modalKey={Modals.BridgeFromNetwork}
+            modalKey="BridgeFromNetwork"
             content={
               fromNetworkLabels.length
                 ? {
@@ -64,7 +63,7 @@ export const BridgeWidgetCard = ({ siloId }: BridgeWidgetCardProps) => {
           />
           <CardConfigGrid.Row
             title="Destination networks"
-            modalKey={Modals.BridgeToNetwork}
+            modalKey="BridgeToNetwork"
             content={
               toNetworkLabels.length
                 ? {
@@ -79,7 +78,7 @@ export const BridgeWidgetCard = ({ siloId }: BridgeWidgetCardProps) => {
           />
           <CardConfigGrid.Row
             title="Supported assets"
-            modalKey={Modals.BridgeTokens}
+            modalKey="BridgeTokens"
             content={
               activeTokens.length
                 ? {

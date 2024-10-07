@@ -1,23 +1,24 @@
 "use client"
 
 import { Cog6ToothIcon } from "@heroicons/react/20/solid"
-import { useQueryState } from "next-usequerystate"
 import { Button } from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 
 type EditListButtonProps = {
+  teamKey: string
   id: number
   disabled?: boolean
 }
 
-export const EditListButton = ({ id, disabled }: EditListButtonProps) => {
+export const EditListButton = ({
+  teamKey,
+  id,
+  disabled,
+}: EditListButtonProps) => {
   const { openModal } = useModals()
-  const [, setId] = useQueryState("id")
 
   const onClick = async () => {
-    await setId(String(id))
-    openModal(Modals.EditList)
+    openModal("EditList", { teamKey, id })
   }
 
   return (

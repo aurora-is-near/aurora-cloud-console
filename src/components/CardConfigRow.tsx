@@ -3,7 +3,6 @@
 import { PencilSquareIcon } from "@heroicons/react/24/outline"
 import Card from "@/components/Card"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 
 type CardConfigRowProps = {
   title: string
@@ -16,7 +15,7 @@ type CardConfigRowProps = {
         type: "labels"
         value: string[]
       }
-  modalKey?: Modals
+  modalKey?: keyof Modal
 }
 
 export const CardConfigRow = ({

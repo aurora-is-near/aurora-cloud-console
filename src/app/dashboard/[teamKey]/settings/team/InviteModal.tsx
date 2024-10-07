@@ -2,11 +2,9 @@
 
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { useQueryState } from "next-usequerystate"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
 import { toError } from "@/utils/errors"
@@ -25,8 +23,7 @@ type InviteModalProps = {
 const InviteModal = ({ team }: InviteModalProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const { activeModal, closeModal, openModal } = useModals()
-  const isOpen = activeModal === Modals.Invite
-  const [, setEmail] = useQueryState("email")
+  const isOpen = activeModal === "Invite"
   const router = useRouter()
 
   const {
@@ -65,9 +62,8 @@ const InviteModal = ({ team }: InviteModalProps) => {
 
     setIsLoading(false)
     resetForm()
-    await setEmail(email)
     closeModal()
-    openModal(Modals.InviteConfirmed)
+    openModal("InviteConfirmed", { email })
   }
 
   return (

@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { PublicApiScope } from "@/types/types"
 import { createApiKey } from "@/actions/api-keys/create-api-key"
 import AddOrEditApiKeyModal from "./AddOrEditApiKeyModal"
@@ -23,7 +22,7 @@ const AddApiKeyModal = ({ teamKey }: AddApiKeyModalProps) => {
 
   return (
     <AddOrEditApiKeyModal
-      open={activeModal === Modals.AddApiKey}
+      open={activeModal === "AddApiKey"}
       onSubmit={onSubmit}
     />
   )

@@ -9161,11 +9161,6 @@ minizlib@^2.1.1:
     minipass "^3.0.0"
     yallist "^4.0.0"
 
-mitt@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/mitt/-/mitt-3.0.1.tgz#ea36cf0cc30403601ae074c8f77b7092cdab36d1"
-  integrity sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==
-
 mkdirp-classic@^0.5.2, mkdirp-classic@^0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/mkdirp-classic/-/mkdirp-classic-0.5.3.tgz#fa10c9115cc6d8865be221ba47ee9bed78601113"
@@ -9245,13 +9240,6 @@ next-tick@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
-
-next-usequerystate@^1.19.3:
-  version "1.19.3"
-  resolved "https://registry.yarnpkg.com/next-usequerystate/-/next-usequerystate-1.19.3.tgz#8397cdce1d8ed2218a6190a8d8df70b0063ff496"
-  integrity sha512-Tjen/W8ClKCpFwE+Nh/0PkX4Pc3e1r5ay2sP0k0mUF0qR1bzx8ALI9QBYUAtS5NbhFsVsaNLHpSSXlbcYGblHQ==
-  dependencies:
-    mitt "^3.0.1"
 
 next@^14.2.10:
   version "14.2.10"

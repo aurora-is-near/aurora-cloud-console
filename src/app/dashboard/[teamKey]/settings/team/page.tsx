@@ -4,8 +4,6 @@ import { getTeamMembers } from "@/actions/team-members/get-team-members"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import InviteButton from "./InviteButton"
 import { TeamMembersTable } from "./TeamMembersTable"
-import InviteConfirmedModal from "./InviteConfirmedModal"
-import InviteModal from "./InviteModal"
 
 const Page = async ({
   params: { teamKey },
@@ -19,14 +17,12 @@ const Page = async ({
   ])
 
   return (
-    <DashboardPage heading="Team" actions={<InviteButton />}>
+    <DashboardPage heading="Team" actions={<InviteButton team={team} />}>
       <TeamMembersTable
         teamKey={teamKey}
         currentUser={currentUser}
         teamMembers={teamMembers}
       />
-      <InviteModal team={team} />
-      <InviteConfirmedModal />
     </DashboardPage>
   )
 }

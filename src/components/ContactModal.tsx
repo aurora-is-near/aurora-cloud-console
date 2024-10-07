@@ -4,7 +4,6 @@ import { CheckCircleIcon, PaperAirplaneIcon } from "@heroicons/react/24/outline"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useState } from "react"
 import { useModals } from "@/hooks/useModals"
-import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
 import Modal from "@/components/Modal"
 import { submitContactForm } from "@/actions/contact/submit-contact-form"
@@ -23,7 +22,7 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
   const [isPending, setIsPending] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const { activeModal, closeModal } = useModals()
-  const isOpen = activeModal === Modals.Contact
+  const isOpen = activeModal === "Contact"
 
   const {
     register,
