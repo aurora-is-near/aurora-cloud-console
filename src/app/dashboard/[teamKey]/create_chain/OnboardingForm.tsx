@@ -81,6 +81,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
           >
             <div className="flex w-full justify-around space-x-4">
               <ChainTypeBox
+                disabled
                 title="Devnet"
                 description="Get access to a shared Aurora Chain that is an exact replica of the production chain."
                 type="devnet"

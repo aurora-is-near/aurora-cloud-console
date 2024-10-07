@@ -1,8 +1,6 @@
 import { ComponentType, useCallback, useState } from "react"
 import { Team } from "@/types/types"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
-import { createSilo } from "@/actions/silos/create-silo"
-import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import {
   AuroraToken,
   Bitcoin,
@@ -102,24 +100,7 @@ export const useChainCreationForm = (team: Team) => {
     })
 
     if (form.networkType === "devnet") {
-      // Devnet silo. We copy details from it to the new team's devnet silo
-      const silo = await getTeamSilo(1, Number(1))
-
-      if (silo) {
-        const {
-          id: _id,
-          updated_at: _updated_at,
-          created_at: _created_at,
-          ...siloWithoutIdAndUpdatedAt
-        } = silo
-
-        const newDevnetSilo = {
-          ...siloWithoutIdAndUpdatedAt,
-          ...{ team_id: team.id, name: form.chainName },
-        }
-
-        await createSilo(newDevnetSilo)
-      }
+      // TODO Create devnet silo
     } else if (form.networkType === "mainnet") {
       // TODO Booking a call for mainnet setup
     }
