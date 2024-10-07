@@ -1,6 +1,8 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useState } from "react"
+import clsx from "clsx"
+import Link from "next/link"
 import {
   ChainPermission,
   GasMechanics,
@@ -21,7 +23,7 @@ import Card from "@/components/Card"
 import { Team } from "@/types/types"
 
 const OnboardingForm = ({ team }: { team: Team }) => {
-  const router = useRouter()
+  const [isFinished, setIsFinished] = useState(false)
 
   const {
     form,
@@ -63,11 +65,8 @@ const OnboardingForm = ({ team }: { team: Team }) => {
   }
 
   const handleOnboardingSubmit = async () => {
-    const record = await handleSubmit()
-
-    if (record) {
-      router.push(`/dashboard/${team.team_key}`)
-    }
+    setIsFinished(true)
+    await handleSubmit()
   }
 
   return (
@@ -273,6 +272,35 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                       {submitButtonText}
                     </Button>
                   </Step>
+
+                  {form.networkType === "mainnet" && (
+                    <div
+                      className={clsx(
+                        "fixed top-0 left-0 z-50 flex justify-center items-center w-full h-full",
+                        !isFinished && "hidden",
+                      )}
+                    >
+                      <div className="fixed top-0 left-0 bg-white w-full h-full">
+                        <div className="bg-green-100 rounded-full w-full h-full blur-3xl fixed -bottom-3/4" />
+                      </div>
+
+                      <div
+                        className="calendly-inline-widget mt-1/10 w-full h-full"
+                        data-url="https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
+                      />
+                      <script
+                        type="text/javascript"
+                        src="https://assets.calendly.com/assets/external/widget.js"
+                        async
+                      />
+
+                      <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2">
+                        <Link href={`/dashboard/${team.team_key}`}>
+                          <Button size="lg">Go back to Dashboard</Button>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
             </>
