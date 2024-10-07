@@ -140,6 +140,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                         selected={form.baseToken === token.id}
                         onClick={() => handleBaseTokenSelect(token)}
                         className="p-2 pt-3"
+                        disabled={isDevnet && token.id !== "eth"}
                       >
                         <div className="flex flex-col items-center space-y-2">
                           <token.icon className="w-10 h-10" />
@@ -164,6 +165,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                       mechanic="usage"
                       onClick={() => handleGasMechanicsSelect("usage")}
                       selected={form.gasMechanics === "usage"}
+                      disabled={isDevnet}
                     />
                     <GasMechanicsBox
                       mechanic="free"
@@ -174,6 +176,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                       mechanic="custom"
                       onClick={() => handleGasMechanicsSelect("custom")}
                       selected={form.gasMechanics === "custom"}
+                      disabled={isDevnet}
                     />
                   </div>
                 </Step>
