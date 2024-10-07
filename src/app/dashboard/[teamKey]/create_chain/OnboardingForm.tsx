@@ -217,13 +217,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                     title="Name your chain"
                     description="Unique identifiers will primarily be relevant for internal use to ensure distinction between your chain deployments."
                   >
-                    <div
-                      className={`grid ${
-                        isDevnet
-                          ? "grid-cols-2 space-x-4"
-                          : "grid-cols-1 space-y-4"
-                      } `}
-                    >
+                    <div className="grid grid-cols-1 space-y-4">
                       <Card className="p-6">
                         <label
                           htmlFor="chainName"
@@ -246,53 +240,28 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                           Cloud platform.
                         </div>
                       </Card>
-                      {isDevnet ? (
-                        <Card className="p-6">
-                          <label
-                            htmlFor="chainId"
-                            className="block mb-2 font-semibold text-xl"
-                          >
-                            Chain ID
-                          </label>
-                          <input
-                            type="text"
-                            id="chainId"
-                            value={form.chainId}
-                            onChange={(e) =>
-                              updateForm("chainId", e.target.value)
-                            }
-                            className="w-full p-2 border border-slate-300 rounded"
-                            placeholder="Enter chain ID"
-                          />
-                          <div className="text-sm text-slate-500 mt-2">
-                            Enter a unique number to identify your chain with.
-                          </div>
-                        </Card>
-                      ) : (
-                        <Card className="p-6">
-                          <label
-                            htmlFor="comments"
-                            className="block mb-2 font-semibold text-xl"
-                          >
-                            Tell us more about your needs
-                          </label>
-                          <textarea
-                            id="comments"
-                            value={form.comments}
-                            onChange={(e) =>
-                              updateForm("comments", e.target.value)
-                            }
-                            className="w-full p-2 border border-slate-300 rounded"
-                            placeholder="Tell us about your specific requirements or any questions you have"
-                            rows={4}
-                          />
-                          <div className="text-sm text-slate-500 mt-2">
-                            Provide any relevant information related to your
-                            request that will help us better prepare for our
-                            call.
-                          </div>
-                        </Card>
-                      )}
+                      <Card className="p-6">
+                        <label
+                          htmlFor="comments"
+                          className="block mb-2 font-semibold text-xl"
+                        >
+                          Tell us more about your needs
+                        </label>
+                        <textarea
+                          id="comments"
+                          value={form.comments}
+                          onChange={(e) =>
+                            updateForm("comments", e.target.value)
+                          }
+                          className="w-full p-2 border border-slate-300 rounded"
+                          placeholder="Tell us about your specific requirements or any questions you have"
+                          rows={4}
+                        />
+                        <div className="text-sm text-slate-500 mt-2">
+                          Provide any relevant information related to your
+                          request that will help us better prepare for our call.
+                        </div>
+                      </Card>
                     </div>
 
                     <Button
