@@ -32,7 +32,7 @@ const SelectableBox: React.FC<SelectableBoxProps> = ({
       className={`${baseClasses} ${
         disabled ? disabledClasses : enabledClasses
       } ${textClasses} ${className}`}
-      onClick={disabled ? undefined : onClick}
+      onClick={onClick}
       disabled={disabled}
       type="button"
     >
