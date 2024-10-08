@@ -108,6 +108,7 @@ const Dashboard = ({ team, silo }: { team: Team; silo?: Silo }) => {
             none: {
               text: "Create Aurora Chain",
               icon: <PlusIcon className="h-4 w-4" />,
+              path: `/dashboard/${teamKey}/create-chain`,
             },
             devnet: {
               text: "Upgrade to Mainnet",
