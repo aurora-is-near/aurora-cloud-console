@@ -1,5 +1,3 @@
-import React from "react"
-
 const HeroTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   children,
   ...props
