@@ -16,6 +16,7 @@ const Page = async ({
         <div />
         <span>Set up your Aurora Chain</span>
         <Link href={`/dashboard/${teamKey}`}>
+          <span className="sr-only">Go back</span>
           <XMarkIcon className="w-6 h-6" />
         </Link>
       </div>
