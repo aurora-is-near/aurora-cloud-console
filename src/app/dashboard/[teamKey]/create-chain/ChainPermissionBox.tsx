@@ -1,4 +1,5 @@
 import { ComponentType } from "react"
+import clsx from "clsx"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { ChainPermission } from "@/types/chain-creation"
 import {
@@ -56,13 +57,14 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
     >
       <div className="flex items-center mb-2">
         <div
-          className={`bg-gray-100 p-2 rounded-full mr-2 ${
-            selected ? "text-slate-900" : "text-slate-500"
-          }`}
+          className={clsx(
+            "bg-gray-100 p-2 rounded-full mr-2",
+            selected ? "text-slate-900" : "text-slate-500",
+          )}
         >
           {Icon && <Icon />}
         </div>
-        <h3 className="font-semibold text-xl tracking-[-1px]">
+        <h3 className="font-semibold text-xl tracking-tight">
           {TITLES[permission]}
         </h3>
       </div>
