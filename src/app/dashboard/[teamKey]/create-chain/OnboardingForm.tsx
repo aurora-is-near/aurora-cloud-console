@@ -144,7 +144,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                         className="p-2 pt-3"
                         disabled={isDevnet && token.id !== "eth"}
                       >
-                        <div className="flex flex-col items-center space-y-2">
+                        <div className="flex flex-col items-center space-y-2 w-full">
                           <token.icon className="w-10 h-10" />
                           <span className="uppercase text-base font-bold leading-5 tracking-[1px]">
                             {token.name}

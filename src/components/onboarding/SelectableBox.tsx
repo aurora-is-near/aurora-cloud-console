@@ -15,7 +15,9 @@ const SelectableBox: React.FC<SelectableBoxProps> = ({
   className = "",
   disabled = false,
 }) => {
-  const baseClasses = "rounded-lg transition-colors duration-200"
+  const baseClasses =
+    "inline-flex flex-col justify-start align-top text-left rounded-lg transition-colors duration-200"
+
   const enabledClasses = selected
     ? "border-2 border-green-600 bg-green-50"
     : "border border-slate-300 bg-white"
@@ -26,25 +28,16 @@ const SelectableBox: React.FC<SelectableBoxProps> = ({
   const textClasses = disabled ? "text-slate-500" : ""
 
   return (
-    <div
+    <button
       className={`${baseClasses} ${
         disabled ? disabledClasses : enabledClasses
       } ${textClasses} ${className}`}
       onClick={disabled ? undefined : onClick}
-      onKeyDown={
-        disabled
-          ? undefined
-          : (e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                onClick()
-              }
-            }
-      }
-      role={disabled ? undefined : "button"}
-      tabIndex={disabled ? undefined : 0}
+      disabled={disabled}
+      type="button"
     >
       {children}
-    </div>
+    </button>
   )
 }
 

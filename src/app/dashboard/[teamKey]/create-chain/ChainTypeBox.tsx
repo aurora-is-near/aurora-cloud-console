@@ -40,7 +40,7 @@ const ChainTypeBox: React.FC<ChainTypeBoxProps> = ({
       className="w-[50%] p-6"
       disabled={disabled}
     >
-      <div className="flex flex-row justify-between items-start">
+      <div className="flex flex-row justify-between items-start w-full">
         <h3 className="font-semibold mb-2 text-slate-900 text-xl tracking-[-1px]">
           {title}
         </h3>
