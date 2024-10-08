@@ -22,50 +22,30 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
   disabled = false,
   isDevnet = false,
 }) => {
-  const getTitle = (perm: ChainPermission) => {
-    switch (perm) {
-      case "public":
-        return "Public"
-      case "public_permissioned":
-        return "Public Permissioned"
-      case "private":
-        return "Private "
-      default:
-        return "Unknown"
-    }
+  const TITLES: Record<ChainPermission, string> = {
+    public: "Public",
+    public_permissioned: "Public Permissioned",
+    private: "Private",
   }
 
-  const getDescription = (perm: ChainPermission) => {
-    switch (perm) {
-      case "public":
-        return "Anyone can freely interact and deploy contracts on your chain."
-      case "public_permissioned":
-        return isDevnet
-          ? "On devnet, permissions are set to public permissioned by default."
-          : "You decide who can interact and deploy contracts on your chain."
-      case "private":
-        return "A permissionned chain with fully private data."
-      default:
-        return "Description not available"
-    }
+  const DESCRIPTIONS: Record<ChainPermission, string> = {
+    public: "Anyone can freely interact and deploy contracts on your chain.",
+    public_permissioned: isDevnet
+      ? "On devnet, permissions are set to public permissioned by default."
+      : "You decide who can interact and deploy contracts on your chain.",
+    private: "A permissionned chain with fully private data.",
   }
 
-  const getIcon = (perm: ChainPermission) => {
-    switch (perm) {
-      case "public":
-        return ChainPublic as ComponentType<React.SVGProps<SVGSVGElement>>
-      case "public_permissioned":
-        return ChainPublicPermissioned as ComponentType<
-          React.SVGProps<SVGSVGElement>
-        >
-      case "private":
-        return ChainPrivate as ComponentType<React.SVGProps<SVGSVGElement>>
-      default:
-        return null
-    }
+  const ICONS: Record<
+    ChainPermission,
+    ComponentType<React.SVGProps<SVGSVGElement>>
+  > = {
+    public: ChainPublic,
+    public_permissioned: ChainPublicPermissioned,
+    private: ChainPrivate,
   }
 
-  const Icon = getIcon(permission)
+  const Icon = ICONS[permission]
 
   return (
     <SelectableBox
@@ -83,10 +63,10 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
           {Icon && <Icon />}
         </div>
         <h3 className="font-semibold text-xl tracking-[-1px]">
-          {getTitle(permission)}
+          {TITLES[permission]}
         </h3>
       </div>
-      <p className="text-sm">{getDescription(permission)}</p>
+      <p className="text-sm">{DESCRIPTIONS[permission]}</p>
     </SelectableBox>
   )
 }

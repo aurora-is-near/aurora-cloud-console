@@ -1,6 +1,5 @@
-import React, { ComponentType } from "react"
+import { ComponentType } from "react"
 import { Toggle } from "@/components/Toggle"
-import { Button } from "@/components/Button"
 import Card from "@/components/Card"
 import { Integration } from "../../../../hooks/useChainCreationForm"
 import {
@@ -21,56 +20,35 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
   isEnabled,
   onToggle,
 }) => {
-  const getTitle = (int: Integration) => {
-    switch (int) {
-      case "onramp":
-        return "Onramp"
-      case "oracle":
-        return "Oracle"
-      case "bridge_widget":
-        return "Bridge Widget"
-      case "cex_withdrawals_widget":
-        return "CEX Withdrawals Widget"
-      default:
-        return "Unknown"
-    }
+  const TITLES: Record<Integration, string> = {
+    onramp: "Onramp",
+    oracle: "Oracle",
+    bridge_widget: "Bridge Widget",
+    cex_withdrawals_widget: "CEX Withdrawals Widget",
   }
 
-  const getDescription = (int: Integration) => {
-    switch (int) {
-      case "onramp":
-        return "Enable your users to onramp from fiat to crypto directly on your chain."
-      case "oracle":
-        return "Fuel your smart contracts with reliable, low-latency market data from institutional sources."
-      case "bridge_widget":
-        return "Attract liquidity by enabling bridging from other chains and transfers from CEXes to your chain."
-      case "cex_withdrawals_widget":
-        return "Allow your users to deposit assets directly from centralized exchanges to your chain."
-      default:
-        return "Unknown"
-    }
+  const DESCRIPTIONS: Record<Integration, string> = {
+    onramp:
+      "Enable your users to onramp from fiat to crypto directly on your chain.",
+    oracle:
+      "Fuel your smart contracts with reliable, low-latency market data from institutional sources.",
+    bridge_widget:
+      "Attract liquidity by enabling bridging from other chains and transfers from CEXes to your chain.",
+    cex_withdrawals_widget:
+      "Allow your users to deposit assets directly from centralized exchanges to your chain.",
   }
 
-  const getIcon = (int: Integration) => {
-    switch (int) {
-      case "onramp":
-        return IntegrationOracle as ComponentType<React.SVGProps<SVGSVGElement>>
-      case "oracle":
-        return IntegrationBridgeWidget as ComponentType<
-          React.SVGProps<SVGSVGElement>
-        >
-      case "bridge_widget":
-        return IntegrationCexWithdrawalsWidget as ComponentType<
-          React.SVGProps<SVGSVGElement>
-        >
-      case "cex_withdrawals_widget":
-        return IntegrationOnramp as ComponentType<React.SVGProps<SVGSVGElement>>
-      default:
-        return null
-    }
+  const ICONS: Record<
+    Integration,
+    ComponentType<React.SVGProps<SVGSVGElement>>
+  > = {
+    onramp: IntegrationOracle,
+    oracle: IntegrationBridgeWidget,
+    bridge_widget: IntegrationCexWithdrawalsWidget,
+    cex_withdrawals_widget: IntegrationOnramp,
   }
 
-  const Icon = getIcon(integration)
+  const Icon = ICONS[integration]
 
   return (
     <Card className="w-full p-4">
@@ -78,11 +56,9 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
         {Icon && <Icon className="w-14 h-10" />}
         <div className="w-full px-3">
           <h3 className="font-semibold text-xl text-slate-900 tracking-tighter">
-            {getTitle(integration)}
+            {TITLES[integration]}
           </h3>
-          <p className="text-sm text-slate-700">
-            {getDescription(integration)}
-          </p>
+          <p className="text-sm text-slate-700">{DESCRIPTIONS[integration]}</p>
         </div>
 
         <div className="flex items-center gap-4">

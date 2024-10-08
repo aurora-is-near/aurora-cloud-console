@@ -1,4 +1,3 @@
-import React, { ComponentType } from "react"
 import { FireIcon, SparklesIcon, StarIcon } from "@heroicons/react/20/solid"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { GasMechanics } from "@/hooks/useChainCreationForm"
@@ -16,46 +15,35 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
   selected,
   disabled = false,
 }) => {
-  const getTitle = (mech: GasMechanics) => {
-    switch (mech) {
-      case "usage":
-        return "Usage based"
-      case "free":
-        return "Free"
-      case "custom":
-        return "Custom"
-      default:
-        return "Unknown"
-    }
+  const TITLES: Record<GasMechanics, string> = {
+    usage: "Usage based",
+    free: "Free",
+    custom: "Custom",
   }
 
-  const getDescription = (mech: GasMechanics) => {
-    switch (mech) {
-      case "usage":
-        return "Gas fees are calculated based on the transaction size and charged to the end user."
-      case "free":
-        return "All gas fees are abstracted for end users. The chain owner is responsible for covering these costs."
-      case "custom":
-        return "You can select who gets free transactions and under what conditions."
-      default:
-        return "Description not available"
-    }
+  const DESCRIPTIONS: Record<GasMechanics, string> = {
+    usage:
+      "Gas fees are calculated based on the transaction size and charged to the end user.",
+    free: "All gas fees are abstracted for end users. The chain owner is responsible for covering these costs.",
+    custom:
+      "You can select who gets free transactions and under what conditions.",
   }
 
-  const getIcon = (mech: GasMechanics) => {
-    switch (mech) {
-      case "usage":
-        return FireIcon as ComponentType<React.SVGProps<SVGSVGElement>>
-      case "custom":
-        return SparklesIcon as ComponentType<React.SVGProps<SVGSVGElement>>
-      case "free":
-        return StarIcon as ComponentType<React.SVGProps<SVGSVGElement>>
-      default:
-        return null
-    }
+  const ICONS: Record<
+    GasMechanics,
+    React.ForwardRefExoticComponent<
+      Omit<React.SVGProps<SVGSVGElement>, "ref"> & {
+        title?: string
+        titleId?: string
+      } & React.RefAttributes<SVGSVGElement>
+    >
+  > = {
+    usage: FireIcon,
+    custom: SparklesIcon,
+    free: StarIcon,
   }
 
-  const Icon = getIcon(mechanic)
+  const Icon = ICONS[mechanic]
 
   return (
     <SelectableBox
@@ -72,9 +60,9 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
         >
           {Icon && <Icon className="w-4 h-4" />}
         </div>
-        <h3 className="font-semibold text-lg">{getTitle(mechanic)}</h3>
+        <h3 className="font-semibold text-lg">{TITLES[mechanic]}</h3>
       </div>
-      <p className="text-sm text-slate-700">{getDescription(mechanic)}</p>
+      <p className="text-sm text-slate-700">{DESCRIPTIONS[mechanic]}</p>
     </SelectableBox>
   )
 }
