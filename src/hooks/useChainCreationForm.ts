@@ -1,6 +1,14 @@
-import { ComponentType, useCallback, useState } from "react"
+import { useCallback, useState } from "react"
 import { Team } from "@/types/types"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
+import {
+  BaseToken,
+  ChainPermission,
+  GasMechanics,
+  Integration,
+  NetworkType,
+  TokenOption,
+} from "@/types/chain-creation"
 import {
   AuroraToken,
   Bitcoin,
@@ -10,28 +18,12 @@ import {
   USDTToken,
 } from "../../public/static/v2/images/icons"
 
-export type NetworkType = "devnet" | "mainnet"
-export type ChainPermission = "public" | "public_permissioned" | "private"
-export type BaseToken = string
-export type GasMechanics = "usage" | "free" | "custom"
-export type Integration =
-  | "onramp"
-  | "oracle"
-  | "bridge_widget"
-  | "cex_withdrawals_widget"
-
 export const integrationOptions: Integration[] = [
   "onramp",
   "oracle",
   "bridge_widget",
   "cex_withdrawals_widget",
 ]
-
-export interface TokenOption {
-  id: string
-  name: string
-  icon: ComponentType<React.SVGProps<SVGSVGElement>>
-}
 
 export const tokenOptions: TokenOption[] = [
   { id: "aurora", name: "Aurora", icon: AuroraToken },

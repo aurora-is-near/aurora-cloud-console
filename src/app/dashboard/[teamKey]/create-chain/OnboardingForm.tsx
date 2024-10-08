@@ -4,23 +4,25 @@ import { useState } from "react"
 import clsx from "clsx"
 import Link from "next/link"
 import {
-  ChainPermission,
-  GasMechanics,
   integrationOptions,
-  NetworkType,
-  TokenOption,
   tokenOptions,
   useChainCreationForm,
 } from "@/hooks/useChainCreationForm"
-import Step from "@/app/dashboard/[teamKey]/create-chain/Step"
-import ChainTypeBox from "@/app/dashboard/[teamKey]/create-chain/ChainTypeBox"
-import ChainPermissionBox from "@/app/dashboard/[teamKey]/create-chain/ChainPermissionBox"
 import SelectableBox from "@/components/onboarding/SelectableBox"
-import GasMechanicsBox from "@/app/dashboard/[teamKey]/create-chain/GasMechanicsBox"
 import { Button } from "@/components/Button"
-import IntegrationBox from "@/app/dashboard/[teamKey]/create-chain/IntegrationBox"
 import Card from "@/components/Card"
 import { Team } from "@/types/types"
+import {
+  ChainPermission,
+  GasMechanics,
+  NetworkType,
+  TokenOption,
+} from "@/types/chain-creation"
+import Step from "./Step"
+import ChainTypeBox from "./ChainTypeBox"
+import ChainPermissionBox from "./ChainPermissionBox"
+import GasMechanicsBox from "./GasMechanicsBox"
+import IntegrationBox from "./IntegrationBox"
 
 const OnboardingForm = ({ team }: { team: Team }) => {
   const [isFinished, setIsFinished] = useState(false)
