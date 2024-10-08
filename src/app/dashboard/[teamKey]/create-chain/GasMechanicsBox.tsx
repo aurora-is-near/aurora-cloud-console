@@ -1,6 +1,6 @@
 import { FireIcon, SparklesIcon, StarIcon } from "@heroicons/react/20/solid"
 import SelectableBox from "@/components/onboarding/SelectableBox"
-import { GasMechanics } from "@/hooks/useChainCreationForm"
+import { GasMechanics } from "@/types/chain-creation"
 
 interface GasMechanicsBoxProps {
   mechanic: GasMechanics

@@ -1,7 +1,7 @@
 import { ComponentType } from "react"
 import { Toggle } from "@/components/Toggle"
 import Card from "@/components/Card"
-import { Integration } from "../../../../hooks/useChainCreationForm"
+import { Integration } from "@/types/chain-creation"
 import {
   IntegrationBridgeWidget,
   IntegrationCexWithdrawalsWidget,
