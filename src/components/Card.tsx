@@ -84,6 +84,7 @@ const Card = ({
   borderRadius?: "md" | "xl" | "2xl"
   isDisabled?: boolean
   children: ReactNode
+  noPadding?: boolean
   [key: string]: unknown
 }) => {
   const title = findChildren(children, "Title")
