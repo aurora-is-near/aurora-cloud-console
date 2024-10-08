@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import Card from "@/components/Card"
 import InfoList from "@/components/InfoList"
-import { DashboardPage } from "@/components/DashboardPage"
 import { getTokens } from "@/actions/tokens/get-tokens"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
+import Contact from "@/components/Contact"
+import { DashboardPage } from "@/components/DashboardPage"
+import { LinkButton } from "@/components/LinkButton"
 import { AddTokenToMetaMaskButton } from "./AddTokenToMetaMaskButton"
 import { AddSiloToMetaMaskButton } from "./AddSiloToMetaMaskButton"
-import { SiloHeading } from "../../SiloHeading"
 
 const Page = async ({
   params: { id, teamKey },
@@ -26,11 +28,19 @@ const Page = async ({
   const baseToken = tokens.find((token) => token.id === silo.base_token_id)
 
   return (
-    <DashboardPage>
-      <SiloHeading heading="Configuration" siloId={Number(id)} />
-
-      <Card tag="section">
-        <Card.Title tag="h4">Silo configuration</Card.Title>
+    <DashboardPage
+      heading="Configuration"
+      actions={
+        silo.explorer_url ? (
+          <LinkButton variant="border" href={silo.explorer_url} target="_blank">
+            <span>Block Explorer</span>
+            <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+          </LinkButton>
+        ) : null
+      }
+    >
+      <Card borderRadius="xl" tag="section">
+        <Card.Title tag="h2">Chain details</Card.Title>
 
         <InfoList>
           <InfoList.Item
@@ -74,8 +84,8 @@ const Page = async ({
         </InfoList>
       </Card>
 
-      <Card tag="section">
-        <Card.Title tag="h4">Relayer</Card.Title>
+      <Card borderRadius="xl" tag="section">
+        <Card.Title tag="h2">Relayer</Card.Title>
 
         <InfoList>
           <InfoList.Item
@@ -93,8 +103,8 @@ const Page = async ({
         </InfoList>
       </Card>
 
-      <Card tag="section">
-        <Card.Title tag="h4">Token & gas</Card.Title>
+      <Card borderRadius="xl" tag="section">
+        <Card.Title tag="h2">Token & gas</Card.Title>
 
         <InfoList>
           <InfoList.Item
@@ -111,8 +121,8 @@ const Page = async ({
         </InfoList>
       </Card>
 
-      <Card tag="section">
-        <Card.Title tag="h4">Permissions</Card.Title>
+      <Card borderRadius="xl" tag="section">
+        <Card.Title tag="h2">Permissions</Card.Title>
 
         <InfoList>
           <InfoList.Item term="Globally accessible" description="Yes" />
@@ -128,6 +138,8 @@ const Page = async ({
           />
         </InfoList>
       </Card>
+
+      <Contact text="Need help configuring your chain?" teamKey={teamKey} />
     </DashboardPage>
   )
 }

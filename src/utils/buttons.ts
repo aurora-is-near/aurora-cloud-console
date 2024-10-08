@@ -22,7 +22,7 @@ export const getButtonClassName = (
   } = {},
 ) =>
   clsx(
-    "relative flex items-center justify-center rounded-lg font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 whitespace-nowrap transition-colors duration-200",
+    "relative flex items-center justify-center rounded-lg font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 whitespace-nowrap transition-colors duration-200 select-none",
     {
       "px-2 p-1.5 text-sm": size === "sm",
       "px-2.5 py-2 text-sm": size === "md",

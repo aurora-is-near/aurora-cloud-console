@@ -118,6 +118,12 @@ export const SiloForm = ({ silo, tokens, teamId }: SiloFormProps) => {
       required: true,
     },
     {
+      name: "explorer_url",
+      label: "Explorer URL",
+      defaultValue: silo?.explorer_url ?? "",
+      autoComplete: "explorer_url",
+    },
+    {
       name: "grafana_network_key",
       label: "Grafanana network key",
       defaultValue: silo?.grafana_network_key ?? "",
