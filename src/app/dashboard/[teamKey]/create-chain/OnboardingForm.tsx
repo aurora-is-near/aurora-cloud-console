@@ -73,15 +73,15 @@ const OnboardingForm = ({ team }: { team: Team }) => {
   }
 
   return (
-    <div className="flex mt-10 justify-center w-full h-full overflow-x-hidden overflow-y-auto">
-      <BaseContainer className="h-full">
+    <div className="overflow-x-hidden overflow-y-auto">
+      <BaseContainer className="h-full md:mt-10">
         <div className="relative">
           <Step
             number={1}
             title="Select a network type"
             description="Your network grade determines the level of support, scalability, and features available to your developer team and ecosystem."
           >
-            <div className="flex w-full justify-around space-x-4">
+            <div className="grid md:grid-cols-2 w-full gap-4">
               <ChainTypeBox
                 disabled
                 title="Devnet"
@@ -106,7 +106,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                 title="Select your chain permissions"
                 description="Aurora Cloud lets you choose the level of permission of your chains. Regulated businesses might prefer a permissioned chain as this enables them to gate them by KYC, ensuring compliance with their local regulations."
               >
-                <div className="flex flex-row w-full space-x-4">
+                <div className="grid md:grid-cols-3 w-full gap-4">
                   <ChainPermissionBox
                     permission="public"
                     onClick={() => handleChainPermissionSelect("public")}
@@ -136,7 +136,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                   title="Select the base token of your chain"
                   description="The base token of your chain will be used to pay for transaction fees on your chain. It supports any ERC-20 or NEP-141 token, including your own custom token."
                 >
-                  <div className="grid grid-cols-6 gap-4">
+                  <div className="grid sm:grid-cols-3 md:grid-cols-6 gap-4">
                     {tokenOptions.map((token) => (
                       <SelectableBox
                         key={token.id}
@@ -163,7 +163,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                   title="Define the gas mechanics"
                   description="Aurora Cloud lets you define your chain's gas mechanics, including the option to remove gas fees entirely for your customers."
                 >
-                  <div className="flex flex-row space-x-4">
+                  <div className="grid md:grid-cols-3 gap-4">
                     <GasMechanicsBox
                       mechanic="usage"
                       onClick={() => handleGasMechanicsSelect("usage")}

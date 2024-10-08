@@ -42,7 +42,7 @@ const ChainTypeBox: React.FC<ChainTypeBoxProps> = ({
     <SelectableBox
       selected={selected}
       onClick={onClick}
-      className="w-[50%] p-6"
+      className="p-6"
       disabled={disabled}
     >
       <div className="flex flex-row justify-between items-start w-full">
