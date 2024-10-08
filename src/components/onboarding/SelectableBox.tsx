@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import React, { ReactNode } from "react"
 
 interface SelectableBoxProps {
@@ -15,9 +16,6 @@ const SelectableBox: React.FC<SelectableBoxProps> = ({
   className = "",
   disabled = false,
 }) => {
-  const baseClasses =
-    "inline-flex flex-col justify-start align-top text-left rounded-lg transition-colors duration-200"
-
   const enabledClasses = selected
     ? "ring-2 ring-green-600 bg-green-50"
     : "ring-1 ring-slate-300 bg-white"
@@ -29,9 +27,12 @@ const SelectableBox: React.FC<SelectableBoxProps> = ({
 
   return (
     <button
-      className={`${baseClasses} ${
-        disabled ? disabledClasses : enabledClasses
-      } ${textClasses} ${className}`}
+      className={clsx(
+        "inline-flex flex-col justify-start align-top text-left rounded-lg transition-colors duration-200",
+        disabled ? disabledClasses : enabledClasses,
+        textClasses,
+        className,
+      )}
       onClick={onClick}
       disabled={disabled}
       type="button"

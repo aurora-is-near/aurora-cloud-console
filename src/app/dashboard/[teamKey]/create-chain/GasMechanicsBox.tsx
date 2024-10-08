@@ -1,4 +1,5 @@
 import { FireIcon, SparklesIcon, StarIcon } from "@heroicons/react/20/solid"
+import clsx from "clsx"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { GasMechanics } from "@/types/chain-creation"
 
@@ -54,9 +55,10 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
     >
       <div className="flex items-center mb-2">
         <div
-          className={`bg-gray-100 p-1 rounded-full mr-2 ${
-            selected ? "text-slate-50 bg-slate-900" : "text-slate-900"
-          }`}
+          className={clsx(
+            "bg-gray-100 p-1 rounded-full mr-2",
+            selected ? "text-slate-50 bg-slate-900" : "text-slate-900",
+          )}
         >
           {Icon && <Icon className="w-4 h-4" />}
         </div>

@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { NetworkType } from "@/types/chain-creation"
 import { WarningOctagon } from "../../../../../public/static/v2/images/icons"
@@ -18,7 +19,11 @@ const Label: React.FC<{ type: "free" | "enterprise" }> = ({ type }) => {
 
   return (
     <div
-      className={`p-0.5 px-1.5 uppercase rounded-2xl text-xs font-medium ${bgColor} ${textColor}`}
+      className={clsx(
+        "p-0.5 px-1.5 uppercase rounded-2xl text-xs font-medium",
+        bgColor,
+        textColor,
+      )}
     >
       {text}
     </div>
