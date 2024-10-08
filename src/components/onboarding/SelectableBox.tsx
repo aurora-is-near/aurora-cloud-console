@@ -19,8 +19,8 @@ const SelectableBox: React.FC<SelectableBoxProps> = ({
     "inline-flex flex-col justify-start align-top text-left rounded-lg transition-colors duration-200"
 
   const enabledClasses = selected
-    ? "border-2 border-green-600 bg-green-50"
-    : "border border-slate-300 bg-white"
+    ? "ring-2 ring-green-600 bg-green-50"
+    : "ring-1 ring-slate-300 bg-white"
 
   const disabledClasses =
     "border border-slate-300 bg-slate-50 cursor-not-allowed"
