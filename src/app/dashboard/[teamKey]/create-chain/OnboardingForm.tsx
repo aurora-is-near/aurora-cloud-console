@@ -18,6 +18,7 @@ import {
   NetworkType,
   TokenOption,
 } from "@/types/chain-creation"
+import { BaseContainer } from "@/components/BaseContainer"
 import Step from "./Step"
 import ChainTypeBox from "./ChainTypeBox"
 import ChainPermissionBox from "./ChainPermissionBox"
@@ -73,7 +74,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
 
   return (
     <div className="flex mt-10 justify-center w-full h-full overflow-x-hidden overflow-y-auto">
-      <div className="w-full max-w-[980px] h-full">
+      <BaseContainer className="h-full">
         <div className="relative">
           <Step
             number={1}
@@ -309,7 +310,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
           )}
           <div className="absolute top-[calc(2rem+10px)] left-[19px] w-[2px] h-[calc(100%-2rem-10px)] bg-slate-200" />
         </div>
-      </div>
+      </BaseContainer>
     </div>
   )
 }

@@ -1,8 +1,8 @@
-import clsx from "clsx"
 import { DetailedHTMLProps, FormHTMLAttributes, ReactNode } from "react"
 import BreadcrumbHeading from "@/components/BreadcrumbHeading"
 import Heading from "@/components/Heading"
 import { Toaster } from "@/components/Toaster"
+import { BaseContainer } from "@/components/BaseContainer"
 
 type DashboardPageProps = {
   children: ReactNode
@@ -26,8 +26,6 @@ type DashboardPageProps = {
 )
 
 const WRAPPER_CLASSNAME = "max-h-full flex-1 flex flex-col"
-const CONTAINER_CLASSNAME =
-  "px-4 py-6 md:px-6 lg:px-8 w-full mx-auto max-w-[1044px]"
 
 export const DashboardPage = ({
   children,
@@ -44,11 +42,11 @@ export const DashboardPage = ({
       <main className="overflow-auto">
         <Toaster />
         {banner && (
-          <div className={clsx("w-full bg-white shadow", CONTAINER_CLASSNAME)}>
+          <BaseContainer className="w-full bg-white shadow">
             {banner}
-          </div>
+          </BaseContainer>
         )}
-        <div className={clsx("relative flex flex-col", CONTAINER_CLASSNAME)}>
+        <BaseContainer className="relative flex flex-col">
           {heading && (
             <div className="flex justify-between items-center mb-5">
               {typeof heading === "string" ? (
@@ -66,7 +64,7 @@ export const DashboardPage = ({
           <div className="space-y-4 sm:space-y-5 flex flex-col flex-1">
             {children}
           </div>
-        </div>
+        </BaseContainer>
       </main>
       {footer}
     </>
