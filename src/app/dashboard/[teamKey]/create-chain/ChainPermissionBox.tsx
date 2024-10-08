@@ -1,6 +1,6 @@
-import React, { ComponentType } from "react"
+import { ComponentType } from "react"
 import SelectableBox from "@/components/onboarding/SelectableBox"
-import { ChainPermission } from "@/hooks/useChainCreationForm"
+import { ChainPermission } from "@/types/chain-creation"
 import {
   ChainPrivate,
   ChainPublic,

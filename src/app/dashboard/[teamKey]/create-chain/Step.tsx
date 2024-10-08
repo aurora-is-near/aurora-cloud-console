@@ -1,4 +1,4 @@
-import React from "react"
+import clsx from "clsx"
 
 interface StepProps {
   number: number
@@ -18,12 +18,9 @@ const Step: React.FC<StepProps> = ({
   frozen = false,
 }) => {
   return (
-    <div className={`mb-8 flex ${frozen ? "pointer-events-none" : ""}`}>
+    <div className={clsx("mb-8 flex", frozen && "pointer-events-none")}>
       <div className="relative w-10 h-10 mr-4 flex-shrink-0 z-10">
-        <div
-          className="absolute inset-0 bg-slate-50 rounded-full"
-          style={{ transform: "scale(1.5)" }}
-        />
+        <div className="absolute inset-0 bg-slate-50 rounded-full scale-150" />
         <div className="absolute inset-0 bg-slate-900 text-white text-lg font-semibold rounded-full flex items-center justify-center">
           {number}
         </div>
@@ -31,7 +28,7 @@ const Step: React.FC<StepProps> = ({
       <div className="w-full">
         <div className="flex justify-between items-start mb-1">
           <div className="flex flex-col">
-            <h2 className="text-2xl tracking-[-1px] font-semibold text-slate-900">
+            <h2 className="text-2xl tracking-tight font-semibold text-slate-900">
               {title}
             </h2>
             <p className="text-slate-500 mb-4">{description}</p>
