@@ -1,5 +1,5 @@
 import SelectableBox from "@/components/onboarding/SelectableBox"
-import { NetworkType } from "@/hooks/useChainCreationForm"
+import { NetworkType } from "@/types/chain-creation"
 import { WarningOctagon } from "../../../../../public/static/v2/images/icons"
 
 interface ChainTypeBoxProps {

@@ -2,7 +2,6 @@
 
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
-import { usePathname } from "next/navigation"
 import { useMenu } from "@/hooks/useMenu"
 import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
 import { MenuItem } from "@/types/menu"
@@ -20,13 +19,6 @@ export const SidebarMenu = ({
   menuItems,
 }: SidebarMenuProps) => {
   const { isMenuOpen, closeMenu } = useMenu()
-  const pathname = usePathname()
-  const activeMenu = menuItems.find((item) => pathname.startsWith(item.href))
-  const isCreateChainPage = pathname.includes("create-chain")
-
-  if (!activeMenu || isCreateChainPage) {
-    return null
-  }
 
   return (
     <div
