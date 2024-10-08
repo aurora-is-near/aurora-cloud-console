@@ -18,7 +18,6 @@ export const ContactButton = ({ teamKey }: ContactButtonProps) => {
         className="flex-shrink-0"
         onClick={() => openModal(Modals.Contact)}
         variant="border"
-        size="sm"
       >
         Contact us
       </Button>
