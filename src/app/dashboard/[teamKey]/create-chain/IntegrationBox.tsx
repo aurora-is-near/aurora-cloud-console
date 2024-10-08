@@ -86,9 +86,6 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="border" className="text-sm">
-            Learn more
-          </Button>
           <Toggle checked={isEnabled} onChange={onToggle} />
         </div>
       </div>
