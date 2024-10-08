@@ -83,11 +83,8 @@ export const useChainCreationForm = (team: Team) => {
   }, [])
 
   const handleSubmit = useCallback(async () => {
-    const integrationsString = form.integrations.join(",")
-
     const record = await saveOnboardingForm({
       ...form,
-      integrations: integrationsString,
       team_id: team.id,
     })
 
