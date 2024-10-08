@@ -268,8 +268,9 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                     </div>
 
                     <Button
-                      className="w-full my-10 py-8 text-2xl"
-                      size="lg"
+                      fullWidth
+                      size="xl"
+                      className="my-16"
                       onClick={handleOnboardingSubmit}
                     >
                       {submitButtonText}

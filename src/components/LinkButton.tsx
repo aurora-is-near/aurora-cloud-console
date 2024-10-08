@@ -13,7 +13,7 @@ export type LinkButtonProps = ComponentProps<typeof Link> & {
     | "border"
     | "destructive"
     | "dark"
-  size?: "sm" | "md" | "lg"
+  size?: "sm" | "md" | "lg" | "xl"
   loading?: boolean
   disabled?: boolean
   fullWidth?: boolean
