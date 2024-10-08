@@ -6,7 +6,13 @@ import { ButtonContent } from "@/components/ButtonContent"
 import { getButtonClassName } from "@/utils/buttons"
 
 export type LinkButtonProps = ComponentProps<typeof Link> & {
-  variant?: "primary" | "secondary" | "transparent" | "border" | "destructive"
+  variant?:
+    | "primary"
+    | "secondary"
+    | "transparent"
+    | "border"
+    | "destructive"
+    | "dark"
   size?: "sm" | "md" | "lg"
   loading?: boolean
   disabled?: boolean
@@ -45,7 +51,9 @@ export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
         })}
         {...restProps}
       >
-        <ButtonContent isLoading={loading}>{children}</ButtonContent>
+        <ButtonContent fullWidth={fullWidth} isLoading={loading}>
+          {children}
+        </ButtonContent>
       </Component>
     )
   },

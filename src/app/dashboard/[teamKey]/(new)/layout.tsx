@@ -1,9 +1,8 @@
 import { ReactNode } from "react"
 import { PlusIcon } from "@heroicons/react/20/solid"
-import Link from "next/link"
 import { isAdmin } from "@/actions/is-admin"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
-import { Button } from "@/components/Button"
+import { LinkButton } from "@/components/LinkButton"
 
 const Layout = async ({
   children,
@@ -19,14 +18,18 @@ const Layout = async ({
       teamKey={teamKey}
       showAdminMenu={isAdminUser}
       sidebarAction={
-        <Link href={`/dashboard/${teamKey}/create-chain`}>
-          <Button variant="dark" size="lg" fullWidth>
-            <div className="flex w-full items-center gap-x-2">
-              <PlusIcon className="w-6 h-6" />
-              Create Aurora Chain
-            </div>
-          </Button>
-        </Link>
+        <LinkButton
+          href={`/dashboard/${teamKey}/create-chain`}
+          variant="dark"
+          size="lg"
+          className="justify-start"
+          fullWidth
+        >
+          <div className="flex w-full items-center gap-x-2">
+            <PlusIcon className="w-6 h-6" />
+            Create Aurora Chain
+          </div>
+        </LinkButton>
       }
     >
       {children}
