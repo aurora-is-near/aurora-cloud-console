@@ -128,7 +128,7 @@ const Dashboard = ({ team, silo }: { team: Team; silo?: Silo }) => {
                   description="Get access to a shared Aurora Chain identical to the production
                 ones."
                   icon="/static/v2/images/examples/devnet.png"
-                  link={`/dashboard/${teamKey}/create_chain`}
+                  link={`/dashboard/${teamKey}/create-chain`}
                 />
                 <ExploreItem
                   title="Read documentation"

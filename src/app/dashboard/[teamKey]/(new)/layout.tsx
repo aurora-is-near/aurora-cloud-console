@@ -19,7 +19,7 @@ const Layout = async ({
       teamKey={teamKey}
       showAdminMenu={isAdminUser}
       sidebarAction={
-        <Link href={`/dashboard/${teamKey}/create_chain`}>
+        <Link href={`/dashboard/${teamKey}/create-chain`}>
           <Button variant="dark" size="lg" fullWidth>
             <div className="flex w-full items-center gap-x-2">
               <PlusIcon className="w-6 h-6" />

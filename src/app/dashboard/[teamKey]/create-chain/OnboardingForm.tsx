@@ -12,13 +12,13 @@ import {
   tokenOptions,
   useChainCreationForm,
 } from "@/hooks/useChainCreationForm"
-import Step from "@/app/dashboard/[teamKey]/create_chain/Step"
-import ChainTypeBox from "@/app/dashboard/[teamKey]/create_chain/ChainTypeBox"
-import ChainPermissionBox from "@/app/dashboard/[teamKey]/create_chain/ChainPermissionBox"
+import Step from "@/app/dashboard/[teamKey]/create-chain/Step"
+import ChainTypeBox from "@/app/dashboard/[teamKey]/create-chain/ChainTypeBox"
+import ChainPermissionBox from "@/app/dashboard/[teamKey]/create-chain/ChainPermissionBox"
 import SelectableBox from "@/components/onboarding/SelectableBox"
-import GasMechanicsBox from "@/app/dashboard/[teamKey]/create_chain/GasMechanicsBox"
+import GasMechanicsBox from "@/app/dashboard/[teamKey]/create-chain/GasMechanicsBox"
 import { Button } from "@/components/Button"
-import IntegrationBox from "@/app/dashboard/[teamKey]/create_chain/IntegrationBox"
+import IntegrationBox from "@/app/dashboard/[teamKey]/create-chain/IntegrationBox"
 import Card from "@/components/Card"
 import { Team } from "@/types/types"
 

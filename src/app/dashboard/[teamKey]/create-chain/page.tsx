@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { XMarkIcon } from "@heroicons/react/20/solid"
-import OnboardingForm from "@/app/dashboard/[teamKey]/create_chain/OnboardingForm"
+import OnboardingForm from "@/app/dashboard/[teamKey]/create-chain/OnboardingForm"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
 const Page = async ({
