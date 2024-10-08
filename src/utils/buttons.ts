@@ -26,7 +26,7 @@ export const getButtonClassName = (
     {
       "px-2 p-1.5 text-sm": size === "sm",
       "px-2.5 py-2 text-sm": size === "md",
-      "px-4 py-4 text-base": size === "lg",
+      "px-3 py-3 text-base": size === "lg",
       "shadow-sm": ["primary", "secondary"].includes(variant),
       "bg-green-400 text-slate-900 focus-visible:outline-green-400":
         variant === "primary",
