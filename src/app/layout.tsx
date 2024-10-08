@@ -4,7 +4,6 @@ import { circular } from "@/styles/fonts/fonts"
 import "../styles/globals.css"
 import { Providers } from "@/app/Providers"
 import { ErrorModal } from "@/components/ErrorModal"
-import { MetaMaskNotInstalledModal } from "@/components/MetaMaskNotInstalledModal"
 import { FullScreenPage } from "@/components/FullScreenPage"
 
 export const metadata: Metadata = {
@@ -28,7 +27,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <Providers>
             {children}
             <ErrorModal />
-            <MetaMaskNotInstalledModal />
           </Providers>
         </Suspense>
       </body>

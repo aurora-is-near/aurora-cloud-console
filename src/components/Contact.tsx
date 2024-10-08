@@ -1,19 +1,27 @@
 "use client"
 
 import { LifebuoyIcon } from "@heroicons/react/24/outline"
+import clsx from "clsx"
 import { ContactButton } from "@/components/ContactButton"
 
 type ContactProps = {
   teamKey: string
   text?: string
+  className?: string
 }
 
 const Contact = ({
   teamKey,
   text = "Need help setting up deals?",
+  className,
 }: ContactProps) => {
   return (
-    <section className="flex items-start justify-between gap-3 p-4 bg-gray-100 border border-gray-200 rounded-md sm:p-5 md:p-6 sm:items-center sm:gap-5">
+    <section
+      className={clsx(
+        "flex items-start justify-between gap-3 p-4 bg-gray-100 border border-gray-200 rounded-md sm:p-5 md:p-6 sm:items-center sm:gap-5",
+        className,
+      )}
+    >
       <LifebuoyIcon className="flex-shrink-0 w-8 h-8 text-gray-500 sm:h-11 sm:w-11" />
       <div className="flex flex-col items-start justify-between flex-1 gap-y-3 sm:items-center sm:flex-row">
         <div>
