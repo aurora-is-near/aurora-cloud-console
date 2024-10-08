@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, useSelectedLayoutSegments } from "next/navigation"
+import { Listbox } from "@headlessui/react"
+import { ChevronDownIcon } from "@heroicons/react/20/solid"
+import clsx from "clsx"
 import { useTeamKey } from "@/hooks/useTeamKey"
 import { Silo } from "@/types/types"
 
@@ -24,25 +27,59 @@ export const SiloSelect = ({ silos }: SiloSelectProps) => {
       <label htmlFor="silo" className="sr-only">
         Selected silo
       </label>
-      <select
-        id="silo"
-        name="silo"
-        className="block w-full py-4 pl-3 pr-8 leading-none text-gray-900 border-0 rounded-md ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-green-600"
+
+      <Listbox
         value={option}
-        onChange={(e) =>
+        onChange={(value) =>
           router.push(
-            `/dashboard/${teamKey}/silos/${e.target.value}${
+            `/dashboard/${teamKey}/silos/${value}${
               subroute ? `/${subroute}` : "/"
             }`,
           )
         }
       >
-        {silos.map((silo) => (
-          <option key={silo.id} value={silo.id}>
-            {silo.name}
-          </option>
-        ))}
-      </select>
+        <div className="relative mt-1 mb-3">
+          <Listbox.Button className="relative w-full cursor-pointer rounded-lg border border-slate-200 bg-white p-2 text-left text-slate-900 group hover:bg-slate-100">
+            <div className="flex items-center justify-between">
+              <span className="block truncate">
+                {silos.find((silo) => silo.id === parseInt(id, 10))?.name ??
+                  silos[0].name}
+              </span>
+              <div className="w-[30px] h-[30px] flex items-center justify-center">
+                <ChevronDownIcon
+                  className="h-5 w-5 text-gray-400 group-hover:text-slate-900"
+                  aria-hidden="true"
+                />
+              </div>
+            </div>
+          </Listbox.Button>
+          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg text-sm lg:text-base">
+            {silos.map((silo) => (
+              <Listbox.Option
+                key={silo.id}
+                className={({ active }) =>
+                  clsx(
+                    "relative cursor-pointer select-none py-2 pl-4 pr-4",
+                    active ? "bg-slate-100 text-slate-900" : "text-slate-900",
+                  )
+                }
+                value={silo.id}
+              >
+                {({ selected }) => (
+                  <span
+                    className={clsx(
+                      "block truncate",
+                      selected ? "font-medium" : "font-normal",
+                    )}
+                  >
+                    {silo.name}
+                  </span>
+                )}
+              </Listbox.Option>
+            ))}
+          </Listbox.Options>
+        </div>
+      </Listbox>
     </div>
   )
 }
