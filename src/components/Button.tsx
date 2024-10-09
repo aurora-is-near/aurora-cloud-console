@@ -13,7 +13,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
     | "destructive"
     | "grey"
     | "dark"
-  size?: "sm" | "md" | "lg"
+  size?: "sm" | "md" | "lg" | "xl"
   loading?: boolean
   disabled?: boolean
   fullWidth?: boolean
@@ -47,7 +47,9 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
         ref={ref}
         {...restProps}
       >
-        <ButtonContent isLoading={loading}>{children}</ButtonContent>
+        <ButtonContent fullWidth={fullWidth} isLoading={loading}>
+          {children}
+        </ButtonContent>
       </button>
     )
   },

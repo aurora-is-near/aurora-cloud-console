@@ -1,26 +1,19 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useRouter, useSelectedLayoutSegments } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Listbox } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
-import { useTeamKey } from "@/hooks/useTeamKey"
 import { Silo } from "@/types/types"
 
 type SiloSelectProps = {
   silos: Silo[]
+  defaultValue: number
 }
 
-export const SiloSelect = ({ silos }: SiloSelectProps) => {
-  const [option, setOption] = useState("")
+export const SiloSelect = ({ silos, defaultValue }: SiloSelectProps) => {
   const router = useRouter()
-  const teamKey = useTeamKey()
-  const [, id, subroute] = useSelectedLayoutSegments()
-
-  useEffect(() => {
-    setOption(id ?? "Select silo")
-  }, [id])
+  const pathname = usePathname()
 
   return (
     <div>
@@ -29,21 +22,17 @@ export const SiloSelect = ({ silos }: SiloSelectProps) => {
       </label>
 
       <Listbox
-        value={option}
+        defaultValue={String(defaultValue)}
         onChange={(value) =>
-          router.push(
-            `/dashboard/${teamKey}/silos/${value}${
-              subroute ? `/${subroute}` : "/"
-            }`,
-          )
+          router.push(pathname.replace(/\/silos\/\d+/, `/silos/${value}`))
         }
       >
         <div className="relative mt-1 mb-3">
           <Listbox.Button className="relative w-full cursor-pointer rounded-lg border border-slate-200 bg-white p-2 text-left text-slate-900 group hover:bg-slate-100">
             <div className="flex items-center justify-between">
               <span className="block truncate">
-                {silos.find((silo) => silo.id === parseInt(id, 10))?.name ??
-                  silos[0].name}
+                {silos.find((silo) => silo.id === defaultValue)?.name ??
+                  "Select silo"}
               </span>
               <div className="w-[30px] h-[30px] flex items-center justify-center">
                 <ChevronDownIcon

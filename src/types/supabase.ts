@@ -161,6 +161,56 @@ export type Database = {
           },
         ]
       }
+      onboarding_form: {
+        Row: {
+          baseToken: string | null
+          chainId: string | null
+          chainName: string | null
+          chainPermission: string | null
+          comments: string | null
+          created_at: string
+          gasMechanics: string | null
+          id: number
+          integrations: string[] | null
+          networkType: string | null
+          team_id: number | null
+        }
+        Insert: {
+          baseToken?: string | null
+          chainId?: string | null
+          chainName?: string | null
+          chainPermission?: string | null
+          comments?: string | null
+          created_at?: string
+          gasMechanics?: string | null
+          id?: number
+          integrations?: string[] | null
+          networkType?: string | null
+          team_id?: number | null
+        }
+        Update: {
+          baseToken?: string | null
+          chainId?: string | null
+          chainName?: string | null
+          chainPermission?: string | null
+          comments?: string | null
+          created_at?: string
+          gasMechanics?: string | null
+          id?: number
+          integrations?: string[] | null
+          networkType?: string | null
+          team_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_form_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       oracles: {
         Row: {
           created_at: string
