@@ -1,9 +1,9 @@
 import { ReactNode } from "react"
 import { HomeIcon } from "@heroicons/react/20/solid"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { MenuItem } from "@/types/menu"
 import { Silo } from "@/types/types"
 import {
+  BlockExplorer,
   Configuration,
   GasAbstraction,
   Integrations,
@@ -26,41 +26,6 @@ export const MainDashboardLayout = async ({
   sidebarAction,
 }: MainDashboardLayoutProps) => {
   const siloPrefix = silo ? `/silos/${silo.id}` : ""
-  const sidebarMenuItems: MenuItem[] = [
-    {
-      name: "Dashboard",
-      href: `/dashboard/${teamKey}${siloPrefix}`,
-      icon: <HomeIcon />,
-    },
-  ]
-
-  if (silo) {
-    sidebarMenuItems.push(
-      {
-        name: "Monitoring",
-        href: `/dashboard/${teamKey}${siloPrefix}/monitoring`,
-        icon: <Monitoring />,
-      },
-      {
-        name: "Configuration",
-        href: `/dashboard/${teamKey}${siloPrefix}/configuration`,
-        icon: <Configuration />,
-      },
-    )
-  }
-
-  sidebarMenuItems.push(
-    {
-      name: "Gas Abstraction",
-      href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction`,
-      icon: <GasAbstraction />,
-    },
-    {
-      name: "Integrations",
-      href: `/dashboard/${teamKey}${siloPrefix}/integrations`,
-      icon: <Integrations />,
-    },
-  )
 
   return (
     <DashboardLayout
@@ -69,7 +34,52 @@ export const MainDashboardLayout = async ({
       sidebarMenu={{
         heading: silo?.name ?? "Explore Aurora",
         action: sidebarAction,
-        menuItems: sidebarMenuItems,
+        sections: [
+          {
+            items: [
+              {
+                name: "Dashboard",
+                href: `/dashboard/${teamKey}${siloPrefix}`,
+                icon: <HomeIcon />,
+              },
+              ...(silo
+                ? [
+                    {
+                      name: "Monitoring",
+                      href: `/dashboard/${teamKey}${siloPrefix}/monitoring`,
+                      icon: <Monitoring />,
+                    },
+                    {
+                      name: "Configuration",
+                      href: `/dashboard/${teamKey}${siloPrefix}/configuration`,
+                      icon: <Configuration />,
+                    },
+                  ]
+                : []),
+              {
+                name: "Gas Abstraction",
+                href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction`,
+                icon: <GasAbstraction />,
+              },
+              {
+                disabled: true,
+                name: "Integrations",
+                href: `/dashboard/${teamKey}${siloPrefix}/integrations`,
+                icon: <Integrations />,
+              },
+            ],
+          },
+          {
+            heading: "Your Stack",
+            items: [
+              {
+                name: "Block Explorer",
+                href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
+                icon: <BlockExplorer />,
+              },
+            ],
+          },
+        ],
       }}
     >
       {children}

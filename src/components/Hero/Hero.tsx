@@ -4,7 +4,8 @@ import HeroContent from "@/components/Hero/HeroContent"
 import { LinkButton } from "@/components/LinkButton"
 
 export interface HeroButtonProps {
-  text: string
+  text?: string
+  element?: ReactNode
   path?: string
   icon?: ReactNode
 }
@@ -34,7 +35,8 @@ const Hero = ({
           </div>
         </HeroTitle>
         <HeroContent>{description}</HeroContent>
-        {button && (
+        {button?.element && button.element}
+        {button?.text && !button.element && (
           <div className="flex">
             <LinkButton
               size="lg"

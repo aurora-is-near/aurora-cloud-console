@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Hero from "@/components/Hero/Hero"
-import Tabs from "@/components/Tabs/Tabs"
+import { Tabs } from "@/components/Tabs/Tabs"
 import { SubTitle } from "@/components/Subtitle/Subtitle"
 import { FeatureCard } from "@/components/FeatureCard/FeatureCard"
 import { DashboardPage } from "@/components/DashboardPage"
