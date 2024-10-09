@@ -9,6 +9,7 @@ import {
   GasAbstraction,
   Integrations,
   Monitoring,
+  Onramp,
 } from "../../public/static/v2/images/menuIcons"
 
 type MainDashboardLayoutProps = {
@@ -65,6 +66,11 @@ export const MainDashboardLayout = async ({
   )
 
   const extraSidebarMenuItems: MenuItem[] = [
+    {
+      name: "Onramp",
+      href: `/dashboard/${teamKey}${siloPrefix}/onramp`,
+      icon: <Onramp />,
+    },
     {
       name: "Block Explorer",
       href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
