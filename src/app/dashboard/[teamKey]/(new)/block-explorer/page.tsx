@@ -1,13 +1,8 @@
 import Image from "next/image"
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid"
-import { notFound } from "next/navigation"
 import Hero from "@/components/Hero/Hero"
-import Tabs from "@/components/Tabs/Tabs"
+import Tabs from "@/components/Tabs"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
-import { LinkButton } from "@/components/LinkButton"
-import { Blockscout } from "../../../../../../../public/static/v2/images/icons"
+import { Blockscout } from "../../../../../../public/static/v2/images/icons"
 
 const AboutTab = () => {
   return (
@@ -36,18 +31,7 @@ const AboutTab = () => {
   )
 }
 
-const Page = async ({
-  params: { id, teamKey },
-}: {
-  params: { id: string; teamKey: string }
-}) => {
-  const team = await getTeamByKey(teamKey)
-  const silo = await getTeamSilo(team.id, Number(id))
-
-  if (!silo) {
-    notFound()
-  }
-
+const Page = () => {
   const tabs = [{ title: "About", content: <AboutTab /> }]
 
   return (
@@ -71,20 +55,6 @@ const Page = async ({
             alt="Block Explorer Preview"
           />
         }
-        button={{
-          element: (
-            <LinkButton
-              variant="border"
-              href={silo.explorer_url ?? ""}
-              disabled={!silo.explorer_url}
-              className="self-start"
-              size="lg"
-            >
-              <span>Open the explorer</span>
-              <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-            </LinkButton>
-          ),
-        }}
       />
 
       <Tabs tabs={tabs} />

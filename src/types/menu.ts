@@ -6,3 +6,8 @@ export type MenuItem = {
   icon?: ReactNode
   disabled?: boolean
 }
+
+export type MenuSection = {
+  heading?: string
+  items: MenuItem[]
+}
