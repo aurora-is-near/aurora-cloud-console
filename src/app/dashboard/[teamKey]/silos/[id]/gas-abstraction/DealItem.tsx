@@ -1,15 +1,17 @@
-import { Deal } from "@/types/types"
+import { Deal, Silo } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
 import { formatDate } from "@/utils/helpers"
-import ToggleDeal from "../../../../../components/ToggleDeal"
+import Card from "@/components/Card"
+import ToggleDeal from "../../../../../../components/ToggleDeal"
 
 type DealItemProps = {
   deal: Deal
+  silo: Silo
   teamKey: string
 }
 
-const DealItem = ({ deal, teamKey }: DealItemProps) => (
-  <li className="p-5 sm:p-6 flex justify-between sm:items-center items-start gap-5">
+const DealItem = ({ deal, silo, teamKey }: DealItemProps) => (
+  <Card className="flex justify-between sm:items-center items-start gap-5">
     <ToggleDeal dealId={deal.id} />
 
     <div className="flex-1 flex items-start gap-y-3 sm:items-center justify-between sm:flex-row flex-col">
@@ -20,14 +22,13 @@ const DealItem = ({ deal, teamKey }: DealItemProps) => (
         </p>
       </div>
       <LinkButton
-        href={`/dashboard/${teamKey}/borealis/deals/${deal.id}`}
+        href={`/dashboard/${teamKey}/silos/${silo.id}/gas-abstraction/${deal.id}`}
         variant="border"
-        size="sm"
       >
         View
       </LinkButton>
     </div>
-  </li>
+  </Card>
 )
 
 export default DealItem

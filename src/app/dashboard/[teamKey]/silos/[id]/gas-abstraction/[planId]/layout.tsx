@@ -5,13 +5,13 @@ import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 
 const Layout = async ({
   children,
-  params: { id, teamKey },
+  params: { planId, teamKey },
 }: {
   children: ReactNode
-  params: { id: string; teamKey: string }
+  params: { planId: string; teamKey: string }
 }) => {
   const team = await getTeamByKey(teamKey)
-  const deal = await getTeamDeal(team.id, Number(id))
+  const deal = await getTeamDeal(team.id, Number(planId))
 
   // Protect against unauthorised access to another team's deal
   if (!deal) {

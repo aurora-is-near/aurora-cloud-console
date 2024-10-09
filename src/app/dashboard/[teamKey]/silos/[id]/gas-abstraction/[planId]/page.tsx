@@ -1,22 +1,17 @@
 import Contact from "@/components/Contact"
 import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
-import { DealTransactionCharts } from "./DealTransactionsCharts"
 import { FiltersCard } from "./FiltersCard"
 import { DealUpdatePage } from "./DealUpdatePage"
 import { ControlCard } from "./ControlCard"
 
 const Page = ({
-  params: { id, teamKey },
+  params: { planId, teamKey },
 }: {
-  params: { id: string; teamKey: string }
+  params: { planId: string; teamKey: string }
 }) => {
   return (
-    <DealUpdateProvider dealId={Number(id)}>
+    <DealUpdateProvider dealId={Number(planId)}>
       <DealUpdatePage>
-        <section>
-          <DealTransactionCharts />
-        </section>
-
         <FiltersCard />
         <ControlCard />
 
