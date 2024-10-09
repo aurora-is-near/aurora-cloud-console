@@ -9,7 +9,6 @@ import {
   Integrations,
   Monitoring,
 } from "../../public/static/v2/images/menuIcons"
-import { Onramp } from "../../public/static/v2/images/icons"
 
 type MainDashboardLayoutProps = {
   teamKey: string
@@ -73,11 +72,6 @@ export const MainDashboardLayout = async ({
           {
             heading: "Your Stack",
             items: [
-              {
-                name: "Onramp",
-                href: `/dashboard/${teamKey}${siloPrefix}/onramp`,
-                icon: <Onramp />,
-              },
               {
                 name: "Block Explorer",
                 href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
