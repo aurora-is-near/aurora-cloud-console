@@ -12,6 +12,7 @@ export { default as USDTToken } from "./tokens/usdt.svg"
 export { default as Partner1 } from "./Partner1.svg"
 export { default as Partner2 } from "./Partner2.svg"
 export { default as Partner3 } from "./Partner3.svg"
+export { default as Blockscout } from "./blockscout.svg"
 
 export { default as IntegrationBridgeWidget } from "./integrations/bridge.svg"
 export { default as IntegrationCexWithdrawalsWidget } from "./integrations/cex_withdrawals.svg"
