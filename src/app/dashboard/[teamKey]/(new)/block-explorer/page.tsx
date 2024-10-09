@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Hero from "@/components/Hero/Hero"
-import Tabs from "@/components/Tabs"
 import { DashboardPage } from "@/components/DashboardPage"
+import { Tabs } from "@/components/Tabs/Tabs"
 import { Blockscout } from "../../../../../../public/static/v2/images/icons"
 
 const AboutTab = () => {

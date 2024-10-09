@@ -11,7 +11,7 @@ interface TabsProps {
   tabs: TabProps[]
 }
 
-const Tabs = ({ tabs }: TabsProps) => {
+export const Tabs = ({ tabs }: TabsProps) => {
   const [activeTab, setActiveTab] = useState(tabs[0])
 
   return (
@@ -41,5 +41,3 @@ const Tabs = ({ tabs }: TabsProps) => {
     </div>
   )
 }
-
-export default Tabs
