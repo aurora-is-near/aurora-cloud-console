@@ -31,7 +31,7 @@ const Layout = async ({
       teamKey={teamKey}
       silo={silo}
       showAdminMenu={isAdminUser}
-      sidebarAction={<SiloSelect silos={silos} />}
+      sidebarAction={<SiloSelect defaultValue={Number(id)} silos={silos} />}
     >
       {children}
     </MainDashboardLayout>
