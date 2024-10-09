@@ -1,5 +1,3 @@
-import React from "react"
-
 const HeroContent: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
   children,
   ...props

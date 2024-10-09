@@ -1,51 +1,19 @@
 import Image from "next/image"
-import Link from "next/link"
 import { PlusIcon } from "@heroicons/react/20/solid"
 import Hero from "@/components/Hero/Hero"
 import { Silo, Team } from "@/types/types"
-import FeatureList, {
-  FeatureBanner,
-} from "@/app/dashboard/[teamKey]/(new)/FeatureList"
-import { Button } from "@/components/Button"
+import { LinkButton } from "@/components/LinkButton"
+import { ExploreItems } from "@/app/dashboard/[teamKey]/(new)/ExploreItems"
 import { getNetworkVariant } from "@/utils/get-network-variant"
+import FeatureList, { FeatureBanner } from "./FeatureList"
 import {
   Partner1,
   Partner2,
   Partner3,
 } from "../../../../../public/static/v2/images/icons"
+import { ExploreItem } from "./ExploreItem"
 
 const meetingLink = "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
-
-interface ExploreItemProps {
-  title: string
-  description: string
-  icon: string
-  link: string
-}
-
-const ExploreItem = ({ title, description, icon, link }: ExploreItemProps) => {
-  const isExternalLink = link.startsWith("http")
-
-  return (
-    <Link
-      href={link}
-      target={isExternalLink ? "_blank" : undefined}
-      rel={isExternalLink ? "noopener noreferrer" : undefined}
-    >
-      <div className="rounded-xl border border-slate-200 w-full max-w-[310px]">
-        <div className="rounded-t-xl overflow-hidden">
-          <Image src={icon} width="310" height="170" alt="Example" />
-        </div>
-        <div className="rounded-b-xl bg-white p-5">
-          <div className="flex flex-col justify-center items-center">
-            <h3 className="text-slate-900 font-bold text-md">{title}</h3>
-            <p className="text-center text-slate-500 text-sm">{description}</p>
-          </div>
-        </div>
-      </div>
-    </Link>
-  )
-}
 
 const features: FeatureBanner[] = [
   {
@@ -74,7 +42,7 @@ const Dashboard = ({
 
   return (
     <div className="w-full">
-      <div className="divide-y flex flex-col gap-10">
+      <div className="divide-y flex flex-col gap-y-8 lg:gap-y-10">
         <Hero
           title={!silo ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`}
           description={getNetworkVariant(silo, {
@@ -96,6 +64,7 @@ const Dashboard = ({
             none: {
               text: "Create Aurora Chain",
               icon: <PlusIcon className="h-4 w-4" />,
+              path: `/dashboard/${teamKey}/create-chain`,
             },
             devnet: {
               text: "Upgrade to Mainnet",
@@ -103,20 +72,20 @@ const Dashboard = ({
             mainnet: undefined,
           })}
         />
-        <div className="flex flex-col pt-10 gap-10">
-          <h2 className="text-xl text-slate-900 font-bold">
+        <div className="flex flex-col pt-12">
+          <h2 className="text-xl text-slate-900 font-bold mb-6">
             Explore what you can do
           </h2>
 
           {getNetworkVariant(silo, {
             none: (
-              <div className="flex flex-row gap-10">
+              <ExploreItems>
                 <ExploreItem
                   title="Set up your Devnet"
                   description="Get access to a shared Aurora Chain identical to the production
                 ones."
                   icon="/static/v2/images/examples/devnet.png"
-                  link={`/dashboard/${teamKey}/create_chain`}
+                  link={`/dashboard/${teamKey}/create-chain`}
                 />
                 <ExploreItem
                   title="Read documentation"
@@ -130,10 +99,10 @@ const Dashboard = ({
                   icon="/static/v2/images/examples/talk.png"
                   link="/"
                 />
-              </div>
+              </ExploreItems>
             ),
             devnet: (
-              <div className="flex flex-row gap-10">
+              <ExploreItems>
                 <ExploreItem
                   title="Explore integrations"
                   description="Your chain supports by default a range of integrations."
@@ -152,10 +121,10 @@ const Dashboard = ({
                   icon="/static/v2/images/examples/talk.png"
                   link="/"
                 />
-              </div>
+              </ExploreItems>
             ),
             mainnet: (
-              <div className="flex flex-row gap-10">
+              <ExploreItems>
                 <ExploreItem
                   title="Monitor your chain"
                   description="Keep track of transaction volume,  latency and RPC requests in real-time."
@@ -174,13 +143,13 @@ const Dashboard = ({
                   icon="/static/v2/images/examples/docs.png"
                   link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
                 />
-              </div>
+              </ExploreItems>
             ),
           })}
         </div>
 
-        <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100">
-          <div className="flex flex-row justify-between">
+        <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100 mt-6 lg:mt-9">
+          <div className="flex flex-col lg:flex-row justify-between">
             <div className="flex flex-col">
               <span className="text-green-900 text-xs font-bold uppercase tracking-widest">
                 Aurora Labs
@@ -190,11 +159,15 @@ const Dashboard = ({
               </span>
             </div>
 
-            <Link href={meetingLink} target="_blank">
-              <Button variant="border" size="lg">
-                Book a call
-              </Button>
-            </Link>
+            <LinkButton
+              href={meetingLink}
+              target="_blank"
+              variant="border"
+              size="lg"
+              className="mt-4 lg:mt-0"
+            >
+              Book a call
+            </LinkButton>
           </div>
 
           <FeatureList features={features} />
