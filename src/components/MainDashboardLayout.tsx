@@ -56,7 +56,6 @@ export const MainDashboardLayout = async ({
       icon: <GasAbstraction />,
     },
     {
-      disabled: true,
       name: "Integrations",
       href: `/dashboard/${teamKey}${siloPrefix}/integrations`,
       icon: <Integrations />,
