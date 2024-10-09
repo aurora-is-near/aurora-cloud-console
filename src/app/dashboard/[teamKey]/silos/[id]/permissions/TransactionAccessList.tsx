@@ -1,5 +1,3 @@
-"use client"
-
 import { Cog6ToothIcon, XMarkIcon } from "@heroicons/react/24/outline"
 import CopyButton from "@/components/CopyButton"
 import ListItem from "@/components/ListItem"
