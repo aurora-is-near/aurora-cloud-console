@@ -5,6 +5,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { Silo } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
+import Card from "@/components/Card"
 import { Blockscout } from "../../../public/static/v2/images/icons"
 
 type BlockExplorerPageProps = {
@@ -48,7 +49,7 @@ export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
           {
             title: "About",
             content: (
-              <div className="divide-y flex flex-col gap-5">
+              <Card className="divide-y flex flex-col gap-5">
                 <div className="flex flex-col gap-2 text-slate-500">
                   <p>
                     Each Virtual Chain is equipped with its own dedicated Block
@@ -73,7 +74,7 @@ export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
                     Powered by BlockScout
                   </span>
                 </div>
-              </div>
+              </Card>
             ),
           },
         ]}
