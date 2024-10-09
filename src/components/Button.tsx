@@ -1,5 +1,3 @@
-"use client"
-
 import { ButtonHTMLAttributes, forwardRef } from "react"
 import { ButtonContent } from "@/components/ButtonContent"
 import { getButtonClassName } from "@/utils/buttons"
