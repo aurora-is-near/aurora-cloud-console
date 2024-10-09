@@ -4,21 +4,19 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { useMenu } from "@/hooks/useMenu"
 import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
-import { MenuItem } from "@/types/menu"
+import { MenuSection } from "@/types/menu"
 import Heading from "../Heading"
 
 export type SidebarMenuProps = {
   heading?: string
   action?: JSX.Element
-  menuItems: MenuItem[]
-  extraMenuItems?: MenuItem[]
+  sections: MenuSection[]
 }
 
 export const SidebarMenu = ({
   heading,
   action,
-  menuItems,
-  extraMenuItems,
+  sections,
 }: SidebarMenuProps) => {
   const { isMenuOpen, closeMenu } = useMenu()
 
@@ -68,23 +66,28 @@ export const SidebarMenu = ({
 
         {action}
 
-        <nav className="flex flex-col flex-1 gap-y-4 mt-4 divide-y divide-slate-200">
-          <ul className="space-y-1">
-            {menuItems.map((item) => (
-              <li key={item.name}>
-                <SidebarMenuButton menuItem={item} />
-              </li>
-            ))}
-          </ul>
-          {extraMenuItems && (
-            <ul className="space-y-1 pt-2">
-              {extraMenuItems.map((item) => (
-                <li key={item.name}>
-                  <SidebarMenuButton menuItem={item} />
-                </li>
-              ))}
-            </ul>
-          )}
+        <nav className="flex flex-col flex-1 mt-4 divide-y divide-slate-200">
+          {sections.map((section, index) => {
+            return (
+              <section
+                className={clsx(index && "mt-4 pt-4")}
+                key={section.heading ?? index}
+              >
+                {section.heading && (
+                  <h3 className="text-slate-500 uppercase text-xs font-bold px-3 py-2.5">
+                    {section.heading}
+                  </h3>
+                )}
+                <ul className="space-y-1">
+                  {section.items.map((item) => (
+                    <li key={item.name}>
+                      <SidebarMenuButton menuItem={item} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          })}
         </nav>
       </aside>
     </div>
