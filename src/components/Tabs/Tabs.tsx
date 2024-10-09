@@ -11,7 +11,7 @@ interface TabsProps {
   tabs: TabProps[]
 }
 
-export const Tabs = ({ tabs }: TabsProps) => {
+const Tabs = ({ tabs }: TabsProps) => {
   const [activeTab, setActiveTab] = useState(tabs[0])
 
   return (
