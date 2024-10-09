@@ -4,7 +4,7 @@ import {
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline"
 import { MainMenu } from "@/components/menu/MainMenu"
-import { MenuItem } from "@/types/menu"
+import { MenuItem, MenuSection } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 
 type DashboardLayoutProps = {
@@ -14,8 +14,7 @@ type DashboardLayoutProps = {
   sidebarMenu?: {
     heading: string
     action?: JSX.Element
-    menuItems: MenuItem[]
-    extraMenuItems?: MenuItem[]
+    sections: MenuSection[]
   }
 }
 
@@ -45,11 +44,10 @@ export const DashboardLayout = ({
     <div className="w-full h-full flex flex-col overflow-hidden">
       <MainMenu menuItems={mainMenuItems} />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
-        {!!sidebarMenu?.menuItems.length && (
+        {!!sidebarMenu?.sections.length && (
           <SidebarMenu
             heading={sidebarMenu.heading}
-            menuItems={sidebarMenu.menuItems}
-            extraMenuItems={sidebarMenu.extraMenuItems}
+            sections={sidebarMenu.sections}
             action={sidebarMenu.action}
           />
         )}
