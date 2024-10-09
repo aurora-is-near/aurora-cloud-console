@@ -15,6 +15,7 @@ type DashboardLayoutProps = {
     heading: string
     action?: JSX.Element
     menuItems: MenuItem[]
+    extraMenuItems?: MenuItem[]
   }
 }
 
@@ -48,6 +49,7 @@ export const DashboardLayout = ({
           <SidebarMenu
             heading={sidebarMenu.heading}
             menuItems={sidebarMenu.menuItems}
+            extraMenuItems={sidebarMenu.extraMenuItems}
             action={sidebarMenu.action}
           />
         )}

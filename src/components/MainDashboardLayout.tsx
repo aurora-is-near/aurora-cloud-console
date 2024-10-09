@@ -4,6 +4,7 @@ import { DashboardLayout } from "@/components/DashboardLayout"
 import { MenuItem } from "@/types/menu"
 import { Silo } from "@/types/types"
 import {
+  BlockExplorer,
   Configuration,
   GasAbstraction,
   Integrations,
@@ -63,6 +64,14 @@ export const MainDashboardLayout = async ({
     },
   )
 
+  const extraSidebarMenuItems: MenuItem[] = [
+    {
+      name: "Block Explorer",
+      href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
+      icon: <BlockExplorer />,
+    },
+  ]
+
   return (
     <DashboardLayout
       teamKey={teamKey}
@@ -71,6 +80,7 @@ export const MainDashboardLayout = async ({
         heading: silo?.name ?? "Explore Aurora",
         action: sidebarAction,
         menuItems: sidebarMenuItems,
+        extraMenuItems: extraSidebarMenuItems,
       }}
     >
       {children}

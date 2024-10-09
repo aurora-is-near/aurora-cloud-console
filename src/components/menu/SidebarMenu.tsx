@@ -11,12 +11,14 @@ export type SidebarMenuProps = {
   heading?: string
   action?: JSX.Element
   menuItems: MenuItem[]
+  extraMenuItems?: MenuItem[]
 }
 
 export const SidebarMenu = ({
   heading,
   action,
   menuItems,
+  extraMenuItems,
 }: SidebarMenuProps) => {
   const { isMenuOpen, closeMenu } = useMenu()
 
@@ -66,7 +68,7 @@ export const SidebarMenu = ({
 
         {action}
 
-        <nav className="flex flex-col flex-1 gap-y-4 mt-4">
+        <nav className="flex flex-col flex-1 gap-y-4 mt-4 divide-y divide-slate-200">
           <ul className="space-y-1">
             {menuItems.map((item) => (
               <li key={item.name}>
@@ -74,6 +76,15 @@ export const SidebarMenu = ({
               </li>
             ))}
           </ul>
+          {extraMenuItems && (
+            <ul className="space-y-1 pt-2">
+              {extraMenuItems.map((item) => (
+                <li key={item.name}>
+                  <SidebarMenuButton menuItem={item} />
+                </li>
+              ))}
+            </ul>
+          )}
         </nav>
       </aside>
     </div>
