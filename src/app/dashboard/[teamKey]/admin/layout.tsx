@@ -28,21 +28,25 @@ const Layout = async ({
       showAdminMenu={isAdminUser}
       sidebarMenu={{
         heading: "Admin",
-        menuItems: [
+        sections: [
           {
-            name: "Team",
-            href: `/dashboard/${teamKey}/admin/team`,
-            icon: <UserGroupIcon />,
-          },
-          {
-            name: "Silos",
-            href: `/dashboard/${teamKey}/admin/silos`,
-            icon: <CubeIcon />,
-          },
-          {
-            name: "Deals",
-            href: `/dashboard/${teamKey}/admin/deals`,
-            icon: <TicketIcon />,
+            items: [
+              {
+                name: "Team",
+                href: `/dashboard/${teamKey}/admin/team`,
+                icon: <UserGroupIcon />,
+              },
+              {
+                name: "Silos",
+                href: `/dashboard/${teamKey}/admin/silos`,
+                icon: <CubeIcon />,
+              },
+              {
+                name: "Deals",
+                href: `/dashboard/${teamKey}/admin/deals`,
+                icon: <TicketIcon />,
+              },
+            ],
           },
         ],
       }}

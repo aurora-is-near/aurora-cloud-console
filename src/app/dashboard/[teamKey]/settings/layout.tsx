@@ -24,31 +24,35 @@ const Layout = async ({
       showAdminMenu={showAdminMenu}
       sidebarMenu={{
         heading: "Settings",
-        menuItems: [
+        sections: [
           {
-            name: "Billing",
-            href: `/dashboard/${teamKey}/settings/billing`,
-            icon: <CreditCardIcon />,
-          },
-          {
-            name: "Team",
-            href: `/dashboard/${teamKey}/settings/team`,
-            icon: <UsersIcon />,
-          },
-          {
-            name: "Company",
-            href: `/dashboard/${teamKey}/settings/company`,
-            icon: <InformationCircleIcon />,
-          },
-          {
-            name: "Account",
-            href: `/dashboard/${teamKey}/settings/account`,
-            icon: <UserIcon />,
-          },
-          {
-            name: "API Keys",
-            href: `/dashboard/${teamKey}/settings/api-keys`,
-            icon: <KeyIcon />,
+            items: [
+              {
+                name: "Billing",
+                href: `/dashboard/${teamKey}/settings/billing`,
+                icon: <CreditCardIcon />,
+              },
+              {
+                name: "Team",
+                href: `/dashboard/${teamKey}/settings/team`,
+                icon: <UsersIcon />,
+              },
+              {
+                name: "Company",
+                href: `/dashboard/${teamKey}/settings/company`,
+                icon: <InformationCircleIcon />,
+              },
+              {
+                name: "Account",
+                href: `/dashboard/${teamKey}/settings/account`,
+                icon: <UserIcon />,
+              },
+              {
+                name: "API Keys",
+                href: `/dashboard/${teamKey}/settings/api-keys`,
+                icon: <KeyIcon />,
+              },
+            ],
           },
         ],
       }}
