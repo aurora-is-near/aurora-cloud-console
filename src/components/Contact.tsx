@@ -1,19 +1,25 @@
-"use client"
-
 import { LifebuoyIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { ContactButton } from "@/components/ContactButton"
+import { LinkButton } from "@/components/LinkButton"
 
 type ContactProps = {
   teamKey: string
   text?: string
+  description?: string
   className?: string
+  button?: {
+    text: string
+    href: string
+  }
 }
 
 const Contact = ({
   teamKey,
   text = "Need help setting up deals?",
+  description = "Reach out to our support team to get assistance.",
   className,
+  button,
 }: ContactProps) => {
   return (
     <section
@@ -28,11 +34,19 @@ const Contact = ({
           <p className="text-base font-medium leading-none text-gray-900">
             {text}
           </p>
-          <p className="mt-2 text-sm leading-5 text-gray-500">
-            Reach out to our support team to get assistance.
-          </p>
+          <p className="mt-2 text-sm leading-5 text-gray-500">{description}</p>
         </div>
-        <ContactButton teamKey={teamKey} />
+        {button ? (
+          <LinkButton
+            className="flex-shrink-0"
+            href={button.href}
+            variant="border"
+          >
+            {button.text}
+          </LinkButton>
+        ) : (
+          <ContactButton teamKey={teamKey} />
+        )}
       </div>
     </section>
   )

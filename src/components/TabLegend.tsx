@@ -1,5 +1,3 @@
-"use client"
-
 import { ChartColor } from "@/types/types"
 import { getChartColor } from "@/utils/charts"
 

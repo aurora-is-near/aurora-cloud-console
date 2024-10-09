@@ -1,13 +1,11 @@
 import Image from "next/image"
 import { PlusIcon } from "@heroicons/react/20/solid"
-import { ReactNode } from "react"
-import Hero, { HeroButtonProps } from "@/components/Hero/Hero"
+import Hero from "@/components/Hero/Hero"
 import { Silo, Team } from "@/types/types"
-import { isDevNet } from "@/utils/is-dev-net"
-import { NetworkType } from "@/types/network-type"
 import { LinkButton } from "@/components/LinkButton"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
+import { getNetworkVariant } from "@/utils/get-network-variant"
 import FeatureList, { FeatureBanner } from "./FeatureList"
 import {
   Partner1,
@@ -33,31 +31,21 @@ const features: FeatureBanner[] = [
 ]
 
 // https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=3775-10045&t=PGhHmzDnXi5hsRI0-0
-const Dashboard = ({ team, silo }: { team: Team; silo?: Silo }) => {
+const Dashboard = ({
+  team,
+  silo = null,
+}: {
+  team: Team
+  silo?: Silo | null
+}) => {
   const teamKey = team.team_key
-
-  const getNetworkVariant = <T extends string | HeroButtonProps | ReactNode>({
-    none,
-    devnet,
-    mainnet,
-  }: Record<NetworkType, T>): T => {
-    if (!silo) {
-      return none
-    }
-
-    if (isDevNet(silo)) {
-      return devnet
-    }
-
-    return mainnet
-  }
 
   return (
     <div className="w-full">
       <div className="divide-y flex flex-col gap-y-8 lg:gap-y-10">
         <Hero
           title={!silo ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`}
-          description={getNetworkVariant({
+          description={getNetworkVariant(silo, {
             none: "Get all the infrastructure and integrations needed to start your dApp. Validators, oracles, onramps—all come ready to be pre-configured on your chain, freeing up your time and resources to focus on what really matters: your dApp!",
             devnet:
               "You now have access to a shared Aurora Chain identical to production. Test transactions, explore integrations, and simulate real-world scenarios in a risk-free environment.",
@@ -72,7 +60,7 @@ const Dashboard = ({ team, silo }: { team: Team; silo?: Silo }) => {
               alt="Aurora Cloud"
             />
           }
-          button={getNetworkVariant({
+          button={getNetworkVariant(silo, {
             none: {
               text: "Create Aurora Chain",
               icon: <PlusIcon className="h-4 w-4" />,
@@ -80,6 +68,7 @@ const Dashboard = ({ team, silo }: { team: Team; silo?: Silo }) => {
             },
             devnet: {
               text: "Upgrade to Mainnet",
+              path: `/dashboard/${teamKey}/create-chain`,
             },
             mainnet: undefined,
           })}
@@ -89,7 +78,7 @@ const Dashboard = ({ team, silo }: { team: Team; silo?: Silo }) => {
             Explore what you can do
           </h2>
 
-          {getNetworkVariant({
+          {getNetworkVariant(silo, {
             none: (
               <FeatureCTAList>
                 <FeatureCTA
