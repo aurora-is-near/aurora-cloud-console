@@ -1,5 +1,5 @@
+import OnrampHomePage from "@/app/dashboard/[teamKey]/silos/[id]/onramp/OnrampHomePage"
 import { DashboardPage } from "@/components/DashboardPage"
-import OnrampHomePage from "./OnrampHomePage"
 
 const Page = () => {
   return (

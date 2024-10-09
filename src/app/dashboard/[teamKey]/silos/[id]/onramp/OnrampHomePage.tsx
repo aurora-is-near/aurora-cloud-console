@@ -2,7 +2,7 @@ import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import OnrampHero from "./OnrampHero"
 
-const EmptyState = () => {
+const OnrampHomePage = () => {
   return (
     <div className="divide-y flex flex-col gap-10">
       <OnrampHero />
@@ -34,4 +34,4 @@ const EmptyState = () => {
   )
 }
 
-export default EmptyState
+export default OnrampHomePage
