@@ -68,6 +68,7 @@ const Dashboard = ({
             },
             devnet: {
               text: "Upgrade to Mainnet",
+              path: `/dashboard/${teamKey}/create-chain`,
             },
             mainnet: undefined,
           })}
