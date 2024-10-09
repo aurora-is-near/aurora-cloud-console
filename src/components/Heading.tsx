@@ -21,7 +21,7 @@ const Heading = ({
   return (
     <Tag
       className={clsx(
-        "text-xl leading-7 font-bold tracking-[-1px]",
+        "text-xl leading-7 font-bold tracking-tight",
         size === "md" && "sm:text-2xl",
         size === "lg" && "md:text-4xl",
         textColorClassName,

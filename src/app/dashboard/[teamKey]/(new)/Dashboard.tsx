@@ -108,6 +108,7 @@ const Dashboard = ({ team, silo }: { team: Team; silo?: Silo }) => {
             none: {
               text: "Create Aurora Chain",
               icon: <PlusIcon className="h-4 w-4" />,
+              path: `/dashboard/${teamKey}/create-chain`,
             },
             devnet: {
               text: "Upgrade to Mainnet",
@@ -128,7 +129,7 @@ const Dashboard = ({ team, silo }: { team: Team; silo?: Silo }) => {
                   description="Get access to a shared Aurora Chain identical to the production
                 ones."
                   icon="/static/v2/images/examples/devnet.png"
-                  link={`/dashboard/${teamKey}/create_chain`}
+                  link={`/dashboard/${teamKey}/create-chain`}
                 />
                 <ExploreItem
                   title="Read documentation"
