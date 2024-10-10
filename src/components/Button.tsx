@@ -1,17 +1,11 @@
 import { ButtonHTMLAttributes, forwardRef } from "react"
 import { ButtonContent } from "@/components/ButtonContent"
 import { getButtonClassName } from "@/utils/buttons"
+import { ButtonSize, ButtonVariant } from "@/types/buttons"
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?:
-    | "primary"
-    | "secondary"
-    | "transparent"
-    | "border"
-    | "destructive"
-    | "grey"
-    | "dark"
-  size?: "sm" | "md" | "lg" | "xl"
+  variant?: ButtonVariant
+  size?: ButtonSize
   loading?: boolean
   disabled?: boolean
   fullWidth?: boolean
