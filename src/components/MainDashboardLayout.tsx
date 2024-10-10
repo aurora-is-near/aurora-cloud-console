@@ -8,6 +8,7 @@ import {
   GasAbstraction,
   Integrations,
   Monitoring,
+  Oracle,
 } from "../../public/static/v2/images/menuIcons"
 
 type MainDashboardLayoutProps = {
@@ -72,6 +73,11 @@ export const MainDashboardLayout = async ({
           {
             heading: "Your Stack",
             items: [
+              {
+                name: "Oracle",
+                href: `/dashboard/${teamKey}${siloPrefix}/oracle`,
+                icon: <Oracle />,
+              },
               {
                 name: "Block Explorer",
                 href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
