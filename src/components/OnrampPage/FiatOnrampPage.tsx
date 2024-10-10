@@ -14,7 +14,7 @@ const FiatOnrampPage = () => {
             width="48"
             height="48"
             src="/static/v2/images/icons/marketplace/cex_withdrawals.svg"
-            alt="Block Explorer Logo"
+            alt="Onramp Logo"
           />
         }
         image={
@@ -22,7 +22,7 @@ const FiatOnrampPage = () => {
             width="400"
             height="240"
             src="/static/v2/images/feature/hero/fiat_onramp.png"
-            alt="Block Explorer Preview"
+            alt="Onramp Preview"
           />
         }
       />
