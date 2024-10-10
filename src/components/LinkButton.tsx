@@ -44,6 +44,8 @@ export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
           isDisabled,
           isFullWidth: fullWidth,
         })}
+        target={isExternal ? "_blank" : undefined}
+        rel={isExternal ? "noopener noreferrer" : undefined}
         {...restProps}
       >
         <ButtonContent fullWidth={fullWidth} isLoading={loading}>
