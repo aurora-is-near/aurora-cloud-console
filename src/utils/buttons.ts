@@ -1,16 +1,10 @@
 import clsx from "clsx"
 import { cloneElement, isValidElement, ReactElement, ReactNode } from "react"
+import { ButtonSize, ButtonVariant } from "@/types/buttons"
 
 export const getButtonClassName = (
-  variant:
-    | "primary"
-    | "secondary"
-    | "transparent"
-    | "border"
-    | "destructive"
-    | "grey"
-    | "dark",
-  size: "sm" | "md" | "lg" | "xl",
+  variant: ButtonVariant,
+  size: ButtonSize,
   {
     className,
     isDisabled,
@@ -24,10 +18,11 @@ export const getButtonClassName = (
   clsx(
     "relative flex items-center justify-center rounded-lg font-medium leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 whitespace-nowrap transition-colors duration-200 select-none",
     {
-      "px-2 p-1.5 text-sm": size === "sm",
-      "px-2.5 py-2 text-sm": size === "md",
-      "px-3 py-3 text-base": size === "lg",
-      "px-4 py-4 md:py-6 text-base md:text-lg": size === "xl",
+      "px-2 p-1.5 h-8 max-h-8 text-sm": size === "sm",
+      "px-2.5 py-2 h-9 max-h-9 text-sm": size === "md",
+      "px-3 py-3 h-12 max-h-12 text-base": size === "lg",
+      "px-4 py-4 md:py-6 h-12 max-h-12 md:h-16 md:max-h-16 text-base md:text-lg":
+        size === "xl",
       "shadow-sm": ["primary", "secondary"].includes(variant),
       "bg-green-400 text-slate-900 focus-visible:outline-green-400":
         variant === "primary",

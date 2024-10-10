@@ -42,10 +42,10 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
     Integration,
     ComponentType<React.SVGProps<SVGSVGElement>>
   > = {
-    onramp: IntegrationOracle,
-    oracle: IntegrationBridgeWidget,
-    bridge_widget: IntegrationCexWithdrawalsWidget,
-    cex_withdrawals_widget: IntegrationOnramp,
+    onramp: IntegrationOnramp,
+    oracle: IntegrationOracle,
+    bridge_widget: IntegrationBridgeWidget,
+    cex_withdrawals_widget: IntegrationCexWithdrawalsWidget,
   }
 
   const Icon = ICONS[integration]
