@@ -22,6 +22,8 @@ export const OracleContent = ({ siloId, teamKey }: OracleContentProps) => {
     }),
   )
 
+  console.log("siloId", siloId)
+
   if (isPending) {
     return <Loader className="mt-4 md:mt-6 sm:h-[363px] h-[387px] rounded-md" />
   }
