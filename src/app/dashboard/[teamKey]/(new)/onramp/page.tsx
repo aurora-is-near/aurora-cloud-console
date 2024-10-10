@@ -1,10 +1,10 @@
-import OnrampHomePage from "@/app/dashboard/[teamKey]/silos/[id]/onramp/OnrampHomePage"
 import { DashboardPage } from "@/components/DashboardPage"
+import OnrampHomePage from "@/components/OnrampPage/OnrampHomePage"
 
-const Page = () => {
+const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
   return (
     <DashboardPage>
-      <OnrampHomePage />
+      <OnrampHomePage teamKey={teamKey} />
     </DashboardPage>
   )
 }

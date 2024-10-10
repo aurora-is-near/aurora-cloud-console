@@ -2,7 +2,15 @@ import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import OnrampHero from "./OnrampHero"
 
-const OnrampHomePage = () => {
+const OnrampHomePage = ({
+  teamKey,
+  siloId,
+}: {
+  teamKey: string
+  siloId?: string
+}) => {
+  const isNewTeam = !!siloId
+
   return (
     <div className="divide-y flex flex-col gap-10">
       <OnrampHero />
@@ -20,12 +28,20 @@ const OnrampHomePage = () => {
             title="Fiat to crypto"
             description="Enable your users to onramp from fiat to crypto directly on your chain."
             icon="/static/v2/images/examples/fiat_to_crypto.png"
-            link="#"
+            link={`/dashboard/${teamKey}/${
+              isNewTeam ? `silos/${siloId}/` : ""
+            }onramp/fiat-to-crypto`}
           />
           <FeatureCTA
             title="CEX withdrawals"
             description="Allow users to deposit assets from centralized exchanges to your chain."
             icon="/static/v2/images/examples/cex_withdrawals.png"
+            link="#"
+          />
+          <FeatureCTA
+            title="Bridge"
+            description="Bridge assets between Ethereum, NEAR and Aurora. "
+            icon="/static/v2/images/examples/bridge.png"
             link="#"
           />
         </FeatureCTAList>

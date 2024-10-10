@@ -1,10 +1,14 @@
 import { DashboardPage } from "@/components/DashboardPage"
-import OnrampHomePage from "./OnrampHomePage"
+import OnrampHomePage from "../../../../../../components/OnrampPage/OnrampHomePage"
 
-const Page = () => {
+const Page = ({
+  params: { id, teamKey },
+}: {
+  params: { id: string; teamKey: string }
+}) => {
   return (
     <DashboardPage>
-      <OnrampHomePage />
+      <OnrampHomePage siloId={id} teamKey={teamKey} />
     </DashboardPage>
   )
 }
