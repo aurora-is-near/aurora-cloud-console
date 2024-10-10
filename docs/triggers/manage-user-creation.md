@@ -60,7 +60,7 @@ begin
         regexp_replace(new.raw_user_meta_data->>'company', '\s+', '-', 'g'),
 
         -- Remove all non-alphanumeric characters except hyphens
-        '[^a-z0-9-]', '', 'g'
+        '[^A-Za-z0-9-]', '', 'g'
       )
     ) into sanitized_slug;
 
