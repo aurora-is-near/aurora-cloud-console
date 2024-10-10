@@ -4,16 +4,11 @@ import { ComponentProps, forwardRef } from "react"
 import Link from "next/link"
 import { ButtonContent } from "@/components/ButtonContent"
 import { getButtonClassName } from "@/utils/buttons"
+import { ButtonSize, ButtonVariant } from "@/types/buttons"
 
 export type LinkButtonProps = ComponentProps<typeof Link> & {
-  variant?:
-    | "primary"
-    | "secondary"
-    | "transparent"
-    | "border"
-    | "destructive"
-    | "dark"
-  size?: "sm" | "md" | "lg" | "xl"
+  variant?: ButtonVariant
+  size?: ButtonSize
   loading?: boolean
   disabled?: boolean
   fullWidth?: boolean

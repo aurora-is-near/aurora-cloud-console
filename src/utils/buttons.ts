@@ -1,16 +1,10 @@
 import clsx from "clsx"
 import { cloneElement, isValidElement, ReactElement, ReactNode } from "react"
+import { ButtonSize, ButtonVariant } from "@/types/buttons"
 
 export const getButtonClassName = (
-  variant:
-    | "primary"
-    | "secondary"
-    | "transparent"
-    | "border"
-    | "destructive"
-    | "grey"
-    | "dark",
-  size: "sm" | "md" | "lg" | "xl",
+  variant: ButtonVariant,
+  size: ButtonSize,
   {
     className,
     isDisabled,
