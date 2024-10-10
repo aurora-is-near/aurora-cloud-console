@@ -1,19 +1,11 @@
 import { ReactNode } from "react"
-import HeroTitle from "@/components/Hero/HeroTitle"
-import HeroContent from "@/components/Hero/HeroContent"
-import { LinkButton } from "@/components/LinkButton"
-
-export interface HeroButtonProps {
-  text?: string
-  element?: ReactNode
-  path?: string
-  icon?: ReactNode
-}
+import HeroTitle from "./HeroTitle"
+import HeroContent from "./HeroContent"
 
 interface HeroProps {
   title: string
   description: string
-  button?: HeroButtonProps
+  actions?: ReactNode
   titlePrefix?: ReactNode
   image?: ReactNode
 }
@@ -22,7 +14,7 @@ const Hero = ({
   title,
   titlePrefix,
   description,
-  button,
+  actions,
   image,
 }: HeroProps) => {
   return (
@@ -35,21 +27,7 @@ const Hero = ({
           </div>
         </HeroTitle>
         <HeroContent>{description}</HeroContent>
-        {button?.element && button.element}
-        {button?.text && !button.element && (
-          <div className="flex">
-            <LinkButton
-              size="lg"
-              href={button.path ?? ""}
-              disabled={!button.path}
-            >
-              <div className="flex flex-row gap-2">
-                {button.icon}
-                {button.text}
-              </div>
-            </LinkButton>
-          </div>
-        )}
+        {actions && <div className="flex">{actions}</div>}
       </div>
       <div className="hidden md:flex">{image}</div>
     </div>

@@ -34,14 +34,14 @@ export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
             alt="Block Explorer Preview"
           />
         }
-        button={{
-          element: silo?.explorer_url ? (
+        actions={
+          silo?.explorer_url && (
             <LinkButton variant="border" href={silo.explorer_url} size="lg">
               <span>Open the explorer</span>
               <ArrowTopRightOnSquareIcon className="w-4 h-4" />
             </LinkButton>
-          ) : null,
-        }}
+          )
+        }
       />
 
       <Tabs

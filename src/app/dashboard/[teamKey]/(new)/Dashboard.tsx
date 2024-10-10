@@ -60,16 +60,18 @@ const Dashboard = ({
               alt="Aurora Cloud"
             />
           }
-          button={getNetworkVariant(silo, {
-            none: {
-              text: "Create Aurora Chain",
-              icon: <PlusIcon className="h-4 w-4" />,
-              path: `/dashboard/${teamKey}/create-chain`,
-            },
-            devnet: {
-              text: "Upgrade to Mainnet",
-              path: `/dashboard/${teamKey}/create-chain`,
-            },
+          actions={getNetworkVariant(silo, {
+            none: (
+              <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
+                <PlusIcon className="h-4 w-4" />
+                <span>Create Aurora Chain</span>
+              </LinkButton>
+            ),
+            devnet: (
+              <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
+                Upgrade to Mainnet
+              </LinkButton>
+            ),
             mainnet: undefined,
           })}
         />
