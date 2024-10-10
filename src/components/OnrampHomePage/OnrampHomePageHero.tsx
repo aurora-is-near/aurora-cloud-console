@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Hero from "@/components/Hero/Hero"
 
-const OnrampHero = () => {
+export const OnrampHomePageHero = () => {
   return (
     <Hero
       title="Onramp"
@@ -17,5 +17,3 @@ const OnrampHero = () => {
     />
   )
 }
-
-export default OnrampHero

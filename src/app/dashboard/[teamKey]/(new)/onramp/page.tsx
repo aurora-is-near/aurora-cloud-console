@@ -1,12 +1,5 @@
-import OnrampHomePage from "@/app/dashboard/[teamKey]/silos/[id]/onramp/OnrampHomePage"
-import { DashboardPage } from "@/components/DashboardPage"
+import { OnrampHomePage } from "@/components/OnrampHomePage/OnrampHomePage"
 
-const Page = () => {
-  return (
-    <DashboardPage>
-      <OnrampHomePage />
-    </DashboardPage>
-  )
-}
+const Page = () => <OnrampHomePage />
 
 export default Page
