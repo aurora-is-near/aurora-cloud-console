@@ -29,7 +29,7 @@ const Page = async ({
       heading="Configuration"
       actions={
         silo.explorer_url ? (
-          <LinkButton variant="border" href={silo.explorer_url} target="_blank">
+          <LinkButton isExternal variant="border" href={silo.explorer_url}>
             <span>Block Explorer</span>
             <ArrowTopRightOnSquareIcon className="w-4 h-4" />
           </LinkButton>
