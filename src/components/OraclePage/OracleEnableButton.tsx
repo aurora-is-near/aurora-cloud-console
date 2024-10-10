@@ -21,7 +21,7 @@ export const OracleEnableButton = ({ siloId }: { siloId: number }) => {
   }
 
   return (
-    <Button className="w-full" disabled={isPending} onClick={onClick}>
+    <Button size="lg" disabled={isPending} onClick={onClick}>
       Enable feature
     </Button>
   )
