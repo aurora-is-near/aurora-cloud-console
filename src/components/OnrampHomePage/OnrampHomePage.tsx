@@ -34,10 +34,10 @@ export const OnrampHomePage = ({ teamKey, silo }: OnrampHomePageProps) => {
               link={`${linkPrefix}/fiat-to-crypto`}
             />
             <FeatureCTA
-              title="CEX withdrawals"
-              description="Allow users to deposit assets from centralized exchanges to your chain."
-              icon="/static/v2/images/examples/cex_withdrawals.png"
-              link={`${linkPrefix}/cex-withdrawals`}
+              title="Bridge"
+              description="Bridge assets between Ethereum, NEAR and Aurora."
+              icon="/static/v2/images/examples/bridge.png"
+              link={`${linkPrefix}/bridge`}
             />
           </FeatureCTAList>
         </div>
