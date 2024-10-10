@@ -63,18 +63,5 @@ export const OracleContent = ({ siloId, teamKey }: OracleContentProps) => {
 
       <Tabs tabs={tabs} />
     </div>
-    // <>
-    //   <SiloHeading
-    //     heading="Oracle"
-    //     siloId={siloId}
-    //     showActivatedTag={!!oracle}
-    //   />
-    //   <OracleBanner siloId={siloId} isEnabled={isEnabled} />
-    //   {isEnabled ? (
-    //     <OracleDeployment oracle={oracle} teamKey={teamKey} />
-    //   ) : (
-    //     <OracleHighlightCards />
-    //   )}
-    // </>
   )
 }
