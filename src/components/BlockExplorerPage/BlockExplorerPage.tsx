@@ -23,7 +23,7 @@ export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
             width="48"
             height="48"
             src="/static/v2/images/icons/marketplace/block_explorer.svg"
-            alt="Oracle Logo"
+            alt="Block Explorer Logo"
           />
         }
         image={
