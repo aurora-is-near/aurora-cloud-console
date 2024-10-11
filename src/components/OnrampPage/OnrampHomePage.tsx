@@ -1,6 +1,6 @@
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { FeatureCTA } from "@/components/FeatureCTA"
-import OnrampHero from "./OnrampHero"
+import { OnrampHomePageHero } from "./OnrampHomePageHero"
 
 const OnrampHomePage = ({
   teamKey,
@@ -9,17 +9,12 @@ const OnrampHomePage = ({
   teamKey: string
   siloId?: string
 }) => {
-  const isNewTeam = !!siloId
-
-  const generateLink = (path: string) => {
-    return `/dashboard/${teamKey}/${
-      isNewTeam ? `silos/${siloId}/` : ""
-    }onramp/${path}`
-  }
+  const siloPrefix = siloId ? `silos/${siloId}/` : ""
+  const linkPrefix = `/dashboard/${teamKey}${siloPrefix}/onramp`
 
   return (
     <div className="divide-y flex flex-col gap-10">
-      <OnrampHero />
+      <OnrampHomePageHero />
       <div className="flex flex-col pt-10 gap-5">
         <span className="text-xl text-slate-900 font-bold">Solutions</span>
 
@@ -28,25 +23,19 @@ const OnrampHomePage = ({
             title="Universal widget"
             description="Send, receive, bridge, pay and onramp on your virtual chain."
             icon="/static/v2/images/examples/universal_widget.png"
-            link="#"
+            link={`${linkPrefix}/universal-widget`}
           />
           <FeatureCTA
             title="Fiat to crypto"
             description="Enable your users to onramp from fiat to crypto directly on your chain."
             icon="/static/v2/images/examples/fiat_to_crypto.png"
-            link={generateLink(`fiat-to-crypto`)}
-          />
-          <FeatureCTA
-            title="CEX withdrawals"
-            description="Allow users to deposit assets from centralized exchanges to your chain."
-            icon="/static/v2/images/examples/cex_withdrawals.png"
-            link="#"
+            link={`${linkPrefix}/fiat-to-crypto`}
           />
           <FeatureCTA
             title="Bridge"
             description="Bridge assets between Ethereum, NEAR and Aurora. "
             icon="/static/v2/images/examples/bridge.png"
-            link={generateLink(`bridge`)}
+            link={`${linkPrefix}/bridge`}
           />
         </FeatureCTAList>
       </div>
