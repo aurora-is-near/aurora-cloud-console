@@ -3,26 +3,26 @@ import Card from "@/components/Card"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 
-const FiatOnrampPage = () => {
+const BridgePage = () => {
   return (
     <>
       <Hero
-        title="Fiat onramp"
-        description="Enable your users to onramp from fiat to crypto directly on your chain."
+        title="Bridge"
+        description="Bridge assets between Ethereum, NEAR and Aurora. Configure your bridge widget and embed it."
         titlePrefix={
           <Image
             width="48"
             height="48"
-            src="/static/v2/images/icons/marketplace/cex_withdrawals.svg"
-            alt="Onramp Logo"
+            src="/static/v2/images/icons/marketplace/bridge.svg"
+            alt="Bridge Logo"
           />
         }
         image={
           <Image
             width="400"
             height="240"
-            src="/static/v2/images/feature/hero/fiat_onramp.png"
-            alt="Onramp Preview"
+            src="/static/v2/images/feature/hero/bridge.png"
+            alt="Bridge Preview"
           />
         }
       />
@@ -59,4 +59,4 @@ const FiatOnrampPage = () => {
   )
 }
 
-export default FiatOnrampPage
+export default BridgePage

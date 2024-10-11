@@ -11,6 +11,12 @@ const OnrampHomePage = ({
 }) => {
   const isNewTeam = !!siloId
 
+  const generateLink = (path: string) => {
+    return `/dashboard/${teamKey}/${
+      isNewTeam ? `silos/${siloId}/` : ""
+    }onramp/${path}`
+  }
+
   return (
     <div className="divide-y flex flex-col gap-10">
       <OnrampHero />
@@ -28,9 +34,7 @@ const OnrampHomePage = ({
             title="Fiat to crypto"
             description="Enable your users to onramp from fiat to crypto directly on your chain."
             icon="/static/v2/images/examples/fiat_to_crypto.png"
-            link={`/dashboard/${teamKey}/${
-              isNewTeam ? `silos/${siloId}/` : ""
-            }onramp/fiat-to-crypto`}
+            link={generateLink(`fiat-to-crypto`)}
           />
           <FeatureCTA
             title="CEX withdrawals"
@@ -42,7 +46,7 @@ const OnrampHomePage = ({
             title="Bridge"
             description="Bridge assets between Ethereum, NEAR and Aurora. "
             icon="/static/v2/images/examples/bridge.png"
-            link="#"
+            link={generateLink(`bridge`)}
           />
         </FeatureCTAList>
       </div>
