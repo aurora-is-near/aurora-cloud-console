@@ -1,12 +1,7 @@
-import { DashboardPage } from "@/components/DashboardPage"
-import OnrampHomePage from "@/components/OnrampPage/OnrampHomePage"
+import { OnrampHomePage } from "@/components/OnrampHomePage/OnrampHomePage"
 
-const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
-  return (
-    <DashboardPage>
-      <OnrampHomePage teamKey={teamKey} />
-    </DashboardPage>
-  )
-}
+const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => (
+  <OnrampHomePage teamKey={teamKey} />
+)
 
 export default Page
