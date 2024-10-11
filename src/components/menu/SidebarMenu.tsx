@@ -3,8 +3,8 @@
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { useMenu } from "@/hooks/useMenu"
-import { SidebarMenuButton } from "@/components/menu/SidebarMenuButton"
 import { MenuSection } from "@/types/menu"
+import { SidebarMenuItem } from "@/components/menu/SidebarMenuItem"
 import Heading from "../Heading"
 
 export type SidebarMenuProps = {
@@ -81,7 +81,7 @@ export const SidebarMenu = ({
                 <ul className="space-y-1">
                   {section.items.map((item) => (
                     <li key={item.name}>
-                      <SidebarMenuButton menuItem={item} />
+                      <SidebarMenuItem menuItem={item} />
                     </li>
                   ))}
                 </ul>
