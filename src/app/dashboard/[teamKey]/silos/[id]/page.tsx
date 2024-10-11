@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation"
-import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import Dashboard from "@/app/dashboard/[teamKey]/(new)/Dashboard"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
+import { DashboardHomePage } from "@/app/dashboard/[teamKey]/(new)/Dashboard"
 
 const Page = async ({
   params: { id, teamKey },
@@ -16,11 +15,7 @@ const Page = async ({
     notFound()
   }
 
-  return (
-    <DashboardPage>
-      <Dashboard team={team} silo={silo} />
-    </DashboardPage>
-  )
+  return <DashboardHomePage team={team} silo={silo} />
 }
 
 export default Page

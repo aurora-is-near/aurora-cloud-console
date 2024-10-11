@@ -2,10 +2,11 @@ import Image from "next/image"
 import Card from "@/components/Card"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
+import { DashboardPage } from "@/components/DashboardPage"
 
-const BridgePage = () => {
+export const BridgePage = () => {
   return (
-    <>
+    <DashboardPage>
       <Hero
         title="Bridge"
         description="Bridge assets between Ethereum, NEAR and Aurora. Configure your bridge widget and embed it."
@@ -55,8 +56,6 @@ const BridgePage = () => {
           },
         ]}
       />
-    </>
+    </DashboardPage>
   )
 }
-
-export default BridgePage

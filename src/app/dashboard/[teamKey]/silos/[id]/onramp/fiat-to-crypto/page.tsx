@@ -1,12 +1,7 @@
-import { DashboardPage } from "@/components/DashboardPage"
-import FiatOnrampPage from "@/components/OnrampPage/FiatOnrampPage"
+import { FiatOnrampPage } from "@/components/OnrampPage/FiatOnrampPage"
 
 const Page = () => {
-  return (
-    <DashboardPage>
-      <FiatOnrampPage />
-    </DashboardPage>
-  )
+  return <FiatOnrampPage />
 }
 
 export default Page

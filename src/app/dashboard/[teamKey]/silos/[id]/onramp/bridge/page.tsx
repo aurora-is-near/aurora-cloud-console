@@ -1,12 +1,7 @@
-import { DashboardPage } from "@/components/DashboardPage"
-import BridgePage from "@/components/OnrampPage/BridgePage"
+import { BridgePage } from "@/components/OnrampPage/BridgePage"
 
 const Page = () => {
-  return (
-    <DashboardPage>
-      <BridgePage />
-    </DashboardPage>
-  )
+  return <BridgePage />
 }
 
 export default Page

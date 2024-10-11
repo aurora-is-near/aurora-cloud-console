@@ -2,10 +2,11 @@ import Image from "next/image"
 import Card from "@/components/Card"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
+import { DashboardPage } from "@/components/DashboardPage"
 
-const FiatOnrampPage = () => {
+export const FiatOnrampPage = () => {
   return (
-    <>
+    <DashboardPage>
       <Hero
         title="Fiat onramp"
         description="Enable your users to onramp from fiat to crypto directly on your chain."
@@ -55,8 +56,6 @@ const FiatOnrampPage = () => {
           },
         ]}
       />
-    </>
+    </DashboardPage>
   )
 }
-
-export default FiatOnrampPage
