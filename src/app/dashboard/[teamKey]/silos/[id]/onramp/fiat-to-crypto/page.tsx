@@ -1,4 +1,4 @@
-import { FiatOnrampPage } from "@/components/OnrampPage/FiatOnrampPage"
+import { FiatOnrampPage } from "@/components/FiatOnrampPage/FiatOnrampPage"
 
 const Page = () => {
   return <FiatOnrampPage />
