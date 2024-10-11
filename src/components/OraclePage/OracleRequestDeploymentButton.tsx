@@ -1,10 +1,18 @@
+"use client"
+
 import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/Button"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
 
-export const OracleEnableButton = ({ siloId }: { siloId: number }) => {
+type OracleRequestDeploymentButtonProps = {
+  siloId: number
+}
+
+export const OracleRequestDeploymentButton = ({
+  siloId,
+}: OracleRequestDeploymentButtonProps) => {
   const getSiloOracleUpdater = useOptimisticUpdater("getSiloOracle")
   const router = useRouter()
 
@@ -17,12 +25,14 @@ export const OracleEnableButton = ({ siloId }: { siloId: number }) => {
   })
 
   const onClick = async () => {
-    createSiloOracle({ id: siloId })
+    if (siloId) {
+      createSiloOracle({ id: siloId })
+    }
   }
 
   return (
     <Button size="lg" disabled={isPending} onClick={onClick}>
-      Enable feature
+      Request deployment
     </Button>
   )
 }

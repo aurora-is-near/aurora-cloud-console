@@ -1,7 +1,7 @@
 import Card from "@/components/Card"
 import { Pyth } from "../../../public/static/v2/images/icons"
 
-const AboutTab = () => {
+export const OracleAboutTab = () => {
   return (
     <Card>
       <div className="divide-y flex flex-col gap-5">
@@ -29,5 +29,3 @@ const AboutTab = () => {
     </Card>
   )
 }
-
-export default AboutTab
