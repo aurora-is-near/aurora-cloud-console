@@ -9,6 +9,7 @@ import {
   Integrations,
   Monitoring,
   Onramp,
+  Oracle,
 } from "../../public/static/v2/images/menuIcons"
 
 type MainDashboardLayoutProps = {
@@ -73,6 +74,11 @@ export const MainDashboardLayout = async ({
           {
             heading: "Your Stack",
             items: [
+              {
+                name: "Oracle",
+                href: `/dashboard/${teamKey}${siloPrefix}/oracle`,
+                icon: <Oracle />,
+              },
               {
                 name: "Onramp",
                 href: `/dashboard/${teamKey}${siloPrefix}/onramp`,
