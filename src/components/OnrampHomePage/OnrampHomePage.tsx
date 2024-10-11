@@ -1,8 +1,8 @@
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { DashboardPage } from "@/components/DashboardPage"
-import { OnrampHomePageHero } from "@/components/OnrampHomePage/OnrampHomePageHero"
 import { Silo } from "@/types/types"
+import { OnrampHomePageHero } from "./OnrampHomePageHero"
 
 type OnrampHomePageProps = {
   teamKey: string

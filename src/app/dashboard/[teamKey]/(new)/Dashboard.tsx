@@ -6,12 +6,18 @@ import { LinkButton } from "@/components/LinkButton"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { getNetworkVariant } from "@/utils/get-network-variant"
+import { DashboardPage } from "@/components/DashboardPage"
 import FeatureList, { FeatureBanner } from "./FeatureList"
 import {
   Partner1,
   Partner2,
   Partner3,
 } from "../../../../../public/static/v2/images/icons"
+
+type DashboardHomePageProps = {
+  team: Team
+  silo?: Silo | null
+}
 
 const meetingLink = "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
 
@@ -31,17 +37,14 @@ const features: FeatureBanner[] = [
 ]
 
 // https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=3775-10045&t=PGhHmzDnXi5hsRI0-0
-const Dashboard = ({
+export const DashboardHomePage = ({
   team,
   silo = null,
-}: {
-  team: Team
-  silo?: Silo | null
-}) => {
+}: DashboardHomePageProps) => {
   const teamKey = team.team_key
 
   return (
-    <div className="w-full">
+    <DashboardPage>
       <div className="divide-y flex flex-col gap-y-8 lg:gap-y-10">
         <Hero
           title={!silo ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`}
@@ -176,8 +179,6 @@ const Dashboard = ({
           <FeatureList features={features} />
         </div>
       </div>
-    </div>
+    </DashboardPage>
   )
 }
-
-export default Dashboard
