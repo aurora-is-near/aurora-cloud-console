@@ -5,7 +5,6 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { Silo } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
-import Card from "@/components/Card"
 import { TabCard } from "@/components/TabCard/TabCard"
 import { Blockscout } from "../../../public/static/v2/images/icons"
 

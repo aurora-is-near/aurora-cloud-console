@@ -4,7 +4,7 @@ import Card from "@/components/Card"
 type TabCardProps = {
   children: ReactNode
   attribution?: {
-    icon: ReactNode
+    icon?: ReactNode
     text: string
   }
 }

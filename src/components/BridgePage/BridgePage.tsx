@@ -1,8 +1,8 @@
 import Image from "next/image"
-import Card from "@/components/Card"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
+import { TabCard } from "@/components/TabCard/TabCard"
 
 export const BridgePage = () => {
   return (
@@ -33,7 +33,11 @@ export const BridgePage = () => {
           {
             title: "About",
             content: (
-              <Card className="divide-y flex flex-col gap-5">
+              <TabCard
+                attribution={{
+                  text: "Powered by Munzen",
+                }}
+              >
                 <div className="flex flex-col gap-2 text-slate-500">
                   <p>
                     You can enable fiat onramp on your chain to let users
@@ -46,12 +50,7 @@ export const BridgePage = () => {
                     touch with your account manager.
                   </p>
                 </div>
-                <div className="pt-5 flex flex-row items-center gap-3">
-                  <span className="text-sm text-slate-600">
-                    Powered by Munzen
-                  </span>
-                </div>
-              </Card>
+              </TabCard>
             ),
           },
         ]}
