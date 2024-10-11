@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation"
-import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
-import Dashboard from "@/app/dashboard/[teamKey]/(new)/Dashboard"
+import { DashboardHomePage } from "@/app/dashboard/[teamKey]/(new)/Dashboard"
 
 const Page = async ({
   params: { teamKey },
@@ -17,11 +16,7 @@ const Page = async ({
   }
 
   // If the team has no silos return the "empty" state
-  return (
-    <DashboardPage>
-      <Dashboard team={team} />
-    </DashboardPage>
-  )
+  return <DashboardHomePage team={team} />
 }
 
 export default Page
