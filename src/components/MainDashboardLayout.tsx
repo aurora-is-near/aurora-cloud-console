@@ -8,6 +8,7 @@ import {
   GasAbstraction,
   Integrations,
   Monitoring,
+  Onramp,
   Oracle,
 } from "../../public/static/v2/images/menuIcons"
 
@@ -77,6 +78,11 @@ export const MainDashboardLayout = async ({
                 name: "Oracle",
                 href: `/dashboard/${teamKey}${siloPrefix}/oracle`,
                 icon: <Oracle />,
+              },
+              {
+                name: "Onramp",
+                href: `/dashboard/${teamKey}${siloPrefix}/onramp`,
+                icon: <Onramp />,
               },
               {
                 name: "Block Explorer",
