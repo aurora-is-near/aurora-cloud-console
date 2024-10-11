@@ -3,7 +3,8 @@ import { PlusIcon } from "@heroicons/react/20/solid"
 import Hero from "@/components/Hero/Hero"
 import { Silo, Team } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
-import { ExploreItems } from "@/app/dashboard/[teamKey]/(new)/ExploreItems"
+import { FeatureCTA } from "@/components/FeatureCTA"
+import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { getNetworkVariant } from "@/utils/get-network-variant"
 import FeatureList, { FeatureBanner } from "./FeatureList"
 import {
@@ -11,7 +12,6 @@ import {
   Partner2,
   Partner3,
 } from "../../../../../public/static/v2/images/icons"
-import { ExploreItem } from "./ExploreItem"
 
 const meetingLink = "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
 
@@ -82,71 +82,71 @@ const Dashboard = ({
 
           {getNetworkVariant(silo, {
             none: (
-              <ExploreItems>
-                <ExploreItem
+              <FeatureCTAList>
+                <FeatureCTA
                   title="Set up your Devnet"
                   description="Get access to a shared Aurora Chain identical to the production
                 ones."
                   icon="/static/v2/images/examples/devnet.png"
                   link={`/dashboard/${teamKey}/create-chain`}
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Read documentation"
                   description="Explore our documentation to start developing and deploying on Aurora."
                   icon="/static/v2/images/examples/docs.png"
                   link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Talk to a developer"
                   description="Join our Aurora Cloud developers community on Discord."
                   icon="/static/v2/images/examples/talk.png"
                   link="/"
                 />
-              </ExploreItems>
+              </FeatureCTAList>
             ),
             devnet: (
-              <ExploreItems>
-                <ExploreItem
+              <FeatureCTAList>
+                <FeatureCTA
                   title="Explore integrations"
                   description="Your chain supports by default a range of integrations."
                   icon="/static/v2/images/examples/integrations.png"
                   link={`/dashboard_v2/${team.team_key}/integrations`}
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Read documentation"
                   description="Explore our documentation to start developing and deploying on Aurora."
                   icon="/static/v2/images/examples/docs.png"
                   link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Talk to a developer"
                   description="Join our Aurora Cloud developers community on Discord."
                   icon="/static/v2/images/examples/talk.png"
                   link="/"
                 />
-              </ExploreItems>
+              </FeatureCTAList>
             ),
             mainnet: (
-              <ExploreItems>
-                <ExploreItem
+              <FeatureCTAList>
+                <FeatureCTA
                   title="Monitor your chain"
                   description="Keep track of transaction volume,  latency and RPC requests in real-time."
                   icon="/static/v2/images/examples/monitor.png"
                   link={`/dashboard_v2/${team.team_key}/monitoring`}
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Explore integrations"
                   description="Your chain supports by default a range of integrations."
                   icon="/static/v2/images/examples/integrations.png"
                   link={`/dashboard_v2/${team.team_key}/integrations`}
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Read documentation"
                   description="Explore our documentation to start developing and deploying on Aurora."
                   icon="/static/v2/images/examples/docs.png"
                   link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
                 />
-              </ExploreItems>
+              </FeatureCTAList>
             ),
           })}
         </div>

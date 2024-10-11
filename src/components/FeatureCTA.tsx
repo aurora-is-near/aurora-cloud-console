@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-export interface ExploreItemProps {
+export interface FeatureCTAProps {
   title: string
   description: string
   icon: string
@@ -10,12 +10,12 @@ export interface ExploreItemProps {
 
 const ASPECT_RATIO = 310 / 170
 
-export const ExploreItem = ({
+export const FeatureCTA = ({
   title,
   description,
   icon,
   link,
-}: ExploreItemProps) => {
+}: FeatureCTAProps) => {
   const isExternalLink = link.startsWith("http")
 
   return (
