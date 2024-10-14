@@ -42,6 +42,7 @@ export const DashboardHomePage = ({
   silo = null,
 }: DashboardHomePageProps) => {
   const teamKey = team.team_key
+  const siloPrefix = silo ? `/silos/${silo.id}` : ""
 
   return (
     <DashboardPage>
@@ -113,7 +114,7 @@ export const DashboardHomePage = ({
                   title="Explore integrations"
                   description="Your chain supports by default a range of integrations."
                   icon="/static/v2/images/examples/integrations.png"
-                  link={`/dashboard_v2/${team.team_key}/integrations`}
+                  link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
                 />
                 <FeatureCTA
                   title="Read documentation"
@@ -135,13 +136,13 @@ export const DashboardHomePage = ({
                   title="Monitor your chain"
                   description="Keep track of transaction volume,  latency and RPC requests in real-time."
                   icon="/static/v2/images/examples/monitor.png"
-                  link={`/dashboard_v2/${team.team_key}/monitoring`}
+                  link={`/dashboard/${teamKey}${siloPrefix}/monitoring`}
                 />
                 <FeatureCTA
                   title="Explore integrations"
                   description="Your chain supports by default a range of integrations."
                   icon="/static/v2/images/examples/integrations.png"
-                  link={`/dashboard_v2/${team.team_key}/integrations`}
+                  link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
                 />
                 <FeatureCTA
                   title="Read documentation"
