@@ -7,7 +7,6 @@ import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import Loader from "@/components/Loader"
-import { BridgeEnableButton } from "@/components/UniversalWidgetPage/BridgeEnableButton"
 import { BridgeEmbedCodeCard } from "@/components/UniversalWidgetPage/BridgeEmbedCodeCard"
 import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
 
@@ -27,8 +26,6 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
   if (!bridge) {
     return <Loader className="mt-4 md:mt-6 sm:h-[363px] h-[387px] rounded-md" />
   }
-
-  const isEnabled = bridge.enabled
 
   return (
     <DashboardPage>
@@ -51,7 +48,6 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
             alt="Universal Widget Preview"
           />
         }
-        actions={isEnabled ? null : <BridgeEnableButton siloId={siloId} />}
       />
 
       <Tabs
