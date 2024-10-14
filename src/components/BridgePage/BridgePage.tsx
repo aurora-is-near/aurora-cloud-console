@@ -5,7 +5,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { TabCard } from "@/components/TabCard/TabCard"
 import BridgeConfigurationTab from "@/components/BridgePage/BridgeConfigurationTab"
 
-export const BridgePage = () => {
+export const BridgePage = ({ siloId }: { siloId: number }) => {
   return (
     <DashboardPage>
       <Hero
@@ -56,7 +56,7 @@ export const BridgePage = () => {
           },
           {
             title: "Configuration",
-            content: <BridgeConfigurationTab />,
+            content: <BridgeConfigurationTab siloId={siloId} />,
           },
         ]}
       />
