@@ -1,5 +1,4 @@
 import { BridgeDeployedTokensCard } from "@/components/BridgePage/BridgeDeployedTokensCard"
-import { BridgeEmbedCodeCard } from "@/components/BridgePage/BridgeEmbedCodeCard"
 import { BridgeTokensCard } from "@/components/BridgePage/BridgeTokensCard"
 import { BridgeWidgetCard } from "@/components/BridgePage/BridgeWidgetCard"
 

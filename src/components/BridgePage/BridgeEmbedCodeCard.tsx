@@ -1,7 +1,6 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import Card from "@/components/Card"
 import { TabCard } from "@/components/TabCard/TabCard"
 
 const ORIGIN = "https://app.auroracloud.dev"
