@@ -1,3 +1,5 @@
+"use client"
+
 import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/Button"
@@ -21,7 +23,7 @@ export const BridgeEnableButton = ({ siloId }: { siloId: number }) => {
   }
 
   return (
-    <Button className="w-full" disabled={isPending} onClick={onClick}>
+    <Button size="lg" disabled={isPending} onClick={onClick}>
       Enable feature
     </Button>
   )

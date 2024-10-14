@@ -4,6 +4,7 @@ import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { TabCard } from "@/components/TabCard/TabCard"
 import BridgeConfigurationTab from "@/components/BridgePage/BridgeConfigurationTab"
+import { BridgeEnableButton } from "@/components/BridgePage/BridgeEnableButton"
 
 interface BridgePageProps {
   siloId: number
@@ -31,6 +32,7 @@ export const BridgePage: React.FC<BridgePageProps> = ({ siloId }) => {
             alt="Bridge Preview"
           />
         }
+        actions={<BridgeEnableButton siloId={siloId} />}
       />
 
       <Tabs
