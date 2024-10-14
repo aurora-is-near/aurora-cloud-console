@@ -1,16 +1,37 @@
+"use client"
+
 import Image from "next/image"
+import { useSearchParams } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { TabCard } from "@/components/TabCard/TabCard"
 import BridgeConfigurationTab from "@/components/BridgePage/BridgeConfigurationTab"
 import { BridgeEnableButton } from "@/components/BridgePage/BridgeEnableButton"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import Loader from "@/components/Loader"
 
 interface BridgePageProps {
   siloId: number
 }
 
 export const BridgePage: React.FC<BridgePageProps> = ({ siloId }) => {
+  const searchParams = useSearchParams()
+  const { data: bridge } = useQuery(
+    getQueryFnAndKey("getSiloBridge", {
+      id: siloId,
+    }),
+  )
+
+  if (!bridge) {
+    return <Loader className="mt-4 md:mt-6 sm:h-[363px] h-[387px] rounded-md" />
+  }
+
+  // The `intro` query param is to give us a way to view the initial intro
+  // screen after the feature has been enabled.
+  const isEnabled = bridge.enabled && !searchParams.has("intro")
+
   return (
     <DashboardPage>
       <Hero
@@ -32,7 +53,7 @@ export const BridgePage: React.FC<BridgePageProps> = ({ siloId }) => {
             alt="Bridge Preview"
           />
         }
-        actions={<BridgeEnableButton siloId={siloId} />}
+        actions={isEnabled ? null : <BridgeEnableButton siloId={siloId} />}
       />
 
       <Tabs
