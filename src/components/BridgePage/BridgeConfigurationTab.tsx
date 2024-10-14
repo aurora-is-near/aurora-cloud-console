@@ -9,7 +9,6 @@ const BridgeConfigurationTab = ({ siloId }: { siloId: number }) => {
       <BridgeTokensCard siloId={siloId} />
       <BridgeDeployedTokensCard siloId={siloId} />
       <BridgeWidgetCard siloId={siloId} />
-      <BridgeEmbedCodeCard />
     </div>
   )
 }
