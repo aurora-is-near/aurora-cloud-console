@@ -4,7 +4,7 @@ export type MenuItem = {
   href: string
   name: string
   icon?: ReactNode
-  disabled?: boolean
+  items?: Omit<MenuItem, "items" | "icon">[]
 }
 
 export type MenuSection = {

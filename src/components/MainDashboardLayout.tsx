@@ -64,7 +64,6 @@ export const MainDashboardLayout = async ({
                 icon: <GasAbstraction />,
               },
               {
-                disabled: true,
                 name: "Integrations",
                 href: `/dashboard/${teamKey}${siloPrefix}/integrations`,
                 icon: <Integrations />,
@@ -83,6 +82,16 @@ export const MainDashboardLayout = async ({
                 name: "Onramp",
                 href: `/dashboard/${teamKey}${siloPrefix}/onramp`,
                 icon: <Onramp />,
+                items: [
+                  {
+                    name: "Fiat Onramp",
+                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/fiat-to-crypto`,
+                  },
+                  {
+                    name: "Bridge",
+                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
+                  },
+                ],
               },
               {
                 name: "Block Explorer",
