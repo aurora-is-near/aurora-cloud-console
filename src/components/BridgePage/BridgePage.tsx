@@ -5,7 +5,11 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { TabCard } from "@/components/TabCard/TabCard"
 import BridgeConfigurationTab from "@/components/BridgePage/BridgeConfigurationTab"
 
-export const BridgePage = ({ siloId }: { siloId: number }) => {
+interface BridgePageProps {
+  siloId: number
+}
+
+export const BridgePage: React.FC<BridgePageProps> = ({ siloId }) => {
   return (
     <DashboardPage>
       <Hero
