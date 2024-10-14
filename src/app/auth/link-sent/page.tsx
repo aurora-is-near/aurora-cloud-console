@@ -1,4 +1,5 @@
 import { EnvelopeIcon } from "@heroicons/react/20/solid"
+import { Suspense } from "react"
 import { AuthHeading } from "@/components/AuthHeading"
 import { TryAgainButton } from "./TryAgainButton"
 import { LinkSentText } from "./LinkSentText"
@@ -14,7 +15,9 @@ const Page = () => {
         Check your email
       </AuthHeading>
       <div className="text-center text-slate-400">
-        <LinkSentText />
+        <Suspense>
+          <LinkSentText />
+        </Suspense>
         <p className="mt-0.5">Click the link in the email to login.</p>
         <p className="mt-4">
           Didn’t receive it? <TryAgainButton />

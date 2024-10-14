@@ -1,7 +1,6 @@
 "use client"
 
-import { createContext, ReactNode, useCallback, useMemo } from "react"
-import { useQueryState } from "next-usequerystate"
+import { createContext, ReactNode, useCallback, useMemo, useState } from "react"
 import { Modals } from "@/utils/modals"
 
 type ModalsContextType = {
@@ -21,7 +20,7 @@ function validateModal(value: string | null): Modals | null {
 }
 
 export const ModalsProvider = ({ children }: { children: ReactNode }) => {
-  const [queryModal, setQueryModal] = useQueryState("modal")
+  const [queryModal, setQueryModal] = useState<Modals | null>(null)
   const activeModal = validateModal(queryModal)
 
   const openModal = useCallback(
