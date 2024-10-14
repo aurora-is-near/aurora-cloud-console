@@ -10,7 +10,7 @@ type TabCardProps = {
 }
 
 export const TabCard = ({ children, attribution }: TabCardProps) => (
-  <Card className="divide-y flex flex-col gap-5">
+  <Card className="divide-y flex flex-col gap-5 w-full">
     {children}
     {attribution && (
       <div className="pt-5 flex flex-row items-center gap-3">
