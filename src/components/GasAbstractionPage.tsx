@@ -3,17 +3,17 @@ import { ReactNode } from "react"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import Contact from "@/components/Contact"
-import { Silo, Team } from "@/types/types"
+import { Silo } from "@/types/types"
 import { getNetworkVariant } from "@/utils/get-network-variant"
 
 type GasAbstractionPageProps = {
-  team: Team
+  teamKey: string
   silo?: Silo | null
   children?: ReactNode
 }
 
 export const GasAbstractionPage = async ({
-  team,
+  teamKey,
   silo = null,
   children,
 }: GasAbstractionPageProps) => {
@@ -49,11 +49,11 @@ export const GasAbstractionPage = async ({
               devnet: "Upgrade your chain to mainnet.",
               mainnet: "Reach out to our support team to get assistance.",
             })}
-            teamKey={team.team_key}
+            teamKey={teamKey}
             button={getNetworkVariant(silo, {
               none: {
                 text: "Create chain",
-                href: `/dashboard_v2/${team.team_key}/create-chain`,
+                href: `/dashboard_v2/${teamKey}/create-chain`,
               },
               devnet: undefined,
               mainnet: undefined,
