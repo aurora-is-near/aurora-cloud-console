@@ -3,6 +3,7 @@ import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { TabCard } from "@/components/TabCard/TabCard"
+import BridgeConfigurationTab from "@/components/BridgePage/BridgeConfigurationTab"
 
 export const BridgePage = () => {
   return (
@@ -52,6 +53,10 @@ export const BridgePage = () => {
                 </div>
               </TabCard>
             ),
+          },
+          {
+            title: "Configuration",
+            content: <BridgeConfigurationTab />,
           },
         ]}
       />
