@@ -53,7 +53,7 @@ export const GasAbstractionPage = async ({
             button={getNetworkVariant(silo, {
               none: {
                 text: "Create chain",
-                href: `/dashboard_v2/${teamKey}/create-chain`,
+                href: `/dashboard/${teamKey}/create-chain`,
               },
               devnet: undefined,
               mainnet: undefined,
