@@ -3,11 +3,7 @@ import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
 import Pill from "@/components/Pill"
 
-const BridgePageConfigurationTab = ({
-  linkPreffix,
-}: {
-  linkPreffix: string
-}) => {
+const BridgePageConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
   return (
     <div className="w-full flex flex-col gap-4">
       <TabCard>
@@ -21,7 +17,7 @@ const BridgePageConfigurationTab = ({
             <br /> multiple onramp solutions into your application.
           </p>
           <LinkButton
-            href={`${linkPreffix}/universal-widget`}
+            href={`${linkPrefix}/universal-widget`}
             variant="border"
             className="self-start  mt-2"
           >

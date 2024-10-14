@@ -91,7 +91,7 @@ const BridgePageContent: React.FC<{ teamKey: string; siloId: number }> = ({
           title: "Configuration",
           content: (
             <BridgePageConfigurationTab
-              linkPreffix={`/dashboard/${teamKey}/silos/${siloId}/onramp`}
+              linkPrefix={`/dashboard/${teamKey}/silos/${siloId}/onramp`}
             />
           ),
         },
