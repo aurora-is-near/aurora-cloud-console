@@ -8,9 +8,9 @@ import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { formatDateAndTime } from "@/utils/helpers"
 import { Modals } from "@/utils/modals"
-import { BridgeOpenButton } from "@/components/BridgePage/BridgeOpenButton"
-import BridgeNetworkModal from "@/components/BridgePage/BridgeNetworkModal"
-import BridgeTokensModal from "@/components/BridgePage/BridgeTokensModal"
+import { BridgeOpenButton } from "@/components/UniversalWidgetPage/BridgeOpenButton"
+import BridgeNetworkModal from "@/components/UniversalWidgetPage/BridgeNetworkModal"
+import BridgeTokensModal from "@/components/UniversalWidgetPage/BridgeTokensModal"
 
 type BridgeWidgetCardProps = {
   siloId: number

@@ -7,16 +7,17 @@ import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { TabCard } from "@/components/TabCard/TabCard"
-import BridgeConfigurationTab from "@/components/BridgePage/BridgeConfigurationTab"
-import { BridgeEnableButton } from "@/components/BridgePage/BridgeEnableButton"
+import { BridgeEnableButton } from "@/components/UniversalWidgetPage/BridgeEnableButton"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import Loader from "@/components/Loader"
+import BridgePageConfigurationTab from "@/components/BridgePage/BridgePageConfigurationTab"
 
 interface BridgePageProps {
   siloId: number
+  teamKey: string
 }
 
-export const BridgePage: React.FC<BridgePageProps> = ({ siloId }) => {
+export const BridgePage: React.FC<BridgePageProps> = ({ siloId, teamKey }) => {
   const searchParams = useSearchParams()
   const { data: bridge } = useQuery(
     getQueryFnAndKey("getSiloBridge", {
@@ -83,7 +84,11 @@ export const BridgePage: React.FC<BridgePageProps> = ({ siloId }) => {
           },
           {
             title: "Configuration",
-            content: <BridgeConfigurationTab siloId={siloId} />,
+            content: (
+              <BridgePageConfigurationTab
+                linkPreffix={`/dashboard/${teamKey}/silos/${siloId}/onramp`}
+              />
+            ),
           },
         ]}
       />

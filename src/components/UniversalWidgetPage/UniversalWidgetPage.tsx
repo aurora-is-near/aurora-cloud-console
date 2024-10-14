@@ -7,9 +7,9 @@ import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import Loader from "@/components/Loader"
-import BridgeConfigurationTab from "@/components/BridgePage/BridgeConfigurationTab"
-import { BridgeEnableButton } from "@/components/BridgePage/BridgeEnableButton"
-import { BridgeEmbedCodeCard } from "@/components/BridgePage/BridgeEmbedCodeCard"
+import { BridgeEnableButton } from "@/components/UniversalWidgetPage/BridgeEnableButton"
+import { BridgeEmbedCodeCard } from "@/components/UniversalWidgetPage/BridgeEmbedCodeCard"
+import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
 
 interface UniversalWidgetPageProps {
   siloId: number
@@ -58,7 +58,7 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
         tabs={[
           {
             title: "Configuration",
-            content: <BridgeConfigurationTab siloId={siloId} />,
+            content: <UniversalWidgetConfigurationTab siloId={siloId} />,
           },
           {
             title: "Embed Code",
