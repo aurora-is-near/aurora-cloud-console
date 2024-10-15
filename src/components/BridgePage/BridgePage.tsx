@@ -42,15 +42,12 @@ export const BridgePage = () => {
               >
                 <div className="flex flex-col gap-2 text-slate-500">
                   <p>
-                    The forwarder leverages Near Protocol to automatically route
-                    assets to your chain. This means that any exchange that
-                    supports Near as a withdrawal method becomes compatible with
-                    your chain.
+                    The Cloud Bridge allows your users to transfer assets from
+                    Ethereum, Near or Aurora to your Aurora Chain.
                   </p>
                   <p>
-                    The forwarder provides a unique Near address to each user
-                    that they can use to withdraw assets from the exchange to
-                    their account on your virtual chain.
+                    You can configure your bridge and embed it in your
+                    application.
                   </p>
                 </div>
               </TabCard>
