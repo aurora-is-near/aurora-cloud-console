@@ -16,7 +16,10 @@ export const BridgeEmbedCodeCard = () => {
         tag.
       </p>
       <pre className="text-sm font-mono bg-slate-100 p-4 rounded-md whitespace-pre-wrap">
-        {`<script src="${ORIGIN}${pathname}/script.js"></script>`}
+        {`<script src="${ORIGIN}${pathname
+          .split("/")
+          .slice(0, 5)
+          .join("/")}/widget.js"></script>`}
       </pre>
       <p className="text-sm mt-1 pt-3">
         Open the widget by calling the following function:
