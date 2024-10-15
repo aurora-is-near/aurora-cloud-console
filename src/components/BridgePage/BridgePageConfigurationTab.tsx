@@ -7,14 +7,14 @@ const BridgePageConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
   return (
     <div className="w-full flex flex-col gap-4">
       <TabCard>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 max">
           <Pill label="Option 1" />
           <h3 className="text-lg text-slate-900 tracking-tighter font-semibold">
             Universal Widget
           </h3>
-          <p className="text-sm text-slate-500">
-            The Universal Widget provides the easiest way to integrate
-            <br /> multiple onramp solutions into your application.
+          <p className="text-sm text-slate-500 max-w-sm">
+            The Universal Widget provides the easiest way to integrate multiple
+            onramp solutions into your application.
           </p>
           <LinkButton
             href={`${linkPrefix}/universal-widget`}
@@ -32,9 +32,9 @@ const BridgePageConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
           <h3 className="text-lg text-slate-900 tracking-tighter font-semibold">
             Rainbow Bridge
           </h3>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 max-w-sm">
             The Rainbow Bridge is the official bridge for transferring tokens
-            <br /> between Ethereum, NEAR and the Aurora networks.
+            between Ethereum, NEAR and the Aurora networks.
           </p>
           <div className="flex flex-row gap-2 mt-2">
             <LinkButton
