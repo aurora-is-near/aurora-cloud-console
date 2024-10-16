@@ -11,10 +11,12 @@ import { BridgeEmbedCodeCard } from "@/components/UniversalWidgetPage/BridgeEmbe
 import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
 
 interface UniversalWidgetPageProps {
+  teamKey: string
   siloId: number
 }
 
 export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
+  teamKey,
   siloId,
 }) => {
   const { data: bridge } = useQuery(
@@ -58,7 +60,7 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
           },
           {
             title: "Embed Code",
-            content: <BridgeEmbedCodeCard />,
+            content: <BridgeEmbedCodeCard siloId={siloId} teamKey={teamKey} />,
           },
         ]}
       />
