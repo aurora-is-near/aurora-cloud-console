@@ -4,7 +4,7 @@ import Pill from "@/components/Pill"
 import ConfigureUniversalWidgetTabCard from "@/components/Tabs/ConfigureUniversalWidgetTabCard"
 import { LinkButton } from "@/components/LinkButton"
 import CopyButton from "@/components/CopyButton"
-import { FiatOnrampStep } from "@/components/FiatOnrampPage/FiatOnrampStep"
+import { FiatOnrampStep } from "./FiatOnrampStep"
 
 const FiatOnrampConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
   return (

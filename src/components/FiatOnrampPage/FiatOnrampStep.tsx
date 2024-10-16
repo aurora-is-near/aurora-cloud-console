@@ -1,5 +1,5 @@
 import Card from "@/components/Card"
-import { BulletPoint } from "@/components/FiatOnrampPage/BulletPoint"
+import { BulletPoint } from "./BulletPoint"
 
 export const FiatOnrampStep = ({
   number,
