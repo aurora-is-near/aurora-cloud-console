@@ -84,6 +84,10 @@ export const MainDashboardLayout = async ({
                 icon: <Onramp />,
                 items: [
                   {
+                    name: "Universal Widget",
+                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/universal-widget`,
+                  },
+                  {
                     name: "Fiat Onramp",
                     href: `/dashboard/${teamKey}${siloPrefix}/onramp/fiat-to-crypto`,
                   },

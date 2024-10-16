@@ -21,7 +21,7 @@ const Page = async ({
   }
 
   return (
-    <GasAbstractionPage team={team} silo={silo}>
+    <GasAbstractionPage teamKey={team.team_key} silo={silo}>
       {/* TODO: Deals are currently not scoped to a chain, we will need to make them so. */}
       {silo && (
         <ul className="grid gap-5 divide-gray-200">

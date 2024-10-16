@@ -1,37 +1,47 @@
 "use client"
 
+import React from "react"
 import Image from "next/image"
-import { useSearchParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { TabCard } from "@/components/TabCard/TabCard"
-import BridgeConfigurationTab from "@/components/BridgePage/BridgeConfigurationTab"
-import { BridgeEnableButton } from "@/components/BridgePage/BridgeEnableButton"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import Loader from "@/components/Loader"
+import BridgePageConfigurationTab from "@/components/BridgePage/BridgePageConfigurationTab"
 
 interface BridgePageProps {
-  siloId: number
+  teamKey?: string
+  siloId?: number
 }
 
-export const BridgePage: React.FC<BridgePageProps> = ({ siloId }) => {
-  const searchParams = useSearchParams()
-  const { data: bridge } = useQuery(
-    getQueryFnAndKey("getSiloBridge", {
-      id: siloId,
-    }),
-  )
+const aboutTab = {
+  title: "About",
+  content: (
+    <TabCard
+      attribution={{
+        text: "Powered by Munzen",
+      }}
+    >
+      <div className="flex flex-col gap-2 text-slate-500">
+        <p>
+          You can enable fiat onramp on your chain to let users purchase crypto
+          assets with their credit card. Some assets are supported by default
+          such as USDT, USDC, AURORA, NEAR, ETH.
+        </p>
+        <p>
+          To enable the purchase of your own asset, please get in touch with
+          your account manager.
+        </p>
+      </div>
+    </TabCard>
+  ),
+}
 
-  if (!bridge) {
-    return <Loader className="mt-4 md:mt-6 sm:h-[363px] h-[387px] rounded-md" />
-  }
-
-  // The `intro` query param is to give us a way to view the initial intro
-  // screen after the feature has been enabled.
-  const isEnabled = bridge.enabled && !searchParams.has("intro")
-
+const BridgePageLayout: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   return (
     <DashboardPage>
       <Hero
@@ -53,40 +63,57 @@ export const BridgePage: React.FC<BridgePageProps> = ({ siloId }) => {
             alt="Bridge Preview"
           />
         }
-        actions={isEnabled ? null : <BridgeEnableButton siloId={siloId} />}
       />
-
-      <Tabs
-        tabs={[
-          {
-            title: "About",
-            content: (
-              <TabCard
-                attribution={{
-                  text: "Powered by Munzen",
-                }}
-              >
-                <div className="flex flex-col gap-2 text-slate-500">
-                  <p>
-                    You can enable fiat onramp on your chain to let users
-                    purchase crypto assets with their credit card. Some assets
-                    are supported by default such as USDT, USDC, AURORA, NEAR,
-                    ETH.
-                  </p>
-                  <p>
-                    To enable the purchase of your own asset, please get in
-                    touch with your account manager.
-                  </p>
-                </div>
-              </TabCard>
-            ),
-          },
-          {
-            title: "Configuration",
-            content: <BridgeConfigurationTab siloId={siloId} />,
-          },
-        ]}
-      />
+      {children}
     </DashboardPage>
+  )
+}
+
+const BridgePageContent: React.FC<{ teamKey: string; siloId: number }> = ({
+  teamKey,
+  siloId,
+}) => {
+  const { data: bridge } = useQuery(
+    getQueryFnAndKey("getSiloBridge", {
+      id: siloId,
+    }),
+  )
+
+  if (!bridge) {
+    return <Loader className="mt-4 md:mt-6 sm:h-[363px] h-[387px] rounded-md" />
+  }
+
+  return (
+    <Tabs
+      tabs={[
+        aboutTab,
+        {
+          title: "Configuration",
+          content: (
+            <BridgePageConfigurationTab
+              linkPrefix={`/dashboard/${teamKey}/silos/${siloId}/onramp`}
+            />
+          ),
+        },
+      ]}
+    />
+  )
+}
+
+export const BridgePage: React.FC<BridgePageProps> = ({ teamKey, siloId }) => {
+  if (!teamKey || !siloId) {
+    return (
+      <BridgePageLayout>
+        <Tabs tabs={[aboutTab]} />
+      </BridgePageLayout>
+    )
+  }
+
+  const siloIdNumber = Number(siloId)
+
+  return (
+    <BridgePageLayout>
+      <BridgePageContent teamKey={teamKey} siloId={siloIdNumber} />
+    </BridgePageLayout>
   )
 }
