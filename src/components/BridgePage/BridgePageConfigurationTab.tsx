@@ -8,7 +8,6 @@ const BridgePageConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
   return (
     <div className="w-full flex flex-col gap-4">
       <ConfigureUniversalWidgetTabCard linkPrefix={linkPrefix} />
-
       <TabCard>
         <div className="flex flex-col gap-2">
           <Pill label="Option 2" />

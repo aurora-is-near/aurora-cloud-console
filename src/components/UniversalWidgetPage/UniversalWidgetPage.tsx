@@ -1,32 +1,19 @@
-"use client"
-
 import Image from "next/image"
-import { useQuery } from "@tanstack/react-query"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import Loader from "@/components/Loader"
 import { BridgeEmbedCodeCard } from "@/components/UniversalWidgetPage/BridgeEmbedCodeCard"
 import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
 
 interface UniversalWidgetPageProps {
+  teamKey: string
   siloId: number
 }
 
 export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
+  teamKey,
   siloId,
-}) => {
-  const { data: bridge } = useQuery(
-    getQueryFnAndKey("getSiloBridge", {
-      id: siloId,
-    }),
-  )
-
-  if (!bridge) {
-    return <Loader className="mt-4 md:mt-6 sm:h-[363px] h-[387px] rounded-md" />
-  }
-
+}: UniversalWidgetPageProps) => {
   return (
     <DashboardPage>
       <Hero
@@ -58,7 +45,7 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
           },
           {
             title: "Embed Code",
-            content: <BridgeEmbedCodeCard />,
+            content: <BridgeEmbedCodeCard siloId={siloId} teamKey={teamKey} />,
           },
         ]}
       />
