@@ -8,7 +8,7 @@ import CopyButton from "@/components/CopyButton"
 
 const BulletPoint = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="text-slate-100 bg-slate-900 rounded-full w-5 h-5 font-medium flex items-center justify-center">
+    <div className="text-slate-100 bg-slate-900 rounded-full w-5 h-5 min-w-5 font-medium flex items-center justify-center">
       {children}
     </div>
   )
