@@ -6,7 +6,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import FiatOnrampConfigurationTab from "@/components/FiatOnrampPage/FiatOnrampConfigurationTab"
 
 interface FiatOnrampPageProps {
-  teamKey?: string
+  teamKey: string
   siloId?: number
 }
 
@@ -38,7 +38,7 @@ export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
     },
   ]
 
-  if (teamKey && siloId) {
+  if (siloId) {
     tabs.push({
       title: "Configuration",
       content: (
