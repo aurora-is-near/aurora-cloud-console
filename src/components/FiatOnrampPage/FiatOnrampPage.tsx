@@ -1,10 +1,37 @@
 import Image from "next/image"
-import Card from "@/components/Card"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
+import FiatOnrampConfigurationTab from "./FiatOnrampConfigurationTab"
+import { FiatOnrampAboutTab } from "./FiatOnrampAboutTab"
 
-export const FiatOnrampPage = () => {
+interface FiatOnrampPageProps {
+  teamKey: string
+  siloId?: number
+}
+
+export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
+  teamKey,
+  siloId,
+}) => {
+  const tabs = [
+    {
+      title: "About",
+      content: <FiatOnrampAboutTab />,
+    },
+  ]
+
+  if (siloId) {
+    tabs.push({
+      title: "Configuration",
+      content: (
+        <FiatOnrampConfigurationTab
+          linkPrefix={`/dashboard/${teamKey}/silos/${siloId}/onramp`}
+        />
+      ),
+    })
+  }
+
   return (
     <DashboardPage>
       <Hero
@@ -28,34 +55,7 @@ export const FiatOnrampPage = () => {
         }
       />
 
-      <Tabs
-        tabs={[
-          {
-            title: "About",
-            content: (
-              <Card className="divide-y flex flex-col gap-5">
-                <div className="flex flex-col gap-2 text-slate-500">
-                  <p>
-                    You can enable fiat onramp on your chain to let users
-                    purchase crypto assets with their credit card. Some assets
-                    are supported by default such as USDT, USDC, AURORA, NEAR,
-                    ETH.
-                  </p>
-                  <p>
-                    To enable the purchase of your own asset, please get in
-                    touch with your account manager.
-                  </p>
-                </div>
-                <div className="pt-5 flex flex-row items-center gap-3">
-                  <span className="text-sm text-slate-600">
-                    Powered by Munzen
-                  </span>
-                </div>
-              </Card>
-            ),
-          },
-        ]}
-      />
+      <Tabs tabs={tabs} />
     </DashboardPage>
   )
 }
