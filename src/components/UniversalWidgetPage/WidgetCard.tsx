@@ -8,15 +8,15 @@ import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { formatDateAndTime } from "@/utils/helpers"
 import { Modals } from "@/utils/modals"
-import { BridgeOpenButton } from "@/components/UniversalWidgetPage/BridgeOpenButton"
+import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetPage/UniversalWidgetOpenButton"
 import BridgeNetworkModal from "@/components/UniversalWidgetPage/BridgeNetworkModal"
-import BridgeTokensModal from "@/components/UniversalWidgetPage/BridgeTokensModal"
+import BridgeTokensModal from "@/components/UniversalWidgetPage/TokensModal"
 
-type BridgeWidgetCardProps = {
+type WidgetCardProps = {
   siloId: number
 }
 
-export const BridgeWidgetCard = ({ siloId }: BridgeWidgetCardProps) => {
+export const WidgetCard = ({ siloId }: WidgetCardProps) => {
   const { data: bridge } = useQuery(
     getQueryFnAndKey("getSiloBridge", {
       id: siloId,
@@ -44,7 +44,7 @@ export const BridgeWidgetCard = ({ siloId }: BridgeWidgetCardProps) => {
           {bridge?.updatedAt ? formatDateAndTime(bridge.updatedAt) : ""}
         </Card.Subtitle>
         <Card.Actions>
-          <BridgeOpenButton siloId={siloId} />
+          <UniversalWidgetOpenButton siloId={siloId} />
         </Card.Actions>
         <CardConfigGrid>
           <CardConfigGrid.Row

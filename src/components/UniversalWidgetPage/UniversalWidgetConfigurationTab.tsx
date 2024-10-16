@@ -1,13 +1,13 @@
-import { BridgeDeployedTokensCard } from "@/components/UniversalWidgetPage/BridgeDeployedTokensCard"
-import { BridgeTokensCard } from "@/components/UniversalWidgetPage/BridgeTokensCard"
-import { BridgeWidgetCard } from "@/components/UniversalWidgetPage/BridgeWidgetCard"
+import { TokensCard } from "@/components/UniversalWidgetPage/TokensCard"
+import { WidgetCard } from "@/components/UniversalWidgetPage/WidgetCard"
+import { DeployedTokensCard } from "@/components/UniversalWidgetPage/DeployedTokensCard"
 
 const UniversalWidgetConfigurationTab = ({ siloId }: { siloId: number }) => {
   return (
     <div className="w-full flex flex-col gap-4">
-      <BridgeTokensCard siloId={siloId} />
-      <BridgeDeployedTokensCard siloId={siloId} />
-      <BridgeWidgetCard siloId={siloId} />
+      <TokensCard siloId={siloId} />
+      <DeployedTokensCard siloId={siloId} />
+      <WidgetCard siloId={siloId} />
     </div>
   )
 }

@@ -5,7 +5,7 @@ import { TabCard } from "@/components/TabCard/TabCard"
 
 const ORIGIN = "https://app.auroracloud.dev"
 
-export const BridgeEmbedCodeCard = () => {
+export const EmbedCodeCard = () => {
   const pathname = usePathname()
 
   return (

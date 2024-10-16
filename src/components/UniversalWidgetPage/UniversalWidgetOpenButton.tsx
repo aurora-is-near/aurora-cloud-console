@@ -4,12 +4,15 @@ import { Button } from "@/components/Button"
 import { LinkButtonProps } from "@/components/LinkButton"
 import { useBridgeUrl } from "@/hooks/useBridgeUrl"
 
-type BridgeOpenButtonProps = {
+type UniversalWidgetOpenButtonProps = {
   siloId: number
   size?: LinkButtonProps["size"]
 }
 
-export const BridgeOpenButton = ({ siloId, size }: BridgeOpenButtonProps) => {
+export const UniversalWidgetOpenButton = ({
+  siloId,
+  size,
+}: UniversalWidgetOpenButtonProps) => {
   const bridgeUrl = useBridgeUrl(siloId)
 
   const onClick = useCallback(() => {

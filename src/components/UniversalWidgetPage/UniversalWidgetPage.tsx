@@ -7,7 +7,7 @@ import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import Loader from "@/components/Loader"
-import { BridgeEmbedCodeCard } from "@/components/UniversalWidgetPage/BridgeEmbedCodeCard"
+import { EmbedCodeCard } from "@/components/UniversalWidgetPage/EmbedCodeCard"
 import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
 
 interface UniversalWidgetPageProps {
@@ -58,7 +58,7 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
           },
           {
             title: "Embed Code",
-            content: <BridgeEmbedCodeCard />,
+            content: <EmbedCodeCard />,
           },
         ]}
       />

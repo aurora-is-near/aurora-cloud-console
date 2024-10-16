@@ -15,17 +15,17 @@ import { TokenSchema } from "@/types/api-schemas"
 
 type Inputs = Partial<Record<string, boolean>>
 
-type BridgeTokensModalProps = {
+type TokensModalProps = {
   siloId: number
   deployedTokens: TokenSchema[]
   activeTokens: TokenSchema[]
 }
 
-const BridgeTokensModal = ({
+const TokensModal = ({
   siloId,
   deployedTokens,
   activeTokens,
-}: BridgeTokensModalProps) => {
+}: TokensModalProps) => {
   const { closeModal, activeModal } = useModals()
   const {
     register,
@@ -116,4 +116,4 @@ const BridgeTokensModal = ({
   )
 }
 
-export default BridgeTokensModal
+export default TokensModal

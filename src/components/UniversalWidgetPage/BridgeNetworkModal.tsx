@@ -17,19 +17,19 @@ import { Modals } from "@/utils/modals"
 
 type Inputs = Partial<Record<BridgeNetworkType, boolean>>
 
-type BridgeNetworkModalProps = {
+type NetworkModalProps = {
   siloId: number
   type: "to" | "from"
   networks: Network[]
   availableNetworks: Network[]
 }
 
-const BridgeNetworkModal = ({
+const NetworkModal = ({
   siloId,
   type,
   networks,
   availableNetworks,
-}: BridgeNetworkModalProps) => {
+}: NetworkModalProps) => {
   const { closeModal, activeModal } = useModals()
   const {
     register,
@@ -127,4 +127,4 @@ const BridgeNetworkModal = ({
   )
 }
 
-export default BridgeNetworkModal
+export default NetworkModal
