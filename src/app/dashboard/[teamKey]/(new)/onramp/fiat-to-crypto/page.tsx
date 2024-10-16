@@ -1,3 +1,7 @@
 import { FiatOnrampPage } from "@/components/FiatOnrampPage/FiatOnrampPage"
 
-export default FiatOnrampPage
+const Page = () => {
+  return <FiatOnrampPage />
+}
+
+export default Page
