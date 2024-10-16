@@ -94,6 +94,7 @@ const FiatOnrampConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
               description="Get an API key"
               action={
                 <LinkButton
+                  isExternal
                   href="https://developers.munzen.io/getting-started"
                   size="sm"
                   variant="border"
