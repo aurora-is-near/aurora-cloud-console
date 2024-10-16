@@ -3,6 +3,7 @@ import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { TabCard } from "@/components/TabCard/TabCard"
+import { RainbowBridge } from "../../../public/static/v2/images/icons"
 
 export const BridgePage = () => {
   return (
@@ -35,19 +36,18 @@ export const BridgePage = () => {
             content: (
               <TabCard
                 attribution={{
-                  text: "Powered by Munzen",
+                  text: "Powered by Rainbow Bridge",
+                  icon: <RainbowBridge />,
                 }}
               >
                 <div className="flex flex-col gap-2 text-slate-500">
                   <p>
-                    You can enable fiat onramp on your chain to let users
-                    purchase crypto assets with their credit card. Some assets
-                    are supported by default such as USDT, USDC, AURORA, NEAR,
-                    ETH.
+                    Bridging allows your users to transfer assets from Ethereum,
+                    Near or Aurora to your Aurora Chain.
                   </p>
                   <p>
-                    To enable the purchase of your own asset, please get in
-                    touch with your account manager.
+                    You can configure your bridge and embed it in your
+                    application.
                   </p>
                 </div>
               </TabCard>
