@@ -42,7 +42,7 @@ export const BridgePage = () => {
               >
                 <div className="flex flex-col gap-2 text-slate-500">
                   <p>
-                    The Cloud Bridge allows your users to transfer assets from
+                    Bridging allows your users to transfer assets from
                     Ethereum, Near or Aurora to your Aurora Chain.
                   </p>
                   <p>
