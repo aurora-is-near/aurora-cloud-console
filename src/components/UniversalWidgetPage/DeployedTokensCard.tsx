@@ -17,7 +17,7 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
 
   return (
     <Card>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="flex flex-col gap-2">
           <h3 className="text-lg font-bold text-slate-900">Supported assets</h3>
           <p className="text-slate-500 text-sm">
