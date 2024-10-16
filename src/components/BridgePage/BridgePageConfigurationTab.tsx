@@ -7,7 +7,7 @@ const BridgePageConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
   return (
     <div className="w-full flex flex-col gap-4">
       <TabCard>
-        <div className="flex flex-col gap-2 max">
+        <div className="flex flex-col gap-2">
           <Pill label="Option 1" />
           <h3 className="text-lg text-slate-900 tracking-tighter font-semibold">
             Universal Widget
