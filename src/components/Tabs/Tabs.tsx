@@ -12,7 +12,7 @@ interface TabsProps {
 }
 
 export const Tabs = ({ tabs }: TabsProps) => {
-  const [activeTab, setActiveTab] = useState(tabs[0])
+  const [activeTab, setActiveTab] = useState<TabProps | undefined>(tabs[0])
 
   return (
     <div className="flex w-full flex-col gap-3">
@@ -37,7 +37,7 @@ export const Tabs = ({ tabs }: TabsProps) => {
           ))}
         </ul>
       </div>
-      <div className="flex w-full">{activeTab.content}</div>
+      <div className="flex w-full">{activeTab?.content}</div>
     </div>
   )
 }
