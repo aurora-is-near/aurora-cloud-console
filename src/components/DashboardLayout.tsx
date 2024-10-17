@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { ReactNode, useMemo } from "react"
 import {
   AdjustmentsHorizontalIcon,
   Cog6ToothIcon,
@@ -24,21 +24,29 @@ export const DashboardLayout = ({
   children,
   sidebarMenu,
 }: DashboardLayoutProps) => {
-  const mainMenuItems: MenuItem[] = [
-    {
-      name: "Settings",
-      href: `/dashboard/${teamKey}/settings`,
-      icon: <Cog6ToothIcon />,
-    },
-  ]
+  const mainMenuItems = useMemo(() => {
+    if (!teamKey) {
+      return []
+    }
 
-  if (showAdminMenu) {
-    mainMenuItems.unshift({
-      name: "Admin",
-      href: `/dashboard/${teamKey}/admin`,
-      icon: <AdjustmentsHorizontalIcon />,
-    })
-  }
+    const items: MenuItem[] = [
+      {
+        name: "Settings",
+        href: `/dashboard/${teamKey}/settings`,
+        icon: <Cog6ToothIcon />,
+      },
+    ]
+
+    if (showAdminMenu) {
+      items.unshift({
+        name: "Admin",
+        href: `/dashboard/${teamKey}/admin`,
+        icon: <AdjustmentsHorizontalIcon />,
+      })
+    }
+
+    return items
+  }, [teamKey, showAdminMenu])
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
