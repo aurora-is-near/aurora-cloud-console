@@ -1,7 +1,8 @@
 "use client"
 
+import debounce from "debounce"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { useMutation } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import clsx from "clsx"
@@ -33,6 +34,7 @@ const NetworksForm = ({
     getValues,
     handleSubmit,
     formState: { isSubmitting },
+    watch,
   } = useForm<Inputs>()
 
   const getSiloBridgeUpdater = useOptimisticUpdater("getSiloBridge")
@@ -46,32 +48,48 @@ const NetworksForm = ({
     },
   })
 
-  const submit: SubmitHandler<Inputs> = async (inputs) => {
-    const selectedNetworks = Object.entries(inputs)
-      .filter(([, value]) => value)
-      .map(([key]) => key)
-      .filter(isValidNetwork)
+  const submit = useCallback<SubmitHandler<Inputs>>(
+    (inputs: Inputs) => {
+      const selectedNetworks = Object.entries(inputs)
+        .filter(([, value]) => value)
+        .map(([key]) => key)
+        .filter(isValidNetwork)
 
-    const data: Parameters<typeof updateSiloBridge>[0] = {
-      id: siloId,
-    }
+      const data: Parameters<typeof updateSiloBridge>[0] = {
+        id: siloId,
+      }
 
-    if (type === "from") {
-      data.fromNetworks = selectedNetworks
-    }
+      if (selectedNetworks === networks.map((network) => network.key)) {
+        return
+      }
 
-    if (type === "to") {
-      data.toNetworks = selectedNetworks
-    }
+      if (type === "from") {
+        data.fromNetworks = selectedNetworks
+      }
 
-    updateSiloBridge(data)
-  }
+      if (type === "to") {
+        data.toNetworks = selectedNetworks
+      }
+
+      updateSiloBridge(data)
+    },
+    [siloId, type, updateSiloBridge, networks],
+  )
 
   useEffect(() => {
     networks.forEach((network) => {
       setValue(network.key, true)
     })
   }, [networks, setValue])
+
+  useEffect(() => {
+    const debouncedCb = debounce((inputs: Inputs) => submit(inputs), 1000)
+
+    const subscription = watch(debouncedCb)
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return () => subscription.unsubscribe()
+  }, [submit, watch])
 
   return (
     <form onSubmit={handleSubmit(submit)}>
