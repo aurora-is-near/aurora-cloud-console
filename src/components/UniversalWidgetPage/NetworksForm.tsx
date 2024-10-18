@@ -90,8 +90,9 @@ const NetworksForm = ({
 
     const subscription = watch(debouncedCb)
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return () => subscription.unsubscribe()
+    return () => {
+      subscription.unsubscribe()
+    }
   }, [submit, watch])
 
   return (
