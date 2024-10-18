@@ -2,39 +2,9 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { TabCard } from "@/components/TabCard/TabCard"
 import Pill from "@/components/Pill"
 import ConfigureUniversalWidgetTabCard from "@/components/Tabs/ConfigureUniversalWidgetTabCard"
-import Card from "@/components/Card"
 import { LinkButton } from "@/components/LinkButton"
 import CopyButton from "@/components/CopyButton"
-
-const BulletPoint = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="text-slate-100 bg-slate-900 rounded-full w-5 h-5 font-medium flex items-center justify-center">
-      {children}
-    </div>
-  )
-}
-
-const FiatOnrampStep = ({
-  number,
-  description,
-  action,
-}: {
-  number: string | number
-  description: string
-  action: React.ReactNode
-}) => {
-  return (
-    <Card className="p-2 md:p-2">
-      <div className="flex flex-row justify-between items-center gap-2">
-        <div className="flex flex-row justify-between items-center gap-2">
-          <BulletPoint>{number}</BulletPoint>
-          <span className="text-sm font-bold">{description}</span>
-        </div>
-        {action}
-      </div>
-    </Card>
-  )
-}
+import { FiatOnrampStep } from "@/components/FiatOnrampPage/FiatOnrampStep"
 
 const FiatOnrampConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
   return (
