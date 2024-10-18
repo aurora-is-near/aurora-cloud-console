@@ -39,15 +39,6 @@ const FiatOnrampStep = ({
 const FiatOnrampConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
   return (
     <div className="w-full flex flex-col gap-4">
-      <div className="flex flex-col gap-1 my-4 max-w-sm">
-        <h3 className="text-lg text-slate-900 tracking-tighter font-semibold">
-          Universal Widget
-        </h3>
-        <p className="text-sm text-slate-500 max-w-sm">
-          The Universal Widget provides the easiest way to integrate multiple
-          onramp solutions into your application.
-        </p>
-      </div>
       <ConfigureUniversalWidgetTabCard linkPrefix={linkPrefix} />
       <TabCard>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">

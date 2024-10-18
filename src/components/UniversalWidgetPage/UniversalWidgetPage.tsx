@@ -8,12 +8,28 @@ import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/Un
 interface UniversalWidgetPageProps {
   teamKey: string
   siloId: number
+  siloId?: number | null
 }
 
 export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
   teamKey,
-  siloId,
+  siloId = null,
 }: UniversalWidgetPageProps) => {
+  const tabs = []
+
+  if (siloId) {
+    tabs.push(
+      {
+        title: "Configuration",
+        content: <UniversalWidgetConfigurationTab siloId={siloId} />,
+      },
+      {
+        title: "Embed Code",
+        content: <BridgeEmbedCodeCard siloId={siloId} teamKey={teamKey} />,
+      },
+    )
+  }
+
   return (
     <DashboardPage>
       <Hero
@@ -36,19 +52,7 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
           />
         }
       />
-
-      <Tabs
-        tabs={[
-          {
-            title: "Configuration",
-            content: <UniversalWidgetConfigurationTab siloId={siloId} />,
-          },
-          {
-            title: "Embed Code",
-            content: <EmbedCodeCard siloId={siloId} teamKey={teamKey} />,
-          },
-        ]}
-      />
+      <Tabs tabs={tabs} />
     </DashboardPage>
   )
 }
