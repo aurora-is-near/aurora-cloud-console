@@ -75,6 +75,7 @@ const Card = ({
   className,
   tag: Tag = "div",
   borderRadius = "md",
+  padding = 6,
   isDisabled,
   children,
   ...rest
@@ -82,6 +83,7 @@ const Card = ({
   className?: string
   tag?: keyof JSX.IntrinsicElements
   borderRadius?: "md" | "xl" | "2xl"
+  padding?: number
   isDisabled?: boolean
   children: ReactNode
   [key: string]: unknown
@@ -107,8 +109,8 @@ const Card = ({
           "rounded-[10px]": borderRadius === "md",
           "rounded-xl": borderRadius === "xl",
           "rounded-2xl": borderRadius === "2xl",
-          "p-5 md:p-6": !hasHeader,
         },
+        !hasHeader && `p-${padding}`,
         isDisabled ? "bg-gray-100" : "bg-white",
         className,
       )}
