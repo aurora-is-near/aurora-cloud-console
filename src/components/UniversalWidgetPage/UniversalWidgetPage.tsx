@@ -7,7 +7,6 @@ import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/Un
 
 interface UniversalWidgetPageProps {
   teamKey: string
-  siloId: number
   siloId?: number | null
 }
 
@@ -25,7 +24,7 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
       },
       {
         title: "Embed Code",
-        content: <BridgeEmbedCodeCard siloId={siloId} teamKey={teamKey} />,
+        content: <EmbedCodeCard siloId={siloId} teamKey={teamKey} />,
       },
     )
   }
