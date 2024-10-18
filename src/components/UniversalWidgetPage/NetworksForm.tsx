@@ -97,7 +97,7 @@ const NetworksForm = ({
   return (
     <form onSubmit={handleSubmit(submit)}>
       <div>
-        <div className="space-y-2">
+        <div className="flex flex-col space-y-2">
           {availableNetworks.map((network) => (
             <Card
               key={network.key}
@@ -127,6 +127,16 @@ const NetworksForm = ({
               </label>
             </Card>
           ))}
+          {/* DESIGN NOT YET COMPLETED
+          <Button
+            variant="border"
+            className="!p-6 !bg-slate-50 !border-slate-200"
+          >
+            <div className="flex flex-row gap-2">
+              <PlusIcon className="w-4 h-4" />
+              <span>Add network</span>
+            </div>
+          </Button> */}
         </div>
       </div>
     </form>
