@@ -43,6 +43,9 @@ const NetworksForm = ({
     mutationFn: apiClient.updateSiloBridge,
     onMutate: getSiloBridgeUpdater.update,
     onSettled: getSiloBridgeUpdater.invalidate,
+    onSuccess: () => {
+      toast.success("Bridge networks updated")
+    },
     onError: () => {
       toast.error("Failed to update bridge networks")
     },
