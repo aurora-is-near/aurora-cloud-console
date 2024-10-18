@@ -15,7 +15,7 @@ import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
 import { logger } from "@/logger"
 
-type BridgeTokensCardProps = {
+type TokensCardProps = {
   siloId: number
 }
 
@@ -32,7 +32,7 @@ type Inputs = Partial<{
   "custom-token-address": string
 }>
 
-export const BridgeTokensCard = ({ siloId }: BridgeTokensCardProps) => {
+export const TokensCard = ({ siloId }: TokensCardProps) => {
   const { undeployedTokens } = useBridgeTokens(siloId)
   const getSiloTokensUpdater = useOptimisticUpdater("getSiloTokens")
 

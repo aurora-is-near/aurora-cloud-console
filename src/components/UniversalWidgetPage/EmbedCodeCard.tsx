@@ -2,15 +2,12 @@ import { TabCard } from "@/components/TabCard/TabCard"
 
 const ORIGIN = "https://app.auroracloud.dev"
 
-type BridgeEmbedCodeCardProps = {
+type EmbedCodeCardProps = {
   teamKey: string
   siloId: number
 }
 
-export const BridgeEmbedCodeCard = ({
-  teamKey,
-  siloId,
-}: BridgeEmbedCodeCardProps) => {
+export const EmbedCodeCard = ({ teamKey, siloId }: EmbedCodeCardProps) => {
   return (
     <TabCard>
       <p className="text-sm">

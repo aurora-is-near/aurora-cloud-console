@@ -2,7 +2,7 @@ import Image from "next/image"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
-import { BridgeEmbedCodeCard } from "@/components/UniversalWidgetPage/BridgeEmbedCodeCard"
+import { EmbedCodeCard } from "@/components/UniversalWidgetPage/EmbedCodeCard"
 import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
 
 interface UniversalWidgetPageProps {
@@ -24,7 +24,7 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
       },
       {
         title: "Embed Code",
-        content: <BridgeEmbedCodeCard siloId={siloId} teamKey={teamKey} />,
+        content: <EmbedCodeCard siloId={siloId} teamKey={teamKey} />,
       },
     )
   }
@@ -51,7 +51,6 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
           />
         }
       />
-
       <Tabs tabs={tabs} />
     </DashboardPage>
   )

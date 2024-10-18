@@ -8,13 +8,11 @@ import Loader from "@/components/Loader"
 import { Tag } from "@/components/Tag"
 import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 
-type BridgeDeployedTokensCardProps = {
+type DeployedTokensCardProps = {
   siloId: number
 }
 
-export const BridgeDeployedTokensCard = ({
-  siloId,
-}: BridgeDeployedTokensCardProps) => {
+export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
   const { pendingTokens, deployedTokens, isPending } = useBridgeTokens(siloId)
   const bridgedTokens = [...deployedTokens, ...pendingTokens]
 
