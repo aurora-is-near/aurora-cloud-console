@@ -101,10 +101,10 @@ const NetworksForm = ({
           {availableNetworks.map((network) => (
             <Card
               key={network.key}
+              padding={0}
               className={clsx(
-                "p-0 md:p-0",
                 getValues(network.key)
-                  ? "ring-1 ring-green-600 md:bg-green-50"
+                  ? "ring-1 ring-green-600 !bg-green-50"
                   : "",
               )}
             >
