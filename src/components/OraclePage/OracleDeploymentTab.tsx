@@ -1,20 +1,34 @@
+"use client"
+
 import { RocketLaunchIcon } from "@heroicons/react/24/outline"
-import { OracleSchema } from "@/types/api-schemas"
+import { useQuery } from "@tanstack/react-query"
 import { NoDataCta } from "@/components/NoDataCta"
 import { ContactButton } from "@/components/ContactButton"
 import Card from "@/components/Card"
 import CopyButton from "@/components/CopyButton"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import Loader from "@/components/Loader"
 
 type OracleDeploymentProps = {
   teamKey: string
-  oracle: OracleSchema
+  siloId: number
 }
 
-export const OracleDeployment = ({
+export const OracleDeploymentTab = ({
   teamKey,
-  oracle,
+  siloId,
 }: OracleDeploymentProps) => {
-  if (!oracle.address) {
+  const { data: oracle, isPending } = useQuery(
+    getQueryFnAndKey("getSiloOracle", {
+      id: siloId,
+    }),
+  )
+
+  if (isPending) {
+    return <Loader className="mt-4 md:mt-6 sm:h-[363px] h-[387px] rounded-md" />
+  }
+
+  if (oracle && !oracle.address) {
     return (
       <Card>
         <div className="pt-20">
@@ -33,20 +47,10 @@ export const OracleDeployment = ({
 
   return (
     <Card>
-      <div className="pt-4">
-        <h2 className="text-2xl font-bold text-gray-900">Configuration</h2>
-        <Card className="mt-6">
-          <Card.Title tag="h3">Oracle contract</Card.Title>
-          <div className="grid grid-cols-3">
-            <Card.Cell className="text-sm font-medium">
-              Your Oracle contract address
-            </Card.Cell>
-            <Card.Cell className="text-sm">{oracle.address}</Card.Cell>
-            <Card.Cell className="flex justify-end">
-              <CopyButton value={oracle.address} />
-            </Card.Cell>
-          </div>
-        </Card>
+      <Card.Title tag="h3">Oracle contract</Card.Title>
+      <div className="flex items-center justify-between">
+        {oracle?.address}
+        <CopyButton value={oracle?.address ?? ""} />
       </div>
     </Card>
   )

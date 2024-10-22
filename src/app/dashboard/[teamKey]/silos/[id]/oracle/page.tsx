@@ -1,5 +1,5 @@
 import { DashboardPage } from "@/components/DashboardPage"
-import { OracleContent } from "@/components/OraclePage/OracleContent"
+import OraclePage from "@/components/OraclePage/OraclePage"
 
 const Page = async ({
   params: { id, teamKey },
@@ -8,7 +8,7 @@ const Page = async ({
 }) => {
   return (
     <DashboardPage>
-      <OracleContent siloId={Number(id)} teamKey={teamKey} />
+      <OraclePage siloId={Number(id)} teamKey={teamKey} />
     </DashboardPage>
   )
 }
