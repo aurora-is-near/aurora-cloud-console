@@ -11,7 +11,6 @@ import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Network } from "@/hooks/useBridgeNetworks"
 import { isValidNetwork } from "@/utils/bridge"
-import Card from "@/components/Card"
 
 type Inputs = Partial<Record<BridgeNetworkType, boolean>>
 
@@ -100,13 +99,13 @@ const NetworksForm = ({
       <div>
         <div className="flex flex-col space-y-2">
           {availableNetworks.map((network) => (
-            <Card
+            <div
               key={network.key}
-              padding={0}
               className={clsx(
+                "rounded-md ring-1",
                 getValues(network.key)
-                  ? "ring-1 ring-green-600 !bg-green-50"
-                  : "",
+                  ? "ring-green-600 bg-green-50"
+                  : "ring-slate-200",
               )}
             >
               <label
@@ -126,7 +125,7 @@ const NetworksForm = ({
                   {network.label}
                 </span>
               </label>
-            </Card>
+            </div>
           ))}
           {/* DESIGN NOT YET COMPLETED
           <Button

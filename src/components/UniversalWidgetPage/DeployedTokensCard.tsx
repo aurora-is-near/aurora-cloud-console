@@ -45,11 +45,13 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
               const isDeployed = token.bridge?.deploymentStatus === "DEPLOYED"
 
               return (
-                <Card
+                <div
                   key={token.id}
-                  padding={3}
                   className={clsx(
-                    isDeployed ? "ring-1 ring-green-600 !bg-green-50" : "",
+                    "rounded-md ring-1 p-3",
+                    isDeployed
+                      ? "ring-green-600 bg-green-50"
+                      : "ring-slate-200",
                   )}
                 >
                   <div className="flex flex-row justify-between">
@@ -72,17 +74,17 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
                       )}
                     </span>
                   </div>
-                </Card>
+                </div>
               )
             })}
 
             <Button
               onClick={() => setIsAddingNewAsset(!isAddingNewAsset)}
-              variant="border"
-              className="!p-6 !bg-slate-50 !border-slate-200"
+              variant="grey"
+              size="lg"
             >
               {isAddingNewAsset ? (
-                <span> Cancel</span>
+                "Cancel"
               ) : (
                 <div className="flex flex-row gap-2">
                   <PlusIcon className="w-4 h-4" />
