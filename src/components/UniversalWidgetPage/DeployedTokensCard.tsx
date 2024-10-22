@@ -10,6 +10,7 @@ import { Tag } from "@/components/Tag"
 import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { Button } from "@/components/Button"
 import { TokensCard } from "@/components/UniversalWidgetPage/TokensCard"
+import { AddButton } from "@/components/AddButton"
 
 type DeployedTokensCardProps = {
   siloId: number
@@ -78,20 +79,13 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
               )
             })}
 
-            <Button
-              onClick={() => setIsAddingNewAsset(!isAddingNewAsset)}
-              variant="grey"
-              size="lg"
-            >
-              {isAddingNewAsset ? (
-                "Cancel"
-              ) : (
-                <div className="flex flex-row gap-2">
-                  <PlusIcon className="w-4 h-4" />
-                  <span>Add asset</span>
-                </div>
-              )}
-            </Button>
+            <AddButton
+              hideIcon={isAddingNewAsset}
+              text={isAddingNewAsset ? "Cancel" : "Add asset"}
+              onClick={() => {
+                setIsAddingNewAsset(!isAddingNewAsset)
+              }}
+            />
           </div>
         )}
       </div>
