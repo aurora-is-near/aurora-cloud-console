@@ -16,4 +16,5 @@ export enum Modals {
   BridgeToNetwork = "bridgeToNetwork",
   BridgeFromNetwork = "bridgeFromNetwork",
   BridgeTokens = "bridgeTokens",
+  RequestOraclePriceFeed = "requestOraclePriceFeed",
 }
