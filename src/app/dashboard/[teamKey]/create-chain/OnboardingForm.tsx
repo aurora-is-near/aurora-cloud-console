@@ -242,28 +242,31 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                           Cloud platform.
                         </div>
                       </Card>
-                      <Card className="p-6">
-                        <label
-                          htmlFor="comments"
-                          className="block mb-2 font-semibold text-xl"
-                        >
-                          Tell us more about your needs
-                        </label>
-                        <textarea
-                          id="comments"
-                          value={form.comments}
-                          onChange={(e) =>
-                            updateForm("comments", e.target.value)
-                          }
-                          className="w-full p-2 border border-slate-300 rounded"
-                          placeholder="Tell us about your specific requirements or any questions you have"
-                          rows={4}
-                        />
-                        <div className="text-sm text-slate-500 mt-2">
-                          Provide any relevant information related to your
-                          request that will help us better prepare for our call.
-                        </div>
-                      </Card>
+                      {!isDevnet && (
+                        <Card className="p-6">
+                          <label
+                            htmlFor="comments"
+                            className="block mb-2 font-semibold text-xl"
+                          >
+                            Tell us more about your needs
+                          </label>
+                          <textarea
+                            id="comments"
+                            value={form.comments}
+                            onChange={(e) =>
+                              updateForm("comments", e.target.value)
+                            }
+                            className="w-full p-2 border border-slate-300 rounded"
+                            placeholder="Tell us about your specific requirements or any questions you have"
+                            rows={4}
+                          />
+                          <div className="text-sm text-slate-500 mt-2">
+                            Provide any relevant information related to your
+                            request that will help us better prepare for our
+                            call.
+                          </div>
+                        </Card>
+                      )}
                     </div>
 
                     <Button
