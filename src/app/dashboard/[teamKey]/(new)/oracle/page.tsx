@@ -1,7 +1,7 @@
 import OraclePage from "@/components/OraclePage/OraclePage"
 
-const Page = ({ params }: { params: { teamKey: string } }) => {
-  return <OraclePage teamKey={params.teamKey} />
-}
+const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => (
+  <OraclePage teamKey={teamKey} />
+)
 
 export default Page
