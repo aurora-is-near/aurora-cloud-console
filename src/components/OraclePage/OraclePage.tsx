@@ -6,6 +6,7 @@ import { Tabs } from "@/components/Tabs/Tabs"
 import { DashboardPage } from "@/components/DashboardPage"
 import { OracleRequestDeploymentButton } from "@/components/OraclePage/OracleRequestDeploymentButton"
 import { AuroraOracle } from "@/types/oracle"
+import { OracleConfigurationTab } from "@/components/OraclePage/OracleConfigurationTab"
 
 const OraclePage = ({
   teamKey,
@@ -18,7 +19,11 @@ const OraclePage = ({
 }) => {
   const tabs = [{ title: "About", content: <OracleAboutTab /> }]
 
-  if (oracle) {
+  if (siloId && oracle) {
+    tabs.push({
+      title: "Configuration",
+      content: <OracleConfigurationTab siloId={siloId} />,
+    })
     tabs.push({
       title: "Deployment",
       content: <OracleDeploymentTab teamKey={teamKey} oracle={oracle} />,
