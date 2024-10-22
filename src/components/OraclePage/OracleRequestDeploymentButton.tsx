@@ -32,11 +32,7 @@ export const OracleRequestDeploymentButton = ({
 
   return (
     <Button size="lg" disabled={isPending} onClick={onClick}>
-<<<<<<<< HEAD:src/components/OraclePage/OracleEnableButton.tsx
-      Enable feature
-========
       Request deployment
->>>>>>>> 3f715b905df9abd173054579a9ffd3b6404aeb15:src/components/OraclePage/OracleRequestDeploymentButton.tsx
     </Button>
   )
 }

@@ -1,12 +1,7 @@
-import { DashboardPage } from "@/components/DashboardPage"
 import OraclePage from "@/components/OraclePage/OraclePage"
 
 const Page = ({ params }: { params: { teamKey: string } }) => {
-  return (
-    <DashboardPage>
-      <OraclePage teamKey={params.teamKey} />
-    </DashboardPage>
-  )
+  return <OraclePage teamKey={params.teamKey} />
 }
 
 export default Page

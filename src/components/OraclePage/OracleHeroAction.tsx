@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { OracleEnableButton } from "@/components/OraclePage/OracleEnableButton"
+import { OracleRequestDeploymentButton } from "@/components/OraclePage/OracleRequestDeploymentButton"
 
 const OracleHeroActions = ({ siloId }: { siloId: number }) => {
   const { data: oracle, isPending } = useQuery(
@@ -11,7 +11,9 @@ const OracleHeroActions = ({ siloId }: { siloId: number }) => {
     }),
   )
 
-  return oracle ?? isPending ? null : <OracleEnableButton siloId={siloId} />
+  return oracle ?? isPending ? null : (
+    <OracleRequestDeploymentButton siloId={siloId} />
+  )
 }
 
 export default OracleHeroActions

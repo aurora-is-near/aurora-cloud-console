@@ -1,5 +1,4 @@
-import { getSiloOracle } from "@/actions/silo-oracle/get-silo-oracle"
-import { OraclePage } from "@/components/OraclePage/OraclePage"
+import OraclePage from "@/components/OraclePage/OraclePage"
 
 const Page = async ({
   params: { id, teamKey },
@@ -7,9 +6,8 @@ const Page = async ({
   params: { id: string; teamKey: string }
 }) => {
   const siloId = Number(id)
-  const oracle = await getSiloOracle(siloId)
 
-  return <OraclePage siloId={siloId} oracle={oracle} teamKey={teamKey} />
+  return <OraclePage siloId={siloId} teamKey={teamKey} />
 }
 
 export default Page
