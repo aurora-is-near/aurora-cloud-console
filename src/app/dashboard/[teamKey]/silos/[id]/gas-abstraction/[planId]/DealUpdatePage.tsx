@@ -30,7 +30,7 @@ export const DealUpdatePage = ({ children, deal }: DealUpdatePageProps) => {
           onSubmit: handleSubmit(savePendingUpdates),
         }}
         actions={
-          <LinkButton type="submit" variant="border" href="/api" isExternal>
+          <LinkButton variant="border" href="/api" isExternal>
             View API
             <ArrowTopRightOnSquareIcon className="w-4 h-4" />
           </LinkButton>

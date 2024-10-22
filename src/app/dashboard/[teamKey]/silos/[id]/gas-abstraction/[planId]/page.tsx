@@ -2,9 +2,8 @@ import { notFound } from "next/navigation"
 import Contact from "@/components/Contact"
 import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
 import { getTeamDealByKey } from "@/actions/team-deals/get-team-deal-by-key"
-import { FiltersCard } from "./FiltersCard"
+import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
-import { ControlCard } from "./ControlCard"
 
 const Page = async ({
   params: { planId, teamKey },
@@ -21,9 +20,7 @@ const Page = async ({
   return (
     <DealUpdateProvider dealId={dealId}>
       <DealUpdatePage deal={deal}>
-        <FiltersCard />
-        <ControlCard />
-
+        <RulesCard />
         <Contact teamKey={teamKey} />
       </DealUpdatePage>
     </DealUpdateProvider>

@@ -1,16 +1,16 @@
+import { ReactNode } from "react"
 import Card from "@/components/Card"
-import { InfoList, InfoListProps } from "@/components/InfoList"
 
 type ConfigurationCardProps = {
   title: string
   description: string
-  items: InfoListProps["items"]
+  children: ReactNode
 }
 
 export const ConfigurationCard = ({
   title,
   description,
-  items,
+  children,
 }: ConfigurationCardProps) => {
   return (
     <Card borderRadius="xl" tag="section">
@@ -19,7 +19,7 @@ export const ConfigurationCard = ({
           <Card.Title tag="h2">{title}</Card.Title>
           <p className="text-slate-500 text-sm my-2">{description}</p>
         </div>
-        <InfoList items={items} className="pt-4 pb-2" />
+        {children}
       </div>
     </Card>
   )

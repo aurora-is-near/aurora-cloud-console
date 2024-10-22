@@ -25,7 +25,7 @@ type DashboardPageProps = {
     }
 )
 
-const WRAPPER_CLASSNAME = "max-h-full flex-1 flex flex-col"
+const WRAPPER_CLASSNAME = "h-full max-h-full flex-1 flex flex-col"
 
 export const DashboardPage = ({
   children,
@@ -39,7 +39,7 @@ export const DashboardPage = ({
 }: DashboardPageProps) => {
   const content = (
     <>
-      <main className="overflow-auto">
+      <main className="overflow-auto flex-1">
         <Toaster />
         {banner && (
           <BaseContainer className="w-full bg-white shadow">
