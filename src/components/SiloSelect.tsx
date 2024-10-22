@@ -27,7 +27,7 @@ export const SiloSelect = ({ silos, defaultValue }: SiloSelectProps) => {
           router.push(pathname.replace(/\/silos\/\d+/, `/silos/${value}`))
         }
       >
-        <div className="relative mt-1 mb-3">
+        <div className="relative">
           <Listbox.Button className="relative w-full cursor-pointer rounded-lg border border-slate-200 bg-white p-2 text-left text-slate-900 group hover:bg-slate-100">
             <div className="flex items-center justify-between">
               <span className="block truncate">

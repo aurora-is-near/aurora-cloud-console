@@ -1,57 +1,53 @@
-"use client"
-
 import { RocketLaunchIcon } from "@heroicons/react/24/outline"
-import { useQuery } from "@tanstack/react-query"
 import { NoDataCta } from "@/components/NoDataCta"
 import { ContactButton } from "@/components/ContactButton"
 import Card from "@/components/Card"
-import CopyButton from "@/components/CopyButton"
-import { getQueryFnAndKey } from "@/utils/api/queries"
-import Loader from "@/components/Loader"
+import { AuroraOracle } from "@/types/oracle"
+import { Input } from "@/components/Input"
+import { OracleCopyAddressButton } from "@/components/OraclePage/OracleCopyAddressButton"
 
-type OracleDeploymentProps = {
+type OracleDeploymentTabProps = {
   teamKey: string
-  siloId: number
+  oracle: AuroraOracle
 }
 
 export const OracleDeploymentTab = ({
   teamKey,
-  siloId,
-}: OracleDeploymentProps) => {
-  const { data: oracle, isPending } = useQuery(
-    getQueryFnAndKey("getSiloOracle", {
-      id: siloId,
-    }),
-  )
+  oracle,
+}: OracleDeploymentTabProps) => {
+  const { address } = oracle.contract ?? {}
 
-  if (isPending) {
-    return <Loader className="mt-4 md:mt-6 sm:h-[363px] h-[387px] rounded-md" />
-  }
-
-  if (oracle && !oracle.address) {
+  if (!address) {
     return (
-      <Card>
-        <div className="pt-20">
-          <NoDataCta
-            title="Deployment pending"
-            description="Your Oracle is being deployed. Please check back later, or contact support if you have any questions."
-            Icon={RocketLaunchIcon}
-            className="mx-auto max-w-[320px]"
-          >
-            <ContactButton teamKey={teamKey} />
-          </NoDataCta>
-        </div>
+      <Card className="w-full">
+        <NoDataCta
+          title="Deployment pending"
+          description="Your Oracle is being deployed. Please check back later, or contact support if you have any questions."
+          Icon={RocketLaunchIcon}
+          className="mx-auto max-w-[320px] py-6"
+        >
+          <ContactButton teamKey={teamKey} />
+        </NoDataCta>
       </Card>
     )
   }
 
   return (
-    <Card>
+    <Card className="w-full">
       <Card.Title tag="h3">Oracle contract</Card.Title>
-      <div className="flex items-center justify-between">
-        {oracle?.address}
-        <CopyButton value={oracle?.address ?? ""} />
-      </div>
+      <Card.Body>
+        <label htmlFor="oracle-address" className="sr-only">
+          Oracle contract address
+        </label>
+        <Input
+          name="oracle-address"
+          id="oracle-address"
+          value={address}
+          className="mb-4"
+          readOnly
+        />
+        <OracleCopyAddressButton address={address} />
+      </Card.Body>
     </Card>
   )
 }

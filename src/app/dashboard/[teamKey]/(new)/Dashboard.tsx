@@ -3,15 +3,21 @@ import { PlusIcon } from "@heroicons/react/20/solid"
 import Hero from "@/components/Hero/Hero"
 import { Silo, Team } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
-import { ExploreItems } from "@/app/dashboard/[teamKey]/(new)/ExploreItems"
+import { FeatureCTA } from "@/components/FeatureCTA"
+import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { getNetworkVariant } from "@/utils/get-network-variant"
+import { DashboardPage } from "@/components/DashboardPage"
 import FeatureList, { FeatureBanner } from "./FeatureList"
 import {
   Partner1,
   Partner2,
   Partner3,
 } from "../../../../../public/static/v2/images/icons"
-import { ExploreItem } from "./ExploreItem"
+
+type DashboardHomePageProps = {
+  team: Team
+  silo?: Silo | null
+}
 
 const meetingLink = "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
 
@@ -31,17 +37,15 @@ const features: FeatureBanner[] = [
 ]
 
 // https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=3775-10045&t=PGhHmzDnXi5hsRI0-0
-const Dashboard = ({
+export const DashboardHomePage = ({
   team,
   silo = null,
-}: {
-  team: Team
-  silo?: Silo | null
-}) => {
+}: DashboardHomePageProps) => {
   const teamKey = team.team_key
+  const siloPrefix = silo ? `/silos/${silo.id}` : ""
 
   return (
-    <div className="w-full">
+    <DashboardPage>
       <div className="divide-y flex flex-col gap-y-8 lg:gap-y-10">
         <Hero
           title={!silo ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`}
@@ -82,71 +86,71 @@ const Dashboard = ({
 
           {getNetworkVariant(silo, {
             none: (
-              <ExploreItems>
-                <ExploreItem
+              <FeatureCTAList>
+                <FeatureCTA
                   title="Set up your Devnet"
                   description="Get access to a shared Aurora Chain identical to the production
                 ones."
                   icon="/static/v2/images/examples/devnet.png"
                   link={`/dashboard/${teamKey}/create-chain`}
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Read documentation"
                   description="Explore our documentation to start developing and deploying on Aurora."
                   icon="/static/v2/images/examples/docs.png"
                   link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Talk to a developer"
                   description="Join our Aurora Cloud developers community on Discord."
                   icon="/static/v2/images/examples/talk.png"
                   link="/"
                 />
-              </ExploreItems>
+              </FeatureCTAList>
             ),
             devnet: (
-              <ExploreItems>
-                <ExploreItem
+              <FeatureCTAList>
+                <FeatureCTA
                   title="Explore integrations"
                   description="Your chain supports by default a range of integrations."
                   icon="/static/v2/images/examples/integrations.png"
-                  link={`/dashboard_v2/${team.team_key}/integrations`}
+                  link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Read documentation"
                   description="Explore our documentation to start developing and deploying on Aurora."
                   icon="/static/v2/images/examples/docs.png"
                   link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Talk to a developer"
                   description="Join our Aurora Cloud developers community on Discord."
                   icon="/static/v2/images/examples/talk.png"
                   link="/"
                 />
-              </ExploreItems>
+              </FeatureCTAList>
             ),
             mainnet: (
-              <ExploreItems>
-                <ExploreItem
+              <FeatureCTAList>
+                <FeatureCTA
                   title="Monitor your chain"
                   description="Keep track of transaction volume,  latency and RPC requests in real-time."
                   icon="/static/v2/images/examples/monitor.png"
-                  link={`/dashboard_v2/${team.team_key}/monitoring`}
+                  link={`/dashboard/${teamKey}${siloPrefix}/monitoring`}
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Explore integrations"
                   description="Your chain supports by default a range of integrations."
                   icon="/static/v2/images/examples/integrations.png"
-                  link={`/dashboard_v2/${team.team_key}/integrations`}
+                  link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
                 />
-                <ExploreItem
+                <FeatureCTA
                   title="Read documentation"
                   description="Explore our documentation to start developing and deploying on Aurora."
                   icon="/static/v2/images/examples/docs.png"
                   link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
                 />
-              </ExploreItems>
+              </FeatureCTAList>
             ),
           })}
         </div>
@@ -176,8 +180,6 @@ const Dashboard = ({
           <FeatureList features={features} />
         </div>
       </div>
-    </div>
+    </DashboardPage>
   )
 }
-
-export default Dashboard
