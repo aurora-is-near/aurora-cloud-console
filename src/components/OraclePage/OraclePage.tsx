@@ -2,23 +2,26 @@ import Image from "next/image"
 import { OracleAboutTab } from "@/components/OraclePage/OracleAboutTab"
 import { OracleDeploymentTab } from "@/components/OraclePage/OracleDeploymentTab"
 import Hero from "@/components/Hero/Hero"
-import OracleHeroAction from "@/components/OraclePage/OracleHeroAction"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { DashboardPage } from "@/components/DashboardPage"
+import { OracleRequestDeploymentButton } from "@/components/OraclePage/OracleRequestDeploymentButton"
+import { AuroraOracle } from "@/types/oracle"
 
 const OraclePage = ({
   teamKey,
   siloId,
+  oracle,
 }: {
   teamKey: string
   siloId?: number
+  oracle?: AuroraOracle | null
 }) => {
   const tabs = [{ title: "About", content: <OracleAboutTab /> }]
 
-  if (siloId) {
+  if (oracle) {
     tabs.push({
       title: "Deployment",
-      content: <OracleDeploymentTab teamKey={teamKey} siloId={siloId} />,
+      content: <OracleDeploymentTab teamKey={teamKey} oracle={oracle} />,
     })
   }
 
@@ -28,7 +31,10 @@ const OraclePage = ({
         <Hero
           title="Oracle"
           description="Secure your smart contracts with reliable, low-latency market data from institutional sources."
-          actions={siloId ? <OracleHeroAction siloId={siloId} /> : null}
+          actions={
+            siloId &&
+            !oracle && <OracleRequestDeploymentButton siloId={siloId} />
+          }
           titlePrefix={
             <Image
               width="48"
