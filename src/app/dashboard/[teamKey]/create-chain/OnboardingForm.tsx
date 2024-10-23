@@ -1,8 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import clsx from "clsx"
-import Link from "next/link"
 import toast from "react-hot-toast"
 import {
   integrationOptions,
@@ -82,14 +80,9 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
     } catch (error) {
       logger.error(error)
       toast.error("Something went wrong. Please try again.")
-      setIsSubmitting(false)
-
-      return
     }
 
-    if (form.networkType === "devnet") {
-      setIsSubmitting(false)
-    }
+    setIsSubmitting(false)
   }
 
   return (
@@ -300,35 +293,6 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
                       {submitButtonText}
                     </Button>
                   </Step>
-
-                  {form.networkType === "mainnet" && (
-                    <div
-                      className={clsx(
-                        "fixed top-0 left-0 z-50 flex justify-center items-center w-full h-full",
-                        !isSubmitting && "hidden",
-                      )}
-                    >
-                      <div className="fixed top-0 left-0 bg-white w-full h-full">
-                        <div className="bg-green-100 rounded-full w-full h-full blur-3xl fixed -bottom-3/4" />
-                      </div>
-
-                      <div
-                        className="calendly-inline-widget mt-1/10 w-full h-full"
-                        data-url="https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
-                      />
-                      <script
-                        type="text/javascript"
-                        src="https://assets.calendly.com/assets/external/widget.js"
-                        async
-                      />
-
-                      <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2">
-                        <Link href={`/dashboard/${team.team_key}`}>
-                          <Button size="lg">Go back to Dashboard</Button>
-                        </Link>
-                      </div>
-                    </div>
-                  )}
                 </>
               )}
             </>
