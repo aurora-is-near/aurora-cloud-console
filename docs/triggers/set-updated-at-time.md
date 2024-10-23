@@ -2,7 +2,7 @@
 
 A dump of the Supabase trigger for populating the updated at columns.
 
-```text
+```sql
 create or replace function public.update_modified_column()
 returns trigger as $$
 begin

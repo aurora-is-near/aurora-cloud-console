@@ -15,7 +15,7 @@ interface ChainTypeBoxProps {
 const Label: React.FC<{ type: "free" | "enterprise" }> = ({ type }) => {
   const bgColor = type === "free" ? "bg-green-600" : "bg-slate-400"
   const textColor = type === "free" ? "text-green-50" : "text-green-50"
-  const text = type === "free" ? "Coming Soon" : "Enterprise"
+  const text = type === "free" ? "Free" : "Enterprise"
 
   return (
     <div

@@ -10,6 +10,15 @@ import {
   TokenOption,
 } from "@/types/chain-creation"
 import {
+  DEVNET_CHAIN_ID,
+  DEVNET_ENGINE_ACCOUNT,
+  DEVNET_EXPLORER_URL,
+  DEVNET_GENESIS,
+  DEVNET_RPC_URL,
+} from "@/constants/devnet"
+import { getTokens } from "@/actions/tokens/get-tokens"
+import { upsertSilo } from "@/actions/silos/upsert-silo"
+import {
   AuroraToken,
   Bitcoin,
   CustomToken,
@@ -83,18 +92,44 @@ export const useChainCreationForm = (team: Team) => {
   }, [])
 
   const handleSubmit = useCallback(async () => {
-    const record = await saveOnboardingForm({
+    await saveOnboardingForm({
       ...form,
       team_id: team.id,
     })
 
-    if (form.networkType === "devnet") {
-      // TODO Create devnet silo
-    } else if (form.networkType === "mainnet") {
-      // TODO Booking a call for mainnet setup
+    const tokens = await getTokens()
+    const token = tokens.find((t) => t.symbol === "AURORA")
+
+    if (!token) {
+      throw new Error("Aurora token not found")
     }
 
-    return record
+    // Note that an upsert is used here in case the user somehow submits the
+    // form twice. For example, if they opened it in two browser tabs.
+    if (form.networkType === "devnet") {
+      const silo = await upsertSilo({
+        explorer_url: DEVNET_EXPLORER_URL,
+        name: form.chainName,
+        genesis: DEVNET_GENESIS,
+        network: "public_permissioned",
+        team_id: team.id,
+        chain_id: DEVNET_CHAIN_ID,
+        base_token_id: token.id,
+        engine_account: DEVNET_ENGINE_ACCOUNT,
+        engine_version: "3.6.4",
+        grafana_network_key: null,
+        rpc_url: DEVNET_RPC_URL,
+      })
+
+      // Redirect to the silo dashboard page
+      window.location.href = `${window.location.origin}/dashboard/${team.team_key}/silos/${silo.id}`
+
+      return
+    }
+
+    if (form.networkType === "mainnet") {
+      // TODO Booking a call for mainnet setup
+    }
   }, [form, team])
 
   const submitButtonText =
