@@ -126,10 +126,6 @@ export const useChainCreationForm = (team: Team) => {
 
       return
     }
-
-    if (form.networkType === "mainnet") {
-      // TODO Booking a call for mainnet setup
-    }
   }, [form, team])
 
   const submitButtonText =
