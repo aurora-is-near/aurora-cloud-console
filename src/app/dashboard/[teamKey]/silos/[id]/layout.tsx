@@ -5,6 +5,7 @@ import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
 import { SiloSelect } from "@/components/SiloSelect"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
+import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 
 const Layout = async ({
   children,
@@ -21,6 +22,8 @@ const Layout = async ({
   const silos = await getTeamSilos(team.id)
   const silo = silos.find((siloPredicate) => siloPredicate.id === Number(id))
 
+  const deals = await getTeamDeals(team.id)
+
   // Protect against unauthorised access to another team's silo
   if (!silo) {
     notFound()
@@ -30,6 +33,7 @@ const Layout = async ({
     <MainDashboardLayout
       teamKey={teamKey}
       silo={silo}
+      deals={deals}
       showAdminMenu={isAdminUser}
       sidebarAction={<SiloSelect defaultValue={Number(id)} silos={silos} />}
     >

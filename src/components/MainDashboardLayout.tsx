@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { HomeIcon } from "@heroicons/react/20/solid"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { Silo } from "@/types/types"
+import { Deal, Silo } from "@/types/types"
 import {
   BlockExplorer,
   Configuration,
@@ -15,6 +15,7 @@ import {
 type MainDashboardLayoutProps = {
   teamKey: string
   silo?: Silo
+  deals?: Deal[]
   showAdminMenu: boolean
   children: ReactNode
   sidebarAction: JSX.Element
@@ -23,6 +24,7 @@ type MainDashboardLayoutProps = {
 export const MainDashboardLayout = async ({
   teamKey,
   silo,
+  deals,
   showAdminMenu,
   children,
   sidebarAction,
@@ -62,6 +64,10 @@ export const MainDashboardLayout = async ({
                 name: "Gas Abstraction",
                 href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction`,
                 icon: <GasAbstraction />,
+                items: deals?.map((deal) => ({
+                  name: deal.name,
+                  href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction/${deal.id}`,
+                })),
               },
               {
                 name: "Integrations",
