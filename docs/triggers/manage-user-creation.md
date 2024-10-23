@@ -2,7 +2,7 @@
 
 A dump of the Supabase trigger for managing user creation.
 
-```text
+```sql
 -- Check if a key exists in the given metadata object
 create or replace function public.has_metadata_key(metadata jsonb, key text)
 returns boolean as $$

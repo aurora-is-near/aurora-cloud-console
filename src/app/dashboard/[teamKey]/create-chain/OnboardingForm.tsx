@@ -19,6 +19,7 @@ import {
   TokenOption,
 } from "@/types/chain-creation"
 import { BaseContainer } from "@/components/BaseContainer"
+import { logger } from "@/logger"
 import Step from "./Step"
 import ChainTypeBox from "./ChainTypeBox"
 import ChainPermissionBox from "./ChainPermissionBox"
@@ -26,7 +27,7 @@ import GasMechanicsBox from "./GasMechanicsBox"
 import IntegrationBox from "./IntegrationBox"
 
 const OnboardingForm = ({ team }: { team: Team }) => {
-  const [isFinished, setIsFinished] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
     form,
@@ -44,7 +45,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
 
     if (type === "devnet") {
       updateForm("chainPermission", "public_permissioned")
-      updateForm("baseToken", "eth")
+      updateForm("baseToken", "aurora")
       updateForm("gasMechanics", "free")
       updateForm("integrations", [
         "onramp",
@@ -68,8 +69,18 @@ const OnboardingForm = ({ team }: { team: Team }) => {
   }
 
   const handleOnboardingSubmit = async () => {
-    setIsFinished(true)
-    await handleSubmit()
+    setIsSubmitting(true)
+
+    try {
+      await handleSubmit()
+    } catch (error) {
+      logger.error(error)
+      setIsSubmitting(false)
+
+      return
+    }
+
+    setIsSubmitting(false)
   }
 
   return (
@@ -142,7 +153,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                         selected={form.baseToken === token.id}
                         onClick={() => handleBaseTokenSelect(token)}
                         className="p-2 pt-3"
-                        disabled={isDevnet && token.id !== "eth"}
+                        disabled={isDevnet && token.id !== "aurora"}
                       >
                         <div className="flex flex-col items-center space-y-2 w-full">
                           <token.icon className="w-10 h-10" />
@@ -273,6 +284,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                       fullWidth
                       size="xl"
                       className="my-16"
+                      loading={isSubmitting}
                       onClick={handleOnboardingSubmit}
                     >
                       {submitButtonText}
@@ -283,7 +295,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
                     <div
                       className={clsx(
                         "fixed top-0 left-0 z-50 flex justify-center items-center w-full h-full",
-                        !isFinished && "hidden",
+                        !isSubmitting && "hidden",
                       )}
                     >
                       <div className="fixed top-0 left-0 bg-white w-full h-full">

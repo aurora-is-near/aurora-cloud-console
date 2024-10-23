@@ -10,7 +10,7 @@ export const saveOnboardingForm = async (
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("onboarding_form")
-    .upsert(inputs, { onConflict: "team_id" })
+    .upsert(inputs, { onConflict: "team_id, networkType" })
     .select()
     .single()
 

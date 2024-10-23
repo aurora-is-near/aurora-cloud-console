@@ -2,7 +2,7 @@
 
 A dump of the Supabase trigger for managing user teams.
 
-```text
+```sql
 -- Shared function to update a user's teams
 create or replace function public.update_user_metadata(user_id_param bigint)
 returns void as $$
