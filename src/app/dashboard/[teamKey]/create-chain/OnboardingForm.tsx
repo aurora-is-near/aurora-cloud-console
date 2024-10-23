@@ -3,6 +3,7 @@
 import { useState } from "react"
 import clsx from "clsx"
 import Link from "next/link"
+import toast from "react-hot-toast"
 import {
   integrationOptions,
   tokenOptions,
@@ -80,12 +81,15 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
       await handleSubmit()
     } catch (error) {
       logger.error(error)
+      toast.error("Something went wrong. Please try again.")
       setIsSubmitting(false)
 
       return
     }
 
-    setIsSubmitting(false)
+    if (form.networkType === "devnet") {
+      setIsSubmitting(false)
+    }
   }
 
   return (
