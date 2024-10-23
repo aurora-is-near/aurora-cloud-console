@@ -2,10 +2,14 @@
 
 import { CheckIcon, ClockIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
+import { useState } from "react"
+import { PlusIcon } from "@heroicons/react/20/solid"
 import Card from "@/components/Card"
 import Loader from "@/components/Loader"
 import { Tag } from "@/components/Tag"
 import { useBridgeTokens } from "@/hooks/useBridgeTokens"
+import { Button } from "@/components/Button"
+import { TokensCard } from "@/components/UniversalWidgetPage/TokensCard"
 
 type DeployedTokensCardProps = {
   siloId: number
@@ -14,6 +18,7 @@ type DeployedTokensCardProps = {
 export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
   const { pendingTokens, deployedTokens, isPending } = useBridgeTokens(siloId)
   const bridgedTokens = [...deployedTokens, ...pendingTokens]
+  const [isAddingNewAsset, setIsAddingNewAsset] = useState(false)
 
   return (
     <Card>
@@ -40,11 +45,13 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
               const isDeployed = token.bridge?.deploymentStatus === "DEPLOYED"
 
               return (
-                <Card
+                <div
                   key={token.id}
                   className={clsx(
-                    "p-3 md:p-3",
-                    isDeployed ? "ring-1 ring-green-600 md:bg-green-50" : "",
+                    "rounded-md ring-1 p-3",
+                    isDeployed
+                      ? "ring-green-600 bg-green-50"
+                      : "ring-slate-200",
                   )}
                 >
                   <div className="flex flex-row justify-between">
@@ -67,12 +74,32 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
                       )}
                     </span>
                   </div>
-                </Card>
+                </div>
               )
             })}
+
+            <Button
+              onClick={() => setIsAddingNewAsset(!isAddingNewAsset)}
+              variant="grey"
+              size="lg"
+            >
+              {isAddingNewAsset ? (
+                "Cancel"
+              ) : (
+                <div className="flex flex-row gap-2">
+                  <PlusIcon className="w-4 h-4" />
+                  <span>Add asset</span>
+                </div>
+              )}
+            </Button>
           </div>
         )}
       </div>
+      {isAddingNewAsset && (
+        <div className="mt-5">
+          <TokensCard siloId={siloId} />
+        </div>
+      )}
     </Card>
   )
 }

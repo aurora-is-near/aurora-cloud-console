@@ -9,8 +9,8 @@ import { getQueryFnAndKey } from "@/utils/api/queries"
 import { formatDateAndTime } from "@/utils/helpers"
 import { Modals } from "@/utils/modals"
 import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetPage/UniversalWidgetOpenButton"
-import BridgeNetworkModal from "@/components/UniversalWidgetPage/BridgeNetworkModal"
-import BridgeTokensModal from "@/components/UniversalWidgetPage/TokensModal"
+import TokensModal from "@/components/UniversalWidgetPage/TokensModal"
+import NetworkModal from "@/components/UniversalWidgetPage/NetworkModal"
 
 type WidgetCardProps = {
   siloId: number
@@ -94,19 +94,19 @@ export const WidgetCard = ({ siloId }: WidgetCardProps) => {
           />
         </CardConfigGrid>
       </Card>
-      <BridgeNetworkModal
+      <NetworkModal
         siloId={siloId}
         type="from"
         networks={fromNetworks}
         availableNetworks={availableNetworks}
       />
-      <BridgeNetworkModal
+      <NetworkModal
         siloId={siloId}
         type="to"
         networks={toNetworks}
         availableNetworks={availableNetworks}
       />
-      <BridgeTokensModal
+      <TokensModal
         siloId={siloId}
         deployedTokens={deployedTokens}
         activeTokens={activeTokens}

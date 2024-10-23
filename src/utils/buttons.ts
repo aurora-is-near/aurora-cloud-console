@@ -34,7 +34,7 @@ export const getButtonClassName = (
         variant === "border",
       "bg-rose-500 text-white focus-visible:outline-rose-500":
         variant === "destructive",
-      "bg-slate-200 text-slate-500": variant === "grey",
+      "text-slate-900 border border-slate-200": variant === "grey",
       "bg-slate-900 text-slate-100": variant === "dark",
       "hover:bg-green-500": variant === "primary" && !isDisabled,
       "hover:bg-gray-300": variant === "secondary" && !isDisabled,
