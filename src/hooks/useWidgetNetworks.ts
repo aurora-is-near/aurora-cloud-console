@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 import { useCallback, useMemo } from "react"
-import { BridgeNetworkType } from "@/types/types"
+import { WidgetNetworkType } from "@/types/types"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { isValidNetwork } from "@/utils/bridge"
+import { isValidNetwork } from "@/utils/widget"
 
 export type Network = {
-  key: BridgeNetworkType
+  key: WidgetNetworkType
   label: string
   evm?: string
 }
@@ -30,15 +30,15 @@ const DEFAULT_NETWORKS: Network[] = [
   },
 ]
 
-export const useBridgeNetworks = (siloId: number) => {
+export const useWidgetNetworks = (siloId: number) => {
   const { data: silo, isPending: isSiloPending } = useQuery(
     getQueryFnAndKey("getSilo", {
       id: siloId,
     }),
   )
 
-  const { data: siloBridge, isPending: isSiloBridgePending } = useQuery(
-    getQueryFnAndKey("getSiloBridge", {
+  const { data: widget, isPending: isWidgetPending } = useQuery(
+    getQueryFnAndKey("getWidget", {
       id: siloId,
     }),
   )
@@ -68,9 +68,9 @@ export const useBridgeNetworks = (siloId: number) => {
   )
 
   return {
-    isPending: isSiloPending || isSiloBridgePending,
+    isPending: isSiloPending || isWidgetPending,
     availableNetworks,
-    toNetworks: filterNetworks(siloBridge?.toNetworks ?? []),
-    fromNetworks: filterNetworks(siloBridge?.fromNetworks ?? []),
+    toNetworks: filterNetworks(widget?.toNetworks ?? []),
+    fromNetworks: filterNetworks(widget?.fromNetworks ?? []),
   }
 }

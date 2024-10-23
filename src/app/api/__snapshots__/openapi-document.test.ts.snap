@@ -1481,423 +1481,6 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
-    "/api/silos/{id}/bridge": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`silos:read\`",
-        "operationId": "getSiloBridge",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "createdAt": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                    "enabled": {
-                      "type": "boolean",
-                    },
-                    "fromNetworks": {
-                      "items": {
-                        "enum": [
-                          "AURORA",
-                          "ETHEREUM",
-                          "NEAR",
-                          "CUSTOM",
-                        ],
-                        "type": "string",
-                      },
-                      "nullable": true,
-                      "type": "array",
-                    },
-                    "toNetworks": {
-                      "items": {
-                        "enum": [
-                          "AURORA",
-                          "ETHEREUM",
-                          "NEAR",
-                          "CUSTOM",
-                        ],
-                        "type": "string",
-                      },
-                      "nullable": true,
-                      "type": "array",
-                    },
-                    "tokens": {
-                      "items": {
-                        "type": "number",
-                      },
-                      "type": "array",
-                    },
-                    "updatedAt": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                    "widgetUrl": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "enabled",
-                    "createdAt",
-                    "updatedAt",
-                    "fromNetworks",
-                    "toNetworks",
-                    "tokens",
-                    "widgetUrl",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "silos:read",
-            ],
-          },
-        ],
-        "summary": "Get the bridge configuration for a silo",
-        "tags": [
-          "silos",
-        ],
-      },
-      "post": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`silos:write\`",
-        "operationId": "createSiloBridge",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {},
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "createdAt": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                    "enabled": {
-                      "type": "boolean",
-                    },
-                    "fromNetworks": {
-                      "items": {
-                        "enum": [
-                          "AURORA",
-                          "ETHEREUM",
-                          "NEAR",
-                          "CUSTOM",
-                        ],
-                        "type": "string",
-                      },
-                      "nullable": true,
-                      "type": "array",
-                    },
-                    "toNetworks": {
-                      "items": {
-                        "enum": [
-                          "AURORA",
-                          "ETHEREUM",
-                          "NEAR",
-                          "CUSTOM",
-                        ],
-                        "type": "string",
-                      },
-                      "nullable": true,
-                      "type": "array",
-                    },
-                    "tokens": {
-                      "items": {
-                        "type": "number",
-                      },
-                      "type": "array",
-                    },
-                    "updatedAt": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                    "widgetUrl": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "enabled",
-                    "createdAt",
-                    "updatedAt",
-                    "fromNetworks",
-                    "toNetworks",
-                    "tokens",
-                    "widgetUrl",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "silos:write",
-            ],
-          },
-        ],
-        "summary": "Create a bridge configuration for a silo",
-        "tags": [
-          "silos",
-        ],
-      },
-      "put": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`silos:write\`",
-        "operationId": "updateSiloBridge",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "fromNetworks": {
-                    "items": {
-                      "enum": [
-                        "AURORA",
-                        "ETHEREUM",
-                        "NEAR",
-                        "CUSTOM",
-                      ],
-                      "type": "string",
-                    },
-                    "type": "array",
-                  },
-                  "toNetworks": {
-                    "items": {
-                      "enum": [
-                        "AURORA",
-                        "ETHEREUM",
-                        "NEAR",
-                        "CUSTOM",
-                      ],
-                      "type": "string",
-                    },
-                    "type": "array",
-                  },
-                  "tokens": {
-                    "items": {
-                      "type": "number",
-                    },
-                    "type": "array",
-                  },
-                },
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "createdAt": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                    "enabled": {
-                      "type": "boolean",
-                    },
-                    "fromNetworks": {
-                      "items": {
-                        "enum": [
-                          "AURORA",
-                          "ETHEREUM",
-                          "NEAR",
-                          "CUSTOM",
-                        ],
-                        "type": "string",
-                      },
-                      "nullable": true,
-                      "type": "array",
-                    },
-                    "toNetworks": {
-                      "items": {
-                        "enum": [
-                          "AURORA",
-                          "ETHEREUM",
-                          "NEAR",
-                          "CUSTOM",
-                        ],
-                        "type": "string",
-                      },
-                      "nullable": true,
-                      "type": "array",
-                    },
-                    "tokens": {
-                      "items": {
-                        "type": "number",
-                      },
-                      "type": "array",
-                    },
-                    "updatedAt": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                    "widgetUrl": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "enabled",
-                    "createdAt",
-                    "updatedAt",
-                    "fromNetworks",
-                    "toNetworks",
-                    "tokens",
-                    "widgetUrl",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "silos:write",
-            ],
-          },
-        ],
-        "summary": "Update the bridge configuration for a silo",
-        "tags": [
-          "silos",
-        ],
-      },
-    },
-    "/api/silos/{id}/bridge/tokens": {
-      "post": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`silos:write\`",
-        "operationId": "bridgeSiloToken",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "address": {
-                    "type": "string",
-                  },
-                  "symbol": {
-                    "type": "string",
-                  },
-                  "tokenId": {
-                    "type": "number",
-                  },
-                },
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "status": {
-                      "enum": [
-                        "NOT_DEPLOYED",
-                        "PENDING",
-                        "DEPLOYED",
-                      ],
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "status",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "silos:write",
-            ],
-          },
-        ],
-        "summary": "Request bridging of a token for a silo",
-        "tags": [
-          "silos",
-        ],
-      },
-    },
     "/api/silos/{id}/failure-rate": {
       "get": {
         "deprecated": undefined,
@@ -2413,6 +1996,423 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Get the tokens associated with a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/widget": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getWidget",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "tokens": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                    "tokens",
+                    "widgetUrl",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the widget configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "createWidget",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {},
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "tokens": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                    "tokens",
+                    "widgetUrl",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Create a widget configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "updateWidget",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "fromNetworks": {
+                    "items": {
+                      "enum": [
+                        "AURORA",
+                        "ETHEREUM",
+                        "NEAR",
+                        "CUSTOM",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "toNetworks": {
+                    "items": {
+                      "enum": [
+                        "AURORA",
+                        "ETHEREUM",
+                        "NEAR",
+                        "CUSTOM",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "tokens": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "tokens": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                    "tokens",
+                    "widgetUrl",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Update the widget configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/widget/tokens": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "createWidgetToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "address": {
+                    "type": "string",
+                  },
+                  "symbol": {
+                    "type": "string",
+                  },
+                  "tokenId": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "NOT_DEPLOYED",
+                        "PENDING",
+                        "DEPLOYED",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Request bridging of a token for a silo",
         "tags": [
           "silos",
         ],

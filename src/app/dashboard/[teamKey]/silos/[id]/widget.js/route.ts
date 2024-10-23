@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getSiloBridge } from "@/actions/silo-bridge/get-silo-bridge"
-import { getWidgetUrl } from "@/actions/silo-bridge/get-widget-url"
+import { getWidget } from "@/actions/widget/get-widget"
+import { getWidgetUrl } from "@/actions/widget/get-widget-url"
 import { getSilo } from "@/actions/silos/get-silo"
 import { getTokens } from "@/actions/tokens/get-tokens"
 
@@ -11,19 +11,19 @@ export async function GET(req: NextRequest) {
     return new NextResponse(null, { status: 404 })
   }
 
-  const [bridge, silo, tokens] = await Promise.all([
-    getSiloBridge(siloId),
+  const [widget, silo, tokens] = await Promise.all([
+    getWidget(siloId),
     getSilo(siloId),
     getTokens(),
   ])
 
-  if (!silo || !bridge) {
+  if (!silo || !widget) {
     return new NextResponse(null, { status: 404 })
   }
 
-  const widgetUrl = getWidgetUrl({ silo, bridge, tokens })
+  const widgetUrl = getWidgetUrl({ silo, widget, tokens })
   const res = new NextResponse(
-    `window.accBridge = { open: () => { window.open('${widgetUrl}',"newwindow",\`width=600,height=800,left=\${window.screen.width / 2 - 300},top=\${window.screen.height / 2 - 400}\`); } };`,
+    `window.accWidget = { open: () => { window.open('${widgetUrl}',"newwindow",\`width=600,height=800,left=\${window.screen.width / 2 - 300},top=\${window.screen.height / 2 - 400}\`); } };`,
   )
 
   res.headers.append("content-type", "application/javascript")

@@ -18,7 +18,7 @@ jest.mock("../../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
 
-describe("Bridge silo token route", () => {
+describe("Widget silo token route", () => {
   beforeAll(setupJestOpenApi)
 
   beforeEach(() => {
@@ -34,7 +34,7 @@ describe("Bridge silo token route", () => {
   describe("POST", () => {
     it("returns a 404 for a non-existant silo", async () => {
       await expect(async () =>
-        invokeApiHandler("POST", "/api/silos/1/bridge/tokens", POST),
+        invokeApiHandler("POST", "/api/silos/1/widget/tokens", POST),
       ).rejects.toThrow("Not Found")
     })
 
@@ -45,7 +45,7 @@ describe("Bridge silo token route", () => {
           .select.mockImplementation(() => createSelect(createMockSilo()))
 
         await expect(async () =>
-          invokeApiHandler("POST", "/api/silos/1/bridge/tokens", POST, {
+          invokeApiHandler("POST", "/api/silos/1/widget/tokens", POST, {
             body: { tokenId: 1 },
           }),
         ).rejects.toThrow("Not Found")
@@ -65,7 +65,7 @@ describe("Bridge silo token route", () => {
           .select.mockImplementation(() => createSelect(mockToken))
 
         await expect(async () =>
-          invokeApiHandler("POST", "/api/silos/1/bridge/tokens", POST, {
+          invokeApiHandler("POST", "/api/silos/1/widget/tokens", POST, {
             body: { tokenId: mockToken.id },
           }),
         ).rejects.toThrow("Token is already deployed")
@@ -101,7 +101,7 @@ describe("Bridge silo token route", () => {
 
           const res = await invokeApiHandler(
             "POST",
-            "/api/silos/1/bridge/tokens",
+            "/api/silos/1/widget/tokens",
             POST,
             { body: { tokenId: mockToken.id } },
           )
@@ -162,7 +162,7 @@ describe("Bridge silo token route", () => {
 
         const res = await invokeApiHandler(
           "POST",
-          "/api/silos/1/bridge/tokens",
+          "/api/silos/1/widget/tokens",
           POST,
           { body: { symbol: mockToken.symbol, address: mockToken.address } },
         )
@@ -226,7 +226,7 @@ describe("Bridge silo token route", () => {
 
           const res = await invokeApiHandler(
             "POST",
-            "/api/silos/1/bridge/tokens",
+            "/api/silos/1/widget/tokens",
             POST,
             { body: { symbol: mockToken.symbol, address: mockToken.address } },
           )
@@ -264,7 +264,7 @@ describe("Bridge silo token route", () => {
           .select.mockImplementation(() => createSelect(mockToken))
 
         await expect(async () =>
-          invokeApiHandler("POST", "/api/silos/1/bridge/tokens", POST, {
+          invokeApiHandler("POST", "/api/silos/1/widget/tokens", POST, {
             body: { symbol: mockToken.symbol, address: mockToken.address },
           }),
         ).rejects.toThrow("Token is already deployed")

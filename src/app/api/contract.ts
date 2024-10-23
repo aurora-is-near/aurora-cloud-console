@@ -2,7 +2,7 @@ import { initContract } from "@ts-rest/core"
 import { z } from "zod"
 import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
-import { BRIDGE_NETWORKS } from "@/constants/bridge"
+import { WIDGET_NETWORKS } from "@/constants/bridge"
 import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
 
 extendZodWithOpenApi(z)
@@ -96,16 +96,16 @@ export const OracleSchema = z.object({
   address: z.string().nullable(),
 })
 
-const BridgeNetwork = z.string().openapi({
-  enum: BRIDGE_NETWORKS,
+const WidgetNetwork = z.string().openapi({
+  enum: WIDGET_NETWORKS,
 })
 
-export const BridgeSchema = z.object({
+export const WidgetSchema = z.object({
   enabled: z.boolean(),
   createdAt: z.string().nullable(),
   updatedAt: z.string().nullable(),
-  fromNetworks: z.array(BridgeNetwork).nullable(),
-  toNetworks: z.array(BridgeNetwork).nullable(),
+  fromNetworks: z.array(WidgetNetwork).nullable(),
+  toNetworks: z.array(WidgetNetwork).nullable(),
   tokens: z.array(z.number()),
   widgetUrl: z.string().nullable(),
 })
@@ -299,12 +299,12 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
-  getSiloBridge: {
-    summary: "Get the bridge configuration for a silo",
+  getWidget: {
+    summary: "Get the widget configuration for a silo",
     method: "GET",
-    path: "/api/silos/:id/bridge",
+    path: "/api/silos/:id/widget",
     responses: {
-      200: BridgeSchema,
+      200: WidgetSchema,
     },
     metadata: {
       scopes: ["silos:read"],
@@ -313,12 +313,12 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
-  createSiloBridge: {
-    summary: "Create a bridge configuration for a silo",
+  createWidget: {
+    summary: "Create a widget configuration for a silo",
     method: "POST",
-    path: "/api/silos/:id/bridge",
+    path: "/api/silos/:id/widget",
     responses: {
-      200: BridgeSchema,
+      200: WidgetSchema,
     },
     metadata: {
       scopes: ["silos:write"],
@@ -328,29 +328,29 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
-  updateSiloBridge: {
-    summary: "Update the bridge configuration for a silo",
+  updateWidget: {
+    summary: "Update the widget configuration for a silo",
     method: "PUT",
-    path: "/api/silos/:id/bridge",
+    path: "/api/silos/:id/widget",
     responses: {
-      200: BridgeSchema,
+      200: WidgetSchema,
     },
     metadata: {
       scopes: ["silos:write"],
     },
     body: z.object({
-      fromNetworks: z.array(BridgeNetwork).optional(),
-      toNetworks: z.array(BridgeNetwork).optional(),
+      fromNetworks: z.array(WidgetNetwork).optional(),
+      toNetworks: z.array(WidgetNetwork).optional(),
       tokens: z.array(z.number()).optional(),
     }),
     pathParams: z.object({
       id: z.number(),
     }),
   },
-  bridgeSiloToken: {
+  createWidgetToken: {
     summary: "Request bridging of a token for a silo",
     method: "POST",
-    path: "/api/silos/:id/bridge/tokens",
+    path: "/api/silos/:id/widget/tokens",
     responses: {
       200: z.object({
         status: DeploymentStatus,

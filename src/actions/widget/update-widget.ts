@@ -1,24 +1,24 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { Bridge, BridgeNetworkType } from "@/types/types"
+import { Widget, WidgetNetworkType } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const updateSiloBridge = async (
+export const updateWidget = async (
   siloId: number,
   inputs: {
-    fromNetworks?: BridgeNetworkType[]
-    toNetworks?: BridgeNetworkType[]
+    fromNetworks?: WidgetNetworkType[]
+    toNetworks?: WidgetNetworkType[]
     tokens?: number[]
   },
-): Promise<Bridge> => {
+): Promise<Widget> => {
   const supabase = createAdminSupabaseClient()
 
   const result = await supabase
-    .from("bridges")
+    .from("widgets")
     .update({
       from_networks: inputs.fromNetworks,
       to_networks: inputs.toNetworks,

@@ -1,15 +1,15 @@
 "use server"
 
-import { Bridge } from "@/types/types"
+import { Widget } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const getSiloBridge = async (id: number): Promise<Bridge | null> => {
+export const getWidget = async (id: number): Promise<Widget | null> => {
   const supabase = createAdminSupabaseClient()
-  const { data: bridge } = await supabase
-    .from("bridges")
+  const { data } = await supabase
+    .from("widgets")
     .select("*")
     .eq("silo_id", id)
     .maybeSingle()
 
-  return bridge
+  return data
 }

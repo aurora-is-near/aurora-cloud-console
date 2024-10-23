@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { BridgeNetworkType } from "@/types/types"
+import { WidgetNetworkType } from "@/types/types"
 import { GET, POST, PUT } from "./route"
 import {
   createInsertOrUpdate,
@@ -11,13 +11,13 @@ import {
 import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
-import { createMockBridge } from "../../../../../../test-utils/factories/bridge-factory"
+import { createMockWidget } from "../../../../../../test-utils/factories/widget-factory"
 
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
 
-describe("Bridges route", () => {
+describe("Widgets route", () => {
   beforeAll(setupJestOpenApi)
 
   beforeEach(() => {
@@ -26,17 +26,17 @@ describe("Bridges route", () => {
       .select.mockImplementation(() => createSelect())
 
     mockSupabaseClient
-      .from("bridges")
+      .from("widgets")
       .select.mockImplementation(() => createSelect())
   })
 
   describe("GET", () => {
-    it("returns a disabled bridge", async () => {
+    it("returns a disabled widget", async () => {
       mockSupabaseClient
         .from("silos")
         .select.mockImplementation(() => createSelect(createMockSilo()))
 
-      const res = await invokeApiHandler("GET", "/api/silos/1/bridge", GET)
+      const res = await invokeApiHandler("GET", "/api/silos/1/widget", GET)
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
@@ -50,8 +50,8 @@ describe("Bridges route", () => {
       })
     })
 
-    it("returns an enabled bridge", async () => {
-      const mockBridge = createMockBridge({
+    it("returns an enabled widget", async () => {
+      const mockWidget = createMockWidget({
         from_networks: ["AURORA"],
         to_networks: ["ETHEREUM"],
         tokens: [1],
@@ -62,16 +62,16 @@ describe("Bridges route", () => {
         .select.mockImplementation(() => createSelect(createMockSilo()))
 
       mockSupabaseClient
-        .from("bridges")
-        .select.mockImplementation(() => createSelect(mockBridge))
+        .from("widgets")
+        .select.mockImplementation(() => createSelect(mockWidget))
 
-      const res = await invokeApiHandler("GET", "/api/silos/1/bridge", GET)
+      const res = await invokeApiHandler("GET", "/api/silos/1/widget", GET)
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
         enabled: true,
-        createdAt: mockBridge.created_at,
-        updatedAt: mockBridge.updated_at,
+        createdAt: mockWidget.created_at,
+        updatedAt: mockWidget.updated_at,
         fromNetworks: ["AURORA"],
         toNetworks: ["ETHEREUM"],
         tokens: [1],
@@ -84,14 +84,14 @@ describe("Bridges route", () => {
   describe("POST", () => {
     it("returns a 404 for a non-existant silo", async () => {
       await expect(async () =>
-        invokeApiHandler("POST", "/api/silos/1/bridge", POST),
+        invokeApiHandler("POST", "/api/silos/1/widget", POST),
       ).rejects.toThrow("Not Found")
     })
 
-    it("returns a 400 if the bridge already exists", async () => {
+    it("returns a 400 if the widget already exists", async () => {
       mockSupabaseClient
-        .from("bridges")
-        .select.mockImplementation(() => createSelect(createMockBridge()))
+        .from("widgets")
+        .select.mockImplementation(() => createSelect(createMockWidget()))
 
       mockSupabaseClient
         .from("silos")
@@ -100,7 +100,7 @@ describe("Bridges route", () => {
       let error
 
       try {
-        await invokeApiHandler("POST", "/api/silos/1/bridge", POST)
+        await invokeApiHandler("POST", "/api/silos/1/widget", POST)
       } catch (e) {
         error = e
       }
@@ -108,26 +108,26 @@ describe("Bridges route", () => {
       expect(error).toBeDefined()
     })
 
-    it("creates a bridge", async () => {
-      const mockBridge = createMockBridge()
+    it("creates a widget", async () => {
+      const mockWidget = createMockWidget()
 
       mockSupabaseClient
         .from("silos")
         .select.mockImplementation(() => createSelect(createMockSilo()))
 
       mockSupabaseClient
-        .from("bridges")
-        .insert.mockImplementation(() => createInsertOrUpdate(mockBridge))
+        .from("widgets")
+        .insert.mockImplementation(() => createInsertOrUpdate(mockWidget))
 
-      const res = await invokeApiHandler("POST", "/api/silos/1/bridge", POST, {
+      const res = await invokeApiHandler("POST", "/api/silos/1/widget", POST, {
         body: {},
       })
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
         enabled: true,
-        createdAt: mockBridge.created_at,
-        updatedAt: mockBridge.updated_at,
+        createdAt: mockWidget.created_at,
+        updatedAt: mockWidget.updated_at,
         fromNetworks: [],
         toNetworks: [],
         tokens: [],
@@ -135,7 +135,7 @@ describe("Bridges route", () => {
           "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud?toNetworks=%5B%5D&fromNetworks=%5B%5D",
       })
 
-      expect(mockSupabaseClient.from("bridges").insert).toHaveBeenCalledWith({
+      expect(mockSupabaseClient.from("widgets").insert).toHaveBeenCalledWith({
         silo_id: 1,
       })
     })
@@ -144,16 +144,16 @@ describe("Bridges route", () => {
   describe("PUT", () => {
     it("returns a 404 for a non-existant silo", async () => {
       await expect(async () =>
-        invokeApiHandler("PUT", "/api/silos/1/bridge", POST),
+        invokeApiHandler("PUT", "/api/silos/1/widget", POST),
       ).rejects.toThrow("Not Found")
     })
 
-    it("updates a bridge", async () => {
+    it("updates a widget", async () => {
       const mockSilo = createMockSilo()
-      const mockBridge = createMockBridge()
-      const updateQueries = createInsertOrUpdate(mockBridge)
-      const fromNetworks: BridgeNetworkType[] = ["AURORA"]
-      const toNetworks: BridgeNetworkType[] = ["ETHEREUM"]
+      const mockWidget = createMockWidget()
+      const updateQueries = createInsertOrUpdate(mockWidget)
+      const fromNetworks: WidgetNetworkType[] = ["AURORA"]
+      const toNetworks: WidgetNetworkType[] = ["ETHEREUM"]
       const tokens = [1]
 
       mockSupabaseClient
@@ -161,16 +161,16 @@ describe("Bridges route", () => {
         .select.mockImplementation(() => createSelect(mockSilo))
 
       mockSupabaseClient
-        .from("bridges")
+        .from("widgets")
         .update.mockImplementation(() => updateQueries)
 
       mockSupabaseClient
-        .from("bridges")
-        .select.mockImplementation(() => createSelect(mockBridge))
+        .from("widgets")
+        .select.mockImplementation(() => createSelect(mockWidget))
 
       updateQueries.select.mockReturnValue(
         createSelect({
-          ...mockBridge,
+          ...mockWidget,
           from_networks: fromNetworks,
           to_networks: toNetworks,
           tokens,
@@ -179,7 +179,7 @@ describe("Bridges route", () => {
 
       const res = await invokeApiHandler(
         "PUT",
-        `/api/silos/${mockSilo.id}/bridge`,
+        `/api/silos/${mockSilo.id}/widget`,
         PUT,
         {
           params: { id: String(mockSilo.id) },
@@ -194,8 +194,8 @@ describe("Bridges route", () => {
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
         enabled: true,
-        createdAt: mockBridge.created_at,
-        updatedAt: mockBridge.updated_at,
+        createdAt: mockWidget.created_at,
+        updatedAt: mockWidget.updated_at,
         fromNetworks,
         toNetworks,
         tokens,
@@ -203,8 +203,8 @@ describe("Bridges route", () => {
           "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud?toNetworks=%5B%22ethereum%22%5D&fromNetworks=%5B%22aurora%22%5D",
       })
 
-      expect(mockSupabaseClient.from("bridges").update).toHaveBeenCalledTimes(1)
-      expect(mockSupabaseClient.from("bridges").update).toHaveBeenCalledWith({
+      expect(mockSupabaseClient.from("widgets").update).toHaveBeenCalledTimes(1)
+      expect(mockSupabaseClient.from("widgets").update).toHaveBeenCalledWith({
         from_networks: fromNetworks,
         to_networks: toNetworks,
         tokens,

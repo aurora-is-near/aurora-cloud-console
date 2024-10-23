@@ -34,13 +34,13 @@ const TokensModal = ({
     formState: { isSubmitting },
   } = useForm<Inputs>()
 
-  const getSiloBridgeUpdater = useOptimisticUpdater("getSiloBridge")
+  const getWidgetUpdater = useOptimisticUpdater("getWidget")
 
-  const { mutate: updateSiloBridge, isPending } = useMutation({
-    mutationFn: apiClient.updateSiloBridge,
+  const { mutate: updateWidget, isPending } = useMutation({
+    mutationFn: apiClient.updateWidget,
     onSuccess: closeModal,
-    onMutate: getSiloBridgeUpdater.update,
-    onSettled: getSiloBridgeUpdater.invalidate,
+    onMutate: getWidgetUpdater.update,
+    onSettled: getWidgetUpdater.invalidate,
     onError: () => {
       toast.error("Failed to update bridge tokens")
     },
@@ -51,12 +51,12 @@ const TokensModal = ({
       .filter(([, value]) => value)
       .map(([key]) => Number(key))
 
-    const data: Parameters<typeof updateSiloBridge>[0] = {
+    const data: Parameters<typeof updateWidget>[0] = {
       id: siloId,
       tokens: selectedTokens,
     }
 
-    updateSiloBridge(data)
+    updateWidget(data)
   }
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const TokensModal = ({
   return (
     <SlideOver
       title="Supported assets"
-      open={activeModal === Modals.BridgeTokens}
+      open={activeModal === Modals.WidgetTokens}
       close={closeModal}
     >
       <form onSubmit={handleSubmit(submit)}>

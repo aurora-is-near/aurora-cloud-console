@@ -46,11 +46,12 @@ export const apiClient = {
   getSiloTokens: async ({ id }: ApiRequestParams<"getSiloTokens">) =>
     get<"getSiloTokens">(`/api/silos/${id}/tokens`),
 
-  bridgeSiloToken: async ({
+  createWidgetToken: async ({
     id,
     ...data
-  }: ApiRequestParams<"bridgeSiloToken"> & ApiRequestBody<"bridgeSiloToken">) =>
-    post<"bridgeSiloToken">(`/api/silos/${id}/bridge/tokens`, data),
+  }: ApiRequestParams<"createWidgetToken"> &
+    ApiRequestBody<"createWidgetToken">) =>
+    post<"createWidgetToken">(`/api/silos/${id}/widget/tokens`, data),
 
   getSiloOracle: async ({ id }: ApiRequestParams<"getSiloOracle">) =>
     get<"getSiloOracle">(`/api/silos/${id}/oracle`),
@@ -58,18 +59,17 @@ export const apiClient = {
   createSiloOracle: async ({ id }: ApiRequestParams<"createSiloOracle">) =>
     post<"createSiloOracle">(`/api/silos/${id}/oracle`, {}),
 
-  getSiloBridge: async ({ id }: ApiRequestParams<"getSiloBridge">) =>
-    get<"getSiloBridge">(`/api/silos/${id}/bridge`),
+  getWidget: async ({ id }: ApiRequestParams<"getWidget">) =>
+    get<"getWidget">(`/api/silos/${id}/widget`),
 
-  createSiloBridge: async ({ id }: ApiRequestParams<"createSiloBridge">) =>
-    post<"createSiloBridge">(`/api/silos/${id}/bridge`, {}),
+  createWidget: async ({ id }: ApiRequestParams<"createWidget">) =>
+    post<"createWidget">(`/api/silos/${id}/widget`, {}),
 
-  updateSiloBridge: async ({
+  updateWidget: async ({
     id,
     ...data
-  }: ApiRequestParams<"updateSiloBridge"> &
-    ApiRequestBody<"updateSiloBridge">) =>
-    put<"updateSiloBridge">(`/api/silos/${id}/bridge`, data),
+  }: ApiRequestParams<"updateWidget"> & ApiRequestBody<"updateWidget">) =>
+    put<"updateWidget">(`/api/silos/${id}/widget`, data),
 
   getDeals: async () => get<"getDeals">("/api/deals"),
 
