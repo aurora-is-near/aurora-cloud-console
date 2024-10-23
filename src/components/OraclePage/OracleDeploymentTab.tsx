@@ -3,8 +3,8 @@ import { NoDataCta } from "@/components/NoDataCta"
 import { ContactButton } from "@/components/ContactButton"
 import Card from "@/components/Card"
 import { AuroraOracle } from "@/types/oracle"
-import { Input } from "@/components/Input"
-import { OracleCopyAddressButton } from "@/components/OraclePage/OracleCopyAddressButton"
+import { TabCard } from "@/components/TabCard/TabCard"
+import CopyButton from "@/components/CopyButton"
 
 type OracleDeploymentTabProps = {
   teamKey: string
@@ -19,7 +19,7 @@ export const OracleDeploymentTab = ({
 
   if (!address) {
     return (
-      <Card className="w-full">
+      <TabCard>
         <NoDataCta
           title="Deployment pending"
           description="Your Oracle is being deployed. Please check back later, or contact support if you have any questions."
@@ -28,26 +28,17 @@ export const OracleDeploymentTab = ({
         >
           <ContactButton teamKey={teamKey} />
         </NoDataCta>
-      </Card>
+      </TabCard>
     )
   }
 
   return (
-    <Card className="w-full">
+    <TabCard>
       <Card.Title tag="h3">Oracle contract</Card.Title>
-      <Card.Body>
-        <label htmlFor="oracle-address" className="sr-only">
-          Oracle contract address
-        </label>
-        <Input
-          name="oracle-address"
-          id="oracle-address"
-          value={address}
-          className="mb-4"
-          readOnly
-        />
-        <OracleCopyAddressButton address={address} />
-      </Card.Body>
-    </Card>
+      <div className="flex items-center justify-between m-6 mt-0 p-3 border border-l-4 border-slate-200">
+        <span className="text-sm text-slate-900">{address}</span>
+        <CopyButton hasBorder value={address} />
+      </div>
+    </TabCard>
   )
 }

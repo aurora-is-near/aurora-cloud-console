@@ -1,4 +1,4 @@
-import { OraclePage } from "@/components/OraclePage/OraclePage"
+import OraclePage from "@/components/OraclePage/OraclePage"
 
 const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => (
   <OraclePage teamKey={teamKey} />
