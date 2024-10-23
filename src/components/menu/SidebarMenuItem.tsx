@@ -44,7 +44,7 @@ export const SidebarMenuItem = ({
       >
         {icon}
         <span>{name}</span>
-        {items?.length && (
+        {!!items?.length && (
           <ChevronRightIcon
             className={clsx(
               "ml-auto w-4 h-4 text-slate-500",
@@ -53,7 +53,7 @@ export const SidebarMenuItem = ({
           />
         )}
       </Link>
-      {items && pathname.startsWith(href) && (
+      {!!items && pathname.startsWith(href) && (
         <ul className="pl-9 space-y-1 mt-1">
           {items.map((subItem) => (
             <li key={subItem.name}>
