@@ -3,12 +3,10 @@
 import { CheckIcon, ClockIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { useState } from "react"
-import { PlusIcon } from "@heroicons/react/20/solid"
 import Card from "@/components/Card"
 import Loader from "@/components/Loader"
 import { Tag } from "@/components/Tag"
 import { useBridgeTokens } from "@/hooks/useBridgeTokens"
-import { Button } from "@/components/Button"
 import { TokensCard } from "@/components/UniversalWidgetPage/TokensCard"
 import { AddButton } from "@/components/AddButton"
 
