@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
 
   const widgetUrl = getWidgetUrl({ silo, widget, tokens })
   const res = new NextResponse(
-    `window.accWidget = { open: () => { window.open('${widgetUrl}',"newwindow",\`width=600,height=800,left=\${window.screen.width / 2 - 300},top=\${window.screen.height / 2 - 400}\`); } };`,
+    `window.auroraCloudConsole = { openWidget: () => { window.open('${widgetUrl}',"newwindow",\`width=600,height=800,left=\${window.screen.width / 2 - 300},top=\${window.screen.height / 2 - 400}\`); } };`,
   )
 
   res.headers.append("content-type", "application/javascript")
