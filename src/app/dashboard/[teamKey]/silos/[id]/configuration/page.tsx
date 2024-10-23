@@ -6,7 +6,7 @@ import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import Contact from "@/components/Contact"
 import { DashboardPage } from "@/components/DashboardPage"
 import { LinkButton } from "@/components/LinkButton"
-import { ConfigurationCard } from "@/app/dashboard/[teamKey]/silos/[id]/configuration/ConfigurationCard"
+import { ConfigurationItemsCard } from "./ConfigurationItemsCard"
 
 const Page = async ({
   params: { id, teamKey },
@@ -36,7 +36,7 @@ const Page = async ({
         ) : null
       }
     >
-      <ConfigurationCard
+      <ConfigurationItemsCard
         title="Chain details"
         description="Virtual Chain configuration sets the key parameters that define your blockchain’s network and enable seamless operation."
         items={[
@@ -79,7 +79,7 @@ const Page = async ({
         ]}
       />
 
-      <ConfigurationCard
+      <ConfigurationItemsCard
         title="Relayer"
         description="Provides access to the NEAR Explorer for tracking transactions and activity."
         items={[
@@ -100,7 +100,7 @@ const Page = async ({
         ]}
       />
 
-      <ConfigurationCard
+      <ConfigurationItemsCard
         title="Token & gas"
         description="The base token and gas mechanism of your virtual chain."
         items={[
@@ -119,7 +119,7 @@ const Page = async ({
         ]}
       />
 
-      <ConfigurationCard
+      <ConfigurationItemsCard
         title="Permissions"
         description="Your virtual chain access restrictions and contract deployment support."
         items={[

@@ -1,20 +1,26 @@
+import { notFound } from "next/navigation"
 import Contact from "@/components/Contact"
 import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
-import { FiltersCard } from "./FiltersCard"
+import { getTeamDealByKey } from "@/actions/team-deals/get-team-deal-by-key"
+import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
-import { ControlCard } from "./ControlCard"
 
-const Page = ({
+const Page = async ({
   params: { planId, teamKey },
 }: {
   params: { planId: string; teamKey: string }
 }) => {
-  return (
-    <DealUpdateProvider dealId={Number(planId)}>
-      <DealUpdatePage>
-        <FiltersCard />
-        <ControlCard />
+  const dealId = Number(planId)
+  const deal = await getTeamDealByKey(teamKey, dealId)
 
+  if (!deal) {
+    notFound()
+  }
+
+  return (
+    <DealUpdateProvider dealId={dealId}>
+      <DealUpdatePage deal={deal}>
+        <RulesCard />
         <Contact teamKey={teamKey} />
       </DealUpdatePage>
     </DealUpdateProvider>
