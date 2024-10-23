@@ -126,6 +126,9 @@ export const useChainCreationForm = (team: Team) => {
 
       return
     }
+
+    // For mainnet, redirect to the book a call page
+    window.location.href = `${window.location.origin}/create-chain/book-a-call`
   }, [form, team])
 
   const submitButtonText =
