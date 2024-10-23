@@ -9,7 +9,6 @@ import {
   NetworkType,
   TokenOption,
 } from "@/types/chain-creation"
-import { createSilo } from "@/actions/silos/create-silo"
 import {
   DEVNET_CHAIN_ID,
   DEVNET_ENGINE_ACCOUNT,
@@ -18,6 +17,7 @@ import {
   DEVNET_RPC_URL,
 } from "@/constants/devnet"
 import { getTokens } from "@/actions/tokens/get-tokens"
+import { upsertSilo } from "@/actions/silos/upsert-silo"
 import {
   AuroraToken,
   Bitcoin,
@@ -104,8 +104,10 @@ export const useChainCreationForm = (team: Team) => {
       throw new Error("Aurora token not found")
     }
 
+    // Note that an upsert is used here in case the user somehow submits the
+    // form twice. For example, if they opened it in two browser tabs.
     if (form.networkType === "devnet") {
-      const silo = await createSilo({
+      const silo = await upsertSilo({
         explorer_url: DEVNET_EXPLORER_URL,
         name: form.chainName,
         genesis: DEVNET_GENESIS,

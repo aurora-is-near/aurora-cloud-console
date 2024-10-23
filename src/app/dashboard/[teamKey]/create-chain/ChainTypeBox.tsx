@@ -9,6 +9,7 @@ interface ChainTypeBoxProps {
   type: NetworkType
   onClick: () => void
   selected: boolean
+  disabled?: boolean
 }
 
 const Label: React.FC<{ type: "free" | "enterprise" }> = ({ type }) => {
@@ -35,9 +36,15 @@ const ChainTypeBox: React.FC<ChainTypeBoxProps> = ({
   type,
   onClick,
   selected,
+  disabled,
 }) => {
   return (
-    <SelectableBox selected={selected} onClick={onClick} className="p-6">
+    <SelectableBox
+      selected={selected}
+      onClick={onClick}
+      className="p-6"
+      disabled={disabled}
+    >
       <div className="flex flex-row justify-between items-start w-full">
         <h3 className="font-semibold mb-2 text-slate-900 text-xl tracking-tight">
           {title}

@@ -26,7 +26,12 @@ import ChainPermissionBox from "./ChainPermissionBox"
 import GasMechanicsBox from "./GasMechanicsBox"
 import IntegrationBox from "./IntegrationBox"
 
-const OnboardingForm = ({ team }: { team: Team }) => {
+type OnboardingFormProps = {
+  team: Team
+  hasDevNet: boolean
+}
+
+const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
@@ -94,6 +99,7 @@ const OnboardingForm = ({ team }: { team: Team }) => {
           >
             <div className="grid md:grid-cols-2 w-full gap-4">
               <ChainTypeBox
+                disabled={hasDevNet}
                 title="Devnet"
                 description="Get access to a shared Aurora Chain that is an exact replica of the production chain."
                 type="devnet"
