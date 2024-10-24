@@ -1,10 +1,8 @@
-import { RocketLaunchIcon } from "@heroicons/react/24/outline"
-import { NoDataCta } from "@/components/NoDataCta"
-import { ContactButton } from "@/components/ContactButton"
 import Card from "@/components/Card"
 import { AuroraOracle } from "@/types/oracle"
 import { TabCard } from "@/components/TabCard/TabCard"
 import CopyButton from "@/components/CopyButton"
+import { DeploymentPendingCta } from "@/components/OraclePage/DeploymentPendingCTA"
 
 type OracleDeploymentTabProps = {
   teamKey: string
@@ -18,18 +16,7 @@ export const OracleDeploymentTab = ({
   const { address } = oracle.contract ?? {}
 
   if (!address) {
-    return (
-      <TabCard>
-        <NoDataCta
-          title="Deployment pending"
-          description="Your Oracle is being deployed. Please check back later, or contact support if you have any questions."
-          Icon={RocketLaunchIcon}
-          className="mx-auto max-w-[320px] py-6"
-        >
-          <ContactButton teamKey={teamKey} />
-        </NoDataCta>
-      </TabCard>
-    )
+    return <DeploymentPendingCta teamKey={teamKey} />
   }
 
   return (
