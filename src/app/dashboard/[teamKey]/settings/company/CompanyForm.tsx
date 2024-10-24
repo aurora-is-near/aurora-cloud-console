@@ -79,7 +79,6 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
       }
     >
       <Card>
-        <Card.Title tag="h3">Company information</Card.Title>
         <Card.Body>
           {showForm ? (
             <form
@@ -89,7 +88,7 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
               <HorizontalInput
                 id="name"
                 name="name"
-                label="Name"
+                label="Company name"
                 autoComplete="name"
                 register={register}
                 registerOptions={{
@@ -100,7 +99,7 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
               <HorizontalInput
                 id="website"
                 name="website"
-                label="Website"
+                label="Business website"
                 autoComplete="website"
                 register={register}
                 registerOptions={{
@@ -111,7 +110,7 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
               <HorizontalInput
                 id="email"
                 name="email"
-                label="Email"
+                label="Support email"
                 autoComplete="email"
                 register={register}
                 registerOptions={{
@@ -120,7 +119,7 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
               />
             </form>
           ) : (
-            <dl className="px-6 space-y-10 pb-7">
+            <dl className="space-y-10 mt-4">
               <div className="sm:grid sm:grid-cols-2">
                 <dt className="text-sm font-medium leading-none text-gray-500">
                   Company name
