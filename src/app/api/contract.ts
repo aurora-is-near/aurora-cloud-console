@@ -270,6 +270,27 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
+  bridgeSiloToken: {
+    summary: "Request bridging of a token for a silo",
+    method: "POST",
+    path: "/api/silos/:id/tokens/bridge",
+    responses: {
+      200: z.object({
+        status: DeploymentStatus,
+      }),
+    },
+    metadata: {
+      scopes: ["silos:write"],
+    },
+    body: z.object({
+      tokenId: z.number().optional(),
+      symbol: z.string().optional(),
+      address: z.string().optional(),
+    }),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
   getSiloOracle: {
     summary: "Get the oracle configuration for a silo",
     method: "GET",
@@ -342,27 +363,6 @@ export const contract = c.router({
       fromNetworks: z.array(WidgetNetwork).optional(),
       toNetworks: z.array(WidgetNetwork).optional(),
       tokens: z.array(z.number()).optional(),
-    }),
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  createWidgetToken: {
-    summary: "Request bridging of a token for a silo",
-    method: "POST",
-    path: "/api/silos/:id/widget/tokens",
-    responses: {
-      200: z.object({
-        status: DeploymentStatus,
-      }),
-    },
-    metadata: {
-      scopes: ["silos:write"],
-    },
-    body: z.object({
-      tokenId: z.number().optional(),
-      symbol: z.string().optional(),
-      address: z.string().optional(),
     }),
     pathParams: z.object({
       id: z.number(),

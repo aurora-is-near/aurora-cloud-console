@@ -18,7 +18,7 @@ const addToken = async (tokenId: number) => {
 const addExistingToken = async (
   siloId: number,
   tokenId: number,
-): Promise<ApiResponseBody<"createWidgetToken">> => {
+): Promise<ApiResponseBody<"bridgeSiloToken">> => {
   const token = await getSiloToken(siloId, tokenId)
 
   if (!token) {
@@ -36,7 +36,7 @@ const addCustomToken = async (
   siloId: number,
   symbol: string,
   address: string,
-): Promise<ApiResponseBody<"createWidgetToken">> => {
+): Promise<ApiResponseBody<"bridgeSiloToken">> => {
   const token = await getSiloTokenByAddress(siloId, address)
 
   if (token?.bridge_deployment_status === "DEPLOYED") {
@@ -66,7 +66,7 @@ const addCustomToken = async (
 }
 
 export const POST = createApiEndpoint(
-  "createWidgetToken",
+  "bridgeSiloToken",
   async (_req, ctx) => {
     const silo = await getSilo(Number(ctx.params.id))
     const badRequestMessage = "Must provide either tokenId or symbol/address"

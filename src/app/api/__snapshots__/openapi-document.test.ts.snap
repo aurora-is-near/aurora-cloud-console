@@ -2001,6 +2001,80 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/silos/{id}/tokens/bridge": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "bridgeSiloToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "address": {
+                    "type": "string",
+                  },
+                  "symbol": {
+                    "type": "string",
+                  },
+                  "tokenId": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "NOT_DEPLOYED",
+                        "PENDING",
+                        "DEPLOYED",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Request bridging of a token for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
     "/api/silos/{id}/widget": {
       "get": {
         "deprecated": undefined,
@@ -2339,80 +2413,6 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Update the widget configuration for a silo",
-        "tags": [
-          "silos",
-        ],
-      },
-    },
-    "/api/silos/{id}/widget/tokens": {
-      "post": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`silos:write\`",
-        "operationId": "createWidgetToken",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "address": {
-                    "type": "string",
-                  },
-                  "symbol": {
-                    "type": "string",
-                  },
-                  "tokenId": {
-                    "type": "number",
-                  },
-                },
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "status": {
-                      "enum": [
-                        "NOT_DEPLOYED",
-                        "PENDING",
-                        "DEPLOYED",
-                      ],
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "status",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "silos:write",
-            ],
-          },
-        ],
-        "summary": "Request bridging of a token for a silo",
         "tags": [
           "silos",
         ],

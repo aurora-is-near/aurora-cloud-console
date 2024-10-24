@@ -36,9 +36,9 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
   const { undeployedTokens } = useWidgetTokens(siloId)
   const getSiloTokensUpdater = useOptimisticUpdater("getSiloTokens")
 
-  const { mutate: createWidgetToken, isPending: isWidgetTokenPending } =
+  const { mutate: bridgeSiloToken, isPending: isBridgeSiloTokenPending } =
     useMutation({
-      mutationFn: apiClient.createWidgetToken,
+      mutationFn: apiClient.bridgeSiloToken,
       onSettled: getSiloTokensUpdater.invalidate,
       onSuccess: () => {
         toast.success("Token deployment requested")
@@ -93,7 +93,7 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
       return
     }
 
-    createWidgetToken({
+    bridgeSiloToken({
       id: siloId,
       tokenId: Number(selectedExistingToken.value),
     })
@@ -104,7 +104,7 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
       return
     }
 
-    createWidgetToken({
+    bridgeSiloToken({
       id: siloId,
       symbol: customTokenSymbol,
       address: customTokenAddress,
@@ -158,7 +158,7 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
                 register={register}
               />
               <Button
-                disabled={!selectedExistingToken || isWidgetTokenPending}
+                disabled={!selectedExistingToken || isBridgeSiloTokenPending}
                 className="h-full"
                 onClick={onRequestExistingTokenDeploymentClick}
               >
@@ -212,7 +212,7 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
                 disabled={
                   !customTokenSymbol ||
                   !customTokenAddress ||
-                  isWidgetTokenPending
+                  isBridgeSiloTokenPending
                 }
               >
                 Request deployment
