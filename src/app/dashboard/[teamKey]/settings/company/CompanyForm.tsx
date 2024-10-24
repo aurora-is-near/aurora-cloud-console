@@ -2,8 +2,7 @@
 
 import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { PencilIcon } from "@heroicons/react/24/outline"
-import { CheckIcon } from "@heroicons/react/20/solid"
+import { CheckIcon, PencilIcon } from "@heroicons/react/20/solid"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import Card from "@/components/Card"
