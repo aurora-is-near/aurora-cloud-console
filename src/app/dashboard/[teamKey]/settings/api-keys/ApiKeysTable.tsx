@@ -1,7 +1,6 @@
 "use client"
 
-import { KeyIcon } from "@heroicons/react/24/outline"
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
+import { KeyIcon, PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { relativeTime } from "human-date"
 import { useQueryState } from "next-usequerystate"
 import { useModals } from "@/hooks/useModals"
@@ -35,7 +34,6 @@ export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
       <NoDataCta
         title="No API keys"
         description="Get started by creating a your first API key."
-        className="mt-20"
         Icon={KeyIcon}
       >
         <AddApiKeyButton />

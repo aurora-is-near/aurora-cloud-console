@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import { ComponentType, ReactNode } from "react"
 
 type NoDataCtaProps = {
@@ -15,10 +16,10 @@ export const NoDataCta = ({
   children,
   className,
 }: NoDataCtaProps) => (
-  <div className={className}>
+  <div className={clsx("bg-slate-100 rounded-lg py-10", className)}>
     <div className="text-center flex flex-col items-center">
-      <div className="bg-gray-200 rounded-lg p-3 flex justify-center items-center mx-auto">
-        <Icon className="text-gray-900 w-6 h-6 shrink-0" />
+      <div className="bg-slate-900 rounded-lg p-3 flex justify-center items-center mx-auto">
+        <Icon className="text-slate-50 w-6 h-6 shrink-0" />
       </div>
       <h3 className="mt-4 text-sm font-semibold text-gray-900">{title}</h3>
       {description && (
