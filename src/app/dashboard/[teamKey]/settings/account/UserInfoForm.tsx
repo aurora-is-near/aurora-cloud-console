@@ -140,7 +140,6 @@ const UserInfoForm = ({
       }
     >
       <Card>
-        <Card.Title tag="h3">Personal information</Card.Title>
         <Card.Body>
           {showForm ? (
             <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
