@@ -18,7 +18,7 @@ jest.mock("../../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
 
-describe("Widget silo token route", () => {
+describe("Bridge silo token route", () => {
   beforeAll(setupJestOpenApi)
 
   beforeEach(() => {
