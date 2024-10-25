@@ -1,6 +1,6 @@
-import { Bridge } from "@/types/types"
+import { Widget } from "@/types/types"
 
-export const createMockBridge = (data?: Partial<Bridge>): Bridge => ({
+export const createMockWidget = (data?: Partial<Widget>): Widget => ({
   id: 1,
   silo_id: 1,
   created_at: "2021-01-01T00:00:00Z",
@@ -11,12 +11,12 @@ export const createMockBridge = (data?: Partial<Bridge>): Bridge => ({
   ...data,
 })
 
-export const createMockBridges = (
+export const createMockWidgets = (
   count: number,
-  data?: Partial<Bridge>,
-): Bridge[] =>
+  data?: Partial<Widget>,
+): Widget[] =>
   Array.from({ length: count }, (_, index) =>
-    createMockBridge({
+    createMockWidget({
       id: index + 1,
       ...data,
     }),

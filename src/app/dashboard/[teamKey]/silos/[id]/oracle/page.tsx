@@ -1,5 +1,5 @@
 import { getSiloOracle } from "@/actions/silo-oracle/get-silo-oracle"
-import { OraclePage } from "@/components/OraclePage/OraclePage"
+import OraclePage from "@/components/OraclePage/OraclePage"
 
 const Page = async ({
   params: { id, teamKey },

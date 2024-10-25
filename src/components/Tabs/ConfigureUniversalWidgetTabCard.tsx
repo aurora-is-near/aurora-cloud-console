@@ -1,6 +1,6 @@
+import ConfigurationPanel from "@/components/FiatOnrampPage/ConfigurationPanel"
 import { LinkButton } from "@/components/LinkButton"
 import Pill from "@/components/Pill"
-import { TabCard } from "@/components/TabCard/TabCard"
 
 const ConfigureUniversalWidgetTabCard = ({
   linkPrefix,
@@ -8,13 +8,13 @@ const ConfigureUniversalWidgetTabCard = ({
   linkPrefix: string
 }) => {
   return (
-    <TabCard>
-      <div className="flex flex-col gap-2 max">
+    <ConfigurationPanel>
+      <div className="flex flex-col gap-2">
         <Pill label="Option 1" />
         <h3 className="text-lg text-slate-900 tracking-tighter font-semibold">
           Universal Widget
         </h3>
-        <p className="text-sm text-slate-500 max-w-sm">
+        <p className="text-sm text-slate-500">
           The Universal Widget provides the easiest way to integrate multiple
           onramp solutions into your application.
         </p>
@@ -26,7 +26,7 @@ const ConfigureUniversalWidgetTabCard = ({
           Configure
         </LinkButton>
       </div>
-    </TabCard>
+    </ConfigurationPanel>
   )
 }
 

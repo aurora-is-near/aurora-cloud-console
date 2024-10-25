@@ -6,16 +6,16 @@ import { useState } from "react"
 import Card from "@/components/Card"
 import Loader from "@/components/Loader"
 import { Tag } from "@/components/Tag"
-import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { TokensCard } from "@/components/UniversalWidgetPage/TokensCard"
 import { AddButton } from "@/components/AddButton"
+import { useWidgetTokens } from "@/hooks/useWidgetTokens"
 
 type DeployedTokensCardProps = {
   siloId: number
 }
 
 export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
-  const { pendingTokens, deployedTokens, isPending } = useBridgeTokens(siloId)
+  const { pendingTokens, deployedTokens, isPending } = useWidgetTokens(siloId)
   const bridgedTokens = [...deployedTokens, ...pendingTokens]
   const [isAddingNewAsset, setIsAddingNewAsset] = useState(false)
 

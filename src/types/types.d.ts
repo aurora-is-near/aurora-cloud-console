@@ -41,7 +41,7 @@ export type DeploymentStatus = Enums<"deployment_status">
 
 export type TransactionDatabaseType = Enums<"transaction_database_type">
 
-export type BridgeNetworkType = Enums<"bridge_network_type">
+export type WidgetNetworkType = Enums<"widget_network_type">
 
 export type ApiScope = PublicApiScope | "admin"
 
@@ -51,7 +51,7 @@ export type Token = Tables<"tokens">
 
 export type Oracle = Tables<"oracles">
 
-export type Bridge = Tables<"bridges">
+export type Widget = Tables<"widgets">
 
 export type Team = Tables<"teams">
 

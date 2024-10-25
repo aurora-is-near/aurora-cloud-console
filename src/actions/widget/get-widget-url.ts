@@ -1,6 +1,6 @@
-import { Bridge, BridgeNetworkType, Silo, Token } from "@/types/types"
+import { Silo, Token, Widget, WidgetNetworkType } from "@/types/types"
 
-const getNetworkEvms = (silo: Silo, networks: BridgeNetworkType[]): string[] =>
+const getNetworkEvms = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
   networks.map((network) => {
     if (network === "CUSTOM") {
       return silo.engine_account
@@ -23,11 +23,11 @@ const getNetworkEvms = (silo: Silo, networks: BridgeNetworkType[]): string[] =>
 
 export const getWidgetUrl = ({
   silo,
-  bridge,
+  widget,
   tokens,
 }: {
   silo: Silo
-  bridge: Bridge
+  widget: Widget
   tokens: Token[]
 }): string => {
   const baseToken = tokens.find((token) => token.id === silo.base_token_id)
@@ -41,23 +41,23 @@ export const getWidgetUrl = ({
     "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud",
   )
 
-  if (bridge.to_networks) {
+  if (widget.to_networks) {
     url.searchParams.set(
       "toNetworks",
-      JSON.stringify(getNetworkEvms(silo, bridge.to_networks)),
+      JSON.stringify(getNetworkEvms(silo, widget.to_networks)),
     )
   }
 
-  if (bridge.from_networks) {
+  if (widget.from_networks) {
     url.searchParams.set(
       "fromNetworks",
-      JSON.stringify(getNetworkEvms(silo, bridge.from_networks)),
+      JSON.stringify(getNetworkEvms(silo, widget.from_networks)),
     )
   }
 
   const hasCustomChain =
-    bridge.from_networks?.some((network) => network === "CUSTOM") ??
-    bridge.to_networks?.some((network) => network === "CUSTOM")
+    widget.from_networks?.some((network) => network === "CUSTOM") ??
+    widget.to_networks?.some((network) => network === "CUSTOM")
 
   if (hasCustomChain && silo && baseToken) {
     url.searchParams.set(
@@ -102,7 +102,7 @@ export const getWidgetUrl = ({
           fast_bridge,
           bridge_addresses,
         }) => {
-          if (!bridge) {
+          if (!widget) {
             return null
           }
 

@@ -58,7 +58,7 @@ SELECT add_values_to_enum(
 );
 
 SELECT add_values_to_enum(
-  'bridge_network_type',
+  'widget_network_type',
   ARRAY[
     'AURORA',
     'NEAR',
