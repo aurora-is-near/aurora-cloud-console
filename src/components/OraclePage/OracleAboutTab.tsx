@@ -1,14 +1,8 @@
 import { TabCard } from "@/components/TabCard/TabCard"
-import { Pyth } from "../../../public/static/v2/images/icons"
 
 export const OracleAboutTab = () => {
   return (
-    <TabCard
-      attribution={{
-        icon: <Pyth />,
-        text: "Powered by Pyth",
-      }}
-    >
+    <TabCard>
       <div className="flex flex-col gap-2 text-[16px] text-slate-500">
         <p>
           The Pyth Oracle strives for decentralisation where prices are
