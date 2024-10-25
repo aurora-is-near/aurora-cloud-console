@@ -1,5 +1,6 @@
 import { createDebugger } from "@/debug"
 import { AuroraOracleContract } from "@/types/aurora-oracle-api"
+import { Token } from "@/types/types"
 
 const AURORA_ORACLE_BASE_URL = "https://aurora-oracle-mxdnqmgc2a-uc.a.run.app"
 
@@ -33,7 +34,7 @@ const request = async <T>(endpoint: string): Promise<T> => {
 }
 
 export const auroraOracleApiClient = {
-  getTokens: async () => request("/tokens"),
+  getTokens: async () => request<{ items: Token[] }>("/tokens"),
   getContracts: async () =>
     request<{ items: AuroraOracleContract[] }>("/contracts"),
 }

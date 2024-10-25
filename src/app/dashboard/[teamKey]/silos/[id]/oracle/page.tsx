@@ -1,7 +1,6 @@
 import { getSiloOracle } from "@/actions/silo-oracle/get-silo-oracle"
-// import { getSiloTokens } from "@/actions/silo-tokens/get-silo-tokens"
-import { getTokens } from "@/actions/tokens/get-tokens"
 import OraclePage from "@/components/OraclePage/OraclePage"
+import { auroraOracleApiClient } from "@/utils/aurora-oracle-api/client"
 
 const Page = async ({
   params: { id, teamKey },
@@ -10,15 +9,14 @@ const Page = async ({
 }) => {
   const siloId = Number(id)
   const oracle = await getSiloOracle(siloId)
-  // const tokens = await getSiloTokens(siloId)
-  const tokens = await getTokens()
+  const tokens = await auroraOracleApiClient.getTokens()
 
   return (
     <OraclePage
       siloId={siloId}
       oracle={oracle}
       teamKey={teamKey}
-      tokens={tokens}
+      tokens={tokens.items}
     />
   )
 }
