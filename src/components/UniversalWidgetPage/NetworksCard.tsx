@@ -1,8 +1,8 @@
 "use client"
 
 import Card from "@/components/Card"
-import { useBridgeNetworks } from "@/hooks/useBridgeNetworks"
 import NetworksForm from "@/components/UniversalWidgetPage/NetworksForm"
+import { useWidgetNetworks } from "@/hooks/useWidgetNetworks"
 
 type NetworksCardProps = {
   siloId: number
@@ -10,7 +10,7 @@ type NetworksCardProps = {
 
 export const NetworksCard = ({ siloId }: NetworksCardProps) => {
   const { toNetworks, fromNetworks, availableNetworks } =
-    useBridgeNetworks(siloId)
+    useWidgetNetworks(siloId)
 
   return (
     <Card>

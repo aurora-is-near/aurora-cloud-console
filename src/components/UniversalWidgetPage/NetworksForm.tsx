@@ -6,13 +6,13 @@ import { useCallback, useEffect } from "react"
 import { useMutation } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import clsx from "clsx"
-import { BridgeNetworkType } from "@/types/types"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { Network } from "@/hooks/useBridgeNetworks"
-import { isValidNetwork } from "@/utils/bridge"
+import { Network } from "@/hooks/useWidgetNetworks"
+import { WidgetNetworkType } from "@/types/types"
+import { isValidNetwork } from "@/utils/widget"
 
-type Inputs = Partial<Record<BridgeNetworkType, boolean>>
+type Inputs = Partial<Record<WidgetNetworkType, boolean>>
 
 type NetworksFormProps = {
   siloId: number
@@ -36,12 +36,12 @@ const NetworksForm = ({
     watch,
   } = useForm<Inputs>()
 
-  const getSiloBridgeUpdater = useOptimisticUpdater("getSiloBridge")
+  const getWidgetUpdater = useOptimisticUpdater("getWidget")
 
-  const { mutate: updateSiloBridge, isPending } = useMutation({
-    mutationFn: apiClient.updateSiloBridge,
-    onMutate: getSiloBridgeUpdater.update,
-    onSettled: getSiloBridgeUpdater.invalidate,
+  const { mutate: updateWidget, isPending } = useMutation({
+    mutationFn: apiClient.updateWidget,
+    onMutate: getWidgetUpdater.update,
+    onSettled: getWidgetUpdater.invalidate,
     onSuccess: () => {
       toast.success("Bridge networks updated")
     },
@@ -57,7 +57,7 @@ const NetworksForm = ({
         .map(([key]) => key)
         .filter(isValidNetwork)
 
-      const data: Parameters<typeof updateSiloBridge>[0] = {
+      const data: Parameters<typeof updateWidget>[0] = {
         id: siloId,
       }
 
@@ -73,9 +73,9 @@ const NetworksForm = ({
         data.toNetworks = selectedNetworks
       }
 
-      updateSiloBridge(data)
+      updateWidget(data)
     },
-    [siloId, type, updateSiloBridge, networks],
+    [siloId, type, updateWidget, networks],
   )
 
   useEffect(() => {
