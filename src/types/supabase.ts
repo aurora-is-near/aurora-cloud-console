@@ -47,56 +47,6 @@ export type Database = {
           },
         ]
       }
-      bridges: {
-        Row: {
-          created_at: string
-          from_networks:
-            | Database["public"]["Enums"]["bridge_network_type"][]
-            | null
-          id: number
-          silo_id: number
-          to_networks:
-            | Database["public"]["Enums"]["bridge_network_type"][]
-            | null
-          tokens: number[]
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          from_networks?:
-            | Database["public"]["Enums"]["bridge_network_type"][]
-            | null
-          id?: number
-          silo_id: number
-          to_networks?:
-            | Database["public"]["Enums"]["bridge_network_type"][]
-            | null
-          tokens?: number[]
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          from_networks?:
-            | Database["public"]["Enums"]["bridge_network_type"][]
-            | null
-          id?: number
-          silo_id?: number
-          to_networks?:
-            | Database["public"]["Enums"]["bridge_network_type"][]
-            | null
-          tokens?: number[]
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "bridges_silo_id_fkey"
-            columns: ["silo_id"]
-            isOneToOne: true
-            referencedRelation: "silos"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       deals: {
         Row: {
           created_at: string
@@ -461,6 +411,56 @@ export type Database = {
           },
         ]
       }
+      widgets: {
+        Row: {
+          created_at: string
+          from_networks:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          id: number
+          silo_id: number
+          to_networks:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          tokens: number[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          from_networks?:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          id?: number
+          silo_id: number
+          to_networks?:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          tokens?: number[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          from_networks?:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          id?: number
+          silo_id?: number
+          to_networks?:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          tokens?: number[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bridges_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: true
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -511,11 +511,11 @@ export type Database = {
         | "lists:write"
         | "forwarder:read"
         | "forwarder:write"
-      bridge_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       transaction_database_type: "AURORA" | "AURORA_DEMO" | "SILO"
       user_type: "customer" | "admin"
+      widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -603,4 +603,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
   ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+  : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+  ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
   : never

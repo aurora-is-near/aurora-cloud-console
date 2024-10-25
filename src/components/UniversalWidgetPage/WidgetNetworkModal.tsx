@@ -8,28 +8,28 @@ import toast from "react-hot-toast"
 import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
-import { BridgeNetworkType } from "@/types/types"
+import { WidgetNetworkType } from "@/types/types"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { Network } from "@/hooks/useBridgeNetworks"
-import { isValidNetwork } from "@/utils/bridge"
+import { isValidNetwork } from "@/utils/widget"
 import { Modals } from "@/utils/modals"
+import { Network } from "@/hooks/useWidgetNetworks"
 
-type Inputs = Partial<Record<BridgeNetworkType, boolean>>
+type Inputs = Partial<Record<WidgetNetworkType, boolean>>
 
-type NetworkModalProps = {
+type WidgetNetworkModalProps = {
   siloId: number
   type: "to" | "from"
   networks: Network[]
   availableNetworks: Network[]
 }
 
-const NetworkModal = ({
+const WidgetNetworkModal = ({
   siloId,
   type,
   networks,
   availableNetworks,
-}: NetworkModalProps) => {
+}: WidgetNetworkModalProps) => {
   const { closeModal, activeModal } = useModals()
   const {
     register,
@@ -38,13 +38,13 @@ const NetworkModal = ({
     formState: { isSubmitting },
   } = useForm<Inputs>()
 
-  const getSiloBridgeUpdater = useOptimisticUpdater("getSiloBridge")
+  const getWidgetUpdater = useOptimisticUpdater("getWidget")
 
-  const { mutate: updateSiloBridge, isPending } = useMutation({
-    mutationFn: apiClient.updateSiloBridge,
+  const { mutate: updateWidget, isPending } = useMutation({
+    mutationFn: apiClient.updateWidget,
     onSuccess: closeModal,
-    onMutate: getSiloBridgeUpdater.update,
-    onSettled: getSiloBridgeUpdater.invalidate,
+    onMutate: getWidgetUpdater.update,
+    onSettled: getWidgetUpdater.invalidate,
     onError: () => {
       toast.error("Failed to update bridge networks")
     },
@@ -56,7 +56,7 @@ const NetworkModal = ({
       .map(([key]) => key)
       .filter(isValidNetwork)
 
-    const data: Parameters<typeof updateSiloBridge>[0] = {
+    const data: Parameters<typeof updateWidget>[0] = {
       id: siloId,
     }
 
@@ -68,7 +68,7 @@ const NetworkModal = ({
       data.toNetworks = selectedNetworks
     }
 
-    updateSiloBridge(data)
+    updateWidget(data)
   }
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const NetworkModal = ({
   }, [networks, setValue])
 
   const modalType =
-    type === "to" ? Modals.BridgeToNetwork : Modals.BridgeFromNetwork
+    type === "to" ? Modals.WidgetToNetwork : Modals.WidgetFromNetwork
 
   return (
     <SlideOver
@@ -127,4 +127,4 @@ const NetworkModal = ({
   )
 }
 
-export default NetworkModal
+export default WidgetNetworkModal

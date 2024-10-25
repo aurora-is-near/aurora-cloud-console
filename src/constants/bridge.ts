@@ -1,6 +1,6 @@
-import { BridgeNetworkType } from "@/types/types"
+import { WidgetNetworkType } from "@/types/types"
 
-export const BRIDGE_NETWORKS: BridgeNetworkType[] = [
+export const WIDGET_NETWORKS: WidgetNetworkType[] = [
   "AURORA",
   "ETHEREUM",
   "NEAR",
