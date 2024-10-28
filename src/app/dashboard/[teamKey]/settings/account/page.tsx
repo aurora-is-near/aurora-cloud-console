@@ -1,6 +1,5 @@
 import differenceInHours from "date-fns/differenceInHours"
 import { createServerComponentClient } from "@/supabase/create-server-component-client"
-import { DashboardPage } from "@/components/DashboardPage"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import UserInfoForm from "./UserInfoForm"
 
@@ -29,12 +28,10 @@ const Page = async () => {
   const hasPendingEmailChange = !!authUser.new_email && hasRecentEmailChange
 
   return (
-    <DashboardPage heading="Account">
-      <UserInfoForm
-        hasPendingEmailChange={hasPendingEmailChange}
-        currentUser={currentUser}
-      />
-    </DashboardPage>
+    <UserInfoForm
+      hasPendingEmailChange={hasPendingEmailChange}
+      currentUser={currentUser}
+    />
   )
 }
 

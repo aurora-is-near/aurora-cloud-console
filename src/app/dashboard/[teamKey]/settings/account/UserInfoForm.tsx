@@ -14,6 +14,7 @@ import { updateCurrentUser } from "@/actions/current-user/update-current-user"
 import { User } from "@/types/types"
 import { useTeamKey } from "@/hooks/useTeamKey"
 import { logger } from "@/logger"
+import { DashboardPage } from "@/components/DashboardPage"
 
 // Track if the toast for email change has been shown already
 let alerted = false
@@ -113,13 +114,13 @@ const UserInfoForm = ({
   }
 
   return (
-    <Card>
-      <Card.Title tag="h3">Personal information</Card.Title>
-      <Card.Actions>
-        {showForm ? (
+    <DashboardPage
+      heading="Account"
+      actions={
+        showForm ? (
           <>
             <Button
-              variant="secondary"
+              variant="border"
               onClick={toggleForm}
               disabled={isSubmitting}
             >
@@ -135,67 +136,70 @@ const UserInfoForm = ({
             <PencilIcon className="w-5 h-5" />
             <span>Edit</span>
           </Button>
-        )}
-      </Card.Actions>
-      <Card.Body>
-        {showForm ? (
-          <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
-            <HorizontalInput
-              id="name"
-              name="name"
-              label="Name"
-              autoComplete="name"
-              register={register}
-              registerOptions={{
-                value: user.name ?? "",
-              }}
-            />
+        )
+      }
+    >
+      <Card>
+        <Card.Body>
+          {showForm ? (
+            <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
+              <HorizontalInput
+                id="name"
+                name="name"
+                label="Name"
+                autoComplete="name"
+                register={register}
+                registerOptions={{
+                  value: user.name ?? "",
+                }}
+              />
 
-            <HorizontalInput
-              id="email"
-              name="email"
-              label="Email"
-              autoComplete="email"
-              register={register}
-              registerOptions={{
-                value: user.email ?? "",
-              }}
-            />
+              <HorizontalInput
+                id="email"
+                name="email"
+                label="Email"
+                autoComplete="email"
+                register={register}
+                registerOptions={{
+                  value: user.email ?? "",
+                }}
+              />
 
-            <Alert type="info">
-              Updating your email requires confirmation through links sent to
-              both the old and the new email addresses.
-            </Alert>
-          </form>
-        ) : (
-          <dl className="space-y-4">
-            <div className="items-center sm:grid sm:grid-cols-2 h-9">
-              <dt className="text-sm font-medium leading-none text-gray-500">
-                Name
-              </dt>
-              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-                {user.name ?? "-"}
-              </dd>
-            </div>
-            <div className="items-center sm:grid sm:grid-cols-2 h-9">
-              <dt className="text-sm font-medium leading-none text-gray-500">
-                Email
-              </dt>
-              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-                {user.email}
-              </dd>
-            </div>
-
-            {hasPendingEmailChange && (
-              <Alert dismissable type="info">
-                You have requested an email change. Please confirm it through
-                the links sent to both the old and the new email addresses.
+              <Alert type="info">
+                Updating your email requires confirmation through links sent to
+                both the old and the new email addresses.
               </Alert>
-            )}
-          </dl>
-        )}
-      </Card.Body>
-    </Card>
+            </form>
+          ) : (
+            <dl className="space-y-4">
+              <div className="items-center sm:grid sm:grid-cols-2 h-9">
+                <dt className="text-sm font-medium leading-none text-slate-500">
+                  Name
+                </dt>
+                <dd className="mt-2 text-sm leading-none text-slate-900 sm:mt-0">
+                  {user.name ?? "-"}
+                </dd>
+              </div>
+              <div className="items-center sm:grid sm:grid-cols-2 h-9">
+                <dt className="text-sm font-medium leading-none text-slate-500">
+                  Email
+                </dt>
+                <dd className="mt-2 text-sm leading-none text-slate-900 sm:mt-0">
+                  {user.email}
+                </dd>
+              </div>
+
+              {hasPendingEmailChange && (
+                <Alert dismissable type="info">
+                  You have requested an email change. Please confirm it through
+                  the links sent to both the old and the new email addresses.
+                </Alert>
+              )}
+            </dl>
+          )}
+        </Card.Body>
+      </Card>
+    </DashboardPage>
   )
 }
 
