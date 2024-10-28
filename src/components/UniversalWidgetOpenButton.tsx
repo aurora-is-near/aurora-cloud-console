@@ -3,19 +3,23 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { useCallback } from "react"
 import { Button } from "@/components/Button"
-import { LinkButtonProps } from "@/components/LinkButton"
 import { useWidgetUrl } from "@/hooks/useWidgetUrl"
+import { ButtonSize, ButtonVariant } from "@/types/buttons"
 
 type UniversalWidgetOpenButtonProps = {
   siloId: number
-  size?: LinkButtonProps["size"]
+  size?: ButtonSize
   className?: string
+  variant?: ButtonVariant
+  isExternal?: boolean
 }
 
 export const UniversalWidgetOpenButton = ({
   siloId,
   size,
   className,
+  variant,
+  isExternal,
 }: UniversalWidgetOpenButtonProps) => {
   const widgetUrl = useWidgetUrl(siloId)
 
@@ -38,9 +42,13 @@ export const UniversalWidgetOpenButton = ({
       onClick={onClick}
       className={className}
       disabled={!widgetUrl}
+      variant={variant}
       size={size}
     >
-      Preview widget
+      <span className="flex flex-row items-center">
+        Preview widget
+        {isExternal && <ArrowTopRightOnSquareIcon className="ml-2.5 w-6 h-6" />}
+      </span>
     </Button>
   )
 }
