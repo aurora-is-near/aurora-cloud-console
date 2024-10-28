@@ -1,3 +1,5 @@
+"use client"
+
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { useCallback } from "react"
 import { Button } from "@/components/Button"
@@ -7,11 +9,13 @@ import { useWidgetUrl } from "@/hooks/useWidgetUrl"
 type UniversalWidgetOpenButtonProps = {
   siloId: number
   size?: LinkButtonProps["size"]
+  className?: string
 }
 
 export const UniversalWidgetOpenButton = ({
   siloId,
   size,
+  className,
 }: UniversalWidgetOpenButtonProps) => {
   const widgetUrl = useWidgetUrl(siloId)
 
@@ -32,14 +36,11 @@ export const UniversalWidgetOpenButton = ({
   return (
     <Button
       onClick={onClick}
-      className="w-full"
+      className={className}
       disabled={!widgetUrl}
       size={size}
     >
-      <span className="flex flex-row items-center">
-        Open bridge
-        <ArrowTopRightOnSquareIcon className="ml-2 w-6 h-6" />
-      </span>
+      Preview widget
     </Button>
   )
 }
