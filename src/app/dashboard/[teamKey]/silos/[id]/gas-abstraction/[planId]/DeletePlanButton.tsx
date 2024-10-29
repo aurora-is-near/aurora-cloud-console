@@ -17,6 +17,9 @@ export const DeletePlanButton = ({ dealId }: DeletePlanButtonProps) => {
     const newPath = pathname.replace(/\/\d+$/, "")
 
     router.push(newPath)
+
+    // Refreshing is necessary to have the list of deals in the sidebar update.
+    router.refresh()
   }
 
   return (
