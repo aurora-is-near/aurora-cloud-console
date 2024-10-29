@@ -17,5 +17,4 @@ export enum Modals {
   WidgetFromNetwork = "widgetFromNetwork",
   WidgetTokens = "widgetTokens",
   AddPlan = "addPlan",
-  EditPlan = "editPlan",
 }
