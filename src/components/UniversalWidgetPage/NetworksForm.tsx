@@ -9,7 +9,7 @@ import clsx from "clsx"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Network } from "@/hooks/useWidgetNetworks"
-import { WidgetNetworkType } from "@/types/types"
+import { Widget, WidgetNetworkType } from "@/types/types"
 import { isValidNetwork } from "@/utils/widget"
 
 type Inputs = Partial<Record<WidgetNetworkType, boolean>>
@@ -19,6 +19,7 @@ type NetworksFormProps = {
   type: "to" | "from"
   networks: Network[]
   availableNetworks: Network[]
+  widget?: Widget | null
 }
 
 const NetworksForm = ({
@@ -26,6 +27,7 @@ const NetworksForm = ({
   type,
   networks,
   availableNetworks,
+  widget,
 }: NetworksFormProps) => {
   const {
     register,
@@ -43,10 +45,10 @@ const NetworksForm = ({
     onMutate: getWidgetUpdater.update,
     onSettled: getWidgetUpdater.invalidate,
     onSuccess: () => {
-      toast.success("Bridge networks updated")
+      toast.success("Widget networks updated")
     },
     onError: () => {
-      toast.error("Failed to update bridge networks")
+      toast.error("Failed to update widget networks")
     },
   })
 
@@ -97,7 +99,12 @@ const NetworksForm = ({
   return (
     <form onSubmit={handleSubmit(submit)}>
       <div>
-        <div className="flex flex-col space-y-2">
+        <div
+          className={clsx(
+            "flex flex-col space-y-2",
+            !widget && "opacity-50 pointer-events-none",
+          )}
+        >
           {availableNetworks.map((network) => (
             <div
               key={network.key}
@@ -114,7 +121,7 @@ const NetworksForm = ({
               >
                 <div className="flex items-center h-6">
                   <input
-                    disabled={isPending || isSubmitting}
+                    disabled={!widget || isPending || isSubmitting}
                     id={`${type}-${network.key}`}
                     type="checkbox"
                     className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600"

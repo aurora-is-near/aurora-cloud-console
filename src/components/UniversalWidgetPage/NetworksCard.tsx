@@ -3,12 +3,14 @@
 import Card from "@/components/Card"
 import NetworksForm from "@/components/UniversalWidgetPage/NetworksForm"
 import { useWidgetNetworks } from "@/hooks/useWidgetNetworks"
+import { Widget } from "@/types/types"
 
 type NetworksCardProps = {
   siloId: number
+  widget?: Widget | null
 }
 
-export const NetworksCard = ({ siloId }: NetworksCardProps) => {
+export const NetworksCard = ({ siloId, widget }: NetworksCardProps) => {
   const { toNetworks, fromNetworks, availableNetworks } =
     useWidgetNetworks(siloId)
 
@@ -29,6 +31,7 @@ export const NetworksCard = ({ siloId }: NetworksCardProps) => {
             type="from"
             networks={fromNetworks}
             availableNetworks={availableNetworks}
+            widget={widget}
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-5">
@@ -45,6 +48,7 @@ export const NetworksCard = ({ siloId }: NetworksCardProps) => {
             type="to"
             networks={toNetworks}
             availableNetworks={availableNetworks}
+            widget={widget}
           />
         </div>
       </div>
