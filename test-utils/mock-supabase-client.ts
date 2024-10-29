@@ -41,6 +41,7 @@ const createTableClient = jest.fn(() => ({
   update: jest.fn(() => createInsertOrUpdate()),
   insert: jest.fn(() => createInsertOrUpdate()),
   delete: jest.fn(() => createDelete()),
+  upsert: jest.fn(() => createInsertOrUpdate()),
 }))
 
 const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
