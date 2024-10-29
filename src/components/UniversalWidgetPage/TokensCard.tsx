@@ -10,7 +10,7 @@ import Card from "@/components/Card"
 import { Input } from "@/components/Input"
 import { RadioInput } from "@/components/RadioInput"
 import { SelectInput, SelectInputOption } from "@/components/SelectInput"
-import { useBridgeTokens } from "@/hooks/useBridgeTokens"
+import { useWidgetTokens } from "@/hooks/useWidgetTokens"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
 import { logger } from "@/logger"
@@ -33,7 +33,7 @@ type Inputs = Partial<{
 }>
 
 export const TokensCard = ({ siloId }: TokensCardProps) => {
-  const { undeployedTokens } = useBridgeTokens(siloId)
+  const { undeployedTokens } = useWidgetTokens(siloId)
   const getSiloTokensUpdater = useOptimisticUpdater("getSiloTokens")
 
   const { mutate: bridgeSiloToken, isPending: isBridgeSiloTokenPending } =

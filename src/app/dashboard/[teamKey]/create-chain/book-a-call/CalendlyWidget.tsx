@@ -1,7 +1,6 @@
 "use client"
 
-import Link from "next/link"
-import { Button } from "@/components/Button"
+import { LinkButton } from "@/components/LinkButton"
 
 type CalendlyWidgetProps = {
   teamKey: string
@@ -18,16 +17,11 @@ export const CalendlyWidget = ({ teamKey }: CalendlyWidgetProps) => {
         className="calendly-inline-widget mt-1/10 w-full h-full"
         data-url="https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
       />
-      <script
-        type="text/javascript"
-        src="https://assets.calendly.com/assets/external/widget.js"
-        async
-      />
 
       <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2">
-        <Link href={`/dashboard/${teamKey}`}>
-          <Button size="lg">Go back to Dashboard</Button>
-        </Link>
+        <LinkButton href={`/dashboard/${teamKey}`} size="lg">
+          Go back to Dashboard
+        </LinkButton>
       </div>
     </div>
   )

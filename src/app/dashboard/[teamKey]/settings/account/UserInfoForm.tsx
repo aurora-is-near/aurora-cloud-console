@@ -120,7 +120,7 @@ const UserInfoForm = ({
         showForm ? (
           <>
             <Button
-              variant="secondary"
+              variant="border"
               onClick={toggleForm}
               disabled={isSubmitting}
             >
@@ -173,18 +173,18 @@ const UserInfoForm = ({
           ) : (
             <dl className="space-y-4">
               <div className="items-center sm:grid sm:grid-cols-2 h-9">
-                <dt className="text-sm font-medium leading-none text-gray-500">
+                <dt className="text-sm font-medium leading-none text-slate-500">
                   Name
                 </dt>
-                <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
+                <dd className="mt-2 text-sm leading-none text-slate-900 sm:mt-0">
                   {user.name ?? "-"}
                 </dd>
               </div>
               <div className="items-center sm:grid sm:grid-cols-2 h-9">
-                <dt className="text-sm font-medium leading-none text-gray-500">
+                <dt className="text-sm font-medium leading-none text-slate-500">
                   Email
                 </dt>
-                <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
+                <dd className="mt-2 text-sm leading-none text-slate-900 sm:mt-0">
                   {user.email}
                 </dd>
               </div>

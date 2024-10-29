@@ -26,6 +26,7 @@ export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
       title: "Configuration",
       content: (
         <FiatOnrampConfigurationTab
+          siloId={siloId}
           linkPrefix={`/dashboard/${teamKey}/silos/${siloId}/onramp`}
         />
       ),

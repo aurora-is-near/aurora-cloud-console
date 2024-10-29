@@ -53,7 +53,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   users: createTableClient(),
   users_teams: createTableClient(),
   oracles: createTableClient(),
-  bridges: createTableClient(),
+  widgets: createTableClient(),
   onboarding_form: createTableClient(),
 }
 

@@ -1,44 +1,53 @@
+"use client"
+
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { useCallback } from "react"
 import { Button } from "@/components/Button"
-import { LinkButtonProps } from "@/components/LinkButton"
-import { useBridgeUrl } from "@/hooks/useBridgeUrl"
+import { useWidgetUrl } from "@/hooks/useWidgetUrl"
+import { ButtonSize, ButtonVariant } from "@/types/buttons"
 
 type UniversalWidgetOpenButtonProps = {
   siloId: number
-  size?: LinkButtonProps["size"]
+  size?: ButtonSize
+  className?: string
+  variant?: ButtonVariant
+  isExternal?: boolean
 }
 
 export const UniversalWidgetOpenButton = ({
   siloId,
   size,
+  className,
+  variant,
+  isExternal,
 }: UniversalWidgetOpenButtonProps) => {
-  const bridgeUrl = useBridgeUrl(siloId)
+  const widgetUrl = useWidgetUrl(siloId)
 
   const onClick = useCallback(() => {
-    if (!bridgeUrl) {
+    if (!widgetUrl) {
       return
     }
 
     window.open(
-      bridgeUrl,
+      widgetUrl,
       "newwindow",
       `width=600,height=800,left=${window.screen.width / 2 - 300},top=${
         window.screen.height / 2 - 400
       }`,
     )
-  }, [bridgeUrl])
+  }, [widgetUrl])
 
   return (
     <Button
       onClick={onClick}
-      className="w-full"
-      disabled={!bridgeUrl}
+      className={className}
+      disabled={!widgetUrl}
+      variant={variant}
       size={size}
     >
       <span className="flex flex-row items-center">
-        Open bridge
-        <ArrowTopRightOnSquareIcon className="ml-2 w-6 h-6" />
+        Preview widget
+        {isExternal && <ArrowTopRightOnSquareIcon className="ml-2.5 w-6 h-6" />}
       </span>
     </Button>
   )

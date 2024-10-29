@@ -56,7 +56,7 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
         showForm ? (
           <>
             <Button
-              variant="secondary"
+              variant="border"
               onClick={toggleForm}
               disabled={isSubmitting}
             >

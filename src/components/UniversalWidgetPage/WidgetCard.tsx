@@ -3,14 +3,14 @@
 import { useQuery } from "@tanstack/react-query"
 import Card from "@/components/Card"
 import { CardConfigGrid } from "@/components/CardConfigGrid"
-import { useBridgeNetworks } from "@/hooks/useBridgeNetworks"
-import { useBridgeTokens } from "@/hooks/useBridgeTokens"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { formatDateAndTime } from "@/utils/helpers"
 import { Modals } from "@/utils/modals"
-import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetPage/UniversalWidgetOpenButton"
-import BridgeNetworkModal from "@/components/UniversalWidgetPage/BridgeNetworkModal"
-import BridgeTokensModal from "@/components/UniversalWidgetPage/TokensModal"
+import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
+import WidgetTokensModal from "@/components/UniversalWidgetPage/TokensModal"
+import { useWidgetTokens } from "@/hooks/useWidgetTokens"
+import { useWidgetNetworks } from "@/hooks/useWidgetNetworks"
+import WidgetNetworkModal from "@/components/UniversalWidgetPage/WidgetNetworkModal"
 
 type WidgetCardProps = {
   siloId: number
@@ -18,14 +18,14 @@ type WidgetCardProps = {
 
 export const WidgetCard = ({ siloId }: WidgetCardProps) => {
   const { data: bridge } = useQuery(
-    getQueryFnAndKey("getSiloBridge", {
+    getQueryFnAndKey("getWidget", {
       id: siloId,
     }),
   )
 
-  const { deployedTokens, activeTokens } = useBridgeTokens(siloId)
+  const { deployedTokens, activeTokens } = useWidgetTokens(siloId)
   const { toNetworks, fromNetworks, availableNetworks } =
-    useBridgeNetworks(siloId)
+    useWidgetNetworks(siloId)
 
   const toNetworkLabels = Object.values(toNetworks).map(
     (network) => network.label,
@@ -49,7 +49,7 @@ export const WidgetCard = ({ siloId }: WidgetCardProps) => {
         <CardConfigGrid>
           <CardConfigGrid.Row
             title="Origin networks"
-            modalKey={Modals.BridgeFromNetwork}
+            modalKey={Modals.WidgetFromNetwork}
             content={
               fromNetworkLabels.length
                 ? {
@@ -64,7 +64,7 @@ export const WidgetCard = ({ siloId }: WidgetCardProps) => {
           />
           <CardConfigGrid.Row
             title="Destination networks"
-            modalKey={Modals.BridgeToNetwork}
+            modalKey={Modals.WidgetToNetwork}
             content={
               toNetworkLabels.length
                 ? {
@@ -79,7 +79,7 @@ export const WidgetCard = ({ siloId }: WidgetCardProps) => {
           />
           <CardConfigGrid.Row
             title="Supported assets"
-            modalKey={Modals.BridgeTokens}
+            modalKey={Modals.WidgetTokens}
             content={
               activeTokens.length
                 ? {
@@ -94,19 +94,19 @@ export const WidgetCard = ({ siloId }: WidgetCardProps) => {
           />
         </CardConfigGrid>
       </Card>
-      <BridgeNetworkModal
+      <WidgetNetworkModal
         siloId={siloId}
         type="from"
         networks={fromNetworks}
         availableNetworks={availableNetworks}
       />
-      <BridgeNetworkModal
+      <WidgetNetworkModal
         siloId={siloId}
         type="to"
         networks={toNetworks}
         availableNetworks={availableNetworks}
       />
-      <BridgeTokensModal
+      <WidgetTokensModal
         siloId={siloId}
         deployedTokens={deployedTokens}
         activeTokens={activeTokens}

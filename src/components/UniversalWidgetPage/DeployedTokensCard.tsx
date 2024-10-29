@@ -6,14 +6,14 @@ import { Fragment } from "react"
 import Card from "@/components/Card"
 import Loader from "@/components/Loader"
 import { Tag } from "@/components/Tag"
-import { useBridgeTokens } from "@/hooks/useBridgeTokens"
+import { useWidgetTokens } from "@/hooks/useWidgetTokens"
 
 type DeployedTokensCardProps = {
   siloId: number
 }
 
 export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
-  const { pendingTokens, deployedTokens, isPending } = useBridgeTokens(siloId)
+  const { pendingTokens, deployedTokens, isPending } = useWidgetTokens(siloId)
   const bridgedTokens = [...deployedTokens, ...pendingTokens]
 
   return (

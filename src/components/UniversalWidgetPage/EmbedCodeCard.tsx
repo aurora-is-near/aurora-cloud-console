@@ -22,7 +22,7 @@ export const EmbedCodeCard = ({ teamKey, siloId }: EmbedCodeCardProps) => {
         Open the widget by calling the following function:
       </p>
       <pre className="text-sm font-mono bg-slate-100 p-4 rounded-md whitespace-pre-wrap">
-        window.auroraBridge.open()
+        window.auroraCloudConsole.openWidget()
       </pre>
     </TabCard>
   )
