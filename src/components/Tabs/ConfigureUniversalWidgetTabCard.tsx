@@ -1,12 +1,17 @@
 import ConfigurationPanel from "@/components/FiatOnrampPage/ConfigurationPanel"
 import { LinkButton } from "@/components/LinkButton"
 import Pill from "@/components/Pill"
+import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
+
+type ConfigureUniversalWidgetTabCardProps = {
+  linkPrefix: string
+  siloId: number
+}
 
 const ConfigureUniversalWidgetTabCard = ({
   linkPrefix,
-}: {
-  linkPrefix: string
-}) => {
+  siloId,
+}: ConfigureUniversalWidgetTabCardProps) => {
   return (
     <ConfigurationPanel>
       <div className="flex flex-col gap-2">
@@ -18,13 +23,12 @@ const ConfigureUniversalWidgetTabCard = ({
           The Universal Widget provides the easiest way to integrate multiple
           onramp solutions into your application.
         </p>
-        <LinkButton
-          href={`${linkPrefix}/universal-widget`}
-          variant="border"
-          className="self-start  mt-2"
-        >
-          Configure
-        </LinkButton>
+        <div className="flex flex-row mt-4 gap-2.5">
+          <UniversalWidgetOpenButton siloId={siloId} />
+          <LinkButton href={`${linkPrefix}/universal-widget`} variant="border">
+            Configure
+          </LinkButton>
+        </div>
       </div>
     </ConfigurationPanel>
   )
