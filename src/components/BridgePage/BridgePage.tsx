@@ -19,6 +19,7 @@ export const BridgePage: React.FC<BridgePageProps> = ({ teamKey, siloId }) => {
       title: "Configuration",
       content: (
         <BridgePageConfigurationTab
+          siloId={siloId}
           linkPrefix={`/dashboard/${teamKey}/silos/${siloId}/onramp`}
         />
       ),
