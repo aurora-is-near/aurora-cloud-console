@@ -3,8 +3,9 @@ import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { EmbedCodeCard } from "@/components/UniversalWidgetPage/EmbedCodeCard"
-import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
 import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
+import UniversalWidgetConfigurationTab from "./UniversalWidgetConfigurationTab"
+import { UniversalWidgetAboutTab } from "./UniversalWidgetAboutTab"
 
 interface UniversalWidgetPageProps {
   teamKey: string
@@ -15,7 +16,12 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
   teamKey,
   siloId = null,
 }: UniversalWidgetPageProps) => {
-  const tabs = []
+  const tabs = [
+    {
+      title: "About",
+      content: <UniversalWidgetAboutTab />,
+    },
+  ]
 
   if (siloId) {
     tabs.push(
