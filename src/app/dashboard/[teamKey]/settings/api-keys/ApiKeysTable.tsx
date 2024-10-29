@@ -57,17 +57,18 @@ export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
           <Table.TR key={apiKey.id}>
             <Table.TD dark>{apiKey.key}</Table.TD>
             <Table.TD>
-              {apiScopes.join(", ")}
-              <Link
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault()
-                  void onEditClick(apiKey.id)
-                }}
-                className="text-blue-500 underline"
-              >
-                {remainingScopes > 0 && ` and ${remainingScopes} more`}
-              </Link>
+              <div className="flex flex-wrap gap-1">
+                <span>{apiScopes.join(", ")}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    void onEditClick(apiKey.id)
+                  }}
+                  className="text-blue-500 underline"
+                >
+                  {remainingScopes > 0 && ` and ${remainingScopes} more`}
+                </button>
+              </div>
             </Table.TD>
             <Table.TD>{apiKey.note}</Table.TD>
             <Table.TD>
