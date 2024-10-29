@@ -1,6 +1,5 @@
-import { PlusIcon } from "@heroicons/react/20/solid"
 import { Deal, Silo } from "@/types/types"
-import { Button } from "@/components/Button"
+import { NewPlanButton } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/NewPlanButton"
 import DealItem from "./DealItem"
 
 type GasAbstractionPlansTabProps = {
@@ -21,12 +20,7 @@ export const GasAbstractionPlansTab = ({
         benefit from free transaction fees. You can configure it based on wallet
         addresses, contracts and add timeframe logic.
       </p>
-      <Button className="mt-5 md:mt-0 md:ml-auto">
-        <div className="flex w-full items-center gap-x-2">
-          <PlusIcon className="w-6 h-6" />
-          New plan
-        </div>
-      </Button>
+      <NewPlanButton className="mt-5 md:mt-0 md:ml-auto" />
     </div>
     <div className="flex flex-col gap-5">
       <ul className="grid gap-4 divide-gray-200">
