@@ -1,4 +1,3 @@
-import { TabCard } from "@/components/TabCard/TabCard"
 import { Deal, Silo } from "@/types/types"
 import DealItem from "./DealItem"
 
