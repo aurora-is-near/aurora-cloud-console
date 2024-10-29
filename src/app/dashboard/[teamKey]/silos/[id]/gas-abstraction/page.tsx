@@ -4,6 +4,7 @@ import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { GasAbstractionPage } from "@/components/GasAbstractionPage"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { canCreateDeal } from "@/utils/can-create-deal"
 import { GasAbstractionPlansTab } from "./GasAbstractionPlansTab"
 import AddPlanModal from "./AddPlanModal"
 
@@ -34,6 +35,7 @@ const Page = async ({
                   silo={silo}
                   teamKey={teamKey}
                   deals={deals}
+                  isNewPlanButtonDisabled={!canCreateDeal(silo, deals)}
                 />
               ),
             },

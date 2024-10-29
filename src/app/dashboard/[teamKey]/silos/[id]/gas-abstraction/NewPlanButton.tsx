@@ -7,9 +7,10 @@ import { Modals } from "@/utils/modals"
 
 type NewPlanButtonProps = {
   className?: string
+  disabled?: boolean
 }
 
-export const NewPlanButton = ({ className }: NewPlanButtonProps) => {
+export const NewPlanButton = ({ className, disabled }: NewPlanButtonProps) => {
   const { openModal } = useModals()
 
   const onNewPlanClick = async () => {
@@ -17,7 +18,7 @@ export const NewPlanButton = ({ className }: NewPlanButtonProps) => {
   }
 
   return (
-    <Button className={className} onClick={onNewPlanClick}>
+    <Button disabled={disabled} className={className} onClick={onNewPlanClick}>
       <div className="flex w-full items-center gap-x-2">
         <PlusIcon className="w-6 h-6" />
         New plan

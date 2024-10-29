@@ -6,12 +6,14 @@ type GasAbstractionPlansTabProps = {
   teamKey: string
   silo: Silo
   deals: Deal[]
+  isNewPlanButtonDisabled: boolean
 }
 
 export const GasAbstractionPlansTab = ({
   silo,
   teamKey,
   deals,
+  isNewPlanButtonDisabled,
 }: GasAbstractionPlansTabProps) => (
   <div className="flex flex-col w-full">
     <div className="mt-2 mb-6 md:flex md:flex-row gap-x-10 w-full">
@@ -20,7 +22,10 @@ export const GasAbstractionPlansTab = ({
         benefit from free transaction fees. You can configure it based on wallet
         addresses, contracts and add timeframe logic.
       </p>
-      <NewPlanButton className="mt-5 md:mt-0 md:ml-auto" />
+      <NewPlanButton
+        disabled={isNewPlanButtonDisabled}
+        className="mt-5 md:mt-0 md:ml-auto"
+      />
     </div>
     <div className="flex flex-col gap-5">
       <ul className="grid gap-4 divide-gray-200">
