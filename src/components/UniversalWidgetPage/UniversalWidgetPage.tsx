@@ -2,7 +2,8 @@ import Image from "next/image"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
-import { EmbedCodeCard } from "./EmbedCodeCard"
+import { EmbedCodeCard } from "@/components/UniversalWidgetPage/EmbedCodeCard"
+import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
 import UniversalWidgetConfigurationTab from "./UniversalWidgetConfigurationTab"
 import { UniversalWidgetAboutTab } from "./UniversalWidgetAboutTab"
 
@@ -55,6 +56,16 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
             src="/static/v2/images/feature/hero/universal_widget.png"
             alt="Universal Widget Preview"
           />
+        }
+        actions={
+          siloId && (
+            <UniversalWidgetOpenButton
+              siloId={siloId}
+              variant="border"
+              size="lg"
+              isExternal
+            />
+          )
         }
       />
       <Tabs tabs={tabs} />
