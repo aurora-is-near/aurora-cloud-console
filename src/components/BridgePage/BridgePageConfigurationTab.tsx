@@ -4,10 +4,21 @@ import Pill from "@/components/Pill"
 import ConfigureUniversalWidgetTabCard from "@/components/Tabs/ConfigureUniversalWidgetTabCard"
 import ConfigurationPanel from "@/components/FiatOnrampPage/ConfigurationPanel"
 
-const BridgePageConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
+type BridgePageConfigurationTabProps = {
+  linkPrefix: string
+  siloId: number
+}
+
+const BridgePageConfigurationTab = ({
+  linkPrefix,
+  siloId,
+}: BridgePageConfigurationTabProps) => {
   return (
     <div className="w-full flex flex-col gap-4">
-      <ConfigureUniversalWidgetTabCard linkPrefix={linkPrefix} />
+      <ConfigureUniversalWidgetTabCard
+        linkPrefix={linkPrefix}
+        siloId={siloId}
+      />
       <ConfigurationPanel>
         <div className="flex flex-col gap-2">
           <Pill label="Option 2" />
