@@ -12,7 +12,6 @@ export const DeletePlanButton = ({ dealId }: DeletePlanButtonProps) => {
 
   const onConfirmClick = async () => {
     await deleteDeal(dealId)
-    router.refresh()
 
     // Remove the plan ID from the current path to get the parent path
     const newPath = pathname.replace(/\/\d+$/, "")
