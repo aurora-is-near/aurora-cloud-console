@@ -14,8 +14,8 @@ type AuthContext = {
 /**
  * Get the API key from the current request.
  */
-const getApiKey = () => {
-  const headersList = headers()
+const getApiKey = async () => {
+  const headersList = await headers()
   const authorization = headersList.get("authorization")
   const scheme = "Bearer "
 
@@ -76,8 +76,11 @@ const getTeamAndScopesFromApiKey = async (): Promise<AuthContext | null> => {
  * This is used for requests coming from the ACC frontend.
  */
 const getUser = async (): Promise<User | null> => {
-  const supabase = createRouteHandlerClient()
-  const headersList = headers()
+  const [supabase, headersList] = await Promise.all([
+    createRouteHandlerClient(),
+    headers(),
+  ])
+
   const referer = headersList.get("referer")
   const host = headersList.get("host")
 
@@ -101,8 +104,8 @@ const getUser = async (): Promise<User | null> => {
   return user
 }
 
-const getReferer = () => {
-  const headersList = headers()
+const getReferer = async () => {
+  const headersList = await headers()
   const referer = headersList.get("referer")
 
   if (!referer) {
@@ -116,7 +119,7 @@ const getReferer = () => {
  * Get the team associated with the current request.
  */
 const getTeam = async (): Promise<Team | null> => {
-  const url = getReferer()
+  const url = await getReferer()
   const teamKey = url?.pathname.split("/")[2]
 
   if (!teamKey) {

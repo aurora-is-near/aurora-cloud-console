@@ -1,7 +1,7 @@
-const { withSentryConfig } = require("@sentry/nextjs")
+import { NextConfig } from "next"
+import { withSentryConfig } from "@sentry/nextjs"
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   reactStrictMode: true,
   webpack(config) {
     config.module.rules.push({
@@ -14,6 +14,7 @@ const nextConfig = {
       bufferutil: "commonjs bufferutil",
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return config
   },
 }
@@ -28,4 +29,4 @@ const sentryConfig = {
   tunnelRoute: "/monitoring-tunnel",
 }
 
-module.exports = withSentryConfig(nextConfig, sentryConfig)
+export default withSentryConfig(nextConfig, sentryConfig)

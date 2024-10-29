@@ -1,8 +1,14 @@
 "use client"
 
-import { Dialog, Transition } from "@headlessui/react"
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
-import { Fragment, ReactNode } from "react"
+import { ReactNode } from "react"
 import { useModalAfterLeave } from "@/hooks/useModalAfterLeave"
 
 const Modal = ({
@@ -19,10 +25,9 @@ const Modal = ({
   const { afterLeave } = useModalAfterLeave()
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition show={open}>
       <Dialog as="div" className="relative z-50" onClose={close}>
-        <Transition.Child
-          as={Fragment}
+        <TransitionChild
           enter="ease-out duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
@@ -31,12 +36,11 @@ const Modal = ({
           leaveTo="opacity-0"
         >
           <div className="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75 backdrop-blur-sm" />
-        </Transition.Child>
+        </TransitionChild>
 
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex items-end justify-center min-h-full p-4 text-center sm:items-center sm:p-0">
-            <Transition.Child
-              as={Fragment}
+            <TransitionChild
               enter="ease-out duration-300"
               enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               enterTo="opacity-100 translate-y-0 sm:scale-100"
@@ -45,11 +49,11 @@ const Modal = ({
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               afterLeave={afterLeave}
             >
-              <Dialog.Panel className="relative p-5 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+              <DialogPanel className="relative p-5 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                 <div className="flex items-center justify-between">
-                  <Dialog.Title className="text-base font-medium leading-4 text-gray-900">
+                  <DialogTitle className="text-base font-medium leading-4 text-gray-900">
                     {title}
-                  </Dialog.Title>
+                  </DialogTitle>
                   <button
                     type="button"
                     className="absolute text-gray-400 bg-white rounded-md top-4 right-4 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
@@ -60,12 +64,12 @@ const Modal = ({
                   </button>
                 </div>
                 <div className="mt-1.5">{children}</div>
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </div>
       </Dialog>
-    </Transition.Root>
+    </Transition>
   )
 }
 

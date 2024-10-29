@@ -1,6 +1,24 @@
-import { cloneElement, MouseEventHandler, ReactElement, ReactNode } from "react"
+import { cloneElement, MouseEventHandler, ReactNode } from "react"
 import clsx from "clsx"
 import { findChildren } from "@/utils/helpers"
+
+type TDProps = {
+  children: React.ReactNode
+  dark?: boolean
+  align?: "left" | "right" | "center"
+  onClick?: () => void
+  isFirst?: boolean
+  isLast?: boolean
+  isLink?: boolean
+}
+
+type THProps = {
+  children: React.ReactNode
+  align?: "left" | "right" | "center"
+  hidden?: boolean
+  isFirst?: boolean
+  isLast?: boolean
+}
 
 const TH = ({
   children,
@@ -8,13 +26,7 @@ const TH = ({
   hidden = false,
   isFirst = false,
   isLast = false,
-}: {
-  children: React.ReactNode
-  align?: "left" | "right" | "center"
-  hidden?: boolean
-  isFirst?: boolean
-  isLast?: boolean
-}) => (
+}: THProps) => (
   <th
     scope="col"
     className={clsx("py-3.5 text-sm leading-none font-medium text-gray-900", {
@@ -41,15 +53,7 @@ const TD = ({
   isFirst = false,
   isLast = false,
   isLink = false,
-}: {
-  children: React.ReactNode
-  dark?: boolean
-  align?: "left" | "right" | "center"
-  onClick?: () => void
-  isFirst?: boolean
-  isLast?: boolean
-  isLink?: boolean
-}) => (
+}: TDProps) => (
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
   <td
     onClick={onClick}
@@ -85,7 +89,7 @@ const TR = ({
   children: React.ReactNode
   onClick?: MouseEventHandler<HTMLTableRowElement>
 }) => {
-  const tds = findChildren(children, "TD")
+  const tds = findChildren<TDProps>(children, "TD")
 
   return (
     <tr
@@ -96,7 +100,7 @@ const TR = ({
         const isFirst = i === 0
         const isLast = i === tds.length - 1
 
-        return cloneElement(td as ReactElement, {
+        return cloneElement<TDProps>(td, {
           isFirst,
           isLast,
         })
@@ -114,7 +118,7 @@ const Table = ({
   children: ReactNode
   className?: string
 }) => {
-  const ths = findChildren(children, "TH")
+  const ths = findChildren<THProps>(children, "TH")
   const trs = findChildren(children, "TR")
 
   return (
@@ -129,7 +133,7 @@ const Table = ({
                     const isFirst = i === 0
                     const isLast = i === ths.length - 1
 
-                    return cloneElement(th as ReactElement, {
+                    return cloneElement<THProps>(th, {
                       isFirst,
                       isLast,
                     })

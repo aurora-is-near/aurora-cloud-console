@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (code) {
-      const supabase = createRouteHandlerClient()
+      const supabase = await createRouteHandlerClient()
 
       await supabase.auth.exchangeCodeForSession(code)
     }

@@ -3,8 +3,8 @@ import { cookies } from "next/headers"
 import { Database } from "@/types/supabase"
 import { COMMON_SERVER_OPTIONS } from "./common-options"
 
-export const createRouteHandlerClient = () => {
-  const cookieStore = cookies()
+export const createRouteHandlerClient = async () => {
+  const cookieStore = await cookies()
 
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL,

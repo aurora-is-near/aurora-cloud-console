@@ -48,7 +48,7 @@ export const getButtonClassName = (
 
 export const generateIcon = (icon: ReactNode, className: string) => {
   return isValidElement(icon)
-    ? cloneElement(icon as ReactElement, {
+    ? cloneElement<{ className?: string }>(icon, {
         className,
         "aria-hidden": true,
       })

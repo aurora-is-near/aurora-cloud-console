@@ -4,7 +4,7 @@ import { createServerComponentClient } from "@/supabase/create-server-component-
 import { isAdminUser } from "@/utils/admin"
 
 export const isAdmin = async (): Promise<boolean> => {
-  const supabase = createServerComponentClient()
+  const supabase = await createServerComponentClient()
   const {
     data: { session },
   } = await supabase.auth.getSession()

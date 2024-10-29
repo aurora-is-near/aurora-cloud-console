@@ -6,7 +6,7 @@ import UserInfoForm from "./UserInfoForm"
 const PENDING_EMAIL_CHANGE_MAX_HOURS = 24
 
 const Page = async () => {
-  const supabase = createServerComponentClient()
+  const supabase = await createServerComponentClient()
 
   const [
     {

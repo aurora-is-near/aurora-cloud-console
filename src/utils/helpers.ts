@@ -1,4 +1,4 @@
-import { Children, isValidElement, ReactNode } from "react"
+import { Children, isValidElement, ReactElement, ReactNode } from "react"
 import { logger } from "@/logger"
 
 const hasDisplayName = (
@@ -6,12 +6,15 @@ const hasDisplayName = (
 ): child is ReactNode & { type: { displayName?: string } } =>
   isValidElement(child) && typeof child.type !== "string"
 
-export const findChildren = (children: ReactNode, displayName: string) => {
+export const findChildren = <P>(
+  children: ReactNode,
+  displayName: string,
+): ReactElement<P>[] | null => {
   const foundChildren = Children.toArray(children).filter(
     (child) => hasDisplayName(child) && child.type.displayName === displayName,
   )
 
-  return foundChildren.length ? foundChildren : null
+  return foundChildren.length ? (foundChildren as ReactElement<P>[]) : null
 }
 
 export const findOtherChildren = (
