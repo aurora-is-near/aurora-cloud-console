@@ -75,6 +75,9 @@ export const apiClient = {
   getDeal: async ({ id }: ApiRequestParams<"getDeal">) =>
     get<"getDeal">(`/api/deals/${id}`),
 
+  createDeal: async (data: ApiRequestBody<"createDeal">) =>
+    post<"createDeal">("/api/deals", data),
+
   updateDeal: async ({
     id,
     ...data

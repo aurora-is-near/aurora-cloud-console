@@ -170,6 +170,20 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
+  createDeal: {
+    summary: "Create a deal",
+    method: "POST",
+    path: "/api/deals",
+    responses: {
+      200: DealSchema,
+    },
+    body: z.object({
+      name: z.string(),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
+  },
   updateDeal: {
     summary: "Update a deal",
     method: "PUT",
