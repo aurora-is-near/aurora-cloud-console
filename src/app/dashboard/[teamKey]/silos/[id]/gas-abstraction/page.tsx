@@ -32,7 +32,7 @@ const Page = async ({
           <Image
             width="180"
             height="180"
-            src="/static/v2/images/heroIcons/onramp.png"
+            src="/static/v2/images/heroIcons/gas.png"
             alt=""
           />
         }
