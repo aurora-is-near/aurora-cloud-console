@@ -61,9 +61,6 @@ export const apiClient = {
   getWidget: async ({ id }: ApiRequestParams<"getWidget">) =>
     get<"getWidget">(`/api/silos/${id}/widget`),
 
-  createWidget: async ({ id }: ApiRequestParams<"createWidget">) =>
-    post<"createWidget">(`/api/silos/${id}/widget`, {}),
-
   updateWidget: async ({
     id,
     ...data

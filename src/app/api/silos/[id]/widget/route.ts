@@ -5,8 +5,7 @@ import { WidgetSchema } from "@/types/api-schemas"
 import { isValidNetwork } from "@/utils/widget"
 import { getTokens } from "@/actions/tokens/get-tokens"
 import { getWidgetUrl } from "@/actions/widget/get-widget-url"
-import { updateWidget } from "@/actions/widget/update-widget"
-import { createWidget } from "@/actions/widget/create-widget"
+import { upsertWidget } from "@/actions/widget/upsert-widget"
 import { getWidget } from "@/actions/widget/get-widget"
 import { abort } from "../../../../../utils/abort"
 
@@ -67,7 +66,8 @@ export const GET = createApiEndpoint("getWidget", async (_req, ctx) => {
   return getWidgetSchema({ silo, widget, tokens })
 })
 
-export const POST = createApiEndpoint("createWidget", async (_req, ctx) => {
+export const PUT = createApiEndpoint("updateWidget", async (_req, ctx) => {
+  const siloId = Number(ctx.params.id)
   const [silo, tokens] = await Promise.all([
     getSilo(Number(ctx.params.id)),
     getTokens(),
@@ -77,36 +77,13 @@ export const POST = createApiEndpoint("createWidget", async (_req, ctx) => {
     abort(404)
   }
 
-  const existingWidget = await getWidget(silo.id)
-
-  if (existingWidget) {
-    abort(400, "Widget already exists")
-  }
-
-  const widget = await createWidget({ silo_id: silo.id })
-
-  return getWidgetSchema({ widget, silo, tokens })
-})
-
-export const PUT = createApiEndpoint("updateWidget", async (_req, ctx) => {
-  const siloId = Number(ctx.params.id)
-  const [widget, silo, tokens] = await Promise.all([
-    getWidget(siloId),
-    getSilo(Number(ctx.params.id)),
-    getTokens(),
-  ])
-
-  if (!silo || !widget) {
-    abort(404)
-  }
-
   const { fromNetworks, toNetworks } = ctx.body
 
-  const updatedWidget = await updateWidget(siloId, {
+  const widget = await upsertWidget(siloId, {
     fromNetworks: fromNetworks ? getValidNetworks(fromNetworks) : undefined,
     toNetworks: toNetworks ? getValidNetworks(toNetworks) : undefined,
     tokens: ctx.body.tokens,
   })
 
-  return getWidgetSchema({ widget: updatedWidget, silo, tokens })
+  return getWidgetSchema({ widget, silo, tokens })
 })
