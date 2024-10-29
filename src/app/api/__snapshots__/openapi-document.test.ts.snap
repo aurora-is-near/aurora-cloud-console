@@ -119,6 +119,112 @@ exports[`OpenAPI Document should be valid 1`] = `
           "deals",
         ],
       },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:write\`",
+        "operationId": "createDeal",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "name",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "endTime": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "lists": {
+                      "additionalProperties": {
+                        "nullable": true,
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                          },
+                          "name": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "object",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "startTime": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "teamId": {
+                      "type": "number",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "name",
+                    "teamId",
+                    "enabled",
+                    "startTime",
+                    "endTime",
+                    "lists",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:write",
+            ],
+          },
+        ],
+        "summary": "Create a deal",
+        "tags": [
+          "deals",
+        ],
+      },
     },
     "/api/deals/priorities": {
       "get": {
