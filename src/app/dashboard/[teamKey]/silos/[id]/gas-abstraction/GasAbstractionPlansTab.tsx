@@ -21,14 +21,12 @@ export const GasAbstractionPlansTab = ({
         addresses, contracts and add timeframe logic.
       </p>
     </div>
-    <TabCard>
-      <div className="flex flex-col gap-5">
-        <ul className="grid gap-5 divide-gray-200">
-          {deals.map((deal) => (
-            <DealItem key={deal.id} deal={deal} silo={silo} teamKey={teamKey} />
-          ))}
-        </ul>
-      </div>
-    </TabCard>
+    <div className="flex flex-col gap-5">
+      <ul className="grid gap-4 divide-gray-200">
+        {deals.map((deal) => (
+          <DealItem key={deal.id} deal={deal} silo={silo} teamKey={teamKey} />
+        ))}
+      </ul>
+    </div>
   </div>
 )
