@@ -3,7 +3,6 @@
 import { KeyIcon, PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { relativeTime } from "human-date"
 import { useQueryState } from "next-usequerystate"
-import Link from "next/link"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import Table from "@/components/Table"
