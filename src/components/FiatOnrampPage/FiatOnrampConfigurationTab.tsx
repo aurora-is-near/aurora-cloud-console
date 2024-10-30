@@ -6,10 +6,21 @@ import { LinkButton } from "@/components/LinkButton"
 import CopyButton from "@/components/CopyButton"
 import { FiatOnrampStep } from "@/components/FiatOnrampPage/FiatOnrampStep"
 
-const FiatOnrampConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
+type FiatOnrampConfigurationTabProps = {
+  linkPrefix: string
+  siloId: number
+}
+
+const FiatOnrampConfigurationTab = ({
+  linkPrefix,
+  siloId,
+}: FiatOnrampConfigurationTabProps) => {
   return (
     <div className="w-full flex flex-col gap-4">
-      <ConfigureUniversalWidgetTabCard linkPrefix={linkPrefix} />
+      <ConfigureUniversalWidgetTabCard
+        linkPrefix={linkPrefix}
+        siloId={siloId}
+      />
       <ConfigurationPanel>
         <div className="flex flex-col gap-2">
           <Pill label="Option 2" />

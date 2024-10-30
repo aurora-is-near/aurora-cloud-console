@@ -1,17 +1,17 @@
 import { notFound } from "next/navigation"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { GasAbstractionPage } from "@/components/GasAbstractionPage"
 import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
-import DealItem from "./DealItem"
+import { Tabs } from "@/components/Tabs/Tabs"
+import { GasAbstractionPlansTab } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/GasAbstractionPlansTab"
+import { GasAbstractionPage } from "@/components/GasAbstractionPage"
+import { GasAbstractionAboutTab } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/GasAbstractionAboutTab"
 
 const Page = async ({
   params: { id, teamKey },
 }: {
   params: { id: number; teamKey: string }
 }) => {
-  const [team, silo, deals] = await Promise.all([
-    getTeamByKey(teamKey),
+  const [silo, deals] = await Promise.all([
     getTeamSiloByKey(teamKey, id),
     getTeamDealsByKey(teamKey),
   ])
@@ -21,20 +21,25 @@ const Page = async ({
   }
 
   return (
-    <GasAbstractionPage teamKey={team.team_key} silo={silo}>
-      {/* TODO: Deals are currently not scoped to a chain, we will need to make them so. */}
-      {silo && (
-        <ul className="grid gap-5 divide-gray-200">
-          {deals.map((deal) => (
-            <DealItem
-              key={deal.id}
-              deal={deal}
-              silo={silo}
-              teamKey={team.team_key}
-            />
-          ))}
-        </ul>
-      )}
+    <GasAbstractionPage teamKey={teamKey} silo={silo}>
+      <Tabs
+        tabs={[
+          {
+            title: "About",
+            content: <GasAbstractionAboutTab />,
+          },
+          {
+            title: "Gas plans",
+            content: (
+              <GasAbstractionPlansTab
+                silo={silo}
+                teamKey={teamKey}
+                deals={deals}
+              />
+            ),
+          },
+        ]}
+      />
     </GasAbstractionPage>
   )
 }

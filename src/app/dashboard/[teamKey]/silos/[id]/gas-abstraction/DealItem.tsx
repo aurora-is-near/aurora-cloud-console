@@ -16,8 +16,8 @@ const DealItem = ({ deal, silo, teamKey }: DealItemProps) => (
 
     <div className="flex-1 flex items-start gap-y-3 sm:items-center justify-between sm:flex-row flex-col">
       <div>
-        <h3>{deal.name}</h3>
-        <p className="text-sm text-gray-500">
+        <h3 className="text-slate-900">{deal.name}</h3>
+        <p className="text-sm text-slate-500">
           Created at {formatDate(deal.created_at)}
         </p>
       </div>

@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import { WidgetNetworkType } from "@/types/types"
-import { GET, POST, PUT } from "./route"
+import { GET, PUT } from "./route"
 import {
   createInsertOrUpdate,
   createSelect,
@@ -81,70 +81,10 @@ describe("Widgets route", () => {
     })
   })
 
-  describe("POST", () => {
-    it("returns a 404 for a non-existant silo", async () => {
-      await expect(async () =>
-        invokeApiHandler("POST", "/api/silos/1/widget", POST),
-      ).rejects.toThrow("Not Found")
-    })
-
-    it("returns a 400 if the widget already exists", async () => {
-      mockSupabaseClient
-        .from("widgets")
-        .select.mockImplementation(() => createSelect(createMockWidget()))
-
-      mockSupabaseClient
-        .from("silos")
-        .select.mockImplementation(() => createSelect(createMockSilo()))
-
-      let error
-
-      try {
-        await invokeApiHandler("POST", "/api/silos/1/widget", POST)
-      } catch (e) {
-        error = e
-      }
-
-      expect(error).toBeDefined()
-    })
-
-    it("creates a widget", async () => {
-      const mockWidget = createMockWidget()
-
-      mockSupabaseClient
-        .from("silos")
-        .select.mockImplementation(() => createSelect(createMockSilo()))
-
-      mockSupabaseClient
-        .from("widgets")
-        .insert.mockImplementation(() => createInsertOrUpdate(mockWidget))
-
-      const res = await invokeApiHandler("POST", "/api/silos/1/widget", POST, {
-        body: {},
-      })
-
-      expect(res).toSatisfyApiSpec()
-      expect(res.body).toEqual({
-        enabled: true,
-        createdAt: mockWidget.created_at,
-        updatedAt: mockWidget.updated_at,
-        fromNetworks: [],
-        toNetworks: [],
-        tokens: [],
-        widgetUrl:
-          "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud?toNetworks=%5B%5D&fromNetworks=%5B%5D",
-      })
-
-      expect(mockSupabaseClient.from("widgets").insert).toHaveBeenCalledWith({
-        silo_id: 1,
-      })
-    })
-  })
-
   describe("PUT", () => {
     it("returns a 404 for a non-existant silo", async () => {
       await expect(async () =>
-        invokeApiHandler("PUT", "/api/silos/1/widget", POST),
+        invokeApiHandler("PUT", "/api/silos/1/widget", PUT),
       ).rejects.toThrow("Not Found")
     })
 
@@ -162,11 +102,7 @@ describe("Widgets route", () => {
 
       mockSupabaseClient
         .from("widgets")
-        .update.mockImplementation(() => updateQueries)
-
-      mockSupabaseClient
-        .from("widgets")
-        .select.mockImplementation(() => createSelect(mockWidget))
+        .upsert.mockImplementation(() => updateQueries)
 
       updateQueries.select.mockReturnValue(
         createSelect({
@@ -203,14 +139,16 @@ describe("Widgets route", () => {
           "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud?toNetworks=%5B%22ethereum%22%5D&fromNetworks=%5B%22aurora%22%5D",
       })
 
-      expect(mockSupabaseClient.from("widgets").update).toHaveBeenCalledTimes(1)
-      expect(mockSupabaseClient.from("widgets").update).toHaveBeenCalledWith({
-        from_networks: fromNetworks,
-        to_networks: toNetworks,
-        tokens,
-      })
-
-      expect(updateQueries.eq).toHaveBeenCalledWith("silo_id", 1)
+      expect(mockSupabaseClient.from("widgets").upsert).toHaveBeenCalledTimes(1)
+      expect(mockSupabaseClient.from("widgets").upsert).toHaveBeenCalledWith(
+        {
+          silo_id: mockSilo.id,
+          from_networks: fromNetworks,
+          to_networks: toNetworks,
+          tokens,
+        },
+        { onConflict: "silo_id" },
+      )
     })
   })
 })

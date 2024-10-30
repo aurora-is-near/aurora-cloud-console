@@ -1,15 +1,14 @@
 "use client"
 
-import { KeyIcon } from "@heroicons/react/24/outline"
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
+import { KeyIcon, PencilSquareIcon, TrashIcon } from "@heroicons/react/20/solid"
 import { relativeTime } from "human-date"
 import { useQueryState } from "next-usequerystate"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import Table from "@/components/Table"
 import { NoDataCta } from "@/components/NoDataCta"
-import DropdownMenu from "@/components/DropdownMenu"
 import { ApiKey } from "@/types/types"
+import { Button } from "@/components/Button"
 import AddApiKeyButton from "./AddApiKeyButton"
 
 type ApiKeysTableProps = {
@@ -35,7 +34,6 @@ export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
       <NoDataCta
         title="No API keys"
         description="Get started by creating a your first API key."
-        className="mt-20"
         Icon={KeyIcon}
       >
         <AddApiKeyButton />
@@ -46,40 +44,58 @@ export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
   return (
     <Table>
       <Table.TH>Key</Table.TH>
-      <Table.TH>Note</Table.TH>
       <Table.TH>Scopes</Table.TH>
+      <Table.TH>Note</Table.TH>
       <Table.TH>Last Used</Table.TH>
       <Table.TH hidden>Edit</Table.TH>
-      {apiKeys?.map((apiKey) => (
-        <Table.TR key={apiKey.id}>
-          <Table.TD dark>{apiKey.key}</Table.TD>
-          <Table.TD>{apiKey.note}</Table.TD>
-          <Table.TD>{apiKey.scopes.join(", ")}</Table.TD>
-          <Table.TD>
-            {apiKey.last_used_at ? relativeTime(apiKey.last_used_at) : "Never"}
-          </Table.TD>
-          <Table.TD align="right">
-            <DropdownMenu
-              menuItems={[
-                {
-                  Icon: PencilSquareIcon,
-                  text: "Edit",
-                  onClick: () => {
+      {apiKeys?.map((apiKey) => {
+        const apiScopes = apiKey.scopes.slice(0, 3)
+        const remainingScopes = apiKey.scopes.length - apiScopes.length
+
+        return (
+          <Table.TR key={apiKey.id}>
+            <Table.TD dark>{apiKey.key}</Table.TD>
+            <Table.TD>
+              <div className="flex flex-wrap gap-1">
+                <span>{apiScopes.join(", ")}</span>
+                <button
+                  type="button"
+                  onClick={() => {
                     void onEditClick(apiKey.id)
-                  },
-                },
-                {
-                  Icon: TrashIcon,
-                  text: "Delete",
-                  onClick: () => {
-                    void onDeleteClick(apiKey.id)
-                  },
-                },
-              ]}
-            />
-          </Table.TD>
-        </Table.TR>
-      ))}
+                  }}
+                  className="text-blue-500 underline"
+                >
+                  {remainingScopes > 0 && ` and ${remainingScopes} more`}
+                </button>
+              </div>
+            </Table.TD>
+            <Table.TD>{apiKey.note}</Table.TD>
+            <Table.TD>
+              {apiKey.last_used_at
+                ? relativeTime(apiKey.last_used_at)
+                : "Never"}
+            </Table.TD>
+            <Table.TD align="right">
+              <Button
+                variant="border"
+                onClick={() => {
+                  void onEditClick(apiKey.id)
+                }}
+              >
+                <PencilSquareIcon className="h-4 w-4 text-slate-900" />
+              </Button>
+              <Button
+                variant="border"
+                onClick={() => {
+                  void onDeleteClick(apiKey.id)
+                }}
+              >
+                <TrashIcon className="h-4 w-4 text-slate-900" />
+              </Button>
+            </Table.TD>
+          </Table.TR>
+        )
+      })}
     </Table>
   )
 }

@@ -334,21 +334,6 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
-  createWidget: {
-    summary: "Create a widget configuration for a silo",
-    method: "POST",
-    path: "/api/silos/:id/widget",
-    responses: {
-      200: WidgetSchema,
-    },
-    metadata: {
-      scopes: ["silos:write"],
-    },
-    body: z.object({}),
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
   updateWidget: {
     summary: "Update the widget configuration for a silo",
     method: "PUT",

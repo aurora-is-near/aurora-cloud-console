@@ -124,18 +124,14 @@ const Page = async ({
         description="Your virtual chain access restrictions and contract deployment support."
         items={[
           {
-            term: "Globally accessible",
-            description: "Yes",
-          },
-          {
-            term: "Access controls",
-            description: "Enforced",
+            term: "Make transactions on chain",
+            description: "Deploy contracts",
             tooltip:
               "This whitelist contains the list of addresses allowed to interact with your chain.",
           },
           {
             term: "Contract deployment",
-            description: "Allowed",
+            description: "Allowed for everyone",
             tooltip:
               "This whitelist contains the list of addresses allowed to deploy contracts on your chain.",
           },
