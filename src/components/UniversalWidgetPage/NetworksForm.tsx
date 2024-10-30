@@ -40,8 +40,8 @@ const NetworksForm = ({
 
   const getWidgetUpdater = useOptimisticUpdater("getWidget")
 
-  const { mutate: updateWidget, isPending } = useMutation({
-    mutationFn: apiClient.updateWidget,
+  const { mutate: upsertWidget, isPending } = useMutation({
+    mutationFn: apiClient.upsertWidget,
     onMutate: getWidgetUpdater.update,
     onSettled: getWidgetUpdater.invalidate,
     onSuccess: () => {
@@ -59,7 +59,7 @@ const NetworksForm = ({
         .map(([key]) => key)
         .filter(isValidNetwork)
 
-      const data: Parameters<typeof updateWidget>[0] = {
+      const data: Parameters<typeof upsertWidget>[0] = {
         id: siloId,
       }
 
@@ -75,9 +75,9 @@ const NetworksForm = ({
         data.toNetworks = selectedNetworks
       }
 
-      updateWidget(data)
+      upsertWidget(data)
     },
-    [siloId, type, updateWidget, networks],
+    [siloId, type, upsertWidget, networks],
   )
 
   useEffect(() => {
@@ -99,12 +99,7 @@ const NetworksForm = ({
   return (
     <form onSubmit={handleSubmit(submit)}>
       <div>
-        <div
-          className={clsx(
-            "flex flex-col space-y-2",
-            !widget && "opacity-50 pointer-events-none",
-          )}
-        >
+        <div className="flex flex-col space-y-2">
           {availableNetworks.map((network) => (
             <div
               key={network.key}
@@ -121,7 +116,7 @@ const NetworksForm = ({
               >
                 <div className="flex items-center h-6">
                   <input
-                    disabled={!widget || isPending || isSubmitting}
+                    disabled={isPending || isSubmitting}
                     id={`${type}-${network.key}`}
                     type="checkbox"
                     className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600"
