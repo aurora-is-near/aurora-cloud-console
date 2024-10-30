@@ -4,6 +4,7 @@ import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { EmbedCodeCard } from "@/components/UniversalWidgetPage/EmbedCodeCard"
 import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
+import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetPage/UniversalWidgetOpenButton"
 
 interface UniversalWidgetPageProps {
   teamKey: string
@@ -49,6 +50,11 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
             src="/static/v2/images/feature/hero/universal_widget.png"
             alt="Universal Widget Preview"
           />
+        }
+        actions={
+          siloId ? (
+            <UniversalWidgetOpenButton size="lg" siloId={siloId} />
+          ) : null
         }
       />
       <Tabs tabs={tabs} />

@@ -1,3 +1,5 @@
+"use client"
+
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { useCallback } from "react"
 import { Button } from "@/components/Button"
@@ -32,12 +34,12 @@ export const UniversalWidgetOpenButton = ({
   return (
     <Button
       onClick={onClick}
-      className="w-full"
       disabled={!widgetUrl}
       size={size}
+      variant="border"
     >
       <span className="flex flex-row items-center">
-        Open bridge
+        Preview widget
         <ArrowTopRightOnSquareIcon className="ml-2 w-6 h-6" />
       </span>
     </Button>
