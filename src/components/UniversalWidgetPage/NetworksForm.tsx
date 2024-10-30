@@ -9,7 +9,7 @@ import clsx from "clsx"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Network } from "@/hooks/useWidgetNetworks"
-import { Widget, WidgetNetworkType } from "@/types/types"
+import { WidgetNetworkType } from "@/types/types"
 import { isValidNetwork } from "@/utils/widget"
 
 type Inputs = Partial<Record<WidgetNetworkType, boolean>>
@@ -19,7 +19,6 @@ type NetworksFormProps = {
   type: "to" | "from"
   networks: Network[]
   availableNetworks: Network[]
-  widget?: Widget | null
 }
 
 const NetworksForm = ({
@@ -27,7 +26,6 @@ const NetworksForm = ({
   type,
   networks,
   availableNetworks,
-  widget,
 }: NetworksFormProps) => {
   const {
     register,
