@@ -132,7 +132,7 @@ const UserInfoForm = ({
             </Button>
           </>
         ) : (
-          <Button variant="secondary" onClick={toggleForm}>
+          <Button variant="border" onClick={toggleForm}>
             <PencilIcon className="w-5 h-5" />
             <span>Edit</span>
           </Button>
