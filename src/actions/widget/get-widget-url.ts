@@ -42,6 +42,10 @@ const setTokensParam = (
   url: URL,
   { activeTokens }: { activeTokens: Token[] },
 ) => {
+  if (!activeTokens.length) {
+    return
+  }
+
   url.searchParams.set(
     "tokens",
     JSON.stringify(activeTokens.map(({ symbol }) => symbol)),
@@ -52,6 +56,10 @@ const setCustomTokensParam = (
   url: URL,
   { activeCustomTokens }: { activeCustomTokens: Token[] },
 ) => {
+  if (!activeCustomTokens.length) {
+    return
+  }
+
   const customTokens = activeCustomTokens
     .map(
       ({
