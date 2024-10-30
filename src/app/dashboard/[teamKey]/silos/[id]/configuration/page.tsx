@@ -125,12 +125,12 @@ const Page = async ({
         items={[
           {
             term: "Make transactions on chain",
-            description: "Deploy contracts",
+            description: "Allowed for everyone",
             tooltip:
               "This whitelist contains the list of addresses allowed to interact with your chain.",
           },
           {
-            term: "Contract deployment",
+            term: "Deploy contracts",
             description: "Allowed for everyone",
             tooltip:
               "This whitelist contains the list of addresses allowed to deploy contracts on your chain.",
