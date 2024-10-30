@@ -1,6 +1,6 @@
 import ConfigurationPanel from "@/components/FiatOnrampPage/ConfigurationPanel"
 import { LinkButton } from "@/components/LinkButton"
-import Pill from "@/components/Pill"
+import { Pill } from "@/components/Pill"
 import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
 
 type ConfigureUniversalWidgetTabCardProps = {
@@ -15,7 +15,7 @@ const ConfigureUniversalWidgetTabCard = ({
   return (
     <ConfigurationPanel>
       <div className="flex flex-col gap-2">
-        <Pill label="Option 1" />
+        <Pill>Option 1</Pill>
         <h3 className="text-lg text-slate-900 tracking-tighter font-semibold">
           Universal Widget
         </h3>

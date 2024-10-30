@@ -1,6 +1,10 @@
 "use client"
 
-import { PaperAirplaneIcon } from "@heroicons/react/24/outline"
+import {
+  CheckIcon,
+  ClockIcon,
+  PaperAirplaneIcon,
+} from "@heroicons/react/24/outline"
 import { useQueryState } from "next-usequerystate"
 import { useCallback } from "react"
 import { useRouter } from "next/navigation"
@@ -13,6 +17,7 @@ import { reinviteUser } from "@/actions/invite/reinvite-user"
 import { toError } from "@/utils/errors"
 import { deleteTeamMember } from "@/actions/team-members/delete-team-member"
 import { TableDeleteButton } from "@/components/TableDeleteButton"
+import { Pill } from "@/components/Pill"
 
 type TeamMembersTableProps = {
   teamKey: string
@@ -64,8 +69,8 @@ export const TeamMembersTable = ({
 
   return (
     <Table>
-      <Table.TH>Email</Table.TH>
       <Table.TH>Name</Table.TH>
+      <Table.TH>Email</Table.TH>
       <Table.TH>Status</Table.TH>
       <Table.TH hidden>Actions</Table.TH>
       {teamMembers.map((teamMember) => {
@@ -73,9 +78,21 @@ export const TeamMembersTable = ({
 
         return (
           <Table.TR key={teamMember.email}>
-            <Table.TD dark>{teamMember.email}</Table.TD>
-            <Table.TD>{teamMember.name ?? "-"}</Table.TD>
-            <Table.TD>{teamMember.isPending ? "Invited" : "Active"}</Table.TD>
+            <Table.TD dark>{teamMember.name ?? "N/A"}</Table.TD>
+            <Table.TD>{teamMember.email}</Table.TD>
+            <Table.TD>
+              {teamMember.isPending ? (
+                <Pill variant="pending">
+                  <ClockIcon className="w-4 h-4" />
+                  Pending
+                </Pill>
+              ) : (
+                <Pill variant="active">
+                  <CheckIcon className="w-4 h-4" />
+                  Active
+                </Pill>
+              )}
+            </Table.TD>
             <Table.TD align="right">
               {teamMember.isPending && !isCurrentUser ? (
                 <TableButton
