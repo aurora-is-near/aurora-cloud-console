@@ -56,8 +56,8 @@ export const getWidgetUrl = ({
   }
 
   const hasCustomChain =
-    widget.from_networks?.some((network) => network === "CUSTOM") ??
-    widget.to_networks?.some((network) => network === "CUSTOM")
+    !!widget.from_networks?.some((network) => network === "CUSTOM") ||
+    !!widget.to_networks?.some((network) => network === "CUSTOM")
 
   if (hasCustomChain && silo && baseToken) {
     url.searchParams.set(
