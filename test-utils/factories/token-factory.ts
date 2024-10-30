@@ -25,7 +25,7 @@ export const createMockTokens = (
   Array.from({ length: count }, (_, index) =>
     createMockToken({
       id: index + 1,
-      name: `Test Silo ${index + 1}`,
+      name: `Test Token ${index + 1}`,
       ...data,
     }),
   )
