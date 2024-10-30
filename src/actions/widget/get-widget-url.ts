@@ -149,14 +149,14 @@ export const getWidgetUrl = ({
     "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud",
   )
 
-  if (widget.to_networks) {
+  if (widget.to_networks?.length) {
     url.searchParams.set(
       "toNetworks",
       JSON.stringify(getNetworkEvms(silo, widget.to_networks)),
     )
   }
 
-  if (widget.from_networks) {
+  if (widget.from_networks?.length) {
     url.searchParams.set(
       "fromNetworks",
       JSON.stringify(getNetworkEvms(silo, widget.from_networks)),
