@@ -57,7 +57,7 @@ const getItem = (
   data: toArray(item[key]).map(({ count }) => count),
   borderColor: getChartColor(index, colors),
   backgroundColor: getChartColor(index, colors),
-  tension: 0.3,
+  tension: 0,
 })
 
 export const getGenericLineChartData = (
