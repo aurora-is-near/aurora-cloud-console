@@ -124,10 +124,6 @@ const Page = async ({
         description="Your virtual chain access restrictions and contract deployment support."
         items={[
           {
-            term: "Globally accessible",
-            description: "Yes",
-          },
-          {
             term: "Access controls",
             description: "Enforced",
             tooltip:
