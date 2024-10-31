@@ -6,7 +6,10 @@ import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import Contact from "@/components/Contact"
 import { DashboardPage } from "@/components/DashboardPage"
 import { LinkButton } from "@/components/LinkButton"
-import { ConfigurationItemsCard } from "./ConfigurationItemsCard"
+import {
+  ConfigurationItemsCard,
+  ConfigurationItemsCardProps,
+} from "./ConfigurationItemsCard"
 
 const Page = async ({
   params: { id, teamKey },
@@ -24,59 +27,58 @@ const Page = async ({
 
   const baseToken = tokens.find((token) => token.id === silo.base_token_id)
 
+  const items: ConfigurationItemsCardProps["items"] = [
+    {
+      term: "Network",
+      description: sentenceCase(silo.network),
+      tooltip: "Aurora Chains can be either public, permissioned, or private.",
+    },
+    {
+      term: "Chain ID",
+      description: silo.chain_id,
+      tooltip:
+        "EIP-155 standard field to protect against transaction replay attacks.",
+      showCopyButton: true,
+    },
+    {
+      term: "Genesis",
+      description: silo.genesis,
+      showCopyButton: true,
+    },
+    {
+      term: "Engine account",
+      description: silo.engine_account,
+      tooltip: "EVM contract account on the Near blockchain.",
+      showCopyButton: true,
+    },
+    {
+      term: "Engine version",
+      description: silo.engine_version,
+      tooltip: "The version of the Aurora Engine used to power your chain.",
+    },
+    {
+      term: "RPC URL",
+      description: silo.rpc_url,
+      tooltip: "Use this endpoint to access the network.",
+      showCopyButton: true,
+    },
+  ]
+
+  if (silo.explorer_url) {
+    items.push({
+      term: "Explorer",
+      description: silo.explorer_url,
+      tooltip: "You can trace the activity on your chain here.",
+      showCopyButton: true,
+    })
+  }
+
   return (
-    <DashboardPage
-      heading="Configuration"
-      actions={
-        silo.explorer_url ? (
-          <LinkButton isExternal variant="border" href={silo.explorer_url}>
-            <span>Block Explorer</span>
-            <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-          </LinkButton>
-        ) : null
-      }
-    >
+    <DashboardPage heading="Configuration">
       <ConfigurationItemsCard
         title="Chain details"
         description="Virtual Chain configuration sets the key parameters that define your blockchain’s network and enable seamless operation."
-        items={[
-          {
-            term: "Network",
-            description: sentenceCase(silo.network),
-            tooltip:
-              "Aurora Chains can be either public, permissioned, or private.",
-          },
-          {
-            term: "Chain ID",
-            description: silo.chain_id,
-            tooltip:
-              "EIP-155 standard field to protect against transaction replay attacks.",
-            showCopyButton: true,
-          },
-          {
-            term: "Genesis",
-            description: silo.genesis,
-            showCopyButton: true,
-          },
-          {
-            term: "Engine account",
-            description: silo.engine_account,
-            tooltip: "EVM contract account on the Near blockchain.",
-            showCopyButton: true,
-          },
-          {
-            term: "Engine version",
-            description: silo.engine_version,
-            tooltip:
-              "The version of the Aurora Engine used to power your chain.",
-          },
-          {
-            term: "RPC URL",
-            description: silo.rpc_url,
-            tooltip: "Use this endpoint to access the network.",
-            showCopyButton: true,
-          },
-        ]}
+        items={items}
       />
 
       <ConfigurationItemsCard
