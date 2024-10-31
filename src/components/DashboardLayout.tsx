@@ -32,7 +32,7 @@ export const DashboardLayout = ({
     const items: MenuItem[] = [
       {
         name: "Settings",
-        href: `/dashboard/${teamKey}/settings`,
+        href: `/dashboard/${teamKey}/settings/team`,
         icon: <Cog6ToothIcon />,
       },
     ]
