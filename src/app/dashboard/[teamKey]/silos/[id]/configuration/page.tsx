@@ -1,11 +1,9 @@
 import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { getTokens } from "@/actions/tokens/get-tokens"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import Contact from "@/components/Contact"
 import { DashboardPage } from "@/components/DashboardPage"
-import { LinkButton } from "@/components/LinkButton"
 import {
   ConfigurationItemsCard,
   ConfigurationItemsCardProps,
