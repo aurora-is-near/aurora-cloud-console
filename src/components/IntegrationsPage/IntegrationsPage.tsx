@@ -26,6 +26,7 @@ type Integration = {
   description: string
   icon: JSX.Element
   checked?: boolean
+  link?: string
 }
 
 type OtherIntegration = Integration & {
@@ -47,6 +48,7 @@ const NATIVE_INTEGRATIONS: Integration[] = [
       "Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum.",
     icon: <UniversalWidget />,
     checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/onramp/universal-widget",
   },
   {
     title: "Fiat to crypto",
@@ -54,6 +56,7 @@ const NATIVE_INTEGRATIONS: Integration[] = [
       "Enable your users to onramp from fiat to crypto directly on your silo.",
     icon: <Onramp />,
     checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/onramp/fiat-to-crypto",
   },
   {
     title: "CEX withdrawals",
@@ -61,6 +64,7 @@ const NATIVE_INTEGRATIONS: Integration[] = [
       "Allow your users to deposit assets directly from centralized exchanges to your chain.",
     icon: <CexWithdrawals />,
     checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/onramp/universal-widget",
   },
   {
     title: "Oracle",
@@ -68,12 +72,14 @@ const NATIVE_INTEGRATIONS: Integration[] = [
       "Access reliable data from over 95 top publishers and integrate precise pricing data.",
     icon: <Oracle />,
     checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/oracle",
   },
   {
     title: "Block Explorer",
     description: "Enjoy a blockchain explorer dedicated to your chain.",
     icon: <BlockExplorer />,
     checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/block-explorer",
   },
   {
     title: "KYC",
@@ -155,7 +161,13 @@ const TABS = CATEGORIES.filter(({ key }) => {
   }
 })
 
-export const IntegrationsPage = () => {
+export const IntegrationsPage = ({
+  teamKey,
+  siloId,
+}: {
+  teamKey: string
+  siloId?: number
+}) => {
   return (
     <DashboardPage>
       <Hero
@@ -173,15 +185,20 @@ export const IntegrationsPage = () => {
       <section className={SECTION_CLASSNAME}>
         <SubTitle>Native integrations</SubTitle>
         <div className={INTEGRATIONS_CONTAINER_CLASSNAME}>
-          {NATIVE_INTEGRATIONS.map(({ title, description, icon, checked }) => (
-            <FeatureCard
-              key={title}
-              title={title}
-              description={description}
-              checked={checked}
-              icon={icon}
-            />
-          ))}
+          {NATIVE_INTEGRATIONS.map(
+            ({ title, description, icon, checked, link }) => (
+              <FeatureCard
+                key={title}
+                title={title}
+                description={description}
+                checked={checked}
+                icon={icon}
+                link={link
+                  ?.replace("[teamKey]", teamKey)
+                  .replace("[id]", siloId?.toString() ?? "(new)")}
+              />
+            ),
+          )}
         </div>
       </section>
       {false && (
