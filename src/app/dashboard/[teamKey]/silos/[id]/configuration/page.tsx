@@ -124,7 +124,7 @@ const Page = async ({
         description="Your virtual chain access restrictions and contract deployment support."
         items={[
           {
-            term: "Make transactions on chain",
+            term: "Make transactions",
             description: "Allowed for everyone",
             tooltip:
               "This whitelist contains the list of addresses allowed to interact with your chain.",
