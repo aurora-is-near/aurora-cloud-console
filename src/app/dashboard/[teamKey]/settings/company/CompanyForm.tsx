@@ -71,7 +71,7 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
             </Button>
           </>
         ) : (
-          <Button variant="secondary" onClick={toggleForm}>
+          <Button variant="border" onClick={toggleForm}>
             <PencilIcon className="w-5 h-5" />
             <span>Edit</span>
           </Button>
@@ -79,74 +79,69 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
       }
     >
       <Card>
-        <Card.Body>
-          {showForm ? (
-            <form
-              onSubmit={handleSubmit(handleUpdateTeam)}
-              className="space-y-4"
-            >
-              <HorizontalInput
-                id="name"
-                name="name"
-                label="Company name"
-                autoComplete="name"
-                register={register}
-                registerOptions={{
-                  value: team.name ?? "",
-                }}
-              />
+        {showForm ? (
+          <form onSubmit={handleSubmit(handleUpdateTeam)} className="space-y-4">
+            <HorizontalInput
+              id="name"
+              name="name"
+              label="Company name"
+              autoComplete="name"
+              register={register}
+              registerOptions={{
+                value: team.name ?? "",
+              }}
+            />
 
-              <HorizontalInput
-                id="website"
-                name="website"
-                label="Business website"
-                autoComplete="website"
-                register={register}
-                registerOptions={{
-                  value: team.website ?? "",
-                }}
-              />
+            <HorizontalInput
+              id="website"
+              name="website"
+              label="Business website"
+              autoComplete="website"
+              register={register}
+              registerOptions={{
+                value: team.website ?? "",
+              }}
+            />
 
-              <HorizontalInput
-                id="email"
-                name="email"
-                label="Support email"
-                autoComplete="email"
-                register={register}
-                registerOptions={{
-                  value: team.email ?? "",
-                }}
-              />
-            </form>
-          ) : (
-            <dl className="space-y-10 mt-4">
-              <div className="sm:grid sm:grid-cols-2">
-                <dt className="text-sm font-medium leading-none text-gray-500">
-                  Company name
-                </dt>
-                <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-                  {team.name}
-                </dd>
-              </div>
-              <div className="sm:grid sm:grid-cols-2">
-                <dt className="text-sm font-medium leading-none text-gray-500">
-                  Business website
-                </dt>
-                <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-                  {team.website}
-                </dd>
-              </div>
-              <div className="sm:grid sm:grid-cols-2">
-                <dt className="text-sm font-medium leading-none text-gray-500">
-                  Support email
-                </dt>
-                <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-                  {team.email}
-                </dd>
-              </div>
-            </dl>
-          )}
-        </Card.Body>
+            <HorizontalInput
+              id="email"
+              name="email"
+              label="Support email"
+              autoComplete="email"
+              register={register}
+              registerOptions={{
+                value: team.email ?? "",
+              }}
+            />
+          </form>
+        ) : (
+          <dl className="space-y-10 py-2">
+            <div className="sm:grid sm:grid-cols-2">
+              <dt className="text-sm font-medium leading-none text-gray-500">
+                Company name
+              </dt>
+              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
+                {team.name}
+              </dd>
+            </div>
+            <div className="sm:grid sm:grid-cols-2">
+              <dt className="text-sm font-medium leading-none text-gray-500">
+                Business website
+              </dt>
+              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
+                {team.website}
+              </dd>
+            </div>
+            <div className="sm:grid sm:grid-cols-2">
+              <dt className="text-sm font-medium leading-none text-gray-500">
+                Support email
+              </dt>
+              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
+                {team.email}
+              </dd>
+            </div>
+          </dl>
+        )}
       </Card>
     </DashboardPage>
   )

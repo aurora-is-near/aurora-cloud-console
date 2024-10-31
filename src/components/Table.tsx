@@ -17,7 +17,7 @@ const TH = ({
 }) => (
   <th
     scope="col"
-    className={clsx("py-3.5 text-sm leading-none font-medium text-gray-900", {
+    className={clsx("py-3.5 text-sm leading-none font-medium text-slate-900", {
       "text-right": align === "right",
       "text-left": align === "left",
       "text-center": align === "center",
@@ -54,8 +54,8 @@ const TD = ({
   <td
     onClick={onClick}
     className={clsx(
-      "whitespace-nowrap px-3 py-4 text-sm leading-none",
-      dark ? "font-medium text-gray-900" : "text-gray-500",
+      "px-3 py-4 text-sm leading-none",
+      dark ? "font-medium text-slate-900" : "text-slate-500",
       isLink && "group-hover:underline",
       {
         "pl-4 pr-3 sm:pl-6": isFirst,
@@ -122,7 +122,7 @@ const Table = ({
       <div className="overflow-x-auto">
         <div className="inline-block min-w-full align-middle">
           <div className="overflow-hidden border sm:rounded-lg">
-            <table className="min-w-full divide-y divide-gray-300">
+            <table className="min-w-full divide-y divide-slate-300">
               <thead className="bg-white">
                 <tr>
                   {ths?.map((th, i) => {
@@ -136,7 +136,9 @@ const Table = ({
                   })}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 bg-white">{trs}</tbody>
+              <tbody className="divide-y divide-slate-200 bg-white">
+                {trs}
+              </tbody>
             </table>
           </div>
         </div>

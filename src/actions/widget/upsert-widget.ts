@@ -7,7 +7,7 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const updateWidget = async (
+export const upsertWidget = async (
   siloId: number,
   inputs: {
     fromNetworks?: WidgetNetworkType[]
@@ -19,12 +19,15 @@ export const updateWidget = async (
 
   const result = await supabase
     .from("widgets")
-    .update({
-      from_networks: inputs.fromNetworks,
-      to_networks: inputs.toNetworks,
-      tokens: inputs.tokens,
-    })
-    .eq("silo_id", siloId)
+    .upsert(
+      {
+        silo_id: siloId,
+        from_networks: inputs.fromNetworks,
+        to_networks: inputs.toNetworks,
+        tokens: inputs.tokens,
+      },
+      { onConflict: "silo_id" },
+    )
     .select()
     .single()
 

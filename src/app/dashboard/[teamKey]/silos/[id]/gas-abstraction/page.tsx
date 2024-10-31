@@ -29,6 +29,10 @@ const Page = async ({
         <Tabs
           tabs={[
             {
+              title: "About",
+              content: <GasAbstractionAboutTab />,
+            },
+            {
               title: "Gas plans",
               content: (
                 <GasAbstractionPlansTab

@@ -1,13 +1,14 @@
 import { ReactNode } from "react"
 import {
-  CreditCardIcon,
-  InformationCircleIcon,
+  ArrowLeftIcon,
+  BuildingLibraryIcon,
+  IdentificationIcon,
   KeyIcon,
-  UserIcon,
   UsersIcon,
-} from "@heroicons/react/24/outline"
+} from "@heroicons/react/20/solid"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { isAdmin } from "@/actions/is-admin"
+import { Button } from "@/components/Button"
 
 const Layout = async ({
   children,
@@ -24,33 +25,34 @@ const Layout = async ({
       showAdminMenu={showAdminMenu}
       sidebarMenu={{
         heading: "Settings",
+        action: (
+          <Button variant="border" size="lg">
+            <ArrowLeftIcon className="w-6 h-6 absolute left-4" />
+            Back to dashboard
+          </Button>
+        ),
         sections: [
           {
             items: [
-              {
-                name: "Billing",
-                href: `/dashboard/${teamKey}/settings/billing`,
-                icon: <CreditCardIcon />,
-              },
               {
                 name: "Team",
                 href: `/dashboard/${teamKey}/settings/team`,
                 icon: <UsersIcon />,
               },
               {
-                name: "Company",
-                href: `/dashboard/${teamKey}/settings/company`,
-                icon: <InformationCircleIcon />,
+                name: "API Keys",
+                href: `/dashboard/${teamKey}/settings/api-keys`,
+                icon: <KeyIcon />,
               },
               {
                 name: "Account",
                 href: `/dashboard/${teamKey}/settings/account`,
-                icon: <UserIcon />,
+                icon: <IdentificationIcon />,
               },
               {
-                name: "API Keys",
-                href: `/dashboard/${teamKey}/settings/api-keys`,
-                icon: <KeyIcon />,
+                name: "Company",
+                href: `/dashboard/${teamKey}/settings/company`,
+                icon: <BuildingLibraryIcon />,
               },
             ],
           },
