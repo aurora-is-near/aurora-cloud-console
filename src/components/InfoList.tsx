@@ -2,7 +2,6 @@ import clsx from "clsx"
 import Link from "next/link"
 import CopyButton from "@/components/CopyButton"
 import { InfoTooltip } from "@/components/InfoTooltip"
-import { LinkButton } from "@/components/LinkButton"
 
 export type InfoListProps = {
   className?: string
