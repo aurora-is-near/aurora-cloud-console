@@ -1,16 +1,27 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { LinkButton } from "@/components/LinkButton"
-import Pill from "@/components/Pill"
+import { Pill } from "@/components/Pill"
 import ConfigureUniversalWidgetTabCard from "@/components/Tabs/ConfigureUniversalWidgetTabCard"
 import ConfigurationPanel from "@/components/FiatOnrampPage/ConfigurationPanel"
 
-const BridgePageConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
+type BridgePageConfigurationTabProps = {
+  linkPrefix: string
+  siloId: number
+}
+
+const BridgePageConfigurationTab = ({
+  linkPrefix,
+  siloId,
+}: BridgePageConfigurationTabProps) => {
   return (
     <div className="w-full flex flex-col gap-4">
-      <ConfigureUniversalWidgetTabCard linkPrefix={linkPrefix} />
+      <ConfigureUniversalWidgetTabCard
+        linkPrefix={linkPrefix}
+        siloId={siloId}
+      />
       <ConfigurationPanel>
         <div className="flex flex-col gap-2">
-          <Pill label="Option 2" />
+          <Pill>Option 2</Pill>
           <h3 className="text-lg text-slate-900 tracking-tighter font-semibold">
             Rainbow Bridge
           </h3>

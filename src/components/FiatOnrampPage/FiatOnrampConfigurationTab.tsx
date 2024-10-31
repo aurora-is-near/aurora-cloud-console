@@ -1,18 +1,29 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import ConfigureUniversalWidgetTabCard from "@/components/Tabs/ConfigureUniversalWidgetTabCard"
 import ConfigurationPanel from "@/components/FiatOnrampPage/ConfigurationPanel"
-import Pill from "@/components/Pill"
+import { Pill } from "@/components/Pill"
 import { LinkButton } from "@/components/LinkButton"
 import CopyButton from "@/components/CopyButton"
 import { FiatOnrampStep } from "@/components/FiatOnrampPage/FiatOnrampStep"
 
-const FiatOnrampConfigurationTab = ({ linkPrefix }: { linkPrefix: string }) => {
+type FiatOnrampConfigurationTabProps = {
+  linkPrefix: string
+  siloId: number
+}
+
+const FiatOnrampConfigurationTab = ({
+  linkPrefix,
+  siloId,
+}: FiatOnrampConfigurationTabProps) => {
   return (
     <div className="w-full flex flex-col gap-4">
-      <ConfigureUniversalWidgetTabCard linkPrefix={linkPrefix} />
+      <ConfigureUniversalWidgetTabCard
+        linkPrefix={linkPrefix}
+        siloId={siloId}
+      />
       <ConfigurationPanel>
         <div className="flex flex-col gap-2">
-          <Pill label="Option 2" />
+          <Pill>Option 2</Pill>
           <h3 className="text-lg text-slate-900 tracking-tighter font-semibold">
             Embed Munzen Widget
           </h3>

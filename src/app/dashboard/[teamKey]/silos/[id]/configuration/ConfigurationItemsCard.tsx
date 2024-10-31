@@ -1,7 +1,7 @@
 import { ConfigurationCard } from "@/components/ConfigurationCard"
 import { InfoList, InfoListProps } from "@/components/InfoList"
 
-type ConfigurationItemsCardProps = {
+export type ConfigurationItemsCardProps = {
   title: string
   description: string
   items: InfoListProps["items"]
