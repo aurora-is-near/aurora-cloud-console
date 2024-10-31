@@ -5,6 +5,7 @@ import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import BridgePageConfigurationTab from "@/components/BridgePage/BridgePageConfigurationTab"
 import { BridgePageAboutTab } from "@/components/BridgePage/BridgePageAboutTab"
+import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
 
 interface BridgePageProps {
   teamKey: string
@@ -46,6 +47,16 @@ export const BridgePage: React.FC<BridgePageProps> = ({ teamKey, siloId }) => {
             src="/static/v2/images/feature/hero/bridge.png"
             alt="Bridge Preview"
           />
+        }
+        actions={
+          siloId && (
+            <UniversalWidgetOpenButton
+              siloId={siloId}
+              variant="border"
+              size="lg"
+              isExternal
+            />
+          )
         }
       />
       <Tabs tabs={tabs} />
