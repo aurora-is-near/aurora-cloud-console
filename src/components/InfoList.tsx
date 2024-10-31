@@ -1,6 +1,8 @@
 import clsx from "clsx"
+import Link from "next/link"
 import CopyButton from "@/components/CopyButton"
 import { InfoTooltip } from "@/components/InfoTooltip"
+import { LinkButton } from "@/components/LinkButton"
 
 export type InfoListProps = {
   className?: string
@@ -17,6 +19,7 @@ export const InfoList = ({ items, className }: InfoListProps) => (
     {items.map(({ term, tooltip, description, showCopyButton }, index) => {
       const isFirst = index === 0
       const isLast = index === items.length - 1
+      const isLink = description.startsWith("http")
 
       return (
         <div
@@ -33,7 +36,13 @@ export const InfoList = ({ items, className }: InfoListProps) => (
           </div>
           <div className="col-span-3 flex flex-row items-center justify-between gap-x-2.5">
             <dd className="text-sm leading-5 text-slate-900 flex-shrink-1 whitespace-nowrap text-ellipsis overflow-hidden">
-              {description}
+              {isLink ? (
+                <Link target="_blank" href={description}>
+                  {description}
+                </Link>
+              ) : (
+                description
+              )}
             </dd>
             {showCopyButton ? (
               <CopyButton hasBorder value={description} size="sm" />

@@ -76,6 +76,12 @@ const Page = async ({
             tooltip: "Use this endpoint to access the network.",
             showCopyButton: true,
           },
+          {
+            term: "Explorer",
+            description: silo.explorer_url ?? "-",
+            tooltip: "You can trace the activity on your chain here.",
+            showCopyButton: true,
+          },
         ]}
       />
 
