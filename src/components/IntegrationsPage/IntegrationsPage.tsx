@@ -18,6 +18,7 @@ import {
   Uniswap,
   UniversalWidget,
 } from "../../../public/static/v2/images/icons"
+import { GasAbstraction } from "../../../public/static/v2/images/menuIcons"
 
 type Category = "analytics" | "onramps" | "explorers" | "defi"
 
@@ -85,6 +86,18 @@ const NATIVE_INTEGRATIONS: Integration[] = [
     title: "KYC",
     description: "You can choose to gate your chain access through KYC.",
     icon: <Kyc />,
+  },
+  {
+    title: "Gas Abstraction",
+    description:
+      "Enable your users to pay for transactions with a gas plan, including free transactions under defined conditions.",
+    icon: (
+      <div className="w-10 h-10 bg-slate-900 text-slate-50 flex items-center justify-center rounded-xl">
+        <GasAbstraction />
+      </div>
+    ),
+    checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/gas-abstraction",
   },
 ]
 
