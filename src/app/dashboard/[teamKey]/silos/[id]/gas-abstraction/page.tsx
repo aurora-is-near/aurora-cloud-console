@@ -6,6 +6,7 @@ import { GasAbstractionPage } from "@/components/GasAbstractionPage"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { canCreateDeal } from "@/utils/can-create-deal"
 import { GasAbstractionPlansTab } from "./GasAbstractionPlansTab"
+import { GasAbstractionAboutTab } from "./GasAbstractionAboutTab"
 import AddPlanModal from "./AddPlanModal"
 
 const Page = async ({
