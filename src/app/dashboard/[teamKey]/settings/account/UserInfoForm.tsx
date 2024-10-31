@@ -132,7 +132,7 @@ const UserInfoForm = ({
             </Button>
           </>
         ) : (
-          <Button variant="secondary" onClick={toggleForm}>
+          <Button variant="border" onClick={toggleForm}>
             <PencilIcon className="w-5 h-5" />
             <span>Edit</span>
           </Button>
@@ -140,64 +140,62 @@ const UserInfoForm = ({
       }
     >
       <Card>
-        <Card.Body>
-          {showForm ? (
-            <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
-              <HorizontalInput
-                id="name"
-                name="name"
-                label="Name"
-                autoComplete="name"
-                register={register}
-                registerOptions={{
-                  value: user.name ?? "",
-                }}
-              />
+        {showForm ? (
+          <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
+            <HorizontalInput
+              id="name"
+              name="name"
+              label="Name"
+              autoComplete="name"
+              register={register}
+              registerOptions={{
+                value: user.name ?? "",
+              }}
+            />
 
-              <HorizontalInput
-                id="email"
-                name="email"
-                label="Email"
-                autoComplete="email"
-                register={register}
-                registerOptions={{
-                  value: user.email ?? "",
-                }}
-              />
+            <HorizontalInput
+              id="email"
+              name="email"
+              label="Email"
+              autoComplete="email"
+              register={register}
+              registerOptions={{
+                value: user.email ?? "",
+              }}
+            />
 
-              <Alert type="info">
-                Updating your email requires confirmation through links sent to
-                both the old and the new email addresses.
+            <Alert type="info">
+              Updating your email requires confirmation through links sent to
+              both the old and the new email addresses.
+            </Alert>
+          </form>
+        ) : (
+          <dl className="space-y-10 py-2">
+            <div className="items-center sm:grid sm:grid-cols-2">
+              <dt className="text-sm font-medium leading-none text-slate-500">
+                Name
+              </dt>
+              <dd className="mt-2 text-sm leading-none text-slate-900 sm:mt-0">
+                {user.name ?? "-"}
+              </dd>
+            </div>
+            <div className="items-center sm:grid sm:grid-cols-2">
+              <dt className="text-sm font-medium leading-none text-slate-500">
+                Email
+              </dt>
+              <dd className="mt-2 text-sm leading-none text-slate-900 sm:mt-0">
+                {user.email}
+              </dd>
+            </div>
+
+            {hasPendingEmailChange && (
+              <Alert dismissable type="info">
+                You have requested an email change. Please confirm it through
+                the links sent to both the old and the new email addresses.
               </Alert>
-            </form>
-          ) : (
-            <dl className="space-y-4">
-              <div className="items-center sm:grid sm:grid-cols-2 h-9">
-                <dt className="text-sm font-medium leading-none text-slate-500">
-                  Name
-                </dt>
-                <dd className="mt-2 text-sm leading-none text-slate-900 sm:mt-0">
-                  {user.name ?? "-"}
-                </dd>
-              </div>
-              <div className="items-center sm:grid sm:grid-cols-2 h-9">
-                <dt className="text-sm font-medium leading-none text-slate-500">
-                  Email
-                </dt>
-                <dd className="mt-2 text-sm leading-none text-slate-900 sm:mt-0">
-                  {user.email}
-                </dd>
-              </div>
-
-              {hasPendingEmailChange && (
-                <Alert dismissable type="info">
-                  You have requested an email change. Please confirm it through
-                  the links sent to both the old and the new email addresses.
-                </Alert>
-              )}
-            </dl>
-          )}
-        </Card.Body>
+            )}
+          </dl>
+        )}
       </Card>
     </DashboardPage>
   )
