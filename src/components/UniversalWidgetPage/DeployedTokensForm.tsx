@@ -33,8 +33,8 @@ const DeployedTokensForm = ({
 
   const getWidgetUpdater = useOptimisticUpdater("getWidget")
 
-  const { mutate: upsertWidget, isPending } = useMutation({
-    mutationFn: apiClient.upsertWidget,
+  const { mutate: updateWidget, isPending } = useMutation({
+    mutationFn: apiClient.updateWidget,
     onMutate: getWidgetUpdater.update,
     onSettled: getWidgetUpdater.invalidate,
     onSuccess: () => {
@@ -51,14 +51,14 @@ const DeployedTokensForm = ({
         .filter(([, value]) => value)
         .map(([key]) => Number(key))
 
-      const data: Parameters<typeof upsertWidget>[0] = {
+      const data: Parameters<typeof updateWidget>[0] = {
         id: siloId,
         tokens: selectedTokens,
       }
 
-      upsertWidget(data)
+      updateWidget(data)
     },
-    [upsertWidget, siloId],
+    [updateWidget, siloId],
   )
 
   useEffect(() => {

@@ -38,8 +38,8 @@ const NetworksForm = ({
 
   const getWidgetUpdater = useOptimisticUpdater("getWidget")
 
-  const { mutate: upsertWidget, isPending } = useMutation({
-    mutationFn: apiClient.upsertWidget,
+  const { mutate: updateWidget, isPending } = useMutation({
+    mutationFn: apiClient.updateWidget,
     onMutate: getWidgetUpdater.update,
     onSettled: getWidgetUpdater.invalidate,
     onSuccess: () => {
@@ -57,7 +57,7 @@ const NetworksForm = ({
         .map(([key]) => key)
         .filter(isValidNetwork)
 
-      const data: Parameters<typeof upsertWidget>[0] = {
+      const data: Parameters<typeof updateWidget>[0] = {
         id: siloId,
       }
 
@@ -73,9 +73,9 @@ const NetworksForm = ({
         data.toNetworks = selectedNetworks
       }
 
-      upsertWidget(data)
+      updateWidget(data)
     },
-    [siloId, type, upsertWidget, networks],
+    [siloId, type, updateWidget, networks],
   )
 
   useEffect(() => {
