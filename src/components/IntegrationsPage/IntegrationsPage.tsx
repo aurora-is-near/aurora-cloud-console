@@ -184,10 +184,12 @@ export const IntegrationsPage = () => {
           ))}
         </div>
       </section>
-      <section className={SECTION_CLASSNAME}>
-        <SubTitle>Other integrations</SubTitle>
-        <Tabs tabs={TABS} />
-      </section>
+      {false && (
+        <section className={SECTION_CLASSNAME}>
+          <SubTitle>Other integrations</SubTitle>
+          <Tabs tabs={TABS} />
+        </section>
+      )}
     </DashboardPage>
   )
 }
