@@ -37,7 +37,9 @@ type TransactionsChartsProps = {
   hasError?: boolean
 }
 
-const LINE_CHART_OPTIONS: ComponentProps<typeof Line>["options"] = {
+const DEFAULT_CHART_OPTIONS:
+  | ComponentProps<typeof Line>["options"]
+  | ComponentProps<typeof Bar>["options"] = {
   responsive: true,
   maintainAspectRatio: false,
   scales: {
@@ -55,23 +57,11 @@ const LINE_CHART_OPTIONS: ComponentProps<typeof Line>["options"] = {
   },
 }
 
-const BAR_CHART_OPTIONS: ComponentProps<typeof Bar>["options"] = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      type: "time",
-      time: {
-        unit: "month",
-      },
-    },
-    y: {
-      ticks: {
-        precision: 0,
-      },
-    },
-  },
-}
+const LINE_CHART_OPTIONS: ComponentProps<typeof Line>["options"] =
+  DEFAULT_CHART_OPTIONS as ComponentProps<typeof Line>["options"]
+
+const BAR_CHART_OPTIONS: ComponentProps<typeof Bar>["options"] =
+  DEFAULT_CHART_OPTIONS as ComponentProps<typeof Bar>["options"]
 
 const getTotalCount = (
   key: "transactionsCount" | "walletsCount",
