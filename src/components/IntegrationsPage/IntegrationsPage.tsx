@@ -209,7 +209,10 @@ export const IntegrationsPage = ({
                 icon={icon}
                 link={link
                   ?.replace("[teamKey]", teamKey)
-                  .replace("[id]", siloId?.toString() ?? "(new)")}
+                  .replace(
+                    "/silos/[id]",
+                    siloId ? `/silos/${siloId?.toString()}` : "",
+                  )}
               />
             ),
           )}
