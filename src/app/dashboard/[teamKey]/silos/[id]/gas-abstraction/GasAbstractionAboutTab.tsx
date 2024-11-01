@@ -4,32 +4,32 @@ export const GasAbstractionAboutTab = () => (
   <TabCard>
     <div className="flex flex-col gap-2 text-[16px] text-slate-500">
       <p>
-        Your virtual chain has gas fully abstracted, meaning that gas charged on
-        your chain can be fully configured, from specific plans to removed
-        entirely, you choose what works best for your application.
+        Your virtual chain offers fully abstracted gas, allowing you to
+        configure gas fees to best suit your application—from setting specific
+        plans to removing fees entirely.
       </p>
       <p>
-        This feature is setup at the relayer level, meaning you don't need any
+        This feature is managed at the relayer level, so you won’t need
         additional infrastructure to control gas fees.
       </p>
       <p>
-        A gas plan enables free transactions within the conditions defined by
-        the plan. It usually involves a whitelist of EOA addresses, a contract
-        whitelist and some limits such as transactions per user or per unit of
-        time.
+        With a gas plan, you can enable free transactions under defined
+        conditions, typically including a whitelist of user addresses,
+        whitelisted contracts, and limits on transactions per user or time
+        period.
       </p>
       <p>
-        Example: You decide that your premium users get 100 free transactions
-        per month each when they interact with your dapp contract.
+        Example: You decide that a segment of your users should get 100 free
+        transactions per month when interacting with your dApp contract.
       </p>
       <ul className="list-disc ml-4">
-        <li>Simply add their address to the whitelist via API</li>
+        <li>Add users’ addresses to the whitelist via API</li>
         <li>Add your contract address to the contract whitelist</li>
-        <li>Set the parameters to 100 each per month</li>
+        <li>Set transaction limits (e.g., 100 per month per user)</li>
       </ul>
       <p>
-        From this point any transaction that will meet the above criteria will
-        be exempt of gas fees.
+        Once set, any transaction that meets these criteria will be exempt from
+        gas fees.
       </p>
     </div>
   </TabCard>

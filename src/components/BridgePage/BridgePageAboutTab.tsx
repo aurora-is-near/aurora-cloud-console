@@ -10,13 +10,14 @@ export const BridgePageAboutTab = () => (
   >
     <div className="flex flex-col gap-2 text-slate-500">
       <p>
-        You can enable fiat onramp on your chain to let users purchase crypto
-        assets with their credit card. Some assets are supported by default such
-        as USDT, USDC, AURORA, NEAR, ETH.
+        Virtual Chains offer native bridge between virtual chains and with Near,
+        Aurora and Ethereum.
       </p>
+      <p>The bridge is powered by the battle-tested Rainbow bridge.</p>
       <p>
-        To enable the purchase of your own asset, please get in touch with your
-        account manager.
+        To help you integrate the bridge into your application, we integrated it
+        in the universal widget, which you can embed as a button on your web
+        application.
       </p>
     </div>
   </TabCard>

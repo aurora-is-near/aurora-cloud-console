@@ -21,12 +21,14 @@ const DealItem = ({ deal, silo, teamKey }: DealItemProps) => (
           Created at {formatDate(deal.created_at)}
         </p>
       </div>
-      <LinkButton
-        href={`/dashboard/${teamKey}/silos/${silo.id}/gas-abstraction/${deal.id}`}
-        variant="border"
-      >
-        View
-      </LinkButton>
+      <div className="flex flex-row gap-x-4">
+        <LinkButton
+          href={`/dashboard/${teamKey}/silos/${silo.id}/gas-abstraction/${deal.id}`}
+          variant="border"
+        >
+          View
+        </LinkButton>
+      </div>
     </div>
   </Card>
 )
