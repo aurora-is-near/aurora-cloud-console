@@ -1,6 +1,5 @@
 import Image from "next/image"
 import Hero from "@/components/Hero/Hero"
-import { Tabs } from "@/components/Tabs/Tabs"
 import { SubTitle } from "@/components/Subtitle/Subtitle"
 import { FeatureCard } from "@/components/FeatureCard/FeatureCard"
 import { DashboardPage } from "@/components/DashboardPage"
@@ -144,7 +143,9 @@ const OTHER_INTEGRATIONS: OtherIntegration[] = [
 const SECTION_CLASSNAME = "w-full pt-6 md:pt-10"
 const INTEGRATIONS_CONTAINER_CLASSNAME = "grid md:grid-cols-3 gap-4 mt-5"
 
-const TABS = CATEGORIES.filter(({ key }) => {
+// The "Other integrations" section was removed. See:
+// https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=4576-21914&t=Xo3JQJH3xXQjKwJM-4
+const _TABS = CATEGORIES.filter(({ key }) => {
   const hasIntegrations = OTHER_INTEGRATIONS.some(
     ({ category }) => category === key,
   )
@@ -214,12 +215,6 @@ export const IntegrationsPage = ({
           )}
         </div>
       </section>
-      {false && (
-        <section className={SECTION_CLASSNAME}>
-          <SubTitle>Other integrations</SubTitle>
-          <Tabs tabs={TABS} />
-        </section>
-      )}
     </DashboardPage>
   )
 }
