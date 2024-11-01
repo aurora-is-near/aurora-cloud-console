@@ -33,8 +33,8 @@ export const FeatureCard = ({
   link,
 }: FeatureCardProps) => {
   return (
-    <Wrapper link={link}>
-      <Card borderRadius="xl">
+    <Card borderRadius="xl">
+      <Wrapper link={link}>
         <div className="flex flex-row items-start justify-around gap-4">
           <div className="max-w-fit w-fit">{icon}</div>
           <div className="flex flex-col gap-1.5 w-full">
@@ -47,7 +47,7 @@ export const FeatureCard = ({
             </div>
           )}
         </div>
-      </Card>
-    </Wrapper>
+      </Wrapper>
+    </Card>
   )
 }
