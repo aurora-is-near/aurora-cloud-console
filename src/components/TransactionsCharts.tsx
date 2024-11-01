@@ -11,13 +11,13 @@ import {
   Title,
   Tooltip,
 } from "chart.js"
-import { Line } from "react-chartjs-2"
+import { Bar, Line } from "react-chartjs-2"
 import { ComponentProps, ReactNode } from "react"
 import Heading from "@/components/Heading"
 import TabCharts from "@/components/TabCharts"
 import { TransactionDataSchema } from "@/types/api-schemas"
 import { CHART_DATE_OPTIONS } from "../constants/charts"
-import { getTransactionLineChartData } from "../utils/charts"
+import { getTransactionChartData } from "../utils/charts"
 
 ChartJS.register(
   CategoryScale,
@@ -37,7 +37,25 @@ type TransactionsChartsProps = {
   hasError?: boolean
 }
 
-const CHART_OPTIONS: ComponentProps<typeof Line>["options"] = {
+const LINE_CHART_OPTIONS: ComponentProps<typeof Line>["options"] = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: {
+      type: "time",
+      time: {
+        unit: "month",
+      },
+    },
+    y: {
+      ticks: {
+        precision: 0,
+      },
+    },
+  },
+}
+
+const BAR_CHART_OPTIONS: ComponentProps<typeof Bar>["options"] = {
   responsive: true,
   maintainAspectRatio: false,
   scales: {
@@ -72,8 +90,8 @@ const TransactionsCharts = ({
   const walletsCount = getTotalCount("walletsCount", charts)
   const isLoading = !charts
 
-  const walletsPerDayData = getTransactionLineChartData("walletsPerDay", charts)
-  const transactionsPerDayData = getTransactionLineChartData(
+  const walletsPerDayData = getTransactionChartData("walletsPerDay", charts)
+  const transactionsPerDayData = getTransactionChartData(
     "transactionsPerDay",
     charts,
   )
@@ -90,7 +108,7 @@ const TransactionsCharts = ({
           title: "Total transactions",
           value: transactionsCount,
           chart: isLoading ? null : (
-            <Line options={CHART_OPTIONS} data={transactionsPerDayData} />
+            <Bar options={BAR_CHART_OPTIONS} data={transactionsPerDayData} />
           ),
           legend,
         },
@@ -98,7 +116,7 @@ const TransactionsCharts = ({
           title: "Total wallets",
           value: walletsCount,
           chart: isLoading ? null : (
-            <Line options={CHART_OPTIONS} data={walletsPerDayData} />
+            <Line options={LINE_CHART_OPTIONS} data={walletsPerDayData} />
           ),
           legend,
         },
@@ -110,7 +128,7 @@ const TransactionsCharts = ({
               : undefined,
           chart: isLoading ? null : (
             <Line
-              options={CHART_OPTIONS}
+              options={LINE_CHART_OPTIONS}
               data={{
                 labels: transactionsPerDayData.labels,
                 datasets: transactionsPerDayData.datasets.map(
