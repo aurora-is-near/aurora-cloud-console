@@ -9,6 +9,7 @@ import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { Deal } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
 import { SaveChangesBar } from "./SaveChangesBar"
+import { DeletePlanButton } from "./DeletePlanButton"
 
 type DealUpdatePageProps = {
   children: ReactNode
@@ -30,10 +31,13 @@ export const DealUpdatePage = ({ children, deal }: DealUpdatePageProps) => {
           onSubmit: handleSubmit(savePendingUpdates),
         }}
         actions={
-          <LinkButton variant="border" href="/api" isExternal>
-            View API
-            <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-          </LinkButton>
+          <div className="flex flex-row gap-x-4">
+            <LinkButton variant="border" href="/api" isExternal>
+              View API
+              <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+            </LinkButton>
+            <DeletePlanButton dealId={deal.id} />
+          </div>
         }
       >
         {children}
