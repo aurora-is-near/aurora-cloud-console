@@ -9,7 +9,7 @@ import clsx from "clsx"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Network } from "@/hooks/useWidgetNetworks"
-import { Widget, WidgetNetworkType } from "@/types/types"
+import { WidgetNetworkType } from "@/types/types"
 import { isValidNetwork } from "@/utils/widget"
 
 type Inputs = Partial<Record<WidgetNetworkType, boolean>>
@@ -19,7 +19,6 @@ type NetworksFormProps = {
   type: "to" | "from"
   networks: Network[]
   availableNetworks: Network[]
-  widget?: Widget | null
 }
 
 const NetworksForm = ({
@@ -27,7 +26,6 @@ const NetworksForm = ({
   type,
   networks,
   availableNetworks,
-  widget,
 }: NetworksFormProps) => {
   const {
     register,
@@ -99,12 +97,7 @@ const NetworksForm = ({
   return (
     <form onSubmit={handleSubmit(submit)}>
       <div>
-        <div
-          className={clsx(
-            "flex flex-col space-y-2",
-            !widget && "opacity-50 pointer-events-none",
-          )}
-        >
+        <div className="flex flex-col space-y-2">
           {availableNetworks.map((network) => (
             <div
               key={network.key}
@@ -121,7 +114,7 @@ const NetworksForm = ({
               >
                 <div className="flex items-center h-6">
                   <input
-                    disabled={!widget || isPending || isSubmitting}
+                    disabled={isPending || isSubmitting}
                     id={`${type}-${network.key}`}
                     type="checkbox"
                     className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600"
