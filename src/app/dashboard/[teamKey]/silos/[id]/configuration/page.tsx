@@ -131,7 +131,7 @@ const Page = async ({
           },
           {
             term: "Deploy contracts",
-            description: "Allowed for everyone",
+            description: "Allowed for whitelisted addresses",
             tooltip:
               "This whitelist contains the list of addresses allowed to deploy contracts on your chain.",
           },
