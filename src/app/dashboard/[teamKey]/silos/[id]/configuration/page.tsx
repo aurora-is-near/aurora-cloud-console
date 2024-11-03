@@ -125,7 +125,7 @@ const Page = async ({
         items={[
           {
             term: "Make transactions",
-            description: "Allowed for everyone",
+            description: "Allowed for whitelisted addresses",
             tooltip:
               "This whitelist contains the list of addresses allowed to interact with your chain.",
           },
