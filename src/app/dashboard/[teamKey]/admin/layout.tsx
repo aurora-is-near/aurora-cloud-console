@@ -8,6 +8,7 @@ import { redirect } from "next/navigation"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { isAdmin } from "@/actions/is-admin"
 import { UNAUTHORISED_ROUTE } from "@/constants/routes"
+import { Oracle } from "../../../../../public/static/v2/images/menuIcons"
 
 const Layout = async ({
   children,
@@ -45,6 +46,11 @@ const Layout = async ({
                 name: "Deals",
                 href: `/dashboard/${teamKey}/admin/deals`,
                 icon: <TicketIcon />,
+              },
+              {
+                name: "Oracle",
+                href: `/dashboard/${teamKey}/admin/oracle/tokens`,
+                icon: <Oracle />,
               },
             ],
           },

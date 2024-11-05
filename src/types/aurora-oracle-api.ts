@@ -5,3 +5,9 @@ export type AuroraOracleContract = {
   name: string
   rpcUrl: string
 }
+
+export type AuroraOracleToken = {
+  id: number
+  symbol: string
+  coinGeckoAlias: string
+}
