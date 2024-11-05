@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 
 type RuleSettingProps = {
   title: string
-  description: string
+  description: string | ReactNode
   children: ReactNode
 }
 
