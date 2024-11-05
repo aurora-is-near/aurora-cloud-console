@@ -1,5 +1,3 @@
-"use client"
-
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useCallback, useEffect } from "react"
 import { useMutation } from "@tanstack/react-query"
