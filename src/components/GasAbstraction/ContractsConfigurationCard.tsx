@@ -1,6 +1,6 @@
 "use client"
 
-import { PencilSquareIcon } from "@heroicons/react/20/solid"
+import { PencilSquareIcon, PlusIcon } from "@heroicons/react/20/solid"
 import Link from "next/link"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { RuleSetting } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/RuleSetting"
@@ -8,6 +8,7 @@ import { Button } from "@/components/Button"
 import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
 import CopyButton from "@/components/CopyButton"
+import { AddButton } from "@/components/AddButton"
 
 const ContractsConfigurationCard = () => {
   const { openModal } = useModals()
@@ -35,6 +36,7 @@ const ContractsConfigurationCard = () => {
           </Button>
         </div>
       </RuleSetting>
+      <AddButton text="Add contract" onClick={onClick} />
     </div>
   )
 }
