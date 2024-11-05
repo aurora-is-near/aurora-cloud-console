@@ -1,6 +1,5 @@
 "use client"
 
-import debounce from "debounce"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useCallback, useEffect } from "react"
 import { useMutation } from "@tanstack/react-query"
@@ -31,7 +30,6 @@ const NetworksForm = ({
     register,
     setValue,
     getValues,
-    handleSubmit,
     formState: { isSubmitting },
     watch,
   } = useForm<Inputs>()
@@ -85,17 +83,17 @@ const NetworksForm = ({
   }, [networks, setValue])
 
   useEffect(() => {
-    const debouncedCb = debounce((inputs: Inputs) => submit(inputs), 1000)
+    const subscription = watch((value, { name, type: operation }) => {
+      if (operation === "change" && name) {
+        submit(value)
+      }
+    })
 
-    const subscription = watch(debouncedCb)
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [submit, watch])
+    return () => subscription.unsubscribe()
+  }, [watch, submit])
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    <form>
       <div>
         <div className="flex flex-col space-y-2">
           {availableNetworks.map((network) => (

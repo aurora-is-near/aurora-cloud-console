@@ -1,9 +1,10 @@
+"use client"
+
 import { useMutation } from "@tanstack/react-query"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useCallback, useEffect } from "react"
 import clsx from "clsx"
 import { CheckIcon, ClockIcon } from "@heroicons/react/20/solid"
-import debounce from "debounce"
 import toast from "react-hot-toast"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
@@ -26,7 +27,6 @@ const DeployedTokensForm = ({
   const {
     register,
     setValue,
-    handleSubmit,
     watch,
     formState: { isSubmitting },
   } = useForm<Inputs>()
@@ -68,27 +68,28 @@ const DeployedTokensForm = ({
   }, [setValue, activeTokens])
 
   useEffect(() => {
-    const debouncedCb = debounce((inputs: Inputs) => submit(inputs), 1000)
+    const subscription = watch((value, { name, type }) => {
+      if (type === "change" && name) {
+        submit(value)
+      }
+    })
 
-    const subscription = watch(debouncedCb)
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [submit, watch])
+    return () => subscription.unsubscribe()
+  }, [watch, submit])
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    <form>
       <div>
         {deployedTokens.map((token) => {
           const isDeployed = token.bridge?.deploymentStatus === "DEPLOYED"
+          const isChecked = watch(`${token.id}`)
 
           return (
             <div
               key={token.id}
               className={clsx(
                 "rounded-md ring-1 p-3",
-                isDeployed ? "ring-green-600 bg-green-50" : "ring-slate-200",
+                isChecked ? "ring-green-600 bg-green-50" : "ring-slate-200",
               )}
             >
               <div className="flex flex-row justify-between">
