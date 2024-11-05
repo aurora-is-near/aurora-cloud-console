@@ -3,23 +3,14 @@
 import { useEffect, useState } from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { CheckIcon, Square2StackIcon } from "@heroicons/react/24/outline"
-import clsx from "clsx"
+import { Button } from "@/components/Button"
 
 type CopyButtonProps = {
   value: string
-  className?: string
-  hasBorder?: boolean
-  size?: "sm" | "md"
 }
 
-const CopyButton = ({ value, className, hasBorder, size }: CopyButtonProps) => {
+const CopyButton = ({ value }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false)
-  const iconClassName = size === "sm" ? "w-4 h-4" : "w-5 h-5"
-  const containerClassName = clsx(
-    "flex-shrink-0 p-2 rounded-lg",
-    hasBorder && "border border-slate-400",
-    className,
-  )
 
   useEffect(() => {
     const timeout = setTimeout(() => setCopied(false), 1000)
@@ -29,27 +20,18 @@ const CopyButton = ({ value, className, hasBorder, size }: CopyButtonProps) => {
 
   if (copied) {
     return (
-      <div className={clsx(containerClassName, className)}>
-        <CheckIcon
-          className={clsx("text-green-700 flex-shrink-0", iconClassName)}
-        />
-      </div>
+      <Button variant="border" disabled>
+        <CheckIcon className="text-green-700 flex-shrink-0 w-4 h-4" />
+      </Button>
     )
   }
 
   return (
     <CopyToClipboard text={value} onCopy={() => setCopied(true)}>
-      <button
-        type="button"
-        className={clsx(
-          "text-slate-900 hover:bg-slate-100",
-          containerClassName,
-          className,
-        )}
-      >
+      <Button type="button" variant="border">
         <span className="sr-only">Copy to clipboard</span>
-        <Square2StackIcon className={iconClassName} />
-      </button>
+        <Square2StackIcon className="w-4 h-4" />
+      </Button>
     </CopyToClipboard>
   )
 }

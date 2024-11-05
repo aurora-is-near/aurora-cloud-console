@@ -44,7 +44,7 @@ export const InfoList = ({ items, className }: InfoListProps) => (
               )}
             </dd>
             {showCopyButton ? (
-              <CopyButton hasBorder value={description} size="sm" />
+              <CopyButton value={description} />
             ) : (
               <div className="h-10" />
             )}
