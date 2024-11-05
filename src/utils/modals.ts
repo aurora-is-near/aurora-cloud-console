@@ -13,8 +13,5 @@ export enum Modals {
   Invite = "invite",
   InviteConfirmed = "inviteConfirmed",
   DealDuration = "dealDuration",
-  WidgetToNetwork = "widgetToNetwork",
-  WidgetFromNetwork = "widgetFromNetwork",
-  WidgetTokens = "widgetTokens",
   AddPlan = "addPlan",
 }
