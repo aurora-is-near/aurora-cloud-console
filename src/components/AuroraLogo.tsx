@@ -6,8 +6,11 @@ type AuroraLogoProps = {
 }
 
 const AuroraLogo = ({ href = "/" }: AuroraLogoProps) => (
-  <Link href={href} className="flex h-15 shrink-0 items-center justify-center">
-    <AuroraLogoIcon className="h-[26px]" />
+  <Link
+    href={href}
+    className="flex shrink-0 items-center justify-center h-[40px]"
+  >
+    <AuroraLogoIcon />
   </Link>
 )
 

@@ -20,10 +20,7 @@ export const MainMenu = async ({ menuItems }: MainMenuProps) => {
           </li>
         ))}
         <li
-          className={clsx(
-            "pl-2",
-            menuItems.length && "border-l border-slate-700",
-          )}
+          className={clsx(menuItems.length && "pl-2 border-l border-slate-700")}
         >
           <MainMenuLogoutButton />
         </li>
