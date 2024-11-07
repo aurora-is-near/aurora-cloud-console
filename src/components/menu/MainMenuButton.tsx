@@ -29,7 +29,7 @@ export const MainMenuButton = ({
 
   const containerClassName = clsx(
     "text-slate-300 hover:text-slate-50 hover:bg-slate-700",
-    "group flex rounded-lg p-1.5 text-sm leading-6 font-semibold items-center justify-center",
+    "group flex rounded-lg p-2 text-sm leading-6 font-semibold items-center justify-center",
     className,
   )
 
