@@ -9,7 +9,7 @@ import { LinkButton } from "@/components/LinkButton"
 import { Button } from "@/components/Button"
 
 const UsersConfigurationCard = () => {
-  const [value, setValue] = useState("user")
+  const [value, setValue] = useState("all")
 
   return (
     <div className="xl:w-1/2 flex flex-col gap-2">
@@ -29,6 +29,7 @@ const UsersConfigurationCard = () => {
               name="users"
               type="radio"
               value="all"
+              disabled
               onChange={(e) => setValue(e.target.value)}
             />
           </div>
@@ -56,6 +57,7 @@ const UsersConfigurationCard = () => {
               name="users"
               type="radio"
               value="selected"
+              disabled
               onChange={(e) => setValue(e.target.value)}
             />
           </div>
@@ -65,41 +67,36 @@ const UsersConfigurationCard = () => {
           </div>
         </label>
 
-        {value === "selected" && (
-          <>
-            <div className="rounded-lg border border-slate-200 p-3 bg-white bg-opacity-50">
-              <div className="flex flex-row justify-between items-center">
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium">Import via API</span>
-                  <Link
-                    className="text-sm text-blue-500"
-                    href="https://auroracloud.api/lsjkh4lkfjsd9"
-                  >
-                    auroracloud.api/lsjkh4lkfjsd9
-                  </Link>
-                </div>
-                <LinkButton
-                  isExternal
-                  href="https://auroracloud.api/lsjkh4lkfjsd9"
-                >
-                  View API
-                  <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-                </LinkButton>
-              </div>
+        <div className="rounded-lg border border-slate-200 p-3 bg-white bg-opacity-50">
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-col">
+              <span className="text-sm font-medium">Import via API</span>
+              <Link
+                className="text-sm text-blue-500"
+                href={`${window.location.origin}/api`}
+              >
+                {`${window.location.origin.split("://")[1]}/api`}
+              </Link>
             </div>
-            <div className="rounded-lg border border-slate-200 p-3 bg-white bg-opacity-50">
-              <div className="flex flex-row justify-between items-center">
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium">Import manually</span>
-                  <span className="text-sm text-slate-500">
-                    0 wallet addresses added
-                  </span>
-                </div>
-                <Button variant="border">Add manually</Button>
-              </div>
+            <LinkButton isExternal href="/api">
+              View API
+              <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+            </LinkButton>
+          </div>
+        </div>
+        <div className="rounded-lg border border-slate-200 p-3 bg-white bg-opacity-50">
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-col">
+              <span className="text-sm font-medium">Import manually</span>
+              <span className="text-sm text-slate-500">
+                0 wallet addresses added
+              </span>
             </div>
-          </>
-        )}
+            <Button disabled variant="border">
+              Add manually
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   )

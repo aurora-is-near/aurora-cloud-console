@@ -7,9 +7,10 @@ import { Button } from "@/components/Button"
 
 type CopyButtonProps = {
   value: string
+  disabled?: boolean
 }
 
-const CopyButton = ({ value }: CopyButtonProps) => {
+const CopyButton = ({ value, disabled }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const CopyButton = ({ value }: CopyButtonProps) => {
 
   return (
     <CopyToClipboard text={value} onCopy={() => setCopied(true)}>
-      <Button type="button" variant="border">
+      <Button type="button" variant="border" disabled={disabled}>
         <span className="sr-only">Copy to clipboard</span>
         <Square2StackIcon className="w-4 h-4" />
       </Button>
