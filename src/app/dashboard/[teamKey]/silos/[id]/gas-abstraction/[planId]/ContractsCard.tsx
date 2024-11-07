@@ -1,13 +1,18 @@
 import { ConfigurationCard } from "@/components/ConfigurationCard"
 import ContractsConfigurationCard from "@/components/GasAbstraction/ContractsConfigurationCard"
+import { Silo } from "@/types/types"
 
-export const ContractsCard = () => {
+type ContractsCardProps = {
+  silo: Silo
+}
+
+export const ContractsCard = ({ silo }: ContractsCardProps) => {
   return (
     <ConfigurationCard
       title="Target contracts"
       description="Contracts that users will interact with."
     >
-      <ContractsConfigurationCard />
+      <ContractsConfigurationCard silo={silo} />
     </ConfigurationCard>
   )
 }

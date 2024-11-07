@@ -1,7 +1,6 @@
 "use client"
 
 import { PencilSquareIcon } from "@heroicons/react/20/solid"
-import Link from "next/link"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import { RuleSetting } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/RuleSetting"
 import { Button } from "@/components/Button"
@@ -10,8 +9,15 @@ import { useModals } from "@/hooks/useModals"
 import CopyButton from "@/components/CopyButton"
 import { AddButton } from "@/components/AddButton"
 import { AuroraOracleContract } from "@/types/aurora-oracle-api"
+import { Silo } from "@/types/types"
 
-const ContractsConfigurationCard = () => {
+type ContractsConfigurationCardProps = {
+  silo: Silo
+}
+
+const ContractsConfigurationCard = ({
+  silo,
+}: ContractsConfigurationCardProps) => {
   const { openModal } = useModals()
   const onClick = () => {
     openModal(Modals.EditContract)
@@ -25,10 +31,11 @@ const ContractsConfigurationCard = () => {
         <RuleSetting
           key={contract.address}
           title={contract.name}
-          description={
-            <Link href="#" className="text-cyan-600">
-              <span>{contract.address}</span>
-            </Link>
+          description={contract.address}
+          descriptionUrl={
+            silo.explorer_url
+              ? `${silo.explorer_url}/address/${contract.address}`
+              : undefined
           }
         >
           <div className="flex flex-row gap-x-2">
