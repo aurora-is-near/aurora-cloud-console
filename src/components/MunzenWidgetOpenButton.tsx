@@ -1,10 +1,9 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 
 import { Button } from "@/components/Button"
-import { notReachable } from "@/utils/not-reachable"
 import { getMunzenWidgetUrl } from "@/actions/widget-munzen/get-munzen-widget"
 
 type MunzenWidgetOpenButtonProps = {
@@ -17,20 +16,16 @@ export const MunzenWidgetOpenButton = ({
   const [widgetUrl, setWidgetUrl] = useState<undefined | string>()
 
   useEffect(() => {
-    const getWidgetUrl = async () => {
-      try {
-        const widgetUrl = await getMunzenWidgetUrl()
-        setWidgetUrl(widgetUrl)
-      } catch (e: unknown) {
-        setWidgetUrl(undefined)
-      }
-    }
-
-    getWidgetUrl()
+    getMunzenWidgetUrl()
+      .then((url) => setWidgetUrl(url))
+      .catch(() => setWidgetUrl(undefined))
   }, [])
 
   const onClick = useCallback(() => {
-    if (!widgetUrl) return
+    if (!widgetUrl) {
+      return
+    }
+
     window.open(
       widgetUrl,
       "newwindow",
