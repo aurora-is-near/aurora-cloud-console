@@ -23,7 +23,12 @@ const ContractsConfigurationCard = ({
     openModal(Modals.EditContract)
   }
 
-  const contracts: AuroraOracleContract[] = []
+  const contracts: AuroraOracleContract[] = [
+    {
+      name: "Aurora Oracle",
+      address: "0x1",
+    },
+  ]
 
   return (
     <div className="xl:w-1/2 flex flex-col gap-2">
@@ -39,7 +44,7 @@ const ContractsConfigurationCard = ({
           }
         >
           <div className="flex flex-row gap-x-2">
-            <CopyButton disabled value={contract.address} />
+            <CopyButton hasBorder value={contract.address} size="sm" />
             <Button disabled onClick={onClick} variant="border">
               <PencilSquareIcon className="w-4 h-4" />
             </Button>

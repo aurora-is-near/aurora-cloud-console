@@ -37,7 +37,7 @@ export const OracleDeploymentTab = ({
       <Card.Title tag="h3">Oracle contract</Card.Title>
       <div className="flex items-center justify-between m-6 mt-0 p-3 border border-l-4 border-slate-200">
         <span className="text-sm text-slate-900">{address}</span>
-        <CopyButton value={address} />
+        <CopyButton hasBorder value={address} />
       </div>
     </TabCard>
   )
