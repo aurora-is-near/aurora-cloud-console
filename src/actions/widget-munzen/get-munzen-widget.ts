@@ -2,6 +2,8 @@
 
 import * as crypto from "crypto"
 
+import { logger } from "@/logger"
+
 const NETWORK_EVMS = {
   AURORA: "AURORA",
   USDT: "USDT",
@@ -32,7 +34,7 @@ type WidgetURLReturnType = { type: "success"; url: string } | { type: "error" }
 
 export const getMunzenWidgetUrl = (): WidgetURLReturnType => {
   try {
-    const externalData = `{"silo":"${"aurora"}"}`
+    const externalData = '{"silo":"aurora"}'
     const toCurrency = "AURORA-AURORA"
     const signature = generateSign(
       { toCurrency, externalData },
@@ -50,7 +52,7 @@ export const getMunzenWidgetUrl = (): WidgetURLReturnType => {
 
     return { type: "success", url: widgetUrl }
   } catch (e) {
-    console.error(e)
+    logger.error(e)
     return { type: "error" }
   }
 }

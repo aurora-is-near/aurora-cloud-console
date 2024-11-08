@@ -11,15 +11,6 @@ type MunzenWidgetOpenButtonProps = {
   className?: string
 }
 
-const widgetPostMessageCallback = (event: MessageEvent) => {
-  try {
-    if (event?.data?.source !== "nearpay_widget") return
-    if (event?.data?.data?.type !== "onpaymentsent") return
-  } catch (error) {
-    console.error("Failed to trigger Munzen's widgetPostMessageCallback", error)
-  }
-}
-
 export const MunzenWidgetOpenButton = ({
   className,
 }: MunzenWidgetOpenButtonProps) => {
@@ -34,7 +25,6 @@ export const MunzenWidgetOpenButton = ({
           break
         case "success":
           setWidgetUrl(widgetUrlObject.url)
-          window.addEventListener("message", widgetPostMessageCallback)
           break
         default:
           return notReachable(widgetUrlObject)
@@ -42,10 +32,6 @@ export const MunzenWidgetOpenButton = ({
     }
 
     getWidgetUrl()
-
-    return () => {
-      window.removeEventListener("message", widgetPostMessageCallback)
-    }
   }, [])
 
   const onClick = useCallback(() => {
