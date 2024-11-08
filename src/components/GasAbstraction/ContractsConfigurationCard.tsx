@@ -39,7 +39,7 @@ const ContractsConfigurationCard = ({
           }
         >
           <div className="flex flex-row gap-x-2">
-            <CopyButton disabled value="-" />
+            <CopyButton disabled value={contract.address} />
             <Button disabled onClick={onClick} variant="border">
               <PencilSquareIcon className="w-4 h-4" />
             </Button>
