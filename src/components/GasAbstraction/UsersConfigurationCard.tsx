@@ -28,8 +28,8 @@ const UsersConfigurationCard = () => {
               name="users"
               type="radio"
               value="all"
+              className="accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 focus:ring-green-500"
               checked={value === "all"}
-              disabled
               onChange={(e) => setValue(e.target.value)}
             />
           </div>
@@ -56,8 +56,8 @@ const UsersConfigurationCard = () => {
               name="users"
               type="radio"
               value="selected"
+              className="accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 focus:ring-green-500"
               checked={value === "selected"}
-              disabled
               onChange={(e) => setValue(e.target.value)}
             />
           </div>
