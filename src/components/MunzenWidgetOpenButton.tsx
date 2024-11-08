@@ -18,16 +18,11 @@ export const MunzenWidgetOpenButton = ({
 
   useEffect(() => {
     const getWidgetUrl = async () => {
-      const widgetUrlObject = await getMunzenWidgetUrl()
-      switch (widgetUrlObject.type) {
-        case "error":
-          setWidgetUrl(undefined)
-          break
-        case "success":
-          setWidgetUrl(widgetUrlObject.url)
-          break
-        default:
-          return notReachable(widgetUrlObject)
+      try {
+        const widgetUrl = await getMunzenWidgetUrl()
+        setWidgetUrl(widgetUrl)
+      } catch (e: unknown) {
+        setWidgetUrl(undefined)
       }
     }
 

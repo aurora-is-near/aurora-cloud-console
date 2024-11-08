@@ -30,10 +30,7 @@ export const generateSign = (rec: Record<string, string>, secret: string) => {
     .digest("hex")
 }
 
-type WidgetURLReturnType = { type: "success"; url: string } | { type: "error" }
-
-export const getMunzenWidgetUrl = (): WidgetURLReturnType => {
-  try {
+export const getMunzenWidgetUrl = (): string => {
     const externalData = '{"silo":"aurora"}'
     const toCurrency = "AURORA-AURORA"
     const signature = generateSign(
@@ -41,18 +38,11 @@ export const getMunzenWidgetUrl = (): WidgetURLReturnType => {
       process.env.MUNZEN_API_SECRET,
     )
 
-    const widgetUrl =
-      "https://widget.munzen.io/?" +
+    return "https://widget.munzen.io/?" +
       new URLSearchParams({
         signature,
         toCurrency,
         externalData,
         apiKey: process.env.NEXT_PUBLIC_MUNZEN_API_KEY,
       }).toString()
-
-    return { type: "success", url: widgetUrl }
-  } catch (e) {
-    logger.error(e)
-    return { type: "error" }
   }
-}
