@@ -20,7 +20,7 @@ const convertToParamsString = (rec: Record<string, string>): string[] => {
     })
 }
 
-export const generateSign = (rec: Record<string, string>, secret: string) => {
+const generateSign = (rec: Record<string, string>, secret: string) => {
   const forSign = convertToParamsString(rec)
 
   return crypto
