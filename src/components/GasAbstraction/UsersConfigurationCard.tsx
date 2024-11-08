@@ -4,7 +4,6 @@ import clsx from "clsx"
 import { useState } from "react"
 import Link from "next/link"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import { InfoTooltip } from "@/components/InfoTooltip"
 import { LinkButton } from "@/components/LinkButton"
 import { Button } from "@/components/Button"
 
@@ -29,13 +28,13 @@ const UsersConfigurationCard = () => {
               name="users"
               type="radio"
               value="all"
+              checked={value === "all"}
               disabled
               onChange={(e) => setValue(e.target.value)}
             />
           </div>
           <div className="ml-3 text-sm leading-6 text-slate-900 font-medium flex items-center gap-x-1">
             <span>All users</span>
-            <InfoTooltip text="Help text" />
           </div>
         </label>
       </div>
@@ -57,13 +56,13 @@ const UsersConfigurationCard = () => {
               name="users"
               type="radio"
               value="selected"
+              checked={value === "selected"}
               disabled
               onChange={(e) => setValue(e.target.value)}
             />
           </div>
           <div className="ml-3 text-sm leading-6 text-slate-900 font-medium flex items-center gap-x-1">
             <span>Only selected users</span>
-            <InfoTooltip text="Help text" />
           </div>
         </label>
 
@@ -72,7 +71,7 @@ const UsersConfigurationCard = () => {
             <div className="flex flex-col">
               <span className="text-sm font-medium">Import via API</span>
               <Link
-                className="text-sm text-blue-500"
+                className="text-sm text-cyan-600"
                 href={`${window.location.origin}/api`}
               >
                 {`${window.location.origin.split("://")[1]}/api`}
