@@ -1,10 +1,11 @@
 import { Pool, QueryResult, QueryResultRow } from "pg"
 import { createDebugger } from "@/debug"
 import { logger } from "@/logger"
+import { DEVNET_CHAIN_ID } from "@/constants/devnet"
 import { toError } from "../errors"
 
 // Fake data for the chains below exists in our "seed" database
-const DEMO_CHAINS = [1313161555, 1313161556, 1313161557]
+const DEMO_CHAINS = [1313161555, 1313161556, 1313161557, DEVNET_CHAIN_ID]
 const DEMO_POOL = new Pool({
   database: "aurora_transaction_database_seed",
   host: "65.21.192.70",
