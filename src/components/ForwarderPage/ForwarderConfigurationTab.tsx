@@ -1,24 +1,34 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import ConfigureUniversalWidgetTabCard from "@/components/Tabs/ConfigureUniversalWidgetTabCard"
 import ConfigurationPanel from "@/components/FiatOnrampPage/ConfigurationPanel"
 import { Pill } from "@/components/Pill"
 import { LinkButton } from "@/components/LinkButton"
+import { ForwarderWidgetOpenButton } from "@/components/ForwarderOpenButton"
+import { Silo } from "@/types/types"
 
 type ForwarderConfigurationTabProps = {
-  linkPrefix: string
-  siloId: number
+  silo: Silo
 }
 
 const ForwarderConfigurationTab = ({
-  linkPrefix,
-  siloId,
+  silo,
 }: ForwarderConfigurationTabProps) => {
   return (
     <div className="w-full flex flex-col gap-4">
-      <ConfigureUniversalWidgetTabCard
-        linkPrefix={linkPrefix}
-        siloId={siloId}
-      />
+      <ConfigurationPanel>
+        <div className="flex flex-col gap-2">
+          <Pill>Option 1</Pill>
+          <h3 className="text-lg text-slate-900 tracking-tighter font-semibold">
+            Forwarder Widget
+          </h3>
+          <p className="text-sm text-slate-500">
+            The Forwarder Widget provides the easiest way to integrate the
+            Forwarder into your application.
+          </p>
+          <div className="flex flex-row mt-4 gap-2.5">
+            <ForwarderWidgetOpenButton silo={silo} />
+          </div>
+        </div>
+      </ConfigurationPanel>
       <ConfigurationPanel>
         <div className="flex flex-col gap-2">
           <Pill>Option 2</Pill>

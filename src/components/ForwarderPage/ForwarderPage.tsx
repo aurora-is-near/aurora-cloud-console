@@ -8,12 +8,10 @@ import { ForwarderAboutTab } from "./ForwarderAboutTab"
 import ForwarderConfigurationTab from "./ForwarderConfigurationTab"
 
 interface ForwarderPageProps {
-  teamKey: string
   silo?: Silo | null
 }
 
 export const ForwarderPage: React.FC<ForwarderPageProps> = ({
-  teamKey,
   silo = null,
 }) => {
   const tabs = [
@@ -26,12 +24,7 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
   if (silo) {
     tabs.push({
       title: "Configuration",
-      content: (
-        <ForwarderConfigurationTab
-          siloId={silo.id}
-          linkPrefix={`/dashboard/${teamKey}/silos/${silo.id}/onramp`}
-        />
-      ),
+      content: <ForwarderConfigurationTab silo={silo} />,
     })
   }
 

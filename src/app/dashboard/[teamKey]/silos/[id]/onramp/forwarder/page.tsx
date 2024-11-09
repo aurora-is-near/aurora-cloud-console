@@ -13,7 +13,7 @@ const Page = async ({
     notFound()
   }
 
-  return <ForwarderPage teamKey={teamKey} silo={silo} />
+  return <ForwarderPage silo={silo} />
 }
 
 export default Page
