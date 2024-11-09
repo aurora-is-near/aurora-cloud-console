@@ -3,17 +3,18 @@ import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { MunzenWidgetOpenButton } from "@/components/MunzenWidgetOpenButton"
+import { Silo } from "@/types/types"
 import FiatOnrampConfigurationTab from "./FiatOnrampConfigurationTab"
 import { FiatOnrampAboutTab } from "./FiatOnrampAboutTab"
 
 interface FiatOnrampPageProps {
   teamKey: string
-  siloId?: number
+  silo?: Silo | null
 }
 
 export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
   teamKey,
-  siloId,
+  silo = null,
 }) => {
   const tabs = [
     {
@@ -22,13 +23,13 @@ export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
     },
   ]
 
-  if (siloId) {
+  if (silo) {
     tabs.push({
       title: "Configuration",
       content: (
         <FiatOnrampConfigurationTab
-          siloId={siloId}
-          linkPrefix={`/dashboard/${teamKey}/silos/${siloId}/onramp`}
+          siloId={silo.id}
+          linkPrefix={`/dashboard/${teamKey}/silos/${silo.id}/onramp`}
         />
       ),
     })
@@ -55,7 +56,7 @@ export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
             alt="Onramp Preview"
           />
         }
-        actions={<MunzenWidgetOpenButton size="lg" />}
+        actions={silo && <MunzenWidgetOpenButton silo={silo} size="lg" />}
       />
 
       <Tabs tabs={tabs} />
