@@ -1,6 +1,5 @@
 import Image from "next/image"
 import Hero from "@/components/Hero/Hero"
-import { Tabs } from "@/components/Tabs/Tabs"
 import { SubTitle } from "@/components/Subtitle/Subtitle"
 import { FeatureCard } from "@/components/FeatureCard/FeatureCard"
 import { DashboardPage } from "@/components/DashboardPage"
@@ -18,6 +17,7 @@ import {
   Uniswap,
   UniversalWidget,
 } from "../../../public/static/v2/images/icons"
+import { GasAbstraction } from "../../../public/static/v2/images/menuIcons"
 
 type Category = "analytics" | "onramps" | "explorers" | "defi"
 
@@ -26,6 +26,7 @@ type Integration = {
   description: string
   icon: JSX.Element
   checked?: boolean
+  link?: string
 }
 
 type OtherIntegration = Integration & {
@@ -47,6 +48,7 @@ const NATIVE_INTEGRATIONS: Integration[] = [
       "Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum.",
     icon: <UniversalWidget />,
     checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/onramp/universal-widget",
   },
   {
     title: "Fiat to crypto",
@@ -54,6 +56,7 @@ const NATIVE_INTEGRATIONS: Integration[] = [
       "Enable your users to onramp from fiat to crypto directly on your silo.",
     icon: <Onramp />,
     checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/onramp/fiat-to-crypto",
   },
   {
     title: "CEX withdrawals",
@@ -61,6 +64,7 @@ const NATIVE_INTEGRATIONS: Integration[] = [
       "Allow your users to deposit assets directly from centralized exchanges to your chain.",
     icon: <CexWithdrawals />,
     checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/onramp/universal-widget",
   },
   {
     title: "Oracle",
@@ -68,17 +72,31 @@ const NATIVE_INTEGRATIONS: Integration[] = [
       "Access reliable data from over 95 top publishers and integrate precise pricing data.",
     icon: <Oracle />,
     checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/oracle",
   },
   {
     title: "Block Explorer",
     description: "Enjoy a blockchain explorer dedicated to your chain.",
     icon: <BlockExplorer />,
     checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/block-explorer",
   },
   {
     title: "KYC",
     description: "You can choose to gate your chain access through KYC.",
     icon: <Kyc />,
+  },
+  {
+    title: "Gas Abstraction",
+    description:
+      "Enable your users to pay for transactions with a gas plan, including free transactions under defined conditions.",
+    icon: (
+      <div className="w-10 h-10 bg-slate-900 text-slate-50 flex items-center justify-center rounded-xl">
+        <GasAbstraction />
+      </div>
+    ),
+    checked: true,
+    link: "/dashboard/[teamKey]/silos/[id]/gas-abstraction",
   },
 ]
 
@@ -125,7 +143,9 @@ const OTHER_INTEGRATIONS: OtherIntegration[] = [
 const SECTION_CLASSNAME = "w-full pt-6 md:pt-10"
 const INTEGRATIONS_CONTAINER_CLASSNAME = "grid md:grid-cols-3 gap-4 mt-5"
 
-const TABS = CATEGORIES.filter(({ key }) => {
+// The "Other integrations" section was removed. See:
+// https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=4576-21914&t=Xo3JQJH3xXQjKwJM-4
+const _TABS = CATEGORIES.filter(({ key }) => {
   const hasIntegrations = OTHER_INTEGRATIONS.some(
     ({ category }) => category === key,
   )
@@ -155,7 +175,13 @@ const TABS = CATEGORIES.filter(({ key }) => {
   }
 })
 
-export const IntegrationsPage = () => {
+export const IntegrationsPage = ({
+  teamKey,
+  siloId,
+}: {
+  teamKey: string
+  siloId?: number
+}) => {
   return (
     <DashboardPage>
       <Hero
@@ -173,20 +199,24 @@ export const IntegrationsPage = () => {
       <section className={SECTION_CLASSNAME}>
         <SubTitle>Native integrations</SubTitle>
         <div className={INTEGRATIONS_CONTAINER_CLASSNAME}>
-          {NATIVE_INTEGRATIONS.map(({ title, description, icon, checked }) => (
-            <FeatureCard
-              key={title}
-              title={title}
-              description={description}
-              checked={checked}
-              icon={icon}
-            />
-          ))}
+          {NATIVE_INTEGRATIONS.map(
+            ({ title, description, icon, checked, link }) => (
+              <FeatureCard
+                key={title}
+                title={title}
+                description={description}
+                checked={checked}
+                icon={icon}
+                link={link
+                  ?.replace("[teamKey]", teamKey)
+                  .replace(
+                    "/silos/[id]",
+                    siloId ? `/silos/${siloId?.toString()}` : "",
+                  )}
+              />
+            ),
+          )}
         </div>
-      </section>
-      <section className={SECTION_CLASSNAME}>
-        <SubTitle>Other integrations</SubTitle>
-        <Tabs tabs={TABS} />
       </section>
     </DashboardPage>
   )

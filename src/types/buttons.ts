@@ -4,7 +4,6 @@ export type ButtonVariant =
   | "transparent"
   | "border"
   | "destructive"
-  | "grey"
   | "dark"
 
 export type ButtonSize = "sm" | "md" | "lg" | "xl"

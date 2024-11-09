@@ -11,7 +11,7 @@ type MainMenuProps = {
 
 export const MainMenu = async ({ menuItems }: MainMenuProps) => {
   return (
-    <div className="flex flex-row justify-between w-full bg-slate-900 px-4 py-4">
+    <div className="flex flex-row justify-between w-full bg-slate-900 px-4 md:px-6 py-4">
       <AuroraLogo />
       <ul className="hidden lg:flex flex-row items-center">
         {menuItems.map((item) => (
@@ -20,10 +20,7 @@ export const MainMenu = async ({ menuItems }: MainMenuProps) => {
           </li>
         ))}
         <li
-          className={clsx(
-            "pl-2",
-            menuItems.length && "border-l border-slate-700",
-          )}
+          className={clsx(menuItems.length && "pl-2 border-l border-slate-700")}
         >
           <MainMenuLogoutButton />
         </li>

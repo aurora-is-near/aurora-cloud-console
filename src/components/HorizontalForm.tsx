@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  FieldErrors,
   FormProvider,
   Path,
   PathValue,
@@ -73,6 +74,7 @@ export type HorizontalFormProps<Inputs extends Record<string, unknown>> = {
   submitHandler: SubmitHandler<Inputs>
   onCancel?: () => void
   inputs: Input<Inputs>[]
+  errors?: FieldErrors<Inputs>
 }
 
 const isSelectInput = <Inputs extends Record<string, unknown>>(
@@ -90,12 +92,13 @@ export const HorizontalForm = <Inputs extends Record<string, unknown>>({
   inputs,
   submitHandler,
   onCancel,
+  errors,
 }: HorizontalFormProps<Inputs>) => {
   const methods = useForm<Inputs>()
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors: internalErrors },
   } = methods
 
   return (
@@ -116,7 +119,10 @@ export const HorizontalForm = <Inputs extends Record<string, unknown>>({
               id: inputProps.id ?? inputProps.name,
               label: inputProps.label,
               register,
-              errors,
+              errors: {
+                ...internalErrors,
+                ...errors,
+              },
               registerOptions: {
                 value: inputProps.value,
                 required: inputProps.required

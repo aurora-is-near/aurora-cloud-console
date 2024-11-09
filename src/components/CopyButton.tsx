@@ -16,8 +16,9 @@ const CopyButton = ({ value, className, hasBorder, size }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false)
   const iconClassName = size === "sm" ? "w-4 h-4" : "w-5 h-5"
   const containerClassName = clsx(
-    "flex-shrink-0 p-2 rounded-lg",
+    "flex-shrink-0 rounded-lg",
     hasBorder && "border border-slate-400",
+    size === "sm" ? "p-[7px]" : "p-2",
     className,
   )
 
