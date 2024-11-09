@@ -25,3 +25,13 @@ jest.mock("@supabase/supabase-js", () => ({
 jest.mock("@supabase/ssr", () => ({
   createServerClient: jest.fn(() => mockSupabaseClient),
 }))
+
+jest.mock("pg", () => ({
+  Pool: jest.fn(() => ({
+    connect: jest.fn(),
+    query: jest.fn(() => ({
+      rows: [],
+    })),
+    end: jest.fn(),
+  })),
+}))

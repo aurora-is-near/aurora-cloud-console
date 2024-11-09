@@ -21,8 +21,8 @@ export const getTransactionData = (
   ],
 ): TransactionDataSchema => ({
   label,
-  transactionsCount: results[0].rows[0].count,
-  walletsCount: results[1].rows[0].count,
-  transactionsPerDay: results[2].rows,
-  walletsPerDay: results[3].rows,
+  transactionsCount: results[0].rows[0]?.count ?? 0,
+  walletsCount: results[1].rows[0]?.count ?? 0,
+  transactionsPerDay: results[2].rows ?? [],
+  walletsPerDay: results[3].rows ?? [],
 })
