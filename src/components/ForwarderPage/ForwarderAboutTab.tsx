@@ -6,7 +6,6 @@ export const ForwarderAboutTab = () => (
     attribution={{
       icon: <AuroraPlus />,
       text: "Test on Aurora Plus",
-      link: "https://todo.link",
     }}
   >
     <div className="flex flex-col gap-2 text-slate-500">
