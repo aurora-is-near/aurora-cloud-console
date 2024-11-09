@@ -2,17 +2,19 @@ import Image from "next/image"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
+import { Silo } from "@/types/types"
+import { ForwarderWidgetOpenButton } from "@/components/ForwarderOpenButton"
 import { ForwarderAboutTab } from "./ForwarderAboutTab"
 import ForwarderConfigurationTab from "./ForwarderConfigurationTab"
 
 interface ForwarderPageProps {
   teamKey: string
-  siloId?: number
+  silo?: Silo | null
 }
 
 export const ForwarderPage: React.FC<ForwarderPageProps> = ({
   teamKey,
-  siloId,
+  silo = null,
 }) => {
   const tabs = [
     {
@@ -21,13 +23,13 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
     },
   ]
 
-  if (siloId) {
+  if (silo) {
     tabs.push({
       title: "Configuration",
       content: (
         <ForwarderConfigurationTab
-          siloId={siloId}
-          linkPrefix={`/dashboard/${teamKey}/silos/${siloId}/onramp`}
+          siloId={silo.id}
+          linkPrefix={`/dashboard/${teamKey}/silos/${silo.id}/onramp`}
         />
       ),
     })
@@ -53,6 +55,16 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
             src="/static/v2/images/feature/hero/forwarder.png"
             alt="Forwarder Preview"
           />
+        }
+        actions={
+          silo && (
+            <ForwarderWidgetOpenButton
+              silo={silo}
+              variant="border"
+              size="lg"
+              isExternal
+            />
+          )
         }
       />
 
