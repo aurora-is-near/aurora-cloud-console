@@ -4,8 +4,16 @@ import { logger } from "@/logger"
 import { DEVNET_CHAIN_ID } from "@/constants/devnet"
 import { toError } from "../errors"
 
+const debug = createDebugger("proxy-db")
+
 // Fake data for the chains below exists in our "seed" database
-const DEMO_CHAINS = [1313161555, 1313161556, 1313161557, DEVNET_CHAIN_ID]
+const DEMO_CHAINS = [
+  1313161555,
+  1313161556,
+  1313161557,
+  Number(DEVNET_CHAIN_ID),
+]
+
 const DEMO_POOL = new Pool({
   database: "aurora_transaction_database_seed",
   host: "65.21.192.70",
@@ -16,6 +24,7 @@ const DEMO_POOL = new Pool({
 
 // Data for the chains below exists in our main aurora database.
 const AURORA_CHAINS = [0, 1, 10, 100, 1030, 1115, 1116, 117, 1284, 1285]
+
 const AURORA_POOL = new Pool({
   database: "aurora_transaction_database",
   host: "65.21.192.70",
@@ -39,12 +48,18 @@ const DEFAULT_POOL = new Pool({
  */
 const getPool = (chainId: string) => {
   if (DEMO_CHAINS.includes(Number(chainId))) {
+    debug("Using demo pool for chain", chainId)
+
     return DEMO_POOL
   }
 
   if (AURORA_CHAINS.includes(Number(chainId))) {
+    debug("Using aurora pool for chain", chainId)
+
     return AURORA_POOL
   }
+
+  debug("Using default pool for chain", chainId)
 
   return DEFAULT_POOL
 }
@@ -57,7 +72,6 @@ export const query = async <TRow extends QueryResultRow>(
   text: string,
   params?: string[],
 ): Promise<QueryResult<TRow>> => {
-  const debug = createDebugger("proxy-db")
   const pool = getPool(chainId)
 
   debug("Proxy DB query", text)
