@@ -5,7 +5,7 @@ type RuleSettingProps = {
   title: string
   description: string
   descriptionUrl?: string
-  children: ReactNode
+  children?: ReactNode
 }
 
 export const RuleSetting = ({
