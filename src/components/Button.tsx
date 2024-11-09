@@ -8,6 +8,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: ButtonSize
   loading?: boolean
   disabled?: boolean
+  isSquare?: boolean
   fullWidth?: boolean
 }
 
@@ -21,6 +22,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
       loading,
       disabled,
       fullWidth,
+      isSquare,
       ...restProps
     },
     ref,
@@ -34,6 +36,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
           className,
           isDisabled,
           isFullWidth: fullWidth,
+          isSquare,
         })}
         disabled={isDisabled}
         ref={ref}

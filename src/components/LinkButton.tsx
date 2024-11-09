@@ -13,6 +13,7 @@ export type LinkButtonProps = ComponentProps<typeof Link> & {
   disabled?: boolean
   fullWidth?: boolean
   isExternal?: boolean
+  isSquare?: boolean
   href: string
 }
 
@@ -27,6 +28,7 @@ export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
       disabled,
       fullWidth,
       isExternal,
+      isSquare,
       href,
       ...restProps
     },
@@ -43,6 +45,7 @@ export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
           className,
           isDisabled,
           isFullWidth: fullWidth,
+          isSquare,
         })}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
