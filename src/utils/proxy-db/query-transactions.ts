@@ -6,7 +6,6 @@ type Params = {
 }
 
 const FROM_CLAUSE = "FROM tx_traces"
-const DEFAULT_CHART_INTERVAL = "6 MONTH"
 
 const getWhereClause = (chainId: string, { interval, dealId }: Params) => {
   let whereClause = `WHERE chain_id = '${chainId}'`
@@ -26,7 +25,7 @@ export const queryTransactions = async (chainId: string, params: Params) => {
   const countWhereClause = getWhereClause(chainId, params)
   const chartWhereClause = getWhereClause(chainId, {
     ...params,
-    interval: params.interval ?? DEFAULT_CHART_INTERVAL,
+    interval: params.interval,
   })
 
   return Promise.all([
