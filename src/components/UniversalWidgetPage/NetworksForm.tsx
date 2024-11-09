@@ -8,6 +8,7 @@ import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Network } from "@/hooks/useWidgetNetworks"
 import { WidgetNetworkType } from "@/types/types"
 import { isValidNetwork } from "@/utils/widget"
+import { useSubmitOnChange } from "@/hooks/useSubmitOnChange"
 
 type Inputs = Partial<Record<WidgetNetworkType, boolean>>
 
@@ -80,15 +81,7 @@ const NetworksForm = ({
     })
   }, [networks, setValue])
 
-  useEffect(() => {
-    const subscription = watch((value, { name, type: operation }) => {
-      if (operation === "change" && name) {
-        submit(value)
-      }
-    })
-
-    return () => subscription.unsubscribe()
-  }, [watch, submit])
+  useSubmitOnChange(watch, submit)
 
   return (
     <form>

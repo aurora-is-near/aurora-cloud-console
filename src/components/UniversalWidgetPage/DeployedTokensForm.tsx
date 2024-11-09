@@ -10,6 +10,7 @@ import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
 import { TokenSchema } from "@/types/api-schemas"
 import { Tag } from "@/components/Tag"
+import { useSubmitOnChange } from "@/hooks/useSubmitOnChange"
 
 type Inputs = Partial<Record<string, boolean>>
 
@@ -67,15 +68,7 @@ const DeployedTokensForm = ({
     })
   }, [setValue, activeTokens])
 
-  useEffect(() => {
-    const subscription = watch((value, { name, type }) => {
-      if (type === "change" && name) {
-        submit(value)
-      }
-    })
-
-    return () => subscription.unsubscribe()
-  }, [watch, submit])
+  useSubmitOnChange(watch, submit)
 
   return (
     <form>
