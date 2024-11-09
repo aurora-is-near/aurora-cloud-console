@@ -98,12 +98,12 @@ export const MainDashboardLayout = async ({
                     href: `/dashboard/${teamKey}${siloPrefix}/onramp/fiat-to-crypto`,
                   },
                   {
-                    name: "Bridge",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
-                  },
-                  {
                     name: "Forwarder",
                     href: `/dashboard/${teamKey}${siloPrefix}/onramp/forwarder`,
+                  },
+                  {
+                    name: "Bridge",
+                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
                   },
                 ],
               },
