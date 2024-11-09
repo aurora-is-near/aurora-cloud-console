@@ -10,8 +10,8 @@ export const ForwarderAboutTab = () => (
   >
     <div className="flex flex-col gap-2 text-slate-500">
       <p>
-        The forwarder leverages Near Protocol to automatically route assets to
-        your chain. This means that any exchange that supports Near as a
+        The forwarder leverages the Near Protocol to automatically route assets
+        to your chain. This means that any exchange that supports Near as a
         withdrawal method becomes compatible with your chain.
       </p>
       <p>
