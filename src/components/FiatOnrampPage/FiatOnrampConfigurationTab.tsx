@@ -5,7 +5,6 @@ import { Pill } from "@/components/Pill"
 import { LinkButton } from "@/components/LinkButton"
 import CopyButton from "@/components/CopyButton"
 import { FiatOnrampStep } from "@/components/FiatOnrampPage/FiatOnrampStep"
-import { MunzenWidgetOpenButton } from "@/components/MunzenWidgetOpenButton"
 
 type FiatOnrampConfigurationTabProps = {
   linkPrefix: string
