@@ -9,7 +9,7 @@ type CopyButtonProps = {
   value: string
   className?: string
   hasBorder?: boolean
-  size?: "xs" | "sm" | "md"
+  size?: "sm" | "md"
 }
 
 const CopyButton = ({ value, className, hasBorder, size }: CopyButtonProps) => {
