@@ -5,6 +5,7 @@ import { Pill } from "@/components/Pill"
 import { LinkButton } from "@/components/LinkButton"
 import CopyButton from "@/components/CopyButton"
 import { FiatOnrampStep } from "@/components/FiatOnrampPage/FiatOnrampStep"
+import { MunzenWidgetOpenButton } from "@/components/MunzenWidgetOpenButton"
 
 type FiatOnrampConfigurationTabProps = {
   linkPrefix: string
@@ -33,6 +34,9 @@ const FiatOnrampConfigurationTab = ({
             onramp experience. This method will also allow you to add your own
             fees to the onramp.
           </p>
+          <div className="w-fit mt-2">
+            <MunzenWidgetOpenButton />
+          </div>
         </div>
         <div className="flex flex-col gap-2">
           <FiatOnrampStep
