@@ -37,12 +37,6 @@ const ForwarderConfigurationTab = ({
                 <ArrowTopRightOnSquareIcon className="w-4 h-4" />
               </div>
             </LinkButton>
-            <LinkButton variant="border" href="https://todo.link">
-              <div className="flex flex-row items-center gap-1">
-                API Guide
-                <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-              </div>
-            </LinkButton>
           </div>
         </div>
         <div className="flex flex-col gap-2" />
