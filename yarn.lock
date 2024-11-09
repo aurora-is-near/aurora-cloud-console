@@ -3945,6 +3945,11 @@
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.5.tgz#db9468cb1b1b5a925b8f34822f1669df0c5472f5"
   integrity sha512-hWtVTC2q7hc7xZ/RLbxapMvDMgUnDvKvMOpKal4DrMyfGBUfB1oKaZlIRr6mJL+If3bAP6sV/QneGzF6tJjZDg==
 
+"@types/coingecko-api@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@types/coingecko-api/-/coingecko-api-1.0.13.tgz#8aa0ab5e6bef29c023c50b78fdc4541e9edafdb2"
+  integrity sha512-SUSnzv176f7IzwNSiTwX0wWvMCBVZ24tRUo5vUKNmAVbXoTB4eW0MDZL9ZPsrwPqOXtzBj3IKd2BEmbp1FMSjA==
+
 "@types/connect@*":
   version "3.4.38"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.38.tgz#5ba7f3bc4fbbdeaff8dded952e5ff2cc53f8d858"

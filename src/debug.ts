@@ -6,5 +6,6 @@ type DebuggerName =
   | "grafana"
   | "aurora-oracle"
   | "forwarder"
+  | "coingecko"
 
 export const createDebugger = (name: DebuggerName) => debug(name)
