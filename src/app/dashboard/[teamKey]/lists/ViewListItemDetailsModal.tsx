@@ -22,6 +22,7 @@ export const ViewListItemDetailsModal = () => {
 
   const { data } = useQuery({
     ...getQueryFnAndKey("getWallet", {
+      id: "1", // Temp - the entiriety of lists is most likely dead
       address: encodeURIComponent(String(item)),
     }),
     enabled: !!item,

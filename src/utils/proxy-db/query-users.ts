@@ -1,4 +1,4 @@
-import { TransactionDatabaseType, TransactionsQuery } from "../../types/types"
+import { TransactionsQuery } from "../../types/types"
 import { query } from "./query"
 
 type Params = {
@@ -10,8 +10,8 @@ type Params = {
 
 const FROM_CLAUSE = "FROM tx_traces"
 
-const getWhereClause = (chainIds: string[], params: Params) => {
-  let whereClause = `WHERE chain_id IN ('${chainIds.join("','")}')`
+const getWhereClause = (chainId: string, params: Params) => {
+  let whereClause = `WHERE chain_id = '${chainId}'`
 
   if (params.dealKey) {
     whereClause += ` AND deal = '${params.dealKey}'`
@@ -24,16 +24,12 @@ const getWhereClause = (chainIds: string[], params: Params) => {
   return whereClause
 }
 
-export const queryWallets = async (
-  transactionDatabase: TransactionDatabaseType,
-  chainIds: string[],
-  params: Params,
-) => {
+export const queryWallets = async (chainId: string, params: Params) => {
   const { limit, offset } = params
-  const whereClause = getWhereClause(chainIds, params)
+  const whereClause = getWhereClause(chainId, params)
 
   return query<TransactionsQuery>(
-    transactionDatabase,
+    chainId,
     `
       SELECT
         "from" as wallet_address,
@@ -49,17 +45,13 @@ export const queryWallets = async (
   )
 }
 
-export const queryWalletCount = async (
-  transactionDatabase: TransactionDatabaseType,
-  chainIds: string[],
-  params: Params,
-) => {
-  const whereClause = getWhereClause(chainIds, params)
+export const queryWalletCount = async (chainId: string, params: Params) => {
+  const whereClause = getWhereClause(chainId, params)
 
   return query<{
     count: number
   }>(
-    transactionDatabase,
+    chainId,
     `
     SELECT count(*)::int
     FROM (

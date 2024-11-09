@@ -3,11 +3,9 @@
 import toast from "react-hot-toast"
 import { SubmitHandler } from "react-hook-form"
 import { useRouter } from "next/navigation"
-import { Team, TransactionDatabaseType } from "@/types/types"
+import { Team } from "@/types/types"
 import { updateTeam } from "@/actions/teams/update-team"
 import { HorizontalForm } from "@/components/HorizontalForm"
-import { TRANSACTION_DATABASES } from "@/constants/databases"
-import { SelectInputOption } from "@/components/SelectInput"
 import { HOME_ROUTE } from "@/constants/routes"
 import { createTeam } from "@/actions/teams/create-team"
 
@@ -16,13 +14,6 @@ type TeamFormProps = {
 }
 
 type Inputs = Omit<Team, "id" | "created_at"> & { siloIds?: number[] }
-
-const getTransactionDatabaseOption = (
-  transactionDatabase: TransactionDatabaseType,
-) => ({
-  label: TRANSACTION_DATABASES[transactionDatabase].name,
-  value: transactionDatabase,
-})
 
 export const TeamForm = ({ team }: TeamFormProps) => {
   const router = useRouter()
@@ -84,18 +75,6 @@ export const TeamForm = ({ team }: TeamFormProps) => {
           defaultValue: team?.website ?? "",
           autoComplete: "website",
           required: true,
-        },
-        {
-          name: "transaction_database",
-          label: "Transaction database",
-          required: true,
-          defaultValue: team?.transaction_database
-            ? getTransactionDatabaseOption(team.transaction_database)
-            : undefined,
-          options: Object.keys(TRANSACTION_DATABASES).map((key) =>
-            getTransactionDatabaseOption(key as TransactionDatabaseType),
-          ),
-          getValue: (option?: SelectInputOption) => option?.value,
         },
       ]}
     />

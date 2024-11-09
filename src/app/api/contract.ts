@@ -368,9 +368,9 @@ export const contract = c.router({
     }),
   },
   getWallets: {
-    summary: "Get details of the wallets that have interacted with your silos",
+    summary: "Get details of the wallets that have interacted with your silo",
     method: "GET",
-    path: "/api/wallets",
+    path: "/api/silos/:id/wallets",
     responses: {
       200: z.object({
         total: z.number(),
@@ -388,9 +388,9 @@ export const contract = c.router({
   },
   getWallet: {
     summary:
-      "Get details of a single wallets that has interacted with your silos",
+      "Get details of a single wallet that has interacted with your silo",
     method: "GET",
-    path: "/api/wallets/:address",
+    path: "/api/silos/:id/wallets/:address",
     responses: {
       200: WalletDetailsSchema,
     },
@@ -548,76 +548,10 @@ export const contract = c.router({
       item: z.string(),
     }),
   },
-  getDealsTransactions: {
-    summary: "Get transaction chart data for all deals",
-    method: "GET",
-    path: "/api/transactions/deals",
-    responses: {
-      200: z.object({
-        items: z.array(
-          z.object({
-            dealId: z.number(),
-            data: TransactionDataSchema,
-          }),
-        ),
-      }),
-    },
-    metadata: {
-      scopes: ["transactions:read"],
-    },
-    query: z.object({
-      interval: TransactionDataIntervalQueryParamSchema,
-    }),
-  },
-  getDealTransactions: {
-    summary: "Get transaction chart data for a single deal",
-    method: "GET",
-    path: "/api/transactions/deals/:id",
-    responses: {
-      200: z.object({
-        items: z.array(
-          z.object({
-            dealId: z.number(),
-            data: TransactionDataSchema,
-          }),
-        ),
-      }),
-    },
-    metadata: {
-      scopes: ["transactions:read"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-    query: z.object({
-      interval: TransactionDataIntervalQueryParamSchema,
-    }),
-  },
-  getSilosTransactions: {
-    summary: "Get transaction chart data for all silos",
-    method: "GET",
-    path: "/api/transactions/silos",
-    responses: {
-      200: z.object({
-        items: z.array(
-          z.object({
-            siloId: z.number(),
-            data: TransactionDataSchema,
-          }),
-        ),
-      }),
-    },
-    metadata: {
-      scopes: ["transactions:read"],
-    },
-    query: z.object({
-      interval: TransactionDataIntervalQueryParamSchema,
-    }),
-  },
   getSiloTransactions: {
-    summary: "Get transaction chart data for a single silo",
+    summary: "Get transaction chart data for a silo",
     method: "GET",
-    path: "/api/transactions/silos/:id",
+    path: "/api/silos/:id/transactions",
     responses: {
       200: z.object({
         items: z.array(

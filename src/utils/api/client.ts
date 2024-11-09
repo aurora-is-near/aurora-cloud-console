@@ -81,27 +81,12 @@ export const apiClient = {
   }: ApiRequestParams<"updateDeal"> & ApiRequestBody<"updateDeal">) =>
     put<"updateDeal">(`/api/deals/${id}`, data),
 
-  getSilosTransactions: async (
-    query?: ApiRequestQuery<"getSilosTransactions">,
-  ) => get<"getSilosTransactions">("/api/transactions/silos", query),
-
   getSiloTransactions: async ({
     id,
     ...query
   }: ApiRequestParams<"getSiloTransactions"> &
     ApiRequestQuery<"getSiloTransactions">) =>
-    get<"getSiloTransactions">(`/api/transactions/silos/${id}`, query),
-
-  getDealsTransactions: async (
-    query?: ApiRequestQuery<"getDealsTransactions">,
-  ) => get<"getDealsTransactions">("/api/transactions/deals", query),
-
-  getDealTransactions: async ({
-    id,
-    ...query
-  }: ApiRequestParams<"getDealTransactions"> &
-    ApiRequestQuery<"getDealTransactions">) =>
-    get<"getDealTransactions">(`/api/transactions/deals/${id}`, query),
+    get<"getSiloTransactions">(`/api/silos/${id}/transactions`, query),
 
   getDealPriorities: async () =>
     get<"getDealPriorities">(`/api/deals/priorities`),
