@@ -31,7 +31,7 @@ const ForwarderConfigurationTab = ({
             gaming apps.
           </p>
           <div className="flex flex-row mt-4 gap-2.5">
-            <LinkButton variant="border" href="https://todo.link">
+            <LinkButton variant="border" href="/api">
               <div className="flex flex-row items-center gap-1">
                 View API
                 <ArrowTopRightOnSquareIcon className="w-4 h-4" />
