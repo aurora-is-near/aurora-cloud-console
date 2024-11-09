@@ -1,6 +1,3 @@
-"use client"
-
-import debounce from "debounce"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useCallback, useEffect } from "react"
 import { useMutation } from "@tanstack/react-query"
@@ -9,7 +6,7 @@ import clsx from "clsx"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Network } from "@/hooks/useWidgetNetworks"
-import { Widget, WidgetNetworkType } from "@/types/types"
+import { WidgetNetworkType } from "@/types/types"
 import { isValidNetwork } from "@/utils/widget"
 
 type Inputs = Partial<Record<WidgetNetworkType, boolean>>
@@ -19,7 +16,6 @@ type NetworksFormProps = {
   type: "to" | "from"
   networks: Network[]
   availableNetworks: Network[]
-  widget?: Widget | null
 }
 
 const NetworksForm = ({
@@ -27,13 +23,11 @@ const NetworksForm = ({
   type,
   networks,
   availableNetworks,
-  widget,
 }: NetworksFormProps) => {
   const {
     register,
     setValue,
     getValues,
-    handleSubmit,
     formState: { isSubmitting },
     watch,
   } = useForm<Inputs>()
@@ -87,24 +81,19 @@ const NetworksForm = ({
   }, [networks, setValue])
 
   useEffect(() => {
-    const debouncedCb = debounce((inputs: Inputs) => submit(inputs), 1000)
+    const subscription = watch((value, { name, type: operation }) => {
+      if (operation === "change" && name) {
+        submit(value)
+      }
+    })
 
-    const subscription = watch(debouncedCb)
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [submit, watch])
+    return () => subscription.unsubscribe()
+  }, [watch, submit])
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    <form>
       <div>
-        <div
-          className={clsx(
-            "flex flex-col space-y-2",
-            !widget && "opacity-50 pointer-events-none",
-          )}
-        >
+        <div className="flex flex-col space-y-2">
           {availableNetworks.map((network) => (
             <div
               key={network.key}
@@ -121,7 +110,7 @@ const NetworksForm = ({
               >
                 <div className="flex items-center h-6">
                   <input
-                    disabled={!widget || isPending || isSubmitting}
+                    disabled={isPending || isSubmitting}
                     id={`${type}-${network.key}`}
                     type="checkbox"
                     className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600"

@@ -1,22 +1,19 @@
 "use client"
 
-import { CheckIcon, ClockIcon } from "@heroicons/react/24/outline"
-import clsx from "clsx"
 import { useState } from "react"
 import Card from "@/components/Card"
 import Loader from "@/components/Loader"
-import { Tag } from "@/components/Tag"
 import { TokensCard } from "@/components/UniversalWidgetPage/TokensCard"
 import { AddButton } from "@/components/AddButton"
 import { useWidgetTokens } from "@/hooks/useWidgetTokens"
+import DeployedTokensForm from "@/components/UniversalWidgetPage/DeployedTokensForm"
 
 type DeployedTokensCardProps = {
   siloId: number
 }
 
 export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
-  const { pendingTokens, deployedTokens, isPending } = useWidgetTokens(siloId)
-  const bridgedTokens = [...deployedTokens, ...pendingTokens]
+  const { deployedTokens, activeTokens, isPending } = useWidgetTokens(siloId)
   const [isAddingNewAsset, setIsAddingNewAsset] = useState(false)
 
   return (
@@ -40,42 +37,11 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
           </Loader>
         ) : (
           <div className="flex flex-col gap-2">
-            {bridgedTokens.map((token) => {
-              const isDeployed = token.bridge?.deploymentStatus === "DEPLOYED"
-
-              return (
-                <div
-                  key={token.id}
-                  className={clsx(
-                    "rounded-md ring-1 p-3",
-                    isDeployed
-                      ? "ring-green-600 bg-green-50"
-                      : "ring-slate-200",
-                  )}
-                >
-                  <div className="flex flex-row justify-between">
-                    <span className="text-sm font-medium">{token.symbol}</span>
-                    <span className="flex justify-end">
-                      {isDeployed ? (
-                        <Tag
-                          size="sm"
-                          color="green"
-                          text="Deployed"
-                          Icon={CheckIcon}
-                        />
-                      ) : (
-                        <Tag
-                          size="sm"
-                          color="orange"
-                          text="Pending"
-                          Icon={ClockIcon}
-                        />
-                      )}
-                    </span>
-                  </div>
-                </div>
-              )
-            })}
+            <DeployedTokensForm
+              siloId={siloId}
+              deployedTokens={deployedTokens}
+              activeTokens={activeTokens}
+            />
 
             <AddButton
               hideIcon={isAddingNewAsset}
