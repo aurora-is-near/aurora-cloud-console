@@ -6,16 +6,21 @@ import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButto
 type ConfigureUniversalWidgetTabCardProps = {
   linkPrefix: string
   siloId: number
+  isComingSoon?: boolean
 }
 
 const ConfigureUniversalWidgetTabCard = ({
   linkPrefix,
   siloId,
+  isComingSoon,
 }: ConfigureUniversalWidgetTabCardProps) => {
   return (
     <ConfigurationPanel>
       <div className="flex flex-col gap-2">
-        <Pill>Option 1</Pill>
+        <div className="flex flex-row gap-x-2">
+          <Pill>Option 1</Pill>
+          {isComingSoon && <Pill variant="active">Coming soon</Pill>}
+        </div>
         <h3 className="text-lg text-slate-900 tracking-tighter font-semibold">
           Universal Widget
         </h3>
@@ -23,12 +28,17 @@ const ConfigureUniversalWidgetTabCard = ({
           The Universal Widget provides the easiest way to integrate multiple
           onramp solutions into your application.
         </p>
-        <div className="flex flex-row mt-4 gap-2.5">
-          <UniversalWidgetOpenButton siloId={siloId} />
-          <LinkButton href={`${linkPrefix}/universal-widget`} variant="border">
-            Configure
-          </LinkButton>
-        </div>
+        {!isComingSoon && (
+          <div className="flex flex-row mt-4 gap-2.5">
+            <UniversalWidgetOpenButton siloId={siloId} />
+            <LinkButton
+              href={`${linkPrefix}/universal-widget`}
+              variant="border"
+            >
+              Configure
+            </LinkButton>
+          </div>
+        )}
       </div>
     </ConfigurationPanel>
   )
