@@ -1,6 +1,7 @@
 "use server"
 
 import * as crypto from "crypto"
+import { Silo } from "@/types/types"
 
 const convertToParamsString = (rec: Record<string, string>): string[] => {
   return Object.keys(rec)
@@ -30,9 +31,12 @@ const generateSign = (rec: Record<string, string>, secret: string) => {
     .digest("hex")
 }
 
-export const getMunzenWidgetUrl = async (): Promise<string> => {
-  const externalData = '{"silo":"aurora"}'
-  const toCurrency = "AURORA-AURORA"
+export const getMunzenWidgetUrl = async (silo: Silo): Promise<string> => {
+  const siloName =
+    silo.chain_id === "1313161554" ? "aurora" : silo.engine_account
+
+  const externalData = JSON.stringify({ silo: siloName })
+  const toCurrency = "USDT-AURORA"
   const signature = generateSign(
     { toCurrency, externalData },
     process.env.MUNZEN_API_SECRET,
