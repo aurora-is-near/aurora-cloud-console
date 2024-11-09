@@ -34,9 +34,6 @@ const FiatOnrampConfigurationTab = ({
             onramp experience. This method will also allow you to add your own
             fees to the onramp.
           </p>
-          <div className="w-fit mt-2">
-            <MunzenWidgetOpenButton />
-          </div>
         </div>
         <div className="flex flex-col gap-2">
           <FiatOnrampStep
