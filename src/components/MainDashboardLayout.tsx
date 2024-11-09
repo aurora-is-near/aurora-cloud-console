@@ -101,6 +101,10 @@ export const MainDashboardLayout = async ({
                     name: "Bridge",
                     href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
                   },
+                  {
+                    name: "Forwarder",
+                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/forwarder`,
+                  },
                 ],
               },
               {
