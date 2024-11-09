@@ -28,7 +28,8 @@ const UsersConfigurationCard = () => {
               name="users"
               type="radio"
               value="all"
-              className="accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 focus:ring-green-500"
+              disabled
+              className="accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 checked:hover:bg-green-500 focus:ring-green-500"
               checked={value === "all"}
               onChange={(e) => setValue(e.target.value)}
             />
@@ -48,7 +49,7 @@ const UsersConfigurationCard = () => {
       >
         <label
           htmlFor="selected"
-          className="flex items-start w-full cursor-pointer"
+          className="flex items-start w-full cursor-not-allowed"
         >
           <div className="flex items-center h-6">
             <input
@@ -56,7 +57,8 @@ const UsersConfigurationCard = () => {
               name="users"
               type="radio"
               value="selected"
-              className="accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 focus:ring-green-500"
+              disabled
+              className="accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 checked:hover:bg-green-500 focus:ring-green-500"
               checked={value === "selected"}
               onChange={(e) => setValue(e.target.value)}
             />
