@@ -5,13 +5,16 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 
 import { Button } from "@/components/Button"
 import { getMunzenWidgetUrl } from "@/actions/widget-munzen/get-munzen-widget"
+import { ButtonSize } from "@/types/buttons"
 
 type MunzenWidgetOpenButtonProps = {
   className?: string
+  size?: ButtonSize
 }
 
 export const MunzenWidgetOpenButton = ({
   className,
+  size,
 }: MunzenWidgetOpenButtonProps) => {
   const [widgetUrl, setWidgetUrl] = useState<undefined | string>()
 
@@ -37,7 +40,7 @@ export const MunzenWidgetOpenButton = ({
 
   return (
     <Button
-      size="sm"
+      size={size}
       variant="border"
       disabled={!widgetUrl}
       className={className}

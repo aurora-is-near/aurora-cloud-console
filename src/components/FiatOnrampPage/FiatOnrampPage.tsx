@@ -2,6 +2,7 @@ import Image from "next/image"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
+import { MunzenWidgetOpenButton } from "@/components/MunzenWidgetOpenButton"
 import FiatOnrampConfigurationTab from "./FiatOnrampConfigurationTab"
 import { FiatOnrampAboutTab } from "./FiatOnrampAboutTab"
 
@@ -54,6 +55,7 @@ export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
             alt="Onramp Preview"
           />
         }
+        actions={<MunzenWidgetOpenButton size="lg" />}
       />
 
       <Tabs tabs={tabs} />
