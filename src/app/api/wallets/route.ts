@@ -1,9 +1,7 @@
 import { createApiEndpoint } from "@/utils/api"
-import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 import { getLimitAndOffset } from "@/utils/pagination"
 import { abort } from "@/utils/abort"
 import { getWalletDetails } from "@/utils/wallets"
-import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { getDealKeyFromSearchParams } from "@/utils/proxy-api/get-deal-key-from-search-params"
 import {
