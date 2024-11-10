@@ -7,6 +7,7 @@ type NoDataCtaProps = {
   Icon: ComponentType<{ className?: string }>
   children?: ReactNode
   className?: string
+  isTransparent?: boolean
 }
 
 export const NoDataCta = ({
@@ -15,8 +16,15 @@ export const NoDataCta = ({
   Icon,
   children,
   className,
+  isTransparent,
 }: NoDataCtaProps) => (
-  <div className={clsx("bg-slate-100 rounded-lg py-10", className)}>
+  <div
+    className={clsx(
+      "rounded-lg py-10",
+      !isTransparent && "bg-slate-100",
+      className,
+    )}
+  >
     <div className="text-center flex flex-col items-center">
       <div className="bg-slate-900 rounded-lg p-3 flex justify-center items-center mx-auto">
         <Icon className="text-slate-50 w-6 h-6 shrink-0" />
