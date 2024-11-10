@@ -36,7 +36,7 @@ export const getMunzenWidgetUrl = async (silo: Silo): Promise<string> => {
     silo.chain_id === "1313161554" ? "aurora" : silo.engine_account
 
   const externalData = JSON.stringify({ silo: siloName })
-  const toCurrency = "USDT-AURORA"
+  const toCurrency = "AURORA-AURORA"
   const signature = generateSign(
     { toCurrency, externalData },
     process.env.MUNZEN_API_SECRET,

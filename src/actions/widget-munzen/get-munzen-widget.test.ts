@@ -12,7 +12,7 @@ describe("getMunzenWidgetUrl", () => {
 
     expect(urlObject.href).toContain(MUNZEN_BASE_URL)
     expect(Object.fromEntries(urlObject.searchParams.entries())).toEqual({
-      toCurrency: "USDT-AURORA",
+      toCurrency: "AURORA-AURORA",
       externalData: '{"silo":"aurora"}',
       apiKey: "test-munzen-api-key",
       signature: expect.any(String),
@@ -28,7 +28,7 @@ describe("getMunzenWidgetUrl", () => {
 
     expect(urlObject.href).toContain(MUNZEN_BASE_URL)
     expect(Object.fromEntries(urlObject.searchParams.entries())).toEqual({
-      toCurrency: "USDT-AURORA",
+      toCurrency: "AURORA-AURORA",
       externalData: `{"silo":"${engineAccount}"}`,
       apiKey: "test-munzen-api-key",
       signature: expect.any(String),
