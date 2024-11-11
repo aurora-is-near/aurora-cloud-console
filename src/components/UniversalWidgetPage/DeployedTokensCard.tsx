@@ -1,78 +1,62 @@
 "use client"
 
-import { CheckIcon, ClockIcon } from "@heroicons/react/24/outline"
-import clsx from "clsx"
-import { Fragment } from "react"
+import { useState } from "react"
 import Card from "@/components/Card"
 import Loader from "@/components/Loader"
-import { Tag } from "@/components/Tag"
+import { TokensCard } from "@/components/UniversalWidgetPage/TokensCard"
+import { AddButton } from "@/components/AddButton"
 import { useWidgetTokens } from "@/hooks/useWidgetTokens"
+import DeployedTokensForm from "@/components/UniversalWidgetPage/DeployedTokensForm"
 
 type DeployedTokensCardProps = {
   siloId: number
 }
 
 export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
-  const { pendingTokens, deployedTokens, isPending } = useWidgetTokens(siloId)
-  const bridgedTokens = [...deployedTokens, ...pendingTokens]
+  const { deployedTokens, activeTokens, isPending } = useWidgetTokens(siloId)
+  const [isAddingNewAsset, setIsAddingNewAsset] = useState(false)
 
   return (
-    <Card tag="section">
-      <Card.Title>Deployed tokens</Card.Title>
-      {isPending ? (
-        <Card.Row>
+    <Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="flex flex-col gap-2">
+          <h3 className="text-lg font-bold text-slate-900">Supported assets</h3>
+          <p className="text-slate-500 text-sm">
+            Choose the assets that will be supported in your widget.
+          </p>
+          <p className="text-slate-500 text-sm">
+            To be available in the widget, the token must be deployed on your
+            virtual chain. If a token isn’t deployed yet, simply request
+            deployment through the “Add asset” button, and our team will handle
+            it for you.
+          </p>
+        </div>
+        {isPending ? (
           <Loader>
             <div className="h-[42.5px]" />
           </Loader>
-        </Card.Row>
-      ) : (
-        // eslint-disable-next-line react/jsx-no-useless-fragment
-        <>
-          {!bridgedTokens?.length ? (
-            <Card.Row>
-              <span className="text-gray-400 text-sm">No tokens deployed</span>
-            </Card.Row>
-          ) : (
-            <div className="grid grid-cols-3">
-              {bridgedTokens.map((token) => {
-                const isDeployed = token.bridge?.deploymentStatus === "DEPLOYED"
+        ) : (
+          <div className="flex flex-col gap-2">
+            <DeployedTokensForm
+              siloId={siloId}
+              deployedTokens={deployedTokens}
+              activeTokens={activeTokens}
+            />
 
-                return (
-                  <Fragment key={token.id}>
-                    <Card.Cell className="text-sm font-medium">
-                      {token.symbol}
-                    </Card.Cell>
-                    <Card.Cell
-                      className={clsx(
-                        "text-sm",
-                        isDeployed ? "" : "text-gray-400",
-                      )}
-                    >
-                      {isDeployed ? "" : "Not deployed yet"}
-                    </Card.Cell>
-                    <Card.Cell className="flex justify-end">
-                      {isDeployed ? (
-                        <Tag
-                          size="sm"
-                          color="green"
-                          text="Deployed"
-                          Icon={CheckIcon}
-                        />
-                      ) : (
-                        <Tag
-                          size="sm"
-                          color="orange"
-                          text="Pending"
-                          Icon={ClockIcon}
-                        />
-                      )}
-                    </Card.Cell>
-                  </Fragment>
-                )
-              })}
-            </div>
-          )}
-        </>
+            <AddButton
+              hideIcon={isAddingNewAsset}
+              text={isAddingNewAsset ? "Cancel" : "Add asset"}
+              onClick={() => {
+                setIsAddingNewAsset(!isAddingNewAsset)
+              }}
+            />
+          </div>
+        )}
+      </div>
+      {isAddingNewAsset && (
+        <div className="mt-5">
+          <TokensCard siloId={siloId} />
+        </div>
       )}
     </Card>
   )

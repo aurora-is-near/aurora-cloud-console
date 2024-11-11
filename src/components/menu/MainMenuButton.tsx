@@ -25,11 +25,11 @@ export const MainMenuButton = ({
   icon,
   className,
 }: MainMenuButtonProps) => {
-  icon = generateIcon(icon, "w-6 h-6 shrink-0 text-slate-300")
+  icon = generateIcon(icon, "w-5 h-5 shrink-0")
 
   const containerClassName = clsx(
-    "text-slate-400 hover:text-white hover:bg-slate-800",
-    "group flex rounded-lg p-3 text-sm leading-6 font-semibold items-center justify-center",
+    "text-slate-300 hover:text-slate-50 hover:bg-slate-700",
+    "group flex rounded-lg p-2 text-sm leading-6 font-semibold items-center justify-center",
     className,
   )
 

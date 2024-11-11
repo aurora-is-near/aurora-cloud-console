@@ -33,7 +33,7 @@ export const DealDurationSetting = () => {
       return `${formatDate(startTime)} - ${formatDate(endTime)}`
     }
 
-    return "No limitations"
+    return "No limit"
   }, [deal])
 
   return (
