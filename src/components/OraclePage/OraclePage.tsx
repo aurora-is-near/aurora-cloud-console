@@ -1,28 +1,35 @@
 import Image from "next/image"
-import { OracleAboutTab } from "@/components/OraclePage/OracleAboutTab"
-import { OracleDeploymentTab } from "@/components/OraclePage/OracleDeploymentTab"
 import Hero from "@/components/Hero/Hero"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { DashboardPage } from "@/components/DashboardPage"
-import { OracleRequestDeploymentButton } from "@/components/OraclePage/OracleRequestDeploymentButton"
 import { AuroraOracle } from "@/types/oracle"
+import { AuroraOracleToken } from "@/types/aurora-oracle-api"
+import { OracleConfigurationTab } from "./OracleConfigurationTab"
+import { OracleRequestDeploymentButton } from "./OracleRequestDeploymentButton"
+import { OracleDeploymentTab } from "./OracleDeploymentTab"
+import { OracleAboutTab } from "./OracleAboutTab"
 
-const OraclePage = ({
-  teamKey,
-  siloId,
-  oracle,
-}: {
+type OraclePageProps = {
   teamKey: string
   siloId?: number
   oracle?: AuroraOracle | null
-}) => {
+  tokens?: AuroraOracleToken[]
+}
+
+const OraclePage = ({ teamKey, siloId, oracle, tokens }: OraclePageProps) => {
   const tabs = [{ title: "About", content: <OracleAboutTab /> }]
 
   if (oracle) {
-    tabs.push({
-      title: "Deployment",
-      content: <OracleDeploymentTab teamKey={teamKey} oracle={oracle} />,
-    })
+    tabs.push(
+      {
+        title: "Configuration",
+        content: <OracleConfigurationTab teamKey={teamKey} tokens={tokens} />,
+      },
+      {
+        title: "Deployment",
+        content: <OracleDeploymentTab teamKey={teamKey} oracle={oracle} />,
+      },
+    )
   }
 
   return (
