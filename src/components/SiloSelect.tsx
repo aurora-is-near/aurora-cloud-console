@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation"
 import { Listbox } from "@headlessui/react"
-import { ChevronDownIcon } from "@heroicons/react/20/solid"
+import { ChevronUpDownIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 import { Silo } from "@/types/types"
 
@@ -28,14 +28,14 @@ export const SiloSelect = ({ silos, defaultValue }: SiloSelectProps) => {
         }
       >
         <div className="relative">
-          <Listbox.Button className="relative w-full cursor-pointer rounded-lg border border-slate-200 bg-white p-2 text-left text-slate-900 group hover:bg-slate-100">
+          <Listbox.Button className="relative w-full cursor-pointer rounded-lg border border-slate-200 bg-white pl-3 pr-2 py-2 text-left font-medium text-slate-900 group hover:bg-slate-100 shadow-sm">
             <div className="flex items-center justify-between">
               <span className="block truncate">
                 {silos.find((silo) => silo.id === defaultValue)?.name ??
                   "Select silo"}
               </span>
               <div className="w-[30px] h-[30px] flex items-center justify-center">
-                <ChevronDownIcon
+                <ChevronUpDownIcon
                   className="h-5 w-5 text-gray-400 group-hover:text-slate-900"
                   aria-hidden="true"
                 />

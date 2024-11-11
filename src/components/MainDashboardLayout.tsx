@@ -42,7 +42,7 @@ export const MainDashboardLayout = async ({
           {
             items: [
               {
-                name: "Dashboard",
+                name: "Home",
                 href: `/dashboard/${teamKey}${siloPrefix}`,
                 icon: <HomeIcon />,
               },
@@ -61,7 +61,7 @@ export const MainDashboardLayout = async ({
                   ]
                 : []),
               {
-                name: "Gas Abstraction",
+                name: "Gas abstraction",
                 href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction`,
                 icon: <GasAbstraction />,
                 items: deals.map((deal) => ({
@@ -90,11 +90,11 @@ export const MainDashboardLayout = async ({
                 icon: <Onramp />,
                 items: [
                   {
-                    name: "Universal Widget",
+                    name: "Universal widget",
                     href: `/dashboard/${teamKey}${siloPrefix}/onramp/universal-widget`,
                   },
                   {
-                    name: "Fiat Onramp",
+                    name: "Fiat onramp",
                     href: `/dashboard/${teamKey}${siloPrefix}/onramp/fiat-to-crypto`,
                   },
                   {
@@ -108,7 +108,7 @@ export const MainDashboardLayout = async ({
                 ],
               },
               {
-                name: "Block Explorer",
+                name: "Block explorer",
                 href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
                 icon: <BlockExplorer />,
               },
