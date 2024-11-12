@@ -5,21 +5,27 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 
 import { Button } from "@/components/Button"
 import { getMunzenWidgetUrl } from "@/actions/widget-munzen/get-munzen-widget"
+import { ButtonSize } from "@/types/buttons"
+import { Silo } from "@/types/types"
 
 type MunzenWidgetOpenButtonProps = {
+  silo: Silo
   className?: string
+  size?: ButtonSize
 }
 
 export const MunzenWidgetOpenButton = ({
+  silo,
   className,
+  size,
 }: MunzenWidgetOpenButtonProps) => {
   const [widgetUrl, setWidgetUrl] = useState<undefined | string>()
 
   useEffect(() => {
-    getMunzenWidgetUrl()
+    getMunzenWidgetUrl(silo)
       .then((url) => setWidgetUrl(url))
       .catch(() => setWidgetUrl(undefined))
-  }, [])
+  }, [silo])
 
   const onClick = useCallback(() => {
     if (!widgetUrl) {
@@ -37,7 +43,7 @@ export const MunzenWidgetOpenButton = ({
 
   return (
     <Button
-      size="sm"
+      size={size}
       variant="border"
       disabled={!widgetUrl}
       className={className}
