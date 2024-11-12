@@ -4,7 +4,7 @@ const HeroContent: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
 }) => {
   return (
     <p
-      className="text-lg leading-[1.625rem] text-slate-500 tracking-tight font-medium"
+      className="text-lg leading-relaxed text-slate-500 tracking-tight font-medium"
       {...props}
     >
       {children}
