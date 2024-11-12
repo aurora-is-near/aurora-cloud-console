@@ -74,7 +74,7 @@ export const SidebarMenu = ({
                 key={section.heading ?? index}
               >
                 {section.heading && (
-                  <h3 className="text-slate-500 uppercase text-xs font-bold px-3 py-2.5">
+                  <h3 className="text-slate-500 uppercase text-xs font-bold tracking-[1.5px] px-3 py-2.5 mb-1">
                     {section.heading}
                   </h3>
                 )}
