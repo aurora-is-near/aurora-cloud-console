@@ -4,7 +4,7 @@ const HeroTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
 }) => {
   return (
     <h1
-      className="text-3xl font-bold text-slate-900 tracking-tighter"
+      className="text-4xl font-bold text-slate-900 tracking-tighter"
       {...props}
     >
       {children}

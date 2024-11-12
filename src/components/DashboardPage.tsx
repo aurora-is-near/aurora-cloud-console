@@ -61,7 +61,7 @@ export const DashboardPage = ({
               )}
             </div>
           )}
-          <div className="space-y-4 sm:space-y-5 flex flex-col flex-1">
+          <div className="flex flex-col flex-1 space-y-4 sm:space-y-5 mb-16">
             {children}
           </div>
         </BaseContainer>

@@ -140,7 +140,6 @@ const OTHER_INTEGRATIONS: OtherIntegration[] = [
   },
 ]
 
-const SECTION_CLASSNAME = "w-full pt-6 md:pt-10"
 const INTEGRATIONS_CONTAINER_CLASSNAME = "grid md:grid-cols-3 gap-4 mt-5"
 
 // The "Other integrations" section was removed. See:
@@ -185,6 +184,7 @@ export const IntegrationsPage = ({
   return (
     <DashboardPage>
       <Hero
+        hasDivider
         title="Integrations"
         description="Supercharge your chain with our marketplace. Boost user experience by covering gas fees and creating custom plans as part of your engagement strategy. Supercharge your chain with our marketplace. "
         image={
@@ -196,7 +196,7 @@ export const IntegrationsPage = ({
           />
         }
       />
-      <section className={SECTION_CLASSNAME}>
+      <section className="w-full">
         <SubTitle>Native integrations</SubTitle>
         <div className={INTEGRATIONS_CONTAINER_CLASSNAME}>
           {NATIVE_INTEGRATIONS.map(

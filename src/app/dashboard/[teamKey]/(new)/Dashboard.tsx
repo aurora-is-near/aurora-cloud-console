@@ -46,40 +46,42 @@ export const DashboardHomePage = ({
 
   return (
     <DashboardPage>
-      <div className="divide-y flex flex-col gap-y-8 lg:gap-y-10">
-        <Hero
-          title={!silo ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`}
-          description={getNetworkVariant(silo, {
-            none: "Get all the infrastructure and integrations needed to start your dApp. Validators, oracles, onramps—all come ready to be pre-configured on your chain, freeing up your time and resources to focus on what really matters: your dApp!",
-            devnet:
-              "You now have access to a shared Aurora Chain identical to production. Test transactions, explore integrations, and simulate real-world scenarios in a risk-free environment.",
-            mainnet:
-              "Welcome to your chain’s control center—monitor data, manage gas mechanics, and configure integrations effortlessly. Maintain control as you optimize performance and ensure smooth operations on the live network.",
-          })}
-          image={
-            <Image
-              width="180"
-              height="180"
-              src="/static/v2/images/heroIcons/cloud.png"
-              alt="Aurora Cloud"
-            />
-          }
-          actions={getNetworkVariant(silo, {
-            none: (
-              <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
-                <PlusIcon className="h-4 w-4" />
-                <span>Create Aurora Chain</span>
-              </LinkButton>
-            ),
-            devnet: (
-              <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
-                Upgrade to Mainnet
-              </LinkButton>
-            ),
-            mainnet: undefined,
-          })}
-        />
-        <div className="flex flex-col pt-12">
+      <Hero
+        hasDivider
+        title={!silo ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`}
+        description={getNetworkVariant(silo, {
+          none: "Get all the infrastructure and integrations needed to start your dApp. Validators, oracles, onramps—all come ready to be pre-configured on your chain, freeing up your time and resources to focus on what really matters: your dApp!",
+          devnet:
+            "You now have access to a shared Aurora Chain identical to production. Test transactions, explore integrations, and simulate real-world scenarios in a risk-free environment.",
+          mainnet:
+            "Welcome to your chain’s control center—monitor data, manage gas mechanics, and configure integrations effortlessly. Maintain control as you optimize performance and ensure smooth operations on the live network.",
+        })}
+        image={
+          <Image
+            width="180"
+            height="180"
+            src="/static/v2/images/heroIcons/cloud.png"
+            alt="Aurora Cloud"
+          />
+        }
+        actions={getNetworkVariant(silo, {
+          none: (
+            <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
+              <PlusIcon className="h-4 w-4" />
+              <span>Create Aurora Chain</span>
+            </LinkButton>
+          ),
+          devnet: (
+            <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
+              Upgrade to Mainnet
+            </LinkButton>
+          ),
+          mainnet: undefined,
+        })}
+      />
+
+      <section className="flex flex-col gap-14">
+        <div className="flex flex-col">
           <h2 className="text-xl text-slate-900 font-bold mb-6">
             Explore what you can do
           </h2>
@@ -155,7 +157,7 @@ export const DashboardHomePage = ({
           })}
         </div>
 
-        <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100 mt-6 lg:mt-9">
+        <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100">
           <div className="flex flex-col lg:flex-row justify-between">
             <div className="flex flex-col">
               <span className="text-green-900 text-xs font-bold uppercase tracking-widest">
@@ -179,7 +181,7 @@ export const DashboardHomePage = ({
 
           <FeatureList features={features} />
         </div>
-      </div>
+      </section>
     </DashboardPage>
   )
 }
