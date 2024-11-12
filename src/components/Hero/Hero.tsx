@@ -27,7 +27,7 @@ const Hero = ({
         hasDivider ? "border-b border-slate-200 mb-7" : "",
       )}
     >
-      <div className="flex flex-col gap-5 pt-9 max-w-[485px] h-[240px]">
+      <div className="flex flex-col gap-5 pt-9 max-w-[485px] min-h-[240px]">
         <HeroTitle>
           <div className="flex flex-row items-center gap-5">
             {titlePrefix}
