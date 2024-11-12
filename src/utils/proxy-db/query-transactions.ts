@@ -1,4 +1,3 @@
-import { TransactionDatabaseType } from "@/types/types"
 import { query } from "./query"
 
 type Params = {
@@ -7,13 +6,9 @@ type Params = {
 }
 
 const FROM_CLAUSE = "FROM tx_traces"
-const DEFAULT_CHART_INTERVAL = "6 MONTH"
 
-const getWhereClause = (chainIds: string[], { interval, dealId }: Params) => {
-  let whereClause =
-    chainIds.length === 1
-      ? `WHERE chain_id = '${chainIds[0]}'`
-      : `WHERE chain_id IN ('${chainIds.join("','")}')`
+const getWhereClause = (chainId: string, { interval, dealId }: Params) => {
+  let whereClause = `WHERE chain_id = '${chainId}'`
 
   if (interval) {
     whereClause += ` AND req_time >= current_date - INTERVAL '${interval}' AND req_time < current_date`
@@ -26,22 +21,18 @@ const getWhereClause = (chainIds: string[], { interval, dealId }: Params) => {
   return whereClause
 }
 
-export const queryTransactions = async (
-  transactionDatabase: TransactionDatabaseType,
-  chainIds: string[],
-  params: Params,
-) => {
-  const countWhereClause = getWhereClause(chainIds, params)
-  const chartWhereClause = getWhereClause(chainIds, {
+export const queryTransactions = async (chainId: string, params: Params) => {
+  const countWhereClause = getWhereClause(chainId, params)
+  const chartWhereClause = getWhereClause(chainId, {
     ...params,
-    interval: params.interval ?? DEFAULT_CHART_INTERVAL,
+    interval: params.interval,
   })
 
   return Promise.all([
     query<{
       count: number
     }>(
-      transactionDatabase,
+      chainId,
       `
         SELECT count("id")::int
         ${FROM_CLAUSE}
@@ -51,7 +42,7 @@ export const queryTransactions = async (
     query<{
       count: number
     }>(
-      transactionDatabase,
+      chainId,
       `
         SELECT count(*)::int
         FROM (
@@ -65,7 +56,7 @@ export const queryTransactions = async (
       day: string
       count: number
     }>(
-      transactionDatabase,
+      chainId,
       `
         SELECT date_trunc('day', "req_time") as "day", count(id)::int as count
         ${FROM_CLAUSE}
@@ -78,7 +69,7 @@ export const queryTransactions = async (
       day: string
       count: number
     }>(
-      transactionDatabase,
+      chainId,
       `
         SELECT date_trunc('day', "req_time") as "day", count(DISTINCT "from")::int as count
         ${FROM_CLAUSE}

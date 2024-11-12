@@ -1,25 +1,28 @@
 import { createApiEndpoint } from "@/utils/api"
-import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getDealKey } from "@/utils/proxy-api/get-deal-key"
 import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
-import { getTransactionData } from "../../../../utils/transactions"
-import { queryTransactions } from "../../../../utils/proxy-db/query-transactions"
+import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
+import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
+import { abort } from "../../../../../utils/abort"
+import { getTransactionData } from "../../../../../utils/transactions"
 
 export const GET = createApiEndpoint(
-  "getDealsTransactions",
+  "getSiloTransactions",
   async (req, ctx) => {
     const interval = req.nextUrl.searchParams.get("interval")
 
-    const [silos, deals] = await Promise.all([
-      getTeamSilos(ctx.team.id),
+    const [silo, deals] = await Promise.all([
+      getTeamSilo(ctx.team.id, Number(ctx.params.id)),
       getTeamDeals(ctx.team.id),
     ])
 
-    const chainIds = silos.map((silo) => silo.chain_id)
+    if (!silo) {
+      abort(404)
+    }
 
     const results = await Promise.all(
       deals.map(async (deal) =>
-        queryTransactions(ctx.team.transaction_database, chainIds, {
+        queryTransactions(silo.chain_id, {
           interval,
           dealId: await getDealKey(deal.id),
         }),
@@ -28,7 +31,7 @@ export const GET = createApiEndpoint(
 
     return {
       items: deals.map((deal, dealIndex) => ({
-        dealId: deal.id,
+        siloId: silo.id,
         data: getTransactionData(deal.name, results[dealIndex]),
       })),
     }

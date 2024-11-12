@@ -2181,6 +2181,306 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/silos/{id}/transactions": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`transactions:read\`",
+        "operationId": "getSiloTransactions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "interval",
+            "schema": {
+              "enum": [
+                "1 WEEK",
+                "1 MONTH",
+                "3 MONTH",
+              ],
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "data": {
+                            "properties": {
+                              "label": {
+                                "type": "string",
+                              },
+                              "transactionsCount": {
+                                "type": "number",
+                              },
+                              "transactionsPerDay": {
+                                "items": {
+                                  "properties": {
+                                    "count": {
+                                      "type": "number",
+                                    },
+                                    "day": {
+                                      "type": "string",
+                                    },
+                                  },
+                                  "required": [
+                                    "day",
+                                    "count",
+                                  ],
+                                  "type": "object",
+                                },
+                                "type": "array",
+                              },
+                              "walletsCount": {
+                                "type": "number",
+                              },
+                              "walletsPerDay": {
+                                "items": {
+                                  "properties": {
+                                    "count": {
+                                      "type": "number",
+                                    },
+                                    "day": {
+                                      "type": "string",
+                                    },
+                                  },
+                                  "required": [
+                                    "day",
+                                    "count",
+                                  ],
+                                  "type": "object",
+                                },
+                                "type": "array",
+                              },
+                            },
+                            "required": [
+                              "label",
+                              "transactionsCount",
+                              "walletsCount",
+                              "transactionsPerDay",
+                              "walletsPerDay",
+                            ],
+                            "type": "object",
+                          },
+                          "siloId": {
+                            "type": "number",
+                          },
+                        },
+                        "required": [
+                          "siloId",
+                          "data",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "transactions:read",
+            ],
+          },
+        ],
+        "summary": "Get transaction chart data for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/wallets": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`transactions:read\`",
+        "operationId": "getWallets",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "dealId",
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "firstTransactionAt": {
+                            "type": "string",
+                          },
+                          "lastTransactionAt": {
+                            "type": "string",
+                          },
+                          "numberOfTransactions": {
+                            "type": "number",
+                          },
+                          "walletAddress": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "walletAddress",
+                          "numberOfTransactions",
+                          "firstTransactionAt",
+                          "lastTransactionAt",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                    "total": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "total",
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "transactions:read",
+            ],
+          },
+        ],
+        "summary": "Get details of the wallets that have interacted with your silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/wallets/{address}": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`transactions:read\`",
+        "operationId": "getWallet",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "path",
+            "name": "address",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "dealId",
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "firstTransactionAt": {
+                      "type": "string",
+                    },
+                    "lastTransactionAt": {
+                      "type": "string",
+                    },
+                    "numberOfTransactions": {
+                      "type": "number",
+                    },
+                    "walletAddress": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "walletAddress",
+                    "numberOfTransactions",
+                    "firstTransactionAt",
+                    "lastTransactionAt",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "transactions:read",
+            ],
+          },
+        ],
+        "summary": "Get details of a single wallet that has interacted with your silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
     "/api/silos/{id}/widget": {
       "get": {
         "deprecated": undefined,
@@ -2414,661 +2714,6 @@ exports[`OpenAPI Document should be valid 1`] = `
         "summary": "Update the widget configuration for a silo",
         "tags": [
           "silos",
-        ],
-      },
-    },
-    "/api/transactions/deals": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`transactions:read\`",
-        "operationId": "getDealsTransactions",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "interval",
-            "schema": {
-              "enum": [
-                "1 WEEK",
-                "1 MONTH",
-                "3 MONTH",
-              ],
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "items": {
-                      "items": {
-                        "properties": {
-                          "data": {
-                            "properties": {
-                              "label": {
-                                "type": "string",
-                              },
-                              "transactionsCount": {
-                                "type": "number",
-                              },
-                              "transactionsPerDay": {
-                                "items": {
-                                  "properties": {
-                                    "count": {
-                                      "type": "number",
-                                    },
-                                    "day": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "day",
-                                    "count",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "walletsCount": {
-                                "type": "number",
-                              },
-                              "walletsPerDay": {
-                                "items": {
-                                  "properties": {
-                                    "count": {
-                                      "type": "number",
-                                    },
-                                    "day": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "day",
-                                    "count",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                            },
-                            "required": [
-                              "label",
-                              "transactionsCount",
-                              "walletsCount",
-                              "transactionsPerDay",
-                              "walletsPerDay",
-                            ],
-                            "type": "object",
-                          },
-                          "dealId": {
-                            "type": "number",
-                          },
-                        },
-                        "required": [
-                          "dealId",
-                          "data",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "array",
-                    },
-                  },
-                  "required": [
-                    "items",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "transactions:read",
-            ],
-          },
-        ],
-        "summary": "Get transaction chart data for all deals",
-        "tags": [
-          "transactions",
-        ],
-      },
-    },
-    "/api/transactions/deals/{id}": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`transactions:read\`",
-        "operationId": "getDealTransactions",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-          {
-            "in": "query",
-            "name": "interval",
-            "schema": {
-              "enum": [
-                "1 WEEK",
-                "1 MONTH",
-                "3 MONTH",
-              ],
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "items": {
-                      "items": {
-                        "properties": {
-                          "data": {
-                            "properties": {
-                              "label": {
-                                "type": "string",
-                              },
-                              "transactionsCount": {
-                                "type": "number",
-                              },
-                              "transactionsPerDay": {
-                                "items": {
-                                  "properties": {
-                                    "count": {
-                                      "type": "number",
-                                    },
-                                    "day": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "day",
-                                    "count",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "walletsCount": {
-                                "type": "number",
-                              },
-                              "walletsPerDay": {
-                                "items": {
-                                  "properties": {
-                                    "count": {
-                                      "type": "number",
-                                    },
-                                    "day": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "day",
-                                    "count",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                            },
-                            "required": [
-                              "label",
-                              "transactionsCount",
-                              "walletsCount",
-                              "transactionsPerDay",
-                              "walletsPerDay",
-                            ],
-                            "type": "object",
-                          },
-                          "dealId": {
-                            "type": "number",
-                          },
-                        },
-                        "required": [
-                          "dealId",
-                          "data",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "array",
-                    },
-                  },
-                  "required": [
-                    "items",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "transactions:read",
-            ],
-          },
-        ],
-        "summary": "Get transaction chart data for a single deal",
-        "tags": [
-          "transactions",
-        ],
-      },
-    },
-    "/api/transactions/silos": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`transactions:read\`",
-        "operationId": "getSilosTransactions",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "interval",
-            "schema": {
-              "enum": [
-                "1 WEEK",
-                "1 MONTH",
-                "3 MONTH",
-              ],
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "items": {
-                      "items": {
-                        "properties": {
-                          "data": {
-                            "properties": {
-                              "label": {
-                                "type": "string",
-                              },
-                              "transactionsCount": {
-                                "type": "number",
-                              },
-                              "transactionsPerDay": {
-                                "items": {
-                                  "properties": {
-                                    "count": {
-                                      "type": "number",
-                                    },
-                                    "day": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "day",
-                                    "count",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "walletsCount": {
-                                "type": "number",
-                              },
-                              "walletsPerDay": {
-                                "items": {
-                                  "properties": {
-                                    "count": {
-                                      "type": "number",
-                                    },
-                                    "day": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "day",
-                                    "count",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                            },
-                            "required": [
-                              "label",
-                              "transactionsCount",
-                              "walletsCount",
-                              "transactionsPerDay",
-                              "walletsPerDay",
-                            ],
-                            "type": "object",
-                          },
-                          "siloId": {
-                            "type": "number",
-                          },
-                        },
-                        "required": [
-                          "siloId",
-                          "data",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "array",
-                    },
-                  },
-                  "required": [
-                    "items",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "transactions:read",
-            ],
-          },
-        ],
-        "summary": "Get transaction chart data for all silos",
-        "tags": [
-          "transactions",
-        ],
-      },
-    },
-    "/api/transactions/silos/{id}": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`transactions:read\`",
-        "operationId": "getSiloTransactions",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-          {
-            "in": "query",
-            "name": "interval",
-            "schema": {
-              "enum": [
-                "1 WEEK",
-                "1 MONTH",
-                "3 MONTH",
-              ],
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "items": {
-                      "items": {
-                        "properties": {
-                          "data": {
-                            "properties": {
-                              "label": {
-                                "type": "string",
-                              },
-                              "transactionsCount": {
-                                "type": "number",
-                              },
-                              "transactionsPerDay": {
-                                "items": {
-                                  "properties": {
-                                    "count": {
-                                      "type": "number",
-                                    },
-                                    "day": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "day",
-                                    "count",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "walletsCount": {
-                                "type": "number",
-                              },
-                              "walletsPerDay": {
-                                "items": {
-                                  "properties": {
-                                    "count": {
-                                      "type": "number",
-                                    },
-                                    "day": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "day",
-                                    "count",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                            },
-                            "required": [
-                              "label",
-                              "transactionsCount",
-                              "walletsCount",
-                              "transactionsPerDay",
-                              "walletsPerDay",
-                            ],
-                            "type": "object",
-                          },
-                          "siloId": {
-                            "type": "number",
-                          },
-                        },
-                        "required": [
-                          "siloId",
-                          "data",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "array",
-                    },
-                  },
-                  "required": [
-                    "items",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "transactions:read",
-            ],
-          },
-        ],
-        "summary": "Get transaction chart data for a single silo",
-        "tags": [
-          "transactions",
-        ],
-      },
-    },
-    "/api/wallets": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`transactions:read\`",
-        "operationId": "getWallets",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "type": "number",
-            },
-          },
-          {
-            "in": "query",
-            "name": "offset",
-            "schema": {
-              "type": "number",
-            },
-          },
-          {
-            "in": "query",
-            "name": "dealId",
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "items": {
-                      "items": {
-                        "properties": {
-                          "firstTransactionAt": {
-                            "type": "string",
-                          },
-                          "lastTransactionAt": {
-                            "type": "string",
-                          },
-                          "numberOfTransactions": {
-                            "type": "number",
-                          },
-                          "walletAddress": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "walletAddress",
-                          "numberOfTransactions",
-                          "firstTransactionAt",
-                          "lastTransactionAt",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "array",
-                    },
-                    "total": {
-                      "type": "number",
-                    },
-                  },
-                  "required": [
-                    "total",
-                    "items",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "transactions:read",
-            ],
-          },
-        ],
-        "summary": "Get details of the wallets that have interacted with your silos",
-        "tags": [
-          "wallets",
-        ],
-      },
-    },
-    "/api/wallets/{address}": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`transactions:read\`",
-        "operationId": "getWallet",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "address",
-            "required": true,
-            "schema": {
-              "type": "string",
-            },
-          },
-          {
-            "in": "query",
-            "name": "dealId",
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "firstTransactionAt": {
-                      "type": "string",
-                    },
-                    "lastTransactionAt": {
-                      "type": "string",
-                    },
-                    "numberOfTransactions": {
-                      "type": "number",
-                    },
-                    "walletAddress": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "walletAddress",
-                    "numberOfTransactions",
-                    "firstTransactionAt",
-                    "lastTransactionAt",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "transactions:read",
-            ],
-          },
-        ],
-        "summary": "Get details of a single wallets that has interacted with your silos",
-        "tags": [
-          "wallets",
         ],
       },
     },

@@ -1,33 +1,31 @@
 import { createApiEndpoint } from "@/utils/api"
-import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
-import { getDealKey } from "@/utils/proxy-api/get-deal-key"
+import { getDealKeyFromSearchParams } from "@/utils/proxy-api/get-deal-key-from-search-params"
 import { abort } from "@/utils/abort"
 import { getWalletDetails } from "@/utils/wallets"
+import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { queryWallets } from "../../../../utils/proxy-db/query-users"
 
 export const GET = createApiEndpoint("getWallet", async (req, ctx) => {
-  const silos = await getTeamSilos(ctx.team.id)
-  const siloChainIds = silos.map((silo) => silo.chain_id)
   const { searchParams } = req.nextUrl
-  const dealId = searchParams.get("dealId")
-  const dealKey = dealId ? await getDealKey(Number(dealId)) : null
-  const walletAddress = searchParams.get("walletAddress")
-    ? decodeURIComponent(searchParams.get("walletAddress")!)
-    : null
+  const [silo, dealKey] = await Promise.all([
+    getTeamSilo(ctx.team.id, Number(ctx.params.id)),
+    getDealKeyFromSearchParams(searchParams),
+  ])
 
-  if (dealId && !dealKey) {
-    abort(400, "Invalid deal id")
+  if (!silo) {
+    abort(404)
   }
 
-  const result = await queryWallets(
-    ctx.team.transaction_database,
-    siloChainIds,
-    {
-      limit: 1,
-      dealKey,
-      walletAddress,
-    },
-  )
+  const walletAddressParam = searchParams.get("walletAddress")
+  const walletAddress = walletAddressParam
+    ? decodeURIComponent(walletAddressParam)
+    : null
+
+  const result = await queryWallets(silo.chain_id, {
+    limit: 1,
+    dealKey,
+    walletAddress,
+  })
 
   const [row] = result.rows
 

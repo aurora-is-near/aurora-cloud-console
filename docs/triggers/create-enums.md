@@ -40,15 +40,6 @@ SELECT add_values_to_enum(
 );
 
 SELECT add_values_to_enum(
-  'transaction_database_type',
-  ARRAY[
-    'AURORA',
-    'AURORA_DEMO',
-    'SILO'
-  ]
-);
-
-SELECT add_values_to_enum(
   'token_type',
   ARRAY[
     'ERC20',

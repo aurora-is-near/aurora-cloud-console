@@ -6,7 +6,6 @@ export const mockTeam: Team = {
   id: 1,
   name: "Mock Team",
   team_key: "mock-team",
-  transaction_database: "AURORA",
   updated_at: "2023-01-10T00:00:00.000Z",
   website: "https://example.com",
 }
