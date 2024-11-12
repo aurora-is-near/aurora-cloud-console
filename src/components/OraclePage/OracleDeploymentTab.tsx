@@ -21,6 +21,7 @@ export const OracleDeploymentTab = ({
     return (
       <TabCard>
         <NoDataCta
+          isTransparent
           title="Deployment pending"
           description="Your Oracle is being deployed. Please check back later, or contact support if you have any questions."
           Icon={RocketLaunchIcon}
