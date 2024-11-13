@@ -41,7 +41,7 @@ export const SidebarMenu = ({
       {/* Menu */}
       <aside
         className={clsx(
-          "flex inset-y-0 flex-col p-6 overflow-y-auto bg-white sm:border-r border-slate-200 w-full sm:w-72 sm:min-w-72 h-screen lg:transform-none transition ease-in-out duration-300",
+          "flex inset-y-0 flex-col p-6 overflow-y-auto bg-white sm:border-r border-slate-200 w-full sm:w-72 sm:min-w-72 h-full lg:transform-none transition ease-in-out duration-300",
           isMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
