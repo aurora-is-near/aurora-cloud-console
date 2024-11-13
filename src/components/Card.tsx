@@ -102,7 +102,7 @@ const Card = ({
   return (
     <Tag
       className={clsx(
-        "border border-slate-200",
+        "border border-slate-200 shadow-sm",
         {
           "rounded-[10px]": borderRadius === "md",
           "rounded-xl": borderRadius === "xl",

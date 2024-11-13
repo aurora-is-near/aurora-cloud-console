@@ -31,28 +31,30 @@ export const GasAbstractionPage = async ({
           />
         }
       />
-      {children}
-      <Contact
-        text={getNetworkVariant(silo, {
-          none: "Want to create your own plan?",
-          devnet: "Want to create your own plan?",
-          mainnet: "Need help configuring your plans?",
-        })}
-        description={getNetworkVariant(silo, {
-          none: "Set up devnet or mainnet chain on Aurora Cloud.",
-          devnet: "Upgrade your chain to mainnet.",
-          mainnet: "Reach out to our support team to get assistance.",
-        })}
-        teamKey={teamKey}
-        button={getNetworkVariant(silo, {
-          none: {
-            text: "Create chain",
-            href: `/dashboard/${teamKey}/create-chain`,
-          },
-          devnet: undefined,
-          mainnet: undefined,
-        })}
-      />
+      <div className="flex flex-col gap-14">
+        {children}
+        <Contact
+          text={getNetworkVariant(silo, {
+            none: "Want to create your own plan?",
+            devnet: "Want to create your own plan?",
+            mainnet: "Need help configuring your plans?",
+          })}
+          description={getNetworkVariant(silo, {
+            none: "Set up devnet or mainnet chain on Aurora Cloud.",
+            devnet: "Upgrade your chain to mainnet.",
+            mainnet: "Reach out to our support team to get assistance.",
+          })}
+          teamKey={teamKey}
+          button={getNetworkVariant(silo, {
+            none: {
+              text: "Create chain",
+              href: `/dashboard/${teamKey}/create-chain`,
+            },
+            devnet: undefined,
+            mainnet: undefined,
+          })}
+        />
+      </div>
     </DashboardPage>
   )
 }

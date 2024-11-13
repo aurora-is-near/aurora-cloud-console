@@ -24,17 +24,17 @@ const Contact = ({
   return (
     <section
       className={clsx(
-        "flex items-start justify-between gap-3 p-4 bg-gray-100 border border-gray-200 rounded-md sm:p-5 md:p-6 sm:items-center sm:gap-5",
+        "flex items-start justify-between gap-3 py-4 px-5 bg-slate-100 border border-slate-200 rounded-md sm:py-5 sm:px-6 md:py-6 md:px-7 sm:items-center sm:gap-5",
         className,
       )}
     >
-      <LifebuoyIcon className="flex-shrink-0 w-8 h-8 text-gray-500 sm:h-11 sm:w-11" />
+      <LifebuoyIcon className="flex-shrink-0 w-8 h-8 text-slate-500 sm:h-11 sm:w-11" />
       <div className="flex flex-col items-start justify-between flex-1 gap-y-3 sm:items-center sm:flex-row">
         <div>
-          <p className="text-base font-medium leading-none text-gray-900">
+          <p className="text-base font-medium leading-none text-slate-900">
             {text}
           </p>
-          <p className="mt-2 text-sm leading-5 text-gray-500">{description}</p>
+          <p className="mt-2 text-sm leading-5 text-slate-500">{description}</p>
         </div>
         {button ? (
           <LinkButton
