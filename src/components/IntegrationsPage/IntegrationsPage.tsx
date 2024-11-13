@@ -191,8 +191,9 @@ export const IntegrationsPage = ({
           <Image
             width="180"
             height="180"
-            src="/static/v2/images/heroIcons/integrations.png"
+            src="/static/v2/images/heroIcons/integrations.webp"
             alt="Aurora Cloud"
+            className="mr-16 shadow-xl rounded-[2rem]"
           />
         }
       />

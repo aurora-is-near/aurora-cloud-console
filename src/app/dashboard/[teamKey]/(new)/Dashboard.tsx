@@ -56,14 +56,34 @@ export const DashboardHomePage = ({
           mainnet:
             "Welcome to your chain’s control center—monitor data, manage gas mechanics, and configure integrations effortlessly. Maintain control as you optimize performance and ensure smooth operations on the live network.",
         })}
-        image={
-          <Image
-            width="180"
-            height="180"
-            src="/static/v2/images/heroIcons/cloud.png"
-            alt="Aurora Cloud"
-          />
-        }
+        image={getNetworkVariant(silo, {
+          none: (
+            <Image
+              width="180"
+              height="180"
+              src="/static/v2/images/heroIcons/cloud.webp"
+              alt="Aurora Cloud"
+            />
+          ),
+          mainnet: (
+            <Image
+              width="180"
+              height="180"
+              src="/static/v2/images/heroIcons/cloud.webp"
+              alt="Aurora Cloud"
+              className="mr-16 shadow-xl rounded-[2rem]"
+            />
+          ),
+          devnet: (
+            <Image
+              width="180"
+              height="180"
+              src="/static/v2/images/heroIcons/cloud.webp"
+              alt="Aurora Cloud"
+              className="mr-16 shadow-xl rounded-[2rem]"
+            />
+          ),
+        })}
         actions={getNetworkVariant(silo, {
           none: (
             <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">

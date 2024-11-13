@@ -72,8 +72,9 @@ const Page = async () => {
                       <Image
                         width={64}
                         height={64}
-                        src="/static/v2/images/heroIcons/cloud.png"
+                        src="/static/v2/images/heroIcons/cloud.webp"
                         alt="Aurora Cloud Console"
+                        className="mr-16 shadow-xl rounded-[2rem]"
                       />
                     </Card.Header>
                     <Card.Title size="large">{team.name}</Card.Title>
