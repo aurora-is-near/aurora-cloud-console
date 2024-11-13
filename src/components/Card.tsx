@@ -76,6 +76,7 @@ const Card = ({
   tag: Tag = "div",
   borderRadius = "md",
   isDisabled,
+  isClickable,
   children,
   ...rest
 }: {
@@ -83,6 +84,7 @@ const Card = ({
   tag?: keyof JSX.IntrinsicElements
   borderRadius?: "md" | "xl" | "2xl"
   isDisabled?: boolean
+  isClickable?: boolean
   children: ReactNode
   [key: string]: unknown
 }) => {
@@ -110,6 +112,9 @@ const Card = ({
           "p-5 md:p-6": !hasHeader,
         },
         isDisabled ? "bg-gray-100" : "bg-white",
+        isClickable
+          ? "transition-shadow transition-border-color hover:transition-shadow hover:transition-border-color hover:shadow-3xl hover:border-slate-300"
+          : "",
         className,
       )}
       {...rest}
