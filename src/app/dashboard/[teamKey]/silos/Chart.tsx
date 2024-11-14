@@ -21,8 +21,8 @@ const Chart = ({
   isLoading,
 }: ChartProps) => {
   return (
-    <Card className={className}>
-      <div className="p-3 space-y-5">
+    <Card className={clsx("md:py-5", className)}>
+      <div className="px-3 space-y-5">
         <div className="flex items-center justify-between">
           <h2 className="text-base leading-none font-medium text-gray-900 mb-2">
             {title}
@@ -34,7 +34,7 @@ const Chart = ({
           ) : null}
         </div>
 
-        <div className="w-full h-[250px] rounded-md relative">
+        <div className="w-full h-[170px] rounded-md relative">
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="opacity-80 bg-white w-full h-full absolute" />

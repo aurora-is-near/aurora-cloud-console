@@ -133,7 +133,7 @@ const TabCharts = <T extends number | string | null>({
           <Tab.Panels className="bg-white border border-gray-200 rounded-b-md">
             {tabs.map(({ title, chart, legend, value }) => (
               <Tab.Panel key={title}>
-                <div className="mx-4 mt-5 mb-5 md:mb-6 sm:mx-5 md:mx-6 h-[400px] relative">
+                <div className="mx-4 mt-5 mb-5 md:mb-6 sm:mx-5 md:mx-6 h-[200px] relative">
                   {hasError ? (
                     <p className="text-sm text-gray-500 h-full w-full flex items-center justify-center">
                       Sorry, something went wrong while loading the chart data
