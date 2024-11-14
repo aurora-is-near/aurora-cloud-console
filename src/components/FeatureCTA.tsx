@@ -29,7 +29,7 @@ export const FeatureCTA = ({
           className="rounded-t-xl overflow-hidden relative"
           style={{ aspectRatio: ASPECT_RATIO }}
         >
-          <Image unoptimized src={icon} fill alt={title} />
+          <Image src={icon} fill alt={title} />
         </div>
         <div className="p-5">
           <div className="flex flex-col justify-center items-center">
