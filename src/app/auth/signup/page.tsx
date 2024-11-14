@@ -7,7 +7,7 @@ const Page = () => {
       <AuthHeading className="mb-5 text-2xl lg:text-5xl">
         Create account
       </AuthHeading>
-      <span className="text-base text-slate-400 mb-5 max-w-sm text-center">
+      <span className="text-base text-slate-400 mb-9 max-w-sm text-center">
         You are one step away from exploring infrastructure and integrations
         available on Aurora Cloud.
       </span>

@@ -86,13 +86,11 @@ const LoginForm = () => {
     })
   }, [setError])
 
-  const error = errors.email ?? errors.root
-
   return (
     <AuthForm
       onSubmit={handleSubmit(signIn)}
-      submitButtonText="Sign in"
-      errorMessage={error?.message}
+      submitButtonText="Send sign-in link"
+      errorMessage={errors.root?.message}
       isSubmitting={isSubmitting}
       footer={{
         text: "New to Aurora Cloud?",
@@ -107,6 +105,7 @@ const LoginForm = () => {
         label="Email address"
         register={register}
         registerOptions={{ required: true }}
+        errorMessage={errors.email?.message}
         autoComplete="email"
       />
     </AuthForm>
