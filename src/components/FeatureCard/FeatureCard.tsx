@@ -33,7 +33,7 @@ export const FeatureCard = ({
   link,
 }: FeatureCardProps) => {
   return (
-    <Card borderRadius="xl">
+    <Card isClickable={!!link} borderRadius="xl">
       <Wrapper link={link}>
         <div className="flex flex-row items-start justify-around gap-4">
           <div className="max-w-fit w-fit">{icon}</div>

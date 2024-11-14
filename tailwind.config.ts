@@ -8,6 +8,9 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-circular)", ...defaultTheme.fontFamily.sans],
       },
+      boxShadow: {
+        "3xl": "0px 2px 14px 0px #0000001A",
+      },
       colors: {
         green: {
           50: "rgb(var(--green-50) / <alpha-value>)", // #F3FEF3
