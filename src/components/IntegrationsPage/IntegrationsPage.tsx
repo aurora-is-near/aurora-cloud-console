@@ -186,7 +186,7 @@ export const IntegrationsPage = ({
       <Hero
         hasDivider
         title="Integrations"
-        description="Supercharge your chain with our marketplace. Boost user experience by covering gas fees and creating custom plans as part of your engagement strategy. Supercharge your chain with our marketplace. "
+        description="Aurora Chains come with built-in integrations, providing a production-ready environment from day one. Plus, explore additional integrations to supercharge your Virtual Chain."
         image={
           <Image
             width="180"

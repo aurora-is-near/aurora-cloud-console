@@ -47,6 +47,7 @@ const Page = async () => {
       <DashboardPage
         heading="Your teams"
         headingSize="lg"
+        className="pt-12"
         actions={
           isAdminUser ? (
             <LinkButton href="/dashboard/new">

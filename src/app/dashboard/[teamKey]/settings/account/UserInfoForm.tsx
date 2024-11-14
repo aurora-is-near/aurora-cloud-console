@@ -141,7 +141,10 @@ const UserInfoForm = ({
     >
       <Card>
         {showForm ? (
-          <form onSubmit={handleSubmit(updateUser)} className="space-y-4">
+          <form
+            onSubmit={handleSubmit(updateUser)}
+            className="flex flex-col gap-4"
+          >
             <HorizontalInput
               id="name"
               name="name"

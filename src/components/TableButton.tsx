@@ -23,7 +23,8 @@ const TableButton = ({
       type={href ? undefined : "button"}
       href={href}
       className={clsx(
-        "border p-2.5 rounded-lg",
+        "border p-1.5 rounded-lg",
+        "hover:bg-slate-200 hover:border-slate-200",
         disabled
           ? "text-slate-500 bg-slate-200 cursor-not-allowed border-transparent"
           : "text-slate-900 hover:border-slate-600 border-slate-400",
@@ -32,7 +33,7 @@ const TableButton = ({
       disabled={disabled}
     >
       <span className="sr-only">{srOnlyText}</span>
-      <Icon className="w-4 h-4" />
+      <Icon className={"w-4 h-4"} />
     </Component>
   )
 }
