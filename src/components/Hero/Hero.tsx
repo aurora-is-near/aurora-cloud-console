@@ -23,7 +23,7 @@ const Hero = ({
   return (
     <div
       className={clsx(
-        "flex flex-row gap-2 justify-between items-center pt-3 pb-5",
+        "flex flex-row gap-6 justify-between items-center pt-3 pb-5",
         hasDivider ? "border-b border-slate-200 mb-7" : "",
       )}
     >

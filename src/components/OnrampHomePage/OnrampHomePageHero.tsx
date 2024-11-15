@@ -11,8 +11,9 @@ export const OnrampHomePageHero = () => {
         <Image
           width="180"
           height="180"
-          src="/static/v2/images/heroIcons/gas.png"
+          src="/static/v2/images/heroIcons/onramp.webp"
           alt="Aurora Cloud"
+          className="mr-16 shadow-xl rounded-[2rem]"
         />
       }
     />
