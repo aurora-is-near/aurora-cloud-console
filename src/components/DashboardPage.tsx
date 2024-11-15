@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import { DetailedHTMLProps, FormHTMLAttributes, ReactNode } from "react"
 import BreadcrumbHeading from "@/components/BreadcrumbHeading"
 import Heading from "@/components/Heading"
@@ -11,6 +12,7 @@ type DashboardPageProps = {
   actions?: ReactNode
   footer?: ReactNode
   banner?: ReactNode
+  className?: string
 } & (
   | {
       isForm: true
@@ -35,11 +37,12 @@ export const DashboardPage = ({
   actions,
   isForm,
   formProps,
+  className,
   banner,
 }: DashboardPageProps) => {
   const content = (
     <>
-      <main className="overflow-auto flex-1">
+      <main className={clsx("overflow-auto flex-1", className)}>
         <Toaster />
         {banner && (
           <BaseContainer className="w-full bg-white shadow">
@@ -48,7 +51,7 @@ export const DashboardPage = ({
         )}
         <BaseContainer className="relative flex flex-col">
           {heading && (
-            <div className="flex justify-between items-center mb-5">
+            <div className="flex justify-between items-center mb-6">
               {typeof heading === "string" ? (
                 <Heading tag="h1" size={headingSize}>
                   {heading}

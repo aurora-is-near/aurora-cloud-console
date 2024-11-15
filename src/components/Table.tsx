@@ -54,7 +54,7 @@ const TD = ({
   <td
     onClick={onClick}
     className={clsx(
-      "px-3 py-4 text-sm leading-none",
+      "px-3 py-1.5 text-sm leading-none",
       dark ? "font-medium text-slate-900" : "text-slate-500",
       isLink && "group-hover:underline",
       {
