@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "Checking target git branch...\n"
+.husky/git-hooks/no-main-push.sh
