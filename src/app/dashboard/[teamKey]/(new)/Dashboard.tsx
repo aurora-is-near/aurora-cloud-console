@@ -102,7 +102,7 @@ export const DashboardHomePage = ({
 
       <section className="flex flex-col gap-14">
         <div className="flex flex-col">
-          <h2 className="text-xl text-slate-900 font-bold mb-6">
+          <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
             Explore what you can do
           </h2>
 
@@ -183,9 +183,9 @@ export const DashboardHomePage = ({
               <span className="text-green-900 text-xs font-bold uppercase tracking-widest">
                 Aurora Labs
               </span>
-              <span className="font-bold text-slate-900 text-xl tracking-tighter">
+              <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6">
                 Your dedicated development team
-              </span>
+              </h2>
             </div>
 
             <LinkButton
