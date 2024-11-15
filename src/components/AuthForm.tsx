@@ -42,7 +42,7 @@ export const AuthForm = ({
       </div>
 
       {footer && (
-        <div className="p-4 w-full flex flex-row gap-2 justify-center items-center">
+        <div className="p-6 w-full flex flex-row gap-2 justify-center items-center">
           <span className="text-slate-400">{footer.text}</span>
           <Link href={footer.link}>
             <span className="text-green-400 hover:underline">

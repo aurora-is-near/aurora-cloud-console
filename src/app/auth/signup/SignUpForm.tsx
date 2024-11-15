@@ -65,13 +65,11 @@ export const SignUpForm = () => {
     router.push(`${LINK_SENT_ROUTE}?${searchParams}`)
   }
 
-  const error = errors.email ?? errors.root
-
   return (
     <AuthForm
       onSubmit={handleSubmit(signUp)}
       submitButtonText="Sign up"
-      errorMessage={error?.message}
+      errorMessage={errors.root?.message}
       isSubmitting={isSubmitting}
       footer={{
         text: "Already have an account?",
@@ -86,6 +84,7 @@ export const SignUpForm = () => {
         label="Email address"
         register={register}
         registerOptions={{ required: true }}
+        errorMessage={errors.email?.message}
         autoComplete="email"
       />
       <AuthInput
@@ -95,6 +94,7 @@ export const SignUpForm = () => {
         label="Full name"
         register={register}
         registerOptions={{ required: true }}
+        errorMessage={errors.name?.message}
       />
       <AuthInput
         required
@@ -103,6 +103,7 @@ export const SignUpForm = () => {
         label="Company name"
         register={register}
         registerOptions={{ required: true }}
+        errorMessage={errors.company?.message}
       />
 
       <div className="flex items-start ">

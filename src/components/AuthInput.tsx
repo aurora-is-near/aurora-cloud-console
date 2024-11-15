@@ -7,6 +7,7 @@ export type AuthInputProps<Inputs extends Record<string, unknown>> =
     name: Path<Inputs>
     label: string
     className?: string
+    errorMessage?: string
     register?: UseFormRegister<Inputs>
     registerOptions?: RegisterOptions<Inputs, Path<Inputs>>
   }
@@ -18,6 +19,7 @@ export const AuthInput = <Inputs extends Record<string, unknown>>({
   className,
   register,
   registerOptions,
+  errorMessage,
   ...restProps
 }: AuthInputProps<Inputs>) => (
   <div className={className}>
@@ -31,5 +33,8 @@ export const AuthInput = <Inputs extends Record<string, unknown>>({
       {...restProps}
       {...register?.(name, registerOptions)}
     />
+    {errorMessage ? (
+      <p className="text-sm text-rose-300 pt-2">{errorMessage}</p>
+    ) : null}
   </div>
 )
