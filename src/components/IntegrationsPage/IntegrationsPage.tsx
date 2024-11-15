@@ -35,7 +35,7 @@ export const IntegrationsPage = ({
 }) => {
   const { address: oracleAddress } = oracle?.contract ?? {}
 
-  const NATIVE_INTEGRATIONS: Integration[] = [
+  const nativeIntegrations: Integration[] = [
     {
       title: "Universal widget",
       description:
@@ -113,7 +113,7 @@ export const IntegrationsPage = ({
       <section className="w-full">
         <SubTitle>Native integrations</SubTitle>
         <div className={INTEGRATIONS_CONTAINER_CLASSNAME}>
-          {NATIVE_INTEGRATIONS.map(
+          {nativeIntegrations.map(
             ({ title, description, icon, checked, link }) => (
               <FeatureCard
                 key={title}
