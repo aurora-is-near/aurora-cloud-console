@@ -72,6 +72,7 @@ type ErrorName =
 
 class FormValidationError extends Error {
   name: ErrorName
+
   cause: unknown = null
 
   constructor(name: ErrorName, message: string, options?: ErrorOptions) {
@@ -122,6 +123,7 @@ export const useChainCreationForm = (team: Team) => {
   const handleSubmit = useCallback(async () => {
     if (!form.chainName) {
       setFieldErrors((p) => ({ ...p, chainName: "Please enter a chain name" }))
+
       return
     }
 

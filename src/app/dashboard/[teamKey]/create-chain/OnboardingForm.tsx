@@ -4,10 +4,10 @@ import clsx from "clsx"
 import { useState } from "react"
 import toast from "react-hot-toast"
 import {
+  FormTokenNotFoundError,
   integrationOptions,
   tokenOptions,
   useChainCreationForm,
-  FormTokenNotFoundError,
 } from "@/hooks/useChainCreationForm"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { Button } from "@/components/Button"
@@ -84,10 +84,12 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
 
       if (error instanceof FormTokenNotFoundError) {
         toast.error("Something went wrong. Please try again.")
+
         return
       }
 
       toast.error("Something went wrong. Please try again.")
+
       return
     }
 
