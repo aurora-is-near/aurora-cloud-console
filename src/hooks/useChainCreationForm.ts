@@ -16,6 +16,7 @@ import {
   DEVNET_GENESIS,
   DEVNET_RPC_URL,
 } from "@/constants/devnet"
+import { notReachable } from "@/utils/notReachable"
 import { getTokens } from "@/actions/tokens/get-tokens"
 import { upsertSilo } from "@/actions/silos/upsert-silo"
 import {
@@ -54,11 +55,22 @@ interface ChainCreationForm {
   comments: string
 }
 
-const initialForm: ChainCreationForm = {
+const initialFormDevNet: ChainCreationForm = {
   networkType: "devnet",
   chainPermission: "public_permissioned",
   baseToken: "aurora",
   gasMechanics: "free",
+  integrations: [],
+  chainName: "",
+  chainId: "",
+  comments: "",
+}
+
+const initialFormMailNet: ChainCreationForm = {
+  networkType: "mainnet",
+  chainPermission: null,
+  baseToken: null,
+  gasMechanics: null,
   integrations: [],
   chainName: "",
   chainId: "",
@@ -88,8 +100,23 @@ export class FormTokenNotFoundError extends FormValidationError {
   }
 }
 
-export const useChainCreationForm = (team: Team) => {
-  const [form, setForm] = useState<ChainCreationForm>(initialForm)
+export const useChainCreationForm = (
+  team: Team,
+  networkTypeSelected: NetworkType,
+) => {
+  const [form, setForm] = useState<ChainCreationForm>(
+    (() => {
+      switch (networkTypeSelected) {
+        case "devnet":
+          return initialFormDevNet
+        case "mainnet":
+          return initialFormMailNet
+        default:
+          return notReachable(networkTypeSelected)
+      }
+    })(),
+  )
+
   const [fieldErrors, setFieldErrors] =
     useState<{ [key in keyof Partial<ChainCreationForm>]: string }>()
 

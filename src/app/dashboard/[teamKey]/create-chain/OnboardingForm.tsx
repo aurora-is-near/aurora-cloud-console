@@ -44,7 +44,7 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
     handleDeselectAllIntegrations,
     handleSubmit,
     submitButtonText,
-  } = useChainCreationForm(team)
+  } = useChainCreationForm(team, hasDevNet ? "mainnet" : "devnet")
 
   const isDevnet = form.networkType === "devnet"
 
