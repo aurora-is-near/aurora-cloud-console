@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import Link from "next/link"
 import {
   ArrowLeftIcon,
   BuildingLibraryIcon,
@@ -26,10 +27,12 @@ const Layout = async ({
       sidebarMenu={{
         heading: "Settings",
         action: (
-          <Button variant="border" size="lg">
-            <ArrowLeftIcon className="w-6 h-6 absolute left-4" />
-            Back to dashboard
-          </Button>
+          <Link href={`/dashboard/${teamKey}`}>
+            <Button fullWidth variant="border" size="lg">
+              <ArrowLeftIcon className="w-6 h-6 absolute left-4" />
+              Back to dashboard
+            </Button>
+          </Link>
         ),
         sections: [
           {

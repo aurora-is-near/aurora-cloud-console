@@ -8,7 +8,7 @@ import { Modals } from "@/utils/modals"
 import Table from "@/components/Table"
 import { NoDataCta } from "@/components/NoDataCta"
 import { ApiKey } from "@/types/types"
-import { Button } from "@/components/Button"
+import TableButton from "@/components/TableButton"
 import AddApiKeyButton from "./AddApiKeyButton"
 
 type ApiKeysTableProps = {
@@ -76,22 +76,20 @@ export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
                 : "Never"}
             </Table.TD>
             <Table.TD align="right">
-              <Button
-                variant="border"
-                onClick={() => {
+              <TableButton
+                Icon={PencilSquareIcon}
+                srOnlyText="Edit key"
+                onClick={async () => {
                   void onEditClick(apiKey.id)
                 }}
-              >
-                <PencilSquareIcon className="h-4 w-4 text-slate-900" />
-              </Button>
-              <Button
-                variant="border"
-                onClick={() => {
+              />
+              <TableButton
+                Icon={TrashIcon}
+                srOnlyText="Delete key"
+                onClick={async () => {
                   void onDeleteClick(apiKey.id)
                 }}
-              >
-                <TrashIcon className="h-4 w-4 text-slate-900" />
-              </Button>
+              />
             </Table.TD>
           </Table.TR>
         )
