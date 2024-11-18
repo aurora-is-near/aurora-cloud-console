@@ -46,7 +46,7 @@ const ChainTypeBox: React.FC<ChainTypeBoxProps> = ({
       disabled={disabled}
     >
       <div className="flex flex-row justify-between items-start w-full">
-        <h3 className="font-semibold mb-2 text-slate-900 text-xl tracking-tight">
+        <h3 className="font-bold mb-2 text-slate-900 text-xl tracking-tight leading-6">
           {title}
         </h3>
         <Label type={type === "devnet" ? "free" : "enterprise"} />

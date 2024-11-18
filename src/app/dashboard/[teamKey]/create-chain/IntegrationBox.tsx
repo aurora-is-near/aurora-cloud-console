@@ -1,7 +1,8 @@
 import { ComponentType } from "react"
-import { Toggle } from "@/components/Toggle"
-import Card from "@/components/Card"
+
+import SelectableBox from "@/components/onboarding/SelectableBox"
 import { Integration } from "@/types/chain-creation"
+
 import {
   IntegrationBridgeWidget,
   IntegrationCexWithdrawalsWidget,
@@ -21,17 +22,17 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
   onToggle,
 }) => {
   const TITLES: Record<Integration, string> = {
-    onramp: "Onramp",
+    onramp: "Fiat to crypto",
     oracle: "Oracle",
-    bridge_widget: "Bridge Widget",
-    cex_withdrawals_widget: "CEX Withdrawals Widget",
+    bridge_widget: "Bridge widget",
+    cex_withdrawals_widget: "CEX withdrawals",
   }
 
   const DESCRIPTIONS: Record<Integration, string> = {
     onramp:
-      "Enable your users to onramp from fiat to crypto directly on your chain.",
+      "Enable your users to onramp from fiat to crypto directly on your silo.",
     oracle:
-      "Fuel your smart contracts with reliable, low-latency market data from institutional sources.",
+      "Access reliable data from over 95 top publishers and integrate precise pricing data.",
     bridge_widget:
       "Attract liquidity by enabling bridging from other chains and transfers from CEXes to your chain.",
     cex_withdrawals_widget:
@@ -51,21 +52,21 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
   const Icon = ICONS[integration]
 
   return (
-    <Card className="w-full p-4">
-      <div className="flex items-center mb-2">
+    <SelectableBox
+      selected={isEnabled}
+      onClick={onToggle}
+      className="w-full p-6"
+    >
+      <div className="flex flex-col mb-2">
         {Icon && <Icon className="w-14 h-10" />}
-        <div className="w-full px-3">
-          <h3 className="font-semibold text-xl text-slate-900 tracking-tighter">
+        <div className="w-full mt-4">
+          <h3 className="font-bold text-lg leading-6 text-slate-900 mb-1">
             {TITLES[integration]}
           </h3>
           <p className="text-sm text-slate-700">{DESCRIPTIONS[integration]}</p>
         </div>
-
-        <div className="flex items-center gap-4">
-          <Toggle checked={isEnabled} onChange={onToggle} />
-        </div>
       </div>
-    </Card>
+    </SelectableBox>
   )
 }
 

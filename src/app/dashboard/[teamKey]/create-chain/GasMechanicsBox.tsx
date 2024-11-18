@@ -62,7 +62,9 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
         >
           {Icon && <Icon className="w-4 h-4" />}
         </div>
-        <h3 className="font-semibold text-lg">{TITLES[mechanic]}</h3>
+        <h3 className="font-bold text-lg leading-6 text-slate-900">
+          {TITLES[mechanic]}
+        </h3>
       </div>
       <p className="text-sm text-slate-700">{DESCRIPTIONS[mechanic]}</p>
     </SelectableBox>

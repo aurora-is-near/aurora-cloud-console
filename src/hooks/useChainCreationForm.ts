@@ -55,18 +55,42 @@ interface ChainCreationForm {
 }
 
 const initialForm: ChainCreationForm = {
-  networkType: null,
-  chainPermission: null,
-  baseToken: null,
-  gasMechanics: null,
+  networkType: "devnet",
+  chainPermission: "public_permissioned",
+  baseToken: "aurora",
+  gasMechanics: "free",
   integrations: [],
   chainName: "",
   chainId: "",
   comments: "",
 }
 
+type ErrorName =
+  | "UNKNOWN_VALIDATION_ERROR"
+  | "TOKEN_NOT_FOUND"
+  | "CHAIN_NAME_NOT_SET"
+
+class FormValidationError extends Error {
+  name: ErrorName
+  cause: unknown = null
+
+  constructor(name: ErrorName, message: string, options?: ErrorOptions) {
+    super(message)
+    this.name = name
+    this.cause = options?.cause ?? null
+  }
+}
+
+export class FormTokenNotFoundError extends FormValidationError {
+  constructor(options?: ErrorOptions) {
+    super("TOKEN_NOT_FOUND", "Aurora token not found", options)
+  }
+}
+
 export const useChainCreationForm = (team: Team) => {
   const [form, setForm] = useState<ChainCreationForm>(initialForm)
+  const [fieldErrors, setFieldErrors] =
+    useState<{ [key in keyof Partial<ChainCreationForm>]: string }>()
 
   const updateForm = <K extends keyof ChainCreationForm>(
     field: K,
@@ -91,7 +115,16 @@ export const useChainCreationForm = (team: Team) => {
     }))
   }, [])
 
+  const clearErrors = useCallback(() => {
+    setFieldErrors(undefined)
+  }, [])
+
   const handleSubmit = useCallback(async () => {
+    if (!form.chainName) {
+      setFieldErrors((p) => ({ ...p, chainName: "Please enter a chain name" }))
+      return
+    }
+
     await saveOnboardingForm({
       ...form,
       team_id: team.id,
@@ -101,7 +134,7 @@ export const useChainCreationForm = (team: Team) => {
     const token = tokens.find((t) => t.symbol === "AURORA")
 
     if (!token) {
-      throw new Error("Aurora token not found")
+      throw new FormTokenNotFoundError()
     }
 
     // Note that an upsert is used here in case the user somehow submits the
@@ -133,11 +166,13 @@ export const useChainCreationForm = (team: Team) => {
 
   const submitButtonText =
     form.networkType === "mainnet"
-      ? "Book a call with the Aurora team"
+      ? "Save my results and book a call"
       : "Deploy now"
 
   return {
     form,
+    fieldErrors,
+    clearErrors,
     updateForm,
     handleIntegrationToggle,
     handleDeselectAllIntegrations,
