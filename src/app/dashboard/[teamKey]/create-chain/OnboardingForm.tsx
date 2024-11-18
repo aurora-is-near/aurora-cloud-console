@@ -52,6 +52,7 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
     updateForm("networkType", type)
 
     if (type === "devnet") {
+      updateForm("chainName", "Devnet")
       updateForm("chainPermission", "public_permissioned")
       updateForm("baseToken", "aurora")
       updateForm("gasMechanics", "free")
@@ -228,45 +229,45 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
               ))}
             </div>
           </Step>
-          <Step
-            number={6}
-            title="Name your chain"
-            description="Unique identifiers will primarily be relevant for internal use to ensure distinction between your chain deployments."
-            hasError={!!fieldErrors?.chainName}
-          >
-            <div className="grid grid-cols-1 space-y-4">
-              <Card className="p-6">
-                <label
-                  htmlFor="chainName"
-                  className="block font-medium text-md"
-                >
-                  Desired chain name *
-                </label>
-                <p className="text-sm text-slate-500">
-                  Choose the name for your chain on the Aurora Cloud platform.
-                </p>
-                <input
-                  type="text"
-                  id="chainName"
-                  value={form.chainName}
-                  onChange={(e) => {
-                    clearErrors()
-                    updateForm("chainName", e.target.value)
-                  }}
-                  className={clsx(
-                    "w-full mt-2 p-2 border rounded",
-                    fieldErrors?.chainName
-                      ? "border-rose-300 bg-rose-50"
-                      : "border-slate-300",
-                  )}
-                />
-                {fieldErrors?.chainName ? (
-                  <p className="mt-2 text-sm text-rose-600">
-                    {fieldErrors.chainName}
+          {!isDevnet ? (
+            <Step
+              number={6}
+              title="Name your chain"
+              description="Unique identifiers will primarily be relevant for internal use to ensure distinction between your chain deployments."
+              hasError={!!fieldErrors?.chainName}
+            >
+              <div className="grid grid-cols-1 space-y-4">
+                <Card className="p-6">
+                  <label
+                    htmlFor="chainName"
+                    className="block font-medium text-md"
+                  >
+                    Desired chain name *
+                  </label>
+                  <p className="text-sm text-slate-500">
+                    Choose the name for your chain on the Aurora Cloud platform.
                   </p>
-                ) : null}
-              </Card>
-              {!isDevnet && (
+                  <input
+                    type="text"
+                    id="chainName"
+                    value={form.chainName}
+                    onChange={(e) => {
+                      clearErrors()
+                      updateForm("chainName", e.target.value)
+                    }}
+                    className={clsx(
+                      "w-full mt-2 p-2 border rounded",
+                      fieldErrors?.chainName
+                        ? "border-rose-300 bg-rose-50"
+                        : "border-slate-300",
+                    )}
+                  />
+                  {fieldErrors?.chainName ? (
+                    <p className="mt-2 text-sm text-rose-600">
+                      {fieldErrors.chainName}
+                    </p>
+                  ) : null}
+                </Card>
                 <Card className="p-6">
                   <label
                     htmlFor="comments"
@@ -286,19 +287,20 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
                     rows={4}
                   />
                 </Card>
-              )}
-            </div>
+              </div>
+            </Step>
+          ) : null}
 
+          <div className="pl-14 mb-16">
             <Button
               fullWidth
               size="xl"
-              className="my-16"
               loading={isSubmitting}
               onClick={handleOnboardingSubmit}
             >
               {submitButtonText}
             </Button>
-          </Step>
+          </div>
           <div className="absolute top-[calc(2rem+10px)] left-[19px] w-[2px] h-[calc(100%-2rem-10px)] bg-slate-200" />
         </div>
       </BaseContainer>

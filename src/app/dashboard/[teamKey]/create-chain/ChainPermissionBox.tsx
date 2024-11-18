@@ -58,13 +58,19 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
       <div className="flex items-center mb-2">
         <div
           className={clsx(
-            "bg-gray-100 p-1 rounded-full mr-2",
-            selected ? "text-slate-50 bg-slate-900" : "text-slate-900",
+            "w-6 h-6 p-1 rounded-full mr-2 flex items-center justify-center",
+            selected ? "text-slate-50 bg-slate-900" : "bg-slate-200",
+            disabled ? "bg-slate-200 text-slate-500" : "bg-gray-100",
           )}
         >
           {Icon && <Icon />}
         </div>
-        <h3 className="font-bold text-slate-900 text-xl tracking-tight leading-6">
+        <h3
+          className={clsx(
+            "font-bold text-xl tracking-tight leading-6",
+            disabled ? "text-slate-500" : "text-slate-900",
+          )}
+        >
           {TITLES[permission]}
         </h3>
       </div>

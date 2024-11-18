@@ -60,7 +60,7 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
       <div className="flex flex-col mb-2">
         {Icon && <Icon className="w-14 h-10" />}
         <div className="w-full mt-4">
-          <h3 className="font-bold text-lg leading-6 text-slate-900 mb-1">
+          <h3 className="font-bold text-slate-900 text-xl tracking-tight leading-6 mb-1">
             {TITLES[integration]}
           </h3>
           <p className="text-sm text-slate-700">{DESCRIPTIONS[integration]}</p>
