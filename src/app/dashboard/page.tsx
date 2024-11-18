@@ -68,7 +68,7 @@ const Page = async () => {
                   href={`/dashboard/${team.team_key}${siloPrefix}`}
                   className="flex w-full"
                 >
-                  <Card className="w-full">
+                  <Card isClickable className="w-full">
                     <Card.Header>
                       <Image
                         width={64}
