@@ -85,13 +85,7 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
 
       if (error instanceof FormTokenNotFoundError) {
         toast.error("Something went wrong. Please try again.")
-
-        return
       }
-
-      toast.error("Something went wrong. Please try again.")
-
-      return
     }
 
     setIsSubmitting(false)

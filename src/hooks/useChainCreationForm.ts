@@ -66,7 +66,7 @@ const initialFormDevNet: ChainCreationForm = {
   comments: "",
 }
 
-const initialFormMailNet: ChainCreationForm = {
+const initialFormMainNet: ChainCreationForm = {
   networkType: "mainnet",
   chainPermission: null,
   baseToken: null,
@@ -110,7 +110,7 @@ export const useChainCreationForm = (
         case "devnet":
           return initialFormDevNet
         case "mainnet":
-          return initialFormMailNet
+          return initialFormMainNet
         default:
           return notReachable(networkTypeSelected)
       }
