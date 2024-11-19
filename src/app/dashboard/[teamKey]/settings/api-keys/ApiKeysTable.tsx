@@ -79,14 +79,14 @@ export const ApiKeysTable = ({ apiKeys }: ApiKeysTableProps) => {
               <TableButton
                 Icon={PencilSquareIcon}
                 srOnlyText="Edit key"
-                onClick={async () => {
+                onClick={() => {
                   void onEditClick(apiKey.id)
                 }}
               />
               <TableButton
                 Icon={TrashIcon}
                 srOnlyText="Delete key"
-                onClick={async () => {
+                onClick={() => {
                   void onDeleteClick(apiKey.id)
                 }}
               />

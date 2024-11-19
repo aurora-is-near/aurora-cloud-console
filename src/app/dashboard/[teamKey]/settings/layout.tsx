@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/20/solid"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { isAdmin } from "@/actions/is-admin"
-import { Button } from "@/components/Button"
+import { LinkButton } from "@/components/LinkButton"
 
 const Layout = async ({
   children,
@@ -27,12 +27,15 @@ const Layout = async ({
       sidebarMenu={{
         heading: "Settings",
         action: (
-          <Link href={`/dashboard/${teamKey}`}>
-            <Button fullWidth variant="border" size="lg">
-              <ArrowLeftIcon className="w-6 h-6 absolute left-4" />
-              Back to dashboard
-            </Button>
-          </Link>
+          <LinkButton
+            fullWidth
+            size="lg"
+            variant="border"
+            href={`/dashboard/${teamKey}`}
+          >
+            <ArrowLeftIcon className="w-6 h-6 absolute left-4" />
+            Back to dashboard
+          </LinkButton>
         ),
         sections: [
           {
