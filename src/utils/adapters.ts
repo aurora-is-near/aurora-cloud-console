@@ -8,7 +8,7 @@ import {
   TokenSchema,
 } from "@/types/api-schemas"
 import { AuroraOracle } from "@/types/oracle"
-import { ProxyApiDealData } from "@/types/deal"
+import { DealAPIData, ProxyApiDealData } from "@/types/deal"
 import { ListType } from "@/types/lists"
 import { Deal, List, Silo, Token } from "@/types/types"
 
@@ -67,6 +67,20 @@ export const adaptDeal = (
       }),
       {} as Record<ListType, SimpleListSchema | null>,
     ),
+  }
+}
+
+export const adaptDealApi = (deal: Deal, apiDeal: DealAPIData): DealSchema => {
+  return {
+    id: deal.id,
+    createdAt: deal.created_at,
+    updatedAt: getLatestDate([apiDeal.updated_at, deal.updated_at]),
+    name: deal.name,
+    teamId: deal.team_id,
+    enabled: apiDeal.enabled,
+    startTime: apiDeal.start_date,
+    endTime: apiDeal.end_date,
+    lists: {},
   }
 }
 

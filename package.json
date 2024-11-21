@@ -10,7 +10,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
     "knip": "knip --production --exclude types",
-    "generate-supabase-types": "supabase gen types typescript --project-id xqharbhfobwuhpcdsapg --schema public > src/types/supabase.ts"
+    "generate-supabase-types": "supabase gen types typescript --project-id xqharbhfobwuhpcdsapg --schema public > src/types/supabase.ts",
+    "generate-deals-supabase-types": "supabase gen types typescript --project-id hauyhvkgwepyqbjslfjl --schema public > src/types/supabase_deals.ts"
   },
   "engines": {
     "node": ">=20.8.1"
