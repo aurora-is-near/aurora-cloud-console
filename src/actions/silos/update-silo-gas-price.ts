@@ -9,8 +9,17 @@ import {
 
 export const updateSiloGasPrice = async (
   id: number,
-  inputs: Pick<Silo, "gas_price">,
-): Promise<Silo> => {
+  inputs: Omit<
+    Deal,
+    | "id"
+    | "demo_key"
+    | "team_id"
+    | "silo_id"
+    | "created_at"
+    | "updated_at"
+    | "deleted_at"
+  >,
+): Promise<Deal> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("silos")
