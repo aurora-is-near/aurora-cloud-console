@@ -5,9 +5,6 @@ registries:
     url: https://npm.pkg.github.com
     token: ${{ secrets.GH_DEPENDABOT_TOKEN }}
     replaces-base: true
-  npm-npmjs:
-    type: npm-registry
-    url: https://registry.npmjs.org
 updates:
   - package-ecosystem: npm
     directory: /
@@ -16,7 +13,6 @@ updates:
     allow:
       - dependency-type: direct
     registries:
-      - npm-npmjs
       - npm-github
   - package-ecosystem: github-actions
     directory: /
