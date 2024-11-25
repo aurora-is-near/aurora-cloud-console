@@ -21,7 +21,7 @@ const ToggleDeal = ({ dealId }: { dealId: number }) => {
   })
 
   const onChange = (enabled: boolean) => {
-    enableDeal({ id: dealId, enabled })
+    enableDeal({ id: dealId, name: deal?.name ?? "", enabled })
   }
 
   const isDealEnabled = !!deal?.enabled
