@@ -44,13 +44,13 @@ export const DashboardPage = ({
     <>
       <main className={clsx("overflow-auto flex-1", className)}>
         <Toaster />
-        {banner && (
+        {!!banner && (
           <BaseContainer className="w-full bg-white shadow">
             {banner}
           </BaseContainer>
         )}
         <BaseContainer className="relative flex flex-col">
-          {heading && (
+          {!!heading && (
             <div className="flex justify-between items-center mb-6">
               {typeof heading === "string" ? (
                 <Heading tag="h1" size={headingSize}>
@@ -59,7 +59,7 @@ export const DashboardPage = ({
               ) : (
                 <BreadcrumbHeading titles={heading} />
               )}
-              {actions && (
+              {!!actions && (
                 <div className="flex items-center gap-3">{actions}</div>
               )}
             </div>

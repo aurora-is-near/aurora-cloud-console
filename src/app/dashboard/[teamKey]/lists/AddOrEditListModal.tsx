@@ -63,7 +63,7 @@ export const AddOrEditListModal = ({
             required
             {...register("name")}
           />
-          {errors.name?.message && (
+          {!!errors.name?.message && (
             <p className="mt-1.5 text-sm font-medium text-red-500">
               {errors.name.message}
             </p>

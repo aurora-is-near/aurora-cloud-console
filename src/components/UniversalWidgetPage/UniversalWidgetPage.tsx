@@ -58,7 +58,7 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
           />
         }
         actions={
-          siloId && (
+          !!siloId && (
             <UniversalWidgetOpenButton
               siloId={siloId}
               variant="border"

@@ -27,7 +27,7 @@ export const ErrorModal = () => {
     >
       <div className="flex flex-col items-center justify-center mt-8 text-center">
         <XCircleIcon className="w-8 h-8 text-red-600 mb-3" aria-hidden="true" />
-        {errorDescription && (
+        {!!errorDescription && (
           <p className="text-sm leading-5 text-gray-500">{errorDescription}</p>
         )}
         <Button className="mt-4" variant="primary" onClick={closeModal}>

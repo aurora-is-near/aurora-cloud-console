@@ -109,7 +109,7 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
                   required: "Please enter a subject for your message.",
                 })}
               />
-              {errors.subject?.message && (
+              {!!errors.subject?.message && (
                 <p className="mt-1.5 text-sm font-medium text-red-500">
                   {errors.subject.message}
                 </p>
@@ -133,7 +133,7 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
                   required: "Please enter a message.",
                 })}
               />
-              {errors.message?.message && (
+              {!!errors.message?.message && (
                 <p className="mt-1.5 text-sm font-medium text-red-500">
                   {errors.message.message}
                 </p>
@@ -144,11 +144,11 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
               Send message
             </Button>
           </form>
-          {errors?.root?.serverError ? (
+          {!!errors?.root?.serverError && (
             <p className="mt-4 text-sm font-medium text-red-500">
               {errors.root.serverError.message}
             </p>
-          ) : null}
+          )}
         </>
       )}
     </Modal>
