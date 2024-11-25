@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -24,7 +25,12 @@ export const FeatureCTA = ({
       target={isExternalLink ? "_blank" : undefined}
       rel={isExternalLink ? "noopener noreferrer" : undefined}
     >
-      <div className="rounded-xl border border-slate-200 w-full h-full bg-white">
+      <div
+        className={clsx(
+          "rounded-xl border border-slate-200 w-full h-full bg-white",
+          "transition-shadow transition-border-color hover:transition-shadow hover:transition-border-color hover:shadow-3xl hover:border-slate-300",
+        )}
+      >
         <div
           className="rounded-t-xl overflow-hidden relative"
           style={{ aspectRatio: ASPECT_RATIO }}
