@@ -86,25 +86,37 @@ export type Database = {
       deals: {
         Row: {
           created_at: string
+          deleted_at: string | null
           demo_key: string | null
+          enabled: boolean | null
           id: number
           name: string
+          open: boolean | null
+          silo_id: number | null
           team_id: number
           updated_at: string
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           demo_key?: string | null
+          enabled?: boolean | null
           id?: number
           name: string
+          open?: boolean | null
+          silo_id?: number | null
           team_id: number
           updated_at?: string
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           demo_key?: string | null
+          enabled?: boolean | null
           id?: number
           name?: string
+          open?: boolean | null
+          silo_id?: number | null
           team_id?: number
           updated_at?: string
         }
@@ -114,6 +126,114 @@ export type Database = {
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      filter_entries: {
+        Row: {
+          filter_id: number | null
+          id: number
+          value: string
+        }
+        Insert: {
+          filter_id?: number | null
+          id?: number
+          value: string
+        }
+        Update: {
+          filter_id?: number | null
+          id?: number
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "filter_entries_filter_id_fkey"
+            columns: ["filter_id"]
+            isOneToOne: false
+            referencedRelation: "filters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      filters: {
+        Row: {
+          blacklist: boolean
+          created_at: string
+          deal_id: number
+          deleted_at: string | null
+          filter_type: Database["public"]["Enums"]["filter_type"] | null
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          blacklist?: boolean
+          created_at?: string
+          deal_id: number
+          deleted_at?: string | null
+          filter_type?: Database["public"]["Enums"]["filter_type"] | null
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          blacklist?: boolean
+          created_at?: string
+          deal_id?: number
+          deleted_at?: string | null
+          filter_type?: Database["public"]["Enums"]["filter_type"] | null
+          id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "filters_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      limits: {
+        Row: {
+          created_at: string
+          deal_id: number
+          deleted_at: string | null
+          duration: string
+          id: number
+          limit_scope: Database["public"]["Enums"]["limit_scope"]
+          limit_type: Database["public"]["Enums"]["limit_type"]
+          limit_value: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deal_id: number
+          deleted_at?: string | null
+          duration: string
+          id?: number
+          limit_scope: Database["public"]["Enums"]["limit_scope"]
+          limit_type: Database["public"]["Enums"]["limit_type"]
+          limit_value?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deal_id?: number
+          deleted_at?: string | null
+          duration?: string
+          id?: number
+          limit_scope?: Database["public"]["Enums"]["limit_scope"]
+          limit_type?: Database["public"]["Enums"]["limit_type"]
+          limit_value?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "limits_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
             referencedColumns: ["id"]
           },
         ]
@@ -608,8 +728,9 @@ export type Database = {
         | "forwarder:read"
         | "forwarder:write"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
-      order_type: "initial_setup"
-      payment_status: "paid" | "unpaid" | "no_payment_required"
+      filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
+      limit_scope: "USER" | "GLOBAL"
+      limit_type: "CYCLIC" | "RATELIMIT"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_type: "customer" | "admin"
       widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
