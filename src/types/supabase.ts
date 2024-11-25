@@ -53,10 +53,12 @@ export type Database = {
           deleted_at: string | null
           demo_key: string | null
           enabled: boolean | null
+          end_time: string | null
           id: number
           name: string
           open: boolean | null
           silo_id: number | null
+          start_time: string | null
           team_id: number
           updated_at: string
         }
@@ -65,10 +67,12 @@ export type Database = {
           deleted_at?: string | null
           demo_key?: string | null
           enabled?: boolean | null
+          end_time?: string | null
           id?: number
           name: string
           open?: boolean | null
           silo_id?: number | null
+          start_time?: string | null
           team_id: number
           updated_at?: string
         }
@@ -77,10 +81,12 @@ export type Database = {
           deleted_at?: string | null
           demo_key?: string | null
           enabled?: boolean | null
+          end_time?: string | null
           id?: number
           name?: string
           open?: boolean | null
           silo_id?: number | null
+          start_time?: string | null
           team_id?: number
           updated_at?: string
         }
