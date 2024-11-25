@@ -14,6 +14,10 @@ type DealFormProps = {
 
 type Inputs = {
   name: string
+  enabled: boolean
+  open: boolean
+  start_time: string | null
+  end_time: string | null
 }
 
 export const DealForm = ({ deal, teamId }: DealFormProps) => {

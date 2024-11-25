@@ -27,6 +27,7 @@ export const DealDurationModal = () => {
     const values = getValues()
 
     queueUpdate({
+      name: deal?.name ?? "",
       startTime: values.startTime,
       endTime: values.endTime,
     })
