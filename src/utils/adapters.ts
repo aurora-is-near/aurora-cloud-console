@@ -1,72 +1,34 @@
-import { LIST_TYPES } from "@/constants/lists"
 import {
   DealSchema,
   ListSchema,
   OracleSchema,
   SiloSchema,
-  SimpleListSchema,
   TokenSchema,
 } from "@/types/api-schemas"
 import { AuroraOracle } from "@/types/oracle"
-import { ProxyApiDealData } from "@/types/deal"
-import { ListType } from "@/types/lists"
 import { Deal, List, Silo, Token } from "@/types/types"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
 }
 
-const getLatestDate = (dates: (string | null)[]): string | null => {
-  return dates.reduce((acc, date) => {
-    if (!date) {
-      return acc
-    }
-
-    if (!acc) {
-      return date
-    }
-
-    return new Date(date) > new Date(acc) ? date : acc
-  }, null)
-}
-
-const getRelatedList = (
-  lists: List[],
-  id: number | null,
-): SimpleListSchema | null => {
-  const list = lists.find(({ id: listId }) => listId === id)
-
-  if (!list) {
-    return null
-  }
-
-  return {
-    id: list.id,
-    name: list.name,
-  }
-}
-
-export const adaptDeal = (
-  deal: Deal,
-  proxyApiDeal: ProxyApiDealData,
-  lists: List[],
-): DealSchema => {
+export const adaptDeal = (deal: Deal): DealSchema => {
   return {
     id: deal.id,
     createdAt: deal.created_at,
-    updatedAt: getLatestDate([proxyApiDeal.updatedAt, deal.updated_at]),
+    updatedAt: deal.updated_at,
+    deletedAt: deal.deleted_at,
     name: deal.name,
     teamId: deal.team_id,
-    enabled: proxyApiDeal.enabled,
-    startTime: getIsoString(proxyApiDeal.startTime),
-    endTime: getIsoString(proxyApiDeal.endTime),
-    lists: LIST_TYPES.reduce(
-      (acc, listType) => ({
-        ...acc,
-        [listType]: getRelatedList(lists, proxyApiDeal.lists[listType]),
-      }),
-      {} as Record<ListType, SimpleListSchema | null>,
-    ),
+    siloId: deal.silo_id,
+    enabled: deal.enabled ?? false,
+    open: deal.open ?? false,
+    startTime: deal.start_time
+      ? getIsoString(new Date(deal.start_time).getTime())
+      : null,
+    endTime: deal.end_time
+      ? getIsoString(new Date(deal.end_time).getTime())
+      : null,
   }
 }
 
