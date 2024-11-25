@@ -24,7 +24,7 @@ const Page = async ({
         <span>Set up your Aurora Chain</span>
         <Link href={`/dashboard/${teamKey}`}>
           <span className="sr-only">Go back</span>
-          <XMarkIcon className="w-6 h-6" />
+          <XMarkIcon className="w-7 h-7 text-slate-900" />
         </Link>
       </div>
       <OnboardingForm team={team} hasDevNet={hasDevNet} />
