@@ -1,22 +1,13 @@
 import { createApiEndpoint } from "@/utils/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import {
-  abortIfNoSupabaseResult,
-  assertValidSupabaseResult,
-} from "@/utils/supabase"
-import { proxyApiClient } from "@/utils/proxy-api/client"
-import { getDealUpdateOperations } from "@/utils/proxy-api/get-deal-update-operations"
+import { abortIfNoSupabaseResult } from "@/utils/supabase"
 import { adaptDeal } from "@/utils/adapters"
-import { getDeal } from "@/utils/proxy-api/get-deal"
+import { updateDeal } from "@/actions/deals/update-deal"
 import { abort } from "../../../../utils/abort"
 
 const parseTimeParam = (time?: string | null) => {
-  if (time === null) {
+  if (!time || time === null) {
     return null
-  }
-
-  if (!time) {
-    return undefined
   }
 
   const parsed = Date.parse(time)
@@ -25,86 +16,51 @@ const parseTimeParam = (time?: string | null) => {
     abort(400, `Invalid request body: time must be a date string`)
   }
 
-  return parsed
-}
-
-const abortIfInvalidListId = (listIds: number[], listId?: number | null) => {
-  if (listId && !listIds.includes(listId)) {
-    abort(400, `Invalid request body: ${listId} is not a valid list ID`)
-  }
+  return new Date(parsed).toISOString()
 }
 
 export const GET = createApiEndpoint("getDeal", async (_req, ctx) => {
   const supabase = createAdminSupabaseClient()
-  const [dealResult, listsResult] = await Promise.all([
-    supabase
-      .from("deals")
-      .select("*")
-      .eq("id", Number(ctx.params.id))
-      .eq("team_id", ctx.team.id)
-      .maybeSingle(),
-    supabase.from("lists").select("*").eq("team_id", ctx.team.id),
-  ])
+  const dealResult = await supabase
+    .from("deals")
+    .select("*")
+    .eq("id", Number(ctx.params.id))
+    .eq("team_id", ctx.team.id)
+    .maybeSingle()
 
   abortIfNoSupabaseResult(404, dealResult)
-  assertValidSupabaseResult(listsResult)
 
   if (!dealResult.data) {
     abort(404)
   }
 
-  const proxyApiDeal = await getDeal(ctx.team.id, Number(ctx.params.id))
-
-  return adaptDeal(dealResult.data, proxyApiDeal, listsResult.data)
+  return adaptDeal(dealResult.data)
 })
 
 export const PUT = createApiEndpoint("updateDeal", async (req, ctx) => {
   const supabase = createAdminSupabaseClient()
-  const {
-    enabled,
-    startTime,
-    endTime,
-    chainFilterListId,
-    contractFilterListId,
-    eoaFilterListId,
-    eoaBlacklistListId,
-  } = ctx.body
+  const dealResult = await supabase
+    .from("deals")
+    .select("*")
+    .eq("id", Number(ctx.params.id))
+    .eq("team_id", ctx.team.id)
+    .maybeSingle()
 
-  const [listsResult, dealsResult] = await Promise.all([
-    supabase.from("lists").select("*").eq("team_id", ctx.team.id),
-    supabase
-      .from("deals")
-      .select("*")
-      .eq("id", Number(ctx.params.id))
-      .eq("team_id", ctx.team.id)
-      .single(),
-  ])
+  abortIfNoSupabaseResult(404, dealResult)
 
-  assertValidSupabaseResult(listsResult)
-  abortIfNoSupabaseResult(404, dealsResult)
+  if (!dealResult.data) {
+    abort(404)
+  }
 
-  const listIds = listsResult.data.map(({ id }) => id)
+  const { name, open, enabled, startTime, endTime } = ctx.body
 
-  abortIfInvalidListId(listIds, chainFilterListId)
-  abortIfInvalidListId(listIds, contractFilterListId)
-  abortIfInvalidListId(listIds, eoaFilterListId)
-  abortIfInvalidListId(listIds, eoaBlacklistListId)
+  const updatedDeal = await updateDeal(Number(ctx.params.id), {
+    name,
+    open: open ?? false,
+    enabled: enabled ?? false,
+    start_time: parseTimeParam(startTime),
+    end_time: parseTimeParam(endTime),
+  })
 
-  await proxyApiClient.update(
-    getDealUpdateOperations(ctx.team.id, Number(ctx.params.id), {
-      enabled,
-      startTime: parseTimeParam(startTime),
-      endTime: parseTimeParam(endTime),
-      lists: {
-        chainFilter: chainFilterListId,
-        contractFilter: contractFilterListId,
-        eoaFilter: eoaFilterListId,
-        eoaBlacklist: eoaBlacklistListId,
-      },
-    }),
-  )
-
-  const proxyApiDeal = await getDeal(ctx.team.id, Number(ctx.params.id))
-
-  return adaptDeal(dealsResult.data, proxyApiDeal, listsResult.data)
+  return adaptDeal(updatedDeal)
 })
