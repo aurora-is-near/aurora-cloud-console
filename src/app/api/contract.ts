@@ -28,12 +28,14 @@ export const DealSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
   updatedAt: z.string().nullable(),
+  deletedAt: z.string().nullable(),
   name: z.string(),
   teamId: z.number(),
+  siloId: z.number().nullable(),
   enabled: z.boolean(),
+  open: z.boolean(),
   startTime: z.string().nullable(),
   endTime: z.string().nullable(),
-  lists: z.record(z.string(), SimpleListSchema.nullable()),
 })
 
 const DealPrioritiesSchema = z.array(
@@ -192,13 +194,11 @@ export const contract = c.router({
       200: DealSchema,
     },
     body: z.object({
+      name: z.string(),
+      open: z.boolean().optional(),
       enabled: z.boolean().optional(),
       startTime: z.string().nullable().optional(),
       endTime: z.string().nullable().optional(),
-      chainFilterListId: z.number().nullable().optional(),
-      contractFilterListId: z.number().nullable().optional(),
-      eoaFilterListId: z.number().nullable().optional(),
-      eoaBlacklistListId: z.number().nullable().optional(),
     }),
     metadata: {
       scopes: ["deals:write"],
