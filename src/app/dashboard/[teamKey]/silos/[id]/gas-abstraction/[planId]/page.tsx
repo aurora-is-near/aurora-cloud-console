@@ -3,8 +3,9 @@ import Contact from "@/components/Contact"
 import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
 import { getTeamDealByKey } from "@/actions/team-deals/get-team-deal-by-key"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
+import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
+import { DealDurationModal } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/DealDurationModal"
 import { ContractsCard } from "./ContractsCard"
-import { UsersCard } from "./UsersCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
 
@@ -27,10 +28,11 @@ const Page = async ({
   return (
     <DealUpdateProvider dealId={dealId}>
       <DealUpdatePage deal={deal}>
-        <UsersCard />
+        <UsersConfigurationCard />
         <ContractsCard silo={silo} />
         <RulesCard />
         <Contact teamKey={teamKey} />
+        <DealDurationModal />
       </DealUpdatePage>
     </DealUpdateProvider>
   )
