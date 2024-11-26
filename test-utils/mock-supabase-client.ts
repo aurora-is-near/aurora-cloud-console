@@ -56,6 +56,9 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   oracles: createTableClient(),
   widgets: createTableClient(),
   onboarding_form: createTableClient(),
+  filters: createTableClient(),
+  filter_entries: createTableClient(),
+  limits: createTableClient(),
 }
 
 export const mockSupabaseClient = {
