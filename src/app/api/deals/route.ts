@@ -15,9 +15,7 @@ export const GET = createApiEndpoint("getDeals", async (_req, ctx) => {
   assertValidSupabaseResult(dealsResult)
 
   return {
-    items: await Promise.all(
-      dealsResult.data.map(async (deal) => adaptDeal(deal)),
-    ),
+    items: dealsResult.data.map(adaptDeal),
   }
 })
 
@@ -25,17 +23,5 @@ export const POST = createApiEndpoint("createDeal", async (_req, ctx) => {
   const { name } = ctx.body
   const deal = await createDeal({ name, team_id: ctx.team.id })
 
-  return {
-    id: deal.id,
-    name: deal.name,
-    enabled: deal.enabled ?? false,
-    open: deal.open ?? false,
-    createdAt: deal.created_at,
-    updatedAt: deal.updated_at,
-    deletedAt: deal.deleted_at,
-    teamId: deal.team_id,
-    siloId: deal.silo_id,
-    startTime: deal.start_time,
-    endTime: deal.end_time,
-  }
+  return adaptDeal(deal)
 })
