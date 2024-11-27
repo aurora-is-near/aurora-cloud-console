@@ -88,11 +88,11 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           demo_key: string | null
-          enabled: boolean | null
+          enabled: boolean
           end_time: string | null
           id: number
           name: string
-          open: boolean | null
+          open: boolean
           silo_id: number | null
           start_time: string | null
           team_id: number
@@ -102,11 +102,11 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           demo_key?: string | null
-          enabled?: boolean | null
+          enabled?: boolean
           end_time?: string | null
           id?: number
           name: string
-          open?: boolean | null
+          open?: boolean
           silo_id?: number | null
           start_time?: string | null
           team_id: number
@@ -116,11 +116,11 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           demo_key?: string | null
-          enabled?: boolean | null
+          enabled?: boolean
           end_time?: string | null
           id?: number
           name?: string
-          open?: boolean | null
+          open?: boolean
           silo_id?: number | null
           start_time?: string | null
           team_id?: number
