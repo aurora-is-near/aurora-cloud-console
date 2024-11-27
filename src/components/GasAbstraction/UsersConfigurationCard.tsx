@@ -13,7 +13,7 @@ import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import Loader from "@/components/Loader"
 
 type Inputs = {
-  open: string
+  open: boolean
 }
 
 const UsersConfigurationCard = () => {
@@ -21,18 +21,15 @@ const UsersConfigurationCard = () => {
 
   const { register, watch } = useForm<Inputs>({
     defaultValues: {
-      open: String(deal?.open ?? false),
+      open: !!deal?.open,
     },
   })
-
-  console.log("lol", deal, watch("open"))
 
   useEffect(() => {
     const subscription = watch((value, { name, type: operation }) => {
       if (operation === "change" && name) {
         queueUpdate({
-          name: deal?.name ?? "",
-          open: value.open === "true",
+          open: value.open,
         })
       }
     })
@@ -71,6 +68,7 @@ const UsersConfigurationCard = () => {
                 type="radio"
                 value="true"
                 className={radioClassName}
+                checked={isOpen}
                 {...register("open")}
               />
             </div>
@@ -95,6 +93,7 @@ const UsersConfigurationCard = () => {
                 type="radio"
                 value="false"
                 className={radioClassName}
+                checked={!isOpen}
                 {...register("open")}
               />
             </div>
