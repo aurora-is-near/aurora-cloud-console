@@ -194,7 +194,7 @@ export const contract = c.router({
       200: DealSchema,
     },
     body: z.object({
-      name: z.string(),
+      name: z.string().optional(),
       open: z.boolean().optional(),
       enabled: z.boolean().optional(),
       startTime: z.string().nullable().optional(),
