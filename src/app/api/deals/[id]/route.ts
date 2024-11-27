@@ -6,8 +6,8 @@ import { updateDeal } from "@/actions/deals/update-deal"
 import { abort } from "../../../../utils/abort"
 
 const parseTimeParam = (time?: string | null) => {
-  if (!time || time === null) {
-    return null
+  if (!time) {
+    return undefined
   }
 
   const parsed = Date.parse(time)
@@ -21,34 +21,34 @@ const parseTimeParam = (time?: string | null) => {
 
 export const GET = createApiEndpoint("getDeal", async (_req, ctx) => {
   const supabase = createAdminSupabaseClient()
-  const dealResult = await supabase
+  const result = await supabase
     .from("deals")
     .select("*")
     .eq("id", Number(ctx.params.id))
     .eq("team_id", ctx.team.id)
     .maybeSingle()
 
-  abortIfNoSupabaseResult(404, dealResult)
+  abortIfNoSupabaseResult(404, result)
 
-  if (!dealResult.data) {
+  if (!result.data) {
     abort(404)
   }
 
-  return adaptDeal(dealResult.data)
+  return adaptDeal(result.data)
 })
 
 export const PUT = createApiEndpoint("updateDeal", async (req, ctx) => {
   const supabase = createAdminSupabaseClient()
-  const dealResult = await supabase
+  const result = await supabase
     .from("deals")
     .select("*")
     .eq("id", Number(ctx.params.id))
     .eq("team_id", ctx.team.id)
     .maybeSingle()
 
-  abortIfNoSupabaseResult(404, dealResult)
+  abortIfNoSupabaseResult(404, result)
 
-  if (!dealResult.data) {
+  if (!result.data) {
     abort(404)
   }
 
@@ -56,8 +56,8 @@ export const PUT = createApiEndpoint("updateDeal", async (req, ctx) => {
 
   const updatedDeal = await updateDeal(Number(ctx.params.id), {
     name,
-    open: open ?? false,
-    enabled: enabled ?? false,
+    open,
+    enabled,
     start_time: parseTimeParam(startTime),
     end_time: parseTimeParam(endTime),
   })
