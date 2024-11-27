@@ -16,8 +16,8 @@ type Inputs = {
   name: string
   enabled: boolean
   open: boolean
-  start_time: string | null
-  end_time: string | null
+  start_time: string
+  end_time: string
 }
 
 export const DealForm = ({ deal, teamId }: DealFormProps) => {
@@ -46,7 +46,7 @@ export const DealForm = ({ deal, teamId }: DealFormProps) => {
         {
           name: "name",
           label: "Name",
-          defaultValue: deal?.name ?? "",
+          defaultValue: deal?.name,
           autoComplete: "name",
           required: true,
         },

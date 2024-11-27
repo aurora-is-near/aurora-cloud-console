@@ -21,8 +21,8 @@ export const adaptDeal = (deal: Deal): DealSchema => {
     name: deal.name,
     teamId: deal.team_id,
     siloId: deal.silo_id,
-    enabled: deal.enabled ?? false,
-    open: deal.open ?? false,
+    enabled: deal.enabled,
+    open: deal.open,
     startTime: deal.start_time
       ? getIsoString(new Date(deal.start_time).getTime())
       : null,
