@@ -58,7 +58,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@aurora-is-near/eslint-config": "^1.3.6",
+    "@aurora-is-near/eslint-config": "^1.4.1",
     "@headlessui/tailwindcss": "^0.2.0",
     "@jest/globals": "^29.7.0",
     "@svgr/webpack": "^8.1.0",

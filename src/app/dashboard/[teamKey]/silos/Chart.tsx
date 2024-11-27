@@ -27,11 +27,11 @@ const Chart = ({
           <h2 className="text-base leading-none font-medium text-gray-900 mb-2">
             {title}
           </h2>
-          {subtitle ? (
+          {!!subtitle && (
             <p className="text-gray-500 text-xs leading-none font-medium">
               {subtitle}
             </p>
-          ) : null}
+          )}
         </div>
 
         <div className="w-full h-[170px] rounded-md relative">
@@ -44,7 +44,7 @@ const Chart = ({
           {children}
         </div>
       </div>
-      {legend && legend.length > 0 ? (
+      {!!legend?.length && (
         <div className="px-1 pb-1">
           <div className="bg-gray-50 w-full h-9 rounded-b-sm flex space-x-6 items-center px-5">
             {legend.map((text, i) => (
@@ -64,7 +64,7 @@ const Chart = ({
             ))}
           </div>
         </div>
-      ) : null}
+      )}
     </Card>
   )
 }
