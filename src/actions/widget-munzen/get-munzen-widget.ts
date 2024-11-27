@@ -47,7 +47,7 @@ export const getMunzenWidgetUrl = async (silo: Silo): Promise<string> => {
     toCurrency,
     externalData,
     apiKey: process.env.NEXT_PUBLIC_MUNZEN_API_KEY,
-  }).toString()}`
+  })}`
 
   return url
 }
