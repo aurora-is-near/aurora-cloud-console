@@ -9278,10 +9278,10 @@ next-tick@^1.1.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
-next-usequerystate@^1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/next-usequerystate/-/next-usequerystate-1.8.2.tgz#fad4b06bce3a1d44cab18bbd458e2af062de6703"
-  integrity sha512-J58E9H7Nx+oa1uaqBWOLWz8WXTOto3TCgX91YdDY+mwKdLLvosc+KLRdt/tGI6HG07PlK3xa+I++i1Q2Cp+0iw==
+next-usequerystate@^1.20.0:
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/next-usequerystate/-/next-usequerystate-1.20.0.tgz#ca901fe410c1a4ddcc5c2d30462316eb57a6a3d3"
+  integrity sha512-0uXOYkOHXiTwrnBwZ3E6pT2l1HWoqgCxjcJE58TRSbhYjNnpQ9MxzgwoU7z6akQuQodWQffTh+HNLZRwoh1ujQ==
   dependencies:
     mitt "^3.0.1"
 
