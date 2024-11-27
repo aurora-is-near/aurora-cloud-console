@@ -1,10 +1,10 @@
 "use client"
 
 import clsx from "clsx"
-import { useEffect } from "react"
 import Link from "next/link"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import { useFormContext } from "react-hook-form"
+import { useForm } from "react-hook-form"
+import { useEffect } from "react"
 import { LinkButton } from "@/components/LinkButton"
 import { Button } from "@/components/Button"
 import { ConfigurationCard } from "@/components/ConfigurationCard"
@@ -13,46 +13,52 @@ import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import Loader from "@/components/Loader"
 
 type Inputs = {
-  open: boolean
+  open: string
 }
 
 const UsersConfigurationCard = () => {
-  const { deal, queueUpdate: _queueUpdate } =
-    useRequiredContext(DealUpdateContext)
+  const { deal, queueUpdate } = useRequiredContext(DealUpdateContext)
 
-  const {
-    register,
-    getValues: _getValues,
-    setValue,
-    watch,
-  } = useFormContext<Inputs>()
+  const { register, watch } = useForm<Inputs>({
+    defaultValues: {
+      open: String(deal?.open ?? false),
+    },
+  })
+
+  console.log("lol", deal, watch("open"))
 
   useEffect(() => {
-    if (!deal) {
-      return
-    }
+    const subscription = watch((value, { name, type: operation }) => {
+      if (operation === "change" && name) {
+        queueUpdate({
+          name: deal?.name ?? "",
+          open: value.open === "true",
+        })
+      }
+    })
 
-    setValue("open", deal.open)
-  }, [deal, setValue])
-
-  // const isOpen = useMemo(() => {
-  //   return watch("open")
-  // }, [watch])
+    return () => subscription.unsubscribe()
+  }, [watch, queueUpdate, deal?.name])
 
   if (!deal) {
     return <Loader />
   }
+
+  const isOpen = String(watch("open")) === "true"
+
+  const radioClassName =
+    "accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 checked:hover:bg-green-500 focus:ring-green-500"
 
   return (
     <ConfigurationCard
       title="Users"
       description="Choose who will benefit from this plan."
     >
-      <div className="xl:w-1/2 flex flex-col gap-2">
+      <form className="xl:w-1/2 flex flex-col gap-2">
         <div
           className={clsx(
             "rounded-md ring-1",
-            watch("open") ? "ring-green-600 bg-green-50" : "ring-slate-200",
+            isOpen ? "ring-green-600 bg-green-50" : "ring-slate-200",
           )}
         >
           <label
@@ -61,10 +67,10 @@ const UsersConfigurationCard = () => {
           >
             <div className="flex items-center h-6">
               <input
+                id="all"
                 type="radio"
                 value="true"
-                className="accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 checked:hover:bg-green-500 focus:ring-green-500"
-                defaultChecked={deal.open}
+                className={radioClassName}
                 {...register("open")}
               />
             </div>
@@ -76,7 +82,7 @@ const UsersConfigurationCard = () => {
         <div
           className={clsx(
             "rounded-md ring-1 flex flex-col gap-2 p-3",
-            !watch("open") ? "ring-green-600 bg-green-50" : "ring-slate-200",
+            !isOpen ? "ring-green-600 bg-green-50" : "ring-slate-200",
           )}
         >
           <label
@@ -85,10 +91,10 @@ const UsersConfigurationCard = () => {
           >
             <div className="flex items-center h-6">
               <input
+                id="selected"
                 type="radio"
                 value="false"
-                className="accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 checked:hover:bg-green-500 focus:ring-green-500"
-                defaultChecked={!deal.open}
+                className={radioClassName}
                 {...register("open")}
               />
             </div>
@@ -128,7 +134,7 @@ const UsersConfigurationCard = () => {
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </ConfigurationCard>
   )
 }
