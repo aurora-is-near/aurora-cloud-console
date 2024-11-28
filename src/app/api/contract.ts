@@ -241,6 +241,93 @@ export const contract = c.router({
       scopes: ["deals:write"],
     },
   },
+  getFilters: {
+    summary: "Get all filters for a deal",
+    method: "GET",
+    path: "/api/deals/:deal_id/filters",
+    responses: {
+      200: z.object({
+        items: z.array(
+          z.object({
+            id: z.number(),
+            filter_type: z.string().optional(),
+            blacklist: z.boolean(),
+            created_at: z.string(),
+            updated_at: z.string(),
+          }),
+        ),
+      }),
+    },
+    metadata: {
+      scopes: ["deals:read"],
+    },
+  },
+  getFilter: {
+    summary: "Get a single filter",
+    method: "GET",
+    path: "/api/filters/:filter_id",
+    responses: {
+      200: z.object({
+        id: z.number(),
+        deal_id: z.number(),
+        filter_type: z.enum([
+          "USER",
+          "CONTRACT",
+          "CHAIN",
+          "EOA",
+          "TOKEN",
+          "IP",
+        ]),
+        blacklist: z.boolean(),
+        created_at: z.string(),
+        updated_at: z.string(),
+        deleted_at: z.string().nullable(),
+      }),
+    },
+    metadata: {
+      scopes: ["deals:read"],
+    },
+  },
+  updateFilter: {
+    summary: "Update a filter",
+    method: "PUT",
+    path: "/api/filters/:filter_id",
+    body: z.object({
+      value: z.string(),
+      filter_type: z.string().optional(),
+    }),
+    responses: {
+      200: z.object({
+        id: z.number(),
+        filter_type: z.string().optional(),
+        blacklist: z.boolean(),
+        created_at: z.string(),
+        updated_at: z.string(),
+      }),
+    },
+    metadata: {
+      scopes: ["deals:write"],
+    },
+  },
+  getFilterEntries: {
+    summary: "Get all entries for a filter",
+    method: "GET",
+    path: "/api/filters/:filter_id/entries",
+    responses: {
+      200: z.object({
+        items: z.array(
+          z.object({
+            id: z.number(),
+            filter_id: z.number(),
+            value: z.string(),
+          }),
+        ),
+      }),
+    },
+    metadata: {
+      scopes: ["deals:read"],
+    },
+  },
   getSilos: {
     summary: "Get all silos",
     method: "GET",

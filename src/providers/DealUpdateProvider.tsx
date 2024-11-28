@@ -9,6 +9,7 @@ import { ApiRequestBody } from "@/types/api"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { logger } from "@/logger"
+import { Filter } from "@/types/types"
 
 type DealUpdateProviderProps = {
   dealId: number
