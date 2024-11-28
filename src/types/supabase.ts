@@ -102,17 +102,17 @@ export type Database = {
       }
       filter_entries: {
         Row: {
-          filter_id: number | null
+          filter_id: number
           id: number
           value: string
         }
         Insert: {
-          filter_id?: number | null
+          filter_id: number
           id?: number
           value: string
         }
         Update: {
-          filter_id?: number | null
+          filter_id?: number
           id?: number
           value?: string
         }
@@ -132,7 +132,7 @@ export type Database = {
           created_at: string
           deal_id: number
           deleted_at: string | null
-          filter_type: Database["public"]["Enums"]["filter_type"] | null
+          filter_type: Database["public"]["Enums"]["filter_type"]
           id: number
           updated_at: string
         }
@@ -141,7 +141,7 @@ export type Database = {
           created_at?: string
           deal_id: number
           deleted_at?: string | null
-          filter_type?: Database["public"]["Enums"]["filter_type"] | null
+          filter_type: Database["public"]["Enums"]["filter_type"]
           id?: number
           updated_at?: string
         }
@@ -150,7 +150,7 @@ export type Database = {
           created_at?: string
           deal_id?: number
           deleted_at?: string | null
-          filter_type?: Database["public"]["Enums"]["filter_type"] | null
+          filter_type?: Database["public"]["Enums"]["filter_type"]
           id?: number
           updated_at?: string
         }

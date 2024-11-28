@@ -4,7 +4,10 @@ import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
 import { getTeamDealByKey } from "@/actions/team-deals/get-team-deal-by-key"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
-import { DealDurationModal } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/DealDurationModal"
+import { getFilters } from "@/actions/filters/get-filters"
+import { FilterProvider } from "@/providers/FilterProvider"
+import { DealDurationModal } from "./DealDurationModal"
+import { AddFilterAddressModal } from "./AddFilterAddressModal"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
@@ -16,19 +19,28 @@ const Page = async ({
 }) => {
   const siloId = Number(id)
   const dealId = Number(planId)
-  const [deal, silo] = await Promise.all([
+  const [deal, silo, filters] = await Promise.all([
     getTeamDealByKey(teamKey, dealId),
     getTeamSiloByKey(teamKey, siloId),
+    getFilters(dealId),
   ])
 
   if (!deal || !silo) {
     notFound()
   }
 
+  const eoaFilter = filters?.find((f) => f.filter_type === "EOA")
+  const _contractFilter = filters?.find((f) => f.filter_type === "CONTRACT")
+
   return (
     <DealUpdateProvider dealId={dealId}>
       <DealUpdatePage deal={deal}>
-        <UsersConfigurationCard />
+        {eoaFilter && (
+          <FilterProvider filterId={eoaFilter.id}>
+            <UsersConfigurationCard />
+            <AddFilterAddressModal />
+          </FilterProvider>
+        )}
         <ContractsCard silo={silo} />
         <RulesCard />
         <Contact teamKey={teamKey} />

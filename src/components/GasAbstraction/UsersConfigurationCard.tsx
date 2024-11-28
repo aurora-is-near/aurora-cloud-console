@@ -11,6 +11,9 @@ import { ConfigurationCard } from "@/components/ConfigurationCard"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import Loader from "@/components/Loader"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
+import { FilterUpdateContext } from "@/providers/FilterProvider"
 
 type Inputs = {
   open: boolean
@@ -18,12 +21,14 @@ type Inputs = {
 
 const UsersConfigurationCard = () => {
   const { deal, queueUpdate } = useRequiredContext(DealUpdateContext)
-
+  const { openModal } = useModals()
   const { register, watch } = useForm<Inputs>({
     defaultValues: {
       open: !!deal?.open,
     },
   })
+
+  const { filterEntries } = useRequiredContext(FilterUpdateContext)
 
   useEffect(() => {
     const subscription = watch((value, { name, type: operation }) => {
@@ -39,6 +44,10 @@ const UsersConfigurationCard = () => {
 
   if (!deal) {
     return <Loader />
+  }
+
+  const openAddFilterAddressModal = () => {
+    openModal(Modals.AddFilterAddress)
   }
 
   const isOpen = String(watch("open")) === "true"
@@ -85,7 +94,7 @@ const UsersConfigurationCard = () => {
         >
           <label
             htmlFor="selected"
-            className="flex items-start w-full cursor-not-allowed"
+            className="flex items-start w-full cursor-pointer"
           >
             <div className="flex items-center h-6">
               <input
@@ -124,10 +133,11 @@ const UsersConfigurationCard = () => {
               <div className="flex flex-col">
                 <span className="text-sm font-medium">Import manually</span>
                 <span className="text-sm text-slate-500">
-                  0 wallet addresses added
+                  {filterEntries?.length} wallet address
+                  {filterEntries?.length === 1 ? "" : "es"} added
                 </span>
               </div>
-              <Button disabled variant="border">
+              <Button onClick={openAddFilterAddressModal} variant="border">
                 Add manually
               </Button>
             </div>
