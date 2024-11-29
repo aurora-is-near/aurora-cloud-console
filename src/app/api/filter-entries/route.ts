@@ -1,6 +1,7 @@
 import { createApiEndpoint } from "@/utils/api"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
+import { updateFilterEntries } from "@/actions/filter-entries/update-filter-entries"
 
 export const GET = createApiEndpoint("getFilterEntries", async (_req, ctx) => {
   const supabase = createAdminSupabaseClient()
@@ -16,3 +17,17 @@ export const GET = createApiEndpoint("getFilterEntries", async (_req, ctx) => {
     items: filterEntriesResult.data,
   }
 })
+
+export const PUT = createApiEndpoint(
+  "updateFilterEntries",
+  async (_req, ctx) => {
+    const result = await updateFilterEntries({
+      filter_id: Number(ctx.params.filter_id),
+      items: ctx.body.items,
+    })
+
+    return {
+      items: result,
+    }
+  },
+)

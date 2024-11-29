@@ -328,6 +328,32 @@ export const contract = c.router({
       scopes: ["deals:read"],
     },
   },
+  updateFilterEntries: {
+    summary: "Update the entries for a filter",
+    method: "PUT",
+    path: "/api/filters/:filter_id/entries",
+    responses: {
+      200: z.object({
+        items: z.array(
+          z.object({
+            id: z.number(),
+            value: z.string(),
+          }),
+        ),
+      }),
+    },
+    body: z.object({
+      filter_id: z.number(),
+      items: z.array(
+        z.object({
+          value: z.string(),
+        }),
+      ),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
+  },
   getSilos: {
     summary: "Get all silos",
     method: "GET",
