@@ -1,0 +1,3 @@
+#!/bin/sh
+
+.husky/git-hooks/package-json-changed.sh

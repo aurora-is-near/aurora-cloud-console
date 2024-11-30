@@ -1,0 +1,4 @@
+#!/bin/sh
+
+yarn run lint-staged
+.husky/git-hooks/no-main-commit.sh
