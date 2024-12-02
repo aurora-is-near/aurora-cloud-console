@@ -1,14 +1,14 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { Tables } from "@/types/supabase"
+import { Filter } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
 export const updateFilter = async (
-  input: Omit<Tables<"filters">, "id" | "created_at">,
+  input: Omit<Filter, "id" | "created_at">,
 ) => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase

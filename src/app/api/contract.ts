@@ -343,7 +343,6 @@ export const contract = c.router({
       }),
     },
     body: z.object({
-      filter_id: z.number(),
       items: z.array(
         z.object({
           value: z.string(),

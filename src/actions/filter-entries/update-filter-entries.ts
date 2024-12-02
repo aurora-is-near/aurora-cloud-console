@@ -1,7 +1,6 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { FilterEntry } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
@@ -12,7 +11,7 @@ export const updateFilterEntries = async ({
   items,
 }: {
   filter_id: number
-  items: Omit<FilterEntry, "filter_id" | "id">[]
+  items: { value: string }[]
 }) => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
@@ -24,7 +23,6 @@ export const updateFilterEntries = async ({
       },
     )
     .select()
-    .single()
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
