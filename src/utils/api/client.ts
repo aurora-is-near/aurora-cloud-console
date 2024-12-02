@@ -93,6 +93,20 @@ export const apiClient = {
   }: ApiRequestParams<"updateFilter"> & ApiRequestBody<"updateFilter">) =>
     put<"updateFilter">(`/api/filters/${filter_id}`, data),
 
+  getFilterEntries: async ({
+    filter_id,
+  }: ApiRequestParams<"getFilterEntries">) =>
+    get<"getFilterEntries">(`/api/filters/${filter_id}/entries`),
+
+  updateFilterEntries: async ({
+    filter_id,
+    ...data
+  }: ApiRequestParams<"updateFilterEntries"> &
+    ApiRequestBody<"updateFilterEntries">) =>
+    put<"updateFilterEntries">(`/api/filters/${filter_id}/entries`, {
+      items: data.items,
+    }),
+
   getSiloTransactions: async ({
     id,
     ...query

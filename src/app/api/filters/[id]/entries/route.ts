@@ -9,7 +9,7 @@ export const GET = createApiEndpoint("getFilterEntries", async (_req, ctx) => {
     .from("filter_entries")
     .select("*")
     .order("id", { ascending: true })
-    .eq("filter_id", ctx.params.filter_id)
+    .eq("filter_id", Number(ctx.params.id))
 
   assertValidSupabaseResult(filterEntriesResult)
 
@@ -22,8 +22,11 @@ export const PUT = createApiEndpoint(
   "updateFilterEntries",
   async (_req, ctx) => {
     const result = await updateFilterEntries({
-      filter_id: Number(ctx.params.filter_id),
-      items: ctx.body.items,
+      filter_id: Number(ctx.params.id),
+      items: ctx.body.items.map((item) => ({
+        ...item,
+        filter_id: Number(ctx.params.id),
+      })),
     })
 
     return {

@@ -6,7 +6,6 @@ import {
   TrashIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline"
-import { useFormContext } from "react-hook-form"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
@@ -20,16 +19,15 @@ import { FilterUpdateContext } from "@/providers/FilterProvider"
 
 export const AddFilterAddressModal = () => {
   const { closeModal, activeModal } = useModals()
-  const { deal, queueUpdate: _queueUpdate } =
-    useRequiredContext(DealUpdateContext)
-
-  const { filterEntries } = useRequiredContext(FilterUpdateContext)
+  const { deal } = useRequiredContext(DealUpdateContext)
 
   const {
-    register: _register,
-    getValues: _getValues,
-    setValue: _setValue,
-  } = useFormContext<Record<string, unknown>>()
+    filterEntries,
+    queueEntriesUpdate,
+    savePendingUpdates,
+    hasPendingUpdates,
+    refetchFilterEntries,
+  } = useRequiredContext(FilterUpdateContext)
 
   const [addresses, setAddresses] = useState<string[]>([])
   const [newAddress, setNewAddress] = useState("")
@@ -61,6 +59,9 @@ export const AddFilterAddressModal = () => {
     }
 
     setAddresses([...addresses, newAddress])
+    queueEntriesUpdate({
+      items: [...addresses, newAddress].map((address) => ({ value: address })),
+    })
     setNewAddress("")
     setError("")
   }
@@ -73,9 +74,8 @@ export const AddFilterAddressModal = () => {
   }
 
   const onSaveClick = async () => {
-    // queueUpdate({
-    //   filterAddresses: addresses,
-    // })
+    await savePendingUpdates()
+    await refetchFilterEntries()
     closeModal()
   }
 
@@ -111,6 +111,7 @@ export const AddFilterAddressModal = () => {
                   {address}
                 </span>
                 <Button
+                  disabled={!hasPendingUpdates}
                   variant="border"
                   onClick={() => removeAddress(index)}
                   className="text-gray-400 hover:text-gray-500"
