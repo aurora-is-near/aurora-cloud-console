@@ -1,20 +1,12 @@
 import { createApiEndpoint } from "@/utils/api"
-import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { assertValidSupabaseResult } from "@/utils/supabase"
 import { updateFilterEntries } from "@/actions/filter-entries/update-filter-entries"
+import { getFilterEntries } from "@/actions/filter-entries/get-filter-entries"
 
 export const GET = createApiEndpoint("getFilterEntries", async (_req, ctx) => {
-  const supabase = createAdminSupabaseClient()
-  const filterEntriesResult = await supabase
-    .from("filter_entries")
-    .select("*")
-    .order("id", { ascending: true })
-    .eq("filter_id", Number(ctx.params.filter_id))
-
-  assertValidSupabaseResult(filterEntriesResult)
+  const filterEntries = await getFilterEntries(Number(ctx.params.filter_id))
 
   return {
-    items: filterEntriesResult.data,
+    items: filterEntries ?? [],
   }
 })
 
