@@ -30,7 +30,7 @@ const Page = async ({
   }
 
   const eoaFilter = filters?.find((f) => f.filter_type === "EOA")
-  const _contractFilter = filters?.find((f) => f.filter_type === "CONTRACT")
+  const contractFilter = filters?.find((f) => f.filter_type === "CONTRACT")
 
   return (
     <DealUpdateProvider dealId={dealId}>
@@ -41,7 +41,12 @@ const Page = async ({
             <AddFilterAddressModal />
           </FilterProvider>
         )}
-        <ContractsCard silo={silo} />
+        {contractFilter && (
+          <FilterProvider filterId={contractFilter.id}>
+            <ContractsCard silo={silo} />
+            <AddFilterAddressModal />
+          </FilterProvider>
+        )}
         <RulesCard />
         <Contact teamKey={teamKey} />
         <DealDurationModal />
