@@ -572,6 +572,31 @@ export const contract = c.router({
       interval: TransactionDataIntervalQueryParamSchema,
     }),
   },
+  getSiloCollectedGas: {
+    summary: "Get collected gas over time for a single silo",
+    method: "GET",
+    path: "/api/silos/:id/gas-collected",
+    responses: {
+      200: z.object({
+        count: z.number(),
+        items: z.array(
+          z.object({
+            day: z.string(),
+            count: z.number(),
+          }),
+        ),
+      }),
+    },
+    query: z.object({
+      date: z.string().optional(),
+    }),
+    metadata: {
+      scopes: ["transactions:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
   getSiloFailureRate: {
     summary: "Get the failure rate chart for a single silo",
     method: "GET",

@@ -6,6 +6,7 @@ import { GasAbstractionPage } from "@/components/GasAbstractionPage"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { canCreateDeal } from "@/utils/can-create-deal"
 import { GasAbstractionPlansTab } from "./GasAbstractionPlansTab"
+import { GasAbstractionCollectedTab } from "./GasAbstractionCollectedTab"
 import { GasAbstractionAboutTab } from "./GasAbstractionAboutTab"
 import AddPlanModal from "./AddPlanModal"
 
@@ -43,6 +44,10 @@ const Page = async ({
                   isNewPlanButtonDisabled={!canCreateDeal(silo, deals)}
                 />
               ),
+            },
+            {
+              title: "Gas collected",
+              content: <GasAbstractionCollectedTab silo={silo} />,
             },
           ]}
         />
