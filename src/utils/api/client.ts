@@ -107,6 +107,12 @@ export const apiClient = {
       items: data.items,
     }),
 
+  deleteFilterEntry: async ({
+    filter_id,
+    id,
+  }: ApiRequestParams<"deleteFilterEntry">) =>
+    del<"deleteFilterEntry">(`/api/filters/${filter_id}/entries/${id}`),
+
   getSiloTransactions: async ({
     id,
     ...query

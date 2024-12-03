@@ -353,6 +353,22 @@ export const contract = c.router({
       scopes: ["deals:write"],
     },
   },
+  deleteFilterEntry: {
+    summary: "Delete filter entries",
+    method: "DELETE",
+    path: "/api/filters/:filter_id/entries/:id",
+    responses: {
+      204: null,
+    },
+    body: null,
+    metadata: {
+      scopes: ["deals:write"],
+    },
+    pathParams: z.object({
+      filter_id: z.number(),
+      id: z.number(),
+    }),
+  },
   getSilos: {
     summary: "Get all silos",
     method: "GET",
