@@ -8,8 +8,10 @@ import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
 import CopyButton from "@/components/CopyButton"
 import { AddButton } from "@/components/AddButton"
-import { AuroraOracleContract } from "@/types/aurora-oracle-api"
-import { Silo } from "@/types/types"
+import { FilterEntry, Silo } from "@/types/types"
+import { FilterUpdateContext } from "@/providers/FilterProvider"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { deleteFilterEntry } from "@/actions/filter-entries/delete-filter-entry"
 
 type ContractsConfigurationCardProps = {
   silo: Silo
@@ -18,50 +20,57 @@ type ContractsConfigurationCardProps = {
 const ContractsConfigurationCard = ({
   silo,
 }: ContractsConfigurationCardProps) => {
+  const { filter, filterEntries, refetchFilterEntries } =
+    useRequiredContext(FilterUpdateContext)
+
   const { openModal } = useModals()
   const onClick = () => {
-    openModal(Modals.EditContract)
+    openModal(Modals.AddFilterAddress)
   }
 
-  const contracts: AuroraOracleContract[] = []
+  const removeAddress = async (filterEntry: FilterEntry) => {
+    if (filter && filterEntry) {
+      await deleteFilterEntry(filter.id, filterEntry.id)
+      await refetchFilterEntries()
+    }
+  }
 
   return (
     <div className="xl:w-1/2 flex flex-col gap-2">
-      {contracts.map((contract) => (
+      {filterEntries.map((contract) => (
         <RuleSetting
-          key={contract.address}
-          title={contract.name}
-          description={contract.address}
+          key={contract.value}
+          title="Contract"
+          description={contract.value}
           descriptionUrl={
             silo.explorer_url
-              ? `${silo.explorer_url}/address/${contract.address}`
+              ? `${silo.explorer_url}/address/${contract.value}`
               : undefined
           }
         >
           <div className="flex flex-row gap-x-2">
             <div>
-              <CopyButton hasBorder value={contract.address} size="sm" />
+              <CopyButton hasBorder value={contract.value} size="sm" />
             </div>
             <div>
-              <Button
-                isSquare
-                disabled
-                onClick={onClick}
-                variant="border"
-                size="sm"
-              >
+              <Button isSquare onClick={onClick} variant="border" size="sm">
                 <PencilSquareIcon className="w-4 h-4" />
               </Button>
             </div>
             <div>
-              <Button isSquare disabled variant="border" size="sm">
+              <Button
+                isSquare
+                onClick={() => removeAddress(contract)}
+                variant="border"
+                size="sm"
+              >
                 <TrashIcon className="w-4 h-4" />
               </Button>
             </div>
           </div>
         </RuleSetting>
       ))}
-      <AddButton disabled text="Add contract" onClick={onClick} />
+      <AddButton text="Add contract" onClick={onClick} />
     </div>
   )
 }
