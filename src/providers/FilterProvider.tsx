@@ -4,6 +4,7 @@ import { createContext, ReactNode, useCallback, useMemo, useState } from "react"
 import {
   QueryObserverResult,
   RefetchOptions,
+  UseMutateFunction,
   useMutation,
   useQuery,
 } from "@tanstack/react-query"
@@ -29,6 +30,11 @@ type FilterUpdateContextType = {
     QueryObserverResult<{
       items: { value: string; id: number; filter_id: number }[]
     }>
+  >
+  deleteFilterEntry: UseMutateFunction<
+    null,
+    Error,
+    { id: number; filter_id: number }
   >
   filter?: Filter
   hasPendingUpdates?: boolean
@@ -87,6 +93,12 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
       },
     })
 
+  const { mutate: deleteFilterEntry, isPending: isDeleteEntryPending } =
+    useMutation({
+      mutationFn: apiClient.deleteFilterEntry,
+      onSettled: getFilterUpdater.invalidate,
+    })
+
   const savePendingUpdates = useCallback(async () => {
     if (filter) {
       if (pendingUpdate) {
@@ -135,9 +147,12 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
       queueUpdate,
       queueEntriesUpdate,
       refetchFilterEntries,
+      deleteFilterEntry,
       filter,
-      hasPendingUpdates: !!pendingUpdate || !!pendingEntriesUpdate,
-      isUpdating: isUpdatePending || isUpdateEntriesPending,
+      hasPendingUpdates:
+        !!pendingUpdate || !!pendingEntriesUpdate || !!deleteFilterEntry,
+      isUpdating:
+        isUpdatePending || isUpdateEntriesPending || isDeleteEntryPending,
       filterEntries: filterEntries?.items ?? [],
     }),
     [
@@ -151,6 +166,8 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
       pendingEntriesUpdate,
       isUpdatePending,
       isUpdateEntriesPending,
+      isDeleteEntryPending,
+      deleteFilterEntry,
       filterEntries,
     ],
   )

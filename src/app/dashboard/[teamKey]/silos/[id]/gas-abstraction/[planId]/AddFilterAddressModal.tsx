@@ -22,11 +22,13 @@ export const AddFilterAddressModal = () => {
   const { deal } = useRequiredContext(DealUpdateContext)
 
   const {
+    filter,
     filterEntries,
     queueEntriesUpdate,
     savePendingUpdates,
     hasPendingUpdates,
     refetchFilterEntries,
+    deleteFilterEntry,
   } = useRequiredContext(FilterUpdateContext)
 
   const [addresses, setAddresses] = useState<string[]>([])
@@ -67,6 +69,15 @@ export const AddFilterAddressModal = () => {
   }
 
   const removeAddress = (index: number) => {
+    const savedEntry = filterEntries.find((e) => e.value === addresses[index])
+
+    if (filter && savedEntry) {
+      deleteFilterEntry({
+        id: savedEntry.id,
+        filter_id: filter.id,
+      })
+    }
+
     const newAddresses = [...addresses]
 
     newAddresses.splice(index, 1)

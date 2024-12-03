@@ -7,7 +7,7 @@ export const GET = createApiEndpoint("getFilter", async (_req, ctx) => {
   const result = await supabase
     .from("filters")
     .select("*")
-    .eq("id", ctx.params.id)
+    .eq("id", ctx.params.filter_id)
     .single()
 
   assertValidSupabaseResult(result)
