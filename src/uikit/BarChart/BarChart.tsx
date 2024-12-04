@@ -1,9 +1,9 @@
 import { Bar } from "react-chartjs-2"
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  LinearScale,
   Title,
 } from "chart.js"
 
@@ -61,8 +61,10 @@ export const BarChart = ({
                 weight: "medium",
                 size: theme.labelSize,
               },
-              callback: function (_value, index) {
-                const labels = (this.chart.data.labels || []) as string[]
+              callback(_value, index) {
+                // eslint-disable-next-line react/no-this-in-sfc
+                const labels = (this.chart.data.labels ?? []) as string[]
+
                 if (
                   index === 0 ||
                   index === labels.length - 1 ||
@@ -70,6 +72,7 @@ export const BarChart = ({
                 ) {
                   return labels[index]
                 }
+
                 return undefined
               },
             },
@@ -83,16 +86,18 @@ export const BarChart = ({
           {
             barThickness: theme.barSize,
             // @ts-expect-error wrong library typings
-            backgroundColor: function (context) {
+            backgroundColor(context) {
               const values = context.dataset.data
+
               return values.map((value) =>
-                value === 0
-                  ? theme.colors.grid
-                  : theme.colors.bar,
+                value === 0 ? theme.colors.grid : theme.colors.bar,
               )
             },
             data: data.map(({ y }) => {
-              if (y === 0 && showZeroValues) return 0
+              if (y === 0 && showZeroValues) {
+                return 0
+              }
+
               return y
             }),
           },

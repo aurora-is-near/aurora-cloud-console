@@ -1,6 +1,4 @@
-import React from "react"
-
-import { clsx } from '../clsx'
+import { clsx } from "../clsx"
 
 import { CommonProps } from "./types"
 
@@ -18,6 +16,7 @@ export const Heading = ({
   ...props
 }: HeadingProps) => {
   const Tag = as ?? `h${size}`
+
   switch (size) {
     case 5:
       return (

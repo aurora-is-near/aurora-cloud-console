@@ -9,19 +9,21 @@ const PAGE_SIZE = { width: 300, height: 100 }
 
 describe("Label", () => {
   it("without tooltip", async () => {
-    const html = renderToStaticMarkup(<Label>Gas collected</Label>)
-    const image = await renderImage(html, PAGE_SIZE)
-    expect(image).toMatchImageSnapshot()
+    const view = renderToStaticMarkup(<Label>Gas collected</Label>)
+    const utils = await renderImage(view, PAGE_SIZE)
+
+    expect(utils).toMatchImageSnapshot()
   })
 
   it("with tooltip", async () => {
-    const html = renderToStaticMarkup(
+    const view = renderToStaticMarkup(
       <Label tooltip="The amount of gas collected by the silo.">
         Gas collected
       </Label>,
     )
 
-    const image = await renderImage(html, PAGE_SIZE)
-    expect(image).toMatchImageSnapshot()
+    const utils = await renderImage(view, PAGE_SIZE)
+
+    expect(utils).toMatchImageSnapshot()
   })
 })

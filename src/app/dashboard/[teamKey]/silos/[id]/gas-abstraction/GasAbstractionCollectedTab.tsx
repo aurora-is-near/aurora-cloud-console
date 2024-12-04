@@ -1,4 +1,5 @@
 "use client"
+
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
@@ -6,12 +7,12 @@ import { getQueryFnAndKey } from "@/utils/api/queries"
 import { TabCard } from "@/components/TabCard/TabCard"
 import { notReachable } from "@/utils/notReachable"
 import {
-  Typography,
-  Label,
-  Dropdown,
   BarChart,
+  Dropdown,
+  Label,
   Loading,
   Skeleton,
+  Typography,
 } from "@/uikit"
 import type { DropdownOption } from "@/uikit"
 import type { Silo } from "@/types/types"
@@ -40,6 +41,7 @@ const getMonthsList = (createdAt: string) => {
   while (currentMonth <= currentDate) {
     const monthName = currentMonth.toLocaleString("default", { month: "long" })
     const year = currentMonth.getFullYear()
+
     months.push({
       label: `${monthName} ${year}`,
       value: currentMonth.toISOString(),
@@ -53,17 +55,20 @@ const getMonthsList = (createdAt: string) => {
 const getEmptyMonthData = (date: string) => {
   const startDate = new Date(date)
   const endDate = new Date(date)
+
   endDate.setMonth(startDate.getMonth() + 1)
   endDate.setDate(0)
 
   const data = []
+
   for (
-    let date = new Date(startDate);
-    date <= endDate;
-    date.setDate(date.getDate() + 1)
+    let currentDate = new Date(startDate);
+    currentDate <= endDate;
+    currentDate.setDate(currentDate.getDate() + 1)
   ) {
-    const monthName = date.toLocaleString("default", { month: "short" })
-    const day = String(date.getDate()).padStart(2, "0")
+    const monthName = currentDate.toLocaleString("default", { month: "short" })
+    const day = String(currentDate.getDate()).padStart(2, "0")
+
     data.push({ x: `${monthName} ${day}`, y: 0 })
   }
 
@@ -136,12 +141,13 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
                       className="absolute top-1/3 left-1/2 -ml-10 text-slate-500"
                     >
                       Couldn't load.
-                      <span
+                      <button
+                        type="button"
                         className="text-cyan-600 ml-1 cursor-pointer"
                         onClick={() => query.refetch()}
                       >
                         Try again
-                      </span>
+                      </button>
                     </Typography>
                     <BarChart
                       showZeroValues

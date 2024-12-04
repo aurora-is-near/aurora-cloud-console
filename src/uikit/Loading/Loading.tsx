@@ -1,5 +1,3 @@
-import React from "react"
-
 import { Spinner } from "@/components/icons"
 
 import { clsx } from "../clsx"

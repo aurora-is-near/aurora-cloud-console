@@ -1,8 +1,6 @@
-import React from "react"
-
 import { CommonProps } from "./types"
 
-import { clsx } from '../clsx'
+import { clsx } from "../clsx"
 
 export type LabelProps = CommonProps<"span" | "strong" | "label"> & {
   size: 2 | 3

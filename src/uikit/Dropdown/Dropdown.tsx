@@ -58,13 +58,13 @@ export const Dropdown = ({ options, selected, className, ...props }: Props) => {
                 )
               }
             >
-              {({ selected }) => (
+              {({ selected: isSelectedOption }) => (
                 <Typography
                   variant="label"
                   size={3}
                   className={clsx(
                     "block truncate",
-                    selected ? "font-medium" : "font-normal",
+                    isSelectedOption ? "font-medium" : "font-normal",
                   )}
                 >
                   {option.label}

@@ -1,5 +1,3 @@
-import React from "react"
-
 import { clsx } from "../clsx"
 import { Typography } from "../Typography"
 import { InfoTooltip } from "../InfoTooltip"

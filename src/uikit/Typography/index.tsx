@@ -1,4 +1,4 @@
-import React from "react"
+/* eslint-disable react/destructuring-assignment */
 
 import { Label, type LabelProps } from "./Label"
 import { Heading, type HeadingProps } from "./Heading"
