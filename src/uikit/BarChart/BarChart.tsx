@@ -9,8 +9,6 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title)
 
-const PSEUDO_ZERO_VALUE = 4.4444
-
 type Theme = {
   showGrid: boolean
   barSize: number
@@ -88,13 +86,13 @@ export const BarChart = ({
             backgroundColor: function (context) {
               const values = context.dataset.data
               return values.map((value) =>
-                value === PSEUDO_ZERO_VALUE
+                value === 0
                   ? theme.colors.grid
                   : theme.colors.bar,
               )
             },
             data: data.map(({ y }) => {
-              if (y === 0 && showZeroValues) return PSEUDO_ZERO_VALUE
+              if (y === 0 && showZeroValues) return 0
               return y
             }),
           },

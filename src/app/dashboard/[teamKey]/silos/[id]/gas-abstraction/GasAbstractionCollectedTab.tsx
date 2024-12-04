@@ -5,7 +5,14 @@ import { useQuery } from "@tanstack/react-query"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { TabCard } from "@/components/TabCard/TabCard"
 import { notReachable } from "@/utils/notReachable"
-import { Typography, Label, Dropdown, BarChart } from "@/uikit"
+import {
+  Typography,
+  Label,
+  Dropdown,
+  BarChart,
+  Loading,
+  Skeleton,
+} from "@/uikit"
 import type { DropdownOption } from "@/uikit"
 import type { Silo } from "@/types/types"
 
@@ -84,11 +91,22 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
             <Label tooltip="Gas is charged in the base token of your Virtual Chain, and you can adjust the gas fee value below.">
               Gas collected
             </Label>
-            <Typography variant="heading" size={6}>
-              {query.data?.count.toLocaleString()} AURORA
-            </Typography>
+            {(() => {
+              switch (query.status) {
+                case "error":
+                case "pending":
+                  return <Skeleton />
+                case "success":
+                  return (
+                    <Typography variant="heading" size={6}>
+                      {query.data?.count.toLocaleString()} AURORA
+                    </Typography>
+                  )
+                default:
+                  return notReachable(query)
+              }
+            })()}
           </div>
-
           <Dropdown
             options={monthsList}
             selected={filterDate}
@@ -101,13 +119,36 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
             switch (query.status) {
               case "pending":
                 return (
-                  <BarChart
-                    showZeroValues
-                    data={getEmptyMonthData(filterDate.value)}
-                  />
+                  <div className="w-full relative">
+                    <Loading className="absolute top-1/3 left-1/2 -ml-10" />
+                    <BarChart
+                      showZeroValues
+                      data={getEmptyMonthData(filterDate.value)}
+                    />
+                  </div>
                 )
               case "error":
-                return "Error..."
+                return (
+                  <div className="w-full relative">
+                    <Typography
+                      variant="label"
+                      size={3}
+                      className="absolute top-1/3 left-1/2 -ml-10 text-slate-500"
+                    >
+                      Couldn't load.
+                      <span
+                        className="text-cyan-600 ml-1 cursor-pointer"
+                        onClick={() => query.refetch()}
+                      >
+                        Try again
+                      </span>
+                    </Typography>
+                    <BarChart
+                      showZeroValues
+                      data={getEmptyMonthData(filterDate.value)}
+                    />
+                  </div>
+                )
               case "success":
                 return (
                   <BarChart
