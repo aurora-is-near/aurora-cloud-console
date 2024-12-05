@@ -113,45 +113,43 @@ export const AddFilterAddressModal = () => {
 
   return (
     <SlideOver title="Import manually" open={open} close={closeModal}>
-      <div className="space-y-8">
-        <div className="space-y-4">
-          <div className="space-y-2">
-            {addresses.map((address, index) => (
-              <div key={address} className="flex items-center justify-between">
-                <span className="text-sm block border border-slate-300 p-2 bg-slate-50 rounded-md">
-                  {address}
-                </span>
-                <Button
-                  disabled={!hasPendingUpdates}
-                  variant="border"
-                  onClick={() => removeAddress(index)}
-                  className="text-gray-400 hover:text-gray-500"
-                >
-                  <TrashIcon className="w-5 h-5" />
-                </Button>
-              </div>
-            ))}
-          </div>
-          <InputWrapper
-            id="newAddress"
-            inputName="newAddress"
-            label="New Address"
-          >
-            <div className="flex gap-x-3">
-              <Input
-                id="newAddress"
-                name="newAddress"
-                value={newAddress}
-                onChange={(e) => setNewAddress(e.target.value)}
-                placeholder="0x..."
-                className="flex-1"
-              />
-              <Button variant="border" onClick={addAddress}>
-                <PlusIcon className="w-5 h-5" />
+      <div className="space-y-4">
+        <div className="space-y-2">
+          {addresses.map((address, index) => (
+            <div key={address} className="flex items-center justify-between">
+              <span className="text-sm block border border-slate-300 p-2 bg-slate-50 rounded-md">
+                {address}
+              </span>
+              <Button
+                disabled={!hasPendingUpdates}
+                variant="border"
+                onClick={() => removeAddress(index)}
+                className="text-gray-400 hover:text-gray-500"
+              >
+                <TrashIcon className="w-5 h-5" />
               </Button>
             </div>
-          </InputWrapper>
+          ))}
         </div>
+        <InputWrapper
+          id="newAddress"
+          inputName="newAddress"
+          label="New Address"
+        >
+          <div className="flex gap-x-3">
+            <Input
+              id="newAddress"
+              name="newAddress"
+              value={newAddress}
+              onChange={(e) => setNewAddress(e.target.value)}
+              placeholder="0x..."
+              className="flex-1"
+            />
+            <Button variant="border" onClick={addAddress}>
+              <PlusIcon className="w-5 h-5" />
+            </Button>
+          </div>
+        </InputWrapper>
       </div>
 
       <SlideOver.Actions>
