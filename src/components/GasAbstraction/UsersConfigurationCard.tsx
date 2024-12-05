@@ -60,7 +60,7 @@ const UsersConfigurationCard = () => {
       title="Users"
       description="Choose who will benefit from this plan."
     >
-      <form className="xl:w-1/2 flex flex-col gap-2">
+      <div className="xl:w-1/2 flex flex-col gap-2">
         <div
           className={clsx(
             "rounded-md ring-1",
@@ -143,7 +143,7 @@ const UsersConfigurationCard = () => {
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </ConfigurationCard>
   )
 }
