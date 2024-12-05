@@ -9,7 +9,6 @@ import { ApiRequestBody } from "@/types/api"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { logger } from "@/logger"
-import { Filter } from "@/types/types"
 
 type DealUpdateProviderProps = {
   dealId: number
@@ -19,7 +18,6 @@ type DealUpdateProviderProps = {
 type DealUpdateContextType = {
   clearPendingUpdates: () => void
   savePendingUpdates: () => Promise<void>
-  setFilters: (filters: Filter[]) => void
   queueUpdate: (data: ApiRequestBody<"updateDeal">) => void
   deal?: DealSchema
   hasPendingUpdates?: boolean
@@ -67,13 +65,6 @@ export const DealUpdateProvider = ({
     clearPendingUpdates()
   }, [deal, pendingUpdate, clearPendingUpdates, updateDeal])
 
-  const setFilters = useCallback(
-    (_filters: Filter[]) => {
-      setPendingUpdate((prev) => ({ ...prev, ..._filters }))
-    },
-    [setPendingUpdate],
-  )
-
   const queueUpdate = useCallback(
     (data: ApiRequestBody<"updateDeal">) => {
       setPendingUpdate((prev) => ({ ...prev, ...data }))
@@ -85,7 +76,6 @@ export const DealUpdateProvider = ({
     (): DealUpdateContextType => ({
       clearPendingUpdates,
       savePendingUpdates,
-      setFilters,
       queueUpdate,
       deal,
       hasPendingUpdates: !!pendingUpdate,
@@ -94,7 +84,6 @@ export const DealUpdateProvider = ({
     [
       clearPendingUpdates,
       savePendingUpdates,
-      setFilters,
       queueUpdate,
       deal,
       pendingUpdate,
