@@ -10,7 +10,7 @@ export const getDeal = async (id: number): Promise<Deal | null> => {
     .from("deals")
     .select("*")
     .eq("id", id)
-    .maybeSingle()
+    .single()
 
   return deal
 }

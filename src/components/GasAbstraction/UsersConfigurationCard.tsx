@@ -16,31 +16,29 @@ import { Modals } from "@/utils/modals"
 import { FilterUpdateContext } from "@/providers/FilterProvider"
 
 type Inputs = {
-  open: boolean
+  open?: boolean
 }
 
 const UsersConfigurationCard = () => {
   const { deal, queueUpdate } = useRequiredContext(DealUpdateContext)
   const { openModal } = useModals()
-  const { register, watch } = useForm<Inputs>({
-    defaultValues: {
-      open: !!deal?.open,
-    },
-  })
+  const { register, watch } = useForm<Inputs>()
 
   const { filterEntries } = useRequiredContext(FilterUpdateContext)
 
+  const isOpen = String(watch("open") ?? deal?.open) === "true"
+
   useEffect(() => {
-    const subscription = watch((value, { name, type: operation }) => {
+    const subscription = watch((_value, { name, type: operation }) => {
       if (operation === "change" && name) {
         queueUpdate({
-          open: value.open,
+          open: isOpen,
         })
       }
     })
 
     return () => subscription.unsubscribe()
-  }, [watch, queueUpdate, deal?.name])
+  }, [watch, queueUpdate, isOpen])
 
   if (!deal) {
     return <Loader />
@@ -49,8 +47,6 @@ const UsersConfigurationCard = () => {
   const openAddFilterAddressModal = () => {
     openModal(Modals.AddFilterAddress)
   }
-
-  const isOpen = String(watch("open")) === "true"
 
   const radioClassName =
     "accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 checked:hover:bg-green-500 focus:ring-green-500"
@@ -77,7 +73,7 @@ const UsersConfigurationCard = () => {
                 type="radio"
                 value="true"
                 className={radioClassName}
-                checked={isOpen}
+                defaultChecked={String(deal?.open) === "true"}
                 {...register("open")}
               />
             </div>
@@ -102,7 +98,7 @@ const UsersConfigurationCard = () => {
                 type="radio"
                 value="false"
                 className={radioClassName}
-                checked={!isOpen}
+                defaultChecked={String(deal?.open) !== "true"}
                 {...register("open")}
               />
             </div>
