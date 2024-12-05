@@ -61,25 +61,18 @@ describe("Deal route", () => {
       })
 
       expect(dealSelectQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
+      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
   })
 
   describe("PUT", () => {
     it("updates a deal", async () => {
       const mockDeal = createMockDeal()
-      const updateQueries = createInsertOrUpdate(mockDeal)
+      const putQueries = createInsertOrUpdate(mockDeal)
 
       mockSupabaseClient
         .from("deals")
-        .update.mockImplementation(() => updateQueries)
-
-      updateQueries.select.mockReturnValue(
-        createSelect({
-          ...mockDeal,
-          name: "Test Update",
-          open: false,
-        }),
-      )
+        .update.mockImplementation(() => putQueries)
 
       const res = await invokeApiHandler(
         "PUT",
@@ -91,29 +84,35 @@ describe("Deal route", () => {
           },
           body: {
             name: "Test Update",
-            open: false,
+            open: mockDeal.open,
+            enabled: mockDeal.enabled,
+            startTime: "2021-01-02T00:00:00.000Z",
+            endTime: "2021-01-02T00:00:00.000Z",
           },
         },
       )
 
       expect(res).toSatisfyApiSpec()
 
+      console.log(res.status)
+      console.log(mockDeal)
+
       expect(res.body).toEqual({
-        name: "Test Update",
-        open: false,
         id: mockDeal.id,
         siloId: mockDeal.silo_id,
         teamId: mockDeal.team_id,
+        name: "Test Update",
+        open: mockDeal.open,
         enabled: mockDeal.enabled,
-        startTime: mockDeal.start_time,
-        endTime: mockDeal.end_time,
+        startTime: "2021-01-02T00:00:00.000Z",
+        endTime: "2021-01-02T00:00:00.000Z",
         createdAt: mockDeal.created_at,
         updatedAt: mockDeal.updated_at,
         deletedAt: mockDeal.deleted_at,
       })
 
-      expect(updateQueries.eq).toHaveBeenCalledTimes(1)
-      expect(updateQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
+      expect(putQueries.eq).toHaveBeenCalledTimes(1)
+      expect(putQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
     })
   })
 })
