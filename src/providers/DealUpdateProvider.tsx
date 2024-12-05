@@ -15,17 +15,9 @@ type DealUpdateProviderProps = {
   children: ReactNode
 }
 
-type DealFilters = {
-  chainFilterListId?: number | null
-  contractFilterListId?: number | null
-  eoaFilterListId?: number | null
-  eoaBlacklistListId?: number | null
-}
-
 type DealUpdateContextType = {
   clearPendingUpdates: () => void
   savePendingUpdates: () => Promise<void>
-  setFilters: (filters: DealFilters) => void
   queueUpdate: (data: ApiRequestBody<"updateDeal">) => void
   deal?: DealSchema
   hasPendingUpdates?: boolean
@@ -73,13 +65,6 @@ export const DealUpdateProvider = ({
     clearPendingUpdates()
   }, [deal, pendingUpdate, clearPendingUpdates, updateDeal])
 
-  const setFilters = useCallback(
-    (filters: DealFilters) => {
-      setPendingUpdate((prev) => ({ ...prev, ...filters }))
-    },
-    [setPendingUpdate],
-  )
-
   const queueUpdate = useCallback(
     (data: ApiRequestBody<"updateDeal">) => {
       setPendingUpdate((prev) => ({ ...prev, ...data }))
@@ -91,7 +76,6 @@ export const DealUpdateProvider = ({
     (): DealUpdateContextType => ({
       clearPendingUpdates,
       savePendingUpdates,
-      setFilters,
       queueUpdate,
       deal,
       hasPendingUpdates: !!pendingUpdate,
@@ -100,7 +84,6 @@ export const DealUpdateProvider = ({
     [
       clearPendingUpdates,
       savePendingUpdates,
-      setFilters,
       queueUpdate,
       deal,
       pendingUpdate,
