@@ -7,6 +7,9 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
@@ -16,6 +19,15 @@ import { InputWrapper } from "@/components/InputWrapper"
 import { Modals } from "@/utils/modals"
 import { Input } from "@/components/Input"
 import { FilterUpdateContext } from "@/providers/FilterProvider"
+
+const addressSchema = z.object({
+  newAddress: z
+    .string()
+    .min(1, "Address is required")
+    .regex(/^0x[a-fA-F0-9]{40}$/, "Invalid address format"),
+})
+
+type AddressFormData = z.infer<typeof addressSchema>
 
 export const AddFilterAddressModal = () => {
   const { closeModal, activeModal } = useModals()
@@ -32,31 +44,21 @@ export const AddFilterAddressModal = () => {
   } = useRequiredContext(FilterUpdateContext)
 
   const [addresses, setAddresses] = useState<string[]>([])
-  const [newAddress, setNewAddress] = useState("")
-  const [_error, setError] = useState("")
 
-  const validateAddress = (address: string) => {
-    if (!address) {
-      return "Address is required"
-    }
-
-    if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
-      return "Invalid address"
-    }
-
-    if (addresses.includes(address)) {
-      return "Address already added"
-    }
-
-    return ""
-  }
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    getValues,
+  } = useForm<AddressFormData>({
+    resolver: zodResolver(addressSchema),
+  })
 
   const addAddress = () => {
-    const validationError = validateAddress(newAddress)
+    const newAddress = getValues("newAddress")
 
-    if (validationError) {
-      setError(validationError)
-
+    if (addresses.includes(newAddress)) {
       return
     }
 
@@ -64,8 +66,7 @@ export const AddFilterAddressModal = () => {
     queueEntriesUpdate({
       items: [...addresses, newAddress].map((address) => ({ value: address })),
     })
-    setNewAddress("")
-    setError("")
+    reset()
   }
 
   const removeAddress = (index: number) => {
@@ -92,8 +93,7 @@ export const AddFilterAddressModal = () => {
 
   const onClear = () => {
     setAddresses([])
-    setNewAddress("")
-    setError("")
+    reset()
   }
 
   const onCancel = () => {
@@ -135,17 +135,16 @@ export const AddFilterAddressModal = () => {
           id="newAddress"
           inputName="newAddress"
           label="New Address"
+          errors={errors}
         >
           <div className="flex gap-x-3">
             <Input
               id="newAddress"
-              name="newAddress"
-              value={newAddress}
-              onChange={(e) => setNewAddress(e.target.value)}
+              {...register("newAddress")}
               placeholder="0x..."
               className="flex-1"
             />
-            <Button variant="border" onClick={addAddress}>
+            <Button variant="border" onClick={handleSubmit(addAddress)}>
               <PlusIcon className="w-5 h-5" />
             </Button>
           </div>
