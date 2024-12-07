@@ -9,7 +9,7 @@ import { SidebarMenu } from "@/components/menu/SidebarMenu"
 
 type DashboardLayoutProps = {
   teamKey?: string
-  showAdminMenu?: boolean
+  showAdminMenu: boolean
   children: ReactNode
   sidebarMenu?: {
     heading: string
@@ -25,23 +25,21 @@ export const DashboardLayout = ({
   sidebarMenu,
 }: DashboardLayoutProps) => {
   const mainMenuItems = useMemo(() => {
-    if (!teamKey) {
-      return []
+    const items: MenuItem[] = []
+
+    if (showAdminMenu) {
+      items.push({
+        name: "Admin",
+        href: "/admin",
+        icon: <AdjustmentsHorizontalIcon />,
+      })
     }
 
-    const items: MenuItem[] = [
-      {
+    if (teamKey) {
+      items.push({
         name: "Settings",
         href: `/dashboard/${teamKey}/settings/team`,
         icon: <Cog6ToothIcon />,
-      },
-    ]
-
-    if (showAdminMenu) {
-      items.unshift({
-        name: "Admin",
-        href: `/dashboard/${teamKey}/admin`,
-        icon: <AdjustmentsHorizontalIcon />,
       })
     }
 
