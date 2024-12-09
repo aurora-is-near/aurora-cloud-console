@@ -98,9 +98,6 @@ describe("Deal route", () => {
 
       expect(res).toSatisfyApiSpec()
 
-      console.log(res.status)
-      console.log(mockDeal)
-
       expect(res.body).toEqual({
         name: "Test Update",
         open: false,
