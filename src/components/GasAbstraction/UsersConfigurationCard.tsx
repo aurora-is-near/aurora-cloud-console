@@ -28,6 +28,10 @@ const UsersConfigurationCard = () => {
     },
   })
 
+  // Premium Plan deal
+  // all others are disabled until there is engine integration
+  const disabled = deal?.id !== 17
+
   const { filterEntries } = useRequiredContext(FilterUpdateContext)
 
   useEffect(() => {
@@ -78,6 +82,7 @@ const UsersConfigurationCard = () => {
                 value="true"
                 className={radioClassName}
                 checked={isOpen}
+                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -103,6 +108,7 @@ const UsersConfigurationCard = () => {
                 value="false"
                 className={radioClassName}
                 checked={!isOpen}
+                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -137,7 +143,11 @@ const UsersConfigurationCard = () => {
                   {filterEntries?.length === 1 ? "" : "es"} added
                 </span>
               </div>
-              <Button onClick={openAddFilterAddressModal} variant="border">
+              <Button
+                disabled={disabled}
+                onClick={openAddFilterAddressModal}
+                variant="border"
+              >
                 Add manually
               </Button>
             </div>
