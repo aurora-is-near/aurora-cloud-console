@@ -6,6 +6,7 @@ import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
 import { getFilters } from "@/actions/filters/get-filters"
 import { FilterProvider } from "@/providers/FilterProvider"
+import { createFilter } from "@/actions/filters/create-filter"
 import { DealDurationModal } from "./DealDurationModal"
 import { AddFilterAddressModal } from "./AddFilterAddressModal"
 import { ContractsCard } from "./ContractsCard"
@@ -29,8 +30,16 @@ const Page = async ({
     notFound()
   }
 
-  const eoaFilter = filters?.find((f) => f.filter_type === "EOA")
-  const contractFilter = filters?.find((f) => f.filter_type === "CONTRACT")
+  let eoaFilter = filters?.find((f) => f.filter_type === "EOA")
+  let contractFilter = filters?.find((f) => f.filter_type === "CONTRACT")
+
+  if (!eoaFilter) {
+    eoaFilter = await createFilter(dealId, "EOA")
+  }
+
+  if (!contractFilter) {
+    contractFilter = await createFilter(dealId, "CONTRACT")
+  }
 
   return (
     <DealUpdateProvider dealId={dealId}>
