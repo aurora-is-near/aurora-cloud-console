@@ -19,6 +19,7 @@
     "@anatine/zod-openapi": "^2.2.2",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
+    "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@sentry/nextjs": "^8",
     "@supabase/ssr": "^0.0.10",

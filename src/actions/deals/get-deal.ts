@@ -6,11 +6,7 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 export const getDeal = async (id: number): Promise<Deal | null> => {
   const supabase = createAdminSupabaseClient()
 
-  const { data: deal } = await supabase
-    .from("deals")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle()
+  const result = await supabase.from("deals").select("*").eq("id", id).single()
 
-  return deal
+  return result.data
 }
