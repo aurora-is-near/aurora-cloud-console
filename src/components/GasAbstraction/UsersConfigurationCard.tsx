@@ -10,10 +10,10 @@ import { Button } from "@/components/Button"
 import { ConfigurationCard } from "@/components/ConfigurationCard"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
-import Loader from "@/components/Loader"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { FilterUpdateContext } from "@/providers/FilterProvider"
+import Loader from "@/components/Loader"
 
 type Inputs = {
   open?: boolean
@@ -23,6 +23,10 @@ const UsersConfigurationCard = () => {
   const { deal, queueUpdate } = useRequiredContext(DealUpdateContext)
   const { openModal } = useModals()
   const { register, watch } = useForm<Inputs>()
+
+  // Premium Plan deal
+  // all others are disabled until there is engine integration
+  const disabled = deal?.id !== 17
 
   const { filterEntries } = useRequiredContext(FilterUpdateContext)
 
@@ -73,7 +77,8 @@ const UsersConfigurationCard = () => {
                 type="radio"
                 value="true"
                 className={radioClassName}
-                defaultChecked={String(deal?.open) === "true"}
+                checked={isOpen}
+                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -98,7 +103,8 @@ const UsersConfigurationCard = () => {
                 type="radio"
                 value="false"
                 className={radioClassName}
-                defaultChecked={String(deal?.open) !== "true"}
+                checked={!isOpen}
+                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -133,7 +139,11 @@ const UsersConfigurationCard = () => {
                   {filterEntries?.length === 1 ? "" : "es"} added
                 </span>
               </div>
-              <Button onClick={openAddFilterAddressModal} variant="border">
+              <Button
+                disabled={disabled}
+                onClick={openAddFilterAddressModal}
+                variant="border"
+              >
                 Add manually
               </Button>
             </div>
