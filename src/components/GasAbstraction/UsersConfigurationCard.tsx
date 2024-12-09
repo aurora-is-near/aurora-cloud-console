@@ -11,37 +11,46 @@ import { ConfigurationCard } from "@/components/ConfigurationCard"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import Loader from "@/components/Loader"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
+import { FilterUpdateContext } from "@/providers/FilterProvider"
 
 type Inputs = {
-  open: boolean
+  open?: boolean
 }
 
 const UsersConfigurationCard = () => {
   const { deal, queueUpdate } = useRequiredContext(DealUpdateContext)
+  const { openModal } = useModals()
+  const { register, watch } = useForm<Inputs>()
 
-  const { register, watch } = useForm<Inputs>({
-    defaultValues: {
-      open: !!deal?.open,
-    },
-  })
+  // Premium Plan deal
+  // all others are disabled until there is engine integration
+  const disabled = deal?.id !== 17
+
+  const { filterEntries } = useRequiredContext(FilterUpdateContext)
+
+  const isOpen = String(watch("open") ?? deal?.open) === "true"
 
   useEffect(() => {
-    const subscription = watch((value, { name, type: operation }) => {
+    const subscription = watch((_value, { name, type: operation }) => {
       if (operation === "change" && name) {
         queueUpdate({
-          open: value.open,
+          open: isOpen,
         })
       }
     })
 
     return () => subscription.unsubscribe()
-  }, [watch, queueUpdate, deal?.name])
+  }, [watch, queueUpdate, isOpen])
 
   if (!deal) {
     return <Loader />
   }
 
-  const isOpen = String(watch("open")) === "true"
+  const openAddFilterAddressModal = () => {
+    openModal(Modals.AddFilterAddress)
+  }
 
   const radioClassName =
     "accent-green-500 checked:bg-green-500 checked:focus:bg-green-500 checked:hover:bg-green-500 focus:ring-green-500"
@@ -51,7 +60,7 @@ const UsersConfigurationCard = () => {
       title="Users"
       description="Choose who will benefit from this plan."
     >
-      <form className="xl:w-1/2 flex flex-col gap-2">
+      <div className="xl:w-1/2 flex flex-col gap-2">
         <div
           className={clsx(
             "rounded-md ring-1",
@@ -68,7 +77,8 @@ const UsersConfigurationCard = () => {
                 type="radio"
                 value="true"
                 className={radioClassName}
-                checked={isOpen}
+                defaultChecked={String(deal?.open) === "true"}
+                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -85,7 +95,7 @@ const UsersConfigurationCard = () => {
         >
           <label
             htmlFor="selected"
-            className="flex items-start w-full cursor-not-allowed"
+            className="flex items-start w-full cursor-pointer"
           >
             <div className="flex items-center h-6">
               <input
@@ -93,7 +103,8 @@ const UsersConfigurationCard = () => {
                 type="radio"
                 value="false"
                 className={radioClassName}
-                checked={!isOpen}
+                defaultChecked={String(deal?.open) !== "true"}
+                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -124,16 +135,21 @@ const UsersConfigurationCard = () => {
               <div className="flex flex-col">
                 <span className="text-sm font-medium">Import manually</span>
                 <span className="text-sm text-slate-500">
-                  0 wallet addresses added
+                  {filterEntries?.length} wallet address
+                  {filterEntries?.length === 1 ? "" : "es"} added
                 </span>
               </div>
-              <Button disabled variant="border">
+              <Button
+                disabled={disabled}
+                onClick={openAddFilterAddressModal}
+                variant="border"
+              >
                 Add manually
               </Button>
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </ConfigurationCard>
   )
 }

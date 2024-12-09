@@ -81,6 +81,38 @@ export const apiClient = {
   }: ApiRequestParams<"updateDeal"> & ApiRequestBody<"updateDeal">) =>
     put<"updateDeal">(`/api/deals/${id}`, data),
 
+  getFilters: async ({ deal_id }: ApiRequestParams<"getFilters">) =>
+    get<"getFilters">(`/api/deals/${deal_id}/filters`),
+
+  getFilter: async ({ filter_id }: ApiRequestParams<"getFilter">) =>
+    get<"getFilter">(`/api/filters/${filter_id}`),
+
+  updateFilter: async ({
+    filter_id,
+    ...data
+  }: ApiRequestParams<"updateFilter"> & ApiRequestBody<"updateFilter">) =>
+    put<"updateFilter">(`/api/filters/${filter_id}`, data),
+
+  getFilterEntries: async ({
+    filter_id,
+  }: ApiRequestParams<"getFilterEntries">) =>
+    get<"getFilterEntries">(`/api/filters/${filter_id}/entries`),
+
+  updateFilterEntries: async ({
+    filter_id,
+    ...data
+  }: ApiRequestParams<"updateFilterEntries"> &
+    ApiRequestBody<"updateFilterEntries">) =>
+    put<"updateFilterEntries">(`/api/filters/${filter_id}/entries`, {
+      items: data.items,
+    }),
+
+  deleteFilterEntry: async ({
+    filter_id,
+    id,
+  }: ApiRequestParams<"deleteFilterEntry">) =>
+    del<"deleteFilterEntry">(`/api/filters/${filter_id}/entries/${id}`),
+
   getSiloTransactions: async ({
     id,
     ...query
