@@ -1,0 +1,92 @@
+/**
+ * @jest-environment node
+ */
+import { GET } from "./route"
+import {
+  createSelect,
+  mockBlockscoutClient,
+} from "../../../../../../test-utils/mock-blockscout-client"
+import { mockSupabaseClient } from "../../../../../../test-utils/mock-supabase-client"
+import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
+import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
+import {
+  createMockBlockscoutTxs,
+  createMockBlockscoutBlocks,
+} from "../../../../../../test-utils/factories/txs-factory"
+import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
+
+jest.mock("../../../../../utils/api", () => ({
+  createApiEndpoint: jest.fn((_name, handler) => handler),
+}))
+
+describe("Collected gas route", () => {
+  beforeAll(setupJestOpenApi)
+
+  describe("GET", () => {
+    it("returns a 404 for a non-existant silo", async () => {
+      await expect(async () =>
+        invokeApiHandler(
+          "GET",
+          "/api/silos/1/gas-collected?startDate=2024-11-01&endDate=2024-11-30",
+          GET,
+        ),
+      ).rejects.toThrow("Not Found")
+    })
+
+    it("returns an empty array for no gas for the given period", async () => {
+      mockSupabaseClient
+        .from("silos")
+        .select.mockImplementation(() => createSelect(createMockSilo()))
+
+      mockBlockscoutClient
+        .from("transactions")
+        .select.mockImplementationOnce(() => createSelect([]))
+
+      const res = await invokeApiHandler(
+        "GET",
+        "/api/silos/1/gas-collected?startDate=2024-11-01&endDate=2024-11-30",
+        GET,
+      )
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
+        count: 0,
+        items: [],
+      })
+    })
+
+    it("returns the data for collected gas over a time period", async () => {
+      mockSupabaseClient
+        .from("silos")
+        .select.mockImplementation(() => createSelect(createMockSilo()))
+
+      mockBlockscoutClient
+        .from("blocks")
+        .select.mockImplementationOnce(() =>
+          createSelect(createMockBlockscoutBlocks(30, "2024-11-30")),
+        )
+
+      console.log('---1', createMockBlockscoutBlocks(30, "2024-11-30"))
+
+      mockBlockscoutClient
+        .from("transactions")
+        .select.mockImplementationOnce(() =>
+          createSelect(createMockBlockscoutTxs(30)),
+        )
+
+      const res = await invokeApiHandler(
+        "GET",
+        "/api/silos/1/gas-collected?startDate=2024-11-01&endDate=2024-11-30",
+        GET,
+      )
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
+        items: Array.from({ length: 30 }, (_, index) => ({
+          day: `2024-11-${index + 1}`,
+          count: index + 1,
+        })),
+      })
+    })
+  })
+})

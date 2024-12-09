@@ -7,5 +7,6 @@ type DebuggerName =
   | "aurora-oracle"
   | "forwarder"
   | "coingecko"
+  | "blockscout-db"
 
 export const createDebugger = (name: DebuggerName) => debug(name)

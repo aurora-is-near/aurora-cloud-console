@@ -2,6 +2,15 @@
 
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
+import {
+  startOfMonth,
+  endOfMonth,
+  isBefore,
+  addDays,
+  addMonths,
+  parseISO,
+  format,
+} from "date-fns"
 
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { TabCard } from "@/components/TabCard/TabCard"
@@ -21,58 +30,52 @@ type Props = {
   silo: Silo
 }
 
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  })
-}
-
-const getMonthsList = (createdAt: string) => {
-  const startDate = new Date(createdAt)
-  const currentDate = new Date()
-
-  currentDate.setMonth(currentDate.getMonth() + 1)
-  currentDate.setDate(0)
+const getMonthsList = (createdAt: string): DropdownOption[] => {
+  const startDate = startOfMonth(parseISO(createdAt))
+  const currentDate = endOfMonth(new Date())
 
   const months: DropdownOption[] = []
-  const currentMonth = new Date(startDate)
+  let currentMonth = startDate
 
-  while (currentMonth <= currentDate) {
-    const monthName = currentMonth.toLocaleString("default", { month: "long" })
-    const year = currentMonth.getFullYear()
+  while (
+    isBefore(currentMonth, currentDate) ||
+    currentMonth.getMonth() === currentDate.getMonth()
+  ) {
+    const monthName = format(currentMonth, "MMMM")
+    const year = format(currentMonth, "yyyy")
 
     months.push({
       label: `${monthName} ${year}`,
-      value: currentMonth.toISOString(),
+      value: format(currentMonth, "yyyy-MM-dd"),
     })
-    currentMonth.setMonth(currentMonth.getMonth() + 1)
+
+    currentMonth = addMonths(currentMonth, 1)
   }
 
   return months
 }
 
 const getEmptyMonthData = (date: string) => {
-  const startDate = new Date(date)
-  const endDate = new Date(date)
-
-  endDate.setMonth(startDate.getMonth() + 1)
-  endDate.setDate(0)
+  const startDate = startOfMonth(parseISO(date))
+  const endDate = endOfMonth(startDate)
 
   const data = []
+  let currentDate = startDate
 
-  for (
-    let currentDate = new Date(startDate);
-    currentDate <= endDate;
-    currentDate.setDate(currentDate.getDate() + 1)
-  ) {
-    const monthName = currentDate.toLocaleString("default", { month: "short" })
-    const day = String(currentDate.getDate()).padStart(2, "0")
-
+  while (currentDate <= endDate) {
+    const monthName = format(currentDate, "MMM")
+    const day = format(currentDate, "dd")
     data.push({ x: `${monthName} ${day}`, y: 0 })
+    currentDate = addDays(currentDate, 1)
   }
 
   return data
+}
+
+const getLastDayOfMonth = (dateString: string) => {
+  const date = parseISO(dateString)
+  const lastDay = endOfMonth(date)
+  return format(lastDay, "yyyy-MM-dd")
 }
 
 export const GasAbstractionCollectedTab = ({ silo }: Props) => {
@@ -84,7 +87,8 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
   const query = useQuery(
     getQueryFnAndKey("getSiloCollectedGas", {
       id: silo.id,
-      date: filterDate.value,
+      startDate: filterDate.value,
+      endDate: getLastDayOfMonth(filterDate.value),
     }),
   )
 
@@ -104,6 +108,7 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
                 case "success":
                   return (
                     <Typography variant="heading" size={6}>
+                      {/* TODO: Replace AURORA with the token name */}
                       {query.data?.count.toLocaleString()} AURORA
                     </Typography>
                   )
@@ -160,7 +165,7 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
                   <BarChart
                     showZeroValues
                     data={query.data.items.map(({ day, count }) => ({
-                      x: formatDate(day),
+                      x: format(parseISO(day), "MMM d"),
                       y: count,
                     }))}
                   />

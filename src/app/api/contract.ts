@@ -588,7 +588,8 @@ export const contract = c.router({
       }),
     },
     query: z.object({
-      date: z.string().optional(),
+      startDate: z.string(),
+      endDate: z.string(),
     }),
     metadata: {
       scopes: ["transactions:read"],
