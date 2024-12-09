@@ -67,11 +67,19 @@ describe("Deal route", () => {
   describe("PUT", () => {
     it("updates a deal", async () => {
       const mockDeal = createMockDeal()
-      const putQueries = createInsertOrUpdate(mockDeal)
+      const updateQueries = createInsertOrUpdate(mockDeal)
 
       mockSupabaseClient
         .from("deals")
-        .update.mockImplementation(() => putQueries)
+        .update.mockImplementation(() => updateQueries)
+
+      updateQueries.select.mockReturnValue(
+        createSelect({
+          ...mockDeal,
+          name: "Test Update",
+          open: false,
+        }),
+      )
 
       const res = await invokeApiHandler(
         "PUT",
@@ -107,8 +115,8 @@ describe("Deal route", () => {
         deletedAt: mockDeal.deleted_at,
       })
 
-      expect(putQueries.eq).toHaveBeenCalledTimes(1)
-      expect(putQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
+      expect(updateQueries.eq).toHaveBeenCalledTimes(1)
+      expect(updateQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
     })
   })
 })
