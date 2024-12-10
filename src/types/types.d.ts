@@ -80,12 +80,3 @@ type ChartData = {
     count: number
   }[]
 }
-
-export interface DbLimit {
-  id: string
-  deal_id: string
-  name: string
-  value: number
-  created_at: string
-  updated_at: string
-}
