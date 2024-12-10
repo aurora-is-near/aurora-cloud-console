@@ -2,10 +2,9 @@ import fs from "fs"
 import path from "path"
 import font2base64 from "node-font2base64"
 
-const readLocalFile = (filePath: string): string =>
-  fs.readFileSync(path.join(__dirname, filePath)).toString()
-
-const cssTailwind = readLocalFile("../../tests/tailwind.css")
+const cssTailwind = fs
+  .readFileSync(path.join(__dirname, "../../tests/tailwind.css"))
+  .toString()
 
 const fontCircular = font2base64.encodeToDataUrlSync(
   path.join(__dirname, "../../src/styles/fonts/CircularXXSub-Book.woff2"),
