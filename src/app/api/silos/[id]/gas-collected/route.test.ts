@@ -66,8 +66,6 @@ describe("Collected gas route", () => {
           createSelect(createMockBlockscoutBlocks(30, "2024-11-30")),
         )
 
-      console.log('---1', createMockBlockscoutBlocks(30, "2024-11-30"))
-
       mockBlockscoutClient
         .from("transactions")
         .select.mockImplementationOnce(() =>
