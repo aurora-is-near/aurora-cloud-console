@@ -61,7 +61,15 @@ export type Deal = Tables<"deals">
 
 export type Filter = Tables<"filters">
 
+export type FilterType = Enums<"filter_type">
+
 export type FilterEntry = Tables<"filter_entries">
+
+export type Limit = Tables<"limits">
+
+export type LimitType = Enums<"limit_type">
+
+export type LimitScope = Enums<"limit_scope">
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
 
@@ -71,4 +79,13 @@ type ChartData = {
     day: number
     count: number
   }[]
+}
+
+export interface DbLimit {
+  id: string
+  deal_id: string
+  name: string
+  value: number
+  created_at: string
+  updated_at: string
 }

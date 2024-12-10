@@ -435,6 +435,101 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/deals/{deal_id}/limits": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:read\`",
+        "operationId": "getLimits",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deal_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "createdAt": {
+                            "type": "string",
+                          },
+                          "dealId": {
+                            "type": "number",
+                          },
+                          "duration": {
+                            "type": "string",
+                          },
+                          "id": {
+                            "type": "number",
+                          },
+                          "limitScope": {
+                            "enum": [
+                              "USER",
+                              "GLOBAL",
+                            ],
+                            "type": "string",
+                          },
+                          "limitType": {
+                            "enum": [
+                              "CYCLIC",
+                              "RATELIMIT",
+                            ],
+                            "type": "string",
+                          },
+                          "limitValue": {
+                            "type": "number",
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "dealId",
+                          "createdAt",
+                          "updatedAt",
+                          "limitType",
+                          "limitScope",
+                          "limitValue",
+                          "duration",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:read",
+            ],
+          },
+        ],
+        "summary": "Get all limits for a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
     "/api/deals/{id}": {
       "get": {
         "deprecated": undefined,

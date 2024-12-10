@@ -1,12 +1,13 @@
 import {
   DealSchema,
+  LimitSchema,
   ListSchema,
   OracleSchema,
   SiloSchema,
   TokenSchema,
 } from "@/types/api-schemas"
 import { AuroraOracle } from "@/types/oracle"
-import { Deal, List, Silo, Token } from "@/types/types"
+import { Deal, Limit, List, Silo, Token } from "@/types/types"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
@@ -31,6 +32,17 @@ export const adaptDeal = (deal: Deal): DealSchema => {
       : null,
   }
 }
+
+export const adaptLimit = (limit: Limit): LimitSchema => ({
+  id: limit.id,
+  dealId: limit.deal_id,
+  createdAt: limit.created_at,
+  updatedAt: limit.updated_at,
+  limitType: limit.limit_type,
+  limitScope: limit.limit_scope,
+  limitValue: limit.limit_value,
+  duration: limit.duration,
+})
 
 export const adaptToken = (token: Token): TokenSchema => ({
   id: token.id,

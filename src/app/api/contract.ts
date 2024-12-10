@@ -38,6 +38,18 @@ export const DealSchema = z.object({
   endTime: z.string().nullable(),
 })
 
+export const LimitSchema = z.object({
+  id: z.number(),
+  dealId: z.number(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  limitType: z.enum(["CYCLIC", "RATELIMIT"]),
+  limitScope: z.enum(["USER", "GLOBAL"]),
+  limitValue: z.number(),
+  // See https://www.digi.com/resources/documentation/digidocs/90001488-13/reference/r_iso_8601_duration_format.htm
+  duration: z.string(), // ISO 8601 duration format (e.g. P1D, P3Y6M4DT12H30M5S):
+})
+
 const DealPrioritiesSchema = z.array(
   z.object({
     dealId: z.number(),
@@ -206,6 +218,19 @@ export const contract = c.router({
     pathParams: z.object({
       id: z.number(),
     }),
+  },
+  getLimits: {
+    summary: "Get all limits for a deal",
+    method: "GET",
+    path: "/api/deals/:deal_id/limits",
+    responses: {
+      200: z.object({
+        items: z.array(LimitSchema),
+      }),
+    },
+    metadata: {
+      scopes: ["deals:read"],
+    },
   },
   getDealPriorities: {
     summary: "Get deal execution priorities",

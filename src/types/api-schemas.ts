@@ -2,6 +2,7 @@ import { z } from "zod"
 import {
   ChartDataSchema as ChartData,
   DealSchema as Deal,
+  LimitSchema as Limit,
   ListSchema as List,
   OracleSchema as Oracle,
   SiloSchema as Silo,
@@ -13,6 +14,7 @@ import {
 } from "@/app/api/contract"
 
 export type DealSchema = z.infer<typeof Deal>
+export type LimitSchema = z.infer<typeof Limit>
 export type SiloSchema = z.infer<typeof Silo>
 export type TokenSchema = z.infer<typeof Token>
 export type ListSchema = z.infer<typeof List>
