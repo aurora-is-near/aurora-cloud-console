@@ -1,11 +1,14 @@
-import type { Transaction, Block } from "@/types/blockscout"
+import type { Block, Transaction } from "@/types/blockscout"
 
 function generateTimestamps(startDate: string, numberOfDays: number) {
   const start = new Date(startDate)
+
   start.setDate(1)
   const timestamps: Array<{ timestamp: number }> = []
-  for (let i = 0; i < numberOfDays; i++) {
+
+  for (let i = 0; i < numberOfDays; i += 1) {
     const currentDate = new Date(start)
+
     currentDate.setDate(start.getDate() + i)
     timestamps.push({ timestamp: Math.floor(currentDate.getTime() / 1000) })
   }
@@ -41,6 +44,7 @@ export const createMockBlockscoutBlocks = (
   startDate: string,
 ): Block[] => {
   const timestamps = generateTimestamps(startDate, days)
+
   return Array.from({ length: days }, (_, index) =>
     createMockBlockscoutBlock({
       number: index + 1,

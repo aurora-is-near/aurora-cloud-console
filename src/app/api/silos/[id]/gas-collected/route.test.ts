@@ -14,10 +14,13 @@ import {
   createMockBlockscoutTxs,
 } from "../../../../../../test-utils/factories/txs-factory"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
+import { query } from "../../../../../utils/blockscout-db/query"
 
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
+
+jest.mock("../../../../../utils/blockscout-db/query")
 
 describe("Collected gas route", () => {
   beforeAll(setupJestOpenApi)
@@ -37,10 +40,7 @@ describe("Collected gas route", () => {
       mockSupabaseClient
         .from("silos")
         .select.mockImplementation(() => createSelect(createMockSilo()))
-
-      mockBlockscoutClient
-        .from("transactions")
-        .select.mockImplementationOnce(() => createSelect([]))
+      ;(query as jest.Mock).mockImplementation(() => ({ rows: [] }))
 
       const res = await invokeApiHandler(
         "GET",
@@ -56,21 +56,21 @@ describe("Collected gas route", () => {
     })
 
     it("returns the data for collected gas over a time period", async () => {
+      const mockSilo = createMockSilo()
+
       mockSupabaseClient
         .from("silos")
-        .select.mockImplementation(() => createSelect(createMockSilo()))
-
-      mockBlockscoutClient
-        .from("blocks")
-        .select.mockImplementationOnce(() =>
-          createSelect(createMockBlockscoutBlocks(30, "2024-11-30")),
-        )
-
-      mockBlockscoutClient
-        .from("transactions")
-        .select.mockImplementationOnce(() =>
-          createSelect(createMockBlockscoutTxs(30)),
-        )
+        .select.mockImplementation(() => createSelect(mockSilo))
+      ;(query as jest.Mock)
+        .mockImplementationOnce(() => ({
+          rows: [{ count: 150 }],
+        }))
+        .mockImplementationOnce(() => ({
+          rows: Array.from({ length: 30 }, (_, index) => ({
+            day: `2024-11-${index + 1}`,
+            count: index + 1,
+          })),
+        }))
 
       const res = await invokeApiHandler(
         "GET",
@@ -80,6 +80,7 @@ describe("Collected gas route", () => {
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
+        count: 150,
         items: Array.from({ length: 30 }, (_, index) => ({
           day: `2024-11-${index + 1}`,
           count: index + 1,
