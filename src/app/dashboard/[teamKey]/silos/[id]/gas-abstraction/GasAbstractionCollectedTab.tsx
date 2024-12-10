@@ -3,13 +3,13 @@
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import {
-  startOfMonth,
-  endOfMonth,
-  isBefore,
   addDays,
   addMonths,
-  parseISO,
+  endOfMonth,
   format,
+  isBefore,
+  parseISO,
+  startOfMonth,
 } from "date-fns"
 
 import { getQueryFnAndKey } from "@/utils/api/queries"
@@ -65,6 +65,7 @@ const getEmptyMonthData = (date: string) => {
   while (currentDate <= endDate) {
     const monthName = format(currentDate, "MMM")
     const day = format(currentDate, "dd")
+
     data.push({ x: `${monthName} ${day}`, y: 0 })
     currentDate = addDays(currentDate, 1)
   }
@@ -75,6 +76,7 @@ const getEmptyMonthData = (date: string) => {
 const getLastDayOfMonth = (dateString: string) => {
   const date = parseISO(dateString)
   const lastDay = endOfMonth(date)
+
   return format(lastDay, "yyyy-MM-dd")
 }
 

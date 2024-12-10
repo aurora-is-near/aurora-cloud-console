@@ -10,8 +10,8 @@ import { mockSupabaseClient } from "../../../../../../test-utils/mock-supabase-c
 import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
 import {
-  createMockBlockscoutTxs,
   createMockBlockscoutBlocks,
+  createMockBlockscoutTxs,
 } from "../../../../../../test-utils/factories/txs-factory"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
 

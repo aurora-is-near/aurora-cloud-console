@@ -24,6 +24,7 @@ export const query = async <TRow extends QueryResultRow>(
   params?: string[],
 ): Promise<QueryResult<TRow>> => {
   debug("Blockscout DB query", text)
+
   try {
     return await BLOCKSCOUT_POOL.query<TRow>(text, params)
   } catch (err) {
