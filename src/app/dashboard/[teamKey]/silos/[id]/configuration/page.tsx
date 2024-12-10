@@ -4,6 +4,7 @@ import { getTokens } from "@/actions/tokens/get-tokens"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import Contact from "@/components/Contact"
 import { DashboardPage } from "@/components/DashboardPage"
+import { getRelayerAccount } from "@/utils/relayer"
 import {
   ConfigurationItemsCard,
   ConfigurationItemsCardProps,
@@ -24,6 +25,7 @@ const Page = async ({
   }
 
   const baseToken = tokens.find((token) => token.id === silo.base_token_id)
+  const relayerAccount = getRelayerAccount(silo)
 
   const items: ConfigurationItemsCardProps["items"] = [
     {
@@ -85,14 +87,14 @@ const Page = async ({
         items={[
           {
             term: "Near account",
-            description: "relay.aurora",
+            description: relayerAccount,
             tooltip:
               "This account is responsible for paying gas on the Near blockchain for your Aurora chain. It will also accumulate the transaction fees collected on your chain.",
             showCopyButton: true,
           },
           {
             term: "Near explorer",
-            description: "explorer.near.org/accounts/relay.aurora",
+            description: `https://explorer.near.org/accounts/${relayerAccount}`,
             tooltip:
               "You can trace the activity of the relay account in the Near Explorer here.",
             showCopyButton: true,
