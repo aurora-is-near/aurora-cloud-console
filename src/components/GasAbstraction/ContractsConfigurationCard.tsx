@@ -20,8 +20,7 @@ type ContractsConfigurationCardProps = {
 const ContractsConfigurationCard = ({
   silo,
 }: ContractsConfigurationCardProps) => {
-  const { filter, filterEntries, refetchFilterEntries } =
-    useRequiredContext(FilterUpdateContext)
+  const { filter, filterEntries } = useRequiredContext(FilterUpdateContext)
 
   const { openModal } = useModals()
   const onClick = () => {
@@ -31,7 +30,6 @@ const ContractsConfigurationCard = ({
   const removeAddress = async (filterEntry: FilterEntry) => {
     if (filter && filterEntry) {
       await deleteFilterEntry(filter.id, filterEntry.id)
-      await refetchFilterEntries()
     }
   }
 

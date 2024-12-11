@@ -39,7 +39,6 @@ export const AddFilterAddressModal = () => {
     queueEntriesUpdate,
     savePendingUpdates,
     hasPendingUpdates,
-    refetchFilterEntries,
     deleteFilterEntry,
   } = useRequiredContext(FilterUpdateContext)
 
@@ -87,7 +86,6 @@ export const AddFilterAddressModal = () => {
 
   const onSaveClick = async () => {
     await savePendingUpdates()
-    await refetchFilterEntries()
     closeModal()
   }
 
