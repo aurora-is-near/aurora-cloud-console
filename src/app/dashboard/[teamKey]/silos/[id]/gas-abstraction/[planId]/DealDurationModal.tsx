@@ -1,5 +1,7 @@
 "use client"
 
+import { useRef } from "react"
+
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { useFormContext } from "react-hook-form"
 import { XCircleIcon } from "@heroicons/react/20/solid"
@@ -22,6 +24,8 @@ export const DealDurationModal = () => {
   const { closeModal, activeModal } = useModals()
   const { deal, queueUpdate } = useRequiredContext(DealUpdateContext)
   const { register, getValues, setValue } = useFormContext<Inputs>()
+
+  const submitButtonRef = useRef<HTMLButtonElement>(null)
 
   const onSaveClick = async () => {
     const values = getValues()
@@ -57,7 +61,12 @@ export const DealDurationModal = () => {
   }, [deal, open, setValue])
 
   return (
-    <SlideOver title="Restrict deal duration" open={open} close={closeModal}>
+    <SlideOver
+      title="Restrict deal duration"
+      focusRef={submitButtonRef}
+      open={open}
+      close={closeModal}
+    >
       <div className="space-y-8">
         <div className="gap-x-3 flex flex-row">
           <InputWrapper id="startTime" inputName="startTime" label="Start time">
@@ -88,7 +97,7 @@ export const DealDurationModal = () => {
             <Button variant="secondary" onClick={onCancel}>
               Cancel
             </Button>
-            <Button onClick={onSaveClick}>
+            <Button ref={submitButtonRef} onClick={onSaveClick}>
               <CheckIcon className="w-5 h-5" />
               Save
             </Button>

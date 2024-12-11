@@ -6,7 +6,6 @@ import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
 import { getFilters } from "@/actions/filters/get-filters"
 import { FilterProvider } from "@/providers/FilterProvider"
-import { DealDurationModal } from "./DealDurationModal"
 import { AddFilterAddressModal } from "./AddFilterAddressModal"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
@@ -49,7 +48,6 @@ const Page = async ({
         )}
         <RulesCard />
         <Contact teamKey={teamKey} />
-        <DealDurationModal />
       </DealUpdatePage>
     </DealUpdateProvider>
   )
