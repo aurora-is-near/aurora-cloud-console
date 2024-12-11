@@ -43,7 +43,7 @@ const Step: React.FC<StepProps> = ({
             </h2>
             <p className="text-slate-500 font-normal mb-3">{description}</p>
           </div>
-          {actionButton && <div>{actionButton}</div>}
+          {!!actionButton && <div>{actionButton}</div>}
         </div>
         <div className="py-3 ">{children}</div>
       </div>

@@ -35,7 +35,7 @@ export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
           />
         }
         actions={
-          silo?.explorer_url && (
+          !!silo?.explorer_url && (
             <LinkButton
               isExternal
               variant="border"

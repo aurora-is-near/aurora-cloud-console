@@ -76,7 +76,7 @@ const AddOrEditApiKeyModal = ({
           <p className="mt-2 text-xs text-gray-500">
             What&apos;s this token used for?
           </p>
-          {errors.note?.message && (
+          {!!errors.note?.message && (
             <p className="mt-1.5 text-sm font-medium text-red-500">
               {errors.note.message}
             </p>

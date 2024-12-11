@@ -200,7 +200,7 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
             title="Integrations"
             description="These integrations are available from day 1 on your chain."
             actionButton={
-              form.integrations.length > 0 ? (
+              !!form.integrations.length && (
                 <Button
                   type="button"
                   variant="border"
@@ -209,7 +209,7 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
                 >
                   Deselect All
                 </Button>
-              ) : null
+              )
             }
           >
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -223,7 +223,7 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
               ))}
             </div>
           </Step>
-          {!isDevnet ? (
+          {!isDevnet && (
             <Step
               number={6}
               title="Name your chain"
@@ -256,11 +256,11 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
                         : "border-slate-300",
                     )}
                   />
-                  {fieldErrors?.chainName ? (
+                  {!!fieldErrors?.chainName && (
                     <p className="mt-2 text-sm text-rose-600">
                       {fieldErrors.chainName}
                     </p>
-                  ) : null}
+                  )}
                 </Card>
                 <Card className="p-6">
                   <label
@@ -283,7 +283,7 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
                 </Card>
               </div>
             </Step>
-          ) : null}
+          )}
 
           <div className="pl-14 mb-16">
             <Button

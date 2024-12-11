@@ -93,7 +93,7 @@ const InviteModal = ({ team }: InviteModalProps) => {
               required: "Please enter a name.",
             })}
           />
-          {errors.name?.message && (
+          {!!errors.name?.message && (
             <p className="mt-1.5 text-sm font-medium text-red-500">
               {errors.name.message}
             </p>
@@ -116,7 +116,7 @@ const InviteModal = ({ team }: InviteModalProps) => {
               required: "Please enter an email address.",
             })}
           />
-          {errors.email?.message && (
+          {!!errors.email?.message && (
             <p className="mt-1.5 text-sm font-medium text-red-500">
               {errors.email.message}
             </p>
@@ -128,11 +128,11 @@ const InviteModal = ({ team }: InviteModalProps) => {
           Send invitation
         </Button>
       </form>
-      {errors?.root?.serverError ? (
+      {!!errors?.root?.serverError && (
         <p className="mt-4 text-sm font-medium text-red-500">
           {errors.root.serverError.message}
         </p>
-      ) : null}
+      )}
     </Modal>
   )
 }

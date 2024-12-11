@@ -49,7 +49,7 @@ export const BridgePage: React.FC<BridgePageProps> = ({ teamKey, siloId }) => {
           />
         }
         actions={
-          siloId && (
+          !!siloId && (
             <UniversalWidgetOpenButton
               siloId={siloId}
               variant="border"

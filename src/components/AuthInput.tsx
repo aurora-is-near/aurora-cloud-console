@@ -33,8 +33,8 @@ export const AuthInput = <Inputs extends Record<string, unknown>>({
       {...restProps}
       {...register?.(name, registerOptions)}
     />
-    {errorMessage ? (
+    {!!errorMessage && (
       <p className="text-sm text-rose-300 pt-2">{errorMessage}</p>
-    ) : null}
+    )}
   </div>
 )

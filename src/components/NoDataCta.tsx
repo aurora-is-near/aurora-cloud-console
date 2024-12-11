@@ -30,10 +30,10 @@ export const NoDataCta = ({
         <Icon className="text-slate-50 w-6 h-6 shrink-0" />
       </div>
       <h3 className="mt-4 text-sm font-semibold text-gray-900">{title}</h3>
-      {description && (
+      {!!description && (
         <p className="mt-1 text-sm text-gray-500">{description}</p>
       )}
-      {children && <div className="mt-6">{children}</div>}
+      {!!children && <div className="mt-6">{children}</div>}
     </div>
   </div>
 )

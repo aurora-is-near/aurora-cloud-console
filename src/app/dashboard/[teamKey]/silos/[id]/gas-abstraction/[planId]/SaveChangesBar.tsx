@@ -19,7 +19,7 @@ export const SaveChangesBar = () => {
       >
         Reset
       </Button>
-      {deal?.updatedAt && (
+      {!!deal?.updatedAt && (
         <div className="text-sm text-gray-500">
           Last update: {formatDateAndTime(deal.updatedAt)}
         </div>
