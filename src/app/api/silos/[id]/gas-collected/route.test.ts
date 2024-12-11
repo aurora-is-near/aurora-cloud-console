@@ -2,17 +2,10 @@
  * @jest-environment node
  */
 import { GET } from "./route"
-import {
-  createSelect,
-  mockBlockscoutClient,
-} from "../../../../../../test-utils/mock-blockscout-client"
+import { createSelect } from "../../../../../../test-utils/mock-supabase-client"
 import { mockSupabaseClient } from "../../../../../../test-utils/mock-supabase-client"
 import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
-import {
-  createMockBlockscoutBlocks,
-  createMockBlockscoutTxs,
-} from "../../../../../../test-utils/factories/txs-factory"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
 import { query } from "../../../../../utils/blockscout-db/query"
 
