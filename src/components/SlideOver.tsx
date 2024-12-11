@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from "react"
+import { Fragment, ReactNode, type RefObject } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
@@ -23,11 +23,13 @@ const SlideOver = ({
   title,
   children,
   open,
+  focusRef,
   close,
 }: {
   title: string
   children: ReactNode
   open: boolean
+  focusRef?: RefObject<HTMLElement>
   close: () => void
 }) => {
   const { afterLeave } = useModalAfterLeave()
@@ -36,7 +38,12 @@ const SlideOver = ({
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={close}>
+      <Dialog
+        as="div"
+        className="relative z-50"
+        initialFocus={focusRef}
+        onClose={close}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
