@@ -106,6 +106,7 @@ const GasCollectedTotal = ({
     case "error":
     case "pending":
       return <Skeleton />
+
     case "success":
       switch (siloTokensQuery.status) {
         case "pending":

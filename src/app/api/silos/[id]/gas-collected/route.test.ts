@@ -2,8 +2,10 @@
  * @jest-environment node
  */
 import { GET } from "./route"
-import { createSelect } from "../../../../../../test-utils/mock-supabase-client"
-import { mockSupabaseClient } from "../../../../../../test-utils/mock-supabase-client"
+import {
+  createSelect,
+  mockSupabaseClient,
+} from "../../../../../../test-utils/mock-supabase-client"
 import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"

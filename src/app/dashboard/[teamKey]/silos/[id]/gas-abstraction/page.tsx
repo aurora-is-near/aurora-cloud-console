@@ -24,7 +24,9 @@ const Page = async ({
   ])
 
   const getTabs = () => {
-    if (!silo) return []
+    if (!silo) {
+      return []
+    }
 
     const pageTabs = [
       {
