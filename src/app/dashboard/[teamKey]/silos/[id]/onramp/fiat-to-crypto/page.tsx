@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation"
+import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { FiatOnrampPage } from "@/components/FiatOnrampPage/FiatOnrampPage"
 
 const Page = async ({
@@ -5,7 +7,13 @@ const Page = async ({
 }: {
   params: { id: string; teamKey: string }
 }) => {
-  return <FiatOnrampPage teamKey={teamKey} siloId={Number(id)} />
+  const silo = await getTeamSiloByKey(teamKey, Number(id))
+
+  if (!silo) {
+    notFound()
+  }
+
+  return <FiatOnrampPage teamKey={teamKey} silo={silo} />
 }
 
 export default Page

@@ -12,7 +12,7 @@ type AddPlanModalProps = {
 }
 
 const AddPlanModal = ({ team }: AddPlanModalProps) => {
-  const { activeModal, closeModal } = useModals()
+  const { activeModal } = useModals()
   const router = useRouter()
   const pathname = usePathname()
 
@@ -25,7 +25,6 @@ const AddPlanModal = ({ team }: AddPlanModalProps) => {
     // Append the deal ID to the current path to navigate to the new deal page.
     const newPath = `${pathname}/${newDeal.id}`
 
-    closeModal()
     router.push(newPath)
 
     // Refreshing is necessary to have the list of deals in the sidebar update.

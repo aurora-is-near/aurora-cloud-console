@@ -1,5 +1,7 @@
 declare namespace NodeJS {
   interface ProcessEnv {
+    MUNZEN_API_SECRET: string
+    NEXT_PUBLIC_MUNZEN_API_KEY: string
     NEXT_PUBLIC_SUPABASE_URL: string
     NEXT_PUBLIC_SUPABASE_ANON_KEY: string
     NEXT_PUBLIC_SENTRY_ENABLED: string

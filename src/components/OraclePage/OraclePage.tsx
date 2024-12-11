@@ -39,7 +39,7 @@ const OraclePage = ({ teamKey, siloId, oracle, tokens }: OraclePageProps) => {
           title="Oracle"
           description="Secure your smart contracts with reliable, low-latency market data from institutional sources."
           actions={
-            siloId &&
+            !!siloId &&
             !oracle && <OracleRequestDeploymentButton siloId={siloId} />
           }
           titlePrefix={

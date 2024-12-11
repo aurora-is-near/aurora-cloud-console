@@ -33,7 +33,7 @@ export const AuthForm = ({
             {submitButtonText}
           </Button>
 
-          {errorMessage && (
+          {!!errorMessage && (
             <div className="h-5">
               <p className="text-sm text-center text-red-500">{errorMessage}</p>
             </div>

@@ -73,7 +73,7 @@ export const SidebarMenu = ({
                 className={clsx(index && "mt-4 pt-4")}
                 key={section.heading ?? index}
               >
-                {section.heading && (
+                {!!section.heading && (
                   <h3 className="text-slate-500 uppercase text-xs font-bold tracking-[1.5px] px-3 py-2.5 mb-1">
                     {section.heading}
                   </h3>

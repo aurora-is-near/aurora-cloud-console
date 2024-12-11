@@ -49,12 +49,12 @@ const Page = async () => {
         headingSize="lg"
         className="pt-12"
         actions={
-          isAdminUser ? (
+          isAdminUser && (
             <LinkButton href="/dashboard/new">
               <PlusIcon className="w-5 h-5" />
               <span>New team</span>
             </LinkButton>
-          ) : null
+          )
         }
       >
         <ul className="grid grid-cols-2 xl:grid-cols-3 gap-6">
