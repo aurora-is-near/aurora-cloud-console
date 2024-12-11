@@ -43,6 +43,7 @@ export const BarChart = ({
   theme = defaultTheme,
 }: Props) => {
   const labels = data.map(({ x }) => x)
+
   return (
     <Bar
       options={{

@@ -117,10 +117,12 @@ const GasCollectedTotal = ({
               {formatTotalCollectedGasValue(collectedGasQuery.data.count)}
             </Typography>
           )
+
         case "success": {
           const baseToken = siloTokensQuery.data.items.find(
             (token) => token.id === silo.base_token_id,
           )
+
           return (
             <Typography variant="heading" size={6}>
               {formatTotalCollectedGasValue(collectedGasQuery.data.count)}{" "}
