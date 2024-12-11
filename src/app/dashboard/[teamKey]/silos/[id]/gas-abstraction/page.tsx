@@ -1,4 +1,3 @@
-import { useMemo } from "react"
 import { notFound } from "next/navigation"
 
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
@@ -24,11 +23,9 @@ const Page = async ({
     getTeamDealsByKey(teamKey),
   ])
 
-  if (!silo) {
-    notFound()
-  }
+  const getTabs = () => {
+    if (!silo) return []
 
-  const tabs = useMemo(() => {
     const pageTabs = [
       {
         title: "About",
@@ -56,12 +53,16 @@ const Page = async ({
     }
 
     return pageTabs
-  }, [silo])
+  }
+
+  if (!silo) {
+    notFound()
+  }
 
   return (
     <>
       <GasAbstractionPage teamKey={teamKey} silo={silo}>
-        <Tabs tabs={tabs} />
+        <Tabs tabs={getTabs()} />
       </GasAbstractionPage>
       <AddPlanModal team={team} />
     </>
