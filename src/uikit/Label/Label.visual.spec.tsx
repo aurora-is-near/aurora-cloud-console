@@ -8,21 +8,21 @@ import { Label } from "./Label"
 const PAGE_SIZE = { width: 300, height: 100 }
 
 describe("Label", () => {
-  it("without tooltip", async () => {
+  it("without tooltip", () => {
     const view = renderToStaticMarkup(<Label>Gas collected</Label>)
-    const utils = await renderImage(view, PAGE_SIZE)
+    const utils = renderImage(view, PAGE_SIZE)
 
     expect(utils).toMatchImageSnapshot()
   })
 
-  it("with tooltip", async () => {
+  it("with tooltip", () => {
     const view = renderToStaticMarkup(
       <Label tooltip="The amount of gas collected by the silo.">
         Gas collected
       </Label>,
     )
 
-    const utils = await renderImage(view, PAGE_SIZE)
+    const utils = renderImage(view, PAGE_SIZE)
 
     expect(utils).toMatchImageSnapshot()
   })

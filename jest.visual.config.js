@@ -10,7 +10,7 @@ module.exports = {
     ...baseConfig.transform,
     "node_modules/@puppeteer/browsers/.+\\.ts?$": "ts-jest",
   },
-  coverageReporters: ['html', 'text'],
+  coverageReporters: ["html", "text"],
   reporters: [
     "default",
     "jest-image-snapshot/src/outdated-snapshot-reporter.js",
