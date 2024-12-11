@@ -25,7 +25,7 @@ const ContractsConfigurationCard = ({
 
   const { openModal } = useModals()
   const onClick = () => {
-    openModal(Modals.AddFilterAddress)
+    openModal(Modals.AddFilterContract)
   }
 
   const removeAddress = async (filterEntry: FilterEntry) => {

@@ -101,7 +101,11 @@ export const AddFilterAddressModal = () => {
     closeModal()
   }
 
-  const open = activeModal === Modals.AddFilterAddress
+  const open =
+    (filter?.filter_type === "EOA" &&
+      activeModal === Modals.AddFilterAddress) ||
+    (filter?.filter_type === "CONTRACT" &&
+      activeModal === Modals.AddFilterContract)
 
   useEffect(() => {
     if (!deal || !open || !filterEntries) {
