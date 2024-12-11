@@ -1,19 +1,12 @@
 "use client"
 
 import { createContext, ReactNode, useCallback, useMemo, useState } from "react"
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  UseMutateFunction,
-  useMutation,
-  useQuery,
-} from "@tanstack/react-query"
+import { UseMutateFunction, useMutation, useQuery } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { Filter, FilterEntry } from "@/types/types"
 import { ApiRequestBody } from "@/types/api"
 import { apiClient } from "@/utils/api/client"
-import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { logger } from "@/logger"
 
 type FilterProviderProps = {
@@ -26,11 +19,6 @@ type FilterUpdateContextType = {
   savePendingUpdates: () => Promise<void>
   queueUpdate: (data: ApiRequestBody<"updateFilter">) => void
   queueEntriesUpdate: (data: ApiRequestBody<"updateFilterEntries">) => void
-  refetchFilterEntries: (options?: RefetchOptions) => Promise<
-    QueryObserverResult<{
-      items: { value: string; id: number; filter_id: number }[]
-    }>
-  >
   deleteFilterEntry: UseMutateFunction<
     null,
     Error,
@@ -54,7 +42,6 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
     getQueryFnAndKey("getFilterEntries", { filter_id: String(filterId) }),
   )
 
-  const getFilterUpdater = useOptimisticUpdater("getFilter", { id: filterId })
   const [pendingUpdate, setPendingUpdate] =
     useState<ApiRequestBody<"updateFilter"> | null>(null)
 
@@ -64,13 +51,13 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
   const clearPendingUpdates = useCallback(() => {
     setPendingUpdate(null)
     setPendingEntriesUpdate(null)
-    void refetchFilter()
-    void refetchFilterEntries()
-  }, [refetchFilter, refetchFilterEntries])
+  }, [])
 
   const { mutate: updateFilter, isPending: isUpdatePending } = useMutation({
     mutationFn: apiClient.updateFilter,
-    onSettled: getFilterUpdater.invalidate,
+    onSettled: () => {
+      void refetchFilter()
+    },
     onSuccess: () => {
       toast.success("Filter updated")
     },
@@ -83,7 +70,9 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
   const { mutate: updateFilterEntries, isPending: isUpdateEntriesPending } =
     useMutation({
       mutationFn: apiClient.updateFilterEntries,
-      onSettled: getFilterUpdater.invalidate,
+      onSettled: () => {
+        void refetchFilterEntries()
+      },
       onSuccess: () => {
         toast.success("Filter entries updated")
       },
@@ -96,7 +85,9 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
   const { mutate: deleteFilterEntry, isPending: isDeleteEntryPending } =
     useMutation({
       mutationFn: apiClient.deleteFilterEntry,
-      onSettled: getFilterUpdater.invalidate,
+      onSettled: () => {
+        void refetchFilterEntries()
+      },
     })
 
   const savePendingUpdates = useCallback(async () => {
@@ -146,7 +137,6 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
       savePendingUpdates,
       queueUpdate,
       queueEntriesUpdate,
-      refetchFilterEntries,
       deleteFilterEntry,
       filter,
       hasPendingUpdates:
@@ -160,7 +150,6 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
       savePendingUpdates,
       queueUpdate,
       queueEntriesUpdate,
-      refetchFilterEntries,
       filter,
       pendingUpdate,
       pendingEntriesUpdate,

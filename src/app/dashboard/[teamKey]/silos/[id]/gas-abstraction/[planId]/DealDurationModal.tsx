@@ -1,11 +1,10 @@
 "use client"
 
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { useFormContext } from "react-hook-form"
 import { XCircleIcon } from "@heroicons/react/20/solid"
-import { useEffect } from "react"
 import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
