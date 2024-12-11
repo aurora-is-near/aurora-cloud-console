@@ -2,6 +2,7 @@ const baseConfig = require("./jest.config")
 
 module.exports = {
   ...baseConfig,
+  resetMocks: true,
   preset: "jest-puppeteer",
   testEnvironment: "jest-environment-puppeteer",
   testMatch: ["**/?(*.)+(visual.spec|visual.test).(js|ts|tsx)"],

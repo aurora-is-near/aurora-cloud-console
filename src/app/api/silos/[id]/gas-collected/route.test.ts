@@ -36,6 +36,34 @@ describe("Collected gas route", () => {
       ).rejects.toThrow("Not Found")
     })
 
+    it("returns a 400 for an invalid date range", async () => {
+      mockSupabaseClient
+        .from("silos")
+        .select.mockImplementation(() => createSelect(createMockSilo()))
+
+      await expect(async () =>
+        invokeApiHandler(
+          "GET",
+          "/api/silos/1/gas-collected?startDate=2024-11-01&endDate=2024-10-30",
+          GET,
+        ),
+      ).rejects.toThrow("End date must be later than start date")
+    })
+
+    it("returns a 400 for too long period", async () => {
+      mockSupabaseClient
+        .from("silos")
+        .select.mockImplementation(() => createSelect(createMockSilo()))
+
+      await expect(async () =>
+        invokeApiHandler(
+          "GET",
+          "/api/silos/1/gas-collected?startDate=2024-11-01&endDate=2025-04-30",
+          GET,
+        ),
+      ).rejects.toThrow("Requested period is too long (more than 3 months)")
+    })
+
     it("returns an empty array for no gas for the given period", async () => {
       mockSupabaseClient
         .from("silos")

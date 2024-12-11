@@ -1,3 +1,5 @@
+import { parseISO, isAfter, differenceInMonths } from "date-fns"
+
 import { createApiEndpoint } from "@/utils/api"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { queryGasCollected } from "../../../../../utils/blockscout-db/query-gas-collected"
@@ -16,6 +18,17 @@ export const GET = createApiEndpoint(
 
     if (!startDate || !endDate) {
       abort(400, "Missing date query parameter")
+    }
+
+    const start = parseISO(startDate)
+    const end = parseISO(endDate)
+
+    if (isAfter(start, end)) {
+      abort(400, "End date must be later than start date")
+    }
+
+    if (differenceInMonths(end, start) > 3) {
+      abort(400, "Requested period is too long (more than 3 months)")
     }
 
     const result = await queryGasCollected(silo.chain_id, {

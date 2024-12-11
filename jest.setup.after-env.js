@@ -29,9 +29,7 @@ const toMatchImageSnapshot = configureToMatchImageSnapshot({
 expect.extend({ toMatchImageSnapshot })
 
 afterAll(() => {
-  jest.clearAllMocks()
   jest.clearAllTimers()
-  jest.resetAllMocks()
 })
 
 if (typeof global.requestAnimationFrame === "undefined") {
