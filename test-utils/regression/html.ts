@@ -9,15 +9,19 @@ const cssTailwind = fs
 const fontCircular = font2base64.encodeToDataUrlSync(
   path.join(__dirname, "../../src/styles/fonts/CircularXXSub-Book.woff2"),
 )
+
 const fontCircularMedium = font2base64.encodeToDataUrlSync(
   path.join(__dirname, "../../src/styles/fonts/CircularXXSub-Medium.woff2"),
 )
+
 const fontCircularItalic = font2base64.encodeToDataUrlSync(
   path.join(__dirname, "../../src/styles/fonts/CircularXXSub-BookItalic.woff2"),
 )
+
 const fontCircularBold = font2base64.encodeToDataUrlSync(
   path.join(__dirname, "../../src/styles/fonts/CircularXXSub-Bold.woff2"),
 )
+
 const fontCircularBlack = font2base64.encodeToDataUrlSync(
   path.join(__dirname, "../../src/styles/fonts/CircularXXSub-Black.woff2"),
 )

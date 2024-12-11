@@ -2,7 +2,7 @@ module.exports = {
   launch: {
     dumpio: true,
     headless: true,
-    timeout: 90_000,
+    timeout: 90000,
     args: [
       "--disable-infobars",
       "--no-sandbox",
