@@ -11,6 +11,7 @@ import {
   parseISO,
   startOfMonth,
 } from "date-fns"
+import type { UseQueryResult } from "@tanstack/react-query"
 
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { TabCard } from "@/components/TabCard/TabCard"
@@ -80,13 +81,63 @@ const getLastDayOfMonth = (dateString: string) => {
   return format(lastDay, "yyyy-MM-dd")
 }
 
+const formatTotalCollectedGasValue = (value: number) => {
+  return new Intl.NumberFormat(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 8,
+  }).format(value)
+}
+
+const GasCollectedTotal = ({
+  silo,
+  collectedGasQuery,
+}: {
+  silo: Silo
+  collectedGasQuery: UseQueryResult<{
+    count: number
+    items: Array<{ day: string; count: number }>
+  }>
+}) => {
+  const siloTokensQuery = useQuery(
+    getQueryFnAndKey("getSiloTokens", { id: silo.id }),
+  )
+
+  switch (collectedGasQuery.status) {
+    case "error":
+    case "pending":
+      return <Skeleton />
+    case "success":
+      switch (siloTokensQuery.status) {
+        case "pending":
+          return <Skeleton />
+        case "error":
+          return (
+            <Typography variant="heading" size={6}>
+              {formatTotalCollectedGasValue(collectedGasQuery.data.count)}
+            </Typography>
+          )
+        case "success":
+          return (
+            <Typography variant="heading" size={6}>
+              {formatTotalCollectedGasValue(collectedGasQuery.data.count)}{" "}
+              {siloTokensQuery.data.items[0]?.symbol}
+            </Typography>
+          )
+        default:
+          return notReachable(siloTokensQuery)
+      }
+    default:
+      return notReachable(collectedGasQuery)
+  }
+}
+
 export const GasAbstractionCollectedTab = ({ silo }: Props) => {
   const monthsList = getMonthsList(silo.created_at)
   const [filterDate, setFilterDate] = useState<DropdownOption>(
     monthsList[monthsList.length - 1],
   )
 
-  const query = useQuery(
+  const collectedGasQuery = useQuery(
     getQueryFnAndKey("getSiloCollectedGas", {
       id: silo.id,
       startDate: filterDate.value,
@@ -102,22 +153,10 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
             <Label tooltip="Gas is charged in the base token of your Virtual Chain, and you can adjust the gas fee value below.">
               Gas collected
             </Label>
-            {(() => {
-              switch (query.status) {
-                case "error":
-                case "pending":
-                  return <Skeleton />
-                case "success":
-                  return (
-                    <Typography variant="heading" size={6}>
-                      {/* TODO: Replace AURORA with the token name */}
-                      {query.data?.count.toLocaleString()} AURORA
-                    </Typography>
-                  )
-                default:
-                  return notReachable(query)
-              }
-            })()}
+            <GasCollectedTotal
+              silo={silo}
+              collectedGasQuery={collectedGasQuery}
+            />
           </div>
           <Dropdown
             options={monthsList}
@@ -128,7 +167,7 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
 
         <section className="mt-4 h-[140px] w-full">
           {(() => {
-            switch (query.status) {
+            switch (collectedGasQuery.status) {
               case "pending":
                 return (
                   <div className="w-full relative">
@@ -151,7 +190,7 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
                       <button
                         type="button"
                         className="text-cyan-600 ml-1 cursor-pointer"
-                        onClick={() => query.refetch()}
+                        onClick={() => collectedGasQuery.refetch()}
                       >
                         Try again
                       </button>
@@ -166,14 +205,16 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
                 return (
                   <BarChart
                     showZeroValues
-                    data={query.data.items.map(({ day, count }) => ({
-                      x: format(parseISO(day), "MMM d"),
-                      y: count,
-                    }))}
+                    data={collectedGasQuery.data.items.map(
+                      ({ day, count }) => ({
+                        x: format(parseISO(day), "MMM d"),
+                        y: count,
+                      }),
+                    )}
                   />
                 )
               default:
-                return notReachable(query)
+                return notReachable(collectedGasQuery)
             }
           })()}
         </section>
