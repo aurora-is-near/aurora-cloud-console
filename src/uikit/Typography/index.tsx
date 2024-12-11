@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-
 import { Label, type LabelProps } from "./Label"
 import { Heading, type HeadingProps } from "./Heading"
 import { Paragraph, type ParagraphProps } from "./Paragraph"
@@ -12,6 +10,7 @@ type Props =
   | ({ variant: "paragraph" } & ParagraphProps)
 
 export const Typography = (props: Props) => {
+  /* eslint-disable-next-line react/destructuring-assignment */
   switch (props.variant) {
     case "label":
       return <Label {...props} />
