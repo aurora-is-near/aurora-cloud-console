@@ -42,6 +42,7 @@ export const BarChart = ({
   showZeroValues = false,
   theme = defaultTheme,
 }: Props) => {
+  const labels = data.map(({ x }) => x)
   return (
     <Bar
       options={{
@@ -62,9 +63,6 @@ export const BarChart = ({
                 size: theme.labelSize,
               },
               callback(_value, index) {
-                // eslint-disable-next-line react/no-this-in-sfc
-                const labels = (this.chart.data.labels ?? []) as string[]
-
                 if (
                   index === 0 ||
                   index === labels.length - 1 ||
