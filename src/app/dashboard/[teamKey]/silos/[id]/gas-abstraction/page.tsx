@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation"
 
-import { useMemo } from "react"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
 import { Tabs } from "@/components/Tabs/Tabs"
