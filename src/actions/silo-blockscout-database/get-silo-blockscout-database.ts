@@ -2,6 +2,7 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { BlockscoutDatabase } from "@/types/types"
+import { decryptBlockScoutPassword } from "@/utils/blockscout"
 
 export const getSiloBlockScoutDatabase = async (
   siloId: number,
@@ -18,12 +19,7 @@ export const getSiloBlockScoutDatabase = async (
   }
 
   return {
-    database: database.database,
-    host: database.host,
-    id: database.id,
-    name: database.name,
-    password: database.password,
-    port: database.port,
-    user: database.user,
+    ...database,
+    password: decryptBlockScoutPassword(database.password),
   }
 }
