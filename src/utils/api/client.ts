@@ -88,6 +88,13 @@ export const apiClient = {
     ApiRequestQuery<"getSiloTransactions">) =>
     get<"getSiloTransactions">(`/api/silos/${id}/transactions`, query),
 
+  getSiloCollectedGas: async ({
+    id,
+    ...query
+  }: ApiRequestParams<"getSiloCollectedGas"> &
+    ApiRequestQuery<"getSiloCollectedGas">) =>
+    get<"getSiloCollectedGas">(`/api/silos/${id}/gas-collected`, query),
+
   getDealPriorities: async () =>
     get<"getDealPriorities">(`/api/deals/priorities`),
 
