@@ -47,28 +47,76 @@ export type Database = {
           },
         ]
       }
+      blockscout_databases: {
+        Row: {
+          database: string
+          host: string
+          id: number
+          name: string
+          password: string
+          port: number
+          user: string
+        }
+        Insert: {
+          database: string
+          host: string
+          id?: number
+          name: string
+          password: string
+          port: number
+          user: string
+        }
+        Update: {
+          database?: string
+          host?: string
+          id?: number
+          name?: string
+          password?: string
+          port?: number
+          user?: string
+        }
+        Relationships: []
+      }
       deals: {
         Row: {
           created_at: string
+          deleted_at: string | null
           demo_key: string | null
+          enabled: boolean
+          end_time: string | null
           id: number
           name: string
+          open: boolean
+          silo_id: number | null
+          start_time: string | null
           team_id: number
           updated_at: string
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           demo_key?: string | null
+          enabled?: boolean
+          end_time?: string | null
           id?: number
           name: string
+          open?: boolean
+          silo_id?: number | null
+          start_time?: string | null
           team_id: number
           updated_at?: string
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           demo_key?: string | null
+          enabled?: boolean
+          end_time?: string | null
           id?: number
           name?: string
+          open?: boolean
+          silo_id?: number | null
+          start_time?: string | null
           team_id?: number
           updated_at?: string
         }
@@ -78,6 +126,114 @@ export type Database = {
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      filter_entries: {
+        Row: {
+          filter_id: number
+          id: number
+          value: string
+        }
+        Insert: {
+          filter_id: number
+          id?: number
+          value: string
+        }
+        Update: {
+          filter_id?: number
+          id?: number
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "filter_entries_filter_id_fkey"
+            columns: ["filter_id"]
+            isOneToOne: false
+            referencedRelation: "filters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      filters: {
+        Row: {
+          blacklist: boolean
+          created_at: string
+          deal_id: number
+          deleted_at: string | null
+          filter_type: Database["public"]["Enums"]["filter_type"]
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          blacklist?: boolean
+          created_at?: string
+          deal_id: number
+          deleted_at?: string | null
+          filter_type: Database["public"]["Enums"]["filter_type"]
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          blacklist?: boolean
+          created_at?: string
+          deal_id?: number
+          deleted_at?: string | null
+          filter_type?: Database["public"]["Enums"]["filter_type"]
+          id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "filters_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      limits: {
+        Row: {
+          created_at: string
+          deal_id: number
+          deleted_at: string | null
+          duration: string
+          id: number
+          limit_scope: Database["public"]["Enums"]["limit_scope"]
+          limit_type: Database["public"]["Enums"]["limit_type"]
+          limit_value: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deal_id: number
+          deleted_at?: string | null
+          duration: string
+          id?: number
+          limit_scope: Database["public"]["Enums"]["limit_scope"]
+          limit_type: Database["public"]["Enums"]["limit_type"]
+          limit_value?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deal_id?: number
+          deleted_at?: string | null
+          duration?: string
+          id?: number
+          limit_scope?: Database["public"]["Enums"]["limit_scope"]
+          limit_type?: Database["public"]["Enums"]["limit_type"]
+          limit_value?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "limits_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
             referencedColumns: ["id"]
           },
         ]
@@ -193,6 +349,7 @@ export type Database = {
       silos: {
         Row: {
           base_token_id: number | null
+          blockscout_database_id: number | null
           chain_id: string
           created_at: string
           engine_account: string
@@ -209,6 +366,7 @@ export type Database = {
         }
         Insert: {
           base_token_id?: number | null
+          blockscout_database_id?: number | null
           chain_id: string
           created_at?: string
           engine_account: string
@@ -225,6 +383,7 @@ export type Database = {
         }
         Update: {
           base_token_id?: number | null
+          blockscout_database_id?: number | null
           chain_id?: string
           created_at?: string
           engine_account?: string
@@ -245,6 +404,13 @@ export type Database = {
             columns: ["base_token_id"]
             isOneToOne: false
             referencedRelation: "tokens"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silos_blockscout_database_id_fkey"
+            columns: ["blockscout_database_id"]
+            isOneToOne: false
+            referencedRelation: "blockscout_databases"
             referencedColumns: ["id"]
           },
           {
@@ -509,6 +675,9 @@ export type Database = {
         | "forwarder:read"
         | "forwarder:write"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
+      filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
+      limit_scope: "USER" | "GLOBAL"
+      limit_type: "CYCLIC" | "RATELIMIT"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_type: "customer" | "admin"
       widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"

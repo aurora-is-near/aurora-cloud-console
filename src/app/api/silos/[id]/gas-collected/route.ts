@@ -1,0 +1,70 @@
+import { differenceInMonths, isAfter, parseISO } from "date-fns"
+
+import { createApiEndpoint } from "@/utils/api"
+import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
+import { getSiloBlockScoutDatabase } from "@/actions/silo-blockscout-database/get-silo-blockscout-database"
+import { logger } from "@/logger"
+import { queryGasCollected } from "../../../../../utils/blockscout-db/query-gas-collected"
+import { abort } from "../../../../../utils/abort"
+
+export const GET = createApiEndpoint(
+  "getSiloCollectedGas",
+  async (req, ctx) => {
+    const startDate = req.nextUrl.searchParams.get("startDate")
+    const endDate = req.nextUrl.searchParams.get("endDate")
+    const siloId = Number(ctx.params.id)
+    const [silo, blockScoutDatabase] = await Promise.all([
+      getTeamSilo(ctx.team.id, siloId),
+      getSiloBlockScoutDatabase(siloId),
+    ])
+
+    if (!silo) {
+      abort(404)
+    }
+
+    if (!startDate || !endDate) {
+      abort(400, "Missing date query parameter")
+    }
+
+    const start = parseISO(startDate)
+    const end = parseISO(endDate)
+
+    if (isAfter(start, end)) {
+      abort(400, "End date must be later than start date")
+    }
+
+    if (differenceInMonths(end, start) > 3) {
+      abort(400, "Requested period is too long (more than 3 months)")
+    }
+
+    if (!blockScoutDatabase) {
+      logger.error(
+        `No blockscout database found for silo ${siloId}, cannot query gas collected`,
+      )
+
+      return {
+        count: 0,
+        items: [],
+      }
+    }
+
+    const result = await queryGasCollected(blockScoutDatabase, {
+      startDate,
+      endDate,
+    })
+
+    const totalGasCollected = result[0].rows[0]?.count ?? 0
+    const gasCollectedOverTime = result[1].rows ?? []
+
+    return {
+      count: totalGasCollected,
+      items: gasCollectedOverTime,
+    }
+  },
+  {
+    cache: {
+      maxAge: "1h",
+      staleWhileRevalidate: "1y",
+    },
+  },
+)

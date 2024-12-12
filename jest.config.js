@@ -11,6 +11,10 @@ module.exports = {
   reporters: ["default", "github-actions"],
   setupFilesAfterEnv: ["./jest.setup.after-env.js"],
   testEnvironment: "jsdom",
+  testMatch: [
+    "**/?(*.)+(spec|test).(js|ts|tsx)",
+    "!**/?(*.)+(visual.spec|visual.test).(js|ts|tsx)",
+  ],
   transform: {
     "^.+\\.(t|j)sx?$": ["@swc/jest"],
     ".+\\.(png|jpg)$": "jest-transform-stub",
