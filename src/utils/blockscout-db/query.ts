@@ -1,32 +1,49 @@
 import { Pool, QueryResult, QueryResultRow } from "pg"
-
 import { createDebugger } from "@/debug"
 import { logger } from "@/logger"
-
+import { BlockscoutDatabase } from "@/types/types"
+import { decryptBlockScoutPassword } from "@/utils/blockscout"
 import { toError } from "../errors"
 
 const debug = createDebugger("blockscout-db")
 
-// TODO: These credentials are only for Aurora Testnet, update when all chains are migrated to a single DB
-const BLOCKSCOUT_POOL = new Pool({
-  database: "blockscout",
-  host: "65.21.89.152",
-  port: 8061,
-  user: "blockscout",
-  password: process.env.BLOCKSCOUT_DB_PASSWORD,
-})
+const BLOCKSCOUT_POOLS: Record<number, Pool> = {}
+
+const getPool = ({
+  id,
+  database,
+  host,
+  port,
+  user,
+  password,
+}: BlockscoutDatabase) => {
+  if (!BLOCKSCOUT_POOLS[id]) {
+    BLOCKSCOUT_POOLS[id] = new Pool({
+      database,
+      host,
+      port,
+      user,
+      password: decryptBlockScoutPassword(password),
+    })
+  }
+
+  return BLOCKSCOUT_POOLS[id]
+}
 
 /**
  * Perform a query on the database.
  */
 export const query = async <TRow extends QueryResultRow>(
+  database: BlockscoutDatabase,
   text: string,
   params?: string[],
 ): Promise<QueryResult<TRow>> => {
   debug("Blockscout DB query", text)
 
+  const pool = getPool(database)
+
   try {
-    return await BLOCKSCOUT_POOL.query<TRow>(text, params)
+    return await pool.query<TRow>(text, params)
   } catch (err) {
     logger.error(`Blockscout DB query error: ${toError(err).message}'\n${text}`)
     throw err

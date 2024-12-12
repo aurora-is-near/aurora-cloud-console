@@ -2,6 +2,8 @@ import { differenceInMonths, isAfter, parseISO } from "date-fns"
 
 import { createApiEndpoint } from "@/utils/api"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
+import { getSiloBlockScoutDatabase } from "@/actions/silo-blockscout-database/get-silo-blockscout-database"
+import { logger } from "@/logger"
 import { queryGasCollected } from "../../../../../utils/blockscout-db/query-gas-collected"
 import { abort } from "../../../../../utils/abort"
 
@@ -10,7 +12,11 @@ export const GET = createApiEndpoint(
   async (req, ctx) => {
     const startDate = req.nextUrl.searchParams.get("startDate")
     const endDate = req.nextUrl.searchParams.get("endDate")
-    const silo = await getTeamSilo(ctx.team.id, Number(ctx.params.id))
+    const siloId = Number(ctx.params.id)
+    const [silo, blockScoutDatabase] = await Promise.all([
+      getTeamSilo(ctx.team.id, siloId),
+      getSiloBlockScoutDatabase(siloId),
+    ])
 
     if (!silo) {
       abort(404)
@@ -31,7 +37,18 @@ export const GET = createApiEndpoint(
       abort(400, "Requested period is too long (more than 3 months)")
     }
 
-    const result = await queryGasCollected(silo.chain_id, {
+    if (!blockScoutDatabase) {
+      logger.error(
+        `No blockscout database found for silo ${siloId}, cannot query gas collected`,
+      )
+
+      return {
+        count: 0,
+        items: [],
+      }
+    }
+
+    const result = await queryGasCollected(blockScoutDatabase, {
       startDate,
       endDate,
     })

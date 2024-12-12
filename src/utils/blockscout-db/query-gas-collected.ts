@@ -1,3 +1,4 @@
+import { BlockscoutDatabase } from "@/types/types"
 import { query } from "./query"
 
 type Params = {
@@ -5,12 +6,13 @@ type Params = {
   endDate: string
 }
 
-export const queryGasCollected = async (_chainId: string, params: Params) => {
-  // TODO: _chainId is not used because we are connected to the Aurora Testnet
-  //       blockscout database. When we have a single blockscout db for all
-  //       chains we will use this parameter
+export const queryGasCollected = async (
+  database: BlockscoutDatabase,
+  params: Params,
+) => {
   return Promise.all([
     query<{ count: number }>(
+      database,
       `
         SELECT
             SUM(t.gas_used * t.gas_price) / 1e18 AS count
@@ -22,6 +24,7 @@ export const queryGasCollected = async (_chainId: string, params: Params) => {
       `,
     ),
     query<{ day: string; count: number }>(
+      database,
       `
         SELECT
             DATE(b.timestamp) AS day,
