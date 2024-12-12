@@ -73,9 +73,9 @@ export const AddFilterAddressModal = () => {
 
     if (deal && filter && savedEntry) {
       deleteFilterEntry({
-        id: savedEntry.id,
-        deal_id: deal.id,
+        id: deal.id,
         filter_id: filter.id,
+        entry_id: savedEntry.id,
       })
     }
 
