@@ -1665,6 +1665,89 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/silos/{id}/gas-collected": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`transactions:read\`",
+        "operationId": "getSiloCollectedGas",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "startDate",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "endDate",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "type": "number",
+                    },
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "count": {
+                            "type": "number",
+                          },
+                          "day": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "day",
+                          "count",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "count",
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "transactions:read",
+            ],
+          },
+        ],
+        "summary": "Get collected gas over time for a single silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
     "/api/silos/{id}/latency": {
       "get": {
         "deprecated": undefined,
