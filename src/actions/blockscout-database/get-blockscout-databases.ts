@@ -2,7 +2,7 @@
 
 import { BlockscoutDatabase } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { decryptBlockScoutPassword } from "@/utils/blockscout"
+import { decryptBlockscoutPassword } from "@/utils/blockscout"
 
 export const getBlockscoutDatabases = async (): Promise<
   BlockscoutDatabase[]
@@ -16,6 +16,6 @@ export const getBlockscoutDatabases = async (): Promise<
 
   return (databases ?? []).map((database) => ({
     ...database,
-    password: decryptBlockScoutPassword(database.password),
+    password: decryptBlockscoutPassword(database.password),
   }))
 }

@@ -2,7 +2,7 @@
 
 import { BlockscoutDatabase } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { decryptBlockScoutPassword } from "@/utils/blockscout"
+import { decryptBlockscoutPassword } from "@/utils/blockscout"
 
 export const getBlockscoutDatabase = async (
   id: number,
@@ -21,6 +21,6 @@ export const getBlockscoutDatabase = async (
 
   return {
     ...database,
-    password: decryptBlockScoutPassword(database.password),
+    password: decryptBlockscoutPassword(database.password),
   }
 }

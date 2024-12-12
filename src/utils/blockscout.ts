@@ -10,13 +10,13 @@ const getCryptr = () => {
   return new Cryptr(encryptionKey)
 }
 
-export const encryptBlockScoutPassword = (password: string): string => {
+export const encryptBlockscoutPassword = (password: string): string => {
   const cryptr = getCryptr()
 
   return cryptr.encrypt(password)
 }
 
-export const decryptBlockScoutPassword = (
+export const decryptBlockscoutPassword = (
   encryptedPassword: string,
 ): string => {
   const cryptr = getCryptr()

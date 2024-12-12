@@ -2,9 +2,9 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { BlockscoutDatabase } from "@/types/types"
-import { decryptBlockScoutPassword } from "@/utils/blockscout"
+import { decryptBlockscoutPassword } from "@/utils/blockscout"
 
-export const getSiloBlockScoutDatabase = async (
+export const getSiloBlockscoutDatabase = async (
   siloId: number,
 ): Promise<BlockscoutDatabase | null> => {
   const supabase = createAdminSupabaseClient()
@@ -20,6 +20,6 @@ export const getSiloBlockScoutDatabase = async (
 
   return {
     ...database,
-    password: decryptBlockScoutPassword(database.password),
+    password: decryptBlockscoutPassword(database.password),
   }
 }

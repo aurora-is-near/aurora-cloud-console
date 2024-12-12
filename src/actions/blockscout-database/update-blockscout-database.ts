@@ -2,7 +2,7 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { BlockscoutDatabase } from "@/types/types"
-import { encryptBlockScoutPassword } from "@/utils/blockscout"
+import { encryptBlockscoutPassword } from "@/utils/blockscout"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
@@ -19,7 +19,7 @@ export const updateBlockscoutDatabase = async (
   const result = await supabase
     .from("blockscout_databases")
     .update({
-      password: password ? encryptBlockScoutPassword(password) : undefined,
+      password: password ? encryptBlockscoutPassword(password) : undefined,
       ...restInputs,
     })
     .eq("id", id)
