@@ -10,6 +10,7 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   chain_id: "1313161555",
   engine_account: "testnet.aurora-silo-dev.near",
   explorer_url: "https://explorer.testnet.aurora.dev",
+  blockscout_database_id: 1,
   genesis: "1695870567776",
   rpc_url: "testnet.aurora.dev",
   engine_version: "2.0.22",

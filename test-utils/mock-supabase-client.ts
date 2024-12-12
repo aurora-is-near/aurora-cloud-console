@@ -56,6 +56,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   oracles: createTableClient(),
   widgets: createTableClient(),
   onboarding_form: createTableClient(),
+  blockscout_databases: createTableClient(),
 }
 
 export const mockSupabaseClient = {
