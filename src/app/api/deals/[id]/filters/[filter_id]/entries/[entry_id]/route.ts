@@ -4,7 +4,11 @@ import { createApiEndpoint } from "@/utils/api"
 export const DELETE = createApiEndpoint(
   "deleteFilterEntry",
   async (_req, ctx) => {
-    await deleteFilterEntry(Number(ctx.params.filter_id), Number(ctx.params.id))
+    await deleteFilterEntry(
+      Number(ctx.params.id),
+      Number(ctx.params.filter_id),
+      Number(ctx.params.entry_id),
+    )
 
     return null
   },

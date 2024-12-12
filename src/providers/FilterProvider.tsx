@@ -11,6 +11,7 @@ import { logger } from "@/logger"
 
 type FilterProviderProps = {
   filterId: number
+  dealId: number
   children: ReactNode
 }
 
@@ -22,7 +23,7 @@ type FilterUpdateContextType = {
   deleteFilterEntry: UseMutateFunction<
     null,
     Error,
-    { id: number; filter_id: number }
+    { id: number; deal_id: number; filter_id: number }
   >
   filter?: Filter
   hasPendingUpdates?: boolean
@@ -33,13 +34,23 @@ type FilterUpdateContextType = {
 export const FilterUpdateContext =
   createContext<FilterUpdateContextType | null>(null)
 
-export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
+export const FilterProvider = ({
+  children,
+  filterId,
+  dealId,
+}: FilterProviderProps) => {
   const { data: filter, refetch: refetchFilter } = useQuery(
-    getQueryFnAndKey("getFilter", { filter_id: String(filterId) }),
+    getQueryFnAndKey("getFilter", {
+      deal_id: dealId,
+      filter_id: filterId,
+    }),
   )
 
   const { data: filterEntries, refetch: refetchFilterEntries } = useQuery(
-    getQueryFnAndKey("getFilterEntries", { filter_id: String(filterId) }),
+    getQueryFnAndKey("getFilterEntries", {
+      deal_id: dealId,
+      filter_id: filterId,
+    }),
   )
 
   const [pendingUpdate, setPendingUpdate] =
@@ -94,14 +105,16 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
     if (filter) {
       if (pendingUpdate) {
         updateFilter({
-          filter_id: String(filter.id),
+          deal_id: dealId,
+          filter_id: filter.id,
           ...pendingUpdate,
         })
       }
 
       if (pendingEntriesUpdate) {
         updateFilterEntries({
-          filter_id: String(filter.id),
+          deal_id: dealId,
+          filter_id: filter.id,
           ...pendingEntriesUpdate,
         })
       }
@@ -115,6 +128,7 @@ export const FilterProvider = ({ children, filterId }: FilterProviderProps) => {
     clearPendingUpdates,
     updateFilter,
     updateFilterEntries,
+    dealId,
   ])
 
   const queueUpdate = useCallback(

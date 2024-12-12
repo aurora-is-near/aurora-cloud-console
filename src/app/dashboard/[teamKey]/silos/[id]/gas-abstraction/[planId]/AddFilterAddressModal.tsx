@@ -71,9 +71,10 @@ export const AddFilterAddressModal = () => {
   const removeAddress = (index: number) => {
     const savedEntry = filterEntries.find((e) => e.value === addresses[index])
 
-    if (filter && savedEntry) {
+    if (deal && filter && savedEntry) {
       deleteFilterEntry({
         id: savedEntry.id,
+        deal_id: deal.id,
         filter_id: filter.id,
       })
     }
