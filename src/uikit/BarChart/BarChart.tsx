@@ -80,7 +80,7 @@ export const BarChart = ({
         },
       }}
       data={{
-        labels: data.map(({ x }) => x),
+        labels,
         datasets: [
           {
             barThickness: theme.barSize,
