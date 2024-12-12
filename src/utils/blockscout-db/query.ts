@@ -2,7 +2,6 @@ import { Pool, QueryResult, QueryResultRow } from "pg"
 import { createDebugger } from "@/debug"
 import { logger } from "@/logger"
 import { BlockscoutDatabase } from "@/types/types"
-import { decryptBlockScoutPassword } from "@/utils/blockscout"
 import { toError } from "../errors"
 
 const debug = createDebugger("blockscout-db")
@@ -23,7 +22,7 @@ const getPool = ({
       host,
       port,
       user,
-      password: decryptBlockScoutPassword(password),
+      password,
     })
   }
 

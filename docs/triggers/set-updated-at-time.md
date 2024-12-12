@@ -40,4 +40,10 @@ drop trigger if exists set_widgets_updated_at on widgets;
 create trigger set_widgets_updated_at
   before update on widgets
   for each row execute procedure public.update_modified_column();
+
+-- trigger to execute the function on update of blockscout_databases table
+drop trigger if exists set_blockscout_databases_updated_at on blockscout_databases;
+create trigger set_blockscout_databases_updated_at
+  before update on blockscout_databases
+  for each row execute procedure public.update_modified_column();
 ```

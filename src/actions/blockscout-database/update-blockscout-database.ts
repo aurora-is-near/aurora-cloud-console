@@ -8,20 +8,21 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const createBlockscoutDatabase = async ({
-  password,
-  ...restInputs
-}: Omit<
-  BlockscoutDatabase,
-  "id" | "created_at" | "updated_at"
->): Promise<BlockscoutDatabase> => {
+export const updateBlockscoutDatabase = async (
+  id: number,
+  {
+    password,
+    ...restInputs
+  }: Omit<BlockscoutDatabase, "id" | "created_at" | "updated_at">,
+): Promise<BlockscoutDatabase> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("blockscout_databases")
-    .insert({
+    .update({
+      password: password ? encryptBlockScoutPassword(password) : undefined,
       ...restInputs,
-      password: encryptBlockScoutPassword(password),
     })
+    .eq("id", id)
     .select()
     .single()
 

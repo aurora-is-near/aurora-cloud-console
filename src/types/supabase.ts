@@ -49,30 +49,36 @@ export type Database = {
       }
       blockscout_databases: {
         Row: {
+          created_at: string
           database: string
           host: string
           id: number
           name: string
           password: string
           port: number
+          updated_at: string
           user: string
         }
         Insert: {
+          created_at?: string
           database: string
           host: string
           id?: number
           name: string
           password: string
           port: number
+          updated_at?: string
           user: string
         }
         Update: {
+          created_at?: string
           database?: string
           host?: string
           id?: number
           name?: string
           password?: string
           port?: number
+          updated_at?: string
           user?: string
         }
         Relationships: []
