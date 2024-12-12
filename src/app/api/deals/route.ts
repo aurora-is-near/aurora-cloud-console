@@ -1,21 +1,13 @@
 import { createApiEndpoint } from "@/utils/api"
-import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { assertValidSupabaseResult } from "@/utils/supabase"
 import { adaptDeal } from "@/utils/adapters"
 import { createDeal } from "@/actions/deals/create-deal"
+import { getDeals } from "@/actions/deals/get-deals"
 
 export const GET = createApiEndpoint("getDeals", async (_req, ctx) => {
-  const supabase = createAdminSupabaseClient()
-  const dealsResult = await supabase
-    .from("deals")
-    .select("*")
-    .order("id", { ascending: true })
-    .eq("team_id", ctx.team.id)
-
-  assertValidSupabaseResult(dealsResult)
+  const deals = await getDeals({ teamId: ctx.team.id })
 
   return {
-    items: dealsResult.data.map(adaptDeal),
+    items: deals.map(adaptDeal),
   }
 })
 
