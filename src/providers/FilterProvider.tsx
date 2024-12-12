@@ -23,7 +23,7 @@ type FilterUpdateContextType = {
   deleteFilterEntry: UseMutateFunction<
     null,
     Error,
-    { id: number; deal_id: number; filter_id: number }
+    { id: number; filter_id: number; entry_id: number }
   >
   filter?: Filter
   hasPendingUpdates?: boolean
@@ -41,14 +41,14 @@ export const FilterProvider = ({
 }: FilterProviderProps) => {
   const { data: filter, refetch: refetchFilter } = useQuery(
     getQueryFnAndKey("getFilter", {
-      deal_id: dealId,
+      id: dealId,
       filter_id: filterId,
     }),
   )
 
   const { data: filterEntries, refetch: refetchFilterEntries } = useQuery(
     getQueryFnAndKey("getFilterEntries", {
-      deal_id: dealId,
+      id: dealId,
       filter_id: filterId,
     }),
   )
@@ -105,7 +105,7 @@ export const FilterProvider = ({
     if (filter) {
       if (pendingUpdate) {
         updateFilter({
-          deal_id: dealId,
+          id: dealId,
           filter_id: filter.id,
           ...pendingUpdate,
         })
@@ -113,7 +113,7 @@ export const FilterProvider = ({
 
       if (pendingEntriesUpdate) {
         updateFilterEntries({
-          deal_id: dealId,
+          id: dealId,
           filter_id: filter.id,
           ...pendingEntriesUpdate,
         })
