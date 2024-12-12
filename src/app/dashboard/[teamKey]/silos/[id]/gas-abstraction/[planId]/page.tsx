@@ -35,13 +35,13 @@ const Page = async ({
     <DealUpdateProvider dealId={dealId}>
       <DealUpdatePage deal={deal}>
         {eoaFilter && (
-          <FilterProvider filterId={eoaFilter.id}>
+          <FilterProvider dealId={dealId} filterId={eoaFilter.id}>
             <UsersConfigurationCard />
             <AddFilterAddressModal />
           </FilterProvider>
         )}
         {contractFilter && (
-          <FilterProvider filterId={contractFilter.id}>
+          <FilterProvider dealId={dealId} filterId={contractFilter.id}>
             <ContractsCard silo={silo} />
             <AddFilterAddressModal />
           </FilterProvider>

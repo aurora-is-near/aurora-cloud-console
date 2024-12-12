@@ -361,80 +361,6 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
-    "/api/deals/{deal_id}/filters": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`deals:read\`",
-        "operationId": "getFilters",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "deal_id",
-            "required": true,
-            "schema": {
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "items": {
-                      "items": {
-                        "properties": {
-                          "blacklist": {
-                            "type": "boolean",
-                          },
-                          "created_at": {
-                            "type": "string",
-                          },
-                          "filter_type": {
-                            "type": "string",
-                          },
-                          "id": {
-                            "type": "number",
-                          },
-                          "updated_at": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "id",
-                          "blacklist",
-                          "created_at",
-                          "updated_at",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "array",
-                    },
-                  },
-                  "required": [
-                    "items",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "deals:read",
-            ],
-          },
-        ],
-        "summary": "Get all filters for a deal",
-        "tags": [
-          "deals",
-        ],
-      },
-    },
     "/api/deals/{id}": {
       "get": {
         "deprecated": undefined,
@@ -648,7 +574,81 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
-    "/api/filters/{filter_id}": {
+    "/api/deals/{id}/filters": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:read\`",
+        "operationId": "getFilters",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "blacklist": {
+                            "type": "boolean",
+                          },
+                          "created_at": {
+                            "type": "string",
+                          },
+                          "filter_type": {
+                            "type": "string",
+                          },
+                          "id": {
+                            "type": "number",
+                          },
+                          "updated_at": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "blacklist",
+                          "created_at",
+                          "updated_at",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:read",
+            ],
+          },
+        ],
+        "summary": "Get all filters for a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
+    "/api/deals/{id}/filters/{filter_id}": {
       "get": {
         "deprecated": undefined,
         "description": "**Required scopes:** \`deals:read\`",
@@ -656,10 +656,18 @@ exports[`OpenAPI Document should be valid 1`] = `
         "parameters": [
           {
             "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
             "name": "filter_id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
         ],
@@ -725,7 +733,7 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
         "summary": "Get a single filter",
         "tags": [
-          "filters",
+          "deals",
         ],
       },
       "put": {
@@ -735,10 +743,18 @@ exports[`OpenAPI Document should be valid 1`] = `
         "parameters": [
           {
             "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
             "name": "filter_id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
         ],
@@ -807,11 +823,11 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
         "summary": "Update a filter",
         "tags": [
-          "filters",
+          "deals",
         ],
       },
     },
-    "/api/filters/{filter_id}/entries": {
+    "/api/deals/{id}/filters/{filter_id}/entries": {
       "get": {
         "deprecated": undefined,
         "description": "**Required scopes:** \`deals:read\`",
@@ -819,10 +835,18 @@ exports[`OpenAPI Document should be valid 1`] = `
         "parameters": [
           {
             "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
             "name": "filter_id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
         ],
@@ -874,7 +898,7 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
         "summary": "Get all entries for a filter",
         "tags": [
-          "filters",
+          "deals",
         ],
       },
       "put": {
@@ -884,10 +908,18 @@ exports[`OpenAPI Document should be valid 1`] = `
         "parameters": [
           {
             "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
             "name": "filter_id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
         ],
@@ -964,16 +996,24 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
         "summary": "Update the entries for a filter",
         "tags": [
-          "filters",
+          "deals",
         ],
       },
     },
-    "/api/filters/{filter_id}/entries/{id}": {
+    "/api/deals/{id}/filters/{filter_id}/entries/{entry_id}": {
       "delete": {
         "deprecated": undefined,
         "description": "**Required scopes:** \`deals:write\`",
         "operationId": "deleteFilterEntry",
         "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
           {
             "in": "path",
             "name": "filter_id",
@@ -984,7 +1024,7 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
           {
             "in": "path",
-            "name": "id",
+            "name": "entry_id",
             "required": true,
             "schema": {
               "type": "number",
@@ -1005,7 +1045,7 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
         "summary": "Delete filter entries",
         "tags": [
-          "filters",
+          "deals",
         ],
       },
     },

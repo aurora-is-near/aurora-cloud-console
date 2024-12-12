@@ -244,7 +244,7 @@ export const contract = c.router({
   getFilters: {
     summary: "Get all filters for a deal",
     method: "GET",
-    path: "/api/deals/:deal_id/filters",
+    path: "/api/deals/:id/filters",
     responses: {
       200: z.object({
         items: z.array(
@@ -258,6 +258,9 @@ export const contract = c.router({
         ),
       }),
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
     metadata: {
       scopes: ["deals:read"],
     },
@@ -265,7 +268,7 @@ export const contract = c.router({
   getFilter: {
     summary: "Get a single filter",
     method: "GET",
-    path: "/api/filters/:filter_id",
+    path: "/api/deals/:id/filters/:filter_id",
     responses: {
       200: z.object({
         id: z.number(),
@@ -284,6 +287,10 @@ export const contract = c.router({
         deleted_at: z.string().nullable(),
       }),
     },
+    pathParams: z.object({
+      id: z.number(),
+      filter_id: z.number(),
+    }),
     metadata: {
       scopes: ["deals:read"],
     },
@@ -291,7 +298,7 @@ export const contract = c.router({
   updateFilter: {
     summary: "Update a filter",
     method: "PUT",
-    path: "/api/filters/:filter_id",
+    path: "/api/deals/:id/filters/:filter_id",
     body: z.object({
       value: z.string(),
       filter_type: z.string().optional(),
@@ -305,6 +312,10 @@ export const contract = c.router({
         updated_at: z.string(),
       }),
     },
+    pathParams: z.object({
+      id: z.number(),
+      filter_id: z.number(),
+    }),
     metadata: {
       scopes: ["deals:write"],
     },
@@ -312,7 +323,7 @@ export const contract = c.router({
   getFilterEntries: {
     summary: "Get all entries for a filter",
     method: "GET",
-    path: "/api/filters/:filter_id/entries",
+    path: "/api/deals/:id/filters/:filter_id/entries",
     responses: {
       200: z.object({
         items: z.array(
@@ -324,6 +335,10 @@ export const contract = c.router({
         ),
       }),
     },
+    pathParams: z.object({
+      id: z.number(),
+      filter_id: z.number(),
+    }),
     metadata: {
       scopes: ["deals:read"],
     },
@@ -331,7 +346,7 @@ export const contract = c.router({
   updateFilterEntries: {
     summary: "Update the entries for a filter",
     method: "PUT",
-    path: "/api/filters/:filter_id/entries",
+    path: "/api/deals/:id/filters/:filter_id/entries",
     responses: {
       200: z.object({
         items: z.array(
@@ -349,6 +364,10 @@ export const contract = c.router({
         }),
       ),
     }),
+    pathParams: z.object({
+      id: z.number(),
+      filter_id: z.number(),
+    }),
     metadata: {
       scopes: ["deals:write"],
     },
@@ -356,7 +375,7 @@ export const contract = c.router({
   deleteFilterEntry: {
     summary: "Delete filter entries",
     method: "DELETE",
-    path: "/api/filters/:filter_id/entries/:id",
+    path: "/api/deals/:id/filters/:filter_id/entries/:entry_id",
     responses: {
       204: null,
     },
@@ -365,8 +384,9 @@ export const contract = c.router({
       scopes: ["deals:write"],
     },
     pathParams: z.object({
-      filter_id: z.number(),
       id: z.number(),
+      filter_id: z.number(),
+      entry_id: z.number(),
     }),
   },
   getSilos: {

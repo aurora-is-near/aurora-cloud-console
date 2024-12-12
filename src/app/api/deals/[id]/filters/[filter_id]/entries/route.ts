@@ -3,7 +3,10 @@ import { updateFilterEntries } from "@/actions/filter-entries/update-filter-entr
 import { getFilterEntries } from "@/actions/filter-entries/get-filter-entries"
 
 export const GET = createApiEndpoint("getFilterEntries", async (_req, ctx) => {
-  const filterEntries = await getFilterEntries(Number(ctx.params.filter_id))
+  const filterEntries = await getFilterEntries(
+    Number(ctx.params.id),
+    Number(ctx.params.filter_id),
+  )
 
   return {
     items: filterEntries ?? [],
@@ -14,6 +17,7 @@ export const PUT = createApiEndpoint(
   "updateFilterEntries",
   async (_req, ctx) => {
     const result = await updateFilterEntries({
+      deal_id: Number(ctx.params.id),
       filter_id: Number(ctx.params.filter_id),
       items: ctx.body.items.map((item) => ({
         ...item,
