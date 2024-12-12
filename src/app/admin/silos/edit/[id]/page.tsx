@@ -7,15 +7,16 @@ import { LinkButton } from "@/components/LinkButton"
 import { getSiloTokens } from "@/actions/silo-tokens/get-silo-tokens"
 import { Tag } from "@/components/Tag"
 import { getTeams } from "@/actions/teams/get-teams"
+import { getBlockscoutDatabases } from "@/actions/blockscout-database/get-blockscout-databases"
 import { DeleteSiloButton } from "./DeleteSiloButton"
 import { SiloForm } from "../../SiloForm"
 import { AddTokenButton } from "./AddTokenButton"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {
-  const [silo, tokens, siloTokens, teams] = await Promise.all([
+  const [silo, siloTokens, blockscoutDatabases, teams] = await Promise.all([
     getSilo(id),
     getSiloTokens(id),
-    getSiloTokens(id),
+    getBlockscoutDatabases(),
     getTeams(),
   ])
 
@@ -33,7 +34,12 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
       <Card>
         <Card.Title tag="h3">Silo details</Card.Title>
         <Card.Body>
-          <SiloForm silo={silo} tokens={tokens} teams={teams} />
+          <SiloForm
+            silo={silo}
+            tokens={siloTokens}
+            teams={teams}
+            blockscoutDatabases={blockscoutDatabases}
+          />
         </Card.Body>
       </Card>
       <Card>
