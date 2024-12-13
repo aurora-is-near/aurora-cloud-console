@@ -10,6 +10,9 @@ import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { queryGasCollected } from "../../../../../utils/blockscout-db/query-gas-collected"
 import { abort } from "../../../../../utils/abort"
 
+const getDay = (date: Date | string) =>
+  new Date(date).toISOString().split("T")[0]
+
 export const GET = createApiEndpoint(
   "getSiloCollectedGas",
   async (req, ctx) => {
@@ -46,7 +49,7 @@ export const GET = createApiEndpoint(
       result[1]?.rows.reduce(
         (acc, item) => ({
           ...acc,
-          [new Date(item.day).toISOString()]: item.count,
+          [getDay(item.day)]: item.count,
         }),
         {},
       )
@@ -55,7 +58,7 @@ export const GET = createApiEndpoint(
     // collected if any data exists for a given day, or zero otherwise.
     const days = eachDayOfInterval({ start, end })
     const gasCollectedOverTime = days.map((dayDate) => {
-      const day = dayDate.toISOString()
+      const day = getDay(dayDate)
       const gasCollected = gasCollectedOverTimeByDay[day]
 
       return {
