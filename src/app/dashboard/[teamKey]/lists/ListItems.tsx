@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation"
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
-import TableLoader from "@/components/TableLoader"
+import { Skeleton } from "@/uikit"
 import Heading from "@/components/Heading"
 import { apiClient } from "@/utils/api/client"
 import { getQueryFnAndKey } from "@/utils/api/queries"
@@ -84,7 +84,7 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
       ) : (
         <section>
           {!data || isLoading ? (
-            <TableLoader />
+            <Skeleton.Table numberOfRows={4} />
           ) : (
             <ListItemsTable
               isSearching={!!search}
