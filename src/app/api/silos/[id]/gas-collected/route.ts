@@ -1,4 +1,9 @@
-import { differenceInMonths, isAfter, parseISO } from "date-fns"
+import {
+  differenceInMonths,
+  eachDayOfInterval,
+  isAfter,
+  parseISO,
+} from "date-fns"
 
 import { createApiEndpoint } from "@/utils/api"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
@@ -37,7 +42,27 @@ export const GET = createApiEndpoint(
     })
 
     const totalGasCollected = result[0].rows[0]?.count ?? 0
-    const gasCollectedOverTime = result[1].rows ?? []
+    const gasCollectedOverTimeByDay: Record<string, number> =
+      result[1]?.rows.reduce(
+        (acc, item) => ({
+          ...acc,
+          [new Date(item.day).toISOString()]: item.count,
+        }),
+        {},
+      )
+
+    // Iterate over each day between start and end date, filling in the gas
+    // collected if any data exists for a given day, or zero otherwise.
+    const days = eachDayOfInterval({ start, end })
+    const gasCollectedOverTime = days.map((dayDate) => {
+      const day = dayDate.toISOString()
+      const gasCollected = gasCollectedOverTimeByDay[day]
+
+      return {
+        day,
+        count: gasCollected || 0,
+      }
+    })
 
     return {
       count: totalGasCollected,
