@@ -11,6 +11,7 @@ global.React = React
 process.env.FORWARDER_API_KEY = "test-forwarder-api-key"
 process.env.NEXT_PUBLIC_MUNZEN_API_KEY = "test-munzen-api-key"
 process.env.MUNZEN_API_SECRET = "test-munzen-api-secret"
+process.env.BLOCKSCOUT_ENCRYPTION_KEY = "test-blockscout-encryption-key"
 
 Object.assign(global, { TextDecoder, TextEncoder, ResizeObserver })
 

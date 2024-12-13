@@ -35,3 +35,11 @@ jest.mock("pg", () => ({
     end: jest.fn(),
   })),
 }))
+
+jest.mock("cryptr", () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    encrypt: jest.fn(() => "encrypted-text"),
+    decrypt: jest.fn(() => "decrypted-text"),
+  })),
+}))

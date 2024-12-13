@@ -38,8 +38,8 @@ export const GET = createApiEndpoint(
     }
 
     if (!blockscoutDatabase) {
-      logger.error(
-        `No blockscout database found for silo ${siloId}, cannot query gas collected`,
+      logger.warn(
+        `Cannot query gas collected as no blockscout database found for silo ${siloId}`,
       )
 
       return {
