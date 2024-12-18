@@ -27,8 +27,6 @@ const AddPlanModal = ({ team }: AddPlanModalProps) => {
 
     closeModal()
     router.push(newPath)
-
-    // Refreshing is necessary to have the list of deals in the sidebar update.
   }
 
   return (

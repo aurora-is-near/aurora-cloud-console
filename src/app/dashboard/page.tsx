@@ -43,7 +43,7 @@ const Page = async () => {
   }
 
   return (
-    <DashboardLayout>
+    <DashboardLayout showAdminMenu={isAdminUser}>
       <DashboardPage
         heading="Your teams"
         headingSize="lg"
