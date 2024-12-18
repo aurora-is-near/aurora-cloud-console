@@ -59,6 +59,8 @@ export type List = Tables<"lists">
 
 export type Deal = Tables<"deals">
 
+export type Rule = Tables<"rules">
+
 export type Filter = Tables<"filters">
 
 export type FilterEntry = Tables<"filter_entries">

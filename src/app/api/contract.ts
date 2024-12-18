@@ -38,6 +38,15 @@ export const DealSchema = z.object({
   endTime: z.string().nullable(),
 })
 
+export const RuleSchema = z.object({
+  id: z.number(),
+  dealId: z.number(),
+  resourceDefinition: z.object({}).nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  deletedAt: z.string().nullable(),
+})
+
 const DealPrioritiesSchema = z.array(
   z.object({
     dealId: z.number(),
@@ -240,6 +249,22 @@ export const contract = c.router({
     metadata: {
       scopes: ["deals:write"],
     },
+  },
+  getRules: {
+    summary: "Get all rules for a deal",
+    method: "GET",
+    path: "/api/deals/:id/rules",
+    responses: {
+      200: z.object({
+        items: z.array(RuleSchema),
+      }),
+    },
+    metadata: {
+      scopes: ["deals:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
   },
   getFilters: {
     summary: "Get all filters for a deal",

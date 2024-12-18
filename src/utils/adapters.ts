@@ -2,11 +2,12 @@ import {
   DealSchema,
   ListSchema,
   OracleSchema,
+  RuleSchema,
   SiloSchema,
   TokenSchema,
 } from "@/types/api-schemas"
 import { AuroraOracle } from "@/types/oracle"
-import { Deal, List, Silo, Token } from "@/types/types"
+import { Deal, List, Rule, Silo, Token } from "@/types/types"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
@@ -31,6 +32,15 @@ export const adaptDeal = (deal: Deal): DealSchema => {
       : null,
   }
 }
+
+export const adaptRule = (rule: Rule): RuleSchema => ({
+  id: rule.id,
+  createdAt: rule.created_at,
+  updatedAt: rule.updated_at,
+  deletedAt: rule.deleted_at,
+  dealId: rule.deal_id,
+  resourceDefinition: rule.resource_definition,
+})
 
 export const adaptToken = (token: Token): TokenSchema => ({
   id: token.id,

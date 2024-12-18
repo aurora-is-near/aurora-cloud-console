@@ -4,6 +4,7 @@ import {
   DealSchema as Deal,
   ListSchema as List,
   OracleSchema as Oracle,
+  RuleSchema as Rule,
   SiloSchema as Silo,
   SimpleListSchema as SimpleList,
   TokenSchema as Token,
@@ -13,6 +14,7 @@ import {
 } from "@/app/api/contract"
 
 export type DealSchema = z.infer<typeof Deal>
+export type RuleSchema = z.infer<typeof Rule>
 export type SiloSchema = z.infer<typeof Silo>
 export type TokenSchema = z.infer<typeof Token>
 export type ListSchema = z.infer<typeof List>

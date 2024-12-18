@@ -1049,6 +1049,88 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/deals/{id}/rules": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:read\`",
+        "operationId": "getRules",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "createdAt": {
+                            "type": "string",
+                          },
+                          "dealId": {
+                            "type": "number",
+                          },
+                          "deletedAt": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "id": {
+                            "type": "number",
+                          },
+                          "resourceDefinition": {
+                            "nullable": true,
+                            "properties": {},
+                            "type": "object",
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "dealId",
+                          "resourceDefinition",
+                          "createdAt",
+                          "updatedAt",
+                          "deletedAt",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:read",
+            ],
+          },
+        ],
+        "summary": "Get all rules for a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
     "/api/forwarder": {
       "post": {
         "deprecated": undefined,
