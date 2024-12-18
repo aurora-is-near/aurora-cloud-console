@@ -1,5 +1,11 @@
-import { Fragment, ReactNode } from "react"
-import { Dialog, Transition } from "@headlessui/react"
+import { ReactNode } from "react"
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
 import { findChildren, findOtherChildren } from "@/utils/helpers"
@@ -35,10 +41,9 @@ const SlideOver = ({
   const content = findOtherChildren(children, ["Actions"])
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition show={open}>
       <Dialog as="div" className="relative z-50" onClose={close}>
-        <Transition.Child
-          as={Fragment}
+        <TransitionChild
           enter="ease-out duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
@@ -47,13 +52,12 @@ const SlideOver = ({
           leaveTo="opacity-0"
         >
           <div className="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75 backdrop-blur-sm" />
-        </Transition.Child>
+        </TransitionChild>
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
             <div className="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none sm:pl-16">
-              <Transition.Child
-                as={Fragment}
+              <TransitionChild
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
                 enterFrom="translate-x-full"
                 enterTo="translate-x-0"
@@ -62,15 +66,15 @@ const SlideOver = ({
                 leaveTo="translate-x-full"
                 afterLeave={afterLeave}
               >
-                <Dialog.Panel className="w-screen max-w-md pointer-events-auto">
+                <DialogPanel className="w-screen max-w-md pointer-events-auto">
                   <div className="flex flex-col h-full overflow-y-auto bg-white shadow-xl">
                     <div className="flex-1">
                       {/* Header */}
                       <header className="px-4 py-6 bg-gray-50 sm:px-6">
                         <div className="flex items-start justify-between space-x-3">
-                          <Dialog.Title className="text-base font-medium leading-6 text-gray-900">
+                          <DialogTitle className="text-base font-medium leading-6 text-gray-900">
                             {title}
-                          </Dialog.Title>
+                          </DialogTitle>
                           <button
                             type="button"
                             className="relative text-gray-900"
@@ -91,13 +95,13 @@ const SlideOver = ({
 
                     {actions}
                   </div>
-                </Dialog.Panel>
-              </Transition.Child>
+                </DialogPanel>
+              </TransitionChild>
             </div>
           </div>
         </div>
       </Dialog>
-    </Transition.Root>
+    </Transition>
   )
 }
 

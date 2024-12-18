@@ -1,6 +1,11 @@
 "use client"
 
-import { Listbox } from "@headlessui/react"
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
 
 import { clsx, Typography } from "@/uikit"
@@ -29,7 +34,7 @@ export const Dropdown = ({ options, selected, className, ...props }: Props) => {
   return (
     <Listbox value={selected} onChange={props.onChange}>
       <div className={clsx("relative", className)}>
-        <Listbox.Button className="relative w-full cursor-pointer rounded-lg border border-slate-400 bg-white py-1 pl-3 pr-2 text-left font-medium text-slate-900 group hover:bg-slate-100 shadow-sm">
+        <ListboxButton className="relative w-full cursor-pointer rounded-lg border border-slate-400 bg-white py-1 pl-3 pr-2 text-left font-medium text-slate-900 group hover:bg-slate-100 shadow-sm">
           <div className="flex items-center justify-between">
             <Typography
               variant="label"
@@ -45,16 +50,16 @@ export const Dropdown = ({ options, selected, className, ...props }: Props) => {
               />
             </div>
           </div>
-        </Listbox.Button>
-        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg text-sm lg:text-base z-[1]">
+        </ListboxButton>
+        <ListboxOptions className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg text-sm lg:text-base z-[1]">
           {options.map((option) => (
-            <Listbox.Option
+            <ListboxOption
               key={option.value}
               value={option}
-              className={({ active }) =>
+              className={({ focus }) =>
                 clsx(
                   "relative cursor-pointer select-none py-2 pl-4 pr-4",
-                  active ? "bg-slate-100 text-slate-900" : "text-slate-900",
+                  focus ? "bg-slate-100 text-slate-900" : "text-slate-900",
                 )
               }
             >
@@ -70,9 +75,9 @@ export const Dropdown = ({ options, selected, className, ...props }: Props) => {
                   {option.label}
                 </Typography>
               )}
-            </Listbox.Option>
+            </ListboxOption>
           ))}
-        </Listbox.Options>
+        </ListboxOptions>
       </div>
     </Listbox>
   )

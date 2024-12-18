@@ -1,7 +1,12 @@
 "use client"
 
 import { usePathname, useRouter } from "next/navigation"
-import { Listbox } from "@headlessui/react"
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/react"
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid"
 import clsx from "clsx"
 import { Silo } from "@/types/types"
@@ -28,7 +33,7 @@ export const SiloSelect = ({ silos, defaultValue }: SiloSelectProps) => {
         }
       >
         <div className="relative">
-          <Listbox.Button className="relative w-full cursor-pointer rounded-lg border border-slate-200 bg-white pl-3 pr-2 py-2 text-left font-medium text-slate-900 group hover:bg-slate-100 shadow-sm">
+          <ListboxButton className="relative w-full cursor-pointer rounded-lg border border-slate-200 bg-white pl-3 pr-2 py-2 text-left font-medium text-slate-900 group hover:bg-slate-100 shadow-sm">
             <div className="flex items-center justify-between">
               <span className="block truncate">
                 {silos.find((silo) => silo.id === defaultValue)?.name ??
@@ -41,15 +46,15 @@ export const SiloSelect = ({ silos, defaultValue }: SiloSelectProps) => {
                 />
               </div>
             </div>
-          </Listbox.Button>
-          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg text-sm lg:text-base">
+          </ListboxButton>
+          <ListboxOptions className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg text-sm lg:text-base">
             {silos.map((silo) => (
-              <Listbox.Option
+              <ListboxOption
                 key={silo.id}
-                className={({ active }) =>
+                className={({ focus }) =>
                   clsx(
                     "relative cursor-pointer select-none py-2 pl-4 pr-4",
-                    active ? "bg-slate-100 text-slate-900" : "text-slate-900",
+                    focus ? "bg-slate-100 text-slate-900" : "text-slate-900",
                   )
                 }
                 value={silo.id}
@@ -64,9 +69,9 @@ export const SiloSelect = ({ silos, defaultValue }: SiloSelectProps) => {
                     {silo.name}
                   </span>
                 )}
-              </Listbox.Option>
+              </ListboxOption>
             ))}
-          </Listbox.Options>
+          </ListboxOptions>
         </div>
       </Listbox>
     </div>
