@@ -1,5 +1,9 @@
 import { ReactNode } from "react"
-import { CubeIcon, UserGroupIcon } from "@heroicons/react/24/outline"
+import {
+  CircleStackIcon,
+  CubeIcon,
+  UserGroupIcon,
+} from "@heroicons/react/24/outline"
 import { redirect } from "next/navigation"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { isAdmin } from "@/actions/is-admin"
@@ -22,7 +26,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
           {
             items: [
               {
-                name: "Team",
+                name: "Teams",
                 href: "/admin/teams",
                 icon: <UserGroupIcon />,
               },
@@ -30,6 +34,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
                 name: "Silos",
                 href: "/admin/silos",
                 icon: <CubeIcon />,
+              },
+              {
+                name: "Blockscout",
+                href: "/admin/blockscout",
+                icon: <CircleStackIcon />,
               },
               {
                 name: "Oracle tokens",

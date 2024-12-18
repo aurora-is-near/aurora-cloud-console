@@ -47,6 +47,42 @@ export type Database = {
           },
         ]
       }
+      blockscout_databases: {
+        Row: {
+          created_at: string
+          database: string
+          host: string
+          id: number
+          name: string
+          password: string
+          port: number
+          updated_at: string
+          user: string
+        }
+        Insert: {
+          created_at?: string
+          database: string
+          host: string
+          id?: number
+          name: string
+          password: string
+          port: number
+          updated_at?: string
+          user: string
+        }
+        Update: {
+          created_at?: string
+          database?: string
+          host?: string
+          id?: number
+          name?: string
+          password?: string
+          port?: number
+          updated_at?: string
+          user?: string
+        }
+        Relationships: []
+      }
       deals: {
         Row: {
           created_at: string
@@ -193,6 +229,7 @@ export type Database = {
       silos: {
         Row: {
           base_token_id: number | null
+          blockscout_database_id: number | null
           chain_id: string
           created_at: string
           engine_account: string
@@ -209,6 +246,7 @@ export type Database = {
         }
         Insert: {
           base_token_id?: number | null
+          blockscout_database_id?: number | null
           chain_id: string
           created_at?: string
           engine_account: string
@@ -225,6 +263,7 @@ export type Database = {
         }
         Update: {
           base_token_id?: number | null
+          blockscout_database_id?: number | null
           chain_id?: string
           created_at?: string
           engine_account?: string
@@ -245,6 +284,13 @@ export type Database = {
             columns: ["base_token_id"]
             isOneToOne: false
             referencedRelation: "tokens"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silos_blockscout_database_id_fkey"
+            columns: ["blockscout_database_id"]
+            isOneToOne: false
+            referencedRelation: "blockscout_databases"
             referencedColumns: ["id"]
           },
           {

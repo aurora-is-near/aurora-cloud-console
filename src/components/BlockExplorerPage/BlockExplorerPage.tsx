@@ -57,7 +57,7 @@ export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
               <TabCard
                 attribution={{
                   icon: <Blockscout />,
-                  text: "Powered by BlockScout",
+                  text: "Powered by Blockscout",
                 }}
               >
                 <div className="flex flex-col gap-2 text-slate-500">

@@ -49,6 +49,8 @@ export type Token = Tables<"tokens">
 
 export type Oracle = Tables<"oracles">
 
+export type BlockscoutDatabase = Tables<"blockscout_databases">
+
 export type Widget = Tables<"widgets">
 
 export type Team = Tables<"teams">

@@ -181,6 +181,7 @@ export const useChainCreationForm = (
         engine_version: "3.6.4",
         grafana_network_key: null,
         rpc_url: DEVNET_RPC_URL,
+        blockscout_database_id: null,
       })
 
       // Redirect to the silo dashboard page

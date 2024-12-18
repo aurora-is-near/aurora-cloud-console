@@ -23,38 +23,35 @@ const Page = async ({
     getTeamDealsByKey(teamKey),
   ])
 
-  const getTabs = () => {
-    if (!silo) {
-      return []
-    }
+  if (!silo) {
+    notFound()
+  }
 
-    const pageTabs = [
-      {
-        title: "About",
-        content: <GasAbstractionAboutTab />,
-      },
-      {
-        title: "Gas plans",
-        content: (
-          <GasAbstractionPlansTab
-            silo={silo}
-            teamKey={teamKey}
-            deals={deals}
-            isNewPlanButtonDisabled={!canCreateDeal(silo, deals)}
-          />
-        ),
-      },
-    ]
+  const tabs = [
+    {
+      title: "About",
+      content: <GasAbstractionAboutTab />,
+    },
+    {
+      title: "Gas plans",
+      content: (
+        <GasAbstractionPlansTab
+          silo={silo}
+          teamKey={teamKey}
+          deals={deals}
+          isNewPlanButtonDisabled={!canCreateDeal(silo, deals)}
+        />
+      ),
+    },
+  ]
 
-    // For now we display "Gas collected" tab only for Aurora Testnet
-    if (silo.chain_id === "1313161555") {
-      pageTabs.push({
-        title: "Gas collected",
-        content: <GasAbstractionCollectedTab silo={silo} />,
-      })
-    }
-
-    return pageTabs
+  // Display the "Gas collected" tab if a Blockscout database has been set
+  // for the silo
+  if (silo.blockscout_database_id) {
+    tabs.push({
+      title: "Gas collected",
+      content: <GasAbstractionCollectedTab silo={silo} />,
+    })
   }
 
   if (!silo) {
@@ -64,7 +61,7 @@ const Page = async ({
   return (
     <>
       <GasAbstractionPage teamKey={teamKey} silo={silo}>
-        <Tabs tabs={getTabs()} />
+        <Tabs tabs={tabs} />
       </GasAbstractionPage>
       <AddPlanModal team={team} />
     </>

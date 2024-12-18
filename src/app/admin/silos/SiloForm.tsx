@@ -3,7 +3,7 @@
 import { SubmitHandler } from "react-hook-form"
 import { sentenceCase } from "change-case"
 import { usePathname } from "next/navigation"
-import { Silo, Team, Token } from "@/types/types"
+import { BlockscoutDatabase, Silo, Team, Token } from "@/types/types"
 import { updateSilo } from "@/actions/silos/update-silo"
 import { createSilo } from "@/actions/silos/create-silo"
 import {
@@ -15,6 +15,7 @@ import { SelectInputOption } from "@/components/SelectInput"
 type SiloFormProps = {
   silo?: Silo
   tokens?: Token[]
+  blockscoutDatabases: BlockscoutDatabase[]
   teams: Team[]
 }
 
@@ -39,10 +40,22 @@ const getTeamOption = (team: Team): SelectInputOption => ({
   value: team.id,
 })
 
+const getBlockscoutDatabaseOption = (
+  database: BlockscoutDatabase,
+): SelectInputOption => ({
+  label: database.name,
+  value: database.id,
+})
+
 const isNetworkOption = (value?: string): value is NetworkOption =>
   !!value && NETWORK_OPTIONS.includes(value as NetworkOption)
 
-export const SiloForm = ({ silo, tokens, teams }: SiloFormProps) => {
+export const SiloForm = ({
+  silo,
+  tokens,
+  teams,
+  blockscoutDatabases,
+}: SiloFormProps) => {
   const pathname = usePathname()
 
   const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
@@ -60,6 +73,10 @@ export const SiloForm = ({ silo, tokens, teams }: SiloFormProps) => {
   }
 
   const baseToken = tokens?.find((token) => token.id === silo?.base_token_id)
+  const blockscoutDatabase = blockscoutDatabases?.find(
+    (database) => database.id === silo?.blockscout_database_id,
+  )
+
   const currentTeam = teams.find((team) => team.id === silo?.team_id)
   const inputs: HorizontalFormProps<Inputs>["inputs"] = [
     {
@@ -133,6 +150,15 @@ export const SiloForm = ({ silo, tokens, teams }: SiloFormProps) => {
       label: "Explorer URL",
       defaultValue: silo?.explorer_url ?? "",
       autoComplete: "explorer_url",
+    },
+    {
+      name: "blockscout_database_id",
+      label: "Blockscout database",
+      defaultValue: blockscoutDatabase
+        ? getBlockscoutDatabaseOption(blockscoutDatabase)
+        : undefined,
+      getValue: (option?: SelectInputOption) => option?.value,
+      options: blockscoutDatabases.map(getBlockscoutDatabaseOption),
     },
     {
       name: "grafana_network_key",
