@@ -94,7 +94,10 @@ describe("Collected gas route", () => {
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
         count: 0,
-        items: [],
+        items: Array.from({ length: 30 }, (_, index) => ({
+          day: `2024-11-${String(index + 1).padStart(2, "0")}`,
+          count: 0,
+        })),
       })
     })
 
@@ -160,7 +163,7 @@ describe("Collected gas route", () => {
       expect(res.body).toEqual({
         count: 150,
         items: Array.from({ length: 30 }, (_, index) => ({
-          day: `2024-11-${index + 1}`,
+          day: `2024-11-${String(index + 1).padStart(2, "0")}`,
           count: index + 1,
         })),
       })

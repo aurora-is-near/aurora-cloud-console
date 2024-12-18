@@ -1,4 +1,9 @@
-import { differenceInMonths, isAfter, parseISO } from "date-fns"
+import {
+  differenceInMonths,
+  eachDayOfInterval,
+  isAfter,
+  parseISO,
+} from "date-fns"
 
 import { createApiEndpoint } from "@/utils/api"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
@@ -6,6 +11,9 @@ import { getSiloBlockscoutDatabase } from "@/actions/silo-blockscout-database/ge
 import { logger } from "@/logger"
 import { queryGasCollected } from "../../../../../utils/blockscout-db/query-gas-collected"
 import { abort } from "../../../../../utils/abort"
+
+const getDay = (date: Date | string) =>
+  new Date(date).toISOString().split("T")[0]
 
 export const GET = createApiEndpoint(
   "getSiloCollectedGas",
@@ -54,7 +62,27 @@ export const GET = createApiEndpoint(
     })
 
     const totalGasCollected = result[0].rows[0]?.count ?? 0
-    const gasCollectedOverTime = result[1].rows ?? []
+    const gasCollectedOverTimeByDay: Record<string, number> =
+      result[1]?.rows.reduce(
+        (acc, item) => ({
+          ...acc,
+          [getDay(item.day)]: item.count,
+        }),
+        {},
+      )
+
+    // Iterate over each day between start and end date, filling in the gas
+    // collected if any data exists for a given day, or zero otherwise.
+    const days = eachDayOfInterval({ start, end })
+    const gasCollectedOverTime = days.map((dayDate) => {
+      const day = getDay(dayDate)
+      const gasCollected = gasCollectedOverTimeByDay[day]
+
+      return {
+        day,
+        count: gasCollected || 0,
+      }
+    })
 
     return {
       count: totalGasCollected,
