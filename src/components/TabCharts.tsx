@@ -1,7 +1,16 @@
 "use client"
 
 import { ReactNode, useState } from "react"
-import { RadioGroup, Tab } from "@headlessui/react"
+import {
+  Label,
+  Radio,
+  RadioGroup,
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+} from "@headlessui/react"
 import clsx from "clsx"
 import TabLegend, { TabLegendProps } from "@/components/TabLegend"
 import { ChartColor } from "@/types/types"
@@ -58,25 +67,23 @@ const TabCharts = <T extends number | string | null>({
             value={selectedDateOption ?? null}
             onChange={onDateOptionChange}
           >
-            <RadioGroup.Label className="sr-only">
-              Choose a date range
-            </RadioGroup.Label>
+            <Label className="sr-only">Choose a date range</Label>
             <div className="flex space-x-2.5">
               {dateOptions.map((option) => (
-                <RadioGroup.Option
+                <Radio
                   key={option.label}
                   value={option.value}
                   className="justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-2.5 py-1.5 data-[checked]:bg-gray-200 cursor-pointer"
                 >
-                  <RadioGroup.Label as="span">{option.label}</RadioGroup.Label>
-                </RadioGroup.Option>
+                  <Label as="span">{option.label}</Label>
+                </Radio>
               ))}
             </div>
           </RadioGroup>
         )}
       </div>
       <div className="mt-4 md:mt-6">
-        <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+        <TabGroup selectedIndex={selectedIndex} onChange={setSelectedIndex}>
           <div className="block px-4 pt-5 pb-3 bg-white border-t sm:hidden border-x rounded-t-md">
             <label htmlFor="silo" className="sr-only">
               Select tab
@@ -100,7 +107,7 @@ const TabCharts = <T extends number | string | null>({
             </div>
           </div>
 
-          <Tab.List
+          <TabList
             className={clsx("hidden sm:grid gap-x-2.5 -mb-px relative z-10", {
               "grid-cols-1": tabs.length === 1,
               "grid-cols-2": tabs.length === 2,
@@ -129,10 +136,10 @@ const TabCharts = <T extends number | string | null>({
                 </div>
               </Tab>
             ))}
-          </Tab.List>
-          <Tab.Panels className="bg-white border border-gray-200 rounded-b-md">
+          </TabList>
+          <TabPanels className="bg-white border border-gray-200 rounded-b-md">
             {tabs.map(({ title, chart, legend, value }) => (
-              <Tab.Panel key={title}>
+              <TabPanel key={title}>
                 <div className="mx-4 mt-5 mb-5 md:mb-6 sm:mx-5 md:mx-6 h-[200px] relative">
                   {hasError ? (
                     <p className="text-sm text-gray-500 h-full w-full flex items-center justify-center">
@@ -152,10 +159,10 @@ const TabCharts = <T extends number | string | null>({
                 <div className="px-1 pb-1">
                   <TabLegend legend={legend} colors={colors} />
                 </div>
-              </Tab.Panel>
+              </TabPanel>
             ))}
-          </Tab.Panels>
-        </Tab.Group>
+          </TabPanels>
+        </TabGroup>
       </div>
     </>
   )
