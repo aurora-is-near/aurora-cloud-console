@@ -66,7 +66,7 @@ const TabCharts = <T extends number | string | null>({
                 <RadioGroup.Option
                   key={option.label}
                   value={option.value}
-                  className="justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-2.5 py-1.5 ui-checked:bg-gray-200 cursor-pointer"
+                  className="justify-center rounded-md text-sm font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-2.5 py-1.5 data-[checked]:bg-gray-200 cursor-pointer"
                 >
                   <RadioGroup.Label as="span">{option.label}</RadioGroup.Label>
                 </RadioGroup.Option>
@@ -111,7 +111,7 @@ const TabCharts = <T extends number | string | null>({
             {tabs.map(({ title, value }) => (
               <Tab
                 key={title}
-                className="px-4 py-4 md:py-5 text-left border border-gray-200 sm:px-5 md:px-6 rounded-t-md ui-selected:bg-white ui-selected:border-b-white ui-not-selected:bg-gray-50"
+                className="px-4 py-4 md:py-5 text-left border border-gray-200 sm:px-5 md:px-6 rounded-t-md data-[selected]:bg-white data-[selected]:border-b-white bg-gray-50"
               >
                 <div className="text-sm font-medium leading-none text-gray-500">
                   {title}
