@@ -1,8 +1,6 @@
 import { ReactNode } from "react"
 import Card from "@/components/Card"
 
-import { clsx } from "@/uikit"
-
 type TabCardProps = {
   children: ReactNode
   className?: string
@@ -12,8 +10,8 @@ type TabCardProps = {
   }
 }
 
-export const TabCard = ({ children, attribution, className }: TabCardProps) => (
-  <Card className={clsx("w-full", className)}>
+export const TabCard = ({ children, attribution }: TabCardProps) => (
+  <Card className="w-full">
     {children}
     {attribution && (
       <div className="pt-5 mt-5 flex flex-row items-center gap-x-3 border-t">
