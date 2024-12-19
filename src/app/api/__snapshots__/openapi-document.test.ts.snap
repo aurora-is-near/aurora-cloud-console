@@ -1748,6 +1748,54 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/silos/{id}/gas-collected-total": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`transactions:read\`",
+        "operationId": "getSiloCollectedGasTotal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "count",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "transactions:read",
+            ],
+          },
+        ],
+        "summary": "Get collected gas to the moment",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
     "/api/silos/{id}/latency": {
       "get": {
         "deprecated": undefined,

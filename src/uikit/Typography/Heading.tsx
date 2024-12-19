@@ -5,7 +5,7 @@ import { CommonProps } from "./types"
 type HeadingHTMLTags = "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
 
 export type HeadingProps = CommonProps<HeadingHTMLTags> & {
-  size: 5 | 6
+  size: 4 | 5 | 6
 }
 
 export const Heading = ({
@@ -18,6 +18,15 @@ export const Heading = ({
   const Tag = as ?? `h${size}`
 
   switch (size) {
+    case 4:
+      return (
+        <Tag
+          {...props}
+          className={clsx("text-lg font-bold tracking-tight", className)}
+        >
+          {children}
+        </Tag>
+      )
     case 5:
       return (
         <Tag

@@ -1,7 +1,9 @@
 export * from "./clsx"
 
 export * from "./BarChart"
+export * from "./Card"
 export * from "./Dropdown"
+export * from "./InfoList"
 export * from "./InfoTooltip"
 export * from "./Label"
 export * from "./Loading"

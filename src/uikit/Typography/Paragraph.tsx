@@ -3,7 +3,7 @@ import { clsx } from "../clsx"
 import { CommonProps } from "./types"
 
 export type ParagraphProps = CommonProps<"p" | "span"> & {
-  size: 2 | 4
+  size: 2 | 3 | 4
 }
 
 export const Paragraph = ({
