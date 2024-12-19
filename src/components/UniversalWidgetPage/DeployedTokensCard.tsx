@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 import Card from "@/components/Card"
-import Loader from "@/components/Loader"
 import { TokensCard } from "@/components/UniversalWidgetPage/TokensCard"
 import { AddButton } from "@/components/AddButton"
 import { useWidgetTokens } from "@/hooks/useWidgetTokens"
 import DeployedTokensForm from "@/components/UniversalWidgetPage/DeployedTokensForm"
+import { Skeleton } from "@/uikit"
 
 type DeployedTokensCardProps = {
   siloId: number
@@ -32,9 +32,7 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
           </p>
         </div>
         {isPending ? (
-          <Loader>
-            <div className="h-[42.5px]" />
-          </Loader>
+          <Skeleton className="h-[42.5px]" />
         ) : (
           <div className="flex flex-col gap-2">
             <DeployedTokensForm
