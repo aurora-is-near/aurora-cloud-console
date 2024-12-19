@@ -265,6 +265,41 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
+  createRule: {
+    summary: "Create a rule for a deal",
+    method: "POST",
+    path: "/api/deals/:id/rules",
+    responses: {
+      200: RuleSchema,
+    },
+    body: z.object({
+      resourceDefinition: z.object({}).nullable(),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  updateRule: {
+    summary: "Update a rule for a deal",
+    method: "PUT",
+    path: "/api/deals/:id/rules/:rule_id",
+    responses: {
+      200: RuleSchema,
+    },
+    body: z.object({
+      resourceDefinition: z.object({}).nullable(),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+      rule_id: z.number(),
+    }),
+  },
   getFilters: {
     summary: "Get all filters for a deal",
     method: "GET",
