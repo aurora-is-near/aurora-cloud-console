@@ -1,8 +1,9 @@
 /**
  * @jest-environment node
  */
-import { GET } from "./route"
+import { GET, POST } from "./route"
 import {
+  createInsertOrUpdate,
   createSelect,
   mockSupabaseClient,
 } from "../../../../../../test-utils/mock-supabase-client"
@@ -67,6 +68,32 @@ describe("Deal Rules route", () => {
 
       expect(ruleSelectQueries.eq).toHaveBeenCalledTimes(1)
       expect(ruleSelectQueries.eq).toHaveBeenCalledWith("deal_id", mockDeal.id)
+    })
+  })
+
+  describe("POST", () => {
+    it("creates a rule", async () => {
+      const mockDeal = createMockDeal()
+      const mockRule = createMockRule()
+      const ruleInsertQueries = createInsertOrUpdate(mockRule)
+
+      mockSupabaseClient
+        .from("rules")
+        .insert.mockImplementation(() => ruleInsertQueries)
+
+      const res = await invokeApiHandler("POST", "/api/deals/1/rules", POST, {
+        params: { id: String(mockDeal.id) },
+        body: { resourceDefinition: mockRule.resource_definition },
+      })
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.body).toEqual({
+        id: mockRule.id,
+        dealId: mockRule.deal_id,
+        resourceDefinition: mockRule.resource_definition,
+        createdAt: mockRule.created_at,
+        updatedAt: mockRule.updated_at,
+      })
     })
   })
 })
