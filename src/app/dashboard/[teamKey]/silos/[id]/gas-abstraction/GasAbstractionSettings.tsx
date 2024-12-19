@@ -54,13 +54,13 @@ const TotalGasBalance = ({ silo, baseTokenSymbol }: Props) => {
   }
 }
 
-export const GasAbstractionMechanics = (props: Props) => {
+export const GasAbstractionSettings = (props: Props) => {
   const { silo, baseTokenSymbol } = props
   return (
     <Card className="flex flex-col gap-6 md:gap-12 md:flex-row">
       <aside className="w-full">
         <Typography variant="heading" size={4} className="text-slate-900 mb-1">
-          Gas mechanics
+          General settings
         </Typography>
         <Typography variant="paragraph" size={4} className="text-slate-500">
           Virtual Chain configuration sets the key parameters that define your

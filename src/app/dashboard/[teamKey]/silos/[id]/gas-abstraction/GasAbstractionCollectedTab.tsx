@@ -8,7 +8,7 @@ import { getQueryFnAndKey } from "@/utils/api/queries"
 import type { Silo } from "@/types/types"
 
 import { GasCollectedChart } from "./GasCollectedChart"
-import { GasAbstractionMechanics } from "./GasAbstractionMechanics"
+import { GasAbstractionSettings } from "./GasAbstractionSettings"
 
 type Props = {
   silo: Silo
@@ -44,7 +44,7 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
       return (
         <section className="w-full space-y-5">
           <GasCollectedChart silo={silo} baseTokenSymbol={baseToken.symbol} />
-          <GasAbstractionMechanics
+          <GasAbstractionSettings
             silo={silo}
             baseTokenSymbol={baseToken.symbol}
           />
