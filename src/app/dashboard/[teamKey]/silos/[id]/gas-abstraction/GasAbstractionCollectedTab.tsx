@@ -17,8 +17,8 @@ type Props = {
 const TabSkeleton = () => (
   <div className="w-full flex flex-col gap-5">
     <Skeleton className="rounded-sm h-[266px]" />
-    <Skeleton className="rounded-sm h-[266px]" />
-    <Skeleton className="rounded-sm h-[266px]" />
+    <Skeleton className="rounded-sm h-[250px] md:h-[200px]" />
+    <Skeleton className="rounded-sm h-[250px] md:h-[156px]" />
   </div>
 )
 
