@@ -62,7 +62,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   rules: createTableClient(),
   rule_users: createTableClient(),
   rule_user_deal_data: createTableClient(),
-  role_users_userlists: createTableClient(),
+  rule_users_userlists: createTableClient(),
   userlists: createTableClient(),
   rules_userlists: createTableClient(),
   blockscout_databases: createTableClient(),

@@ -61,7 +61,6 @@ describe("Deal Rules route", () => {
             resourceDefinition: mockRule.resource_definition,
             createdAt: mockRule.created_at,
             updatedAt: mockRule.updated_at,
-            deletedAt: mockRule.deleted_at,
           },
         ],
       })

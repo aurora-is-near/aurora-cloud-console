@@ -44,7 +44,6 @@ export const RuleSchema = z.object({
   resourceDefinition: z.object({}).nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  deletedAt: z.string().nullable(),
 })
 
 const DealPrioritiesSchema = z.array(

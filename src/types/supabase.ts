@@ -352,53 +352,10 @@ export type Database = {
           },
         ]
       }
-      role_users_userlists: {
-        Row: {
-          created_at: string
-          deleted_at: string | null
-          id: number
-          role_user_id: number | null
-          updated_at: string
-          userlist_id: number | null
-        }
-        Insert: {
-          created_at?: string
-          deleted_at?: string | null
-          id?: number
-          role_user_id?: number | null
-          updated_at?: string
-          userlist_id?: number | null
-        }
-        Update: {
-          created_at?: string
-          deleted_at?: string | null
-          id?: number
-          role_user_id?: number | null
-          updated_at?: string
-          userlist_id?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "role_users_userlists_role_user_id_fkey"
-            columns: ["role_user_id"]
-            isOneToOne: false
-            referencedRelation: "rule_users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "users_userlists_userlist_id_fkey"
-            columns: ["userlist_id"]
-            isOneToOne: false
-            referencedRelation: "userlists"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       rule_user_deal_data: {
         Row: {
           created_at: string
           deal_id: number | null
-          deleted_at: string | null
           id: number
           prepaid_txs: number
           role_user_id: number | null
@@ -407,7 +364,6 @@ export type Database = {
         Insert: {
           created_at?: string
           deal_id?: number | null
-          deleted_at?: string | null
           id?: number
           prepaid_txs?: number
           role_user_id?: number | null
@@ -416,7 +372,6 @@ export type Database = {
         Update: {
           created_at?: string
           deal_id?: number | null
-          deleted_at?: string | null
           id?: number
           prepaid_txs?: number
           role_user_id?: number | null
@@ -442,7 +397,6 @@ export type Database = {
       rule_users: {
         Row: {
           created_at: string
-          deleted_at: string | null
           eoas: string[] | null
           id: number
           ips: string[] | null
@@ -452,7 +406,6 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          deleted_at?: string | null
           eoas?: string[] | null
           id?: number
           ips?: string[] | null
@@ -462,7 +415,6 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          deleted_at?: string | null
           eoas?: string[] | null
           id?: number
           ips?: string[] | null
@@ -480,11 +432,49 @@ export type Database = {
           },
         ]
       }
+      rule_users_userlists: {
+        Row: {
+          created_at: string
+          id: number
+          rule_user_id: number | null
+          updated_at: string
+          userlist_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          rule_user_id?: number | null
+          updated_at?: string
+          userlist_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          rule_user_id?: number | null
+          updated_at?: string
+          userlist_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_users_userlists_role_user_id_fkey"
+            columns: ["rule_user_id"]
+            isOneToOne: false
+            referencedRelation: "rule_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "users_userlists_userlist_id_fkey"
+            columns: ["userlist_id"]
+            isOneToOne: false
+            referencedRelation: "userlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       rules: {
         Row: {
           created_at: string
           deal_id: number
-          deleted_at: string | null
           id: number
           resource_definition: Json
           updated_at: string
@@ -492,7 +482,6 @@ export type Database = {
         Insert: {
           created_at?: string
           deal_id: number
-          deleted_at?: string | null
           id?: number
           resource_definition: Json
           updated_at?: string
@@ -500,7 +489,6 @@ export type Database = {
         Update: {
           created_at?: string
           deal_id?: number
-          deleted_at?: string | null
           id?: number
           resource_definition?: Json
           updated_at?: string
@@ -519,7 +507,6 @@ export type Database = {
         Row: {
           blacklist: boolean
           created_at: string
-          deleted_at: string | null
           id: number
           rule_id: number | null
           updated_at: string
@@ -528,7 +515,6 @@ export type Database = {
         Insert: {
           blacklist?: boolean
           created_at?: string
-          deleted_at?: string | null
           id?: number
           rule_id?: number | null
           updated_at?: string
@@ -537,7 +523,6 @@ export type Database = {
         Update: {
           blacklist?: boolean
           created_at?: string
-          deleted_at?: string | null
           id?: number
           rule_id?: number | null
           updated_at?: string

@@ -1079,10 +1079,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "dealId": {
                             "type": "number",
                           },
-                          "deletedAt": {
-                            "nullable": true,
-                            "type": "string",
-                          },
                           "id": {
                             "type": "number",
                           },
@@ -1101,7 +1097,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "resourceDefinition",
                           "createdAt",
                           "updatedAt",
-                          "deletedAt",
                         ],
                         "type": "object",
                       },

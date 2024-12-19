@@ -37,7 +37,6 @@ export const adaptRule = (rule: Rule): RuleSchema => ({
   id: rule.id,
   createdAt: rule.created_at,
   updatedAt: rule.updated_at,
-  deletedAt: rule.deleted_at,
   dealId: rule.deal_id,
   resourceDefinition: rule.resource_definition,
 })
