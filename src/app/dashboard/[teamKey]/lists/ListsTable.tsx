@@ -16,7 +16,7 @@ import DropdownMenu from "@/components/DropdownMenu"
 import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
 import Table from "@/components/Table"
-import TableLoader from "../../../../components/TableLoader"
+import { Skeleton } from "@/uikit"
 import { AddListButton } from "./AddListButton"
 
 type ListsTableProps = {
@@ -55,7 +55,7 @@ export const ListsTable = ({ teamKey }: ListsTableProps) => {
   }
 
   if (isLoading) {
-    return <TableLoader />
+    return <Skeleton.Table numberOfRows={4} />
   }
 
   if (!!lists?.items && !lists?.items.length) {

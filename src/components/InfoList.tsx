@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import Link from "next/link"
 import CopyButton from "@/components/CopyButton"
-import { InfoTooltip } from "@/components/InfoTooltip"
+import { InfoTooltip } from "@/uikit"
 
 export type InfoListProps = {
   className?: string
@@ -31,7 +31,7 @@ export const InfoList = ({ items, className }: InfoListProps) => (
         >
           <div className="col-span-2 flex items-center gap-x-1">
             <dt className="text-sm font-medium text-slate-900">{term}</dt>
-            {!!tooltip && <InfoTooltip text={tooltip} />}
+            {!!tooltip && <InfoTooltip>{tooltip}</InfoTooltip>}
           </div>
           <div className="col-span-3 flex flex-row items-center justify-between gap-x-2.5">
             <dd className="text-sm leading-5 text-slate-900 flex-shrink-1 whitespace-nowrap text-ellipsis overflow-hidden">
