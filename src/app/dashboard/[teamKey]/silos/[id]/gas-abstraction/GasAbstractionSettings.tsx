@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import CopyButton from "@/components/CopyButton"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { Typography, Card, InfoList, Skeleton } from "@/uikit"
+import { Card, InfoList, Skeleton, Typography } from "@/uikit"
 import { notReachable } from "@/utils/notReachable"
 import type { Silo } from "@/types/types"
 
@@ -57,6 +57,7 @@ const TotalGasBalance = ({ silo, baseTokenSymbol }: Props) => {
 
 export const GasAbstractionSettings = (props: Props) => {
   const { silo, baseTokenSymbol } = props
+
   return (
     <Card className="flex flex-col gap-6 md:gap-12 md:flex-row">
       <aside className="w-full">

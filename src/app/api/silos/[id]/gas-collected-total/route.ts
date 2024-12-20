@@ -31,6 +31,7 @@ export const GET = createApiEndpoint(
 
     const result = await queryGasCollectedTotal(blockscoutDatabase)
     const count = result[0].rows[0]?.count ?? 0
+
     return { count }
   },
   {

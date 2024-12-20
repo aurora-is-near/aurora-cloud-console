@@ -16,6 +16,7 @@ export const Heading = ({
   ...props
 }: HeadingProps) => {
   const Tag = as ?? `h${size}`
+
   return (
     <Tag
       {...props}
