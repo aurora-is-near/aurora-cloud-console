@@ -13,19 +13,16 @@ export const Label = ({
   className,
   ...props
 }: LabelProps) => {
-  switch (size) {
-    case 3:
-      return (
-        <Tag {...props} className={clsx("text-sm font-medium", className)}>
-          {children}
-        </Tag>
-      )
-    case 2:
-    default:
-      return (
-        <Tag {...props} className={clsx("text-base font-medium", className)}>
-          {children}
-        </Tag>
-      )
-  }
+  return (
+    <Tag
+      {...props}
+      className={clsx(
+        "font-medium",
+        { "text-sm": size === 3, "text-base": size === 2 },
+        className,
+      )}
+    >
+      {children}
+    </Tag>
+  )
 }
