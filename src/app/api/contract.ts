@@ -610,7 +610,6 @@ export const contract = c.router({
     metadata: {
       scopes: ["transactions:read"],
     },
-    query: z.object({}),
     pathParams: z.object({
       id: z.number(),
     }),
