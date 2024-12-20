@@ -16,32 +16,20 @@ export const Heading = ({
   ...props
 }: HeadingProps) => {
   const Tag = as ?? `h${size}`
-
-  switch (size) {
-    case 4:
-      return (
-        <Tag
-          {...props}
-          className={clsx("text-lg font-bold tracking-tight", className)}
-        >
-          {children}
-        </Tag>
-      )
-    case 5:
-      return (
-        <Tag
-          {...props}
-          className={clsx("text-4xl font-bold tracking-tighter", className)}
-        >
-          {children}
-        </Tag>
-      )
-    case 6:
-    default:
-      return (
-        <Tag {...props} className={clsx("text-base font-bold", className)}>
-          {children}
-        </Tag>
-      )
-  }
+  return (
+    <Tag
+      {...props}
+      className={clsx(
+        "font-bold",
+        {
+          "text-lg tracking-tight": size === 4,
+          "text-4xl tracking-tighter": size === 5,
+          "text-base": size === 6,
+        },
+        className,
+      )}
+    >
+      {children}
+    </Tag>
+  )
 }
