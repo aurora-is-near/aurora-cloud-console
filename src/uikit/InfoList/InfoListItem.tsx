@@ -1,9 +1,3 @@
-"use client"
-
-import { Children, useMemo } from "react"
-
-import { notReachable } from "@/utils/notReachable"
-
 import { clsx } from "../clsx"
 import { Label } from "../Label"
 import { Typography } from "../Typography"

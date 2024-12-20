@@ -1,5 +1,3 @@
-"use client"
-
 import type { PropsWithChildren } from "react"
 
 type Props = PropsWithChildren<{ className?: string }>
