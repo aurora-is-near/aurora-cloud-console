@@ -90,7 +90,6 @@ describe("Collected gas total route", () => {
         }))
         .mockImplementationOnce(() => ({
           rows: Array.from({ length: 30 }, (_, index) => ({
-            day: `2024-11-${index + 1}`,
             count: index + 1,
           })),
         }))
