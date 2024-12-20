@@ -11,23 +11,15 @@ import { Typography } from "../Typography"
 type ListItemProps = {
   label: string
   labelTooltip?: string
+  children: React.ReactNode
   className?: string
-} & (
-  | {
-      plainTextValue: string
-      children?: never
-    }
-  | {
-      children: React.ReactNode
-      plainTextValue?: never
-    }
-)
+}
 
 export const InfoListItem = ({
   label,
   labelTooltip,
+  children,
   className,
-  ...props
 }: ListItemProps) => (
   <tr
     className={clsx(
@@ -41,12 +33,12 @@ export const InfoListItem = ({
       </Label>
     </td>
     <td className="py-4">
-      {props.plainTextValue ? (
+      {typeof children === "string" ? (
         <Typography variant="paragraph" size={4} className="text-slate-600">
-          {props.plainTextValue}
+          {children}
         </Typography>
       ) : (
-        props.children
+        children
       )}
     </td>
   </tr>

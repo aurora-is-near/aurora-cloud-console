@@ -44,10 +44,11 @@ const TotalGasBalance = ({ silo, baseTokenSymbol }: Props) => {
         <InfoList.Item
           label="Gas balance"
           labelTooltip="The amount of gas collected since your last claim."
-          plainTextValue={`${formatTotalCollectedGasValue(
+        >
+          {`${formatTotalCollectedGasValue(
             collectedGasTotalQuery.data.count,
           )} ${baseTokenSymbol}`}
-        />
+        </InfoList.Item>
       )
     default:
       return notReachable(collectedGasTotalQuery)
@@ -72,8 +73,9 @@ export const GasAbstractionSettings = (props: Props) => {
         <InfoList.Item
           label="Gas token"
           labelTooltip="Gas fees on your chain will be collected in this token."
-          plainTextValue={baseTokenSymbol}
-        />
+        >
+          {baseTokenSymbol}
+        </InfoList.Item>
 
         {silo.explorer_url && silo.gas_collection_address ? (
           <InfoList.Item
