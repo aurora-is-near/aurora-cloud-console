@@ -6,7 +6,7 @@ import { notReachable } from "@/utils/notReachable"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getMonthsList } from "@/utils/dates/get-months-list"
 import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
-import { Card, InfoList, Typography, Skeleton } from "@/uikit"
+import { Card, InfoList, Skeleton, Typography } from "@/uikit"
 import type { Silo } from "@/types/types"
 
 type Props = {
