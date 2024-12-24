@@ -2,16 +2,18 @@
 
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { addDays, endOfMonth, format, parseISO, startOfMonth } from "date-fns"
+import { format, parseISO } from "date-fns"
 import type { UseQueryResult } from "@tanstack/react-query"
 
-import { getMonthsList } from "@/utils/dates/get-months-list"
-import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
-import { getQueryFnAndKey } from "@/utils/api/queries"
 import { notReachable } from "@/utils/notReachable"
+import { getQueryFnAndKey } from "@/utils/api/queries"
+import { formatGasValue } from "@/utils/format-gas-value"
+import { getMonthsList } from "@/utils/dates/get-months-list"
+import { getEmptyMonthData } from "@/utils/dates/get-empty-month-data"
+import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
 import {
-  BarChart,
   Card,
+  Chart,
   Dropdown,
   Label,
   Loading,
@@ -24,31 +26,6 @@ import type { Silo } from "@/types/types"
 type Props = {
   silo: Silo
   baseTokenSymbol: string
-}
-
-const getEmptyMonthData = (date: string) => {
-  const startDate = startOfMonth(parseISO(date))
-  const endDate = endOfMonth(startDate)
-
-  const data = []
-  let currentDate = startDate
-
-  while (currentDate <= endDate) {
-    const monthName = format(currentDate, "MMM")
-    const day = format(currentDate, "dd")
-
-    data.push({ x: `${monthName} ${day}`, y: 0 })
-    currentDate = addDays(currentDate, 1)
-  }
-
-  return data
-}
-
-const formatTotalCollectedGasValue = (value: number) => {
-  return new Intl.NumberFormat(undefined, {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 8,
-  }).format(value)
 }
 
 const GasCollectedTotal = ({
@@ -68,8 +45,7 @@ const GasCollectedTotal = ({
     case "success":
       return (
         <Typography variant="heading" size={6}>
-          {formatTotalCollectedGasValue(collectedGasQuery.data.count)}{" "}
-          {baseTokenSymbol}
+          {formatGasValue(collectedGasQuery.data.count)} {baseTokenSymbol}
         </Typography>
       )
     default:
@@ -118,9 +94,9 @@ export const GasCollectedChart = ({ silo, baseTokenSymbol }: Props) => {
                 return (
                   <div className="w-full relative">
                     <Loading className="absolute top-1/3 left-1/2 -ml-10" />
-                    <BarChart
-                      showZeroValues
-                      data={getEmptyMonthData(filterDate.value)}
+                    <Chart.Bar
+                      plugins={["minimizeLabels"]}
+                      data={getEmptyMonthData(filterDate.value, "MMM dd")}
                     />
                   </div>
                 )
@@ -141,16 +117,16 @@ export const GasCollectedChart = ({ silo, baseTokenSymbol }: Props) => {
                         Try again
                       </button>
                     </Typography>
-                    <BarChart
-                      showZeroValues
-                      data={getEmptyMonthData(filterDate.value)}
+                    <Chart.Bar
+                      plugins={["minimizeLabels"]}
+                      data={getEmptyMonthData(filterDate.value, "MMM dd")}
                     />
                   </div>
                 )
               case "success":
                 return (
-                  <BarChart
-                    showZeroValues
+                  <Chart.Bar
+                    plugins={["minimizeLabels"]}
                     data={collectedGasQuery.data.items.map(
                       ({ day, count }) => ({
                         x: format(parseISO(day), "MMM d"),
