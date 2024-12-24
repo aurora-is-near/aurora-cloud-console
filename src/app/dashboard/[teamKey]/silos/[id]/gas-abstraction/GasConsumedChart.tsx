@@ -7,7 +7,6 @@ import { parseISO } from "date-fns"
 import { notReachable } from "@/utils/notReachable"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getMonthsList } from "@/utils/dates/get-months-list"
-import { getEmptyMonthData } from "@/utils/dates/get-empty-month-data"
 import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
 import {
   Card,
