@@ -17,6 +17,7 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   network: "public",
   grafana_network_key: "testnet",
   gas_collection_address: null,
+  gas_price: null,
   ...data,
 })
 
