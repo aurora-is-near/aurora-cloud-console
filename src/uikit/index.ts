@@ -1,6 +1,7 @@
 export * from "./clsx"
 
 export * from "./BarChart"
+export * from "./Button"
 export * from "./Card"
 export * from "./Dropdown"
 export * from "./InfoList"
