@@ -65,6 +65,7 @@ export const GET = createApiEndpoint(
     const totalGasCollected = parseFloat(result[0].rows[0]?.count ?? "0")
     const transactionsCount = parseInt(
       result[0].rows[0]?.transactions_count ?? "0",
+      10,
     )
 
     const gasCollectedOverTimeByDay: Record<
@@ -75,7 +76,7 @@ export const GET = createApiEndpoint(
         ...acc,
         [getDay(item.day)]: {
           gas: parseFloat(item.count ?? "0"),
-          transactions: parseInt(item.transactions_count ?? "0"),
+          transactions: parseInt(item.transactions_count ?? "0", 10),
         },
       }),
       {},
