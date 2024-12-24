@@ -1705,33 +1705,35 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "count": {
                       "type": "number",
                     },
-                    "transactionCount": {
-                      "type": "number",
-                    },
                     "items": {
                       "items": {
                         "properties": {
                           "count": {
                             "type": "number",
                           },
-                          "transactions": {
-                            "type": "number",
-                          },
                           "day": {
                             "type": "string",
+                          },
+                          "transactionsCount": {
+                            "type": "number",
                           },
                         },
                         "required": [
                           "day",
                           "count",
+                          "transactionsCount",
                         ],
                         "type": "object",
                       },
                       "type": "array",
                     },
+                    "transactionsCount": {
+                      "type": "number",
+                    },
                   },
                   "required": [
                     "count",
+                    "transactionsCount",
                     "items",
                   ],
                   "type": "object",
