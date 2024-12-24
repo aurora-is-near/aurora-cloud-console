@@ -9,7 +9,7 @@ type Props = {
 }
 
 export const GasAbstractionMechanics = (props: Props) => {
-  const { baseTokenSymbol } = props
+  const { baseTokenSymbol, silo } = props
 
   return (
     <Card className="flex flex-col gap-6 md:gap-12 md:flex-row">
@@ -31,11 +31,12 @@ export const GasAbstractionMechanics = (props: Props) => {
           Gas is collected as a variable amount based on the transaction
           complexity.
         </InfoList.Item>
+
         <InfoList.Item
           label="Gas value"
           labelTooltip="The price of gas on your chain, which defines how much gas is charged per transaction. Refer to the table to have an estimate of price per transaction."
         >
-          {baseTokenSymbol}
+          {`${silo.gas_price ?? 0} ${baseTokenSymbol} per gas`}
         </InfoList.Item>
       </InfoList>
     </Card>
