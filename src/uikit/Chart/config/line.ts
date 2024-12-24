@@ -1,4 +1,4 @@
-import type { ChartOptions, ChartDataset, ScriptableContext } from "chart.js"
+import type { ChartDataset, ChartOptions, ScriptableContext } from "chart.js"
 
 import { defaultTheme } from "../theme"
 import { minimizeLabels as minimizeLabelsPlugin } from "../plugins"
@@ -23,7 +23,7 @@ type LineResultOptions = {
 const getAreaGradient =
   (theme: Theme, hasData: boolean) =>
   (ctx: ScriptableContext<"line">): CanvasGradient | string => {
-    const chart = ctx.chart
+    const { chart } = ctx
     const { chartArea } = chart
 
     if (!chartArea) {
@@ -71,7 +71,7 @@ export const getConfig = ({
   }
 
   const getDatasetOptions = (hasData: boolean): ChartDataset<"line"> => {
-    const options: ChartDataset<"line"> = {
+    const datasetOptions: ChartDataset<"line"> = {
       data: [],
       pointStyle: labels.map((label) => (showPoints(label) ? "circle" : false)),
       cubicInterpolationMode: "monotone",
@@ -80,18 +80,18 @@ export const getConfig = ({
     }
 
     if (hasData) {
-      options.borderColor = theme.colors.main
+      datasetOptions.borderColor = theme.colors.main
     } else {
-      options.borderDash = [10, 5]
-      options.borderColor = theme.colors.inactive
+      datasetOptions.borderDash = [10, 5]
+      datasetOptions.borderColor = theme.colors.inactive
     }
 
     if (showAreaGradient) {
-      options.fill = showAreaGradient ? "start" : false
-      options.backgroundColor = getAreaGradient(theme, hasData)
+      datasetOptions.fill = showAreaGradient ? "start" : false
+      datasetOptions.backgroundColor = getAreaGradient(theme, hasData)
     }
 
-    return options
+    return datasetOptions
   }
 
   return { options, getDatasetOptions }

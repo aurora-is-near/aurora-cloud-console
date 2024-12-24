@@ -2,11 +2,11 @@ import {
   BarElement,
   CategoryScale,
   Chart as ChartJS,
-  LineElement,
+  Filler,
   LinearScale,
+  LineElement,
   PointElement,
   Title,
-  Filler,
 } from "chart.js"
 
 import { BarChart } from "./components/BarChart"

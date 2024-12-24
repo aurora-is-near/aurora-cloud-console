@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { parseISO } from "date-fns"
+import { parseISO, format } from "date-fns"
 
 import { notReachable } from "@/utils/notReachable"
 import { getQueryFnAndKey } from "@/utils/api/queries"
@@ -19,6 +19,8 @@ import {
 } from "@/uikit"
 import type { DropdownOption } from "@/uikit"
 import type { Silo } from "@/types/types"
+
+const TODAY = new Date()
 
 type Props = {
   silo: Silo
@@ -39,11 +41,15 @@ export const GasConsumedChart = ({ silo }: Props) => {
   )
 
   const chartData = useMemo(() => {
-    if (collectedGasQuery.status !== "success") return []
+    if (collectedGasQuery.status !== "success") {
+      return []
+    }
 
     let cumulativeSum = 0
+
     return collectedGasQuery.data.items.map(({ day, transactionsCount }) => {
       cumulativeSum += transactionsCount
+
       return {
         x: parseISO(day),
         y: cumulativeSum,
@@ -110,6 +116,7 @@ export const GasConsumedChart = ({ silo }: Props) => {
                   <Chart.LineDates
                     data={chartData}
                     plugins={["showTodayLine", "minimizeLabels"]}
+                    showPoints={(label) => label === format(TODAY, "MMM d")}
                   />
                 )
               default:

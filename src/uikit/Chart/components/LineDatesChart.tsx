@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import { format, isBefore, isAfter, isToday } from "date-fns"
+import { format, isAfter, isBefore, isToday } from "date-fns"
 import { Line } from "react-chartjs-2"
 
 import { defaultTheme } from "../theme"
@@ -10,7 +10,6 @@ import type { Label } from "../types"
 import type { Theme } from "../theme"
 
 const TODAY = new Date()
-const formatXAxisValue = (date: Date) => format(date, "MMM d")
 
 type Props = {
   data: { x: Date; y: number }[]
@@ -20,6 +19,7 @@ type Props = {
   showProjection?: boolean
   showAreaGradient?: boolean
   showPoints?: (label: Label) => boolean
+  formatLabel?: (label: Date) => string
 }
 
 export const LineDatesChart = ({
@@ -29,8 +29,12 @@ export const LineDatesChart = ({
   showProjection = true,
   showAreaGradient = true,
   showPoints = () => false,
+  formatLabel = (date: Date) => format(date, "MMM d"),
 }: Props) => {
-  const labels = useMemo(() => data.map(({ x }) => formatXAxisValue(x)), [data])
+  const labels = useMemo(
+    () => data.map(({ x }) => formatLabel(x)),
+    [data, formatLabel],
+  )
 
   const config = useMemo(
     () =>
@@ -39,7 +43,7 @@ export const LineDatesChart = ({
         labels,
         showAreaGradient,
         minimizeLabels: plugins.includes("minimizeLabels"),
-        showPoints: (label) => label === formatXAxisValue(TODAY),
+        showPoints,
       }),
     [theme, showAreaGradient, plugins, labels, showPoints],
   )
@@ -49,12 +53,12 @@ export const LineDatesChart = ({
       plugins.includes("showTodayLine")
         ? [
             showTodayLine({
-              xIndex: labels.indexOf(formatXAxisValue(TODAY)),
-              yValue: data.find(({ x }) => isToday(x))?.y || 0,
+              xIndex: labels.indexOf(formatLabel(TODAY)),
+              yValue: data.find(({ x }) => isToday(x))?.y ?? 0,
             }),
           ]
         : [],
-    [],
+    [data, formatLabel, labels, plugins],
   )
 
   return (

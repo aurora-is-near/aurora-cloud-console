@@ -12,11 +12,13 @@ type Props = {
 export const showTodayLine = ({ xIndex, yValue, pointRadius = 5 }: Props) => ({
   id: "verticalLinePlugin",
   afterDraw: (chart: Chart) => {
-    const ctx = chart.ctx
+    const { ctx } = chart
     const xScale = chart.scales.x
     const yScale = chart.scales.y
 
-    if (xIndex === -1) return
+    if (xIndex === -1) {
+      return
+    }
 
     const todayXPos = xScale.getPixelForValue(xIndex)
     const todayYPos = yScale.getPixelForValue(yValue)

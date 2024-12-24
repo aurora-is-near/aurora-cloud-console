@@ -21,6 +21,7 @@ export function getEmptyMonthData(date: string, format?: string) {
 
   while (currentDate <= endDate) {
     const xValue = format ? formatDate(currentDate, "MMM dd") : currentDate
+
     data.push({ x: xValue, y: 0 })
     currentDate = addDays(currentDate, 1)
   }

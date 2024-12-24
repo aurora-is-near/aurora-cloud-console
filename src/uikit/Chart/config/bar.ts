@@ -1,4 +1,4 @@
-import type { ChartOptions, ChartDataset, ScriptableContext } from "chart.js"
+import type { ChartDataset, ChartOptions } from "chart.js"
 
 import { defaultTheme } from "../theme"
 import { minimizeLabels as minimizeLabelsPlugin } from "../plugins"
@@ -36,6 +36,7 @@ export const getConfig = ({
     // @ts-expect-error wrong library typings
     backgroundColor(context) {
       const values = context.dataset.data
+
       return values.map((value) =>
         value === 0 ? theme.colors.inactive : theme.colors.main,
       )

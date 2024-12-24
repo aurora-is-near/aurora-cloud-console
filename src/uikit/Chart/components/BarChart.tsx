@@ -17,7 +17,7 @@ export const BarChart = ({
   plugins = [],
   theme = defaultTheme,
 }: Props) => {
-  const labels = data.map(({ x }) => x)
+  const labels = useMemo(() => data.map(({ x }) => x), [data])
 
   const config = useMemo(
     () =>
