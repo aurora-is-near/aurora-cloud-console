@@ -2,17 +2,11 @@
 
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
-import {
-  addDays,
-  addMonths,
-  endOfMonth,
-  format,
-  isBefore,
-  parseISO,
-  startOfMonth,
-} from "date-fns"
+import { addDays, endOfMonth, format, parseISO, startOfMonth } from "date-fns"
 import type { UseQueryResult } from "@tanstack/react-query"
 
+import { getMonthsList } from "@/utils/dates/get-months-list"
+import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { notReachable } from "@/utils/notReachable"
 import {
@@ -32,31 +26,6 @@ type Props = {
   baseTokenSymbol: string
 }
 
-const getMonthsList = (createdAt: string): DropdownOption[] => {
-  const startDate = startOfMonth(parseISO(createdAt))
-  const currentDate = endOfMonth(new Date())
-
-  const months: DropdownOption[] = []
-  let currentMonth = startDate
-
-  while (
-    isBefore(currentMonth, currentDate) ||
-    currentMonth.getMonth() === currentDate.getMonth()
-  ) {
-    const monthName = format(currentMonth, "MMMM")
-    const year = format(currentMonth, "yyyy")
-
-    months.push({
-      label: `${monthName} ${year}`,
-      value: format(currentMonth, "yyyy-MM-dd"),
-    })
-
-    currentMonth = addMonths(currentMonth, 1)
-  }
-
-  return months
-}
-
 const getEmptyMonthData = (date: string) => {
   const startDate = startOfMonth(parseISO(date))
   const endDate = endOfMonth(startDate)
@@ -73,13 +42,6 @@ const getEmptyMonthData = (date: string) => {
   }
 
   return data
-}
-
-const getLastDayOfMonth = (dateString: string) => {
-  const date = parseISO(dateString)
-  const lastDay = endOfMonth(date)
-
-  return format(lastDay, "yyyy-MM-dd")
 }
 
 const formatTotalCollectedGasValue = (value: number) => {

@@ -8,6 +8,7 @@ import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { canCreateDeal } from "@/utils/can-create-deal"
 
 import { GasAbstractionPlansTab } from "./GasAbstractionPlansTab"
+import { GasAbstractionConsumedTab } from "./GasAbstractionConsumedTab"
 import { GasAbstractionCollectedTab } from "./GasAbstractionCollectedTab"
 import { GasAbstractionAboutTab } from "./GasAbstractionAboutTab"
 import AddPlanModal from "./AddPlanModal"
@@ -32,27 +33,34 @@ const Page = async ({
       title: "About",
       content: <GasAbstractionAboutTab />,
     },
-    {
-      title: "Gas plans",
-      content: (
-        <GasAbstractionPlansTab
-          silo={silo}
-          teamKey={teamKey}
-          deals={deals}
-          isNewPlanButtonDisabled={!canCreateDeal(silo, deals)}
-        />
-      ),
-    },
   ]
 
   // Display the "Gas collected" tab if a Blockscout database has been set
   // for the silo
   if (silo.blockscout_database_id) {
-    tabs.push({
-      title: "Gas collected",
-      content: <GasAbstractionCollectedTab silo={silo} />,
-    })
+    tabs.push(
+      {
+        title: "Gas consumed",
+        content: <GasAbstractionConsumedTab silo={silo} />,
+      },
+      {
+        title: "Gas collected",
+        content: <GasAbstractionCollectedTab silo={silo} />,
+      },
+    )
   }
+
+  tabs.push({
+    title: "Gas plans",
+    content: (
+      <GasAbstractionPlansTab
+        silo={silo}
+        teamKey={teamKey}
+        deals={deals}
+        isNewPlanButtonDisabled={!canCreateDeal(silo, deals)}
+      />
+    ),
+  })
 
   if (!silo) {
     notFound()
