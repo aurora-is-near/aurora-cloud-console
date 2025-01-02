@@ -7,8 +7,8 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline"
 import { Modals } from "@/utils/modals"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
-import { Button as Btn } from "@/components/Button"
-import { Button, Card, InfoList, Typography } from "@/uikit"
+import { Button } from "@/components/Button"
+import { Button as Btn, Card, InfoList, Typography } from "@/uikit"
 import type { Silo } from "@/types/types"
 
 import { GasPriceForm } from "./GasPriceForm"
@@ -62,7 +62,7 @@ export const GasAbstractionMechanics = ({ silo, baseTokenSymbol }: Props) => {
               <Typography variant="paragraph" size={4}>
                 {`${gasPriceDisplayed} ${baseTokenSymbol} per gas`}
               </Typography>
-              <Button.Iconed
+              <Btn.Iconed
                 icon={PencilSquareIcon}
                 label="Edit gas price"
                 onClick={() => openModal(Modals.EditGasPrice)}
@@ -84,13 +84,13 @@ export const GasAbstractionMechanics = ({ silo, baseTokenSymbol }: Props) => {
         />
         <SlideOver.Actions>
           <div className="flex items-center justify-between w-full">
-            <Btn variant="secondary" onClick={closeModal}>
+            <Button variant="secondary" onClick={closeModal}>
               Cancel
-            </Btn>
-            <Btn type="submit" form={formId}>
+            </Button>
+            <Button type="submit" form={formId}>
               <CheckIcon className="w-5 h-5" />
               Update
-            </Btn>
+            </Button>
           </div>
         </SlideOver.Actions>
       </SlideOver>
