@@ -52,6 +52,7 @@ export const GET = createApiEndpoint(
 
       return {
         count: 0,
+        transactionsCount: 0,
         items: [],
       }
     }
@@ -61,15 +62,25 @@ export const GET = createApiEndpoint(
       endDate,
     })
 
-    const totalGasCollected = result[0].rows[0]?.count ?? 0
-    const gasCollectedOverTimeByDay: Record<string, number> =
-      result[1]?.rows.reduce(
-        (acc, item) => ({
-          ...acc,
-          [getDay(item.day)]: item.count,
-        }),
-        {},
-      )
+    const totalGasCollected = parseFloat(result[0].rows[0]?.count ?? "0")
+    const transactionsCount = parseInt(
+      result[0].rows[0]?.transactions_count ?? "0",
+      10,
+    )
+
+    const gasCollectedOverTimeByDay: Record<
+      string,
+      { gas: number; transactions: number }
+    > = result[1]?.rows.reduce(
+      (acc, item) => ({
+        ...acc,
+        [getDay(item.day)]: {
+          gas: parseFloat(item.count ?? "0"),
+          transactions: parseInt(item.transactions_count ?? "0", 10),
+        },
+      }),
+      {},
+    )
 
     // Iterate over each day between start and end date, filling in the gas
     // collected if any data exists for a given day, or zero otherwise.
@@ -80,11 +91,13 @@ export const GET = createApiEndpoint(
 
       return {
         day,
-        count: gasCollected || 0,
+        count: gasCollected?.gas || 0,
+        transactionsCount: gasCollected?.transactions || 0,
       }
     })
 
     return {
+      transactionsCount,
       count: totalGasCollected,
       items: gasCollectedOverTime,
     }

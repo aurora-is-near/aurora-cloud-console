@@ -1714,18 +1714,26 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "day": {
                             "type": "string",
                           },
+                          "transactionsCount": {
+                            "type": "number",
+                          },
                         },
                         "required": [
                           "day",
                           "count",
+                          "transactionsCount",
                         ],
                         "type": "object",
                       },
                       "type": "array",
                     },
+                    "transactionsCount": {
+                      "type": "number",
+                    },
                   },
                   "required": [
                     "count",
+                    "transactionsCount",
                     "items",
                   ],
                   "type": "object",

@@ -94,8 +94,10 @@ describe("Collected gas route", () => {
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
         count: 0,
+        transactionsCount: 0,
         items: Array.from({ length: 30 }, (_, index) => ({
           day: `2024-11-${String(index + 1).padStart(2, "0")}`,
+          transactionsCount: 0,
           count: 0,
         })),
       })
@@ -125,6 +127,7 @@ describe("Collected gas route", () => {
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
         count: 0,
+        transactionsCount: 0,
         items: [],
       })
 
@@ -148,6 +151,7 @@ describe("Collected gas route", () => {
         .mockImplementationOnce(() => ({
           rows: Array.from({ length: 30 }, (_, index) => ({
             day: `2024-11-${index + 1}`,
+            transactionsCount: 0,
             count: index + 1,
           })),
         }))
@@ -162,8 +166,10 @@ describe("Collected gas route", () => {
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
         count: 150,
+        transactionsCount: 0,
         items: Array.from({ length: 30 }, (_, index) => ({
           day: `2024-11-${String(index + 1).padStart(2, "0")}`,
+          transactionsCount: 0,
           count: index + 1,
         })),
       })

@@ -579,10 +579,12 @@ export const contract = c.router({
     responses: {
       200: z.object({
         count: z.number(),
+        transactionsCount: z.number(),
         items: z.array(
           z.object({
             day: z.string(),
             count: z.number(),
+            transactionsCount: z.number(),
           }),
         ),
       }),
