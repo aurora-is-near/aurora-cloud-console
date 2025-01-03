@@ -9,6 +9,7 @@ import type { Silo } from "@/types/types"
 
 import { GasCollectedChart } from "./GasCollectedChart"
 import { GasAbstractionSettings } from "./GasAbstractionSettings"
+import { GasAbstractionMechanics } from "./GasAbstractionMechanics"
 
 type Props = {
   silo: Silo
@@ -45,6 +46,10 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
         <section className="w-full space-y-5">
           <GasCollectedChart silo={silo} baseTokenSymbol={baseToken.symbol} />
           <GasAbstractionSettings
+            silo={silo}
+            baseTokenSymbol={baseToken.symbol}
+          />
+          <GasAbstractionMechanics
             silo={silo}
             baseTokenSymbol={baseToken.symbol}
           />

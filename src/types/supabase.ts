@@ -236,6 +236,7 @@ export type Database = {
           engine_version: string
           explorer_url: string | null
           gas_collection_address: string | null
+          gas_price: number | null
           genesis: string
           grafana_network_key: string | null
           id: number
@@ -254,6 +255,7 @@ export type Database = {
           engine_version: string
           explorer_url?: string | null
           gas_collection_address?: string | null
+          gas_price?: number | null
           genesis: string
           grafana_network_key?: string | null
           id?: number
@@ -272,6 +274,7 @@ export type Database = {
           engine_version?: string
           explorer_url?: string | null
           gas_collection_address?: string | null
+          gas_price?: number | null
           genesis?: string
           grafana_network_key?: string | null
           id?: number

@@ -19,10 +19,7 @@ export const InputWrapper = <Inputs extends Record<string, unknown>>({
   className,
 }: InputWrapperProps<Inputs>) => (
   <div className={className}>
-    <label
-      htmlFor={id}
-      className="pb-2 block text-sm font-medium leading-none flex items-center"
-    >
+    <label htmlFor={id} className="py-2 flex text-sm font-medium leading-none">
       {label}
     </label>
     <div className="w-full">

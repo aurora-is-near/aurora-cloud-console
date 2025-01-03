@@ -183,6 +183,7 @@ export const useChainCreationForm = (
         rpc_url: DEVNET_RPC_URL,
         blockscout_database_id: null,
         gas_collection_address: null,
+        gas_price: null,
       })
 
       // Redirect to the silo dashboard page
