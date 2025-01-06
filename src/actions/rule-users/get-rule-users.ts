@@ -7,7 +7,7 @@ import { assertValidSupabaseResult } from "@/utils/supabase"
 export const getRuleUsers = async ({
   userlist_id,
 }: {
-  userlist_id: number
+  userlist_id: number | number[]
 }): Promise<RuleUser[]> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase

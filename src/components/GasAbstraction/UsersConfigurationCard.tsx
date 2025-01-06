@@ -12,8 +12,7 @@ import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { FilterUpdateContext } from "@/providers/FilterProvider"
-import Loader from "@/components/Loader"
+import { RuleContext } from "@/providers/RuleProvider"
 
 type Inputs = {
   open?: boolean
@@ -28,7 +27,7 @@ const UsersConfigurationCard = () => {
   // all others are disabled until there is engine integration
   const disabled = deal?.id !== 17
 
-  const { filterEntries } = useRequiredContext(FilterUpdateContext)
+  const { ruleUserlists } = useRequiredContext(RuleContext)
 
   const isOpen = String(watch("open") ?? deal?.open) === "true"
 
@@ -135,8 +134,8 @@ const UsersConfigurationCard = () => {
               <div className="flex flex-col">
                 <span className="text-sm font-medium">Import manually</span>
                 <span className="text-sm text-slate-500">
-                  {filterEntries?.length} wallet address
-                  {filterEntries?.length === 1 ? "" : "es"} added
+                  {/* {filterEntries?.length} wallet address
+                  {filterEntries?.length === 1 ? "" : "es"} added */}
                 </span>
               </div>
               <Button

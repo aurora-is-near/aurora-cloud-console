@@ -6,10 +6,14 @@ import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
 import { FilterProvider } from "@/providers/FilterProvider"
 import { getRules } from "@/actions/rules/get-rules"
+import { createRule } from "@/actions/rules/create-rule"
+import { RuleProvider } from "@/providers/RuleProvider"
 import { AddFilterAddressModal } from "./AddFilterAddressModal"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
+
+const userlistRuleDefinition = { feature: "userlistRule" }
 
 const Page = async ({
   params: { id, planId, teamKey },
@@ -28,23 +32,34 @@ const Page = async ({
     notFound()
   }
 
-  const userlistRule = rules?.find((r) => !!r.resource_definition)
+  let userlistRule = rules?.find((r) => {
+    const def = r.resource_definition as { feature: string }
+
+    return def?.feature === userlistRuleDefinition.feature
+  })
+
+  if (!userlistRule) {
+    userlistRule = await createRule({
+      deal_id: dealId,
+      resource_definition: userlistRuleDefinition,
+    })
+  }
+
+  // const userlistRule = rules?.find((r) => !!r.resource_definition)
 
   return (
     <DealUpdateProvider dealId={dealId}>
       <DealUpdatePage deal={deal}>
-        {eoaFilter && (
-          <FilterProvider dealId={dealId} filterId={eoaFilter.id}>
-            <UsersConfigurationCard />
-            <AddFilterAddressModal />
-          </FilterProvider>
-        )}
-        {contractFilter && (
+        <RuleProvider initialRule={userlistRule}>
+          <UsersConfigurationCard />
+          {/* <AddFilterAddressModal /> */}
+        </RuleProvider>
+        {/* {contractFilter && (
           <FilterProvider dealId={dealId} filterId={contractFilter.id}>
             <ContractsCard silo={silo} />
             <AddFilterAddressModal />
           </FilterProvider>
-        )}
+        )} */}
         <RulesCard />
         <Contact teamKey={teamKey} />
       </DealUpdatePage>
