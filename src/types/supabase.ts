@@ -435,27 +435,27 @@ export type Database = {
           },
         ]
       }
-      rule_users_userlists: {
+      rule_users_rule_userlists: {
         Row: {
           created_at: string
           id: number
           rule_user_id: number | null
+          rule_userlist_id: number | null
           updated_at: string
-          userlist_id: number | null
         }
         Insert: {
           created_at?: string
           id?: number
           rule_user_id?: number | null
+          rule_userlist_id?: number | null
           updated_at?: string
-          userlist_id?: number | null
         }
         Update: {
           created_at?: string
           id?: number
           rule_user_id?: number | null
+          rule_userlist_id?: number | null
           updated_at?: string
-          userlist_id?: number | null
         }
         Relationships: [
           {
@@ -466,10 +466,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "users_userlists_userlist_id_fkey"
-            columns: ["userlist_id"]
+            foreignKeyName: "rule_users_userlists_rule_userlist_id_fkey"
+            columns: ["rule_userlist_id"]
             isOneToOne: false
-            referencedRelation: "userlists"
+            referencedRelation: "rules_userlists"
             referencedColumns: ["id"]
           },
         ]

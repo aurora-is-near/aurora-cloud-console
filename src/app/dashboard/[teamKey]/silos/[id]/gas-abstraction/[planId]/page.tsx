@@ -4,8 +4,8 @@ import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
 import { getTeamDealByKey } from "@/actions/team-deals/get-team-deal-by-key"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
-import { getFilters } from "@/actions/filters/get-filters"
 import { FilterProvider } from "@/providers/FilterProvider"
+import { getRules } from "@/actions/rules/get-rules"
 import { AddFilterAddressModal } from "./AddFilterAddressModal"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
@@ -18,18 +18,17 @@ const Page = async ({
 }) => {
   const siloId = Number(id)
   const dealId = Number(planId)
-  const [deal, silo, filters] = await Promise.all([
+  const [deal, silo, rules] = await Promise.all([
     getTeamDealByKey(teamKey, dealId),
     getTeamSiloByKey(teamKey, siloId),
-    getFilters(dealId),
+    getRules({ dealId }),
   ])
 
   if (!deal || !silo) {
     notFound()
   }
 
-  const eoaFilter = filters?.find((f) => f.filter_type === "EOA")
-  const contractFilter = filters?.find((f) => f.filter_type === "CONTRACT")
+  const userlistRule = rules?.find((r) => !!r.resource_definition)
 
   return (
     <DealUpdateProvider dealId={dealId}>
