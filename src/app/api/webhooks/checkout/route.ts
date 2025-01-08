@@ -6,6 +6,7 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { createPrivateApiEndpoint } from "@/utils/api"
 import { ProductType } from "@/types/products"
 import { PRODUCT_TYPES } from "@/constants/products"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 type WebhookResponse = {
   fulfilled: boolean
@@ -19,8 +20,7 @@ const createPayment = async (
   type: ProductType,
 ) => {
   const supabase = createAdminSupabaseClient()
-
-  const { data } = await supabase
+  const result = await supabase
     .from("orders")
     .insert({
       type,
@@ -32,11 +32,9 @@ const createPayment = async (
     .select("id")
     .single()
 
-  if (!data) {
-    throw new Error("Failed to record the payment")
-  }
+  assertValidSupabaseResult(result)
 
-  return data.id
+  return result.data.id
 }
 
 const fulfillOrder = async (
@@ -44,8 +42,7 @@ const fulfillOrder = async (
   teamId: number,
 ) => {
   const supabase = createAdminSupabaseClient()
-
-  const [{ data: ordersData }] = await Promise.all([
+  const [ordersResult] = await Promise.all([
     supabase
       .from("orders")
       .update({
@@ -60,11 +57,9 @@ const fulfillOrder = async (
       .eq("id", teamId),
   ])
 
-  if (!ordersData) {
-    throw new Error("Failed to fulfill the order")
-  }
+  assertValidSupabaseResult(ordersResult)
 
-  return ordersData.id
+  return ordersResult.data.id
 }
 
 const isSupportedEvent = (
