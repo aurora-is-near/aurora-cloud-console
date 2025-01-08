@@ -11,7 +11,7 @@ export const getRuleUserlists = async ({
 }): Promise<RuleUserlist[]> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
-    .from("rule_userlists")
+    .from("rules_userlists")
     .select("*")
     .eq("rule_id", rule_id)
 

@@ -29,6 +29,8 @@ const UsersConfigurationCard = () => {
 
   const { ruleUserlists } = useRequiredContext(RuleContext)
 
+  console.log("Userlists", ruleUserlists)
+
   const isOpen = String(watch("open") ?? deal?.open) === "true"
 
   useEffect(() => {

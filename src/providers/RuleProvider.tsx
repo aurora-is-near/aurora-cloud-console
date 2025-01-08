@@ -8,9 +8,10 @@ import {
   useMemo,
   useState,
 } from "react"
-import { Rule, RuleUser, RuleUserlist } from "@/types/types"
+import { Rule, RuleUser, RuleUserlist, Team } from "@/types/types"
 import { getRuleUserlists } from "@/actions/rule-userlists/get-rule-userlists"
 import { getRuleUsers } from "@/actions/rule-users/get-rule-users"
+import { createRuleUserlist } from "@/actions/rule-userlists/create-rule-userlist"
 
 type RuleContextType = {
   rule: Rule
@@ -25,9 +26,14 @@ export const RuleContext = createContext<RuleContextType | null>(null)
 type RuleProviderProps = {
   children: ReactNode
   initialRule: Rule
+  team: Team
 }
 
-export const RuleProvider = ({ children, initialRule }: RuleProviderProps) => {
+export const RuleProvider = ({
+  children,
+  initialRule,
+  team,
+}: RuleProviderProps) => {
   const [rule, setRule] = useState<Rule>(initialRule)
   const [ruleUserlists, setRuleUserlists] = useState<RuleUserlist[]>([])
   const [ruleUsers, _setRuleUsers] = useState<Record<number, RuleUser[]>>({})
@@ -36,7 +42,16 @@ export const RuleProvider = ({ children, initialRule }: RuleProviderProps) => {
     if (rule?.id) {
       void getRuleUserlists({ rule_id: rule.id })
         .then((data) => {
-          setRuleUserlists(data)
+          if (data.length === 0) {
+            void createRuleUserlist({
+              team_id: team.id,
+              rule_id: rule.id,
+            }).then((newUserlist) => {
+              setRuleUserlists([newUserlist])
+            })
+          } else {
+            setRuleUserlists(data)
+          }
         })
         .catch((error) => {
           console.error("Failed to load rule userlists:", error)
@@ -45,7 +60,7 @@ export const RuleProvider = ({ children, initialRule }: RuleProviderProps) => {
     } else {
       setRuleUserlists([])
     }
-  }, [rule?.id])
+  }, [rule?.id, team.id])
 
   const value = useMemo(
     () => ({

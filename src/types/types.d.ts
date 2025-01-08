@@ -63,7 +63,7 @@ export type Deal = Tables<"deals">
 
 export type Rule = Tables<"rules">
 
-export type RuleUserlist = Tables<"rule_userlists">
+export type RuleUserlist = Tables<"rules_userlists">
 
 export type RuleUser = Tables<"rule_users">
 
