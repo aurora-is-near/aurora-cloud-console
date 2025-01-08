@@ -94,7 +94,7 @@ export const TeamForm = ({ team }: TeamFormProps) => {
           options: teamOnboardingStatusOptions,
           defaultValue: team?.onboarding_status
             ? teamOnboardingStatusOptions.find(
-                (option) => option.value == team.onboarding_status,
+                (option) => option.value === team.onboarding_status,
               )
             : undefined,
         },
