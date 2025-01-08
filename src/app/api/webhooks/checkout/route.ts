@@ -45,23 +45,32 @@ const createPayment = async (
   return data.id
 }
 
-const fulfillOrder = async (session: Stripe.Checkout.Session) => {
+const fulfillOrder = async (
+  session: Stripe.Checkout.Session,
+  teamId: number,
+) => {
   const supabase = createAdminSupabaseClient()
 
-  const { data } = await supabase
-    .from("orders")
-    .update({
-      payment_status: session.payment_status,
-    })
-    .eq("session_id", session.id)
-    .select("id")
-    .single()
+  const [{ data: ordersData }] = await Promise.all([
+    supabase
+      .from("orders")
+      .update({
+        payment_status: session.payment_status,
+      })
+      .eq("session_id", session.id)
+      .select("id")
+      .single(),
+    supabase
+      .from("teams")
+      .update({ onboarding_status: "REQUEST_RECEIVED" })
+      .eq("id", teamId),
+  ])
 
-  if (!data) {
+  if (!ordersData) {
     throw new Error("Failed to fulfill the order")
   }
 
-  return data.id
+  return ordersData.id
 }
 
 const isSupportedEvent = (
