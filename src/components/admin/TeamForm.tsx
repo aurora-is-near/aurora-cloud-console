@@ -92,7 +92,11 @@ export const TeamForm = ({ team }: TeamFormProps) => {
           autoComplete: "onboarding_status",
           getValue: (option?: SelectInputOption) => option?.value,
           options: teamOnboardingStatusOptions,
-          defaultValue: team?.onboarding_status ?? "",
+          defaultValue: team?.onboarding_status
+            ? teamOnboardingStatusOptions.find(
+                (option) => option.value == team.onboarding_status,
+              )
+            : undefined,
         },
       ]}
     />
