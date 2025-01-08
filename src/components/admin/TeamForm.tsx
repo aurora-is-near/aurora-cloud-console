@@ -8,12 +8,22 @@ import { updateTeam } from "@/actions/teams/update-team"
 import { HorizontalForm } from "@/components/HorizontalForm"
 import { HOME_ROUTE } from "@/constants/routes"
 import { createTeam } from "@/actions/teams/create-team"
+import type { SelectInputOption } from "@/components/SelectInput"
 
 type TeamFormProps = {
   team?: Team
 }
 
 type Inputs = Omit<Team, "id" | "created_at"> & { siloIds?: number[] }
+
+const teamOnboardingStatusOptions: Array<{
+  value: Exclude<Team["onboarding_status"], null>
+  label: string
+}> = [
+  { value: "REQUEST_RECEIVED", label: "Request received" },
+  { value: "DEPLOYMENT_IN_PROGRESS", label: "Deployment in progress" },
+  { value: "DEPLOYMENT_DONE", label: "Deployment done" },
+]
 
 export const TeamForm = ({ team }: TeamFormProps) => {
   const router = useRouter()
@@ -42,6 +52,8 @@ export const TeamForm = ({ team }: TeamFormProps) => {
       return
     }
   }
+
+  console.log("---2", team)
 
   return (
     <HorizontalForm
@@ -75,6 +87,14 @@ export const TeamForm = ({ team }: TeamFormProps) => {
           defaultValue: team?.website ?? "",
           autoComplete: "website",
           required: true,
+        },
+        {
+          name: "onboarding_status",
+          label: "Onboarding status",
+          autoComplete: "onboarding_status",
+          getValue: (option?: SelectInputOption) => option?.value,
+          options: teamOnboardingStatusOptions,
+          defaultValue: team?.onboarding_status ?? "",
         },
       ]}
     />
