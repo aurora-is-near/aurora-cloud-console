@@ -197,7 +197,7 @@ export const useChainCreationForm = (
     const paymentLink = await createPaymentLink(
       "initial_setup",
       team.id,
-      window.location.href,
+      `${window.location.origin}/dashboard/${team.team_key}`,
     )
 
     window.location.href = paymentLink
