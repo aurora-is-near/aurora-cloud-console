@@ -21,6 +21,7 @@ describe("CardProgress", () => {
     )
 
     const utils = await renderImage(view, PAGE_SIZE)
+
     expect(utils).toMatchImageSnapshot()
   })
 
@@ -36,6 +37,7 @@ describe("CardProgress", () => {
     )
 
     const utils = await renderImage(view, PAGE_SIZE)
+
     expect(utils).toMatchImageSnapshot()
   })
 })

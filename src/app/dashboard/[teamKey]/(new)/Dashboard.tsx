@@ -8,6 +8,7 @@ import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { getNetworkVariant } from "@/utils/get-network-variant"
 import { DashboardPage } from "@/components/DashboardPage"
 
+import { notReachable } from "@/utils/notReachable"
 import { DeploymentProgress } from "./DeploymentProgress"
 import FeatureList, { FeatureBanner } from "./FeatureList"
 import {
@@ -15,7 +16,6 @@ import {
   Partner2,
   Partner3,
 } from "../../../../../public/static/v2/images/icons"
-import { notReachable } from "@/utils/notReachable"
 
 type DashboardHomePageProps = {
   team: Team
