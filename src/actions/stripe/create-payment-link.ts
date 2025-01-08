@@ -9,8 +9,6 @@ const PRODUCTS: Record<ProductType, string | undefined> = {
   initial_setup: process.env.STRIPE_INITIAL_SETUP_PRODUCT_ID,
 }
 
-// prod_RYDzwW2NbOqtbv
-
 const getPrice = async (
   stripe: Stripe,
   product: Stripe.Product,
