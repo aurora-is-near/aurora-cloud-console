@@ -1,0 +1,77 @@
+"use server"
+
+import Stripe from "stripe"
+import { ProductType } from "@/types/products"
+
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY
+
+const PRODUCTS: Record<ProductType, string | undefined> = {
+  initial_setup: process.env.STRIPE_INITIAL_SETUP_PRODUCT_ID,
+}
+
+// prod_RYDzwW2NbOqtbv
+
+const getPrice = async (
+  stripe: Stripe,
+  product: Stripe.Product,
+): Promise<Stripe.Price | undefined | null> => {
+  if (typeof product.default_price === "string") {
+    return stripe.prices.retrieve(product.default_price)
+  }
+
+  return product.default_price
+}
+
+export const createPaymentLink = async (
+  productType: ProductType,
+  teamId: number,
+  callbackUrl: string,
+) => {
+  if (!stripeSecretKey) {
+    throw new Error("Stripe secret key is not set")
+  }
+
+  const stripe = new Stripe(stripeSecretKey)
+  const productId = PRODUCTS[productType]
+
+  if (!productId) {
+    throw new Error(`Product ID not found for type: ${productType}`)
+  }
+
+  const product = await stripe.products.retrieve(productId)
+
+  if (!product) {
+    throw new Error(`Product not found: ${productId}`)
+  }
+
+  const price = await getPrice(stripe, product)
+
+  if (!price) {
+    throw new Error(`No default price set for product: ${product.id}`)
+  }
+
+  const session = await stripe.paymentLinks.create({
+    line_items: [
+      {
+        price: price.id,
+        quantity: 1,
+      },
+    ],
+    after_completion: {
+      type: "redirect",
+      redirect: {
+        url: callbackUrl,
+      },
+    },
+    metadata: {
+      team_id: teamId,
+      product_type: productType,
+    },
+  })
+
+  if (!session.url) {
+    throw new Error("No session URL returned")
+  }
+
+  return session.url
+}

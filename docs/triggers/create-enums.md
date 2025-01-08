@@ -36,6 +36,8 @@ SELECT add_values_to_enum(
     'transactions:read',
     'forwarder:read',
     'forwarder:write',
+    'payments:read',
+    'payments:write'
   ]
 );
 
@@ -79,7 +81,7 @@ SELECT add_values_to_enum(
 SELECT add_values_to_enum(
   'order_type',
   ARRAY[
-    'initial_chain_setup'
+    'initial_setup'
   ]
 );
 ```

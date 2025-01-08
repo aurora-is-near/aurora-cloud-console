@@ -608,7 +608,7 @@ export type Database = {
         | "forwarder:read"
         | "forwarder:write"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
-      order_type: "initial_chain_setup"
+      order_type: "initial_setup"
       payment_status: "paid" | "unpaid" | "no_payment_required"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_type: "customer" | "admin"

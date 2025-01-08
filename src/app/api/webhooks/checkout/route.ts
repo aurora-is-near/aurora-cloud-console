@@ -5,19 +5,17 @@ import { toError } from "@/utils/errors"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { createPrivateApiEndpoint } from "@/utils/api"
 import { ApiErrorResponse } from "@/types/api"
+import { ProductType } from "@/types/products"
+import { PRODUCT_TYPES } from "@/constants/products"
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY
 const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
 type WebhookResponse = {
   fulfilled: boolean
-  teamId: string
+  teamId: number
   paymentId?: number
 }
-
-const PRODUCT_TYPES = ["initial_chain_setup"] as const
-
-type ProductType = (typeof PRODUCT_TYPES)[number]
 
 const createPayment = async (
   session: Stripe.Checkout.Session,
@@ -125,10 +123,12 @@ export const POST = createPrivateApiEndpoint(
     }
 
     const session = event.data.object
-    const { team_id: teamId, product_type: productType } =
+    const { team_id: teamIdStr, product_type: productType } =
       session.metadata ?? {}
 
-    if (!teamId || !Number.isFinite(Number(teamId))) {
+    const teamId = Number(teamIdStr)
+
+    if (!teamId || !Number.isFinite(teamId)) {
       abort(400, `Invalid team ID found in session metadata: ${teamId}`)
     }
 
@@ -140,11 +140,7 @@ export const POST = createPrivateApiEndpoint(
     }
 
     if (event.type === "checkout.session.completed") {
-      const paymentId = await createPayment(
-        session,
-        Number(teamId),
-        productType,
-      )
+      const paymentId = await createPayment(session, teamId, productType)
 
       // Check if the order was paid for (for example, from a card payment)
       //
@@ -155,7 +151,7 @@ export const POST = createPrivateApiEndpoint(
 
       // If already paid, fulfill the order.
       if (fulfilled) {
-        await fulfillOrder(session)
+        await fulfillOrder(session, teamId)
       }
 
       return NextResponse.json({
@@ -169,7 +165,7 @@ export const POST = createPrivateApiEndpoint(
       return NextResponse.json({
         teamId,
         fulfilled: true,
-        paymentId: await fulfillOrder(session),
+        paymentId: await fulfillOrder(session, teamId),
       })
     }
 
