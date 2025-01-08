@@ -19,6 +19,11 @@ export type ApiRequestHandler<TResponseBody, TRequestBody> = (
   context: ApiRequestContext<TRequestBody>,
 ) => Promise<TResponseBody>
 
+export type PrivateApiRequestHandler<TResponseBody> = (
+  req: NextRequest,
+  context: BaseApiRequestContext,
+) => Promise<TResponseBody>
+
 type ApiContract = typeof contract
 
 export type ApiOperation = keyof ApiContract

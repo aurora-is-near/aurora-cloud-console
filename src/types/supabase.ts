@@ -226,6 +226,44 @@ export type Database = {
           },
         ]
       }
+      orders: {
+        Row: {
+          checkout_session_object: Json
+          created_at: string
+          id: number
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          session_id: string
+          team_id: number
+          type: Database["public"]["Enums"]["order_type"]
+        }
+        Insert: {
+          checkout_session_object: Json
+          created_at?: string
+          id?: number
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          session_id: string
+          team_id: number
+          type: Database["public"]["Enums"]["order_type"]
+        }
+        Update: {
+          checkout_session_object?: Json
+          created_at?: string
+          id?: number
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          session_id?: string
+          team_id?: number
+          type?: Database["public"]["Enums"]["order_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       silos: {
         Row: {
           base_token_id: number | null
@@ -561,6 +599,8 @@ export type Database = {
         | "forwarder:read"
         | "forwarder:write"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
+      order_type: "initial_chain_setup"
+      payment_status: "paid" | "unpaid" | "no_payment_required"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_type: "customer" | "admin"
       widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"

@@ -183,3 +183,38 @@ do need to exist in Supabase Auth.
 
 An admin area is provided at `/admin` or at <https://admin.auroracloud.dev>
 in production.
+
+## Payments
+
+We use [Stripe](https://stripe.com/) to handle payments, for example, when a
+user requests for a chain to be deployed. To test payment functionality locally
+you will need to request to our Stripe account and be assigned the Developer
+role.
+
+### Webhooks
+
+To test our checkout webhook, [download the CLI](https://docs.stripe.com/stripe-cli)
+and log in with your Stripe account:
+
+```text
+stripe login
+```
+
+Forward events to your webhook
+
+```text
+stripe listen --forward-to http://localhost:3000/api/webhooks/checkout
+```
+
+The above command will output a signing secret. Add this to your `.env.local`
+file as the `STRIPE_WEBHOOK_SECRET` and launch the application in dev mode:
+
+```text
+yarn dev
+```
+
+Trigger events with the CLI:
+
+```text
+stripe trigger checkout.session.completed
+```

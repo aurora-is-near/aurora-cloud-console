@@ -14,6 +14,7 @@ import {
   ApiResponse,
   ApiResponseBody,
   BaseApiRequestContext,
+  PrivateApiRequestHandler,
 } from "@/types/api"
 import { contract } from "@/app/api/contract"
 import { openApiDocument } from "@/app/api/openapi-document"
@@ -82,6 +83,22 @@ const getCacheControlHeader = ({
   return value
 }
 
+const getResponse = (data: unknown, options?: ApiEndpointOptions) => {
+  if (!data) {
+    return new Response(null, { status: 204 })
+  }
+
+  const responseInit: ResponseInit = {}
+
+  if (options?.cache) {
+    responseInit.headers = {
+      "Vercel-CDN-Cache-Control": getCacheControlHeader(options.cache),
+    }
+  }
+
+  return NextResponse.json(data, responseInit)
+}
+
 const handleRequest = async <TResponseBody, TRequestBody>({
   req,
   ctx,
@@ -109,19 +126,7 @@ const handleRequest = async <TResponseBody, TRequestBody>({
     return getErrorResponse(error)
   }
 
-  if (!data) {
-    return new Response(null, { status: 204 })
-  }
-
-  const responseInit: ResponseInit = {}
-
-  if (options?.cache) {
-    responseInit.headers = {
-      "Vercel-CDN-Cache-Control": getCacheControlHeader(options.cache),
-    }
-  }
-
-  return NextResponse.json(data, responseInit)
+  return getResponse(data, options)
 }
 
 const getOperations = () => {
@@ -288,4 +293,32 @@ export const createApiEndpoint =
     })
 
     return data
+  }
+
+/**
+ * Create an internal API endpoint.
+ *
+ * This is used when we do not want to document the endpoint for public
+ * consumption.
+ */
+export const createPrivateApiEndpoint =
+  <TResponseBody>(
+    handler: PrivateApiRequestHandler<TResponseBody>,
+    options?: ApiEndpointOptions,
+  ) =>
+  async (
+    req: NextRequest,
+    ctx: BaseApiRequestContext,
+  ): Promise<ApiResponse<TResponseBody>> => {
+    let data: TResponseBody
+
+    try {
+      data = await handler(req, ctx)
+    } catch (error: unknown) {
+      logger.error(error)
+
+      return getErrorResponse(error)
+    }
+
+    return getResponse(data, options)
   }

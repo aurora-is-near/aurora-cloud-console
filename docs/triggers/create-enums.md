@@ -66,4 +66,20 @@ SELECT add_values_to_enum(
     'DEPLOYED'
   ]
 );
+
+SELECT add_values_to_enum(
+  'payment_status',
+  ARRAY[
+    'paid',
+    'unpaid',
+    'no_payment_required'
+  ]
+);
+
+SELECT add_values_to_enum(
+  'order_type',
+  ARRAY[
+    'initial_chain_setup'
+  ]
+);
 ```
