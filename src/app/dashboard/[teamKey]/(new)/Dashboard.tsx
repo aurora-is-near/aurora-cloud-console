@@ -7,6 +7,9 @@ import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { getNetworkVariant } from "@/utils/get-network-variant"
 import { DashboardPage } from "@/components/DashboardPage"
+
+import { notReachable } from "@/utils/notReachable"
+import { DeploymentProgress } from "./DeploymentProgress"
 import FeatureList, { FeatureBanner } from "./FeatureList"
 import {
   Partner1,
@@ -101,81 +104,96 @@ export const DashboardHomePage = ({
       />
 
       <section className="flex flex-col gap-14">
-        <div className="flex flex-col">
-          <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
-            Explore what you can do
-          </h2>
+        {(() => {
+          switch (team.onboarding_status) {
+            case "REQUEST_RECEIVED":
+            case "DEPLOYMENT_IN_PROGRESS":
+              return <DeploymentProgress status={team.onboarding_status} />
 
-          {getNetworkVariant(silo, {
-            none: (
-              <FeatureCTAList>
-                <FeatureCTA
-                  title="Set up your Devnet"
-                  description="Get access to a shared Aurora Chain identical to the production
-                ones."
-                  icon="/static/v2/images/examples/devnet.png"
-                  link={`/dashboard/${teamKey}/create-chain`}
-                />
-                <FeatureCTA
-                  title="Read documentation"
-                  description="Explore our documentation to start developing and deploying on Aurora."
-                  icon="/static/v2/images/examples/docs.png"
-                  link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
-                />
-                <FeatureCTA
-                  title="Talk to a developer"
-                  description="Join our Aurora Cloud developers community on Discord."
-                  icon="/static/v2/images/examples/talk.png"
-                  link="/"
-                />
-              </FeatureCTAList>
-            ),
-            devnet: (
-              <FeatureCTAList>
-                <FeatureCTA
-                  title="Explore integrations"
-                  description="Your chain supports by default a range of integrations."
-                  icon="/static/v2/images/examples/integrations.png"
-                  link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
-                />
-                <FeatureCTA
-                  title="Read documentation"
-                  description="Explore our documentation to start developing and deploying on Aurora."
-                  icon="/static/v2/images/examples/docs.png"
-                  link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
-                />
-                <FeatureCTA
-                  title="Talk to a developer"
-                  description="Join our Aurora Cloud developers community on Discord."
-                  icon="/static/v2/images/examples/talk.png"
-                  link="/"
-                />
-              </FeatureCTAList>
-            ),
-            mainnet: (
-              <FeatureCTAList>
-                <FeatureCTA
-                  title="Monitor your chain"
-                  description="Keep track of transaction volume,  latency and RPC requests in real-time."
-                  icon="/static/v2/images/examples/monitor.png"
-                  link={`/dashboard/${teamKey}${siloPrefix}/monitoring`}
-                />
-                <FeatureCTA
-                  title="Explore integrations"
-                  description="Your chain supports by default a range of integrations."
-                  icon="/static/v2/images/examples/integrations.png"
-                  link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
-                />
-                <FeatureCTA
-                  title="Read documentation"
-                  description="Explore our documentation to start developing and deploying on Aurora."
-                  icon="/static/v2/images/examples/docs.png"
-                  link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
-                />
-              </FeatureCTAList>
-            ),
-          })}
-        </div>
+            case "DEPLOYMENT_DONE":
+            case null:
+              return (
+                <div className="flex flex-col">
+                  <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
+                    Explore what you can do
+                  </h2>
+
+                  {getNetworkVariant(silo, {
+                    none: (
+                      <FeatureCTAList>
+                        <FeatureCTA
+                          title="Set up your Devnet"
+                          description="Get access to a shared Aurora Chain identical to the production
+                        ones."
+                          icon="/static/v2/images/examples/devnet.png"
+                          link={`/dashboard/${teamKey}/create-chain`}
+                        />
+                        <FeatureCTA
+                          title="Read documentation"
+                          description="Explore our documentation to start developing and deploying on Aurora."
+                          icon="/static/v2/images/examples/docs.png"
+                          link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                        />
+                        <FeatureCTA
+                          title="Talk to a developer"
+                          description="Join our Aurora Cloud developers community on Discord."
+                          icon="/static/v2/images/examples/talk.png"
+                          link="/"
+                        />
+                      </FeatureCTAList>
+                    ),
+                    devnet: (
+                      <FeatureCTAList>
+                        <FeatureCTA
+                          title="Explore integrations"
+                          description="Your chain supports by default a range of integrations."
+                          icon="/static/v2/images/examples/integrations.png"
+                          link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
+                        />
+                        <FeatureCTA
+                          title="Read documentation"
+                          description="Explore our documentation to start developing and deploying on Aurora."
+                          icon="/static/v2/images/examples/docs.png"
+                          link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                        />
+                        <FeatureCTA
+                          title="Talk to a developer"
+                          description="Join our Aurora Cloud developers community on Discord."
+                          icon="/static/v2/images/examples/talk.png"
+                          link="/"
+                        />
+                      </FeatureCTAList>
+                    ),
+                    mainnet: (
+                      <FeatureCTAList>
+                        <FeatureCTA
+                          title="Monitor your chain"
+                          description="Keep track of transaction volume,  latency and RPC requests in real-time."
+                          icon="/static/v2/images/examples/monitor.png"
+                          link={`/dashboard/${teamKey}${siloPrefix}/monitoring`}
+                        />
+                        <FeatureCTA
+                          title="Explore integrations"
+                          description="Your chain supports by default a range of integrations."
+                          icon="/static/v2/images/examples/integrations.png"
+                          link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
+                        />
+                        <FeatureCTA
+                          title="Read documentation"
+                          description="Explore our documentation to start developing and deploying on Aurora."
+                          icon="/static/v2/images/examples/docs.png"
+                          link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                        />
+                      </FeatureCTAList>
+                    ),
+                  })}
+                </div>
+              )
+
+            default:
+              return notReachable(team.onboarding_status)
+          }
+        })()}
 
         <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100">
           <div className="flex flex-col lg:flex-row justify-between">

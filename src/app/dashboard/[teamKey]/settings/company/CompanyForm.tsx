@@ -37,9 +37,10 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
     name = "",
     email = "",
     website = "",
+    onboarding_status = null,
   }) => {
     try {
-      await updateTeamForm(team.id, { name, email, website })
+      await updateTeamForm(team.id, { name, email, website, onboarding_status })
       toast.success("Company information updated.")
       toggleForm()
       router.refresh()
