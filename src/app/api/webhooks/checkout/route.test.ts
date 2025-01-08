@@ -188,7 +188,6 @@ describe("Checkout webhook route", () => {
       payment_status: "paid",
       session_id: "session_id",
       team_id: teamId,
-      checkout_session_object: JSON.stringify(session),
     })
 
     expect(mockSupabaseClient.from("teams").update).toHaveBeenCalledTimes(1)

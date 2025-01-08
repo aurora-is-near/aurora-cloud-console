@@ -228,7 +228,6 @@ export type Database = {
       }
       orders: {
         Row: {
-          checkout_session_object: Json
           created_at: string
           id: number
           payment_status: Database["public"]["Enums"]["payment_status"]
@@ -237,7 +236,6 @@ export type Database = {
           type: Database["public"]["Enums"]["order_type"]
         }
         Insert: {
-          checkout_session_object: Json
           created_at?: string
           id?: number
           payment_status: Database["public"]["Enums"]["payment_status"]
@@ -246,7 +244,6 @@ export type Database = {
           type: Database["public"]["Enums"]["order_type"]
         }
         Update: {
-          checkout_session_object?: Json
           created_at?: string
           id?: number
           payment_status?: Database["public"]["Enums"]["payment_status"]

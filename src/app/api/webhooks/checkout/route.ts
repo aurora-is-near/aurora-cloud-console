@@ -27,7 +27,6 @@ const createPayment = async (
       payment_status: session.payment_status,
       session_id: session.id,
       team_id: teamId,
-      checkout_session_object: JSON.stringify(session),
     })
     .select("id")
     .single()
