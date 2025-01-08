@@ -53,8 +53,6 @@ export const TeamForm = ({ team }: TeamFormProps) => {
     }
   }
 
-  console.log("---2", team)
-
   return (
     <HorizontalForm
       submitHandler={submitHandler}
