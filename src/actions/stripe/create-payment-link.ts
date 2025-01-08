@@ -3,10 +3,12 @@
 import Stripe from "stripe"
 import { ProductType } from "@/types/products"
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY
+const getProductId = (productType: ProductType) => {
+  const productIds: Record<ProductType, string | undefined> = {
+    initial_setup: process.env.STRIPE_INITIAL_SETUP_PRODUCT_ID,
+  }
 
-const PRODUCTS: Record<ProductType, string | undefined> = {
-  initial_setup: process.env.STRIPE_INITIAL_SETUP_PRODUCT_ID,
+  return productIds[productType]
 }
 
 const getPrice = async (
@@ -25,12 +27,14 @@ export const createPaymentLink = async (
   teamId: number,
   callbackUrl: string,
 ) => {
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY
+
   if (!stripeSecretKey) {
     throw new Error("Stripe secret key is not set")
   }
 
   const stripe = new Stripe(stripeSecretKey)
-  const productId = PRODUCTS[productType]
+  const productId = getProductId(productType)
 
   if (!productId) {
     throw new Error(`Product ID not found for type: ${productType}`)
