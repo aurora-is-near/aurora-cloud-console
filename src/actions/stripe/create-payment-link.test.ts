@@ -1,8 +1,13 @@
-import * as stripe from "stripe"
+import Stripe from "stripe"
 import { ProductType } from "@/types/products"
 import { createPaymentLink } from "@/actions/stripe/create-payment-link"
 
 jest.mock("stripe")
+
+const stripeSecretKey = "test_stripe_secret_key"
+const productType: ProductType = "initial_setup"
+const teamId = 42
+const callbackUrl = "https://example.com/callback"
 
 const stripeMock = {
   products: {
@@ -16,12 +21,7 @@ const stripeMock = {
   },
 }
 
-const stripeSecretKey = "test_stripe_secret_key"
-const productType: ProductType = "initial_setup"
-const teamId = 123
-const callbackUrl = "https://example.com/callback"
-
-;(stripe.default as unknown as jest.Mock).mockImplementation(() => stripeMock)
+;(Stripe as unknown as jest.Mock).mockImplementation(() => stripeMock)
 
 describe("createPaymentLink", () => {
   beforeEach(() => {

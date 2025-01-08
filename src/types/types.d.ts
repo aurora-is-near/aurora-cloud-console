@@ -61,6 +61,8 @@ export type List = Tables<"lists">
 
 export type Deal = Tables<"deals">
 
+export type Order = Tables<"orders">
+
 export type ChartColor = (typeof CHART_COLOURS)[number]
 
 type ChartData = {

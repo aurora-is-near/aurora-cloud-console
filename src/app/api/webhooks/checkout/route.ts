@@ -1,15 +1,11 @@
 import Stripe from "stripe"
-import { type NextRequest, NextResponse } from "next/server"
+import { type NextRequest } from "next/server"
 import { abort } from "@/utils/abort"
 import { toError } from "@/utils/errors"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { createPrivateApiEndpoint } from "@/utils/api"
-import { ApiErrorResponse } from "@/types/api"
 import { ProductType } from "@/types/products"
 import { PRODUCT_TYPES } from "@/constants/products"
-
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY
-const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
 type WebhookResponse = {
   fulfilled: boolean
@@ -86,10 +82,10 @@ const isValidProductType = (
   return PRODUCT_TYPES.includes(productType as ProductType)
 }
 
-export const POST = createPrivateApiEndpoint(
-  async (
-    req: NextRequest,
-  ): Promise<NextResponse<WebhookResponse | ApiErrorResponse>> => {
+export const POST = createPrivateApiEndpoint<WebhookResponse>(
+  async (req: NextRequest) => {
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY
+    const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET
     const payload = await req.text()
     const sig = req.headers.get("stripe-signature")
 
@@ -154,27 +150,27 @@ export const POST = createPrivateApiEndpoint(
         await fulfillOrder(session, teamId)
       }
 
-      return NextResponse.json({
+      return {
         teamId,
         fulfilled,
         paymentId,
-      })
+      }
     }
 
     if (event.type === "checkout.session.async_payment_succeeded") {
-      return NextResponse.json({
+      return {
         teamId,
         fulfilled: true,
         paymentId: await fulfillOrder(session, teamId),
-      })
+      }
     }
 
     // TODO: Email the customer about the failed payment
     if (event.type === "checkout.session.async_payment_failed") {
-      return NextResponse.json({
+      return {
         teamId,
         fulfilled: false,
-      })
+      }
     }
 
     abort(400, "Unsupported event type")
