@@ -2,6 +2,7 @@ import { ReactNode } from "react"
 import {
   CircleStackIcon,
   CubeIcon,
+  CurrencyDollarIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline"
 import { redirect } from "next/navigation"
@@ -44,6 +45,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
                 name: "Oracle tokens",
                 href: "/admin/oracle/tokens",
                 icon: <Oracle />,
+              },
+              {
+                name: "Orders",
+                href: "/admin/orders",
+                icon: <CurrencyDollarIcon />,
               },
             ],
           },
