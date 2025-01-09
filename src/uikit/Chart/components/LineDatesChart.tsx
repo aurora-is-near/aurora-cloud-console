@@ -60,6 +60,27 @@ export const LineDatesChart = ({
     [data, formatLabel, labels, plugins],
   )
 
+  const estimateProjection = useMemo(() => {
+    if (data.length < 2) {
+      return 0
+    }
+
+    // Calculates a difference projection between today and halfway past point
+    const todayIndex = data.findIndex(({ x }) => isToday(x))
+
+    // Calculate average difference between points from start to today
+    const differences = []
+
+    for (let i = 1; i <= todayIndex; i += 1) {
+      differences.push(data[i].y - data[i - 1].y)
+    }
+
+    const avgDifference =
+      differences.reduce((sum, diff) => sum + diff, 0) / differences.length
+
+    return avgDifference
+  }, [data])
+
   return (
     <Line
       plugins={chartPlugins}
@@ -75,9 +96,12 @@ export const LineDatesChart = ({
           },
           {
             ...config.getDatasetOptions(false),
-            data: data.map(({ x, y }) =>
-              isAfter(x, TODAY) || isToday(x) ? y : null,
-            ),
+            data: data.map(({ x, y }, index) => {
+              const todayIndex = data.findIndex(({ x: _x }) => isToday(_x))
+              const diff = (index - todayIndex) * estimateProjection
+
+              return isAfter(x, TODAY) || isToday(x) ? y + diff : null
+            }),
           },
         ],
       }}
