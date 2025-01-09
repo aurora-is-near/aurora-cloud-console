@@ -207,7 +207,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
                 <input
                   type="text"
                   id="customTokenDetails"
-                  value={form.chainName}
+                  value={form.customTokenDetails}
                   onChange={(e) => {
                     updateForm("customTokenDetails", e.target.value)
                   }}
