@@ -103,7 +103,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
             </Typography>
           </div>
 
-          <div className="flex flex-col align-center justify-between gap-4 w-full sm:flex-row">
+          <div className="grid grid-cols-1 gap-4 w-full sm:grid-cols-2 sm:justify-between sm:items-center lg:sm:grid-cols-4">
             <FeatureItem
               icon={IconNearSquare}
               title="Runs on top of NEAR\n Protocol"
