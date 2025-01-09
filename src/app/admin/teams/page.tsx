@@ -1,4 +1,5 @@
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline"
+import { sentenceCase } from "change-case"
 import { formatDate } from "@/utils/helpers"
 import Table from "@/components/Table"
 import TableButton from "@/components/TableButton"
@@ -24,6 +25,7 @@ const Page = async () => {
         <Table>
           <Table.TH>ID</Table.TH>
           <Table.TH>Name</Table.TH>
+          <Table.TH>Status</Table.TH>
           <Table.TH align="center">Created at</Table.TH>
           <Table.TH align="center">Updated at</Table.TH>
           <Table.TH hidden>Actions</Table.TH>
@@ -31,6 +33,11 @@ const Page = async () => {
             <Table.TR key={team.id}>
               <Table.TD>{team.id}</Table.TD>
               <Table.TD>{team.name}</Table.TD>
+              <Table.TD>
+                {team.onboarding_status
+                  ? sentenceCase(team.onboarding_status)
+                  : "-"}
+              </Table.TD>
               <Table.TD align="center">{formatDate(team.created_at)}</Table.TD>
               <Table.TD align="center">{formatDate(team.updated_at)}</Table.TD>
               <Table.TD align="right">
