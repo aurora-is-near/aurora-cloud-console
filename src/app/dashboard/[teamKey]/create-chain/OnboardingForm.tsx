@@ -88,7 +88,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
   return (
     <div className="overflow-x-hidden overflow-y-auto">
       <section className="flex justify-center px-6 py-16 bg-white w-full md:px-16">
-        <div className="flex flex-col justify-center items-center gap-8 w-full max-w-[1044px]">
+        <div className="flex flex-col justify-center items-center gap-8 w-full max-w-[1044px] md:px-5">
           <div className="flex flex-col justify-center items-center gap-3">
             <Typography variant="heading" size={5} className="text-center">
               Set up your Aurora Chain
