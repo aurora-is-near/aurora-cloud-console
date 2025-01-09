@@ -196,7 +196,7 @@ export const useChainCreationForm = (
     // For mainnet, create a payment link
     const paymentLink = await createPaymentLink(
       "initial_setup",
-      team,
+      team.id,
       `${window.location.origin}/dashboard/${team.team_key}`,
     )
 

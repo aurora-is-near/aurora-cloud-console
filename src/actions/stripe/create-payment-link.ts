@@ -2,7 +2,6 @@
 
 import Stripe from "stripe"
 import { ProductType } from "@/types/products"
-import { Team } from "@/types/types"
 
 const getProductId = (productType: ProductType) => {
   const productIds: Record<ProductType, string | undefined> = {
@@ -25,7 +24,7 @@ const getPrice = async (
 
 export const createPaymentLink = async (
   productType: ProductType,
-  team: Team,
+  teamId: number,
   callbackUrl: string,
 ) => {
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY
@@ -64,7 +63,7 @@ export const createPaymentLink = async (
       },
     ],
     metadata: {
-      team_id: team.id,
+      team_id: teamId,
       product_type: productType,
     },
   })
