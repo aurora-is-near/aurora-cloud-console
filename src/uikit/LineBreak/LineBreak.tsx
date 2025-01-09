@@ -1,3 +1,5 @@
+import { Fragment } from "react"
+
 type Props = {
   children: string
 }
@@ -12,10 +14,10 @@ export const LineBreak = ({ children }: Props) => {
   return (
     <>
       {textPieces.map((text) => (
-        <>
+        <Fragment key={text}>
           {text}
           <br />
-        </>
+        </Fragment>
       ))}
     </>
   )
