@@ -65,7 +65,7 @@ const TD = ({
     )}
   >
     <div
-      className={clsx("flex items-center gap-x-2.5", {
+      className={clsx("flex items-center gap-x-2.5 min-h-[30px]", {
         "justify-end": align === "right",
         "justify-start": align === "left",
         "justify-center": align === "center",
