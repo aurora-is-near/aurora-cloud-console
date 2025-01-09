@@ -73,7 +73,7 @@ const initialFormDevNet: ChainCreationForm = {
 
 const initialFormMainNet: ChainCreationForm = {
   networkType: "mainnet",
-  chainPermission: null,
+  chainPermission: "public",
   baseToken: null,
   gasMechanics: null,
   integrations: [],
