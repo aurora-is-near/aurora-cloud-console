@@ -36,6 +36,8 @@ SELECT add_values_to_enum(
     'transactions:read',
     'forwarder:read',
     'forwarder:write',
+    'payments:read',
+    'payments:write'
   ]
 );
 
@@ -64,6 +66,22 @@ SELECT add_values_to_enum(
     'NOT_DEPLOYED',
     'PENDING',
     'DEPLOYED'
+  ]
+);
+
+SELECT add_values_to_enum(
+  'payment_status',
+  ARRAY[
+    'paid',
+    'unpaid',
+    'no_payment_required'
+  ]
+);
+
+SELECT add_values_to_enum(
+  'order_type',
+  ARRAY[
+    'initial_setup'
   ]
 );
 ```

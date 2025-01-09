@@ -183,3 +183,60 @@ do need to exist in Supabase Auth.
 
 An admin area is provided at `/admin` or at <https://admin.auroracloud.dev>
 in production.
+
+## Payments
+
+We use [Stripe](https://stripe.com/) to handle payments, for example, when a
+user requests for a chain to be deployed. To test payment functionality locally
+you will need to request access to our Stripe account and be assigned the
+Developer role.
+
+You will then need to add the `STRIPE_SECRET_KEY` to your `.env.local` file.
+This secret key can be found in the [developers area](https://dashboard.stripe.com/test/apikeys)
+in the Stripe UI. Make sure you use the one for [test mode](https://docs.stripe.com/test-mode?locale=en-GB)
+(assuming you don't actially want to pay 😉). It should start with:
+
+```text
+sk_test_
+```
+
+### Payment links
+
+To test payment links you will need to add a `STRIPE_INITIAL_SETUP_PRODUCT_ID`
+to your `.env.local` file, before launching the application in dev mode:
+
+```text
+yarn dev
+```
+
+The product ID should be one created in Stripe's
+[test mode](https://docs.stripe.com/test-mode?locale=en-GB) (or just use any
+that exist already).
+
+### Webhooks
+
+To test our checkout webhook, [download the CLI](https://docs.stripe.com/stripe-cli)
+and log in with your Stripe account:
+
+```text
+stripe login
+```
+
+Forward events to your webhook
+
+```text
+stripe listen --forward-to http://localhost:3000/api/webhooks/checkout
+```
+
+The above command will output a signing secret. Add this to your `.env.local`
+file as the `STRIPE_WEBHOOK_SECRET` and launch the application in dev mode:
+
+```text
+yarn dev
+```
+
+Trigger events with the CLI:
+
+```text
+stripe trigger checkout.session.completed
+```
