@@ -56,7 +56,7 @@ export const ListItems = ({ title, listId }: ListItemsListProps) => {
   const foundItems = foundListItem ? [foundListItem] : []
   const listItems = search
     ? foundItems
-    : data?.pages.flatMap((page) => page.items) ?? []
+    : (data?.pages.flatMap((page) => page.items) ?? [])
 
   return (
     <div className="space-y-6 flex flex-col flex-1">

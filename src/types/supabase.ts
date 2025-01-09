@@ -317,6 +317,9 @@ export type Database = {
           team_key: string
           updated_at: string
           website: string | null
+          onboarding_status:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
         }
         Insert: {
           created_at?: string
@@ -326,6 +329,9 @@ export type Database = {
           team_key: string
           updated_at?: string
           website?: string | null
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
         }
         Update: {
           created_at?: string
@@ -335,6 +341,9 @@ export type Database = {
           team_key?: string
           updated_at?: string
           website?: string | null
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
         }
         Relationships: []
       }
@@ -564,6 +573,10 @@ export type Database = {
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_type: "customer" | "admin"
       widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
+      team_onboarding_status:
+        | "REQUEST_RECEIVED"
+        | "DEPLOYMENT_IN_PROGRESS"
+        | "DEPLOYMENT_DONE"
     }
     CompositeTypes: {
       [_ in never]: never

@@ -6,6 +6,7 @@ import {
 import { MainMenu } from "@/components/menu/MainMenu"
 import { MenuItem, MenuSection } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
+import Helpscout from "@/components/Helpscout"
 
 type DashboardLayoutProps = {
   teamKey?: string
@@ -59,6 +60,9 @@ export const DashboardLayout = ({
         )}
         <div className="w-full">{children}</div>
       </div>
+      {process.env.NODE_ENV === "production" && !!teamKey && !showAdminMenu && (
+        <Helpscout />
+      )}
     </div>
   )
 }

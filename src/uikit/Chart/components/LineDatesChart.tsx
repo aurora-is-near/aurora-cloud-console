@@ -13,7 +13,6 @@ const TODAY = new Date()
 
 type Props = {
   data: { x: Date; y: number }[]
-
   theme?: Theme
   plugins?: LineChartPlugins[]
   showProjection?: boolean
