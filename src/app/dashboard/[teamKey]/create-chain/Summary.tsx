@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react"
 
-import { Typography, Card } from "@/uikit"
+import { Typography } from "@/uikit"
 
 type ItemProps = {
   value: string
@@ -21,7 +21,7 @@ const Item = ({ title, value, bulletpoints }: ItemProps) => (
       {bulletpoints ? (
         <ul className="flex flex-col gap-1 pl-2">
           {bulletpoints.map((text) => (
-            <li className="flex items-center gap-2">
+            <li key={text} className="flex items-center gap-2">
               <div className="w-[6px] h-[6px] rounded-full bg-slate-600" />
               <Typography
                 variant="paragraph"

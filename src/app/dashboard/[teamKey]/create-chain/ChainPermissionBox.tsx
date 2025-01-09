@@ -2,7 +2,6 @@ import { ComponentType } from "react"
 import clsx from "clsx"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { ChainPermission } from "@/types/chain-creation"
-import { Typography } from "@/uikit"
 
 import {
   ChainPrivate,

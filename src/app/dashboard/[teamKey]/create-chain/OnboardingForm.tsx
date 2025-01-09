@@ -38,7 +38,6 @@ import IconNearIntenseSquare from "../../../../../public/static/icons/near-inten
 
 type OnboardingFormProps = {
   team: Team
-  hasDevNet: boolean
 }
 
 const OnboardingForm = ({ team }: OnboardingFormProps) => {
@@ -60,6 +59,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
 
   const handleBaseTokenSelect = (token: TokenOption) => {
     updateForm("baseToken", token.id)
+
     if (token.id !== "custom") {
       updateForm("customTokenDetails", "")
     }

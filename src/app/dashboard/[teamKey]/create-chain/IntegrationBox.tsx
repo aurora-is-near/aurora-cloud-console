@@ -2,16 +2,15 @@ import { ComponentType } from "react"
 
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { Integration } from "@/types/chain-creation"
-import { clsx } from "@/uikit"
 
 import {
+  IntegrationBlockExplorerWidget,
   IntegrationBridgeWidget,
   IntegrationCexWithdrawalsWidget,
+  IntegrationDex,
+  IntegrationIntenseSupport,
   IntegrationOnramp,
   IntegrationOracle,
-  IntegrationBlockExplorerWidget,
-  IntegrationIntenseSupport,
-  IntegrationDex,
 } from "../../../../../public/static/v2/images/icons"
 
 interface IntegrationBoxProps {

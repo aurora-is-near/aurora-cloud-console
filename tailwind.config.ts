@@ -9,10 +9,13 @@ const config: Config = {
         sans: ["var(--font-circular)", ...defaultTheme.fontFamily.sans],
       },
       fontSize: {
-        xxs: ['0.625rem', {
-          lineHeight: '0.625rem',
-          letterSpacing: '1px',
-        }],
+        xxs: [
+          "0.625rem",
+          {
+            lineHeight: "0.625rem",
+            letterSpacing: "1px",
+          },
+        ],
       },
       boxShadow: {
         "3xl": "0px 2px 14px 0px #0000001A",
