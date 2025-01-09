@@ -1,8 +1,11 @@
 "use client"
 
 import clsx from "clsx"
+import Link from "next/link"
 import { useState } from "react"
 import toast from "react-hot-toast"
+import { CheckBadgeIcon } from "@heroicons/react/20/solid"
+
 import {
   FormTokenNotFoundError,
   integrationOptions,
@@ -16,23 +19,29 @@ import { Team } from "@/types/types"
 import {
   ChainPermission,
   GasMechanics,
-  NetworkType,
   TokenOption,
 } from "@/types/chain-creation"
 import { BaseContainer } from "@/components/BaseContainer"
 import { logger } from "@/logger"
+import { Typography } from "@/uikit"
+
 import Step from "./Step"
-import ChainTypeBox from "./ChainTypeBox"
+import { Summary } from "./Summary"
 import ChainPermissionBox from "./ChainPermissionBox"
 import GasMechanicsBox from "./GasMechanicsBox"
 import IntegrationBox from "./IntegrationBox"
+import { FeatureItem } from "./FeatureItem"
+
+import IconEthSquare from "../../../../../public/static/icons/eth-square.svg"
+import IconNearSquare from "../../../../../public/static/icons/near-square.svg"
+import IconNearIntenseSquare from "../../../../../public/static/icons/near-intense-square.svg"
 
 type OnboardingFormProps = {
   team: Team
   hasDevNet: boolean
 }
 
-const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
+const OnboardingForm = ({ team }: OnboardingFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
@@ -43,25 +52,7 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
     handleIntegrationToggle,
     handleDeselectAllIntegrations,
     handleSubmit,
-    submitButtonText,
-  } = useChainCreationForm(team, hasDevNet ? "mainnet" : "devnet")
-
-  const isDevnet = form.networkType === "devnet"
-
-  const handleNetworkTypeSelect = (type: NetworkType) => {
-    updateForm("networkType", type)
-
-    if (type === "devnet") {
-      updateForm("chainName", "Devnet")
-      updateForm("chainPermission", "public_permissioned")
-      updateForm("baseToken", "aurora")
-      updateForm("gasMechanics", "free")
-    } else {
-      updateForm("chainPermission", null)
-      updateForm("baseToken", null)
-      updateForm("gasMechanics", null)
-    }
-  }
+  } = useChainCreationForm(team, "mainnet")
 
   const handleChainPermissionSelect = (permission: ChainPermission) => {
     updateForm("chainPermission", permission)
@@ -69,6 +60,9 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
 
   const handleBaseTokenSelect = (token: TokenOption) => {
     updateForm("baseToken", token.id)
+    if (token.id !== "custom") {
+      updateForm("customTokenDetails", "")
+    }
   }
 
   const handleGasMechanicsSelect = (mechanic: GasMechanics) => {
@@ -93,33 +87,47 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
 
   return (
     <div className="overflow-x-hidden overflow-y-auto">
+      <section className="flex justify-center px-6 py-16 bg-white w-full md:px-16">
+        <div className="flex flex-col justify-center items-center gap-8 w-full max-w-[1044px]">
+          <div className="flex flex-col justify-center items-center gap-3">
+            <Typography variant="heading" size={5} className="text-center">
+              Set up your Aurora Chain
+            </Typography>
+            <Typography
+              variant="paragraph"
+              size={2}
+              className="text-center text-slate-500"
+            >
+              Get a production ready Aurora Chain with all the functionalities
+              to start building dapps.
+            </Typography>
+          </div>
+
+          <div className="flex flex-col align-center justify-between gap-4 w-full sm:flex-row">
+            <FeatureItem
+              icon={IconNearSquare}
+              title="Runs on top of NEAR\n Protocol"
+            />
+            <FeatureItem
+              icon={IconEthSquare}
+              title="Full EVM\n compatibility"
+            />
+            <FeatureItem
+              icon={() => <CheckBadgeIcon className="text-green-600 w-8 h-8" />}
+              title="220+ validators\n at launch"
+            />
+            <FeatureItem
+              icon={IconNearIntenseSquare}
+              title="Support from Near\n Intents (cross chain DEX)"
+            />
+          </div>
+        </div>
+      </section>
+
       <BaseContainer className="h-full md:mt-10">
         <div className="relative flex flex-col gap-8">
           <Step
             number={1}
-            title="Select a network type"
-            description="Your network grade determines the level of support, scalability, and features available to your developer team and ecosystem."
-          >
-            <div className="grid md:grid-cols-2 w-full gap-4">
-              <ChainTypeBox
-                disabled={hasDevNet}
-                title="Devnet"
-                description="Get access to a shared Aurora Chain that is an exact replica of the production chain."
-                type="devnet"
-                onClick={() => handleNetworkTypeSelect("devnet")}
-                selected={form.networkType === "devnet"}
-              />
-              <ChainTypeBox
-                title="Mainnet"
-                description="A production ready Aurora Chain with all the functionalities to start building dapps."
-                type="mainnet"
-                onClick={() => handleNetworkTypeSelect("mainnet")}
-                selected={form.networkType === "mainnet"}
-              />
-            </div>
-          </Step>
-          <Step
-            number={2}
             title="Select your chain permissions"
             description="Aurora Cloud lets you choose the level of permission of your chains. Regulated businesses might prefer a permissioned chain as this enables them to gate them by KYC, ensuring compliance with their local regulations."
           >
@@ -128,26 +136,25 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
                 permission="public"
                 onClick={() => handleChainPermissionSelect("public")}
                 selected={form.chainPermission === "public"}
-                disabled={isDevnet}
               />
               <ChainPermissionBox
+                disabled
                 permission="public_permissioned"
                 onClick={() =>
                   handleChainPermissionSelect("public_permissioned")
                 }
                 selected={form.chainPermission === "public_permissioned"}
-                isDevnet={isDevnet}
               />
               <ChainPermissionBox
+                disabled
                 permission="private"
                 onClick={() => handleChainPermissionSelect("private")}
                 selected={form.chainPermission === "private"}
-                disabled={isDevnet}
               />
             </div>
           </Step>
           <Step
-            number={3}
+            number={2}
             title="Select the base token of your chain"
             description="The base token of your chain will be used to pay for transaction fees on your chain. It supports any ERC-20 or NEP-141 token, including your own custom token."
           >
@@ -158,7 +165,6 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
                   selected={form.baseToken === token.id}
                   onClick={() => handleBaseTokenSelect(token)}
                   className="p-2 pt-3"
-                  disabled={isDevnet && token.id !== "aurora"}
                 >
                   <div className="flex flex-col items-center space-y-2 w-full">
                     <token.icon className="w-10 h-10" />
@@ -169,9 +175,49 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
                 </SelectableBox>
               ))}
             </div>
+            {form.baseToken === "custom" ? (
+              <Card className="p-6 mt-6">
+                <Typography variant="label" size={2}>
+                  Custom base token
+                </Typography>
+                <Typography
+                  variant="paragraph"
+                  size={4}
+                  className="text-slate-500"
+                >
+                  A virtual chain can use any token as base token, provided it
+                  has been bridged to Near as an NEP-141 token. For more
+                  information about bridging, you can refer to{" "}
+                  <Link
+                    href="https://auroracloud.dev/terms"
+                    target="_blank"
+                    className="text-green-700 underline"
+                  >
+                    this resource
+                  </Link>{" "}
+                  . This step is not mandatory, as our team is available to
+                  assist you with the process if needed.
+                  <br />
+                  <br />
+                  Please provide more details about your token, such as contract
+                  address, CoinMarketcap/CoinGecko link or any other info if
+                  applicable.
+                </Typography>
+
+                <input
+                  type="text"
+                  id="customTokenDetails"
+                  value={form.chainName}
+                  onChange={(e) => {
+                    updateForm("customTokenDetails", e.target.value)
+                  }}
+                  className="w-full mt-3 p-2 border rounded"
+                />
+              </Card>
+            ) : null}
           </Step>
           <Step
-            number={4}
+            number={3}
             title="Define the gas mechanics"
             description="Aurora Cloud lets you define your chain's gas mechanics, including the option to remove gas fees entirely for your customers."
           >
@@ -180,7 +226,6 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
                 mechanic="usage"
                 onClick={() => handleGasMechanicsSelect("usage")}
                 selected={form.gasMechanics === "usage"}
-                disabled={isDevnet}
               />
               <GasMechanicsBox
                 mechanic="free"
@@ -188,15 +233,15 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
                 selected={form.gasMechanics === "free"}
               />
               <GasMechanicsBox
+                disabled
                 mechanic="custom"
                 onClick={() => handleGasMechanicsSelect("custom")}
                 selected={form.gasMechanics === "custom"}
-                disabled={isDevnet}
               />
             </div>
           </Step>
           <Step
-            number={5}
+            number={4}
             title="Integrations"
             description="These integrations are available from day 1 on your chain."
             actionButton={
@@ -223,77 +268,122 @@ const OnboardingForm = ({ team, hasDevNet }: OnboardingFormProps) => {
               ))}
             </div>
           </Step>
-          {!isDevnet && (
-            <Step
-              number={6}
-              title="Name your chain"
-              description="Unique identifiers will primarily be relevant for internal use to ensure distinction between your chain deployments."
-              hasError={!!fieldErrors?.chainName}
-            >
-              <div className="grid grid-cols-1 space-y-4">
-                <Card className="p-6">
-                  <label
-                    htmlFor="chainName"
-                    className="block font-medium text-md"
-                  >
-                    Desired chain name *
-                  </label>
-                  <p className="text-sm text-slate-500">
-                    Choose the name for your chain on the Aurora Cloud platform.
-                  </p>
-                  <input
-                    type="text"
-                    id="chainName"
-                    value={form.chainName}
-                    onChange={(e) => {
-                      clearErrors()
-                      updateForm("chainName", e.target.value)
-                    }}
-                    className={clsx(
-                      "w-full mt-2 p-2 border rounded",
-                      fieldErrors?.chainName
-                        ? "border-rose-300 bg-rose-50"
-                        : "border-slate-300",
-                    )}
-                  />
-                  {!!fieldErrors?.chainName && (
-                    <p className="mt-2 text-sm text-rose-600">
-                      {fieldErrors.chainName}
-                    </p>
+          <Step
+            number={5}
+            title="Name your chain"
+            description="Unique identifiers will primarily be relevant for internal use to ensure distinction between your chain deployments."
+            hasError={!!fieldErrors?.chainName}
+          >
+            <div className="grid grid-cols-1 space-y-4">
+              <Card className="p-6">
+                <label
+                  htmlFor="chainName"
+                  className="block font-medium text-md"
+                >
+                  Desired chain name *
+                </label>
+                <p className="text-sm text-slate-500">
+                  Choose the name for your chain on the Aurora Cloud platform.
+                </p>
+                <input
+                  type="text"
+                  id="chainName"
+                  value={form.chainName}
+                  onChange={(e) => {
+                    clearErrors()
+                    updateForm("chainName", e.target.value)
+                  }}
+                  className={clsx(
+                    "w-full mt-2 p-2 border rounded",
+                    fieldErrors?.chainName
+                      ? "border-rose-300 bg-rose-50"
+                      : "border-slate-300",
                   )}
-                </Card>
-                <Card className="p-6">
-                  <label
-                    htmlFor="comments"
-                    className="block font-medium text-md"
-                  >
-                    Tell us more about your needs
-                  </label>
-                  <p className="text-sm text-slate-500">
-                    Provide any relevant information related to your request
-                    that will help us better prepare for our call.
+                />
+                {!!fieldErrors?.chainName && (
+                  <p className="mt-2 text-sm text-rose-600">
+                    {fieldErrors.chainName}
                   </p>
-                  <textarea
-                    id="comments"
-                    value={form.comments}
-                    onChange={(e) => updateForm("comments", e.target.value)}
-                    className="w-full mt-2 p-2 border border-slate-300 rounded"
-                    rows={4}
-                  />
-                </Card>
-              </div>
-            </Step>
-          )}
+                )}
+              </Card>
+              <Card className="p-6">
+                <label htmlFor="comments" className="block font-medium text-md">
+                  Tell us more about your needs
+                </label>
+                <p className="text-sm text-slate-500">
+                  Provide any relevant information related to your request that
+                  will help us better prepare for our call.
+                </p>
+                <textarea
+                  id="comments"
+                  value={form.comments}
+                  onChange={(e) => updateForm("comments", e.target.value)}
+                  className="w-full mt-2 p-2 border border-slate-300 rounded"
+                  rows={4}
+                />
+              </Card>
+            </div>
+          </Step>
 
-          <div className="pl-14 mb-16">
+          <Step
+            number={6}
+            title="Summary"
+            description="Confirm your order, and we’ll take care of the rest."
+          >
+            <Card className="p-6">
+              <Summary>
+                <Summary.Item
+                  value="$99.00"
+                  title="Deployment cost"
+                  bulletpoints={[
+                    "Deployment of your own EVM Virtual Chain",
+                    "10,000 transaction credits (you will be required to top up once these credits are consumed)",
+                    "Support from the Aurora team",
+                  ]}
+                />
+                <Summary.Item
+                  value="2-3 work days"
+                  title="Deployment timeframe"
+                />
+                <Summary.Divider />
+                <Summary.Footer text="Total payable now" value="$99.00" />
+              </Summary>
+            </Card>
+          </Step>
+
+          <div className="flex flex-col items-center gap-4 pl-14 mb-16">
             <Button
               fullWidth
               size="xl"
               loading={isSubmitting}
               onClick={handleOnboardingSubmit}
             >
-              {submitButtonText}
+              Checkout and initiate deployment
             </Button>
+
+            <Typography
+              variant="paragraph"
+              size={4}
+              className="text-slate-500 text-center"
+            >
+              By clicking this button, you agree to our{" "}
+              <Link
+                href="https://auroracloud.dev/terms"
+                target="_blank"
+                className="text-slate-900 underline"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="https://auroracloud.dev/privacy"
+                target="_blank"
+                className="text-slate-900 underline"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </Typography>
           </div>
           <div className="absolute top-[calc(2rem+10px)] left-[19px] w-[2px] h-[calc(100%-2rem-10px)] bg-slate-200" />
         </div>

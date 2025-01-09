@@ -2,12 +2,16 @@ import { ComponentType } from "react"
 
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { Integration } from "@/types/chain-creation"
+import { clsx } from "@/uikit"
 
 import {
   IntegrationBridgeWidget,
   IntegrationCexWithdrawalsWidget,
   IntegrationOnramp,
   IntegrationOracle,
+  IntegrationBlockExplorerWidget,
+  IntegrationIntenseSupport,
+  IntegrationDex,
 } from "../../../../../public/static/v2/images/icons"
 
 interface IntegrationBoxProps {
@@ -22,10 +26,13 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
   onToggle,
 }) => {
   const TITLES: Record<Integration, string> = {
-    onramp: "Fiat to crypto",
+    onramp: "Fiat onramp",
     oracle: "Oracle",
-    bridge_widget: "Bridge widget",
+    bridge_widget: "Bridge",
     cex_withdrawals_widget: "CEX withdrawals",
+    block_explorer: "Block explorer",
+    intense_support: "Intense support",
+    dex: "DEX",
   }
 
   const DESCRIPTIONS: Record<Integration, string> = {
@@ -34,9 +41,13 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
     oracle:
       "Access reliable data from over 95 top publishers and integrate precise pricing data.",
     bridge_widget:
-      "Attract liquidity by enabling bridging from other chains and transfers from CEXes to your chain.",
+      "Bridge assets between Ethereum, NEAR and Aurora. Configure your bridge widget and embed it.",
     cex_withdrawals_widget:
       "Allow your users to deposit assets directly from centralized exchanges to your chain.",
+    block_explorer: "Enjoy a blockchain explorer dedicated to your chain.",
+    intense_support:
+      "Enable your chain on Intents, the first cross chain DEX leveraging chain abstraction.",
+    dex: "Create pools...",
   }
 
   const ICONS: Record<
@@ -47,6 +58,9 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
     oracle: IntegrationOracle,
     bridge_widget: IntegrationBridgeWidget,
     cex_withdrawals_widget: IntegrationCexWithdrawalsWidget,
+    block_explorer: IntegrationBlockExplorerWidget,
+    intense_support: IntegrationIntenseSupport,
+    dex: IntegrationDex,
   }
 
   const Icon = ICONS[integration]

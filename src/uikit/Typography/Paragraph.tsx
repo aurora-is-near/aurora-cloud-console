@@ -1,6 +1,6 @@
 import { clsx } from "../clsx"
 
-import { CommonProps } from "./types"
+import type { CommonProps } from "./types"
 
 export type ParagraphProps = CommonProps<"p" | "span"> & {
   size: 2 | 3 | 4

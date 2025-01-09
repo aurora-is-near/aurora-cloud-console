@@ -50,10 +50,10 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
     <SelectableBox
       selected={selected}
       onClick={onClick}
-      className="w-full p-6"
+      className="w-full p-6 gap-2"
       disabled={disabled}
     >
-      <div className="flex items-center mb-2">
+      <div className="flex items-center">
         <div
           className={clsx(
             "w-6 h-6 p-1 rounded-full mr-2 flex items-center justify-center",
@@ -73,6 +73,11 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
         </h3>
       </div>
       <p className="text-sm text-slate-700">{DESCRIPTIONS[mechanic]}</p>
+      {disabled ? (
+        <div className="flex items-center justify-center py-[5px] px-2 rounded-full bg-slate-400">
+          <span className="text-xxs text-white">COMING SOON</span>
+        </div>
+      ) : null}
     </SelectableBox>
   )
 }

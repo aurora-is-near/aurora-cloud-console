@@ -155,6 +155,7 @@ export type Database = {
           chainPermission: string | null
           comments: string | null
           created_at: string
+          customTokenDetails: string | null
           gasMechanics: string | null
           id: number
           integrations: string[] | null
@@ -168,6 +169,7 @@ export type Database = {
           chainPermission?: string | null
           comments?: string | null
           created_at?: string
+          customTokenDetails?: string | null
           gasMechanics?: string | null
           id?: number
           integrations?: string[] | null
@@ -181,6 +183,7 @@ export type Database = {
           chainPermission?: string | null
           comments?: string | null
           created_at?: string
+          customTokenDetails?: string | null
           gasMechanics?: string | null
           id?: number
           integrations?: string[] | null

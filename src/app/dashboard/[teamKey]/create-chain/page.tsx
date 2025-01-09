@@ -19,9 +19,7 @@ const Page = async ({
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-slate-50 flex flex-col">
-      <div className="flex justify-between bg-white full-w border-b-2 border-slate-200 p-6">
-        <div />
-        <span>Set up your Aurora Chain</span>
+      <div className="absolute top-6 right-6 w-6 h-6">
         <Link href={`/dashboard/${teamKey}`}>
           <span className="sr-only">Go back</span>
           <XMarkIcon className="w-7 h-7 text-slate-900" />
