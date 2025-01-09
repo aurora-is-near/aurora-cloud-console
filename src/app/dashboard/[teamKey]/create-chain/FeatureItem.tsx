@@ -1,6 +1,6 @@
 import type { ComponentType, SVGProps } from "react"
 
-import { LineBreak, Typography } from "@/uikit"
+import { NewLineBreaker, Typography } from "@/uikit"
 
 type Props = {
   icon: ComponentType<SVGProps<SVGSVGElement>>
@@ -16,7 +16,7 @@ export const FeatureItem = ({ icon: Icon, title }: Props) => {
         size={3}
         className="text-slate-900 text-center"
       >
-        <LineBreak>{title}</LineBreak>
+        <NewLineBreaker>{title}</NewLineBreaker>
       </Typography>
     </div>
   )

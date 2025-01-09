@@ -4,7 +4,7 @@ type Props = {
   children: string
 }
 
-export const LineBreak = ({ children }: Props) => {
+export const NewLineBreaker = ({ children }: Props) => {
   const textPieces = children.split("\\n")
 
   if (textPieces.length === 1) {
