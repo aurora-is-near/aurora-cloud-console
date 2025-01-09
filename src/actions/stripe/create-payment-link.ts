@@ -52,19 +52,16 @@ export const createPaymentLink = async (
     throw new Error(`No default price set for product: ${product.id}`)
   }
 
-  const session = await stripe.paymentLinks.create({
+  const session = await stripe.checkout.sessions.create({
+    mode: "payment",
+    success_url: callbackUrl,
+    cancel_url: callbackUrl,
     line_items: [
       {
         price: price.id,
         quantity: 1,
       },
     ],
-    after_completion: {
-      type: "redirect",
-      redirect: {
-        url: callbackUrl,
-      },
-    },
     metadata: {
       team_id: teamId,
       product_type: productType,

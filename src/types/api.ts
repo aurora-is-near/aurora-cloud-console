@@ -32,29 +32,26 @@ export type ApiResponseBody<T extends ApiOperation> = ServerInferResponseBody<
   ApiContract[T]
 >
 
-export type ApiRequestBody<T extends ApiOperation> = ServerInferRequest<
-  ApiContract[T]
-> extends {
-  body: infer Body
-}
-  ? Body
-  : never
+export type ApiRequestBody<T extends ApiOperation> =
+  ServerInferRequest<ApiContract[T]> extends {
+    body: infer Body
+  }
+    ? Body
+    : never
 
-export type ApiRequestParams<T extends ApiOperation> = ServerInferRequest<
-  ApiContract[T]
-> extends {
-  params: infer Params
-}
-  ? Params
-  : never
+export type ApiRequestParams<T extends ApiOperation> =
+  ServerInferRequest<ApiContract[T]> extends {
+    params: infer Params
+  }
+    ? Params
+    : never
 
-export type ApiRequestQuery<T extends ApiOperation> = ServerInferRequest<
-  ApiContract[T]
-> extends {
-  query: infer Query
-}
-  ? Query
-  : never
+export type ApiRequestQuery<T extends ApiOperation> =
+  ServerInferRequest<ApiContract[T]> extends {
+    query: infer Query
+  }
+    ? Query
+    : never
 
 export type ApiErrorResponse = {
   type: string

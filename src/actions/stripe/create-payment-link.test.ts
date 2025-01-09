@@ -16,8 +16,10 @@ const stripeMock = {
   prices: {
     retrieve: jest.fn(),
   },
-  paymentLinks: {
-    create: jest.fn(),
+  checkout: {
+    sessions: {
+      create: jest.fn(),
+    },
   },
 }
 
@@ -27,10 +29,6 @@ describe("createPaymentLink", () => {
   beforeEach(() => {
     process.env.STRIPE_SECRET_KEY = stripeSecretKey
     process.env.STRIPE_INITIAL_SETUP_PRODUCT_ID = "test_product_id"
-
-    stripeMock.products.retrieve.mockReset()
-    stripeMock.prices.retrieve.mockReset()
-    stripeMock.paymentLinks.create.mockReset()
   })
 
   it("returns the session URL for a valid product", async () => {
@@ -40,7 +38,7 @@ describe("createPaymentLink", () => {
     })
 
     stripeMock.prices.retrieve.mockResolvedValue({ id: "test_price_id" })
-    stripeMock.paymentLinks.create.mockResolvedValue({
+    stripeMock.checkout.sessions.create.mockResolvedValue({
       url: "https://payment.link/session",
     })
 
@@ -49,19 +47,16 @@ describe("createPaymentLink", () => {
     expect(result).toBe("https://payment.link/session")
     expect(stripeMock.products.retrieve).toHaveBeenCalledWith("test_product_id")
     expect(stripeMock.prices.retrieve).toHaveBeenCalledWith("test_price_id")
-    expect(stripeMock.paymentLinks.create).toHaveBeenCalledWith({
+    expect(stripeMock.checkout.sessions.create).toHaveBeenCalledWith({
+      mode: "payment",
+      cancel_url: callbackUrl,
+      success_url: callbackUrl,
       line_items: [
         {
           price: "test_price_id",
           quantity: 1,
         },
       ],
-      after_completion: {
-        type: "redirect",
-        redirect: {
-          url: callbackUrl,
-        },
-      },
       metadata: {
         team_id: teamId,
         product_type: productType,
@@ -111,7 +106,7 @@ describe("createPaymentLink", () => {
     })
 
     stripeMock.prices.retrieve.mockResolvedValue({ id: "test_price_id" })
-    stripeMock.paymentLinks.create.mockResolvedValue({ url: null })
+    stripeMock.checkout.sessions.create.mockResolvedValue({ url: null })
 
     await expect(
       createPaymentLink(productType, teamId, callbackUrl),
