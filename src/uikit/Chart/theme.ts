@@ -8,6 +8,7 @@ export type Theme = {
     inactive: string
     areaActive: [string, string]
     areaInactive: [string, string]
+    font: string
   }
 }
 
@@ -23,5 +24,6 @@ export const defaultTheme: Theme = {
     inactive: "#CBD5E1",
     areaActive: ["rgba(23, 166, 21, 0.102)", transparentRGBA],
     areaInactive: ["rgba(148, 163, 184, 0.102)", transparentRGBA],
+    font: "#0F172A",
   },
 }
