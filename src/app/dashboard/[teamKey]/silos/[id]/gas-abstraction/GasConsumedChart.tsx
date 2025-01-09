@@ -1,15 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { format, parseISO } from "date-fns"
-import type { UseQueryResult } from "@tanstack/react-query"
 
 import { notReachable } from "@/utils/notReachable"
 import { getQueryFnAndKey } from "@/utils/api/queries"
-import { formatGasValue } from "@/utils/format-gas-value"
 import { getMonthsList } from "@/utils/dates/get-months-list"
-import { getEmptyMonthData } from "@/utils/dates/get-empty-month-data"
 import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
 import {
   Card,
@@ -23,37 +20,13 @@ import {
 import type { DropdownOption } from "@/uikit"
 import type { Silo } from "@/types/types"
 
+const TODAY = new Date()
+
 type Props = {
   silo: Silo
-  baseTokenSymbol: string
 }
 
-const GasCollectedTotal = ({
-  baseTokenSymbol,
-  collectedGasQuery,
-}: {
-  baseTokenSymbol: string
-  collectedGasQuery: UseQueryResult<{
-    count: number
-    items: Array<{ day: string; count: number }>
-  }>
-}) => {
-  switch (collectedGasQuery.status) {
-    case "error":
-    case "pending":
-      return <Skeleton />
-    case "success":
-      return (
-        <Typography variant="heading" size={6}>
-          {formatGasValue(collectedGasQuery.data.count)} {baseTokenSymbol}
-        </Typography>
-      )
-    default:
-      return notReachable(collectedGasQuery)
-  }
-}
-
-export const GasCollectedChart = ({ silo, baseTokenSymbol }: Props) => {
+export const GasConsumedChart = ({ silo }: Props) => {
   const monthsList = getMonthsList(silo.created_at)
   const [filterDate, setFilterDate] = useState<DropdownOption>(
     monthsList[monthsList.length - 1],
@@ -67,18 +40,39 @@ export const GasCollectedChart = ({ silo, baseTokenSymbol }: Props) => {
     }),
   )
 
+  const chartData = useMemo(() => {
+    if (collectedGasQuery.status !== "success") {
+      return []
+    }
+
+    let cumulativeSum = 0
+
+    return collectedGasQuery.data.items.map(({ day, transactionsCount }) => {
+      cumulativeSum += transactionsCount
+
+      return {
+        x: parseISO(day),
+        y: cumulativeSum,
+      }
+    })
+  }, [collectedGasQuery.data, collectedGasQuery.status])
+
   return (
     <Card>
       <div className="flex flex-col gap-2">
         <header className="flex justify-between items-center">
           <div className="flex flex-col gap-y-2">
-            <Label tooltip="Gas is charged in the base token of your Virtual Chain, and you can adjust the gas fee value below.">
-              Gas collected
-            </Label>
-            <GasCollectedTotal
-              baseTokenSymbol={baseTokenSymbol}
-              collectedGasQuery={collectedGasQuery}
-            />
+            <Label>Monthly transactions</Label>
+            {collectedGasQuery.status !== "success" ? (
+              <Skeleton />
+            ) : (
+              <Typography variant="heading" size={6}>
+                {`${new Intl.NumberFormat(undefined).format(
+                  collectedGasQuery.data.transactionsCount,
+                )} / `}
+                <span className="text-slate-500">Unlimited</span>
+              </Typography>
+            )}
           </div>
           <Dropdown
             options={monthsList}
@@ -94,10 +88,7 @@ export const GasCollectedChart = ({ silo, baseTokenSymbol }: Props) => {
                 return (
                   <div className="w-full relative">
                     <Loading className="absolute top-1/3 left-1/2 -ml-10" />
-                    <Chart.Bar
-                      plugins={["minimizeLabels"]}
-                      data={getEmptyMonthData(filterDate.value, "MMM dd")}
-                    />
+                    <Chart.LineDates data={[]} plugins={["minimizeLabels"]} />
                   </div>
                 )
               case "error":
@@ -117,22 +108,15 @@ export const GasCollectedChart = ({ silo, baseTokenSymbol }: Props) => {
                         Try again
                       </button>
                     </Typography>
-                    <Chart.Bar
-                      plugins={["minimizeLabels"]}
-                      data={getEmptyMonthData(filterDate.value, "MMM dd")}
-                    />
+                    <Chart.LineDates data={[]} plugins={["minimizeLabels"]} />
                   </div>
                 )
               case "success":
                 return (
-                  <Chart.Bar
-                    plugins={["minimizeLabels"]}
-                    data={collectedGasQuery.data.items.map(
-                      ({ day, count }) => ({
-                        x: format(parseISO(day), "MMM d"),
-                        y: count,
-                      }),
-                    )}
+                  <Chart.LineDates
+                    data={chartData}
+                    plugins={["showTodayLine", "minimizeLabels"]}
+                    showPoints={(label) => label === format(TODAY, "MMM d")}
                   />
                 )
               default:

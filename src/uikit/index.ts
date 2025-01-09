@@ -1,8 +1,8 @@
 export * from "./clsx"
 
-export * from "./BarChart"
 export * from "./Button"
 export * from "./Card"
+export * from "./Chart"
 export * from "./CardProgress"
 export * from "./Dropdown"
 export * from "./InfoList"

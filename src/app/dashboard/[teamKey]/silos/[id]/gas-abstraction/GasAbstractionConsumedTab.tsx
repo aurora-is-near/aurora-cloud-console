@@ -2,6 +2,7 @@
 
 import type { Silo } from "@/types/types"
 
+import { GasConsumedChart } from "./GasConsumedChart"
 import { GasConsumedMonthToDate } from "./GasConsumedMonthToDate"
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 export const GasAbstractionConsumedTab = ({ silo }: Props) => {
   return (
     <section className="w-full space-y-5">
+      <GasConsumedChart silo={silo} />
       <GasConsumedMonthToDate silo={silo} />
     </section>
   )
