@@ -41,7 +41,6 @@ export const IntegrationsPage = ({
       description:
         "Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum.",
       icon: <UniversalWidget />,
-      checked: true,
       link: "/dashboard/[teamKey]/silos/[id]/onramp/universal-widget",
     },
     {
@@ -49,7 +48,6 @@ export const IntegrationsPage = ({
       description:
         "Enable your users to onramp from fiat to crypto directly on your silo.",
       icon: <Onramp />,
-      checked: true,
       link: "/dashboard/[teamKey]/silos/[id]/onramp/fiat-to-crypto",
     },
     {
@@ -57,7 +55,6 @@ export const IntegrationsPage = ({
       description:
         "Allow your users to deposit assets directly from centralized exchanges to your chain.",
       icon: <CexWithdrawals />,
-      checked: true,
       link: "/dashboard/[teamKey]/silos/[id]/onramp/universal-widget",
     },
     {
@@ -72,7 +69,6 @@ export const IntegrationsPage = ({
       title: "Block Explorer",
       description: "Enjoy a blockchain explorer dedicated to your chain.",
       icon: <BlockExplorer />,
-      checked: true,
       link: "/dashboard/[teamKey]/silos/[id]/block-explorer",
     },
     {
@@ -89,7 +85,6 @@ export const IntegrationsPage = ({
           <GasAbstraction />
         </div>
       ),
-      checked: true,
       link: "/dashboard/[teamKey]/silos/[id]/gas-abstraction",
     },
   ]
