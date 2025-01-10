@@ -9,6 +9,9 @@ export type Integration =
   | "oracle"
   | "bridge_widget"
   | "cex_withdrawals_widget"
+  | "block_explorer"
+  | "intense_support"
+  | "dex"
 
 export interface TokenOption {
   id: string

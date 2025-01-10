@@ -30,10 +30,13 @@ import {
 } from "../../public/static/v2/images/icons"
 
 export const integrationOptions: Integration[] = [
-  "onramp",
-  "oracle",
+  "block_explorer",
   "bridge_widget",
+  "onramp",
   "cex_withdrawals_widget",
+  "oracle",
+  "intense_support",
+  "dex",
 ]
 
 export const tokenOptions: TokenOption[] = [
@@ -54,28 +57,31 @@ interface ChainCreationForm {
   chainName: string
   chainId: string
   comments: string
+  customTokenDetails: string
 }
 
 const initialFormDevNet: ChainCreationForm = {
-  networkType: "devnet",
-  chainPermission: "public_permissioned",
-  baseToken: "aurora",
-  gasMechanics: "free",
-  integrations: [],
-  chainName: "",
-  chainId: "",
-  comments: "",
-}
-
-const initialFormMainNet: ChainCreationForm = {
   networkType: "mainnet",
-  chainPermission: null,
+  chainPermission: "public",
   baseToken: null,
   gasMechanics: null,
   integrations: [],
   chainName: "",
   chainId: "",
   comments: "",
+  customTokenDetails: "",
+}
+
+const initialFormMainNet: ChainCreationForm = {
+  networkType: "mainnet",
+  chainPermission: "public",
+  baseToken: null,
+  gasMechanics: null,
+  integrations: [],
+  chainName: "",
+  chainId: "",
+  comments: "",
+  customTokenDetails: "",
 }
 
 type ErrorName =
@@ -203,11 +209,6 @@ export const useChainCreationForm = (
     window.location.href = paymentLink
   }, [form, team])
 
-  const submitButtonText =
-    form.networkType === "mainnet"
-      ? "Save my results and book a call"
-      : "Deploy now"
-
   return {
     form,
     fieldErrors,
@@ -216,6 +217,5 @@ export const useChainCreationForm = (
     handleIntegrationToggle,
     handleDeselectAllIntegrations,
     handleSubmit,
-    submitButtonText,
   }
 }

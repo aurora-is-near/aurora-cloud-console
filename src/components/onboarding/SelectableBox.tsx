@@ -22,10 +22,10 @@ const SelectableBox: React.FC<SelectableBoxProps> = ({
         "inline-flex flex-col justify-start align-top text-left rounded-lg transition-colors duration-200",
         selected
           ? "ring-2 ring-green-600 bg-green-50 shadow-3xl"
-          : "ring-1 ring-slate-300",
+          : "ring-1 ring-slate-300 bg-white",
         disabled
           ? "border-slate-300 bg-slate-50 cursor-not-allowed text-slate-500"
-          : "bg-white transition-shadow transition-border-color hover:transition-shadow hover:transition-border-color hover:shadow-3xl hover:border-slate-300",
+          : "transition-shadow transition-border-color hover:transition-shadow hover:transition-border-color hover:shadow-3xl hover:border-slate-300",
         className,
       )}
       onClick={onClick}
