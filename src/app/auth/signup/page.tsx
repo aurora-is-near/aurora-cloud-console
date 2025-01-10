@@ -5,9 +5,7 @@ import { AuthHeading } from "@/components/AuthHeading"
 const Page = () => {
   return (
     <>
-      <div className="flex md:hidden pb-10">
-        <AuroraLogo />
-      </div>
+      <AuroraLogo className="flex md:hidden pb-10" />
       <AuthHeading className="mb-5 text-2xl lg:text-5xl">
         Create account
       </AuthHeading>

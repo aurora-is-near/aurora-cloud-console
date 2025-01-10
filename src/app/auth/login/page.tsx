@@ -5,9 +5,7 @@ import { AuthHeading } from "@/components/AuthHeading"
 const Page = () => {
   return (
     <>
-      <div className="flex md:hidden pb-10">
-        <AuroraLogo />
-      </div>
+      <AuroraLogo className="flex md:hidden pb-10" />
       <AuthHeading className="mb-9 text-2xl lg:text-5xl">Sign in</AuthHeading>
       <span className="text-base text-slate-400 mb-5">
         Enter your email to receive a sign-in link.
