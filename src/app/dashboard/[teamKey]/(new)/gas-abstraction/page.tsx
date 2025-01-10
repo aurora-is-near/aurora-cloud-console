@@ -1,9 +1,5 @@
 import { GasAbstractionPage } from "@/components/GasAbstractionPage"
 
-const Page = async ({
-  params: { teamKey },
-}: {
-  params: { teamKey: string }
-}) => <GasAbstractionPage teamKey={teamKey} />
+const Page = async () => <GasAbstractionPage />
 
 export default Page
