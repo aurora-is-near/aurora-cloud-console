@@ -122,9 +122,8 @@ export const DashboardHomePage = ({
                     none: (
                       <FeatureCTAList>
                         <FeatureCTA
-                          title="Set up your Devnet"
-                          description="Get access to a shared Aurora Chain identical to the production
-                        ones."
+                          title="Launch a Virtual Chain"
+                          description="Get a production ready Aurora Chain with all the functionality."
                           icon="/static/v2/images/examples/devnet.png"
                           link={`/dashboard/${teamKey}/create-chain`}
                         />
