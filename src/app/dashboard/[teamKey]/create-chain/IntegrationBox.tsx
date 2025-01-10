@@ -30,23 +30,23 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
     bridge_widget: "Bridge",
     cex_withdrawals_widget: "CEX withdrawals",
     block_explorer: "Block explorer",
-    intense_support: "Intense support",
-    dex: "DEX",
+    intense_support: "Intents listing",
+    dex: "DEX by Trisolaris",
   }
 
   const DESCRIPTIONS: Record<Integration, string> = {
     onramp:
-      "Enable your users to onramp from fiat to crypto directly on your silo.",
+      "Enable your users to onramp from fiat to crypto directly on your chain.",
     oracle:
       "Access reliable data from over 95 top publishers and integrate precise pricing data.",
     bridge_widget:
-      "Bridge assets between Ethereum, NEAR and Aurora. Configure your bridge widget and embed it.",
+      "Bridge assets between Ethereum, Near, Aurora and your chain. Configure your bridge widget and embed it.",
     cex_withdrawals_widget:
-      "Allow your users to deposit assets directly from centralized exchanges to your chain.",
+      "Access reliable data from over 95 top publishers and integrate precise pricing data.",
     block_explorer: "Enjoy a blockchain explorer dedicated to your chain.",
     intense_support:
-      "Enable your chain on Intents, the first cross chain DEX leveraging chain abstraction.",
-    dex: "Create pools...",
+      "Get your chain listed on Intents, the first cross chain DEX leveraging chain abstraction and connect to Near, Solana, Base, Ethereum and all the virtual chains.",
+    dex: "Create pools on your chain and start trading on Trisolaris.",
   }
 
   const ICONS: Record<

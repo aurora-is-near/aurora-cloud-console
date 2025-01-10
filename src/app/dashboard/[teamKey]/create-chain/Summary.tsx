@@ -1,10 +1,11 @@
 import type { PropsWithChildren } from "react"
 
-import { Typography } from "@/uikit"
+import { NewLineBreaker, Typography } from "@/uikit"
 
 type ItemProps = {
   value: string
   title: string
+  description?: string
   bulletpoints?: string[]
 }
 
@@ -12,12 +13,17 @@ const Container = ({ children }: PropsWithChildren) => (
   <div className="flex flex-col gap-6">{children}</div>
 )
 
-const Item = ({ title, value, bulletpoints }: ItemProps) => (
+const Item = ({ title, value, description, bulletpoints }: ItemProps) => (
   <div className="flex justify-between">
     <div className="flex flex-col gap-2">
       <Typography variant="label" size={3}>
         {title}
       </Typography>
+      {description ? (
+        <Typography variant="paragraph" size={4} className="text-slate-600">
+          <NewLineBreaker>{description}</NewLineBreaker>
+        </Typography>
+      ) : null}
       {bulletpoints ? (
         <ul className="flex flex-col gap-1 pl-2">
           {bulletpoints.map((text) => (
