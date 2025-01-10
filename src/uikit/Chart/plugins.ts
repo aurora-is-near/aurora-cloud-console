@@ -1,4 +1,5 @@
 import type { Chart } from "chart.js"
+import { format } from "date-fns"
 
 import { defaultTheme } from "./theme"
 import type { Label } from "./types"
@@ -23,6 +24,7 @@ export const showTodayLine = ({ xIndex, yValue, pointRadius = 5 }: Props) => ({
     const todayXPos = xScale.getPixelForValue(xIndex)
     const todayYPos = yScale.getPixelForValue(yValue)
 
+    // Draw vertical line
     ctx.save()
     ctx.beginPath()
     ctx.moveTo(todayXPos, yScale.getPixelForValue(yScale.min))
@@ -31,16 +33,24 @@ export const showTodayLine = ({ xIndex, yValue, pointRadius = 5 }: Props) => ({
     ctx.strokeStyle = defaultTheme.colors.inactive
     ctx.stroke()
     ctx.restore()
+
+    // Draw date label
+    ctx.save()
+    ctx.font = "12px sans-serif"
+    ctx.fillStyle = defaultTheme.colors.font
+    ctx.textAlign = "center"
+
+    const label = format(new Date(), "MMM d")
+    const labelY = yScale.getPixelForValue(yScale.min) + 20 // Position below the line
+
+    ctx.fillText(label, todayXPos, labelY)
+    ctx.restore()
   },
 })
 
 export const minimizeLabels =
   (labels: Label[]) => (_value: string | number, index: number) => {
-    if (
-      index === 0 ||
-      index === labels.length - 1 ||
-      index === Math.floor(labels.length / 2)
-    ) {
+    if (index === 0 || index === labels.length - 1) {
       return labels[index]
     }
 
