@@ -53,11 +53,11 @@ export const DashboardHomePage = ({
         hasDivider
         title={!silo ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`}
         description={getNetworkVariant(silo, {
-          none: "Get all the infrastructure and integrations needed to start your dApp. Validators, oracles, onramps—all come ready to be pre-configured on your chain, freeing up your time and resources to focus on what really matters: your dApp!",
+          none: "Launch your own Virtual Chain and start building! Configure your chain, setup onramp, bridges, gas abstraction... all from the Aurora Cloud Console.",
           devnet:
             "You now have access to a shared Aurora Chain identical to production. Test transactions, explore integrations, and simulate real-world scenarios in a risk-free environment.",
           mainnet:
-            "Welcome to your chain’s control center—monitor data, manage gas mechanics, and configure integrations effortlessly. Maintain control as you optimize performance and ensure smooth operations on the live network.",
+            "Launch your own Virtual Chain and start building! Configure your chain, setup onramp, bridges, gas abstraction... all from the Aurora Cloud Console.",
         })}
         image={getNetworkVariant(silo, {
           none: (
@@ -91,7 +91,7 @@ export const DashboardHomePage = ({
           none: (
             <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
               <PlusIcon className="h-4 w-4" />
-              <span>Create Aurora Chain</span>
+              <span>Launch a Virtual Chain</span>
             </LinkButton>
           ),
           devnet: (

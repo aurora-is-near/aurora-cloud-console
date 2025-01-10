@@ -24,8 +24,8 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
 
   const DESCRIPTIONS: Record<GasMechanics, string> = {
     usage:
-      "Gas fees are calculated based on the transaction size and charged to the end user.",
-    free: "All gas fees are abstracted for end users. The chain owner is responsible for covering these costs.",
+      "Gas fees are calculated based on the transaction size and charged to the end user in the base token.",
+    free: "All gas fees are abstracted for end users. The chain administrator is responsible for covering these costs.",
     custom:
       "You can select who gets free transactions and under what conditions.",
   }

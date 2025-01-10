@@ -99,7 +99,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
               className="text-center text-slate-500"
             >
               Get a production ready Aurora Chain with all the functionalities
-              to start building dapps.
+              to start building.
             </Typography>
           </div>
 
@@ -242,8 +242,8 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
           </Step>
           <Step
             number={4}
-            title="Integrations"
-            description="These integrations are available from day 1 on your chain."
+            title="Select integrations"
+            description="Select which integrations you'd like on your chain. Our team will then help you configure them for the launch."
             actionButton={
               !!form.integrations.length && (
                 <Button
@@ -270,8 +270,8 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
           </Step>
           <Step
             number={5}
-            title="Name your chain"
-            description="Unique identifiers will primarily be relevant for internal use to ensure distinction between your chain deployments."
+            title="Additional information"
+            description="We need a few more details to get started."
             hasError={!!fieldErrors?.chainName}
           >
             <div className="grid grid-cols-1 space-y-4">
@@ -280,7 +280,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
                   htmlFor="chainName"
                   className="block font-medium text-md"
                 >
-                  Desired chain name *
+                  Your chain name*
                 </label>
                 <p className="text-sm text-slate-500">
                   Choose the name for your chain on the Aurora Cloud platform.
@@ -312,7 +312,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
                 </label>
                 <p className="text-sm text-slate-500">
                   Provide any relevant information related to your request that
-                  will help us better prepare for our call.
+                  will help us better support us.
                 </p>
                 <textarea
                   id="comments"
@@ -334,11 +334,12 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
               <Summary>
                 <Summary.Item
                   value="$99.00"
-                  title="Deployment cost"
+                  title="Transaction credits"
+                  description="We do not charge a deployment fee! Your deposit will be used towards transaction credits for your chain.\n\n What you get:"
                   bulletpoints={[
                     "Deployment of your own EVM Virtual Chain",
-                    "10,000 transaction credits (you will be required to top up once these credits are consumed)",
-                    "Support from the Aurora team",
+                    "20,000 transaction credits (you will be required to top up once these credits are consumed)",
+                    "Support from the Aurora team for technical question and go to market strategy",
                   ]}
                 />
                 <Summary.Item
