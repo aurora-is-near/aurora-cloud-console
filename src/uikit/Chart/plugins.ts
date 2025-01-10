@@ -50,11 +50,7 @@ export const showTodayLine = ({ xIndex, yValue, pointRadius = 5 }: Props) => ({
 
 export const minimizeLabels =
   (labels: Label[]) => (_value: string | number, index: number) => {
-    if (
-      index === 0 ||
-      index === labels.length - 1 ||
-      index === Math.floor(labels.length / 2)
-    ) {
+    if (index === 0 || index === labels.length - 1) {
       return labels[index]
     }
 
