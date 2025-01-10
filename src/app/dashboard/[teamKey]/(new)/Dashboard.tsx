@@ -10,34 +10,11 @@ import { DashboardPage } from "@/components/DashboardPage"
 
 import { notReachable } from "@/utils/notReachable"
 import { DeploymentProgress } from "./DeploymentProgress"
-import FeatureList, { FeatureBanner } from "./FeatureList"
-import {
-  Partner1,
-  Partner2,
-  Partner3,
-} from "../../../../../public/static/v2/images/icons"
 
 type DashboardHomePageProps = {
   team: Team
   silo?: Silo | null
 }
-
-const meetingLink = "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
-
-const features: FeatureBanner[] = [
-  {
-    icon: <Partner1 />,
-    title: "Dedicated integration team",
-  },
-  {
-    icon: <Partner2 />,
-    title: "Expert consultancy and guidance",
-  },
-  {
-    icon: <Partner3 />,
-    title: "Community marketing",
-  },
-]
 
 // https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=3775-10045&t=PGhHmzDnXi5hsRI0-0
 export const DashboardHomePage = ({
@@ -193,31 +170,6 @@ export const DashboardHomePage = ({
               return notReachable(team.onboarding_status)
           }
         })()}
-
-        <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100">
-          <div className="flex flex-col lg:flex-row justify-between">
-            <div className="flex flex-col">
-              <span className="text-green-900 text-xs font-bold uppercase tracking-widest">
-                Aurora Labs
-              </span>
-              <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6">
-                Your dedicated development team
-              </h2>
-            </div>
-
-            <LinkButton
-              href={meetingLink}
-              target="_blank"
-              variant="border"
-              size="lg"
-              className="mt-4 lg:mt-0"
-            >
-              Book a call
-            </LinkButton>
-          </div>
-
-          <FeatureList features={features} />
-        </div>
       </section>
     </DashboardPage>
   )
