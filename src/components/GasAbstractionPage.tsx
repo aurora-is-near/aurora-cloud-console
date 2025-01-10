@@ -2,9 +2,7 @@ import Image from "next/image"
 import { ReactNode } from "react"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
-import Contact from "@/components/Contact"
 import { Silo } from "@/types/types"
-import { getNetworkVariant } from "@/utils/get-network-variant"
 
 type GasAbstractionPageProps = {
   teamKey: string
@@ -32,30 +30,7 @@ export const GasAbstractionPage = async ({
           />
         }
       />
-      <div className="flex flex-col gap-14">
-        {children}
-        <Contact
-          text={getNetworkVariant(silo, {
-            none: "Want to create your own plan?",
-            devnet: "Want to create your own plan?",
-            mainnet: "Need help configuring your plans?",
-          })}
-          description={getNetworkVariant(silo, {
-            none: "Set up devnet or mainnet chain on Aurora Cloud.",
-            devnet: "Upgrade your chain to mainnet.",
-            mainnet: "Reach out to our support team to get assistance.",
-          })}
-          teamKey={teamKey}
-          button={getNetworkVariant(silo, {
-            none: {
-              text: "Create chain",
-              href: `/dashboard/${teamKey}/create-chain`,
-            },
-            devnet: undefined,
-            mainnet: undefined,
-          })}
-        />
-      </div>
+      <div className="flex flex-col gap-14">{children}</div>
     </DashboardPage>
   )
 }
