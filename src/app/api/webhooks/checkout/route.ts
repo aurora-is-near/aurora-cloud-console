@@ -7,6 +7,7 @@ import { createPrivateApiEndpoint } from "@/utils/api"
 import { ProductType } from "@/types/products"
 import { PRODUCT_TYPES } from "@/constants/products"
 import { assertValidSupabaseResult } from "@/utils/supabase"
+import { sendSlackMessage } from "@/utils/send-slack-notification"
 
 type WebhookResponse = {
   fulfilled: boolean
@@ -54,6 +55,9 @@ const fulfillOrder = async (
       .from("teams")
       .update({ onboarding_status: "REQUEST_RECEIVED" })
       .eq("id", teamId),
+    sendSlackMessage({
+      text: `Payment received for team ID: ${teamId}`,
+    }),
   ])
 
   assertValidSupabaseResult(ordersResult)
