@@ -23,7 +23,7 @@ const Layout = async ({
   const silos = await getTeamSilos(team.id)
   const silo = silos.find((siloPredicate) => siloPredicate.id === Number(id))
 
-  // Protect against unauthorised access to another team's silo
+  // Protect against unauthorized access to another team's silo
   if (!silo) {
     notFound()
   }
@@ -34,7 +34,11 @@ const Layout = async ({
       silo={silo}
       deals={deals}
       showAdminMenu={isAdminUser}
-      sidebarAction={<SiloSelect defaultValue={Number(id)} silos={silos} />}
+      sidebarAction={
+        silos.length > 1 ? (
+          <SiloSelect defaultValue={Number(id)} silos={silos} />
+        ) : undefined
+      }
     >
       {children}
     </MainDashboardLayout>
