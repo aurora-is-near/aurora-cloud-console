@@ -59,6 +59,7 @@ export const getConfig = ({
 
   if (showAreaGradient) {
     options.plugins = {
+      ...options.plugins,
       filler: {
         propagate: true,
       },
@@ -77,6 +78,9 @@ export const getConfig = ({
       cubicInterpolationMode: "monotone",
       pointBackgroundColor: theme.colors.main,
       borderWidth: 1.5,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      pointHitRadius: 10,
     }
 
     if (hasData) {
