@@ -18,7 +18,11 @@ type WebhookResponse = {
   paymentId?: number
 }
 
-const sendSlackNotification = async (teamId: number, team?: Team | null) => {
+const sendSlackNotification = async (
+  session: Stripe.Checkout.Session,
+  teamId: number,
+  team?: Team | null,
+) => {
   const summary = `Payment received for the "${
     team?.name ?? "Unknown"
   }" team (ACC ID: ${teamId})`
@@ -39,7 +43,14 @@ const sendSlackNotification = async (teamId: number, team?: Team | null) => {
       {
         type: "section",
         text: {
-          text: `*Customer Email Address*\n${"example@example.com"}`,
+          text: `*Customer Name*\n${session.customer_details?.name ?? "Unknown"}`,
+          type: "mrkdwn",
+        },
+      },
+      {
+        type: "section",
+        text: {
+          text: `*Customer Email Address*\n${session.customer_details?.email ?? "Unknown"}`,
           type: "mrkdwn",
         },
       },
@@ -99,7 +110,7 @@ const fulfillOrder = async (
       .eq("id", teamId)
       .select()
       .single(),
-    sendSlackNotification(teamId, team),
+    sendSlackNotification(session, teamId, team),
   ])
 
   assertValidSupabaseResult(ordersResult)
