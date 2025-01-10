@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { isAdmin } from "@/actions/is-admin"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
+import { SiloSelect } from "@/components/SiloSelect"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
 
@@ -22,7 +23,7 @@ const Layout = async ({
   const silos = await getTeamSilos(team.id)
   const silo = silos.find((siloPredicate) => siloPredicate.id === Number(id))
 
-  // Protect against unauthorised access to another team's silo
+  // Protect against unauthorized access to another team's silo
   if (!silo) {
     notFound()
   }
@@ -33,6 +34,11 @@ const Layout = async ({
       silo={silo}
       deals={deals}
       showAdminMenu={isAdminUser}
+      sidebarAction={
+        silos.length > 1 ? (
+          <SiloSelect defaultValue={Number(id)} silos={silos} />
+        ) : undefined
+      }
     >
       {children}
     </MainDashboardLayout>
