@@ -18,7 +18,7 @@ type MainDashboardLayoutProps = {
   deals?: Deal[]
   showAdminMenu: boolean
   children: ReactNode
-  sidebarAction: JSX.Element
+  sidebarAction?: JSX.Element
 }
 
 export const MainDashboardLayout = async ({

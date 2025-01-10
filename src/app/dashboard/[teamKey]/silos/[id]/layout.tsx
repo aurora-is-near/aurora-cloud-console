@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 import { isAdmin } from "@/actions/is-admin"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
-import { SiloSelect } from "@/components/SiloSelect"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
 
@@ -34,7 +33,6 @@ const Layout = async ({
       silo={silo}
       deals={deals}
       showAdminMenu={isAdminUser}
-      sidebarAction={<SiloSelect defaultValue={Number(id)} silos={silos} />}
     >
       {children}
     </MainDashboardLayout>
