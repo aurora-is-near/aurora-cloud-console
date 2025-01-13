@@ -40,7 +40,7 @@
     "date-fns": "^2.30.0",
     "debug": "^4.3.4",
     "eases": "^1.0.8",
-    "ethers": "6.11.1",
+    "ethers": "6.13.5",
     "http-status": "^1.7.3",
     "human-date": "^1.4.0",
     "next": "^14.2.21",
