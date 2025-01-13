@@ -9,6 +9,7 @@ import { getNetworkVariant } from "@/utils/get-network-variant"
 import { DashboardPage } from "@/components/DashboardPage"
 
 import { notReachable } from "@/utils/notReachable"
+import { MEETING_LINK } from "@/constants/meeting"
 import { DeploymentProgress } from "./DeploymentProgress"
 import FeatureList, { FeatureBanner } from "./FeatureList"
 import {
@@ -21,8 +22,6 @@ type DashboardHomePageProps = {
   team: Team
   silo?: Silo | null
 }
-
-const meetingLink = "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
 
 const features: FeatureBanner[] = [
   {
@@ -206,7 +205,7 @@ export const DashboardHomePage = ({
             </div>
 
             <LinkButton
-              href={meetingLink}
+              href={MEETING_LINK}
               target="_blank"
               variant="border"
               size="lg"
