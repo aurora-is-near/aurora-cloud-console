@@ -113,7 +113,7 @@
     "supabase": "^2.2.1",
     "tailwindcss": "^3.4.13",
     "ts-jest": "^29.2.5",
-    "typescript": "5.1.6"
+    "typescript": "5.7.3"
   },
   "resolutions": {
     "strip-ansi": "^6.0.1",
