@@ -7,11 +7,63 @@ import { createPrivateApiEndpoint } from "@/utils/api"
 import { ProductType } from "@/types/products"
 import { PRODUCT_TYPES } from "@/constants/products"
 import { assertValidSupabaseResult } from "@/utils/supabase"
+import { sendSlackMessage } from "@/utils/send-slack-notification"
+import { getTeam } from "@/actions/teams/get-team"
+import { logger } from "@/logger"
+import { Team } from "@/types/types"
 
 type WebhookResponse = {
   fulfilled: boolean
   teamId: number
   paymentId?: number
+}
+
+const sendSlackNotification = async (
+  session: Stripe.Checkout.Session,
+  teamId: number,
+  team?: Team | null,
+) => {
+  const summary = `Payment received for the "${
+    team?.name ?? "Unknown"
+  }" team (ACC ID: ${teamId})`
+
+  await sendSlackMessage({
+    text: summary,
+    blocks: [
+      {
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: summary,
+        },
+      },
+      {
+        type: "divider",
+      },
+      {
+        type: "section",
+        text: {
+          text: `*Customer Name*\n${session.customer_details?.name ?? "Unknown"}`,
+          type: "mrkdwn",
+        },
+      },
+      {
+        type: "section",
+        text: {
+          text: `*Customer Email Address*\n${session.customer_details?.email ?? "Unknown"}`,
+          type: "mrkdwn",
+        },
+      },
+    ],
+  })
+}
+
+const safeGetTeam = async (teamId: number) => {
+  try {
+    return await getTeam(teamId)
+  } catch (error) {
+    logger.error(`Failed to get team with ID: ${teamId}`, error)
+  }
 }
 
 const createPayment = async (
@@ -41,6 +93,8 @@ const fulfillOrder = async (
   teamId: number,
 ) => {
   const supabase = createAdminSupabaseClient()
+  const team = await safeGetTeam(teamId)
+
   const [ordersResult] = await Promise.all([
     supabase
       .from("orders")
@@ -53,7 +107,10 @@ const fulfillOrder = async (
     supabase
       .from("teams")
       .update({ onboarding_status: "REQUEST_RECEIVED" })
-      .eq("id", teamId),
+      .eq("id", teamId)
+      .select()
+      .single(),
+    sendSlackNotification(session, teamId, team),
   ])
 
   assertValidSupabaseResult(ordersResult)

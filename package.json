@@ -67,6 +67,7 @@
   "devDependencies": {
     "@aurora-is-near/eslint-config": "^1.4.1",
     "@jest/globals": "^29.7.0",
+    "@slack/types": "^2.14.0",
     "@svgr/webpack": "^8.1.0",
     "@swc/core": "^1.9.3",
     "@swc/jest": "^0.2.37",
