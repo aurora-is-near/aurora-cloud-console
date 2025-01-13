@@ -1,9 +1,11 @@
 import { SignUpForm } from "@/app/auth/signup/SignUpForm"
+import AuroraLogo from "@/components/AuroraLogo"
 import { AuthHeading } from "@/components/AuthHeading"
 
 const Page = () => {
   return (
     <>
+      <AuroraLogo className="flex md:hidden pb-10" />
       <AuthHeading className="mb-5 text-2xl lg:text-5xl">
         Create account
       </AuthHeading>

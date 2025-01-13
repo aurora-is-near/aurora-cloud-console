@@ -4,13 +4,13 @@ import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { GasAbstractionPage } from "@/components/GasAbstractionPage"
+import { GasAbstractionAboutTab } from "@/components/GasAbstraction/AboutTab"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { canCreateDeal } from "@/utils/can-create-deal"
 
 import { GasAbstractionPlansTab } from "./GasAbstractionPlansTab"
 import { GasAbstractionConsumedTab } from "./GasAbstractionConsumedTab"
 import { GasAbstractionCollectedTab } from "./GasAbstractionCollectedTab"
-import { GasAbstractionAboutTab } from "./GasAbstractionAboutTab"
 import AddPlanModal from "./AddPlanModal"
 
 const Page = async ({

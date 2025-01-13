@@ -17,18 +17,25 @@ export const InputWrapper = <Inputs extends Record<string, unknown>>({
   children,
   errors,
   className,
-}: InputWrapperProps<Inputs>) => (
-  <div className={className}>
-    <label htmlFor={id} className="py-2 flex text-sm font-medium leading-none">
-      {label}
-    </label>
-    <div className="w-full">
-      {children}
-      {!!errors?.[inputName]?.message && (
-        <p className="mt-1.5 text-sm font-medium text-red-500">
-          {errors[inputName]?.message?.toString()}
-        </p>
-      )}
+}: InputWrapperProps<Inputs>) => {
+  const errorMessage = errors?.[inputName]?.message
+
+  return (
+    <div className={className}>
+      <label
+        htmlFor={id}
+        className="py-2 flex text-sm font-medium leading-none"
+      >
+        {label}
+      </label>
+      <div className="w-full">
+        {children}
+        {!!errorMessage && (
+          <p className="mt-1.5 text-sm font-medium text-red-500">
+            {String(errorMessage)}
+          </p>
+        )}
+      </div>
     </div>
-  </div>
-)
+  )
+}
