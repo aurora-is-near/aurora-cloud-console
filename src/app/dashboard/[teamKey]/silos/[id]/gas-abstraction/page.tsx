@@ -68,7 +68,7 @@ const Page = async ({
 
   return (
     <>
-      <GasAbstractionPage teamKey={teamKey} silo={silo}>
+      <GasAbstractionPage>
         <Tabs tabs={tabs} />
       </GasAbstractionPage>
       <AddPlanModal team={team} />

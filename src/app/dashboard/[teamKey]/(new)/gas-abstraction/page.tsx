@@ -2,12 +2,8 @@ import { Tabs } from "@/components/Tabs/Tabs"
 import { GasAbstractionPage } from "@/components/GasAbstractionPage"
 import { GasAbstractionAboutTab } from "@/components/GasAbstraction/AboutTab"
 
-const Page = async ({
-  params: { teamKey },
-}: {
-  params: { teamKey: string }
-}) => (
-  <GasAbstractionPage teamKey={teamKey}>
+const Page = async () => (
+  <GasAbstractionPage>
     <Tabs
       tabs={[
         {
