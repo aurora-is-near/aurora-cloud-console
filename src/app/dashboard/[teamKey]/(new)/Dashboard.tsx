@@ -14,7 +14,7 @@ import { StepCard } from "./StepCard"
 import { TopupStep } from "./TopupStep"
 import { WhatsNext } from "./WhatsNext"
 import { LiveBadge } from "./LiveBadge"
-import { InDeploymentBadge } from "./InDeploymentBadge"
+import { HomeHeroAction } from "./HomeHeroAction"
 import { DeploymentProgress } from "./DeploymentProgress"
 
 type DashboardHomePageProps = {
@@ -73,14 +73,12 @@ export const DashboardHomePage = async ({
           ),
         })}
         actions={getNetworkVariant(silo, {
-          none:
-            !team.onboarding_status && !isOnboardingFormSubmitted ? (
-              <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
-                <span>Get started</span>
-              </LinkButton>
-            ) : (
-              <InDeploymentBadge />
-            ),
+          none: (
+            <HomeHeroAction
+              team={team}
+              isOnboardingFormSubmitted={isOnboardingFormSubmitted}
+            />
+          ),
           devnet: (
             <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
               Upgrade to Mainnet

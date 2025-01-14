@@ -1,9 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
-
-import { logger } from "@/logger"
-import { createPaymentLink } from "@/actions/stripe/create-payment-link"
+import { useStripePaymentLink } from "@/hooks/useStripePaymentLink"
 import type { Team } from "@/types/types"
 
 import { StepCard } from "./StepCard"
@@ -14,21 +11,7 @@ type Props = {
 }
 
 export const TopupStep = ({ team, state }: Props) => {
-  const [topupLink, setTopupLink] = useState<string | null>(null)
-
-  useEffect(() => {
-    createPaymentLink(
-      "initial_setup",
-      team.id,
-      `${window.location.origin}/dashboard/${team.team_key}`,
-    )
-      .then(setTopupLink)
-      .catch((error) => {
-        logger.error("Unable to get Stripe payment link", error)
-        setTopupLink(null)
-      })
-  }, [team])
-
+  const topupLink = useStripePaymentLink(team)
   return (
     <StepCard
       index={2}
