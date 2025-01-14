@@ -12,6 +12,7 @@ import type { SelectInputOption } from "@/components/SelectInput"
 import { sendEmail } from "@/utils/email"
 import { getDeploymentDoneEmail } from "@/email-templates/get-deployment-done-email"
 import { getDeploymentInProgressEmail } from "@/email-templates/get-deployment-in-progress-email"
+import { getRequestReceivedEmail } from "@/email-templates/get-request-received-email"
 
 type TeamFormProps = {
   team?: Team
@@ -28,33 +29,25 @@ const teamOnboardingStatusOptions: Array<{
   { value: "DEPLOYMENT_DONE", label: "Deployment done" },
 ]
 
+const EMAIL_FUNCTIONS: Record<OnboardingStatus, () => string> = {
+  REQUEST_RECEIVED: getRequestReceivedEmail,
+  DEPLOYMENT_IN_PROGRESS: getDeploymentInProgressEmail,
+  DEPLOYMENT_DONE: getDeploymentDoneEmail,
+}
+
 const sendUpdateEmail = async (
   { email }: Team,
   onboardingStatus: OnboardingStatus | null,
 ) => {
-  if (!email) {
+  if (!email || !onboardingStatus) {
     return
   }
 
-  if (onboardingStatus === "DEPLOYMENT_IN_PROGRESS") {
-    await sendEmail({
-      To: email,
-      Subject: "Deployment started",
-      HtmlBody: getDeploymentInProgressEmail(),
-    })
-
-    return
-  }
-
-  if (onboardingStatus === "DEPLOYMENT_DONE") {
-    await sendEmail({
-      To: email,
-      Subject: "Your chain is live!",
-      HtmlBody: getDeploymentDoneEmail(),
-    })
-
-    return
-  }
+  await sendEmail({
+    To: email,
+    Subject: "Deployment started",
+    HtmlBody: EMAIL_FUNCTIONS[onboardingStatus](),
+  })
 }
 
 export const TeamForm = ({ team }: TeamFormProps) => {
