@@ -9,6 +9,8 @@ import { getNetworkVariant } from "@/utils/get-network-variant"
 import { DashboardPage } from "@/components/DashboardPage"
 
 import { notReachable } from "@/utils/notReachable"
+import { WhatsNext } from "./WhatsNext"
+import { LiveBadge } from "./LiveBadge"
 import { DeploymentProgress } from "./DeploymentProgress"
 import FeatureList, { FeatureBanner } from "./FeatureList"
 import {
@@ -53,11 +55,31 @@ export const DashboardHomePage = ({
         hasDivider
         title={!silo ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`}
         description={getNetworkVariant(silo, {
-          none: "Launch your own Virtual Chain and start building! Configure your chain, setup onramp, bridges, gas abstraction... all from the Aurora Cloud Console.",
+          none: team.onboarding_status ? (
+            <>
+              Welcome to your chain’s console — your hub for configuring,
+              monitoring, and optimizing. Track your chain data, manage gas
+              mechanics, and configure integrations with ease.
+              <br />
+              <br />
+              We’re working on getting everything set up for you to access your
+              chain and start building!
+            </>
+          ) : (
+            "Launch your own Virtual Chain and start building! Configure your chain, setup onramp, bridges, gas abstraction... all from the Aurora Cloud Console."
+          ),
           devnet:
             "You now have access to a shared Aurora Chain identical to production. Test transactions, explore integrations, and simulate real-world scenarios in a risk-free environment.",
-          mainnet:
-            "Launch your own Virtual Chain and start building! Configure your chain, setup onramp, bridges, gas abstraction... all from the Aurora Cloud Console.",
+          mainnet: (
+            <>
+              Welcome to your chain’s control center—monitor data, manage gas
+              mechanics, and configure integrations effortlessly.
+              <br />
+              <br />
+              Maintain control as you optimize performance and ensure smooth
+              operations on the live network.
+            </>
+          ),
         })}
         image={getNetworkVariant(silo, {
           none: (
@@ -88,18 +110,18 @@ export const DashboardHomePage = ({
           ),
         })}
         actions={getNetworkVariant(silo, {
-          none: (
+          none: !team.onboarding_status ? (
             <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
               <PlusIcon className="h-4 w-4" />
               <span>Launch a Virtual Chain</span>
             </LinkButton>
-          ),
+          ) : null,
           devnet: (
             <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
               Upgrade to Mainnet
             </LinkButton>
           ),
-          mainnet: undefined,
+          mainnet: <LiveBadge />,
         })}
       />
 
@@ -108,7 +130,12 @@ export const DashboardHomePage = ({
           switch (team.onboarding_status) {
             case "REQUEST_RECEIVED":
             case "DEPLOYMENT_IN_PROGRESS":
-              return <DeploymentProgress status={team.onboarding_status} />
+              return (
+                <>
+                  <DeploymentProgress status={team.onboarding_status} />
+                  <WhatsNext />
+                </>
+              )
 
             case "DEPLOYMENT_DONE":
             case null:
@@ -131,7 +158,7 @@ export const DashboardHomePage = ({
                           title="Read documentation"
                           description="Explore our documentation to start developing and deploying on Aurora."
                           icon="/static/v2/images/examples/docs.png"
-                          link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                          link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
                         />
                         <FeatureCTA
                           title="Talk to a developer"
@@ -153,7 +180,7 @@ export const DashboardHomePage = ({
                           title="Read documentation"
                           description="Explore our documentation to start developing and deploying on Aurora."
                           icon="/static/v2/images/examples/docs.png"
-                          link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                          link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
                         />
                         <FeatureCTA
                           title="Talk to a developer"
@@ -181,7 +208,7 @@ export const DashboardHomePage = ({
                           title="Read documentation"
                           description="Explore our documentation to start developing and deploying on Aurora."
                           icon="/static/v2/images/examples/docs.png"
-                          link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                          link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
                         />
                       </FeatureCTAList>
                     ),
@@ -194,30 +221,32 @@ export const DashboardHomePage = ({
           }
         })()}
 
-        <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100">
-          <div className="flex flex-col lg:flex-row justify-between">
-            <div className="flex flex-col">
-              <span className="text-green-900 text-xs font-bold uppercase tracking-widest">
-                Aurora Labs
-              </span>
-              <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6">
-                Your dedicated development team
-              </h2>
+        {!team.onboarding_status && !silo && (
+          <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100">
+            <div className="flex flex-col lg:flex-row justify-between">
+              <div className="flex flex-col">
+                <span className="text-green-900 text-xs font-bold uppercase tracking-widest">
+                  Aurora Labs
+                </span>
+                <h2 className="text-xl text-slate-900 font-bold tracking-tight leading-6 mt-2">
+                  Your dedicated development team
+                </h2>
+              </div>
+
+              <LinkButton
+                href={meetingLink}
+                target="_blank"
+                variant="border"
+                size="lg"
+                className="mt-4 lg:mt-0"
+              >
+                Book a call
+              </LinkButton>
             </div>
 
-            <LinkButton
-              href={meetingLink}
-              target="_blank"
-              variant="border"
-              size="lg"
-              className="mt-4 lg:mt-0"
-            >
-              Book a call
-            </LinkButton>
+            <FeatureList features={features} />
           </div>
-
-          <FeatureList features={features} />
-        </div>
+        )}
       </section>
     </DashboardPage>
   )

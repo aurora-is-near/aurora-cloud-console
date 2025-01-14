@@ -1,7 +1,14 @@
 import Image from "next/image"
-import Hero from "@/components/Hero/Hero"
 
-export const OnrampHomePageHero = () => {
+import Hero from "@/components/Hero/Hero"
+import { NotAvailableBadge } from "@/components/NotAvailableBadge"
+import type { Silo } from "@/types/types"
+
+type Props = {
+  silo?: Silo | null
+}
+
+export const OnrampHomePageHero = ({ silo }: Props) => {
   return (
     <Hero
       hasDivider
@@ -15,6 +22,13 @@ export const OnrampHomePageHero = () => {
           alt="Aurora Cloud"
           className="mr-16 shadow-xl rounded-[2rem]"
         />
+      }
+      actions={
+        !silo && (
+          <NotAvailableBadge>
+            Available with your Virtual Chain
+          </NotAvailableBadge>
+        )
       }
     />
   )

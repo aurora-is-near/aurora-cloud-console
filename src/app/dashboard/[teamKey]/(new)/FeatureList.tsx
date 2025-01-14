@@ -19,7 +19,7 @@ const FeatureList = ({ features }: { features: FeatureBanner[] }) => {
         return (
           <Card className="md:p-7" key={feature.title}>
             {icon}
-            <h3 className="mt-4 max-w-[65%] font-medium text-slate-900 md:mt-5">
+            <h3 className="mt-4 max-w-[65%] font-medium text-slate-900 text leading-5 md:mt-5">
               {feature.title}
             </h3>
           </Card>
