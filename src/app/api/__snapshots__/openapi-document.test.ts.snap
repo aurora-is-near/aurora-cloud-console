@@ -1254,76 +1254,9 @@ exports[`OpenAPI Document should be valid 1`] = `
                             "type": "string",
                           },
                           "nativeToken": {
-                            "nullable": true,
                             "properties": {
-                              "address": {
-                                "type": "string",
-                              },
-                              "bridge": {
-                                "nullable": true,
-                                "properties": {
-                                  "addresses": {
-                                    "items": {
-                                      "properties": {
-                                        "address": {
-                                          "type": "string",
-                                        },
-                                        "network": {
-                                          "type": "string",
-                                        },
-                                      },
-                                      "required": [
-                                        "network",
-                                        "address",
-                                      ],
-                                      "type": "object",
-                                    },
-                                    "type": "array",
-                                  },
-                                  "deploymentStatus": {
-                                    "enum": [
-                                      "NOT_DEPLOYED",
-                                      "PENDING",
-                                      "DEPLOYED",
-                                    ],
-                                    "type": "string",
-                                  },
-                                  "isFast": {
-                                    "type": "boolean",
-                                  },
-                                  "origin": {
-                                    "nullable": true,
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "deploymentStatus",
-                                  "isFast",
-                                  "addresses",
-                                  "origin",
-                                ],
-                                "type": "object",
-                              },
-                              "createdAt": {
-                                "type": "string",
-                              },
                               "decimals": {
                                 "nullable": true,
-                                "type": "number",
-                              },
-                              "deploymentStatus": {
-                                "enum": [
-                                  "NOT_DEPLOYED",
-                                  "PENDING",
-                                  "DEPLOYED",
-                                ],
-                                "type": "string",
-                              },
-                              "iconUrl": {
-                                "nullable": true,
-                                "type": "string",
-                              },
-                              "id": {
                                 "type": "number",
                               },
                               "name": {
@@ -1333,22 +1266,11 @@ exports[`OpenAPI Document should be valid 1`] = `
                               "symbol": {
                                 "type": "string",
                               },
-                              "type": {
-                                "nullable": true,
-                                "type": "string",
-                              },
                             },
                             "required": [
-                              "address",
-                              "createdAt",
-                              "id",
                               "symbol",
                               "name",
                               "decimals",
-                              "iconUrl",
-                              "type",
-                              "deploymentStatus",
-                              "bridge",
                             ],
                             "type": "object",
                           },
@@ -1446,76 +1368,9 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "type": "string",
                     },
                     "nativeToken": {
-                      "nullable": true,
                       "properties": {
-                        "address": {
-                          "type": "string",
-                        },
-                        "bridge": {
-                          "nullable": true,
-                          "properties": {
-                            "addresses": {
-                              "items": {
-                                "properties": {
-                                  "address": {
-                                    "type": "string",
-                                  },
-                                  "network": {
-                                    "type": "string",
-                                  },
-                                },
-                                "required": [
-                                  "network",
-                                  "address",
-                                ],
-                                "type": "object",
-                              },
-                              "type": "array",
-                            },
-                            "deploymentStatus": {
-                              "enum": [
-                                "NOT_DEPLOYED",
-                                "PENDING",
-                                "DEPLOYED",
-                              ],
-                              "type": "string",
-                            },
-                            "isFast": {
-                              "type": "boolean",
-                            },
-                            "origin": {
-                              "nullable": true,
-                              "type": "string",
-                            },
-                          },
-                          "required": [
-                            "deploymentStatus",
-                            "isFast",
-                            "addresses",
-                            "origin",
-                          ],
-                          "type": "object",
-                        },
-                        "createdAt": {
-                          "type": "string",
-                        },
                         "decimals": {
                           "nullable": true,
-                          "type": "number",
-                        },
-                        "deploymentStatus": {
-                          "enum": [
-                            "NOT_DEPLOYED",
-                            "PENDING",
-                            "DEPLOYED",
-                          ],
-                          "type": "string",
-                        },
-                        "iconUrl": {
-                          "nullable": true,
-                          "type": "string",
-                        },
-                        "id": {
                           "type": "number",
                         },
                         "name": {
@@ -1525,22 +1380,11 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "symbol": {
                           "type": "string",
                         },
-                        "type": {
-                          "nullable": true,
-                          "type": "string",
-                        },
                       },
                       "required": [
-                        "address",
-                        "createdAt",
-                        "id",
                         "symbol",
                         "name",
                         "decimals",
-                        "iconUrl",
-                        "type",
-                        "deploymentStatus",
-                        "bridge",
                       ],
                       "type": "object",
                     },
