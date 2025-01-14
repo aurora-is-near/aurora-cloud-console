@@ -71,7 +71,6 @@ const sendEmails = async (
   return Promise.all(
     emailAddresses.map(async (email) =>
       sendEmail({
-        From: "console@auroracloud.dev",
         To: email,
         Subject: "Your request was received",
         HtmlBody: getRequestReceivedEmail(),
