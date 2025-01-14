@@ -158,7 +158,7 @@ export const DashboardHomePage = ({
                           title="Read documentation"
                           description="Explore our documentation to start developing and deploying on Aurora."
                           icon="/static/v2/images/examples/docs.png"
-                          link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                          link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
                         />
                         <FeatureCTA
                           title="Talk to a developer"
@@ -180,7 +180,7 @@ export const DashboardHomePage = ({
                           title="Read documentation"
                           description="Explore our documentation to start developing and deploying on Aurora."
                           icon="/static/v2/images/examples/docs.png"
-                          link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                          link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
                         />
                         <FeatureCTA
                           title="Talk to a developer"
@@ -208,7 +208,7 @@ export const DashboardHomePage = ({
                           title="Read documentation"
                           description="Explore our documentation to start developing and deploying on Aurora."
                           icon="/static/v2/images/examples/docs.png"
-                          link="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+                          link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
                         />
                       </FeatureCTAList>
                     ),

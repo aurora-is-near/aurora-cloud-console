@@ -48,7 +48,7 @@ const ExploreAuroraDocsBanner = () => (
       size="lg"
       isExternal
       variant="border"
-      href="https://app.gitbook.com/o/n5HlK4HD4c2SMkTWdXdM/s/s1NkUrRikxqj1akDiExv/"
+      href="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
     >
       View docs
       <ArrowTopRightOnSquareIcon className="w-6 h-6" />
