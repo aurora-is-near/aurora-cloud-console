@@ -13,13 +13,9 @@ import { Blockscout } from "../../../public/static/v2/images/icons"
 
 type BlockExplorerPageProps = {
   silo?: Silo | null
-  isNotAvailable?: boolean
 }
 
-export const BlockExplorerPage = ({
-  isNotAvailable,
-  silo = null,
-}: BlockExplorerPageProps) => {
+export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
   return (
     <DashboardPage>
       <Hero
@@ -43,7 +39,7 @@ export const BlockExplorerPage = ({
         }
         actions={
           <>
-            {isNotAvailable && (
+            {!silo && (
               <NotAvailableBadge>
                 Available with your Virtual Chain
               </NotAvailableBadge>

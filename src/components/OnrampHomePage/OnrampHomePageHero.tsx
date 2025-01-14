@@ -2,12 +2,13 @@ import Image from "next/image"
 
 import Hero from "@/components/Hero/Hero"
 import { NotAvailableBadge } from "@/components/NotAvailableBadge"
+import type { Silo } from "@/types/types"
 
 type Props = {
-  isNotAvailable?: boolean
+  silo?: Silo | null
 }
 
-export const OnrampHomePageHero = ({ isNotAvailable }: Props) => {
+export const OnrampHomePageHero = ({ silo }: Props) => {
   return (
     <Hero
       hasDivider
@@ -23,7 +24,7 @@ export const OnrampHomePageHero = ({ isNotAvailable }: Props) => {
         />
       }
       actions={
-        isNotAvailable && (
+        !silo && (
           <NotAvailableBadge>
             Available with your Virtual Chain
           </NotAvailableBadge>

@@ -17,7 +17,6 @@ type OraclePageProps = {
   siloId?: number
   oracle?: AuroraOracle | null
   tokens?: AuroraOracleToken[]
-  isNotAvailable?: boolean
 }
 
 const OraclePage = ({
@@ -25,7 +24,6 @@ const OraclePage = ({
   siloId,
   oracle,
   tokens,
-  isNotAvailable,
 }: OraclePageProps) => {
   const tabs = [{ title: "About", content: <OracleAboutTab /> }]
 
@@ -50,7 +48,7 @@ const OraclePage = ({
           description="Secure your smart contracts with reliable, low-latency market data from institutional sources."
           actions={
             <>
-              {isNotAvailable && (
+              {!siloId && (
                 <NotAvailableBadge>
                   Available with your Virtual Chain
                 </NotAvailableBadge>

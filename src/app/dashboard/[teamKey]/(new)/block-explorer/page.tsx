@@ -1,5 +1,5 @@
 import { BlockExplorerPage } from "@/components/BlockExplorerPage/BlockExplorerPage"
 
-const Page = () => <BlockExplorerPage isNotAvailable />
+const Page = () => <BlockExplorerPage />
 
 export default Page

@@ -4,15 +4,13 @@ import type { PropsWithChildren } from "react"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { NotAvailableBadge } from "@/components/NotAvailableBadge"
+import type { Silo } from "@/types/types"
 
 type Props = PropsWithChildren<{
-  isNotAvailable?: boolean
+  silo?: Silo | null
 }>
 
-export const GasAbstractionPage = async ({
-  children,
-  isNotAvailable,
-}: Props) => (
+export const GasAbstractionPage = async ({ children, silo }: Props) => (
   <DashboardPage>
     <Hero
       title="Gas Abstraction"
@@ -27,7 +25,7 @@ export const GasAbstractionPage = async ({
         />
       }
       actions={
-        isNotAvailable && (
+        !silo && (
           <NotAvailableBadge>
             Available with your Virtual Chain
           </NotAvailableBadge>
