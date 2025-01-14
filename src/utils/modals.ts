@@ -16,6 +16,6 @@ export enum Modals {
   AddPlan = "addPlan",
   EditContract = "editContract",
   EditGasPrice = "editGasPrice",
-  AddFilterAddress = "addFilterAddress",
-  AddFilterContract = "addFilterContract",
+  AddRuleAddress = "addRuleAddress",
+  AddRuleContract = "addRuleContract",
 }

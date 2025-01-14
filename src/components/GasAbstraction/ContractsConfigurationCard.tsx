@@ -8,47 +8,40 @@ import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
 import CopyButton from "@/components/CopyButton"
 import { AddButton } from "@/components/AddButton"
-import { FilterEntry, Silo } from "@/types/types"
-import { FilterUpdateContext } from "@/providers/FilterProvider"
+import { Silo } from "@/types/types"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { deleteFilterEntry } from "@/actions/filter-entries/delete-filter-entry"
+import { RuleContext } from "@/providers/RuleProvider"
 
-type ContractsConfigurationCardProps = {
-  silo: Silo
-}
-
-const ContractsConfigurationCard = ({
-  silo,
-}: ContractsConfigurationCardProps) => {
-  const { filter, filterEntries } = useRequiredContext(FilterUpdateContext)
+const ContractsConfigurationCard = ({ silo }: { silo: Silo }) => {
+  const { rule } = useRequiredContext(RuleContext)
 
   const { openModal } = useModals()
   const onClick = () => {
-    openModal(Modals.AddFilterContract)
+    openModal(Modals.AddRuleContract)
   }
 
-  const removeAddress = async (filterEntry: FilterEntry) => {
-    if (filter && filterEntry) {
-      await deleteFilterEntry(filter.id, filterEntry.id)
+  const removeAddress = async (_address: string) => {
+    if (rule) {
+      // Delete contract from resource_definition
     }
   }
 
   return (
     <div className="xl:w-1/2 flex flex-col gap-2">
-      {filterEntries.map((contract) => (
+      {rule.resource_definition?.contracts?.map((contract: string) => (
         <RuleSetting
-          key={contract.value}
+          key={contract}
           title="Contract"
-          description={contract.value}
+          description={contract}
           descriptionUrl={
             silo.explorer_url
-              ? `${silo.explorer_url}/address/${contract.value}`
+              ? `${silo.explorer_url}/address/${contract}`
               : undefined
           }
         >
           <div className="flex flex-row gap-x-2">
             <div>
-              <CopyButton hasBorder value={contract.value} size="sm" />
+              <CopyButton hasBorder value={contract} size="sm" />
             </div>
             <div>
               <Button isSquare onClick={onClick} variant="border" size="sm">

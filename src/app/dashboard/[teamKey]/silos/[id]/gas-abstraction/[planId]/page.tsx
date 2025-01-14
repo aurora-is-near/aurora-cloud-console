@@ -4,15 +4,12 @@ import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
 import { getTeamDealByKey } from "@/actions/team-deals/get-team-deal-by-key"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
-import { FilterProvider } from "@/providers/FilterProvider"
 import { getRules } from "@/actions/rules/get-rules"
 import { createRule } from "@/actions/rules/create-rule"
 import { RuleProvider } from "@/providers/RuleProvider"
-import { getRuleUserlists } from "@/actions/rule-userlists/get-rule-userlists"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { createRuleUserlist } from "@/actions/rule-userlists/create-rule-userlist"
-import { AddFilterAddressModal } from "./AddFilterAddressModal"
-import { ContractsCard } from "./ContractsCard"
+import { AddFilterAddressModal } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/AddFilterAddressModal"
+import { ContractsCard } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
 
@@ -45,11 +42,8 @@ const Page = async ({
   if (!userlistRule) {
     userlistRule = await createRule({
       deal_id: dealId,
-      resource_definition: userlistRuleDefinition,
-    })
-    await createRuleUserlist({
       team_id: team.id,
-      rule_id: userlistRule.id,
+      resource_definition: userlistRuleDefinition,
     })
   }
 
@@ -60,14 +54,8 @@ const Page = async ({
       <DealUpdatePage deal={deal}>
         <RuleProvider team={team} initialRule={userlistRule}>
           <UsersConfigurationCard />
-          {/* <AddFilterAddressModal /> */}
+          <ContractsCard silo={silo} />
         </RuleProvider>
-        {/* {contractFilter && (
-          <FilterProvider dealId={dealId} filterId={contractFilter.id}>
-            <ContractsCard silo={silo} />
-            <AddFilterAddressModal />
-          </FilterProvider>
-        )} */}
         <RulesCard />
         <Contact teamKey={teamKey} />
       </DealUpdatePage>

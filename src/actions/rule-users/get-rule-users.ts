@@ -12,8 +12,9 @@ export const getRuleUsers = async ({
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("rule_users")
-    .select("*")
-    .eq("userlist_id", userlist_id)
+    .select("*, rule_users_userlists!inner(*, userlists!inner(*))")
+    .eq("rule_users_userlists.userlist_id", userlist_id)
+    .is("deleted_at", null)
 
   assertValidSupabaseResult(result)
 

@@ -10,7 +10,11 @@ export const getRules = async ({
   dealId: number
 }): Promise<Rule[]> => {
   const supabase = createAdminSupabaseClient()
-  const result = await supabase.from("rules").select("*").eq("deal_id", dealId)
+  const result = await supabase
+    .from("rules")
+    .select("*")
+    .eq("deal_id", dealId)
+    .is("deleted_at", null)
 
   assertValidSupabaseResult(result)
 

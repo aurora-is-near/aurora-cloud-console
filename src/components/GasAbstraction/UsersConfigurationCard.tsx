@@ -13,6 +13,7 @@ import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { RuleContext } from "@/providers/RuleProvider"
+import { AddFilterAddressModal } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/AddFilterAddressModal"
 
 type Inputs = {
   open?: boolean
@@ -27,9 +28,7 @@ const UsersConfigurationCard = () => {
   // all others are disabled until there is engine integration
   const disabled = deal?.id !== 17
 
-  const { ruleUserlists } = useRequiredContext(RuleContext)
-
-  console.log("Userlists", ruleUserlists)
+  const { ruleUsers } = useRequiredContext(RuleContext)
 
   const isOpen = String(watch("open") ?? deal?.open) === "true"
 
@@ -49,8 +48,8 @@ const UsersConfigurationCard = () => {
     return <Loader />
   }
 
-  const openAddFilterAddressModal = () => {
-    openModal(Modals.AddFilterAddress)
+  const openAddRuleAddressModal = () => {
+    openModal(Modals.AddRuleAddress)
   }
 
   const radioClassName =
@@ -136,13 +135,13 @@ const UsersConfigurationCard = () => {
               <div className="flex flex-col">
                 <span className="text-sm font-medium">Import manually</span>
                 <span className="text-sm text-slate-500">
-                  {/* {filterEntries?.length} wallet address
-                  {filterEntries?.length === 1 ? "" : "es"} added */}
+                  {ruleUsers?.length} wallet address
+                  {ruleUsers?.length === 1 ? "" : "es"} added
                 </span>
               </div>
               <Button
                 disabled={disabled}
-                onClick={openAddFilterAddressModal}
+                onClick={openAddRuleAddressModal}
                 variant="border"
               >
                 Add manually
@@ -151,6 +150,7 @@ const UsersConfigurationCard = () => {
           </div>
         </div>
       </div>
+      <AddFilterAddressModal />
     </ConfigurationCard>
   )
 }

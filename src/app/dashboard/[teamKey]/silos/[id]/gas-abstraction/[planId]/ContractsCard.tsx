@@ -4,11 +4,7 @@ import { ConfigurationCard } from "@/components/ConfigurationCard"
 import ContractsConfigurationCard from "@/components/GasAbstraction/ContractsConfigurationCard"
 import { Silo } from "@/types/types"
 
-type ContractsCardProps = {
-  silo: Silo
-}
-
-export const ContractsCard = ({ silo }: ContractsCardProps) => {
+export const ContractsCard = ({ silo }: { silo: Silo }) => {
   return (
     <ConfigurationCard
       title="Target contracts"

@@ -1,7 +1,7 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { RuleUserlist } from "@/types/types"
+import { Userlist } from "@/types/types"
 import {
   abortIfNoSupabaseResult,
   assertNonNullSupabaseResult,
@@ -11,7 +11,7 @@ import {
 export const createRuleUserlist = async (inputs: {
   team_id: number
   rule_id: number
-}): Promise<RuleUserlist> => {
+}): Promise<Userlist> => {
   const supabase = createAdminSupabaseClient()
 
   const userlistResult = await supabase
@@ -32,5 +32,5 @@ export const createRuleUserlist = async (inputs: {
   assertNonNullSupabaseResult(result)
   abortIfNoSupabaseResult(404, result)
 
-  return result.data as RuleUserlist
+  return userlistResult.data as Userlist
 }

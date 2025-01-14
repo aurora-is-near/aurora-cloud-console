@@ -1,5 +1,6 @@
 "use server"
 
+import { createRuleUserlist } from "@/actions/rule-userlists/create-rule-userlist"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Json } from "@/types/supabase"
 import { Rule } from "@/types/types"
@@ -11,6 +12,7 @@ import {
 
 export const createRule = async (inputs: {
   deal_id: number
+  team_id: number
   resource_definition: Json
 }): Promise<Rule> => {
   const supabase = createAdminSupabaseClient()
@@ -18,6 +20,13 @@ export const createRule = async (inputs: {
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
+
+  // Every Rule needs a Userlist in ACC's UI
+  await createRuleUserlist({
+    team_id: inputs.team_id,
+    rule_id: result.data.id,
+  })
+
   abortIfNoSupabaseResult(404, result)
 
   return result.data as Rule

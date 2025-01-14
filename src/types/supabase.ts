@@ -355,29 +355,67 @@ export type Database = {
           },
         ]
       }
+      orders: {
+        Row: {
+          created_at: string
+          id: number
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          session_id: string
+          team_id: number
+          type: Database["public"]["Enums"]["order_type"]
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          session_id: string
+          team_id: number
+          type: Database["public"]["Enums"]["order_type"]
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          session_id?: string
+          team_id?: number
+          type?: Database["public"]["Enums"]["order_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       rule_user_deal_data: {
         Row: {
           created_at: string
           deal_id: number | null
+          deleted_at: string | null
           id: number
           prepaid_txs: number
-          role_user_id: number | null
+          rule_user_id: number | null
           updated_at: string
         }
         Insert: {
           created_at?: string
           deal_id?: number | null
+          deleted_at?: string | null
           id?: number
           prepaid_txs?: number
-          role_user_id?: number | null
+          rule_user_id?: number | null
           updated_at?: string
         }
         Update: {
           created_at?: string
           deal_id?: number | null
+          deleted_at?: string | null
           id?: number
           prepaid_txs?: number
-          role_user_id?: number | null
+          rule_user_id?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -390,7 +428,7 @@ export type Database = {
           },
           {
             foreignKeyName: "user_deal_data_role_user_id_fkey"
-            columns: ["role_user_id"]
+            columns: ["rule_user_id"]
             isOneToOne: false
             referencedRelation: "rule_users"
             referencedColumns: ["id"]
@@ -400,6 +438,7 @@ export type Database = {
       rule_users: {
         Row: {
           created_at: string
+          deleted_at: string | null
           eoas: string[] | null
           id: number
           ips: string[] | null
@@ -409,6 +448,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           eoas?: string[] | null
           id?: number
           ips?: string[] | null
@@ -418,6 +458,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           eoas?: string[] | null
           id?: number
           ips?: string[] | null
@@ -438,6 +479,7 @@ export type Database = {
       rule_users_userlists: {
         Row: {
           created_at: string
+          deleted_at: string | null
           id: number
           rule_user_id: number | null
           updated_at: string
@@ -445,6 +487,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           id?: number
           rule_user_id?: number | null
           updated_at?: string
@@ -452,6 +495,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           id?: number
           rule_user_id?: number | null
           updated_at?: string
@@ -478,6 +522,7 @@ export type Database = {
         Row: {
           created_at: string
           deal_id: number
+          deleted_at: string | null
           id: number
           resource_definition: Json
           updated_at: string
@@ -485,6 +530,7 @@ export type Database = {
         Insert: {
           created_at?: string
           deal_id: number
+          deleted_at?: string | null
           id?: number
           resource_definition: Json
           updated_at?: string
@@ -492,6 +538,7 @@ export type Database = {
         Update: {
           created_at?: string
           deal_id?: number
+          deleted_at?: string | null
           id?: number
           resource_definition?: Json
           updated_at?: string
@@ -510,6 +557,7 @@ export type Database = {
         Row: {
           blacklist: boolean
           created_at: string
+          deleted_at: string | null
           id: number
           rule_id: number | null
           updated_at: string
@@ -518,6 +566,7 @@ export type Database = {
         Insert: {
           blacklist?: boolean
           created_at?: string
+          deleted_at?: string | null
           id?: number
           rule_id?: number | null
           updated_at?: string
@@ -526,6 +575,7 @@ export type Database = {
         Update: {
           blacklist?: boolean
           created_at?: string
+          deleted_at?: string | null
           id?: number
           rule_id?: number | null
           updated_at?: string
@@ -636,6 +686,9 @@ export type Database = {
           email: string | null
           id: number
           name: string
+          onboarding_status:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           team_key: string
           updated_at: string
           website: string | null
@@ -648,6 +701,9 @@ export type Database = {
           email?: string | null
           id?: number
           name: string
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           team_key: string
           updated_at?: string
           website?: string | null
@@ -660,6 +716,9 @@ export type Database = {
           email?: string | null
           id?: number
           name?: string
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           team_key?: string
           updated_at?: string
           website?: string | null
@@ -926,10 +985,24 @@ export type Database = {
         | "lists:write"
         | "forwarder:read"
         | "forwarder:write"
+        | "payments:read"
+        | "payments:write"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
       limit_scope: "USER" | "GLOBAL"
       limit_type: "CYCLIC" | "RATELIMIT"
+      order_type: "initial_setup"
+      payment_status:
+        | "PAID"
+        | "UNPAID"
+        | "NO_PAYMENT_REQUIRED"
+        | "paid"
+        | "unpaid"
+        | "no_payment_required"
+      team_onboarding_status:
+        | "REQUEST_RECEIVED"
+        | "DEPLOYMENT_IN_PROGRESS"
+        | "DEPLOYMENT_DONE"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_type: "customer" | "admin"
       widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"

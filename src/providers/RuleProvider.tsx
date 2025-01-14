@@ -3,22 +3,26 @@
 import {
   createContext,
   ReactNode,
-  useContext,
+  useCallback,
   useEffect,
   useMemo,
   useState,
 } from "react"
-import { Rule, RuleUser, RuleUserlist, Team } from "@/types/types"
-import { getRuleUserlists } from "@/actions/rule-userlists/get-rule-userlists"
+import { Rule, RuleUser, Team, Userlist } from "@/types/types"
+import { getUserlists } from "@/actions/userlists/get-userlists"
 import { getRuleUsers } from "@/actions/rule-users/get-rule-users"
-import { createRuleUserlist } from "@/actions/rule-userlists/create-rule-userlist"
+import { createRuleUser } from "@/actions/rule-users/create-rule-user"
+import { deleteRuleUser } from "@/actions/rule-users/delete-rule-user"
 
 type RuleContextType = {
   rule: Rule
-  ruleUserlists: RuleUserlist[]
-  ruleUsers: Record<number, RuleUser[]>
+  userlist: Userlist | undefined
+  ruleUsers: RuleUser[]
   setRule: (rule: Rule) => void
-  setRuleUserlists: (userlists: RuleUserlist[]) => void
+  setUserlist: (userlist: Userlist) => void
+  setRuleUsers: (ruleUsers: RuleUser[]) => void
+  addRuleUser: (address: string) => void
+  removeRuleUser: (id: number) => void
 }
 
 export const RuleContext = createContext<RuleContextType | null>(null)
@@ -35,53 +39,69 @@ export const RuleProvider = ({
   team,
 }: RuleProviderProps) => {
   const [rule, setRule] = useState<Rule>(initialRule)
-  const [ruleUserlists, setRuleUserlists] = useState<RuleUserlist[]>([])
-  const [ruleUsers, _setRuleUsers] = useState<Record<number, RuleUser[]>>({})
+  const [userlist, setUserlist] = useState<Userlist>()
+  const [ruleUsers, setRuleUsers] = useState<RuleUser[]>([])
+
+  const addRuleUser = useCallback(
+    async (address: string) => {
+      if (!userlist) {
+        return
+      }
+
+      const newUser = await createRuleUser({
+        userlist_id: userlist.id,
+        eoas: [address],
+      })
+
+      setRuleUsers([...ruleUsers, newUser])
+    },
+    [userlist, ruleUsers],
+  )
+
+  const removeRuleUser = useCallback(
+    async (id: number) => {
+      await deleteRuleUser(id)
+      setRuleUsers(ruleUsers.filter((user) => user.id !== id))
+    },
+    [ruleUsers],
+  )
 
   useEffect(() => {
     if (rule?.id) {
-      void getRuleUserlists({ rule_id: rule.id })
+      void getUserlists({ rule_id: rule.id })
         .then((data) => {
-          if (data.length === 0) {
-            void createRuleUserlist({
-              team_id: team.id,
-              rule_id: rule.id,
-            }).then((newUserlist) => {
-              setRuleUserlists([newUserlist])
+          setUserlist(data[0]) // We use the first Userlist, that was created when the Rule was created
+          void getRuleUsers({
+            userlist_id: data[0].id,
+          })
+            .then((userData) => setRuleUsers(userData))
+            .catch((error) => {
+              console.error("Failed to load rule users:", error)
+              setRuleUsers([])
             })
-          } else {
-            setRuleUserlists(data)
-          }
         })
         .catch((error) => {
           console.error("Failed to load rule userlists:", error)
-          setRuleUserlists([])
+          setUserlist(undefined)
         })
     } else {
-      setRuleUserlists([])
+      setUserlist(undefined)
     }
   }, [rule?.id, team.id])
 
   const value = useMemo(
     () => ({
       rule,
-      ruleUserlists,
+      userlist,
       ruleUsers,
       setRule,
-      setRuleUserlists,
+      setUserlist,
+      setRuleUsers,
+      addRuleUser,
+      removeRuleUser,
     }),
-    [rule, ruleUserlists, ruleUsers],
+    [rule, userlist, ruleUsers, addRuleUser, removeRuleUser],
   )
 
   return <RuleContext.Provider value={value}>{children}</RuleContext.Provider>
-}
-
-export function useRule() {
-  const context = useContext(RuleContext)
-
-  if (context === undefined) {
-    throw new Error("useRule must be used within a RuleProvider")
-  }
-
-  return context
 }
