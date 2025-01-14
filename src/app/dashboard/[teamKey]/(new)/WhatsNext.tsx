@@ -4,7 +4,7 @@ import {
   SparklesIcon,
 } from "@heroicons/react/24/outline"
 
-import { Typography, clsx } from "@/uikit"
+import { clsx, Typography } from "@/uikit"
 import { LinkButton } from "@/components/LinkButton"
 
 const CompleteOnboardingBanner = () => (
