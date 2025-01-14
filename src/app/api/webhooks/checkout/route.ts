@@ -11,6 +11,8 @@ import { sendSlackMessage } from "@/utils/send-slack-notification"
 import { getTeam } from "@/actions/teams/get-team"
 import { logger } from "@/logger"
 import { Team } from "@/types/types"
+import { sendEmail } from "@/utils/email"
+import { getRequestReceivedEmail } from "@/email-templates/get-request-received-email"
 
 type WebhookResponse = {
   fulfilled: boolean
@@ -56,6 +58,26 @@ const sendSlackNotification = async (
       },
     ],
   })
+}
+
+const sendEmails = async (
+  session: Stripe.Checkout.Session,
+  team?: Team | null,
+) => {
+  const emailAddresses = [team?.email, session.customer_details?.email].filter(
+    (email): email is string => !!email,
+  )
+
+  return Promise.all(
+    emailAddresses.map(async (email) =>
+      sendEmail({
+        From: "console@auroracloud.dev",
+        To: email,
+        Subject: "Your request was received",
+        HtmlBody: getRequestReceivedEmail(),
+      }),
+    ),
+  )
 }
 
 const safeGetTeam = async (teamId: number) => {
@@ -111,6 +133,7 @@ const fulfillOrder = async (
       .select()
       .single(),
     sendSlackNotification(session, teamId, team),
+    sendEmails(session, team),
   ])
 
   assertValidSupabaseResult(ordersResult)
