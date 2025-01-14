@@ -36,7 +36,6 @@ const addUserToTeam = async (
   assertValidSupabaseResult(result)
 
   await sendEmail({
-    From: "console@auroracloud.dev",
     To: email,
     Subject: `You've been invited to a team on Aurora Cloud Console`,
     HtmlBody: `

@@ -39,6 +39,8 @@ export type TokenType = Enums<"token_type">
 
 export type DeploymentStatus = Enums<"deployment_status">
 
+export type OnboardingStatus = Enums<"team_onboarding_status">
+
 export type WidgetNetworkType = Enums<"widget_network_type">
 
 export type ApiScope = PublicApiScope | "admin"

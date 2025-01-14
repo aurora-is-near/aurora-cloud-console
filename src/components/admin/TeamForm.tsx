@@ -3,12 +3,15 @@
 import toast from "react-hot-toast"
 import { SubmitHandler } from "react-hook-form"
 import { useRouter } from "next/navigation"
-import { Team } from "@/types/types"
+import { OnboardingStatus, Team } from "@/types/types"
 import { updateTeam } from "@/actions/teams/update-team"
 import { HorizontalForm } from "@/components/HorizontalForm"
 import { HOME_ROUTE } from "@/constants/routes"
 import { createTeam } from "@/actions/teams/create-team"
 import type { SelectInputOption } from "@/components/SelectInput"
+import { sendEmail } from "@/utils/email"
+import { getDeploymentDoneEmail } from "@/email-templates/get-deployment-done-email"
+import { getDeploymentInProgressEmail } from "@/email-templates/get-deployment-in-progress-email"
 
 type TeamFormProps = {
   team?: Team
@@ -25,6 +28,35 @@ const teamOnboardingStatusOptions: Array<{
   { value: "DEPLOYMENT_DONE", label: "Deployment done" },
 ]
 
+const sendUpdateEmail = async (
+  { email }: Team,
+  onboardingStatus: OnboardingStatus | null,
+) => {
+  if (!email) {
+    return
+  }
+
+  if (onboardingStatus === "DEPLOYMENT_IN_PROGRESS") {
+    await sendEmail({
+      To: email,
+      Subject: "Deployment started",
+      HtmlBody: getDeploymentInProgressEmail(),
+    })
+
+    return
+  }
+
+  if (onboardingStatus === "DEPLOYMENT_DONE") {
+    await sendEmail({
+      To: email,
+      Subject: "Your chain is live!",
+      HtmlBody: getDeploymentDoneEmail(),
+    })
+
+    return
+  }
+}
+
 export const TeamForm = ({ team }: TeamFormProps) => {
   const router = useRouter()
 
@@ -34,7 +66,10 @@ export const TeamForm = ({ team }: TeamFormProps) => {
     ...teamInputs
   }: Inputs) => {
     if (team) {
-      await Promise.all([updateTeam(team.id, teamInputs)])
+      await Promise.all([
+        updateTeam(team.id, teamInputs),
+        sendUpdateEmail(team, teamInputs.onboarding_status),
+      ])
 
       toast.success("Team updated")
 
