@@ -132,6 +132,7 @@ export const useChainCreationForm = (
     value: ChainCreationForm[K],
   ) => {
     setForm((prevForm) => ({ ...prevForm, [field]: value }))
+
     if (value) {
       setFieldErrors((p) => ({ ...p, [field]: undefined }))
     }
@@ -228,7 +229,7 @@ export const useChainCreationForm = (
     )
 
     window.location.href = paymentLink
-  }, [form, team])
+  }, [form, team, fieldErrors])
 
   return {
     form,

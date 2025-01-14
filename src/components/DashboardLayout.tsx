@@ -8,7 +8,7 @@ import { MenuItem, MenuSection } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import Helpscout from "@/components/Helpscout"
 import { TopPageBanner } from "@/components/TopPageBanner"
-import type { Team, Silo } from "@/types/types"
+import type { Silo, Team } from "@/types/types"
 
 type DashboardLayoutProps = {
   team?: Team
