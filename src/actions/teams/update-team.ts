@@ -14,7 +14,10 @@ export const updateTeam = async (
 
 export const updateTeamForm = async (
   id: number,
-  inputs: Omit<Team, "id" | "created_at" | "team_key" | "updated_at">,
+  inputs: Omit<
+    Team,
+    "id" | "onboarding_status" | "created_at" | "team_key" | "updated_at"
+  >,
 ): Promise<void> => {
   const supabase = createAdminSupabaseClient()
 

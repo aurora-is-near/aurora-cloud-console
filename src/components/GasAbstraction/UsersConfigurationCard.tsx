@@ -13,7 +13,7 @@ import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { RuleContext } from "@/providers/RuleProvider"
-import { AddFilterAddressModal } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/AddFilterAddressModal"
+import { AddFilterAddressModal } from "@/components/GasAbstraction/AddFilterAddressModal"
 
 type Inputs = {
   open?: boolean

@@ -16,7 +16,14 @@ export const createRule = async (inputs: {
   resource_definition: Json
 }): Promise<Rule> => {
   const supabase = createAdminSupabaseClient()
-  const result = await supabase.from("rules").insert(inputs).select().single()
+  const result = await supabase
+    .from("rules")
+    .insert({
+      deal_id: inputs.deal_id,
+      resource_definition: inputs.resource_definition,
+    })
+    .select()
+    .single()
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)

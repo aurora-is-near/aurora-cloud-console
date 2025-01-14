@@ -15,6 +15,7 @@ export const POST = createApiEndpoint("createRule", async (req, ctx) => {
   const { resourceDefinition } = ctx.body
   const rule = await createRule({
     deal_id: Number(ctx.params.id),
+    team_id: Number(ctx.params.teamId),
     resource_definition: resourceDefinition,
   })
 

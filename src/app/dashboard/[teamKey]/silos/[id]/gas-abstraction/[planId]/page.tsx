@@ -8,12 +8,15 @@ import { getRules } from "@/actions/rules/get-rules"
 import { createRule } from "@/actions/rules/create-rule"
 import { RuleProvider } from "@/providers/RuleProvider"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { AddFilterAddressModal } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/AddFilterAddressModal"
-import { ContractsCard } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/ContractsCard"
+import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
 
-const userlistRuleDefinition = { feature: "userlistRule" }
+const userlistRuleDefinition = {
+  feature: "userlistRule",
+  chains: "*",
+  contracts: [],
+}
 
 const Page = async ({
   params: { id, planId, teamKey },
@@ -46,8 +49,6 @@ const Page = async ({
       resource_definition: userlistRuleDefinition,
     })
   }
-
-  // const userlistRule = rules?.find((r) => !!r.resource_definition)
 
   return (
     <DealUpdateProvider dealId={dealId}>

@@ -10,17 +10,17 @@ import {
 
 export const updateRule = async (
   id: number,
+  deal_id: number,
   inputs: {
-    deal_id: number
     resource_definition: Json
   },
 ): Promise<Rule> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("rules")
-    .update(inputs)
+    .update({ resource_definition: inputs.resource_definition })
     .eq("id", id)
-    .eq("deal_id", inputs.deal_id)
+    .eq("deal_id", deal_id)
     .select()
     .single()
 
