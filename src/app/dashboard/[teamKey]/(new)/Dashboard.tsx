@@ -109,6 +109,7 @@ export const DashboardHomePage = async ({
                     }}
                   />
                   <TopupStep
+                    index={2}
                     team={team}
                     state={isOnboardingFormSubmitted ? "active" : "upcoming"}
                   />
