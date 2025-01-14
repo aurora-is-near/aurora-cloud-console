@@ -14,6 +14,7 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { RuleContext } from "@/providers/RuleProvider"
 import { AddFilterAddressModal } from "@/components/GasAbstraction/AddFilterAddressModal"
+import { Skeleton } from "@/uikit"
 
 type Inputs = {
   open?: boolean
@@ -45,7 +46,7 @@ const UsersConfigurationCard = () => {
   }, [watch, queueUpdate, isOpen])
 
   if (!deal) {
-    return <Loader />
+    return <Skeleton className="h-24" />
   }
 
   const openAddRuleAddressModal = () => {
