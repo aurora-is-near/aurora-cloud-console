@@ -267,6 +267,8 @@ export type Database = {
       silos: {
         Row: {
           base_token_id: number | null
+          base_token_name: string
+          base_token_symbol: string
           blockscout_database_id: number | null
           chain_id: string
           created_at: string
@@ -286,6 +288,8 @@ export type Database = {
         }
         Insert: {
           base_token_id?: number | null
+          base_token_name: string
+          base_token_symbol: string
           blockscout_database_id?: number | null
           chain_id: string
           created_at?: string
@@ -305,6 +309,8 @@ export type Database = {
         }
         Update: {
           base_token_id?: number | null
+          base_token_name?: string
+          base_token_symbol?: string
           blockscout_database_id?: number | null
           chain_id?: string
           created_at?: string
