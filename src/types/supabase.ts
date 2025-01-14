@@ -1,0 +1,1102 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export type Database = {
+  public: {
+    Tables: {
+      api_keys: {
+        Row: {
+          created_at: string
+          id: number
+          key: string
+          last_used_at: string | null
+          note: string | null
+          scopes: Database["public"]["Enums"]["api_key_scopes"][]
+          team_id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          key?: string
+          last_used_at?: string | null
+          note?: string | null
+          scopes: Database["public"]["Enums"]["api_key_scopes"][]
+          team_id: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          key?: string
+          last_used_at?: string | null
+          note?: string | null
+          scopes?: Database["public"]["Enums"]["api_key_scopes"][]
+          team_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_api_keys_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blockscout_databases: {
+        Row: {
+          created_at: string
+          database: string
+          host: string
+          id: number
+          name: string
+          password: string
+          port: number
+          updated_at: string
+          user: string
+        }
+        Insert: {
+          created_at?: string
+          database: string
+          host: string
+          id?: number
+          name: string
+          password: string
+          port: number
+          updated_at?: string
+          user: string
+        }
+        Update: {
+          created_at?: string
+          database?: string
+          host?: string
+          id?: number
+          name?: string
+          password?: string
+          port?: number
+          updated_at?: string
+          user?: string
+        }
+        Relationships: []
+      }
+      deals: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          demo_key: string | null
+          enabled: boolean
+          end_time: string | null
+          id: number
+          name: string
+          open: boolean
+          silo_id: number | null
+          start_time: string | null
+          team_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          demo_key?: string | null
+          enabled?: boolean
+          end_time?: string | null
+          id?: number
+          name: string
+          open?: boolean
+          silo_id?: number | null
+          start_time?: string | null
+          team_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          demo_key?: string | null
+          enabled?: boolean
+          end_time?: string | null
+          id?: number
+          name?: string
+          open?: boolean
+          silo_id?: number | null
+          start_time?: string | null
+          team_id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deals_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      filter_entries: {
+        Row: {
+          filter_id: number
+          id: number
+          value: string
+        }
+        Insert: {
+          filter_id: number
+          id?: number
+          value: string
+        }
+        Update: {
+          filter_id?: number
+          id?: number
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "filter_entries_filter_id_fkey"
+            columns: ["filter_id"]
+            isOneToOne: false
+            referencedRelation: "filters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      filters: {
+        Row: {
+          blacklist: boolean
+          created_at: string
+          deal_id: number
+          deleted_at: string | null
+          filter_type: Database["public"]["Enums"]["filter_type"]
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          blacklist?: boolean
+          created_at?: string
+          deal_id: number
+          deleted_at?: string | null
+          filter_type: Database["public"]["Enums"]["filter_type"]
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          blacklist?: boolean
+          created_at?: string
+          deal_id?: number
+          deleted_at?: string | null
+          filter_type?: Database["public"]["Enums"]["filter_type"]
+          id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "filters_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      limits: {
+        Row: {
+          created_at: string
+          deal_id: number
+          deleted_at: string | null
+          duration: string
+          id: number
+          limit_scope: Database["public"]["Enums"]["limit_scope"]
+          limit_type: Database["public"]["Enums"]["limit_type"]
+          limit_value: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deal_id: number
+          deleted_at?: string | null
+          duration: string
+          id?: number
+          limit_scope: Database["public"]["Enums"]["limit_scope"]
+          limit_type: Database["public"]["Enums"]["limit_type"]
+          limit_value?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deal_id?: number
+          deleted_at?: string | null
+          duration?: string
+          id?: number
+          limit_scope?: Database["public"]["Enums"]["limit_scope"]
+          limit_type?: Database["public"]["Enums"]["limit_type"]
+          limit_value?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "limits_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lists: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          team_id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+          team_id: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+          team_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lists_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      onboarding_form: {
+        Row: {
+          baseToken: string | null
+          chainId: string | null
+          chainName: string | null
+          chainPermission: string | null
+          comments: string | null
+          created_at: string
+          customTokenDetails: string | null
+          gasMechanics: string | null
+          id: number
+          integrations: string[] | null
+          networkType: string | null
+          team_id: number | null
+        }
+        Insert: {
+          baseToken?: string | null
+          chainId?: string | null
+          chainName?: string | null
+          chainPermission?: string | null
+          comments?: string | null
+          created_at?: string
+          customTokenDetails?: string | null
+          gasMechanics?: string | null
+          id?: number
+          integrations?: string[] | null
+          networkType?: string | null
+          team_id?: number | null
+        }
+        Update: {
+          baseToken?: string | null
+          chainId?: string | null
+          chainName?: string | null
+          chainPermission?: string | null
+          comments?: string | null
+          created_at?: string
+          customTokenDetails?: string | null
+          gasMechanics?: string | null
+          id?: number
+          integrations?: string[] | null
+          networkType?: string | null
+          team_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_form_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      oracles: {
+        Row: {
+          created_at: string
+          id: number
+          silo_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          silo_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          silo_id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_oracles_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string
+          id: number
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          session_id: string
+          team_id: number
+          type: Database["public"]["Enums"]["order_type"]
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          session_id: string
+          team_id: number
+          type: Database["public"]["Enums"]["order_type"]
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          session_id?: string
+          team_id?: number
+          type?: Database["public"]["Enums"]["order_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rule_user_deal_data: {
+        Row: {
+          created_at: string
+          deal_id: number | null
+          deleted_at: string | null
+          id: number
+          prepaid_txs: number
+          rule_user_id: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deal_id?: number | null
+          deleted_at?: string | null
+          id?: number
+          prepaid_txs?: number
+          rule_user_id?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deal_id?: number | null
+          deleted_at?: string | null
+          id?: number
+          prepaid_txs?: number
+          rule_user_id?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_deal_data_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_deal_data_role_user_id_fkey"
+            columns: ["rule_user_id"]
+            isOneToOne: false
+            referencedRelation: "rule_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rule_users: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          eoas: string[] | null
+          id: number
+          ips: string[] | null
+          team_id: number | null
+          tokens: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          eoas?: string[] | null
+          id?: number
+          ips?: string[] | null
+          team_id?: number | null
+          tokens?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          eoas?: string[] | null
+          id?: number
+          ips?: string[] | null
+          team_id?: number | null
+          tokens?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rule_users_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rule_users_userlists: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: number
+          rule_user_id: number | null
+          updated_at: string
+          userlist_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          rule_user_id?: number | null
+          updated_at?: string
+          userlist_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          rule_user_id?: number | null
+          updated_at?: string
+          userlist_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_users_userlists_role_user_id_fkey"
+            columns: ["rule_user_id"]
+            isOneToOne: false
+            referencedRelation: "rule_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rule_users_userlists_userlist_id_fkey"
+            columns: ["userlist_id"]
+            isOneToOne: false
+            referencedRelation: "userlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rules: {
+        Row: {
+          created_at: string
+          deal_id: number
+          deleted_at: string | null
+          id: number
+          resource_definition: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deal_id: number
+          deleted_at?: string | null
+          id?: number
+          resource_definition: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deal_id?: number
+          deleted_at?: string | null
+          id?: number
+          resource_definition?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rules_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rules_userlists: {
+        Row: {
+          blacklist: boolean
+          created_at: string
+          deleted_at: string | null
+          id: number
+          rule_id: number | null
+          updated_at: string
+          userlist_id: number | null
+        }
+        Insert: {
+          blacklist?: boolean
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          rule_id?: number | null
+          updated_at?: string
+          userlist_id?: number | null
+        }
+        Update: {
+          blacklist?: boolean
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          rule_id?: number | null
+          updated_at?: string
+          userlist_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rules_userlists_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "rules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rules_userlists_userlist_id_fkey"
+            columns: ["userlist_id"]
+            isOneToOne: false
+            referencedRelation: "userlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      silos: {
+        Row: {
+          base_token_id: number | null
+          blockscout_database_id: number | null
+          chain_id: string
+          created_at: string
+          engine_account: string
+          engine_version: string
+          explorer_url: string | null
+          gas_collection_address: string | null
+          gas_price: number | null
+          genesis: string
+          grafana_network_key: string | null
+          id: number
+          name: string
+          network: string
+          rpc_url: string
+          team_id: number
+          updated_at: string
+        }
+        Insert: {
+          base_token_id?: number | null
+          blockscout_database_id?: number | null
+          chain_id: string
+          created_at?: string
+          engine_account: string
+          engine_version: string
+          explorer_url?: string | null
+          gas_collection_address?: string | null
+          gas_price?: number | null
+          genesis: string
+          grafana_network_key?: string | null
+          id?: number
+          name: string
+          network?: string
+          rpc_url?: string
+          team_id: number
+          updated_at?: string
+        }
+        Update: {
+          base_token_id?: number | null
+          blockscout_database_id?: number | null
+          chain_id?: string
+          created_at?: string
+          engine_account?: string
+          engine_version?: string
+          explorer_url?: string | null
+          gas_collection_address?: string | null
+          gas_price?: number | null
+          genesis?: string
+          grafana_network_key?: string | null
+          id?: number
+          name?: string
+          network?: string
+          rpc_url?: string
+          team_id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silos_base_token_id_fkey"
+            columns: ["base_token_id"]
+            isOneToOne: false
+            referencedRelation: "tokens"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silos_blockscout_database_id_fkey"
+            columns: ["blockscout_database_id"]
+            isOneToOne: false
+            referencedRelation: "blockscout_databases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silos_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      teams: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: number
+          name: string
+          onboarding_status:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
+          team_key: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: number
+          name: string
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
+          team_key: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: number
+          name?: string
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
+          team_key?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      tokens: {
+        Row: {
+          address: string
+          bridge_addresses: string[] | null
+          bridge_deployment_status: Database["public"]["Enums"]["deployment_status"]
+          bridge_origin: string | null
+          created_at: string
+          decimals: number | null
+          deployment_status: Database["public"]["Enums"]["deployment_status"]
+          fast_bridge: boolean
+          icon_url: string | null
+          id: number
+          name: string | null
+          silo_id: number
+          symbol: string
+          type: Database["public"]["Enums"]["token_type"] | null
+        }
+        Insert: {
+          address: string
+          bridge_addresses?: string[] | null
+          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
+          bridge_origin?: string | null
+          created_at?: string
+          decimals?: number | null
+          deployment_status?: Database["public"]["Enums"]["deployment_status"]
+          fast_bridge?: boolean
+          icon_url?: string | null
+          id?: number
+          name?: string | null
+          silo_id: number
+          symbol: string
+          type?: Database["public"]["Enums"]["token_type"] | null
+        }
+        Update: {
+          address?: string
+          bridge_addresses?: string[] | null
+          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
+          bridge_origin?: string | null
+          created_at?: string
+          decimals?: number | null
+          deployment_status?: Database["public"]["Enums"]["deployment_status"]
+          fast_bridge?: boolean
+          icon_url?: string | null
+          id?: number
+          name?: string | null
+          silo_id?: number
+          symbol?: string
+          type?: Database["public"]["Enums"]["token_type"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tokens_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      userlists: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: number
+          team_id: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          team_id?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          team_id?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "userlists_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          email: string
+          id: number
+          marketing_consent: boolean | null
+          name: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          email: string
+          id?: number
+          marketing_consent?: boolean | null
+          name?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          email?: string
+          id?: number
+          marketing_consent?: boolean | null
+          name?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      users_teams: {
+        Row: {
+          confirmed_at: string | null
+          team_id: number
+          user_id: number
+        }
+        Insert: {
+          confirmed_at?: string | null
+          team_id: number
+          user_id: number
+        }
+        Update: {
+          confirmed_at?: string | null
+          team_id?: number
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_teams_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "users_teams_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      widgets: {
+        Row: {
+          created_at: string
+          from_networks:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          id: number
+          silo_id: number
+          to_networks:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          tokens: number[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          from_networks?:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          id?: number
+          silo_id: number
+          to_networks?:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          tokens?: number[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          from_networks?:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          id?: number
+          silo_id?: number
+          to_networks?:
+            | Database["public"]["Enums"]["widget_network_type"][]
+            | null
+          tokens?: number[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bridges_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: true
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      add_scope_to_api_key_type: {
+        Args: {
+          scope_name: string
+        }
+        Returns: undefined
+      }
+      add_scopes_to_api_key_type: {
+        Args: {
+          scopes_to_add: string[]
+        }
+        Returns: undefined
+      }
+      add_values_to_enum: {
+        Args: {
+          enum_name: string
+          enum_values: string[]
+        }
+        Returns: undefined
+      }
+      has_metadata_key: {
+        Args: {
+          metadata: Json
+          key: string
+        }
+        Returns: boolean
+      }
+      update_user_metadata: {
+        Args: {
+          user_id_param: number
+        }
+        Returns: undefined
+      }
+    }
+    Enums: {
+      api_key_scopes:
+        | "deals:read"
+        | "deals:write"
+        | "silos:read"
+        | "users:read"
+        | "transactions:read"
+        | "users:write"
+        | "lists:read"
+        | "lists:write"
+        | "forwarder:read"
+        | "forwarder:write"
+        | "payments:read"
+        | "payments:write"
+      deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
+      filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
+      limit_scope: "USER" | "GLOBAL"
+      limit_type: "CYCLIC" | "RATELIMIT"
+      order_type: "initial_setup"
+      payment_status:
+        | "PAID"
+        | "UNPAID"
+        | "NO_PAYMENT_REQUIRED"
+        | "paid"
+        | "unpaid"
+        | "no_payment_required"
+      team_onboarding_status:
+        | "REQUEST_RECEIVED"
+        | "DEPLOYMENT_IN_PROGRESS"
+        | "DEPLOYMENT_DONE"
+      token_type: "ERC20" | "ERC721" | "ERC1155"
+      user_type: "customer" | "admin"
+      widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+}
+
+type PublicSchema = Database[Extract<keyof Database, "public">]
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof PublicSchema["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
