@@ -54,9 +54,7 @@ const TotalGasBalance = ({ silo }: Props) => {
   }
 }
 
-export const GasAbstractionSettings = (props: Props) => {
-  const { silo } = props
-
+export const GasAbstractionSettings = ({ silo }: Props) => {
   return (
     <Card className="flex flex-col gap-6 md:gap-12 md:flex-row">
       <aside className="w-full">
@@ -104,7 +102,7 @@ export const GasAbstractionSettings = (props: Props) => {
           </InfoList.Item>
         ) : null}
 
-        <TotalGasBalance {...props} />
+        <TotalGasBalance silo={silo} />
       </InfoList>
     </Card>
   )
