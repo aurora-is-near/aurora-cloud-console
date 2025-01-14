@@ -19,7 +19,6 @@ import {
 import { notReachable } from "@/utils/notReachable"
 import { getTokens } from "@/actions/tokens/get-tokens"
 import { upsertSilo } from "@/actions/silos/upsert-silo"
-import { createPaymentLink } from "@/actions/stripe/create-payment-link"
 import {
   AuroraToken,
   Bitcoin,
@@ -221,14 +220,8 @@ export const useChainCreationForm = (
       return
     }
 
-    // For mainnet, create a payment link
-    const paymentLink = await createPaymentLink(
-      "initial_setup",
-      team.id,
-      `${window.location.origin}/dashboard/${team.team_key}`,
-    )
-
-    window.location.href = paymentLink
+    // for mainnet
+    window.location.href = `${window.location.origin}/dashboard/${team.team_key}`
   }, [form, team, fieldErrors])
 
   return {

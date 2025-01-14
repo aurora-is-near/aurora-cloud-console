@@ -1,7 +1,10 @@
 import { ReactNode } from "react"
 import { HomeIcon } from "@heroicons/react/20/solid"
+
+import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { Deal, Silo, Team } from "@/types/types"
+
 import {
   BlockExplorer,
   Configuration,
@@ -31,10 +34,15 @@ export const MainDashboardLayout = async ({
 }: MainDashboardLayoutProps) => {
   const siloPrefix = silo ? `/silos/${silo.id}` : ""
 
+  const isOnboardingFormSubmitted = !!(
+    team && (await getTeamOnboardingForm(team.id))
+  )
+
   return (
     <DashboardLayout
       team={team}
       silo={silo}
+      showWelcomeBanner={!isOnboardingFormSubmitted}
       showAdminMenu={showAdminMenu}
       sidebarMenu={{
         heading: silo?.name ?? "Explore Aurora",
@@ -82,12 +90,6 @@ export const MainDashboardLayout = async ({
             items: [
               {
                 variant: "secondary",
-                name: "Oracle",
-                href: `/dashboard/${team.team_key}${siloPrefix}/oracle`,
-                icon: <Oracle />,
-              },
-              {
-                variant: "secondary",
                 name: "Onramp",
                 href: `/dashboard/${team.team_key}${siloPrefix}/onramp`,
                 icon: <Onramp />,
@@ -109,6 +111,12 @@ export const MainDashboardLayout = async ({
                     href: `/dashboard/${team.team_key}${siloPrefix}/onramp/bridge`,
                   },
                 ],
+              },
+              {
+                variant: "secondary",
+                name: "Oracle",
+                href: `/dashboard/${team.team_key}${siloPrefix}/oracle`,
+                icon: <Oracle />,
               },
               {
                 variant: "secondary",
