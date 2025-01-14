@@ -41,15 +41,9 @@ const SlideOver = ({
   const content = findOtherChildren(children, ["Actions"])
 
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-50"
-        initialFocus={focusRef}
-        onClose={close}
-      >
-        <Transition.Child
-          as={Fragment}
+    <Transition show={open}>
+      <Dialog as="div" className="relative z-50" onClose={close}>
+        <TransitionChild
           enter="ease-out duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
