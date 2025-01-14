@@ -20,7 +20,7 @@ const addressSchema = z.object({
     .regex(/^0x[a-fA-F0-9]{40}$/, "Invalid address format"),
 })
 
-export const AddFilterAddressModal = () => {
+export const AddRuleUserModal = () => {
   const { closeModal, activeModal } = useModals()
   const { ruleUsers, addRuleUser, removeRuleUser } =
     useRequiredContext(RuleContext)

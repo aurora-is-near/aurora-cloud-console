@@ -13,7 +13,7 @@ import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { RuleContext } from "@/providers/RuleProvider"
-import { AddFilterAddressModal } from "@/components/GasAbstraction/AddFilterAddressModal"
+import { AddRuleUserModal } from "@/components/GasAbstraction/AddRuleUserModal"
 import { Skeleton } from "@/uikit"
 
 type Inputs = {
@@ -151,7 +151,7 @@ const UsersConfigurationCard = () => {
           </div>
         </div>
       </div>
-      <AddFilterAddressModal />
+      <AddRuleUserModal />
     </ConfigurationCard>
   )
 }
