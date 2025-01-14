@@ -54,7 +54,6 @@ export const AddRuleUserModal = () => {
 
     addRuleUser(newAddress)
     setNewAddress("")
-    toast.success("Address added")
   }
 
   const removeAddress = (address: string) => {
@@ -63,7 +62,6 @@ export const AddRuleUserModal = () => {
     if (ruleUser) {
       removeRuleUser(ruleUser.id)
       setAddresses(addresses.filter((a) => a !== address))
-      toast.success("Address removed")
     }
   }
 

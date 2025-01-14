@@ -3,9 +3,13 @@ import { Rule } from "@/types/types"
 export const createMockRule = (data?: Partial<Rule>): Rule => ({
   id: 1,
   deal_id: 1,
-  resource_definition: { key: "value" },
+  resource_definition: {
+    chains: "*",
+    contracts: ["0x0000000000000000000000000000000000000000"],
+  },
   created_at: "2021-01-01T00:00:00.000Z",
   updated_at: "2021-01-01T00:00:00.000Z",
+  deleted_at: null,
   ...data,
 })
 

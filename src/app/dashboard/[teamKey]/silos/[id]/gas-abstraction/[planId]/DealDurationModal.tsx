@@ -60,12 +60,7 @@ export const DealDurationModal = () => {
   }, [deal, open, setValue])
 
   return (
-    <SlideOver
-      title="Restrict deal duration"
-      focusRef={submitButtonRef}
-      open={open}
-      close={closeModal}
-    >
+    <SlideOver title="Restrict deal duration" open={open} close={closeModal}>
       <div className="space-y-8">
         <div className="gap-x-3 flex flex-row">
           <InputWrapper id="startTime" inputName="startTime" label="Start time">
