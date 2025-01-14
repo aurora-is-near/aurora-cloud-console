@@ -3,8 +3,16 @@ import type { PropsWithChildren } from "react"
 
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
+import { NotAvailableBadge } from "@/components/NotAvailableBadge"
 
-export const GasAbstractionPage = async ({ children }: PropsWithChildren) => (
+type Props = PropsWithChildren<{
+  isNotAvailable?: boolean
+}>
+
+export const GasAbstractionPage = async ({
+  children,
+  isNotAvailable,
+}: Props) => (
   <DashboardPage>
     <Hero
       title="Gas Abstraction"
@@ -17,6 +25,13 @@ export const GasAbstractionPage = async ({ children }: PropsWithChildren) => (
           className="mr-16 shadow-xl rounded-[2rem]"
           alt=""
         />
+      }
+      actions={
+        isNotAvailable && (
+          <NotAvailableBadge>
+            Available with your Virtual Chain
+          </NotAvailableBadge>
+        )
       }
     />
     <div className="flex flex-col gap-14">{children}</div>

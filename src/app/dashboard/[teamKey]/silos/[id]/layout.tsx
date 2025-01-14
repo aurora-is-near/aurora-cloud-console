@@ -30,7 +30,7 @@ const Layout = async ({
 
   return (
     <MainDashboardLayout
-      teamKey={teamKey}
+      team={team}
       silo={silo}
       deals={deals}
       showAdminMenu={isAdminUser}

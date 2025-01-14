@@ -7,15 +7,20 @@ import { OnrampHomePageHero } from "./OnrampHomePageHero"
 type OnrampHomePageProps = {
   teamKey: string
   silo?: Silo | null
+  isNotAvailable?: boolean
 }
 
-export const OnrampHomePage = ({ teamKey, silo }: OnrampHomePageProps) => {
+export const OnrampHomePage = ({
+  teamKey,
+  silo,
+  isNotAvailable,
+}: OnrampHomePageProps) => {
   const siloPrefix = silo ? `/silos/${silo.id}` : ""
   const linkPrefix = `/dashboard/${teamKey}${siloPrefix}/onramp`
 
   return (
     <DashboardPage>
-      <OnrampHomePageHero />
+      <OnrampHomePageHero isNotAvailable={isNotAvailable} />
       <div className="flex flex-col gap-5">
         <span className="text-xl text-slate-900 font-bold">Solutions</span>
 

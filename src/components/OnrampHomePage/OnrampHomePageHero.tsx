@@ -1,7 +1,13 @@
 import Image from "next/image"
-import Hero from "@/components/Hero/Hero"
 
-export const OnrampHomePageHero = () => {
+import Hero from "@/components/Hero/Hero"
+import { NotAvailableBadge } from "@/components/NotAvailableBadge"
+
+type Props = {
+  isNotAvailable?: boolean
+}
+
+export const OnrampHomePageHero = ({ isNotAvailable }: Props) => {
   return (
     <Hero
       hasDivider
@@ -15,6 +21,13 @@ export const OnrampHomePageHero = () => {
           alt="Aurora Cloud"
           className="mr-16 shadow-xl rounded-[2rem]"
         />
+      }
+      actions={
+        isNotAvailable && (
+          <NotAvailableBadge>
+            Available with your Virtual Chain
+          </NotAvailableBadge>
+        )
       }
     />
   )

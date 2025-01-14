@@ -3,7 +3,7 @@ import { GasAbstractionPage } from "@/components/GasAbstractionPage"
 import { GasAbstractionAboutTab } from "@/components/GasAbstraction/AboutTab"
 
 const Page = async () => (
-  <GasAbstractionPage>
+  <GasAbstractionPage isNotAvailable>
     <Tabs
       tabs={[
         {

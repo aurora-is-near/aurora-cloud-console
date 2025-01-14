@@ -7,9 +7,12 @@ import { MainMenu } from "@/components/menu/MainMenu"
 import { MenuItem, MenuSection } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import Helpscout from "@/components/Helpscout"
+import { TopPageBanner } from "@/components/TopPageBanner"
+import type { Team, Silo } from "@/types/types"
 
 type DashboardLayoutProps = {
-  teamKey?: string
+  team?: Team
+  silo?: Silo
   showAdminMenu: boolean
   children: ReactNode
   sidebarMenu?: {
@@ -20,7 +23,8 @@ type DashboardLayoutProps = {
 }
 
 export const DashboardLayout = ({
-  teamKey,
+  team,
+  silo,
   showAdminMenu,
   children,
   sidebarMenu,
@@ -36,19 +40,22 @@ export const DashboardLayout = ({
       })
     }
 
-    if (teamKey) {
+    if (team) {
       items.push({
         name: "Settings",
-        href: `/dashboard/${teamKey}/settings/team`,
+        href: `/dashboard/${team.team_key}/settings/team`,
         icon: <Cog6ToothIcon />,
       })
     }
 
     return items
-  }, [teamKey, showAdminMenu])
+  }, [team, showAdminMenu])
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
+      {team && !team?.onboarding_status && !silo && (
+        <TopPageBanner team={team} />
+      )}
       <MainMenu menuItems={mainMenuItems} />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
         {!!sidebarMenu?.sections.length && (
@@ -60,9 +67,9 @@ export const DashboardLayout = ({
         )}
         <div className="w-full">{children}</div>
       </div>
-      {process.env.NODE_ENV === "production" && !!teamKey && !showAdminMenu && (
-        <Helpscout />
-      )}
+      {process.env.NODE_ENV === "production" &&
+        !!team?.team_key &&
+        !showAdminMenu && <Helpscout />}
     </div>
   )
 }

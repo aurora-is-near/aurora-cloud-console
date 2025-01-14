@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { HomeIcon } from "@heroicons/react/20/solid"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { Deal, Silo } from "@/types/types"
+import { Deal, Silo, Team } from "@/types/types"
 import {
   BlockExplorer,
   Configuration,
@@ -13,7 +13,7 @@ import {
 } from "../../public/static/v2/images/menuIcons"
 
 type MainDashboardLayoutProps = {
-  teamKey: string
+  team: Team
   silo?: Silo
   deals?: Deal[]
   showAdminMenu: boolean
@@ -22,7 +22,7 @@ type MainDashboardLayoutProps = {
 }
 
 export const MainDashboardLayout = async ({
-  teamKey,
+  team,
   silo,
   deals = [],
   showAdminMenu,
@@ -33,7 +33,8 @@ export const MainDashboardLayout = async ({
 
   return (
     <DashboardLayout
-      teamKey={teamKey}
+      team={team}
+      silo={silo}
       showAdminMenu={showAdminMenu}
       sidebarMenu={{
         heading: silo?.name ?? "Explore Aurora",
@@ -43,35 +44,35 @@ export const MainDashboardLayout = async ({
             items: [
               {
                 name: "Home",
-                href: `/dashboard/${teamKey}${siloPrefix}`,
+                href: `/dashboard/${team.team_key}${siloPrefix}`,
                 icon: <HomeIcon />,
               },
               ...(silo
                 ? [
                     {
                       name: "Monitoring",
-                      href: `/dashboard/${teamKey}${siloPrefix}/monitoring`,
+                      href: `/dashboard/${team.team_key}${siloPrefix}/monitoring`,
                       icon: <Monitoring />,
                     },
                     {
                       name: "Configuration",
-                      href: `/dashboard/${teamKey}${siloPrefix}/configuration`,
+                      href: `/dashboard/${team.team_key}${siloPrefix}/configuration`,
                       icon: <Configuration />,
                     },
                   ]
                 : []),
               {
                 name: "Gas abstraction",
-                href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction`,
+                href: `/dashboard/${team.team_key}${siloPrefix}/gas-abstraction`,
                 icon: <GasAbstraction />,
                 items: deals.map((deal) => ({
                   name: deal.name,
-                  href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction/${deal.id}`,
+                  href: `/dashboard/${team.team_key}${siloPrefix}/gas-abstraction/${deal.id}`,
                 })),
               },
               {
                 name: "Integrations",
-                href: `/dashboard/${teamKey}${siloPrefix}/integrations`,
+                href: `/dashboard/${team.team_key}${siloPrefix}/integrations`,
                 icon: <Integrations />,
               },
             ],
@@ -80,36 +81,39 @@ export const MainDashboardLayout = async ({
             heading: "Your Stack",
             items: [
               {
+                variant: "secondary",
                 name: "Oracle",
-                href: `/dashboard/${teamKey}${siloPrefix}/oracle`,
+                href: `/dashboard/${team.team_key}${siloPrefix}/oracle`,
                 icon: <Oracle />,
               },
               {
+                variant: "secondary",
                 name: "Onramp",
-                href: `/dashboard/${teamKey}${siloPrefix}/onramp`,
+                href: `/dashboard/${team.team_key}${siloPrefix}/onramp`,
                 icon: <Onramp />,
                 items: [
                   {
                     name: "Universal widget",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/universal-widget`,
+                    href: `/dashboard/${team.team_key}${siloPrefix}/onramp/universal-widget`,
                   },
                   {
                     name: "Fiat onramp",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/fiat-to-crypto`,
+                    href: `/dashboard/${team.team_key}${siloPrefix}/onramp/fiat-to-crypto`,
                   },
                   {
                     name: "Forwarder",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/forwarder`,
+                    href: `/dashboard/${team.team_key}${siloPrefix}/onramp/forwarder`,
                   },
                   {
                     name: "Bridge",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
+                    href: `/dashboard/${team.team_key}${siloPrefix}/onramp/bridge`,
                   },
                 ],
               },
               {
+                variant: "secondary",
                 name: "Block explorer",
-                href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
+                href: `/dashboard/${team.team_key}${siloPrefix}/block-explorer`,
                 icon: <BlockExplorer />,
               },
             ],

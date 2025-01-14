@@ -1,9 +1,12 @@
 import Image from "next/image"
+
 import Hero from "@/components/Hero/Hero"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { DashboardPage } from "@/components/DashboardPage"
 import { AuroraOracle } from "@/types/oracle"
 import { AuroraOracleToken } from "@/types/aurora-oracle-api"
+import { NotAvailableBadge } from "@/components/NotAvailableBadge"
+
 import { OracleConfigurationTab } from "./OracleConfigurationTab"
 import { OracleRequestDeploymentButton } from "./OracleRequestDeploymentButton"
 import { OracleDeploymentTab } from "./OracleDeploymentTab"
@@ -14,9 +17,16 @@ type OraclePageProps = {
   siloId?: number
   oracle?: AuroraOracle | null
   tokens?: AuroraOracleToken[]
+  isNotAvailable?: boolean
 }
 
-const OraclePage = ({ teamKey, siloId, oracle, tokens }: OraclePageProps) => {
+const OraclePage = ({
+  teamKey,
+  siloId,
+  oracle,
+  tokens,
+  isNotAvailable,
+}: OraclePageProps) => {
   const tabs = [{ title: "About", content: <OracleAboutTab /> }]
 
   if (oracle) {
@@ -39,8 +49,17 @@ const OraclePage = ({ teamKey, siloId, oracle, tokens }: OraclePageProps) => {
           title="Oracle"
           description="Secure your smart contracts with reliable, low-latency market data from institutional sources."
           actions={
-            !!siloId &&
-            !oracle && <OracleRequestDeploymentButton siloId={siloId} />
+            <>
+              {isNotAvailable && (
+                <NotAvailableBadge>
+                  Available with your Virtual Chain
+                </NotAvailableBadge>
+              )}
+
+              {!!siloId && !oracle && (
+                <OracleRequestDeploymentButton siloId={siloId} />
+              )}
+            </>
           }
           titlePrefix={
             <Image

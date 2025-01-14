@@ -1,11 +1,12 @@
 import clsx from "clsx"
 import { ReactNode } from "react"
+
 import HeroTitle from "./HeroTitle"
 import HeroContent from "./HeroContent"
 
 interface HeroProps {
   title: string
-  description: string
+  description: string | JSX.Element
   actions?: ReactNode
   titlePrefix?: ReactNode
   image?: ReactNode
