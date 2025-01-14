@@ -1,12 +1,15 @@
-import { CardProgress } from "@/uikit"
+import { CardProgress, Typography } from "@/uikit"
 import { Team } from "@/types/types"
 
 type Props = {
   status: Exclude<Team["onboarding_status"], null>
 }
 
-export const DeploymentProgress = ({ status }: Props) => {
-  return (
+export const DeploymentProgress = ({ status }: Props) => (
+  <section className="flex flex-col gap-6">
+    <Typography variant="heading" size={4}>
+      Your chain’s deployment progress
+    </Typography>
     <div className="flex flex-col gap-6 md:flex-row">
       <CardProgress
         index={1}
@@ -29,5 +32,5 @@ export const DeploymentProgress = ({ status }: Props) => {
         text="We’ll help you deploy the chosen integrations next."
       />
     </div>
-  )
-}
+  </section>
+)

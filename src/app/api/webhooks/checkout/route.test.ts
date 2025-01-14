@@ -4,6 +4,7 @@
 import Stripe from "stripe"
 import { NextRequest } from "next/server"
 import { logger } from "@/logger"
+import { sendSlackMessage } from "@/utils/send-slack-notification"
 import { POST } from "./route"
 import {
   createInsertOrUpdate,
@@ -14,6 +15,7 @@ import { mockTeam } from "../../../../../test-utils/mock-team"
 import { createMockOrder } from "../../../../../test-utils/factories/order-factory"
 
 jest.mock("stripe")
+jest.mock("../../../../utils/send-slack-notification")
 
 const stripeSecretKey = "test_stripe_secret_key"
 const stripeWebhookSecret = "test_stripe_webhook_secret"
@@ -136,14 +138,17 @@ describe("Checkout webhook route", () => {
   })
 
   it("handles a checkout.session.completed event", async () => {
-    const teamId = 42
     const session = {
       id: "session_id",
       metadata: {
-        team_id: String(teamId),
+        team_id: String(mockTeam.id),
         product_type: "initial_setup",
       },
       payment_status: "paid",
+      customer_details: {
+        name: "Joe Bloggs",
+        email: "example@demo.com",
+      },
     }
 
     stripeMock.webhooks.constructEvent.mockImplementation(() => ({
@@ -159,11 +164,16 @@ describe("Checkout webhook route", () => {
 
     const mockOrder = createMockOrder()
     const teamUpdateQueries = createInsertOrUpdate(mockTeam)
+    const teamSelectQueries = createSelect(mockTeam)
     const ordersInsertQueries = createInsertOrUpdate(mockOrder)
 
     mockSupabaseClient
       .from("teams")
       .update.mockImplementation(() => teamUpdateQueries)
+
+    mockSupabaseClient
+      .from("teams")
+      .select.mockImplementation(() => teamSelectQueries)
 
     mockSupabaseClient
       .from("orders")
@@ -177,7 +187,7 @@ describe("Checkout webhook route", () => {
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
-      teamId,
+      teamId: mockTeam.id,
       fulfilled: true,
       paymentId: mockOrder.id,
     })
@@ -187,7 +197,7 @@ describe("Checkout webhook route", () => {
       type: "initial_setup",
       payment_status: "paid",
       session_id: "session_id",
-      team_id: teamId,
+      team_id: mockTeam.id,
     })
 
     expect(mockSupabaseClient.from("teams").update).toHaveBeenCalledTimes(1)
@@ -195,7 +205,38 @@ describe("Checkout webhook route", () => {
       onboarding_status: "REQUEST_RECEIVED",
     })
 
-    expect(teamUpdateQueries.eq).toHaveBeenCalledWith("id", teamId)
+    expect(teamUpdateQueries.eq).toHaveBeenCalledWith("id", mockTeam.id)
+
+    expect(sendSlackMessage).toHaveBeenCalledTimes(1)
+    expect(sendSlackMessage).toHaveBeenCalledWith({
+      text: `Payment received for the "${mockTeam.name}" team (ACC ID: ${mockTeam.id})`,
+      blocks: [
+        {
+          type: "header",
+          text: {
+            type: "plain_text",
+            text: `Payment received for the "${mockTeam.name}" team (ACC ID: ${mockTeam.id})`,
+          },
+        },
+        {
+          type: "divider",
+        },
+        {
+          type: "section",
+          text: {
+            text: "*Customer Name*\nJoe Bloggs",
+            type: "mrkdwn",
+          },
+        },
+        {
+          type: "section",
+          text: {
+            text: "*Customer Email Address*\nexample@demo.com",
+            type: "mrkdwn",
+          },
+        },
+      ],
+    })
   })
 
   it("handles a checkout.session.async_payment_failed event", async () => {

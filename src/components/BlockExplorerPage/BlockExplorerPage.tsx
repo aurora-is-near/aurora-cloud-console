@@ -1,11 +1,14 @@
 import Image from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
+
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { Silo } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
+import { NotAvailableBadge } from "@/components/NotAvailableBadge"
+
 import { Blockscout } from "../../../public/static/v2/images/icons"
 
 type BlockExplorerPageProps = {
@@ -35,17 +38,25 @@ export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
           />
         }
         actions={
-          !!silo?.explorer_url && (
-            <LinkButton
-              isExternal
-              variant="border"
-              href={silo.explorer_url}
-              size="lg"
-            >
-              <span>Open the explorer</span>
-              <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-            </LinkButton>
-          )
+          <>
+            {!silo && (
+              <NotAvailableBadge>
+                Available with your Virtual Chain
+              </NotAvailableBadge>
+            )}
+
+            {!!silo?.explorer_url && (
+              <LinkButton
+                isExternal
+                variant="border"
+                href={silo.explorer_url}
+                size="lg"
+              >
+                <span>Open the explorer</span>
+                <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+              </LinkButton>
+            )}
+          </>
         }
       />
 

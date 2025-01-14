@@ -157,6 +157,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
             number={2}
             title="Select the base token of your chain"
             description="The base token of your chain will be used to pay for transaction fees on your chain. It supports any ERC-20 or NEP-141 token, including your own custom token."
+            hasError={!!fieldErrors?.baseToken}
           >
             <div className="grid sm:grid-cols-3 md:grid-cols-6 gap-4">
               {tokenOptions.map((token) => (
@@ -220,6 +221,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
             number={3}
             title="Define the gas mechanics"
             description="Aurora Cloud lets you define your chain's gas mechanics, including the option to remove gas fees entirely for your customers."
+            hasError={!!fieldErrors?.gasMechanics}
           >
             <div className="grid md:grid-cols-3 gap-4">
               <GasMechanicsBox

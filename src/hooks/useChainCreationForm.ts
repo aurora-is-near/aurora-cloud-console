@@ -132,6 +132,10 @@ export const useChainCreationForm = (
     value: ChainCreationForm[K],
   ) => {
     setForm((prevForm) => ({ ...prevForm, [field]: value }))
+
+    if (value) {
+      setFieldErrors((p) => ({ ...p, [field]: undefined }))
+    }
   }
 
   const handleIntegrationToggle = useCallback((integration: Integration) => {
@@ -157,7 +161,25 @@ export const useChainCreationForm = (
   const handleSubmit = useCallback(async () => {
     if (!form.chainName) {
       setFieldErrors((p) => ({ ...p, chainName: "Please enter a chain name" }))
+    }
 
+    if (!form.baseToken) {
+      setFieldErrors((p) => ({
+        ...p,
+        ...fieldErrors,
+        baseToken: "Please select a base token",
+      }))
+    }
+
+    if (!form.gasMechanics) {
+      setFieldErrors((p) => ({
+        ...p,
+        ...fieldErrors,
+        gasMechanics: "Please select a gas mechanics",
+      }))
+    }
+
+    if (fieldErrors && Object.values(fieldErrors).find((v) => !!v)) {
       return
     }
 
@@ -207,7 +229,7 @@ export const useChainCreationForm = (
     )
 
     window.location.href = paymentLink
-  }, [form, team])
+  }, [form, team, fieldErrors])
 
   return {
     form,

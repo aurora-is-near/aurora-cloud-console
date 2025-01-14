@@ -15,7 +15,7 @@ export const OnrampHomePage = ({ teamKey, silo }: OnrampHomePageProps) => {
 
   return (
     <DashboardPage>
-      <OnrampHomePageHero />
+      <OnrampHomePageHero silo={silo} />
       <div className="flex flex-col gap-5">
         <span className="text-xl text-slate-900 font-bold">Solutions</span>
 

@@ -30,7 +30,7 @@ const Step: React.FC<StepProps> = ({
           {number}
         </div>
       </div>
-      <div className="w-full">
+      <div className="w-full pt-1">
         <div className="flex justify-between items-start mb-1">
           <div className="flex flex-col gap-2">
             <h2
