@@ -1,6 +1,6 @@
 import { CheckIcon } from "@heroicons/react/24/outline"
 
-import { Typography, clsx } from "@/uikit"
+import { clsx, Typography } from "@/uikit"
 import { LinkButton } from "@/components/LinkButton"
 
 type Props = {
@@ -49,7 +49,7 @@ export const StepCard = ({ index, state, title, description, link }: Props) => (
       <LinkButton
         size="lg"
         disabled={link.isDisabled}
-        href={link.isDisabled ? link.url || "" : link.url}
+        href={link.isDisabled ? link.url ?? "" : link.url}
       >
         {link.label}
       </LinkButton>
