@@ -19,12 +19,7 @@ type OraclePageProps = {
   tokens?: AuroraOracleToken[]
 }
 
-const OraclePage = ({
-  teamKey,
-  siloId,
-  oracle,
-  tokens,
-}: OraclePageProps) => {
+const OraclePage = ({ teamKey, siloId, oracle, tokens }: OraclePageProps) => {
   const tabs = [{ title: "About", content: <OracleAboutTab /> }]
 
   if (oracle) {

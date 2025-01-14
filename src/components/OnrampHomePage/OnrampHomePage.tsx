@@ -9,10 +9,7 @@ type OnrampHomePageProps = {
   silo?: Silo | null
 }
 
-export const OnrampHomePage = ({
-  teamKey,
-  silo,
-}: OnrampHomePageProps) => {
+export const OnrampHomePage = ({ teamKey, silo }: OnrampHomePageProps) => {
   const siloPrefix = silo ? `/silos/${silo.id}` : ""
   const linkPrefix = `/dashboard/${teamKey}${siloPrefix}/onramp`
 
