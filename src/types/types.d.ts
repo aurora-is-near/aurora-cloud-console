@@ -63,6 +63,8 @@ export type Deal = Tables<"deals">
 
 export type Order = Tables<"orders">
 
+export type OnboardingForm = Tables<"onboarding_form">
+
 export type ChartColor = (typeof CHART_COLOURS)[number]
 
 type ChartData = {
