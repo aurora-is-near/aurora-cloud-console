@@ -23,7 +23,7 @@ export const Heading = ({
       className={clsx(
         "font-bold",
         {
-          "text-xl": size === 3,
+          "font-bold text-xl tracking-tight leading-6": size === 3,
           "text-lg tracking-tight": size === 4,
           "text-4xl tracking-tighter": size === 5,
           "text-base": size === 6,

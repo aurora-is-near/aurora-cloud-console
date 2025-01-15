@@ -1,5 +1,6 @@
 import { FireIcon, SparklesIcon, StarIcon } from "@heroicons/react/20/solid"
-import clsx from "clsx"
+
+import { Typography, clsx } from "@/uikit"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { GasMechanics } from "@/types/chain-creation"
 
@@ -63,14 +64,13 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
         >
           {Icon && <Icon className="w-4 h-4" />}
         </div>
-        <h3
-          className={clsx(
-            "font-bold text-xl tracking-tight leading-6",
-            disabled ? "text-slate-500" : "text-slate-900",
-          )}
+        <Typography
+          variant="heading"
+          size={3}
+          className={disabled ? "text-slate-500" : "text-slate-900"}
         >
           {TITLES[mechanic]}
-        </h3>
+        </Typography>
       </div>
       <p className="text-sm text-slate-700">{DESCRIPTIONS[mechanic]}</p>
       {disabled ? (

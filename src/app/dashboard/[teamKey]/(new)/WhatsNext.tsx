@@ -12,7 +12,7 @@ const CompleteOnboardingBanner = () => (
     <div className="grow-0">
       <SparklesIcon className="w-11 h-11 text-green-900" />
     </div>
-    <div className="mr-auto">
+    <div className="mr-auto flex flex-col gap-1">
       <Typography variant="heading" size={3}>
         Book a call with our team
       </Typography>
@@ -38,7 +38,7 @@ const ExploreAuroraDocsBanner = () => (
     <div className="grow-0">
       <BookOpenIcon className="w-11 h-11 text-green-900" />
     </div>
-    <div className="mr-auto">
+    <div className="mr-auto flex flex-col gap-1">
       <Typography variant="heading" size={3}>
         Explore Aurora Cloud documentation
       </Typography>
@@ -64,11 +64,11 @@ type Props = {
 }
 
 export const WhatsNext = ({ className }: Props) => (
-  <section className={clsx("flex flex-col gap-6", className)}>
+  <section className={clsx("flex flex-col gap-5", className)}>
     <Typography variant="heading" size={3}>
       Discover more
     </Typography>
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-4">
       <CompleteOnboardingBanner />
       <ExploreAuroraDocsBanner />
     </div>
