@@ -64,13 +64,13 @@ export const GasAbstractionMechanics = ({ silo, baseTokenSymbol }: Props) => {
               <Typography variant="paragraph" size={4}>
                 {`${gasPriceDisplayed} ${baseTokenSymbol} per gas`}
               </Typography>
-              {CAN_EDIT_GAS_PRICE ? (
+              {CAN_EDIT_GAS_PRICE && (
                 <Btn.Iconed
                   icon={PencilSquareIcon}
                   label="Edit gas price"
                   onClick={() => openModal(Modals.EditGasPrice)}
                 />
-              ) : null}
+              )}
             </div>
           </InfoList.Item>
         </InfoList>
