@@ -136,70 +136,6 @@ export type Database = {
           },
         ]
       }
-      filter_entries: {
-        Row: {
-          filter_id: number
-          id: number
-          value: string
-        }
-        Insert: {
-          filter_id: number
-          id?: number
-          value: string
-        }
-        Update: {
-          filter_id?: number
-          id?: number
-          value?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "filter_entries_filter_id_fkey"
-            columns: ["filter_id"]
-            isOneToOne: false
-            referencedRelation: "filters"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      filters: {
-        Row: {
-          blacklist: boolean
-          created_at: string
-          deal_id: number
-          deleted_at: string | null
-          filter_type: Database["public"]["Enums"]["filter_type"]
-          id: number
-          updated_at: string
-        }
-        Insert: {
-          blacklist?: boolean
-          created_at?: string
-          deal_id: number
-          deleted_at?: string | null
-          filter_type: Database["public"]["Enums"]["filter_type"]
-          id?: number
-          updated_at?: string
-        }
-        Update: {
-          blacklist?: boolean
-          created_at?: string
-          deal_id?: number
-          deleted_at?: string | null
-          filter_type?: Database["public"]["Enums"]["filter_type"]
-          id?: number
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "filters_deal_id_fkey"
-            columns: ["deal_id"]
-            isOneToOne: false
-            referencedRelation: "deals"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       limits: {
         Row: {
           created_at: string
@@ -389,6 +325,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      replenishments: {
+        Row: {
+          account_id: string
+          amount: number
+          error_message: string | null
+          id: number
+          inserted_at: string
+          near_transaction_hash: string | null
+          status: string
+        }
+        Insert: {
+          account_id: string
+          amount: number
+          error_message?: string | null
+          id?: number
+          inserted_at?: string
+          near_transaction_hash?: string | null
+          status: string
+        }
+        Update: {
+          account_id?: string
+          amount?: number
+          error_message?: string | null
+          id?: number
+          inserted_at?: string
+          near_transaction_hash?: string | null
+          status?: string
+        }
+        Relationships: []
       }
       rule_user_deal_data: {
         Row: {
@@ -601,12 +567,15 @@ export type Database = {
       silos: {
         Row: {
           base_token_id: number | null
+          base_token_name: string
+          base_token_symbol: string
           blockscout_database_id: number | null
           chain_id: string
           created_at: string
           engine_account: string
           engine_version: string
           explorer_url: string | null
+          favicon: string
           gas_collection_address: string | null
           gas_price: number | null
           genesis: string
@@ -614,18 +583,26 @@ export type Database = {
           id: number
           name: string
           network: string
+          network_logo: string
+          network_logo_dark: string
+          replenish_amount: number
+          replenish_threshold: number
           rpc_url: string
           team_id: number
+          type: string
           updated_at: string
         }
         Insert: {
           base_token_id?: number | null
+          base_token_name: string
+          base_token_symbol: string
           blockscout_database_id?: number | null
           chain_id: string
           created_at?: string
           engine_account: string
           engine_version: string
           explorer_url?: string | null
+          favicon?: string
           gas_collection_address?: string | null
           gas_price?: number | null
           genesis: string
@@ -633,18 +610,26 @@ export type Database = {
           id?: number
           name: string
           network?: string
+          network_logo?: string
+          network_logo_dark?: string
+          replenish_amount?: number
+          replenish_threshold?: number
           rpc_url?: string
           team_id: number
+          type?: string
           updated_at?: string
         }
         Update: {
           base_token_id?: number | null
+          base_token_name?: string
+          base_token_symbol?: string
           blockscout_database_id?: number | null
           chain_id?: string
           created_at?: string
           engine_account?: string
           engine_version?: string
           explorer_url?: string | null
+          favicon?: string
           gas_collection_address?: string | null
           gas_price?: number | null
           genesis?: string
@@ -652,8 +637,13 @@ export type Database = {
           id?: number
           name?: string
           network?: string
+          network_logo?: string
+          network_logo_dark?: string
+          replenish_amount?: number
+          replenish_threshold?: number
           rpc_url?: string
           team_id?: number
+          type?: string
           updated_at?: string
         }
         Relationships: [
