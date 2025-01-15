@@ -1,6 +1,6 @@
 import { FireIcon, SparklesIcon, StarIcon } from "@heroicons/react/20/solid"
 
-import { Typography, clsx } from "@/uikit"
+import { clsx, Typography } from "@/uikit"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { GasMechanics } from "@/types/chain-creation"
 

@@ -1,6 +1,6 @@
 import { ComponentType } from "react"
 
-import { Typography, clsx } from "@/uikit"
+import { clsx, Typography } from "@/uikit"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { ChainPermission } from "@/types/chain-creation"
 
