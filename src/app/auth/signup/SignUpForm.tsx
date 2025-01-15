@@ -3,11 +3,18 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { AUTH_CALLBACK_ROUTE, LINK_SENT_ROUTE } from "@/constants/routes"
+import { useState } from "react"
+import {
+  AUTH_CALLBACK_ROUTE,
+  LINK_SENT_ROUTE,
+  LOGIN_ROUTE,
+} from "@/constants/routes"
 import { createClientComponentClient } from "@/supabase/create-client-component-client"
 import { AuthInput } from "@/components/AuthInput"
 import { AuthForm } from "@/components/AuthForm"
 import { EMAIL_QUERY_PARAM, SIGNUP_QUERY_PARAM } from "@/constants/auth"
+import { getUserByEmail } from "@/actions/user/get-user"
+import { Alert } from "@/components/Alert"
 
 type Inputs = {
   email: string
@@ -19,6 +26,8 @@ type Inputs = {
 export const SignUpForm = () => {
   const supabase = createClientComponentClient()
   const router = useRouter()
+  const [showExistingAccountError, setShowExistingAccountError] =
+    useState(false)
 
   const {
     register,
@@ -33,6 +42,14 @@ export const SignUpForm = () => {
     company,
     marketing_consent,
   }) => {
+    const existingUser = await getUserByEmail(email)
+
+    if (existingUser) {
+      setShowExistingAccountError(true)
+
+      return
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
@@ -77,6 +94,18 @@ export const SignUpForm = () => {
         linkText: "Sign in",
       }}
     >
+      {showExistingAccountError && (
+        <Alert type="error" dismissable>
+          <p className="font-bold">An account with this email already exists</p>
+          <p>
+            Do you want to{" "}
+            <Link href={LOGIN_ROUTE} className="underline">
+              sign in
+            </Link>{" "}
+            ?
+          </p>
+        </Alert>
+      )}
       <AuthInput
         required
         id="email"
