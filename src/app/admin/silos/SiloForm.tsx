@@ -3,7 +3,7 @@
 import { SubmitHandler } from "react-hook-form"
 import { sentenceCase } from "change-case"
 import { usePathname } from "next/navigation"
-import { BlockscoutDatabase, Silo, Team, Token } from "@/types/types"
+import { BlockscoutDatabase, Silo, Team } from "@/types/types"
 import { updateSilo } from "@/actions/silos/update-silo"
 import { createSilo } from "@/actions/silos/create-silo"
 import {
@@ -14,7 +14,6 @@ import { SelectInputOption } from "@/components/SelectInput"
 
 type SiloFormProps = {
   silo?: Silo
-  tokens?: Token[]
   blockscoutDatabases: BlockscoutDatabase[]
   teams: Team[]
 }
@@ -28,11 +27,6 @@ type NetworkOption = (typeof NETWORK_OPTIONS)[number]
 const getNetworkOption = (value: NetworkOption): SelectInputOption => ({
   label: sentenceCase(value),
   value,
-})
-
-const getTokenOption = (token: Token): SelectInputOption => ({
-  label: token.symbol,
-  value: token.id,
 })
 
 const getTeamOption = (team: Team): SelectInputOption => ({
@@ -52,7 +46,6 @@ const isNetworkOption = (value?: string): value is NetworkOption =>
 
 export const SiloForm = ({
   silo,
-  tokens,
   teams,
   blockscoutDatabases,
 }: SiloFormProps) => {
@@ -72,7 +65,6 @@ export const SiloForm = ({
     window.location.href = pathname.split("/").slice(0, -1).join("/")
   }
 
-  const baseToken = tokens?.find((token) => token.id === silo?.base_token_id)
   const blockscoutDatabase = blockscoutDatabases?.find(
     (database) => database.id === silo?.blockscout_database_id,
   )
@@ -166,25 +158,19 @@ export const SiloForm = ({
       defaultValue: silo?.grafana_network_key ?? "",
       autoComplete: "grafanana_network_key",
     },
+    {
+      name: "base_token_name",
+      label: "Base token name",
+      defaultValue: silo?.base_token_name ?? "",
+      required: true,
+    },
+    {
+      name: "base_token_symbol",
+      label: "Base token symbol",
+      defaultValue: silo?.base_token_symbol ?? "",
+      required: true,
+    },
   ]
-
-  if (tokens) {
-    inputs.push({
-      name: "base_token_id",
-      label: "Base token",
-      defaultValue: baseToken ? getTokenOption(baseToken) : undefined,
-      getValue: (option?: SelectInputOption) => option?.value,
-      options: tokens.map(getTokenOption),
-    })
-  } else {
-    inputs.push({
-      name: "base_token_id",
-      label: "Base token",
-      getValue: (option?: SelectInputOption) => option?.value,
-      disabled: true,
-      placeholder: "You can add tokens after creating the silo",
-    })
-  }
 
   return <HorizontalForm submitHandler={submitHandler} inputs={inputs} />
 }

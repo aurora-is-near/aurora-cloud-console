@@ -18,17 +18,11 @@ type FormData = {
 
 type Props = {
   silo: Silo
-  baseTokenSymbol: string
   formId: string
   onSubmitted: (values: FormData) => void
 }
 
-export const GasPriceForm = ({
-  silo,
-  baseTokenSymbol,
-  formId,
-  onSubmitted,
-}: Props) => {
+export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
   const formSchema: z.ZodSchema<FormData> = z.object({
     gasPrice: z.coerce.number().gt(0, "Must be greater than 0"),
   })
@@ -74,7 +68,7 @@ export const GasPriceForm = ({
       <HorizontalInput
         id="gasPrice"
         name="gasPrice"
-        label={`Gas price (${baseTokenSymbol})`}
+        label={`Gas price (${silo.base_token_symbol})`}
         autoComplete="off"
         errors={{ gasPrice: errors.gasPrice }}
         register={register}

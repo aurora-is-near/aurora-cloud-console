@@ -25,7 +25,6 @@ import type { Silo } from "@/types/types"
 
 type Props = {
   silo: Silo
-  baseTokenSymbol: string
 }
 
 const GasCollectedTotal = ({
@@ -53,7 +52,7 @@ const GasCollectedTotal = ({
   }
 }
 
-export const GasCollectedChart = ({ silo, baseTokenSymbol }: Props) => {
+export const GasCollectedChart = ({ silo }: Props) => {
   const monthsList = getMonthsList(silo.created_at)
   const [filterDate, setFilterDate] = useState<DropdownOption>(
     monthsList[monthsList.length - 1],
@@ -76,7 +75,7 @@ export const GasCollectedChart = ({ silo, baseTokenSymbol }: Props) => {
               Gas collected
             </Label>
             <GasCollectedTotal
-              baseTokenSymbol={baseTokenSymbol}
+              baseTokenSymbol={silo.base_token_symbol}
               collectedGasQuery={collectedGasQuery}
             />
           </div>
