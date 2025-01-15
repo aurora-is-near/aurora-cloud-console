@@ -11,6 +11,7 @@ import { AuroraOracle } from "@/types/oracle"
 import { ProxyApiDealData } from "@/types/deal"
 import { ListType } from "@/types/lists"
 import { Deal, List, Silo, Token } from "@/types/types"
+import { BASE_TOKEN_DECIMALS } from "@/constants/base-token"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
@@ -98,10 +99,7 @@ export const adaptToken = (token: Token): TokenSchema => ({
         },
 })
 
-export const adaptSilo = (
-  silo: Silo,
-  nativeToken?: Token | null,
-): SiloSchema => ({
+export const adaptSilo = (silo: Silo): SiloSchema => ({
   id: silo.id,
   name: silo.name,
   chainId: silo.chain_id,
@@ -112,7 +110,11 @@ export const adaptSilo = (
   genesis: silo.genesis,
   network: silo.network,
   rpcUrl: silo.rpc_url,
-  nativeToken: nativeToken ? adaptToken(nativeToken) : null,
+  nativeToken: {
+    name: silo.base_token_name,
+    symbol: silo.base_token_symbol,
+    decimals: BASE_TOKEN_DECIMALS,
+  },
 })
 
 export const adaptList = (list: List): ListSchema => ({
