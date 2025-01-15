@@ -18,10 +18,9 @@ const formatTotalCollectedGasValue = (value: number) => {
 
 type Props = {
   silo: Silo
-  baseTokenSymbol: string
 }
 
-const TotalGasBalance = ({ silo, baseTokenSymbol }: Props) => {
+const TotalGasBalance = ({ silo }: Props) => {
   const collectedGasTotalQuery = useQuery(
     getQueryFnAndKey("getSiloCollectedGasTotal", {
       id: silo.id,
@@ -47,7 +46,7 @@ const TotalGasBalance = ({ silo, baseTokenSymbol }: Props) => {
         >
           {`${formatTotalCollectedGasValue(
             collectedGasTotalQuery.data.count,
-          )} ${baseTokenSymbol}`}
+          )} ${silo.base_token_symbol}`}
         </InfoList.Item>
       )
     default:
@@ -55,9 +54,7 @@ const TotalGasBalance = ({ silo, baseTokenSymbol }: Props) => {
   }
 }
 
-export const GasAbstractionSettings = (props: Props) => {
-  const { silo, baseTokenSymbol } = props
-
+export const GasAbstractionSettings = ({ silo }: Props) => {
   return (
     <Card className="flex flex-col gap-6 md:gap-12 md:flex-row">
       <aside className="w-full">
@@ -75,7 +72,7 @@ export const GasAbstractionSettings = (props: Props) => {
           label="Gas token"
           labelTooltip="Gas fees on your chain will be collected in this token."
         >
-          {baseTokenSymbol}
+          {silo.base_token_symbol}
         </InfoList.Item>
 
         {silo.explorer_url && silo.gas_collection_address ? (
@@ -105,7 +102,7 @@ export const GasAbstractionSettings = (props: Props) => {
           </InfoList.Item>
         ) : null}
 
-        <TotalGasBalance {...props} />
+        <TotalGasBalance silo={silo} />
       </InfoList>
     </Card>
   )

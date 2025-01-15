@@ -34,25 +34,11 @@ export const GasAbstractionCollectedTab = ({ silo }: Props) => {
       return <TabSkeleton />
 
     case "success": {
-      const baseToken = siloTokensQuery.data.items.find(
-        (token) => token.id === silo.base_token_id,
-      )
-
-      if (!baseToken) {
-        return <TabSkeleton />
-      }
-
       return (
         <section className="w-full space-y-5">
-          <GasCollectedChart silo={silo} baseTokenSymbol={baseToken.symbol} />
-          <GasAbstractionSettings
-            silo={silo}
-            baseTokenSymbol={baseToken.symbol}
-          />
-          <GasAbstractionMechanics
-            silo={silo}
-            baseTokenSymbol={baseToken.symbol}
-          />
+          <GasCollectedChart silo={silo} />
+          <GasAbstractionSettings silo={silo} />
+          <GasAbstractionMechanics silo={silo} />
         </section>
       )
     }
