@@ -46,6 +46,13 @@ export const RuleSchema = z.object({
   updatedAt: z.string(),
 })
 
+export const UserlistSchema = z.object({
+  id: z.number(),
+  teamId: z.number(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+})
+
 const DealPrioritiesSchema = z.array(
   z.object({
     dealId: z.number(),
@@ -265,23 +272,6 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
-  createRule: {
-    summary: "Create a rule for a deal",
-    method: "POST",
-    path: "/api/deals/:id/rules",
-    responses: {
-      200: RuleSchema,
-    },
-    body: z.object({
-      resourceDefinition: z.object({}).nullable(),
-    }),
-    metadata: {
-      scopes: ["deals:write"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
   updateRule: {
     summary: "Update a rule for a deal",
     method: "PUT",
@@ -294,6 +284,21 @@ export const contract = c.router({
     }),
     metadata: {
       scopes: ["deals:write"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+      rule_id: z.number(),
+    }),
+  },
+  getUserlists: {
+    summary: "Get all userlists for a rule",
+    method: "GET",
+    path: "/api/deals/:id/rules/:rule_id/userlists",
+    responses: {
+      200: z.array(UserlistSchema),
+    },
+    metadata: {
+      scopes: ["deals:read"],
     },
     pathParams: z.object({
       id: z.number(),

@@ -773,21 +773,21 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           id: number
-          team_id: number | null
+          team_id: number
           updated_at: string
         }
         Insert: {
           created_at?: string
           deleted_at?: string | null
           id?: number
-          team_id?: number | null
+          team_id: number
           updated_at?: string
         }
         Update: {
           created_at?: string
           deleted_at?: string | null
           id?: number
-          team_id?: number | null
+          team_id?: number
           updated_at?: string
         }
         Relationships: [

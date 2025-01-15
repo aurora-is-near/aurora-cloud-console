@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { GET, POST } from "./route"
+import { GET } from "./route"
 import {
   createInsertOrUpdate,
   createSelect,
@@ -69,46 +69,6 @@ describe("Deal Rules route", () => {
 
       expect(ruleSelectQueries.eq).toHaveBeenCalledTimes(1)
       expect(ruleSelectQueries.eq).toHaveBeenCalledWith("deal_id", mockDeal.id)
-    })
-  })
-
-  describe("POST", () => {
-    it("creates a rule", async () => {
-      const mockDeal = createMockDeal()
-      const mockRule = createMockRule()
-      const mockUserlist = createMockUserlist()
-      const ruleInsertQueries = createInsertOrUpdate(mockRule)
-      const userlistInsertQueries = createInsertOrUpdate(mockUserlist)
-      const ruleUserlistInsertQueries = createInsertOrUpdate({
-        rule_id: mockRule.id,
-        userlist_id: mockUserlist.id,
-      })
-
-      mockSupabaseClient
-        .from("rules")
-        .insert.mockImplementation(() => ruleInsertQueries)
-
-      mockSupabaseClient
-        .from("userlists")
-        .insert.mockImplementation(() => userlistInsertQueries)
-
-      mockSupabaseClient
-        .from("rules_userlists")
-        .insert.mockImplementation(() => ruleUserlistInsertQueries)
-
-      const res = await invokeApiHandler("POST", "/api/deals/1/rules", POST, {
-        params: { id: String(mockDeal.id), teamId: String(mockDeal.team_id) },
-        body: { resourceDefinition: mockRule.resource_definition },
-      })
-
-      expect(res).toSatisfyApiSpec()
-      expect(res.body).toEqual({
-        id: mockRule.id,
-        dealId: mockRule.deal_id,
-        resourceDefinition: mockRule.resource_definition,
-        createdAt: mockRule.created_at,
-        updatedAt: mockRule.updated_at,
-      })
     })
   })
 })

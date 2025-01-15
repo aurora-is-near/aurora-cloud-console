@@ -650,90 +650,6 @@ exports[`OpenAPI Document should be valid 1`] = `
           "deals",
         ],
       },
-      "post": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`deals:write\`",
-        "operationId": "createRule",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "resourceDefinition": {
-                    "nullable": true,
-                    "properties": {},
-                    "type": "object",
-                  },
-                },
-                "required": [
-                  "resourceDefinition",
-                ],
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "createdAt": {
-                      "type": "string",
-                    },
-                    "dealId": {
-                      "type": "number",
-                    },
-                    "id": {
-                      "type": "number",
-                    },
-                    "resourceDefinition": {
-                      "nullable": true,
-                      "properties": {},
-                      "type": "object",
-                    },
-                    "updatedAt": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "id",
-                    "dealId",
-                    "resourceDefinition",
-                    "createdAt",
-                    "updatedAt",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "deals:write",
-            ],
-          },
-        ],
-        "summary": "Create a rule for a deal",
-        "tags": [
-          "deals",
-        ],
-      },
     },
     "/api/deals/{id}/rules/{rule_id}": {
       "put": {
@@ -824,6 +740,77 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Update a rule for a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
+    "/api/deals/{id}/rules/{rule_id}/userlists": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:read\`",
+        "operationId": "getUserlists",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
+            "name": "rule_id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "properties": {
+                      "createdAt": {
+                        "type": "string",
+                      },
+                      "id": {
+                        "type": "number",
+                      },
+                      "teamId": {
+                        "type": "number",
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                      },
+                    },
+                    "required": [
+                      "id",
+                      "teamId",
+                      "createdAt",
+                      "updatedAt",
+                    ],
+                    "type": "object",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:read",
+            ],
+          },
+        ],
+        "summary": "Get all userlists for a rule",
         "tags": [
           "deals",
         ],

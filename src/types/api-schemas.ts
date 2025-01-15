@@ -9,6 +9,7 @@ import {
   SimpleListSchema as SimpleList,
   TokenSchema as Token,
   TransactionDataSchema as TransactionData,
+  UserlistSchema as Userlist,
   WalletDetailsSchema as WalletDetails,
   WidgetSchema as Widget,
 } from "@/app/api/contract"
@@ -24,3 +25,4 @@ export type TransactionDataSchema = z.infer<typeof TransactionData>
 export type ChartDataSchema = z.infer<typeof ChartData>
 export type OracleSchema = z.infer<typeof Oracle>
 export type WidgetSchema = z.infer<typeof Widget>
+export type UserlistSchema = z.infer<typeof Userlist>
