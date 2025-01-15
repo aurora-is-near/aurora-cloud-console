@@ -7,6 +7,8 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   created_at: "2021-01-01T00:00:00Z",
   updated_at: "2021-01-01T00:00:00Z",
   base_token_id: 1,
+  base_token_name: "Aurora",
+  base_token_symbol: "AURORA",
   chain_id: "1313161555",
   engine_account: "testnet.aurora-silo-dev.near",
   explorer_url: "https://explorer.testnet.aurora.dev",
@@ -18,6 +20,12 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   grafana_network_key: "testnet",
   gas_collection_address: null,
   gas_price: null,
+  favicon: "",
+  network_logo: "",
+  network_logo_dark: "",
+  type: "evm",
+  replenish_amount: 0,
+  replenish_threshold: 0,
   ...data,
 })
 
