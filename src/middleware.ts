@@ -5,6 +5,7 @@ import { createMiddlewareClient } from "@/supabase/create-middleware-client"
 import {
   AUTH_ACCEPT_ROUTE,
   AUTH_CALLBACK_ROUTE,
+  EMAIL_PREVIEW_ROUTE,
   HOME_ROUTE,
   LINK_SENT_ROUTE,
   LOGIN_ROUTE,
@@ -57,6 +58,11 @@ export async function middleware(req: NextRequest) {
       SIGNUP_ROUTE,
     ].includes(pathname)
   ) {
+    return res
+  }
+
+  // Do nothing for email preview routes
+  if (pathname.startsWith(EMAIL_PREVIEW_ROUTE)) {
     return res
   }
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { LinkButton } from "@/components/LinkButton"
+import { MEETING_LINK } from "@/constants/meeting"
 
 type CalendlyWidgetProps = {
   teamKey: string
@@ -15,7 +16,7 @@ export const CalendlyWidget = ({ teamKey }: CalendlyWidgetProps) => {
 
       <div
         className="calendly-inline-widget mt-1/10 w-full h-full"
-        data-url="https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
+        data-url={MEETING_LINK}
       />
 
       <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2">
