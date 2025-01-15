@@ -93,26 +93,28 @@ export const DashboardHomePage = async ({
           switch (team.onboarding_status) {
             case null: // initial state after signup
               return (
-                <section className="flex flex-col gap-4">
+                <section className="flex flex-col gap-5">
                   <Typography variant="heading" size={4}>
                     Start here
                   </Typography>
-                  <StepCard
-                    index={1}
-                    state={isOnboardingFormSubmitted ? "completed" : "active"}
-                    title="Configure your Virtual Chain"
-                    description="Select the chain parameters that fit your needs — base token, gas costs, permissions, and more — to create a fully production-ready environment."
-                    link={{
-                      isDisabled: false,
-                      label: "Get started",
-                      url: `/dashboard/${teamKey}/create-chain`,
-                    }}
-                  />
-                  <TopupStep
-                    index={2}
-                    team={team}
-                    state={isOnboardingFormSubmitted ? "active" : "upcoming"}
-                  />
+                  <div className="flex flex-col gap-4">
+                    <StepCard
+                      index={1}
+                      state={isOnboardingFormSubmitted ? "completed" : "active"}
+                      title="Configure your Virtual Chain"
+                      description="Select the chain parameters that fit your needs — base token, gas costs, permissions, and more — to create a fully production-ready environment."
+                      link={{
+                        isDisabled: false,
+                        label: "Get started",
+                        url: `/dashboard/${teamKey}/create-chain`,
+                      }}
+                    />
+                    <TopupStep
+                      index={2}
+                      team={team}
+                      state={isOnboardingFormSubmitted ? "active" : "upcoming"}
+                    />
+                  </div>
                   <WhatsNext className="mt-10" />
                 </section>
               )

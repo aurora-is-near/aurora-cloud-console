@@ -7,7 +7,7 @@ type Props = {
   index: number
   state: "active" | "completed" | "upcoming"
   title: string
-  description: string
+  description: string | JSX.Element
   link: { label: string } & (
     | { isDisabled: true; url?: string | null }
     | { isDisabled: false; url: string }
@@ -17,7 +17,7 @@ type Props = {
 export const StepCard = ({ index, state, title, description, link }: Props) => (
   <div
     className={clsx(
-      "flex flex-wrap sm:flex-nowrap justify-between items-center gap-6 w-full px-6 py-8 border border-slate-200 bg-slate-100 rounded-lg",
+      "flex flex-wrap sm:flex-nowrap justify-between gap-6 w-full px-6 py-8 border border-slate-200 bg-slate-100 rounded-lg",
       {
         "border-green-300 bg-green-50 shadow-sm": state === "active",
       },
@@ -37,8 +37,8 @@ export const StepCard = ({ index, state, title, description, link }: Props) => (
         index
       )}
     </div>
-    <div className="mr-auto">
-      <Typography variant="heading" size={4}>
+    <div className="flex flex-col gap-1 mr-auto max-w-[684px]">
+      <Typography variant="heading" size={3}>
         {title}
       </Typography>
       <Typography variant="paragraph" size={4} className="text-gray-500">

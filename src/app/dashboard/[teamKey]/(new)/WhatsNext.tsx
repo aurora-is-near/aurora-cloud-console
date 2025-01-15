@@ -13,7 +13,7 @@ const CompleteOnboardingBanner = () => (
       <SparklesIcon className="w-11 h-11 text-green-900" />
     </div>
     <div className="mr-auto">
-      <Typography variant="heading" size={4}>
+      <Typography variant="heading" size={3}>
         Book a call with our team
       </Typography>
       <Typography variant="paragraph" size={4} className="text-gray-500">
@@ -24,6 +24,7 @@ const CompleteOnboardingBanner = () => (
     <LinkButton
       size="lg"
       variant="border"
+      isExternal
       href="https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
     >
       Book a call
@@ -38,7 +39,7 @@ const ExploreAuroraDocsBanner = () => (
       <BookOpenIcon className="w-11 h-11 text-green-900" />
     </div>
     <div className="mr-auto">
-      <Typography variant="heading" size={4}>
+      <Typography variant="heading" size={3}>
         Explore Aurora Cloud documentation
       </Typography>
       <Typography variant="paragraph" size={4} className="text-gray-500">
@@ -64,7 +65,7 @@ type Props = {
 
 export const WhatsNext = ({ className }: Props) => (
   <section className={clsx("flex flex-col gap-6", className)}>
-    <Typography variant="heading" size={4}>
+    <Typography variant="heading" size={3}>
       Discover more
     </Typography>
     <div className="flex flex-col gap-5">
