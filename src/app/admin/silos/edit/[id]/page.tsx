@@ -36,7 +36,6 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
         <Card.Body>
           <SiloForm
             silo={silo}
-            tokens={siloTokens}
             teams={teams}
             blockscoutDatabases={blockscoutDatabases}
           />

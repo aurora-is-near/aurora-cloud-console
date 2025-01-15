@@ -1,3 +1,4 @@
+import { BASE_TOKEN_DECIMALS } from "@/constants/base-token"
 import { Silo, Token, Widget, WidgetNetworkType } from "@/types/types"
 
 type CustomChain = {
@@ -96,24 +97,15 @@ const setCustomTokensParam = (
   url.searchParams.set("customTokens", JSON.stringify(customTokens))
 }
 
-const setCustomChainsParam = (
-  url: URL,
-  {
-    silo,
-    baseToken,
-  }: {
-    silo: Silo
-    baseToken: Token
-  },
-) => {
+const setCustomChainsParam = (url: URL, { silo }: { silo: Silo }) => {
   const customChain: CustomChain = {
     id: silo.chain_id,
     name: silo.name,
     network: silo.name,
     nativeCurrency: {
-      decimals: baseToken.decimals ?? 18,
-      name: baseToken.name,
-      symbol: baseToken.symbol,
+      decimals: BASE_TOKEN_DECIMALS,
+      name: silo.base_token_name,
+      symbol: silo.base_token_symbol,
     },
     rpcUrl: silo.rpc_url,
     auroraEvmAccount: silo.engine_account,
@@ -138,7 +130,6 @@ export const getWidgetUrl = ({
   widget: Widget
   tokens: Token[]
 }): string => {
-  const baseToken = tokens.find((token) => token.id === silo.base_token_id)
   const activeTokens = tokens.filter(
     (token) =>
       token.silo_id === silo.id &&
@@ -164,16 +155,14 @@ export const getWidgetUrl = ({
   }
 
   const hasCustomChain =
-    silo &&
-    baseToken &&
-    (!!widget.from_networks?.some((network) => network === "CUSTOM") ||
-      !!widget.to_networks?.some((network) => network === "CUSTOM"))
+    !!widget.from_networks?.some((network) => network === "CUSTOM") ||
+    !!widget.to_networks?.some((network) => network === "CUSTOM")
 
   // If a `customChain` is defined then all the tokens we want available on
   // that custom chain should be overridden using `customTokens`, which will
   // define the token's address on all the chains including the custom one.
   if (hasCustomChain) {
-    setCustomChainsParam(url, { silo, baseToken })
+    setCustomChainsParam(url, { silo })
     setCustomTokensParam(url, { activeCustomTokens: activeTokens })
 
     return url.href
