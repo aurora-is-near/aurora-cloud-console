@@ -9,16 +9,8 @@ import {
   NetworkType,
   TokenOption,
 } from "@/types/chain-creation"
-import {
-  DEVNET_CHAIN_ID,
-  DEVNET_ENGINE_ACCOUNT,
-  DEVNET_EXPLORER_URL,
-  DEVNET_GENESIS,
-  DEVNET_RPC_URL,
-} from "@/constants/devnet"
 import { notReachable } from "@/utils/notReachable"
 import { getTokens } from "@/actions/tokens/get-tokens"
-import { upsertSilo } from "@/actions/silos/upsert-silo"
 import { createPaymentLink } from "@/actions/stripe/create-payment-link"
 import {
   AuroraToken,
@@ -193,32 +185,6 @@ export const useChainCreationForm = (
 
     if (!token) {
       throw new FormTokenNotFoundError()
-    }
-
-    // Note that an upsert is used here in case the user somehow submits the
-    // form twice. For example, if they opened it in two browser tabs.
-    if (form.networkType === "devnet") {
-      const silo = await upsertSilo({
-        explorer_url: DEVNET_EXPLORER_URL,
-        name: form.chainName,
-        genesis: DEVNET_GENESIS,
-        network: "public_permissioned",
-        team_id: team.id,
-        chain_id: DEVNET_CHAIN_ID,
-        base_token_id: token.id,
-        engine_account: DEVNET_ENGINE_ACCOUNT,
-        engine_version: "3.6.4",
-        grafana_network_key: null,
-        rpc_url: DEVNET_RPC_URL,
-        blockscout_database_id: null,
-        gas_collection_address: null,
-        gas_price: null,
-      })
-
-      // Redirect to the silo dashboard page
-      window.location.href = `${window.location.origin}/dashboard/${team.team_key}/silos/${silo.id}`
-
-      return
     }
 
     // For mainnet, create a payment link
