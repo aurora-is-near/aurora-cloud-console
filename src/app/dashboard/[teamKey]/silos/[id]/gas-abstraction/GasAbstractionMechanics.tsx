@@ -17,6 +17,8 @@ type Props = {
   silo: Silo
 }
 
+const CAN_EDIT_GAS_PRICE = false
+
 export const GasAbstractionMechanics = ({ silo }: Props) => {
   const formId = useId()
 
@@ -61,11 +63,13 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
               <Typography variant="paragraph" size={4}>
                 {`${gasPriceDisplayed} ${silo.base_token_symbol} per gas`}
               </Typography>
-              <Btn.Iconed
-                icon={PencilSquareIcon}
-                label="Edit gas price"
-                onClick={() => openModal(Modals.EditGasPrice)}
-              />
+              {CAN_EDIT_GAS_PRICE && (
+                <Btn.Iconed
+                  icon={PencilSquareIcon}
+                  label="Edit gas price"
+                  onClick={() => openModal(Modals.EditGasPrice)}
+                />
+              )}
             </div>
           </InfoList.Item>
         </InfoList>

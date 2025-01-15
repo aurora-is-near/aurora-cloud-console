@@ -12,12 +12,23 @@ type Props =
 export const Typography = (props: Props) => {
   /* eslint-disable-next-line react/destructuring-assignment */
   switch (props.variant) {
-    case "label":
-      return <Label {...props} />
-    case "heading":
-      return <Heading {...props} />
-    case "paragraph":
-      return <Paragraph {...props} />
+    case "label": {
+      const { variant: _, ...rest } = props
+
+      return <Label {...rest} />
+    }
+
+    case "heading": {
+      const { variant: _, ...rest } = props
+
+      return <Heading {...rest} />
+    }
+
+    case "paragraph": {
+      const { variant: _, ...rest } = props
+
+      return <Paragraph {...rest} />
+    }
     default:
       return notReachable(props)
   }
