@@ -196,7 +196,6 @@ export const useChainCreationForm = (
         network: "public_permissioned",
         team_id: team.id,
         chain_id: DEVNET_CHAIN_ID,
-        base_token_id: 1, // Deprecated
         engine_account: DEVNET_ENGINE_ACCOUNT,
         engine_version: "3.6.4",
         grafana_network_key: null,
