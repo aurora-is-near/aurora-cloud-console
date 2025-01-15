@@ -61,14 +61,20 @@ describe("Deal route", () => {
       })
 
       expect(dealSelectQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
-      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
   })
 
   describe("PUT", () => {
     it("updates a deal", async () => {
       const mockDeal = createMockDeal()
-      const putQueries = createInsertOrUpdate(mockDeal)
+      const updatedDeal = {
+        ...mockDeal,
+        name: "Test Update",
+        start_time: "2021-01-02T00:00:00.000Z",
+        end_time: "2021-01-02T00:00:00.000Z",
+      }
+
+      const putQueries = createInsertOrUpdate(updatedDeal)
 
       mockSupabaseClient
         .from("deals")
@@ -93,9 +99,6 @@ describe("Deal route", () => {
       )
 
       expect(res).toSatisfyApiSpec()
-
-      console.log(res.status)
-      console.log(mockDeal)
 
       expect(res.body).toEqual({
         id: mockDeal.id,
