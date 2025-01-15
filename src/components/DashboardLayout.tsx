@@ -14,6 +14,7 @@ type DashboardLayoutProps = {
   team?: Team
   silo?: Silo
   showAdminMenu: boolean
+  showWelcomeBanner?: boolean
   children: ReactNode
   sidebarMenu?: {
     heading: string
@@ -22,10 +23,11 @@ type DashboardLayoutProps = {
   }
 }
 
-export const DashboardLayout = ({
+export const DashboardLayout = async ({
   team,
   silo,
   showAdminMenu,
+  showWelcomeBanner = false,
   children,
   sidebarMenu,
 }: DashboardLayoutProps) => {
@@ -53,7 +55,7 @@ export const DashboardLayout = ({
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
-      {team && !team?.onboarding_status && !silo && (
+      {showWelcomeBanner && team && !team?.onboarding_status && !silo && (
         <TopPageBanner team={team} />
       )}
       <MainMenu menuItems={mainMenuItems} />
