@@ -333,7 +333,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
               loading={isSubmitting}
               onClick={handleOnboardingSubmit}
             >
-              Save my results and book a call
+              Save my chain configuration
             </Button>
 
             <Typography
