@@ -88,7 +88,7 @@ export const DashboardHomePage = async ({
       />
 
       <section className="flex flex-col gap-14">
-        {silo || team.onboarding_status === "DEPLOYMENT_DONE" ? (
+        {silo ? (
           <div className="flex flex-col">
             <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
               Explore what you can do
@@ -163,7 +163,9 @@ export const DashboardHomePage = async ({
               ),
             })}
           </div>
-        ) : !team.onboarding_status ? (
+        ) : null}
+
+        {!silo && !team.onboarding_status ? (
           <section className="flex flex-col gap-5">
             <Typography variant="heading" size={3}>
               Start here
@@ -188,13 +190,15 @@ export const DashboardHomePage = async ({
             </div>
             <WhatsNext className="mt-10" />
           </section>
-        ) : (
+        ) : null}
+
+        {!silo && team.onboarding_status ? (
           <>
             <DeploymentProgress status={team.onboarding_status} />
             <hr className="w-full h-[1px] bg-slate-200" />
             <WhatsNext />
           </>
-        )}
+        ) : null}
       </section>
     </DashboardPage>
   )
