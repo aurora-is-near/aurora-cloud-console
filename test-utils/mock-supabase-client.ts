@@ -58,8 +58,6 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   onboarding_form: createTableClient(),
   blockscout_databases: createTableClient(),
   orders: createTableClient(),
-  filters: createTableClient(),
-  filter_entries: createTableClient(),
   limits: createTableClient(),
   rules: createTableClient(),
   rule_users: createTableClient(),
@@ -67,7 +65,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   rule_users_userlists: createTableClient(),
   userlists: createTableClient(),
   rules_userlists: createTableClient(),
-  blockscout_databases: createTableClient(),
+  replenishments: createTableClient(),
 }
 
 export const mockSupabaseClient = {

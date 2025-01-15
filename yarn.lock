@@ -1683,6 +1683,11 @@
   resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-2.0.18.tgz#f80301907c243df03c7e9fd76c0286e95361f7c1"
   integrity sha512-7TyMjRrZZMBPa+/5Y8lN0iyvUU/01PeMGX2+RE7cQWpEUIcb4QotzUObFkJDejj/HUH4qjP/eQ0gzzKs2f+6Yw==
 
+"@hookform/resolvers@^3.10.0":
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-3.10.0.tgz#7bfd18113daca4e57e27e1205b7d5a2d371aa59a"
+  integrity sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==
+
 "@humanwhocodes/config-array@^0.11.13":
   version "0.11.14"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.14.tgz#d78e481a039f7566ecc9660b4ea7fe6b1fec442b"
@@ -11635,10 +11640,10 @@ summary@2.1.0:
   resolved "https://registry.yarnpkg.com/summary/-/summary-2.1.0.tgz#be8a49a0aa34eb6ceea56042cae88f8add4b0885"
   integrity sha512-nMIjMrd5Z2nuB2RZCKJfFMjgS3fygbeyGk9PxPPaJR1RIcyN9yn4A63Isovzm3ZtQuEkLBVgMdPup8UeLH7aQw==
 
-supabase@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/supabase/-/supabase-2.2.1.tgz#72dae467ada58115cc26b05b2def31d2ae11b3cc"
-  integrity sha512-uTu8f4kT9wE3EEQTAJAWFlHyu8ymauFxWEz2FDGIQ2MzlD1Xb1NCHtsj/xvmJWqrGI1jnBYcPuatZVTHj1jR1g==
+supabase@^2.6.8:
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/supabase/-/supabase-2.6.8.tgz#9a3b8e76bba472b22bb60e5eb249d4cadb0e7b4f"
+  integrity sha512-rgz9DVLso6LQ9VLKYXPDkvKgyFCYi6os1+3QS439yKkq4etbYn3KsedFBen0m4lgrHylBNL6W2qOB4+J/kgOLQ==
   dependencies:
     bin-links "^5.0.0"
     https-proxy-agent "^7.0.2"
@@ -12609,6 +12614,18 @@ which@^2.0.1, which@^2.0.2:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
+
+which@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/which/-/which-5.0.0.tgz#d93f2d93f79834d4363c7d0c23e00d07c466c8d6"
+  integrity sha512-JEdGzHwwkrbWoGOlIHqQ5gtprKGOenpDHpxE9zVR1bWbOtYRyPPHMe9FaP6x61CmNaTThSkb0DAJte5jD+DmzQ==
+  dependencies:
+    isexe "^3.1.1"
+
+wordwrap@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+  integrity sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0, wrap-ansi@^8.1.0:
   version "7.0.0"

@@ -22,6 +22,7 @@
     "@anatine/zod-openapi": "^2.2.2",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.0.18",
+    "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@sentry/nextjs": "^8",
     "@supabase/ssr": "^0.0.10",
@@ -110,7 +111,7 @@
     "prettier": "^3.4.2",
     "puppeteer": "^23.9.0",
     "resize-observer-polyfill": "^1.5.1",
-    "supabase": "^2.2.1",
+    "supabase": "^2.6.8",
     "tailwindcss": "^3.4.13",
     "ts-jest": "^29.2.5",
     "typescript": "5.7.3"
