@@ -13,15 +13,20 @@ export const Typography = (props: Props) => {
   /* eslint-disable-next-line react/destructuring-assignment */
   switch (props.variant) {
     case "label": {
-      const { variant, ...rest } = props
+      const { variant: _, ...rest } = props
+
       return <Label {...rest} />
     }
+
     case "heading": {
-      const { variant, ...rest } = props
+      const { variant: _, ...rest } = props
+
       return <Heading {...rest} />
     }
+
     case "paragraph": {
-      const { variant, ...rest } = props
+      const { variant: _, ...rest } = props
+
       return <Paragraph {...rest} />
     }
     default:
