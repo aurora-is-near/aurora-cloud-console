@@ -1,5 +1,6 @@
+const EMAIL_FROM = "console@auroracloud.dev"
+
 export const sendEmail = async (body: {
-  From: string
   To: string
   Subject: string
   HtmlBody: string
@@ -11,5 +12,8 @@ export const sendEmail = async (body: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify({
+      From: EMAIL_FROM,
+      ...body,
+    }),
   })
