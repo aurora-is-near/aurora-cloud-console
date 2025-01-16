@@ -63,9 +63,7 @@ export type Deal = Tables<"deals">
 
 export type Order = Tables<"orders">
 
-export type Rule = Tables<"rules"> & {
-  resource_definition: Json
-}
+export type Rule = Tables<"rules">
 
 export type Userlist = Tables<"userlists">
 
