@@ -282,7 +282,6 @@ export type Database = {
           name: string
           network: string
           rpc_url: string
-          team_id: number
           updated_at: string
         }
         Insert: {
@@ -302,7 +301,6 @@ export type Database = {
           name: string
           network?: string
           rpc_url?: string
-          team_id: number
           updated_at?: string
         }
         Update: {
@@ -322,7 +320,6 @@ export type Database = {
           name?: string
           network?: string
           rpc_url?: string
-          team_id?: number
           updated_at?: string
         }
         Relationships: [
@@ -335,6 +332,36 @@ export type Database = {
           },
           {
             foreignKeyName: "silos_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      silos_teams: {
+        Row: {
+          silo_id: number
+          team_id: number
+        }
+        Insert: {
+          silo_id: number
+          team_id: number
+        }
+        Update: {
+          silo_id?: number
+          team_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silos_teams_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silos_teams_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"

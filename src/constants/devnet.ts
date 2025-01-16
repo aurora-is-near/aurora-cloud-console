@@ -1,5 +1,1 @@
 export const DEVNET_CHAIN_ID = "1313161564"
-export const DEVNET_EXPLORER_URL = "https://explorer.devnet.aurora.dev"
-export const DEVNET_GENESIS = "125769490"
-export const DEVNET_RPC_URL = "https://rpc-0x4e45415c.aurora-cloud.dev"
-export const DEVNET_ENGINE_ACCOUNT = "0x4e45415c.c.aurora"
