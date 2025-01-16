@@ -2,11 +2,7 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { RuleUser } from "@/types/types"
-import {
-  abortIfNoSupabaseResult,
-  assertNonNullSupabaseResult,
-  assertValidSupabaseResult,
-} from "@/utils/supabase"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const createRuleUser = async (inputs: {
   userlist_id: number
@@ -24,7 +20,6 @@ export const createRuleUser = async (inputs: {
     .single()
 
   assertValidSupabaseResult(result)
-  assertNonNullSupabaseResult(result)
 
   // Add user created to provided userlist
   const userlistInsertResult = await supabase
@@ -36,7 +31,7 @@ export const createRuleUser = async (inputs: {
     .select()
     .single()
 
-  abortIfNoSupabaseResult(404, userlistInsertResult)
+  assertValidSupabaseResult(userlistInsertResult)
 
   return result.data
 }
