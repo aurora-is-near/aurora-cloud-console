@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react"
+import mixpanel from "mixpanel-browser"
 import { Team } from "@/types/types"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
 import {
@@ -175,6 +176,11 @@ export const useChainCreationForm = (
     if (fieldErrors && Object.values(fieldErrors).find((v) => !!v)) {
       return
     }
+
+    mixpanel.track("onboarding_completed", {
+      team_id: team.id,
+      ...form,
+    })
 
     await saveOnboardingForm({
       ...form,

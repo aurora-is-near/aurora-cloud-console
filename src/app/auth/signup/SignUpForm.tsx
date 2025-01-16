@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useState } from "react"
+import mixpanel from "mixpanel-browser"
 import {
   AUTH_CALLBACK_ROUTE,
   LINK_SENT_ROUTE,
@@ -78,6 +79,13 @@ export const SignUpForm = () => {
 
     searchParams.set(EMAIL_QUERY_PARAM, email)
     searchParams.set(SIGNUP_QUERY_PARAM, "1")
+
+    mixpanel.track("signup", {
+      email,
+      name,
+      company,
+      marketing_consent,
+    })
 
     router.push(`${LINK_SENT_ROUTE}?${searchParams}`)
   }
