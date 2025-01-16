@@ -8,11 +8,12 @@ import { getRules } from "@/actions/rules/get-rules"
 import { createRule } from "@/actions/rules/create-rule"
 import { RuleProvider } from "@/providers/RuleProvider"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { RuleResourceDefinition } from "@/types/types"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
 
-const userlistRuleDefinition = {
+const userlistRuleDefinition: RuleResourceDefinition = {
   feature: "userlistRule",
   chains: "*",
   contracts: [],
@@ -37,7 +38,7 @@ const Page = async ({
   }
 
   let userlistRule = rules?.find((r) => {
-    const def = r.resource_definition as { feature: string }
+    const def = r.resource_definition as RuleResourceDefinition
 
     return def?.feature === userlistRuleDefinition.feature
   })
