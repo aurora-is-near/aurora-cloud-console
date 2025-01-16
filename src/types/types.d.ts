@@ -59,6 +59,8 @@ export type Team = Tables<"teams">
 
 export type Silo = Tables<"silos">
 
+export type SilosTeams = Tables<"silos_teams">
+
 export type List = Tables<"lists">
 
 export type Deal = Tables<"deals">

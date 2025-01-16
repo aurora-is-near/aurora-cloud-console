@@ -9,15 +9,10 @@ import {
   NetworkType,
   TokenOption,
 } from "@/types/chain-creation"
-import {
-  DEVNET_CHAIN_ID,
-  DEVNET_ENGINE_ACCOUNT,
-  DEVNET_EXPLORER_URL,
-  DEVNET_GENESIS,
-  DEVNET_RPC_URL,
-} from "@/constants/devnet"
+import { DEVNET_CHAIN_ID } from "@/constants/devnet"
 import { notReachable } from "@/utils/notReachable"
-import { upsertSilo } from "@/actions/silos/upsert-silo"
+import { getSiloByChainId } from "@/actions/silos/get-silo-by-chain-id"
+import { addTeamsToSilo } from "@/actions/silos/add-teams-to-silo"
 import {
   AuroraToken,
   Bitcoin,
@@ -189,26 +184,16 @@ export const useChainCreationForm = (
     // Note that an upsert is used here in case the user somehow submits the
     // form twice. For example, if they opened it in two browser tabs.
     if (form.networkType === "devnet") {
-      const silo = await upsertSilo({
-        explorer_url: DEVNET_EXPLORER_URL,
-        name: form.chainName,
-        genesis: DEVNET_GENESIS,
-        network: "public_permissioned",
-        team_id: team.id,
-        chain_id: DEVNET_CHAIN_ID,
-        engine_account: DEVNET_ENGINE_ACCOUNT,
-        engine_version: "3.6.4",
-        grafana_network_key: null,
-        rpc_url: DEVNET_RPC_URL,
-        blockscout_database_id: null,
-        gas_collection_address: null,
-        gas_price: null,
-        base_token_name: "Aurora",
-        base_token_symbol: "AURORA",
-      })
+      const devnetSilo = await getSiloByChainId(DEVNET_CHAIN_ID)
+
+      if (!devnetSilo) {
+        throw new Error("Devnet silo not found")
+      }
+
+      await addTeamsToSilo(devnetSilo.id, [team.id])
 
       // Redirect to the silo dashboard page
-      window.location.href = `${window.location.origin}/dashboard/${team.team_key}/silos/${silo.id}`
+      window.location.href = `${window.location.origin}/dashboard/${team.team_key}/silos/${devnetSilo.id}`
 
       return
     }
