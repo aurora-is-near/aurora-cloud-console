@@ -76,7 +76,6 @@ export const SiloForm = ({
 
     const newSilo = await createSilo(inputs)
 
-    await removeTeamsFromSilo(newSilo.id)
     await addTeamsToSilo(newSilo.id, siloTeamIds)
 
     window.location.href = pathname.split("/").slice(0, -1).join("/")
