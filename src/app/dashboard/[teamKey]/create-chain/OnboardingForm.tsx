@@ -2,10 +2,11 @@
 
 import clsx from "clsx"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { CheckBadgeIcon } from "@heroicons/react/20/solid"
 
+import mixpanel from "mixpanel-browser"
 import {
   FormTokenNotFoundError,
   integrationOptions,
@@ -83,6 +84,12 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
 
     setIsSubmitting(false)
   }
+
+  useEffect(() => {
+    mixpanel.track("onboarding_started", {
+      team_id: team.id,
+    })
+  }, [team.id])
 
   return (
     <div className="overflow-x-hidden overflow-y-auto">
