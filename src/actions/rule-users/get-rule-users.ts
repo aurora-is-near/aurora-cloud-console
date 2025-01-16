@@ -18,5 +18,5 @@ export const getRuleUsers = async ({
 
   assertValidSupabaseResult(result)
 
-  return result.data as RuleUser[]
+  return result.data
 }

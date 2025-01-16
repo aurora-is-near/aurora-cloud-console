@@ -18,5 +18,5 @@ export const getRules = async ({
 
   assertValidSupabaseResult(result)
 
-  return result.data as Rule[]
+  return result.data
 }

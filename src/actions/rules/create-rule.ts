@@ -36,5 +36,5 @@ export const createRule = async (inputs: {
 
   abortIfNoSupabaseResult(404, result)
 
-  return result.data as Rule
+  return result.data
 }

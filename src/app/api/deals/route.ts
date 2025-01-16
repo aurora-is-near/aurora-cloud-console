@@ -1,10 +1,10 @@
 import { createApiEndpoint } from "@/utils/api"
 import { adaptDeal } from "@/utils/adapters"
 import { createDeal } from "@/actions/deals/create-deal"
-import { getDeals } from "@/actions/deals/get-deals"
+import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 
 export const GET = createApiEndpoint("getDeals", async (_req, ctx) => {
-  const deals = await getDeals({ teamId: ctx.team.id })
+  const deals = await getTeamDeals(Number(ctx.team.id))
 
   return {
     items: deals.map(adaptDeal),

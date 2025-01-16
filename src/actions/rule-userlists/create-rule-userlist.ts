@@ -32,5 +32,5 @@ export const createRuleUserlist = async (inputs: {
   assertNonNullSupabaseResult(result)
   abortIfNoSupabaseResult(404, result)
 
-  return userlistResult.data as Userlist
+  return userlistResult.data
 }

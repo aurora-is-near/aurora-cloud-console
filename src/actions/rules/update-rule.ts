@@ -27,5 +27,5 @@ export const updateRule = async (
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 
-  return result.data as Rule
+  return result.data
 }

@@ -18,5 +18,5 @@ export const getUserlists = async ({
 
   assertValidSupabaseResult(result)
 
-  return result.data as Userlist[]
+  return result.data
 }

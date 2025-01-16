@@ -38,5 +38,5 @@ export const createRuleUser = async (inputs: {
 
   abortIfNoSupabaseResult(404, userlistInsertResult)
 
-  return result.data as RuleUser
+  return result.data
 }
