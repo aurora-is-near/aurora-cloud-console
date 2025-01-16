@@ -9,6 +9,7 @@ import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import Helpscout from "@/components/Helpscout"
 import { TopPageBanner } from "@/components/TopPageBanner"
 import type { Silo, Team } from "@/types/types"
+import { PageviewTracker } from "@/components/Mixpanel/PageviewTracker"
 
 type DashboardLayoutProps = {
   team?: Team
@@ -72,6 +73,8 @@ export const DashboardLayout = async ({
       {process.env.NODE_ENV === "production" &&
         !!team?.team_key &&
         !showAdminMenu && <Helpscout />}
+
+      <PageviewTracker />
     </div>
   )
 }

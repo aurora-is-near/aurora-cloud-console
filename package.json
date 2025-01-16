@@ -81,6 +81,7 @@
     "@types/human-date": "^1.4.5",
     "@types/jest": "^29.5.12",
     "@types/jest-image-snapshot": "^6.4.0",
+    "@types/mixpanel-browser": "^2.51.0",
     "@types/node": "20.5.4",
     "@types/node-fetch": "^2.6.11",
     "@types/papaparse": "^5.3.15",
