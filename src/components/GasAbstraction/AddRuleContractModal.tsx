@@ -63,8 +63,8 @@ export const AddRuleContractModal = () => {
 
   return (
     <SlideOver title="Import manually" open={open} close={closeModal}>
-      <div className="space-y-4">
-        <div className="flex flex-col space-y-2">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           {addresses.map((address) => (
             <div key={address} className="flex items-center gap-2">
               <span className="text-sm flex flex-1 border border-slate-300 p-2 bg-slate-50 rounded-md text-ellipsis">
