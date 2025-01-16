@@ -12,13 +12,16 @@ import { FullScreenPage } from "@/components/FullScreenPage"
 import { LinkButton } from "@/components/LinkButton"
 import { getUserTeamKeys } from "@/utils/team"
 import { getTeamSummaries } from "@/actions/teams/get-team-summaries"
+import { getSilosTeams } from "@/actions/silos/get-silos-teams"
 
 const Page = async () => {
-  const [currentUser, teamSummaries, isAdminUser] = await Promise.all([
-    getCurrentUser(),
-    getTeamSummaries(),
-    isAdmin(),
-  ])
+  const [currentUser, teamSummaries, silosTeams, isAdminUser] =
+    await Promise.all([
+      getCurrentUser(),
+      getTeamSummaries(),
+      getSilosTeams(),
+      isAdmin(),
+    ])
 
   const teamKeys = await getUserTeamKeys(currentUser.id)
 
@@ -59,7 +62,10 @@ const Page = async () => {
       >
         <ul className="grid grid-cols-2 xl:grid-cols-3 gap-6">
           {teamSummaries.map((team) => {
-            const [siloId] = team.silo_ids
+            const siloId = silosTeams.find(
+              (silo) => silo.team_id === team.id,
+            )?.silo_id
+
             const siloPrefix = siloId ? `/silos/${siloId}` : ""
 
             return (

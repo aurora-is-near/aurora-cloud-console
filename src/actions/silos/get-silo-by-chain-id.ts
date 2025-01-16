@@ -3,16 +3,15 @@
 import { Silo } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const getTeamSilo = async (
-  teamId: number,
-  siloId: number,
+export const getSiloByChainId = async (
+  chainId: string,
 ): Promise<Silo | null> => {
   const supabase = createAdminSupabaseClient()
+
   const { data: silo } = await supabase
     .from("silos")
-    .select("*, silos_teams!inner(silo_id)")
-    .eq("id", siloId)
-    .eq("silos_teams.team_id", teamId)
+    .select("*")
+    .eq("chain_id", chainId)
     .maybeSingle()
 
   return silo
