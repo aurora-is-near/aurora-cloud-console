@@ -69,9 +69,9 @@ export const DashboardLayout = async ({
         )}
         <div className="w-full">{children}</div>
       </div>
-      {process.env.NODE_ENV === "production" &&
-        !!team?.team_key &&
-        !showAdminMenu && <Helpscout />}
+      {process.env.NODE_ENV === "production" && !!team?.team_key && (
+        <Helpscout />
+      )}
     </div>
   )
 }
