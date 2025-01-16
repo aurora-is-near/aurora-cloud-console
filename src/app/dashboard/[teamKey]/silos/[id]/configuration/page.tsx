@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
-import { getTokens } from "@/actions/tokens/get-tokens"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import Contact from "@/components/Contact"
 import { DashboardPage } from "@/components/DashboardPage"
@@ -15,16 +14,12 @@ const Page = async ({
 }: {
   params: { id: string; teamKey: string }
 }) => {
-  const [silo, tokens] = await Promise.all([
-    getTeamSiloByKey(teamKey, Number(id)),
-    getTokens(),
-  ])
+  const silo = await getTeamSiloByKey(teamKey, Number(id))
 
   if (!silo) {
     notFound()
   }
 
-  const baseToken = tokens.find((token) => token.id === silo.base_token_id)
   const relayerAccount = getRelayerAccount(silo)
 
   const items: ConfigurationItemsCardProps["items"] = [
@@ -108,7 +103,7 @@ const Page = async ({
         items={[
           {
             term: "Base token",
-            description: baseToken?.symbol ?? "-",
+            description: silo.base_token_symbol,
             tooltip:
               "This is the token used to pay for the gas fees inside your Aurora Chain.",
           },

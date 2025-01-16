@@ -90,7 +90,11 @@ export const SiloSchema = z.object({
   name: z.string(),
   network: z.string(),
   rpcUrl: z.string(),
-  nativeToken: TokenSchema.nullable(),
+  nativeToken: z.object({
+    symbol: z.string(),
+    name: z.string().nullable(),
+    decimals: z.number().nullable(),
+  }),
 })
 
 export const WalletDetailsSchema = z.object({

@@ -62,9 +62,10 @@ describe("getWidgetUrl", () => {
   })
 
   it("returns a URL with a custom chain", () => {
+    const silo = createMockSilo()
     const url = new URL(
       getWidgetUrl({
-        silo: createMockSilo(),
+        silo,
         widget: createMockWidget({
           to_networks: ["CUSTOM"],
           from_networks: ["ETHEREUM"],
@@ -83,8 +84,8 @@ describe("getWidgetUrl", () => {
           network: "Test Silo",
           nativeCurrency: {
             decimals: 18,
-            name: "Test Token 1",
-            symbol: "TEST",
+            name: silo.base_token_name,
+            symbol: silo.base_token_symbol,
           },
           rpcUrl: "testnet.aurora.dev",
           auroraEvmAccount: "testnet.aurora-silo-dev.near",
@@ -98,6 +99,7 @@ describe("getWidgetUrl", () => {
   })
 
   it("returns a URL with a custom chain and custom tokens", () => {
+    const silo = createMockSilo()
     const token = createMockToken({
       symbol: "ETH",
       bridge_addresses: [
@@ -111,7 +113,7 @@ describe("getWidgetUrl", () => {
 
     const url = new URL(
       getWidgetUrl({
-        silo: createMockSilo(),
+        silo,
         widget: createMockWidget({
           to_networks: ["CUSTOM"],
           from_networks: ["ETHEREUM"],
@@ -131,8 +133,8 @@ describe("getWidgetUrl", () => {
           network: "Test Silo",
           nativeCurrency: {
             decimals: 18,
-            name: "Test Token",
-            symbol: "ETH",
+            name: silo.base_token_name,
+            symbol: silo.base_token_symbol,
           },
           rpcUrl: "testnet.aurora.dev",
           auroraEvmAccount: "testnet.aurora-silo-dev.near",

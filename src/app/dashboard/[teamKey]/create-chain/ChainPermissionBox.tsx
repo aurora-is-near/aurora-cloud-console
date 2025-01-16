@@ -1,5 +1,6 @@
 import { ComponentType } from "react"
-import clsx from "clsx"
+
+import { clsx, Typography } from "@/uikit"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { ChainPermission } from "@/types/chain-creation"
 
@@ -66,14 +67,13 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
         >
           {Icon && <Icon />}
         </div>
-        <h3
-          className={clsx(
-            "font-bold text-xl tracking-tight leading-6",
-            disabled ? "text-slate-500" : "text-slate-900",
-          )}
+        <Typography
+          variant="heading"
+          size={3}
+          className={disabled ? "text-slate-500" : "text-slate-900"}
         >
           {TITLES[permission]}
-        </h3>
+        </Typography>
       </div>
       <p className="text-sm text-slate-700">{DESCRIPTIONS[permission]}</p>
       {disabled ? (

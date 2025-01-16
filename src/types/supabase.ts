@@ -566,7 +566,6 @@ export type Database = {
       }
       silos: {
         Row: {
-          base_token_id: number | null
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id: number | null
@@ -588,12 +587,9 @@ export type Database = {
           replenish_amount: number
           replenish_threshold: number
           rpc_url: string
-          team_id: number
-          type: string
           updated_at: string
         }
         Insert: {
-          base_token_id?: number | null
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id?: number | null
@@ -615,12 +611,9 @@ export type Database = {
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
-          team_id: number
-          type?: string
           updated_at?: string
         }
         Update: {
-          base_token_id?: number | null
           base_token_name?: string
           base_token_symbol?: string
           blockscout_database_id?: number | null
@@ -642,18 +635,9 @@ export type Database = {
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
-          team_id?: number
-          type?: string
           updated_at?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "silos_base_token_id_fkey"
-            columns: ["base_token_id"]
-            isOneToOne: false
-            referencedRelation: "tokens"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "silos_blockscout_database_id_fkey"
             columns: ["blockscout_database_id"]
@@ -663,6 +647,36 @@ export type Database = {
           },
           {
             foreignKeyName: "silos_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      silos_teams: {
+        Row: {
+          silo_id: number
+          team_id: number
+        }
+        Insert: {
+          silo_id: number
+          team_id: number
+        }
+        Update: {
+          silo_id?: number
+          team_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silos_teams_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silos_teams_team_id_fkey"
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"

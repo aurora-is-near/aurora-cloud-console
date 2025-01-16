@@ -3,7 +3,7 @@
 import { SubmitHandler } from "react-hook-form"
 import { sentenceCase } from "change-case"
 import { usePathname } from "next/navigation"
-import { BlockscoutDatabase, Silo, Team, Token } from "@/types/types"
+import { BlockscoutDatabase, Silo, SilosTeams, Team } from "@/types/types"
 import { updateSilo } from "@/actions/silos/update-silo"
 import { createSilo } from "@/actions/silos/create-silo"
 import {
@@ -11,15 +11,17 @@ import {
   HorizontalFormProps,
 } from "@/components/HorizontalForm"
 import { SelectInputOption } from "@/components/SelectInput"
+import { addTeamsToSilo } from "@/actions/silos/add-teams-to-silo"
+import { removeTeamsFromSilo } from "@/actions/silos/remove-teams-from-silo"
 
 type SiloFormProps = {
   silo?: Silo
-  tokens?: Token[]
   blockscoutDatabases: BlockscoutDatabase[]
   teams: Team[]
+  silosTeams: SilosTeams[]
 }
 
-type Inputs = Omit<Silo, "id" | "created_at">
+type Inputs = Omit<Silo, "id" | "created_at"> & { silos_teams: string[] }
 
 const NETWORK_OPTIONS = ["public", "permissioned", "private"] as const
 
@@ -30,16 +32,6 @@ const getNetworkOption = (value: NetworkOption): SelectInputOption => ({
   value,
 })
 
-const getTokenOption = (token: Token): SelectInputOption => ({
-  label: token.symbol,
-  value: token.id,
-})
-
-const getTeamOption = (team: Team): SelectInputOption => ({
-  label: team.name,
-  value: team.id,
-})
-
 const getBlockscoutDatabaseOption = (
   database: BlockscoutDatabase,
 ): SelectInputOption => ({
@@ -47,46 +39,58 @@ const getBlockscoutDatabaseOption = (
   value: database.id,
 })
 
+const getTeamOption = (team: Team): SelectInputOption => ({
+  label: team.name,
+  value: team.id,
+})
+
 const isNetworkOption = (value?: string): value is NetworkOption =>
   !!value && NETWORK_OPTIONS.includes(value as NetworkOption)
 
 export const SiloForm = ({
   silo,
-  tokens,
   teams,
+  silosTeams,
   blockscoutDatabases,
 }: SiloFormProps) => {
   const pathname = usePathname()
 
-  const submitHandler: SubmitHandler<Inputs> = async (inputs: Inputs) => {
+  const submitHandler: SubmitHandler<Inputs> = async ({
+    silos_teams,
+    ...inputs
+  }: Inputs) => {
+    const siloTeamIds = silos_teams.map(Number)
+
     if (silo) {
-      await updateSilo(silo.id, inputs)
+      await Promise.all([
+        updateSilo(silo.id, inputs),
+        removeTeamsFromSilo(silo.id),
+      ])
+
+      await addTeamsToSilo(silo.id, siloTeamIds)
 
       window.location.href = pathname.split("/").slice(0, -2).join("/")
 
       return
     }
 
-    await createSilo(inputs)
+    const newSilo = await createSilo(inputs)
+
+    await addTeamsToSilo(newSilo.id, siloTeamIds)
 
     window.location.href = pathname.split("/").slice(0, -1).join("/")
   }
 
-  const baseToken = tokens?.find((token) => token.id === silo?.base_token_id)
   const blockscoutDatabase = blockscoutDatabases?.find(
     (database) => database.id === silo?.blockscout_database_id,
   )
 
-  const currentTeam = teams.find((team) => team.id === silo?.team_id)
+  const siloTeamIds = silosTeams
+    .filter(({ silo_id }) => silo_id === silo?.id)
+    .map(({ team_id }) => team_id)
+
+  const currentTeams = teams.filter((team) => siloTeamIds.includes(team.id))
   const inputs: HorizontalFormProps<Inputs>["inputs"] = [
-    {
-      name: "team_id",
-      label: "Team",
-      defaultValue: currentTeam ? getTeamOption(currentTeam) : undefined,
-      getValue: (option?: SelectInputOption) => option?.value,
-      options: teams.map(getTeamOption),
-      required: true,
-    },
     {
       name: "name",
       label: "Name",
@@ -166,25 +170,27 @@ export const SiloForm = ({
       defaultValue: silo?.grafana_network_key ?? "",
       autoComplete: "grafanana_network_key",
     },
+    {
+      name: "base_token_name",
+      label: "Base token name",
+      defaultValue: silo?.base_token_name ?? "",
+      required: true,
+    },
+    {
+      name: "base_token_symbol",
+      label: "Base token symbol",
+      defaultValue: silo?.base_token_symbol ?? "",
+      required: true,
+    },
+    {
+      name: "silos_teams",
+      label: "Teams",
+      isMulti: true,
+      defaultValue: currentTeams.map(getTeamOption),
+      options: teams.map(getTeamOption),
+      getValue: (options) => options.map((option) => option.value),
+    },
   ]
-
-  if (tokens) {
-    inputs.push({
-      name: "base_token_id",
-      label: "Base token",
-      defaultValue: baseToken ? getTokenOption(baseToken) : undefined,
-      getValue: (option?: SelectInputOption) => option?.value,
-      options: tokens.map(getTokenOption),
-    })
-  } else {
-    inputs.push({
-      name: "base_token_id",
-      label: "Base token",
-      getValue: (option?: SelectInputOption) => option?.value,
-      disabled: true,
-      placeholder: "You can add tokens after creating the silo",
-    })
-  }
 
   return <HorizontalForm submitHandler={submitHandler} inputs={inputs} />
 }

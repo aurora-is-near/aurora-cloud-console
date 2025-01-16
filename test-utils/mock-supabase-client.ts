@@ -66,6 +66,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   userlists: createTableClient(),
   rules_userlists: createTableClient(),
   replenishments: createTableClient(),
+  silos_teams: createTableClient(),
 }
 
 export const mockSupabaseClient = {

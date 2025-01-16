@@ -39,6 +39,8 @@ export type TokenType = Enums<"token_type">
 
 export type DeploymentStatus = Enums<"deployment_status">
 
+export type OnboardingStatus = Enums<"team_onboarding_status">
+
 export type WidgetNetworkType = Enums<"widget_network_type">
 
 export type ApiScope = PublicApiScope | "admin"
@@ -57,6 +59,8 @@ export type Team = Tables<"teams">
 
 export type Silo = Tables<"silos">
 
+export type SilosTeams = Tables<"silos_teams">
+
 export type List = Tables<"lists">
 
 export type Deal = Tables<"deals">
@@ -72,6 +76,8 @@ export type RuleUser = Tables<"rule_users">
 export type Filter = Tables<"filters">
 
 export type FilterEntry = Tables<"filter_entries">
+
+export type OnboardingForm = Tables<"onboarding_form">
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
 

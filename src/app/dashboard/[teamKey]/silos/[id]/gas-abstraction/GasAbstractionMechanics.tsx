@@ -15,10 +15,11 @@ import { GasPriceForm } from "./GasPriceForm"
 
 type Props = {
   silo: Silo
-  baseTokenSymbol: string
 }
 
-export const GasAbstractionMechanics = ({ silo, baseTokenSymbol }: Props) => {
+const CAN_EDIT_GAS_PRICE = false
+
+export const GasAbstractionMechanics = ({ silo }: Props) => {
   const formId = useId()
 
   const [gasPriceDisplayed, setGasPriceDisplayed] = useState(
@@ -60,13 +61,15 @@ export const GasAbstractionMechanics = ({ silo, baseTokenSymbol }: Props) => {
           >
             <div className="flex items-center justify-between gap-2">
               <Typography variant="paragraph" size={4}>
-                {`${gasPriceDisplayed} ${baseTokenSymbol} per gas`}
+                {`${gasPriceDisplayed} ${silo.base_token_symbol} per gas`}
               </Typography>
-              <Btn.Iconed
-                icon={PencilSquareIcon}
-                label="Edit gas price"
-                onClick={() => openModal(Modals.EditGasPrice)}
-              />
+              {CAN_EDIT_GAS_PRICE && (
+                <Btn.Iconed
+                  icon={PencilSquareIcon}
+                  label="Edit gas price"
+                  onClick={() => openModal(Modals.EditGasPrice)}
+                />
+              )}
             </div>
           </InfoList.Item>
         </InfoList>
@@ -76,7 +79,6 @@ export const GasAbstractionMechanics = ({ silo, baseTokenSymbol }: Props) => {
         <GasPriceForm
           silo={silo}
           formId={formId}
-          baseTokenSymbol={baseTokenSymbol}
           onSubmitted={({ gasPrice }) => {
             setGasPriceDisplayed(gasPrice)
             closeModal()

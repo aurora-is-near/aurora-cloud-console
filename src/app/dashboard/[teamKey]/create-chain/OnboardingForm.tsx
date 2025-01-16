@@ -26,7 +26,6 @@ import { logger } from "@/logger"
 import { Typography } from "@/uikit"
 
 import Step from "./Step"
-import { Summary } from "./Summary"
 import ChainPermissionBox from "./ChainPermissionBox"
 import GasMechanicsBox from "./GasMechanicsBox"
 import IntegrationBox from "./IntegrationBox"
@@ -327,33 +326,6 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
             </div>
           </Step>
 
-          <Step
-            number={6}
-            title="Summary"
-            description="Confirm your order, and we’ll take care of the rest."
-          >
-            <Card className="p-6">
-              <Summary>
-                <Summary.Item
-                  value="$99.00"
-                  title="Transaction credits"
-                  description="We do not charge a deployment fee! Your deposit will be used towards transaction credits for your chain.\n\n What you get:"
-                  bulletpoints={[
-                    "Deployment of your own EVM Virtual Chain",
-                    "20,000 transaction credits (you will be required to top up once these credits are consumed)",
-                    "Support from the Aurora team for technical question and go to market strategy",
-                  ]}
-                />
-                <Summary.Item
-                  value="2-3 work days"
-                  title="Deployment timeframe"
-                />
-                <Summary.Divider />
-                <Summary.Footer text="Total payable now" value="$99.00" />
-              </Summary>
-            </Card>
-          </Step>
-
           <div className="flex flex-col items-center gap-4 pl-14 mb-16">
             <Button
               fullWidth
@@ -361,7 +333,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
               loading={isSubmitting}
               onClick={handleOnboardingSubmit}
             >
-              Checkout and initiate deployment
+              Save my chain configuration
             </Button>
 
             <Typography

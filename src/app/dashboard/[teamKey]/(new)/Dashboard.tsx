@@ -1,53 +1,35 @@
 import Image from "next/image"
-import { PlusIcon } from "@heroicons/react/20/solid"
 import Hero from "@/components/Hero/Hero"
 import { Silo, Team } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { getNetworkVariant } from "@/utils/get-network-variant"
+import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
 import { DashboardPage } from "@/components/DashboardPage"
+import { Typography } from "@/uikit"
 
-import { notReachable } from "@/utils/notReachable"
+import { StepCard } from "./StepCard"
+import { TopupStep } from "./TopupStep"
 import { WhatsNext } from "./WhatsNext"
 import { LiveBadge } from "./LiveBadge"
+import { HomeHeroAction } from "./HomeHeroAction"
 import { DeploymentProgress } from "./DeploymentProgress"
-import FeatureList, { FeatureBanner } from "./FeatureList"
-import {
-  Partner1,
-  Partner2,
-  Partner3,
-} from "../../../../../public/static/v2/images/icons"
 
 type DashboardHomePageProps = {
   team: Team
   silo?: Silo | null
 }
 
-const meetingLink = "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
-
-const features: FeatureBanner[] = [
-  {
-    icon: <Partner1 />,
-    title: "Dedicated integration team",
-  },
-  {
-    icon: <Partner2 />,
-    title: "Expert consultancy and guidance",
-  },
-  {
-    icon: <Partner3 />,
-    title: "Community marketing",
-  },
-]
-
 // https://www.figma.com/design/83g9SAME00sIuoOPqd8EYj/Aurora-Cloud?node-id=3775-10045&t=PGhHmzDnXi5hsRI0-0
-export const DashboardHomePage = ({
+export const DashboardHomePage = async ({
   team,
   silo = null,
 }: DashboardHomePageProps) => {
   const teamKey = team.team_key
   const siloPrefix = silo ? `/silos/${silo.id}` : ""
+
+  const isOnboardingFormSubmitted = !!(await getTeamOnboardingForm(team.id))
 
   return (
     <DashboardPage>
@@ -55,31 +37,11 @@ export const DashboardHomePage = ({
         hasDivider
         title={!silo ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`}
         description={getNetworkVariant(silo, {
-          none: team.onboarding_status ? (
-            <>
-              Welcome to your chain’s console — your hub for configuring,
-              monitoring, and optimizing. Track your chain data, manage gas
-              mechanics, and configure integrations with ease.
-              <br />
-              <br />
-              We’re working on getting everything set up for you to access your
-              chain and start building!
-            </>
-          ) : (
-            "Launch your own Virtual Chain and start building! Configure your chain, setup onramp, bridges, gas abstraction... all from the Aurora Cloud Console."
-          ),
+          none: "Get started with your own Virtual Chain and start building! Configure your chain, set up on-ramps, bridges, and manage gas abstraction — all within the Aurora Cloud Console.",
           devnet:
-            "You now have access to a shared Aurora Chain identical to production. Test transactions, explore integrations, and simulate real-world scenarios in a risk-free environment.",
-          mainnet: (
-            <>
-              Welcome to your chain’s control center—monitor data, manage gas
-              mechanics, and configure integrations effortlessly.
-              <br />
-              <br />
-              Maintain control as you optimize performance and ensure smooth
-              operations on the live network.
-            </>
-          ),
+            "Get started with your own Virtual Chain and start building! Configure your chain, set up on-ramps, bridges, and manage gas abstraction — all within the Aurora Cloud Console.",
+          mainnet:
+            "Get started with your own Virtual Chain and start building! Configure your chain, set up on-ramps, bridges, and manage gas abstraction — all within the Aurora Cloud Console.",
         })}
         image={getNetworkVariant(silo, {
           none: (
@@ -110,12 +72,12 @@ export const DashboardHomePage = ({
           ),
         })}
         actions={getNetworkVariant(silo, {
-          none: !team.onboarding_status ? (
-            <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
-              <PlusIcon className="h-4 w-4" />
-              <span>Launch a Virtual Chain</span>
-            </LinkButton>
-          ) : null,
+          none: (
+            <HomeHeroAction
+              team={team}
+              isOnboardingFormSubmitted={isOnboardingFormSubmitted}
+            />
+          ),
           devnet: (
             <LinkButton href={`/dashboard/${teamKey}/create-chain`} size="lg">
               Upgrade to Mainnet
@@ -126,127 +88,117 @@ export const DashboardHomePage = ({
       />
 
       <section className="flex flex-col gap-14">
-        {(() => {
-          switch (team.onboarding_status) {
-            case "REQUEST_RECEIVED":
-            case "DEPLOYMENT_IN_PROGRESS":
-              return (
-                <>
-                  <DeploymentProgress status={team.onboarding_status} />
-                  <WhatsNext />
-                </>
-              )
+        {silo ? (
+          <div className="flex flex-col">
+            <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
+              Explore what you can do
+            </h2>
 
-            case "DEPLOYMENT_DONE":
-            case null:
-              return (
-                <div className="flex flex-col">
-                  <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
-                    Explore what you can do
-                  </h2>
-
-                  {getNetworkVariant(silo, {
-                    none: (
-                      <FeatureCTAList>
-                        <FeatureCTA
-                          title="Launch a Virtual Chain"
-                          description="Get a production ready Aurora Chain with all the functionality."
-                          icon="/static/v2/images/examples/devnet.png"
-                          link={`/dashboard/${teamKey}/create-chain`}
-                        />
-                        <FeatureCTA
-                          title="Read documentation"
-                          description="Explore our documentation to start developing and deploying on Aurora."
-                          icon="/static/v2/images/examples/docs.png"
-                          link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
-                        />
-                        <FeatureCTA
-                          title="Talk to a developer"
-                          description="Join our Aurora Cloud developers community on Discord."
-                          icon="/static/v2/images/examples/talk.png"
-                          link="/"
-                        />
-                      </FeatureCTAList>
-                    ),
-                    devnet: (
-                      <FeatureCTAList>
-                        <FeatureCTA
-                          title="Explore integrations"
-                          description="Your chain supports by default a range of integrations."
-                          icon="/static/v2/images/examples/integrations.png"
-                          link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
-                        />
-                        <FeatureCTA
-                          title="Read documentation"
-                          description="Explore our documentation to start developing and deploying on Aurora."
-                          icon="/static/v2/images/examples/docs.png"
-                          link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
-                        />
-                        <FeatureCTA
-                          title="Talk to a developer"
-                          description="Join our Aurora Cloud developers community on Discord."
-                          icon="/static/v2/images/examples/talk.png"
-                          link="/"
-                        />
-                      </FeatureCTAList>
-                    ),
-                    mainnet: (
-                      <FeatureCTAList>
-                        <FeatureCTA
-                          title="Monitor your chain"
-                          description="Keep track of transaction volume,  latency and RPC requests in real-time."
-                          icon="/static/v2/images/examples/monitor.png"
-                          link={`/dashboard/${teamKey}${siloPrefix}/monitoring`}
-                        />
-                        <FeatureCTA
-                          title="Explore integrations"
-                          description="Your chain supports by default a range of integrations."
-                          icon="/static/v2/images/examples/integrations.png"
-                          link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
-                        />
-                        <FeatureCTA
-                          title="Read documentation"
-                          description="Explore our documentation to start developing and deploying on Aurora."
-                          icon="/static/v2/images/examples/docs.png"
-                          link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
-                        />
-                      </FeatureCTAList>
-                    ),
-                  })}
-                </div>
-              )
-
-            default:
-              return notReachable(team.onboarding_status)
-          }
-        })()}
-
-        {!team.onboarding_status && !silo && (
-          <div className="p-10 rounded-2xl border border-slate-200 bg-slate-100">
-            <div className="flex flex-col lg:flex-row justify-between">
-              <div className="flex flex-col">
-                <span className="text-green-900 text-xs font-bold uppercase tracking-widest">
-                  Aurora Labs
-                </span>
-                <h2 className="text-xl text-slate-900 font-bold tracking-tight leading-6 mt-2">
-                  Your dedicated development team
-                </h2>
-              </div>
-
-              <LinkButton
-                href={meetingLink}
-                target="_blank"
-                variant="border"
-                size="lg"
-                className="mt-4 lg:mt-0"
-              >
-                Book a call
-              </LinkButton>
-            </div>
-
-            <FeatureList features={features} />
+            {getNetworkVariant(silo, {
+              none: (
+                <FeatureCTAList>
+                  <FeatureCTA
+                    title="Launch a Virtual Chain"
+                    description="Get a production ready Aurora Chain with all the functionality."
+                    icon="/static/v2/images/examples/devnet.png"
+                    link={`/dashboard/${teamKey}/create-chain`}
+                  />
+                  <FeatureCTA
+                    title="Read documentation"
+                    description="Explore our documentation to start developing and deploying on Aurora."
+                    icon="/static/v2/images/examples/docs.png"
+                    link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
+                  />
+                  <FeatureCTA
+                    title="Talk to a developer"
+                    description="Join our Aurora Cloud developers community on Discord."
+                    icon="/static/v2/images/examples/talk.png"
+                    link="/"
+                  />
+                </FeatureCTAList>
+              ),
+              devnet: (
+                <FeatureCTAList>
+                  <FeatureCTA
+                    title="Explore integrations"
+                    description="Your chain supports by default a range of integrations."
+                    icon="/static/v2/images/examples/integrations.png"
+                    link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
+                  />
+                  <FeatureCTA
+                    title="Read documentation"
+                    description="Explore our documentation to start developing and deploying on Aurora."
+                    icon="/static/v2/images/examples/docs.png"
+                    link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
+                  />
+                  <FeatureCTA
+                    title="Talk to a developer"
+                    description="Join our Aurora Cloud developers community on Discord."
+                    icon="/static/v2/images/examples/talk.png"
+                    link="/"
+                  />
+                </FeatureCTAList>
+              ),
+              mainnet: (
+                <FeatureCTAList>
+                  <FeatureCTA
+                    title="Monitor your chain"
+                    description="Keep track of transaction volume,  latency and RPC requests in real-time."
+                    icon="/static/v2/images/examples/monitor.png"
+                    link={`/dashboard/${teamKey}${siloPrefix}/monitoring`}
+                  />
+                  <FeatureCTA
+                    title="Explore integrations"
+                    description="Your chain supports by default a range of integrations."
+                    icon="/static/v2/images/examples/integrations.png"
+                    link={`/dashboard/${teamKey}${siloPrefix}/integrations`}
+                  />
+                  <FeatureCTA
+                    title="Read documentation"
+                    description="Explore our documentation to start developing and deploying on Aurora."
+                    icon="/static/v2/images/examples/docs.png"
+                    link="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
+                  />
+                </FeatureCTAList>
+              ),
+            })}
           </div>
-        )}
+        ) : null}
+
+        {!silo && !team.onboarding_status ? (
+          <section className="flex flex-col gap-5">
+            <Typography variant="heading" size={3}>
+              Start here
+            </Typography>
+            <div className="flex flex-col gap-4">
+              <StepCard
+                index={1}
+                state={isOnboardingFormSubmitted ? "completed" : "active"}
+                title="Configure your Virtual Chain"
+                description="Select the chain parameters that fit your needs — base token, gas costs, permissions, and more — to create a fully production-ready environment."
+                link={{
+                  isDisabled: false,
+                  label: "Get started",
+                  url: `/dashboard/${teamKey}/create-chain`,
+                }}
+              />
+              <TopupStep
+                index={2}
+                team={team}
+                state={isOnboardingFormSubmitted ? "active" : "upcoming"}
+              />
+            </div>
+            <WhatsNext className="mt-10" />
+          </section>
+        ) : null}
+
+        {!silo && team.onboarding_status ? (
+          <>
+            <DeploymentProgress status={team.onboarding_status} />
+            <hr className="w-full h-[1px] bg-slate-200" />
+            <WhatsNext />
+          </>
+        ) : null}
       </section>
     </DashboardPage>
   )

@@ -8,17 +8,20 @@ import { getSiloTokens } from "@/actions/silo-tokens/get-silo-tokens"
 import { Tag } from "@/components/Tag"
 import { getTeams } from "@/actions/teams/get-teams"
 import { getBlockscoutDatabases } from "@/actions/blockscout-database/get-blockscout-databases"
+import { getSilosTeams } from "@/actions/silos/get-silos-teams"
 import { DeleteSiloButton } from "./DeleteSiloButton"
 import { SiloForm } from "../../SiloForm"
 import { AddTokenButton } from "./AddTokenButton"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {
-  const [silo, siloTokens, blockscoutDatabases, teams] = await Promise.all([
-    getSilo(id),
-    getSiloTokens(id),
-    getBlockscoutDatabases(),
-    getTeams(),
-  ])
+  const [silo, siloTokens, silosTeams, blockscoutDatabases, teams] =
+    await Promise.all([
+      getSilo(id),
+      getSiloTokens(id),
+      getSilosTeams(),
+      getBlockscoutDatabases(),
+      getTeams(),
+    ])
 
   if (!silo) {
     notFound()
@@ -36,9 +39,9 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
         <Card.Body>
           <SiloForm
             silo={silo}
-            tokens={siloTokens}
             teams={teams}
             blockscoutDatabases={blockscoutDatabases}
+            silosTeams={silosTeams}
           />
         </Card.Body>
       </Card>
