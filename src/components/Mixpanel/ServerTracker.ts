@@ -15,12 +15,6 @@ export async function setUser() {
   })
 }
 
-export async function trackPageview(path: string) {
-  const user = await getCurrentUser()
-
-  mp.track("pageview", { path, user })
-}
-
 export async function trackEvent(
   event: string,
   properties: Record<string, string | number>,
