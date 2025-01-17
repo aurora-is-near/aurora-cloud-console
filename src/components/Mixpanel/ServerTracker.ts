@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/actions/current-user/get-current-user"
 const mpNoop = { track: () => {}, people: { set_once: () => {} } }
 
 const mp = process.env.MIXPANEL_SERVER_TOKEN
-  ? mixpanel.init(process.env.MIXPANEL_SERVER_TOKEN ?? "", {
+  ? mixpanel.init(process.env.MIXPANEL_SERVER_TOKEN, {
       verbose: true,
     })
   : mpNoop
