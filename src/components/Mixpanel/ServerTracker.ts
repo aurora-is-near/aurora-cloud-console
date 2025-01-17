@@ -27,7 +27,5 @@ export async function trackEvent(
 ) {
   const user = await getCurrentUser()
 
-  console.log("Tracking", user, event, properties)
-
   mp.track(event, { user, ...properties })
 }
