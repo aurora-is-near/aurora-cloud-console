@@ -9,11 +9,12 @@ const Page = async ({
 }: {
   params: { teamKey: string }
 }) => {
-  const team = await getTeamByKey(teamKey)
-
-  await trackEvent("onboarding_started", {
-    team_id: team.id,
-  })
+  const [team] = await Promise.all([
+    getTeamByKey(teamKey),
+    trackEvent("onboarding_started", {
+      team_key: teamKey,
+    }),
+  ])
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-slate-50 flex flex-col">
