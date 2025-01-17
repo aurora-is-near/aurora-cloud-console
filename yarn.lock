@@ -4037,6 +4037,11 @@
   resolved "https://registry.yarnpkg.com/@types/mixpanel-browser/-/mixpanel-browser-2.51.0.tgz#64df4d23cc053b65eb3c140345d5b81885fd8b6d"
   integrity sha512-or4HZRDmqMJ1OP+O6h4hB+tVDKJffpVi2bFxi/Gem5TGnE94I7OtWKXtrwdDfSGhfOLL+WQIOUOxUZHAzHNi8A==
 
+"@types/mixpanel@^2.14.9":
+  version "2.14.9"
+  resolved "https://registry.yarnpkg.com/@types/mixpanel/-/mixpanel-2.14.9.tgz#88ed52f9a90b46f7dc8b6883bec791532a7bbe5c"
+  integrity sha512-/0xAtxlluEBz3f/cmM04tVTmP94mPEME6TBl+kKA7HtPWlvxH/fMSmp4ZdV2b/SN+7FLHm/aR6Fau8wZrjvoZQ==
+
 "@types/ms@*":
   version "0.7.34"
   resolved "https://registry.yarnpkg.com/@types/ms/-/ms-0.7.34.tgz#10964ba0dee6ac4cd462e2795b6bebd407303433"
@@ -7756,6 +7761,14 @@ http-status@^1.7.3:
   resolved "https://registry.yarnpkg.com/http-status/-/http-status-1.7.3.tgz#d6dcc3a5a3fb5b1bfcc6ad2b38af0b7258bc1459"
   integrity sha512-GS8tL1qHT2nBCMJDYMHGkkkKQLNkIAHz37vgO68XKvzv+XyqB4oh/DfmMHdtRzfqSJPj1xKG2TaELZtlCz6BEQ==
 
+https-proxy-agent@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-5.0.0.tgz#e2a90542abb68a762e0a0850f6c9edadfd8506b2"
+  integrity sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==
+  dependencies:
+    agent-base "6"
+    debug "4"
+
 https-proxy-agent@^5.0.0, https-proxy-agent@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-5.0.1.tgz#c59ef224a04fe8b754f3db0063a25ea30d0005d6"
@@ -9342,6 +9355,13 @@ mixpanel-browser@^2.58.0:
   integrity sha512-ZayNE4augjSJh5RxYKRPhFe1jzS9HZnoowvZaN4DaUeCezbLGVck46L+N9X8VLtK74UgLUYfehPgCr41rtgpRA==
   dependencies:
     rrweb "2.0.0-alpha.13"
+
+mixpanel@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/mixpanel/-/mixpanel-0.18.0.tgz#f010f2622902d0d4b434de238446ec8e5966ee32"
+  integrity sha512-VyUoiLB/S/7abYYHGD5x0LijeuJCUabG8Hb+FvYU3Y99xHf1Qh+s4/pH9lt50fRitAHncWbU1FE01EknUfVVjQ==
+  dependencies:
+    https-proxy-agent "5.0.0"
 
 mkdirp-classic@^0.5.2, mkdirp-classic@^0.5.3:
   version "0.5.3"
