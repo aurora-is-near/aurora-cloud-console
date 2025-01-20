@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useState } from "react"
-import mixpanel from "mixpanel-browser"
 import {
   AUTH_CALLBACK_ROUTE,
   LINK_SENT_ROUTE,
@@ -16,6 +15,7 @@ import { AuthForm } from "@/components/AuthForm"
 import { EMAIL_QUERY_PARAM, SIGNUP_QUERY_PARAM } from "@/constants/auth"
 import { getUserByEmail } from "@/actions/user/get-user"
 import { Alert } from "@/components/Alert"
+import { useAnalytics } from "@/hooks/useAnalytics"
 
 type Inputs = {
   email: string
@@ -27,6 +27,7 @@ type Inputs = {
 export const SignUpForm = () => {
   const supabase = createClientComponentClient()
   const router = useRouter()
+  const mixPanel = useAnalytics()
   const [showExistingAccountError, setShowExistingAccountError] =
     useState(false)
 
@@ -80,7 +81,7 @@ export const SignUpForm = () => {
     searchParams.set(EMAIL_QUERY_PARAM, email)
     searchParams.set(SIGNUP_QUERY_PARAM, "1")
 
-    mixpanel.track("signup", {
+    mixPanel?.track("signup", {
       email,
       name,
       company,
