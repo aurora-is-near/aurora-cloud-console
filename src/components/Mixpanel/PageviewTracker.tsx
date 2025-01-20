@@ -1,17 +1,14 @@
 "use client"
 
-import mixpanel from "mixpanel-browser"
 import { useEffect } from "react"
+import { useAnalytics } from "@/hooks/useAnalytics"
 
 export const PageviewTracker = () => {
+  const mixPanel = useAnalytics()
+
   useEffect(() => {
-    mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_TOKEN ?? "", {
-      debug: false, // Use only locally please
-      track_pageview: true,
-      persistence: "localStorage",
-    })
-    mixpanel.track("pageview")
-  }, [])
+    mixPanel?.track("pageview")
+  }, [mixPanel])
 
   return null
 }
