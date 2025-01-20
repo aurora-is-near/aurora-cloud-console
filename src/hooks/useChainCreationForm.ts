@@ -207,7 +207,7 @@ export const useChainCreationForm = (
 
     // for mainnet
     window.location.href = `${window.location.origin}/dashboard/${team.team_key}`
-  }, [form, team, fieldErrors])
+  }, [form, fieldErrors, mixPanel, team.id, team.team_key])
 
   return {
     form,
