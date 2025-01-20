@@ -3,6 +3,8 @@ import { Suspense } from "react"
 import { circular } from "@/styles/fonts/fonts"
 import "../styles/globals.css"
 import { Providers } from "@/app/Providers"
+import { VercelToolbar } from "@vercel/toolbar/next"
+
 import { ErrorModal } from "@/components/ErrorModal"
 import { PageviewTracker } from "@/components/Mixpanel/PageviewTracker"
 
@@ -17,6 +19,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body className={`${circular.variable} font-sans h-full bg-gray-50`}>
         <Providers>
           {children}
+          <VercelToolbar />
           <Suspense>
             <ErrorModal />
             <PageviewTracker />

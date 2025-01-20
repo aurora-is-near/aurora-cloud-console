@@ -1,4 +1,5 @@
 const { withSentryConfig } = require("@sentry/nextjs")
+const withVercelToolbar = require("@vercel/toolbar/plugins/next")
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -28,4 +29,4 @@ const sentryConfig = {
   tunnelRoute: "/monitoring-tunnel",
 }
 
-module.exports = withSentryConfig(nextConfig, sentryConfig)
+module.exports = withSentryConfig(withVercelToolbar()(nextConfig), sentryConfig)
