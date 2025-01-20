@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react"
-import mixpanel from "mixpanel-browser"
 import { Team } from "@/types/types"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
 import {
@@ -14,6 +13,7 @@ import { DEVNET_CHAIN_ID } from "@/constants/devnet"
 import { notReachable } from "@/utils/notReachable"
 import { getSiloByChainId } from "@/actions/silos/get-silo-by-chain-id"
 import { addTeamsToSilo } from "@/actions/silos/add-teams-to-silo"
+import { useMixPanel } from "@/hooks/useMixPanel"
 import {
   AuroraToken,
   Bitcoin,
@@ -105,6 +105,7 @@ export const useChainCreationForm = (
   team: Team,
   networkTypeSelected: NetworkType,
 ) => {
+  const mixPanel = useMixPanel()
   const [form, setForm] = useState<ChainCreationForm>(
     (() => {
       switch (networkTypeSelected) {
@@ -177,7 +178,7 @@ export const useChainCreationForm = (
       return
     }
 
-    mixpanel.track("onboarding_completed", {
+    mixPanel?.track("onboarding_completed", {
       team_id: team.id,
       ...form,
     })
