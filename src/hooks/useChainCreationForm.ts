@@ -13,7 +13,7 @@ import { DEVNET_CHAIN_ID } from "@/constants/devnet"
 import { notReachable } from "@/utils/notReachable"
 import { getSiloByChainId } from "@/actions/silos/get-silo-by-chain-id"
 import { addTeamsToSilo } from "@/actions/silos/add-teams-to-silo"
-import { useMixPanel } from "@/hooks/useMixPanel"
+import { useAnalytics } from "@/hooks/useAnalytics"
 import {
   AuroraToken,
   Bitcoin,
@@ -105,7 +105,7 @@ export const useChainCreationForm = (
   team: Team,
   networkTypeSelected: NetworkType,
 ) => {
-  const mixPanel = useMixPanel()
+  const mixPanel = useAnalytics()
   const [form, setForm] = useState<ChainCreationForm>(
     (() => {
       switch (networkTypeSelected) {

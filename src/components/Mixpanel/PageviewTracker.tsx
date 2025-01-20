@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect } from "react"
-import { useMixPanel } from "@/hooks/useMixPanel"
+import { useAnalytics } from "@/hooks/useAnalytics"
 
 export const PageviewTracker = () => {
-  const mixPanel = useMixPanel()
+  const mixPanel = useAnalytics()
 
   useEffect(() => {
     mixPanel?.track("pageview")

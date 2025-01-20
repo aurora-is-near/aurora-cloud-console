@@ -15,7 +15,7 @@ import { AuthForm } from "@/components/AuthForm"
 import { EMAIL_QUERY_PARAM, SIGNUP_QUERY_PARAM } from "@/constants/auth"
 import { getUserByEmail } from "@/actions/user/get-user"
 import { Alert } from "@/components/Alert"
-import { useMixPanel } from "@/hooks/useMixPanel"
+import { useAnalytics } from "@/hooks/useAnalytics"
 
 type Inputs = {
   email: string
@@ -27,7 +27,7 @@ type Inputs = {
 export const SignUpForm = () => {
   const supabase = createClientComponentClient()
   const router = useRouter()
-  const mixPanel = useMixPanel()
+  const mixPanel = useAnalytics()
   const [showExistingAccountError, setShowExistingAccountError] =
     useState(false)
 
