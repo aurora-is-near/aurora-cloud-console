@@ -12,7 +12,7 @@ export const createRuleUserlist = async (inputs: {
 
   const userlistResult = await supabase
     .from("userlists")
-    .insert({ team_id: inputs.team_id })
+    .insert({ team_id: inputs.team_id, ui_enabled: true })
     .select()
     .single()
 

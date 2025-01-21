@@ -2,22 +2,17 @@
 
 import { createRuleUserlist } from "@/actions/rule-userlists/create-rule-userlist"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { Json } from "@/types/supabase"
 import { Rule } from "@/types/types"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const createRule = async (inputs: {
-  deal_id: number
+  rule: Pick<Rule, "deal_id" | "resource_definition">
   team_id: number
-  resource_definition: Json
 }): Promise<Rule> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("rules")
-    .insert({
-      deal_id: inputs.deal_id,
-      resource_definition: inputs.resource_definition,
-    })
+    .insert({ ...inputs.rule, ui_enabled: true })
     .select()
     .single()
 
