@@ -9,7 +9,13 @@ import {
   useState,
 } from "react"
 import toast from "react-hot-toast"
-import { Rule, RuleUser, Team, Userlist } from "@/types/types"
+import {
+  Rule,
+  RuleResourceDefinition,
+  RuleUser,
+  Team,
+  Userlist,
+} from "@/types/types"
 import { getUserlists } from "@/actions/userlists/get-userlists"
 import { getRuleUsers } from "@/actions/rule-users/get-rule-users"
 import { createRuleUser } from "@/actions/rule-users/create-rule-user"
@@ -18,11 +24,7 @@ import { updateRule } from "@/actions/rules/update-rule"
 
 type RuleContextType = {
   rule: Rule
-  resourceDefinition: {
-    chains: string
-    contracts: string[]
-    blacklist?: boolean
-  }
+  resourceDefinition: RuleResourceDefinition
   userlist: Userlist | undefined
   ruleUsers: RuleUser[]
   setRule: (rule: Rule) => void
@@ -50,9 +52,10 @@ export const RuleProvider = ({
   const [rule, setRule] = useState<Rule>(initialRule)
   const [userlist, setUserlist] = useState<Userlist>()
   const [ruleUsers, setRuleUsers] = useState<RuleUser[]>([])
-  const [resourceDefinition, setResourceDefinition] = useState<
-    typeof initialRule.resource_definition
-  >(initialRule.resource_definition)
+  const [resourceDefinition, setResourceDefinition] =
+    useState<RuleResourceDefinition>(
+      initialRule.resource_definition as RuleResourceDefinition,
+    )
 
   const addRuleUser = useCallback(
     async (address: string) => {

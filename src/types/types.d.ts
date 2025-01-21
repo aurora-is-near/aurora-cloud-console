@@ -84,6 +84,7 @@ export type ChartColor = (typeof CHART_COLOURS)[number]
 export type RuleResourceDefinition = {
   chains: string
   contracts: string[]
+  blacklist?: boolean
 }
 
 type ChartData = {
