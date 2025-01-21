@@ -94,9 +94,6 @@ describe("Deal route", () => {
 
       expect(res).toSatisfyApiSpec()
 
-      console.log(res.status)
-      console.log(mockDeal)
-
       expect(res.body).toEqual({
         id: mockDeal.id,
         siloId: mockDeal.silo_id,

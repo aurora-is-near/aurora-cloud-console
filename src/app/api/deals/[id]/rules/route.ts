@@ -14,9 +14,11 @@ export const GET = createApiEndpoint("getRules", async (_req, ctx) => {
 export const POST = createApiEndpoint("createRule", async (req, ctx) => {
   const { resourceDefinition } = ctx.body
   const rule = await createRule({
-    deal_id: Number(ctx.params.id),
+    rule: {
+      deal_id: Number(ctx.params.id),
+      resource_definition: resourceDefinition,
+    },
     team_id: Number(ctx.params.teamId),
-    resource_definition: resourceDefinition,
   })
 
   return adaptRule(rule)
