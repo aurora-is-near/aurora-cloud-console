@@ -67,5 +67,12 @@ export const mockSupabaseClient = {
     getUser: jest.fn(() => ({
       data: { user: mockUser },
     })),
+    getSession: jest.fn(() => ({
+      data: {
+        session: {
+          user: mockUser,
+        },
+      },
+    })),
   },
 }
