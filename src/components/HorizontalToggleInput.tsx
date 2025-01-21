@@ -26,12 +26,14 @@ export const HorizontalToggleInput = <Inputs extends Record<string, unknown>>({
     errors={errors}
     className={className}
   >
-    <ToggleInput
-      id={id}
-      name={name}
-      register={register}
-      registerOptions={registerOptions}
-      {...restProps}
-    />
+    <div className="w-full h-full flex flex-row items-center justify-end">
+      <ToggleInput
+        id={id}
+        name={name}
+        register={register}
+        registerOptions={registerOptions}
+        {...restProps}
+      />
+    </div>
   </HorizontalInputWrapper>
 )
