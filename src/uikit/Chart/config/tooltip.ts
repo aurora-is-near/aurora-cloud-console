@@ -1,4 +1,4 @@
-import type { TooltipOptions, TooltipItem } from "chart.js"
+import type { TooltipItem, TooltipOptions } from "chart.js"
 
 import type { Theme } from "../theme"
 import type { DeepPartial } from "../../types"
@@ -37,7 +37,10 @@ export const getTooltipConfig = <T extends "line" | "bar">(
     label: (item: TooltipItem<T>) => item.formattedValue,
     labelTextColor: () => theme.colors.tooltip.label,
     title: (items: TooltipItem<T>[]) => {
-      if (!items?.length) return
+      if (!items?.length) {
+        return
+      }
+
       return (items[0].dataset as unknown as { label: string }).label
     },
   },

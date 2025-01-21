@@ -8,7 +8,7 @@ export type HeroIcon = React.ComponentType<
 type _DeepPartialArray<T> = Array<DeepPartial<T>>
 type _DeepPartialObject<T> = { [P in keyof T]?: DeepPartial<T[P]> }
 
-export type DeepPartial<T> = T extends Function
+export type DeepPartial<T> = T extends (...args: any[]) => any
   ? T
   : T extends Array<infer U>
     ? _DeepPartialArray<U>
