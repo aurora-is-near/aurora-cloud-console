@@ -491,6 +491,7 @@ export type Database = {
           deleted_at: string | null
           id: number
           resource_definition: Json
+          ui_enabled: boolean
           updated_at: string
         }
         Insert: {
@@ -499,6 +500,7 @@ export type Database = {
           deleted_at?: string | null
           id?: number
           resource_definition: Json
+          ui_enabled?: boolean
           updated_at?: string
         }
         Update: {
@@ -507,6 +509,7 @@ export type Database = {
           deleted_at?: string | null
           id?: number
           resource_definition?: Json
+          ui_enabled?: boolean
           updated_at?: string
         }
         Relationships: [
@@ -587,6 +590,8 @@ export type Database = {
           replenish_amount: number
           replenish_threshold: number
           rpc_url: string
+          team_id: number
+          type: string
           updated_at: string
         }
         Insert: {
@@ -611,6 +616,8 @@ export type Database = {
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
+          team_id: number
+          type?: string
           updated_at?: string
         }
         Update: {
@@ -635,6 +642,8 @@ export type Database = {
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
+          team_id?: number
+          type?: string
           updated_at?: string
         }
         Relationships: [
@@ -787,21 +796,24 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           id: number
-          team_id: number | null
+          team_id: number
+          ui_enabled: boolean
           updated_at: string
         }
         Insert: {
           created_at?: string
           deleted_at?: string | null
           id?: number
-          team_id?: number | null
+          team_id: number
+          ui_enabled?: boolean
           updated_at?: string
         }
         Update: {
           created_at?: string
           deleted_at?: string | null
           id?: number
-          team_id?: number | null
+          team_id?: number
+          ui_enabled?: boolean
           updated_at?: string
         }
         Relationships: [

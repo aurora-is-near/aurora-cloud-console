@@ -13,12 +13,6 @@ import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
 
-const userlistRuleDefinition: RuleResourceDefinition = {
-  feature: "userlistRule",
-  chains: "*",
-  contracts: [],
-}
-
 const Page = async ({
   params: { id, planId, teamKey },
 }: {
@@ -37,17 +31,20 @@ const Page = async ({
     notFound()
   }
 
-  let userlistRule = rules?.find((r) => {
-    const def = r.resource_definition as RuleResourceDefinition
+  const userlistRuleDefinition: RuleResourceDefinition = {
+    chains: silo.chain_id,
+    contracts: [],
+  }
 
-    return def?.feature === userlistRuleDefinition.feature
-  })
+  let userlistRule = rules?.find((r) => r.ui_enabled)
 
   if (!userlistRule) {
     userlistRule = await createRule({
-      deal_id: dealId,
+      rule: {
+        deal_id: dealId,
+        resource_definition: userlistRuleDefinition,
+      },
       team_id: team.id,
-      resource_definition: userlistRuleDefinition,
     })
   }
 

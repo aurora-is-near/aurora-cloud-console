@@ -82,7 +82,6 @@ export type OnboardingForm = Tables<"onboarding_form">
 export type ChartColor = (typeof CHART_COLOURS)[number]
 
 export type RuleResourceDefinition = {
-  feature: string
   chains: string
   contracts: string[]
 }
