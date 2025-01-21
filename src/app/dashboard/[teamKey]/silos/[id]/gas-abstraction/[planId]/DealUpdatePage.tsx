@@ -8,7 +8,6 @@ import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { Deal } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
-import { SaveChangesBar } from "./SaveChangesBar"
 import { DeletePlanButton } from "./DeletePlanButton"
 
 type DealUpdatePageProps = {
@@ -26,7 +25,6 @@ export const DealUpdatePage = ({ children, deal }: DealUpdatePageProps) => {
       <DashboardPage
         isForm
         heading={deal.name}
-        footer={<SaveChangesBar />}
         formProps={{
           onSubmit: handleSubmit(savePendingUpdates),
         }}
