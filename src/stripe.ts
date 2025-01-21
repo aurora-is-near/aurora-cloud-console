@@ -1,5 +1,6 @@
 "use server"
 
+import { isAdmin } from "@/actions/is-admin"
 import { featureFlags } from "@/feature-flags/server"
 import { ProductType } from "@/types/products"
 
@@ -9,8 +10,10 @@ type StripeConfig = {
   productIds: Record<ProductType, string | undefined>
 }
 
-export const getStripeConfig = (): StripeConfig => {
-  if (featureFlags.get("stripe_test_payments")) {
+export const getStripeConfig = async (): Promise<StripeConfig> => {
+  const isAdminUser = await isAdmin()
+
+  if (featureFlags.get("stripe_test_payments") && isAdminUser) {
     return {
       secretKey: process.env.STRIPE_TEST_SECRET_KEY,
       webhookSecret: process.env.STRIPE_TEST_MODE_WEBHOOK_SECRET,

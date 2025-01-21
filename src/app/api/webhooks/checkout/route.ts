@@ -158,7 +158,7 @@ const isValidProductType = (
 
 export const POST = createPrivateApiEndpoint<WebhookResponse>(
   async (req: NextRequest) => {
-    const { secretKey, webhookSecret } = getStripeConfig()
+    const { secretKey, webhookSecret } = await getStripeConfig()
 
     const payload = await req.text()
     const sig = req.headers.get("stripe-signature")

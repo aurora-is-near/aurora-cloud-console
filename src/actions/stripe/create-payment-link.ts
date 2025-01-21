@@ -4,8 +4,8 @@ import Stripe from "stripe"
 import { ProductType } from "@/types/products"
 import { getStripeConfig } from "@/stripe"
 
-const getProductId = (productType: ProductType) => {
-  const { productIds } = getStripeConfig()
+const getProductId = async (productType: ProductType) => {
+  const { productIds } = await getStripeConfig()
 
   return productIds[productType]
 }
@@ -26,14 +26,16 @@ export const createPaymentLink = async (
   teamId: number,
   callbackUrl: string,
 ) => {
-  const stripeSecretKey = getStripeConfig().secretKey
+  const [{ secretKey }, productId] = await Promise.all([
+    getStripeConfig(),
+    getProductId(productType),
+  ])
 
-  if (!stripeSecretKey) {
+  if (!secretKey) {
     throw new Error("Stripe secret key is not set")
   }
 
-  const stripe = new Stripe(stripeSecretKey)
-  const productId = getProductId(productType)
+  const stripe = new Stripe(secretKey)
 
   if (!productId) {
     throw new Error(`Product ID not found for type: ${productType}`)
