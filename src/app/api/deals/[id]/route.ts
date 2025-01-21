@@ -15,7 +15,12 @@ export const GET = createApiEndpoint("getDeal", async (_req, ctx) => {
 })
 
 export const PUT = createApiEndpoint("updateDeal", async (req, ctx) => {
-  const updatedDeal = await updateDeal(Number(ctx.params.id), ctx.body)
+  const { startTime, endTime, ...rest } = ctx.body
+  const updatedDeal = await updateDeal(Number(ctx.params.id), {
+    ...rest,
+    start_time: startTime,
+    end_time: endTime,
+  })
 
   return adaptDeal(updatedDeal)
 })

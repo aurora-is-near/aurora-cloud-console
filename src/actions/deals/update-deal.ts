@@ -9,7 +9,9 @@ import {
 
 export const updateDeal = async (
   id: number,
-  inputs: Pick<Deal, "name" | "open" | "enabled" | "start_time" | "end_time">,
+  inputs: Partial<
+    Pick<Deal, "name" | "open" | "enabled" | "start_time" | "end_time">
+  >,
 ): Promise<Deal> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
