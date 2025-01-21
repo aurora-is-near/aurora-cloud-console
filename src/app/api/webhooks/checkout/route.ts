@@ -13,6 +13,7 @@ import { logger } from "@/logger"
 import { Team } from "@/types/types"
 import { sendEmail } from "@/utils/email"
 import { getRequestReceivedEmail } from "@/email-templates/get-request-received-email"
+import { getStripeConfig } from "@/stripe"
 
 type WebhookResponse = {
   fulfilled: boolean
@@ -157,8 +158,8 @@ const isValidProductType = (
 
 export const POST = createPrivateApiEndpoint<WebhookResponse>(
   async (req: NextRequest) => {
-    const stripeSecretKey = process.env.STRIPE_SECRET_KEY
-    const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET
+    const { secretKey, webhookSecret } = getStripeConfig()
+
     const payload = await req.text()
     const sig = req.headers.get("stripe-signature")
 
@@ -170,19 +171,19 @@ export const POST = createPrivateApiEndpoint<WebhookResponse>(
       abort(400, "No signature provided")
     }
 
-    if (!stripeWebhookSecret) {
+    if (!webhookSecret) {
       abort(500, "Stripe webhook secret is not set")
     }
 
-    if (!stripeSecretKey) {
+    if (!secretKey) {
       abort(500, "Stripe secret key is not set")
     }
 
-    const stripe = new Stripe(stripeSecretKey)
+    const stripe = new Stripe(secretKey)
     let event: Stripe.Event
 
     try {
-      event = stripe.webhooks.constructEvent(payload, sig, stripeWebhookSecret)
+      event = stripe.webhooks.constructEvent(payload, sig, webhookSecret)
     } catch (err) {
       abort(400, toError(err).message)
     }
