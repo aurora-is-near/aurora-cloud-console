@@ -1,7 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
-
+import { useEffect } from "react"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { useFormContext } from "react-hook-form"
 import { XCircleIcon } from "@heroicons/react/20/solid"
@@ -23,8 +22,6 @@ export const DealDurationModal = () => {
   const { closeModal, activeModal } = useModals()
   const { deal, queueUpdate } = useRequiredContext(DealUpdateContext)
   const { register, getValues, setValue } = useFormContext<Inputs>()
-
-  const submitButtonRef = useRef<HTMLButtonElement>(null)
 
   const onSaveClick = async () => {
     const values = getValues()
@@ -91,7 +88,7 @@ export const DealDurationModal = () => {
             <Button variant="secondary" onClick={onCancel}>
               Cancel
             </Button>
-            <Button ref={submitButtonRef} onClick={onSaveClick}>
+            <Button onClick={onSaveClick}>
               <CheckIcon className="w-5 h-5" />
               Save
             </Button>
