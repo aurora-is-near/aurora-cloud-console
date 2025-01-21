@@ -21,13 +21,11 @@ type Inputs = {
 }
 
 const UsersConfigurationCard = () => {
-  const { deal, queueUpdate } = useRequiredContext(DealUpdateContext)
+  const { deal, queueUpdate, savePendingUpdates } =
+    useRequiredContext(DealUpdateContext)
+
   const { openModal } = useModals()
   const { register, watch } = useForm<Inputs>()
-
-  // Premium Plan deal
-  // all others are disabled until there is engine integration
-  const disabled = deal?.id !== 17
 
   const { ruleUsers } = useRequiredContext(RuleContext)
 
@@ -39,11 +37,12 @@ const UsersConfigurationCard = () => {
         queueUpdate({
           open: isOpen,
         })
+        void savePendingUpdates()
       }
     })
 
     return () => subscription.unsubscribe()
-  }, [watch, queueUpdate, isOpen])
+  }, [watch, queueUpdate, isOpen, savePendingUpdates])
 
   if (!deal) {
     return <Skeleton className="h-24" />
@@ -79,7 +78,6 @@ const UsersConfigurationCard = () => {
                 value="true"
                 className={radioClassName}
                 checked={isOpen}
-                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -105,7 +103,6 @@ const UsersConfigurationCard = () => {
                 value="false"
                 className={radioClassName}
                 checked={!isOpen}
-                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -140,11 +137,7 @@ const UsersConfigurationCard = () => {
                   {ruleUsers?.length === 1 ? "" : "es"} added
                 </span>
               </div>
-              <Button
-                disabled={disabled}
-                onClick={openAddRuleAddressModal}
-                variant="border"
-              >
+              <Button onClick={openAddRuleAddressModal} variant="border">
                 Add manually
               </Button>
             </div>
