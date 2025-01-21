@@ -28,7 +28,7 @@ export const InputWrapper = <Inputs extends Record<string, unknown>>({
       >
         {label}
       </label>
-      <div className="w-full">
+      <div className="w-full flex justify-end items-center">
         {children}
         {!!errorMessage && (
           <p className="mt-1.5 text-sm font-medium text-red-500">

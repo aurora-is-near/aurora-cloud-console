@@ -37,6 +37,7 @@
     "chartjs-adapter-date-fns": "^3.0.0",
     "clean-deep": "^3.4.0",
     "clsx": "^2.1.1",
+    "cookies-next": "^4.3.0",
     "cryptr": "^6.3.0",
     "date-fns": "^2.30.0",
     "debug": "^4.3.4",
