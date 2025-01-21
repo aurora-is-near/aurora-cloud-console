@@ -9,7 +9,7 @@ import {
   FeatureFlagsClient,
 } from "@/types/feature-flags"
 
-export const getFeatureFlagName = (id: FeatureFlagId) => {
+const getFeatureFlagName = (id: FeatureFlagId) => {
   return `${FEATURE_FLAG_COOKIE_PREFIX}_${id}`
 }
 
