@@ -13,7 +13,7 @@ import { logger } from "@/logger"
 import { Team } from "@/types/types"
 import { sendEmail } from "@/utils/email"
 import { getRequestReceivedEmail } from "@/email-templates/get-request-received-email"
-import { getStripeConfig } from "@/stripe"
+import { getStripeConfig } from "@/utils/stripe"
 
 type WebhookResponse = {
   fulfilled: boolean

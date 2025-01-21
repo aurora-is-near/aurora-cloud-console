@@ -1,5 +1,3 @@
-"use server"
-
 import { cookies } from "next/headers"
 import { FeatureFlagsClient } from "@/types/feature-flags"
 import { createFeatureFlagsClient } from "./utils"

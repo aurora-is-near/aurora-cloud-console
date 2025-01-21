@@ -1,5 +1,3 @@
-"use server"
-
 import { isAdmin } from "@/actions/is-admin"
 import { featureFlags } from "@/feature-flags/server"
 import { ProductType } from "@/types/products"

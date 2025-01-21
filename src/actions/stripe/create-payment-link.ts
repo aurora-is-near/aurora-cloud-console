@@ -2,7 +2,7 @@
 
 import Stripe from "stripe"
 import { ProductType } from "@/types/products"
-import { getStripeConfig } from "@/stripe"
+import { getStripeConfig } from "@/utils/stripe"
 
 const getProductId = async (productType: ProductType) => {
   const { productIds } = await getStripeConfig()
