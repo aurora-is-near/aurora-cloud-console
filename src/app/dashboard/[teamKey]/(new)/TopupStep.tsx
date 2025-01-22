@@ -37,11 +37,13 @@ export const TopupStep = ({ team, index, state }: Props) => {
         topupLink
           ? {
               isDisabled: false,
+              trackEventName: "top_up_click",
               label: "Top up now",
               url: topupLink,
             }
           : {
               isDisabled: true,
+              trackEventName: "top_up_click",
               label: "Top up now",
             }
       }
