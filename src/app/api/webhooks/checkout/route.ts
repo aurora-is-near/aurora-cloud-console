@@ -14,6 +14,7 @@ import { Team } from "@/types/types"
 import { sendEmail } from "@/utils/email"
 import { getRequestReceivedEmail } from "@/email-templates/get-request-received-email"
 import { getStripeConfig } from "@/utils/stripe"
+import { trackEvent } from "@/components/Mixpanel/ServerTracker"
 
 type WebhookResponse = {
   fulfilled: boolean
@@ -134,6 +135,7 @@ const fulfillOrder = async (
       .single(),
     sendSlackNotification(session, teamId, team),
     sendEmails(session, team),
+    trackEvent("payment_received"),
   ])
 
   assertValidSupabaseResult(ordersResult)
