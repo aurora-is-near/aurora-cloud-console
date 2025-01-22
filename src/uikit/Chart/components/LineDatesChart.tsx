@@ -5,6 +5,7 @@ import { Line } from "react-chartjs-2"
 import { defaultTheme } from "../theme"
 import { showTodayLine } from "../plugins"
 import { getConfig } from "../config/line"
+import { getTooltipConfig } from "../config/tooltip"
 import type { LineChartPlugins } from "../plugins"
 import type { Label } from "../types"
 import type { Theme } from "../theme"
@@ -84,7 +85,16 @@ export const LineDatesChart = ({
   return (
     <Line
       plugins={chartPlugins}
-      options={config.options}
+      options={{
+        ...config.options,
+        hover: {
+          mode: "index",
+          intersect: false,
+        },
+        plugins: {
+          tooltip: getTooltipConfig(theme),
+        },
+      }}
       data={{
         labels,
         datasets: [

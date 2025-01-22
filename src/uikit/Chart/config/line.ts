@@ -73,7 +73,9 @@ export const getConfig = ({
   const getDatasetOptions = (hasData: boolean): ChartDataset<"line"> => {
     const datasetOptions: ChartDataset<"line"> = {
       data: [],
-      pointStyle: labels.map((label) => (showPoints(label) ? "circle" : false)),
+      pointStyle: "circle",
+      pointRadius: labels.map((label) => (showPoints(label) ? 4 : 0)),
+      pointHoverRadius: 4,
       cubicInterpolationMode: "monotone",
       pointBackgroundColor: theme.colors.main,
       borderWidth: 1.5,

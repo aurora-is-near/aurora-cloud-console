@@ -2,6 +2,7 @@ import { useMemo } from "react"
 import { Bar } from "react-chartjs-2"
 
 import { getConfig } from "../config/bar"
+import { getTooltipConfig } from "../config/tooltip"
 import { defaultTheme } from "../theme"
 import type { BarChartPlugins } from "../plugins"
 import type { Theme } from "../theme"
@@ -31,7 +32,12 @@ export const BarChart = ({
 
   return (
     <Bar
-      options={config.options}
+      options={{
+        ...config.options,
+        plugins: {
+          tooltip: getTooltipConfig(theme),
+        },
+      }}
       data={{
         labels,
         datasets: [
