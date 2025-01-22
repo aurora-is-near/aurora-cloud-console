@@ -8,7 +8,7 @@ type Props = {
   state: "active" | "completed" | "upcoming"
   title: string
   description: string | JSX.Element
-  link: { label: string } & (
+  link: { label: string; trackEventName?: string } & (
     | { isDisabled: true; url?: string | null }
     | { isDisabled: false; url: string }
   )
@@ -49,6 +49,7 @@ export const StepCard = ({ index, state, title, description, link }: Props) => (
       <LinkButton
         size="lg"
         disabled={link.isDisabled}
+        trackEventName={link.trackEventName}
         href={link.isDisabled ? (link.url ?? "") : link.url}
       >
         {link.label}

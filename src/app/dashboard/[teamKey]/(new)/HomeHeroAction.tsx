@@ -21,7 +21,11 @@ const InDeploymentBadge = () => (
 export const HomeHeroAction = ({ team, isOnboardingFormSubmitted }: Props) => {
   if (!isOnboardingFormSubmitted && !team.onboarding_status) {
     return (
-      <LinkButton href={`/dashboard/${team.team_key}/create-chain`} size="lg">
+      <LinkButton
+        href={`/dashboard/${team.team_key}/create-chain`}
+        size="lg"
+        trackEventName="get_started_click"
+      >
         <span>Get started</span>
       </LinkButton>
     )
