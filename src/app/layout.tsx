@@ -4,7 +4,6 @@ import { circular } from "@/styles/fonts/fonts"
 import "../styles/globals.css"
 import { Providers } from "@/app/Providers"
 import { ErrorModal } from "@/components/ErrorModal"
-import { PageviewTracker } from "@/components/Mixpanel/PageviewTracker"
 
 export const metadata: Metadata = {
   title: "Aurora Cloud Console",
@@ -19,7 +18,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           {children}
           <Suspense>
             <ErrorModal />
-            <PageviewTracker />
           </Suspense>
         </Providers>
       </body>
