@@ -13,6 +13,7 @@ import { DEVNET_CHAIN_ID } from "@/constants/devnet"
 import { notReachable } from "@/utils/notReachable"
 import { getSiloByChainId } from "@/actions/silos/get-silo-by-chain-id"
 import { addTeamsToSilo } from "@/actions/silos/add-teams-to-silo"
+import { useAnalytics } from "@/hooks/useAnalytics"
 import {
   AuroraToken,
   Bitcoin,
@@ -104,6 +105,7 @@ export const useChainCreationForm = (
   team: Team,
   networkTypeSelected: NetworkType,
 ) => {
+  const mixPanel = useAnalytics()
   const [form, setForm] = useState<ChainCreationForm>(
     (() => {
       switch (networkTypeSelected) {
@@ -176,6 +178,11 @@ export const useChainCreationForm = (
       return
     }
 
+    mixPanel?.track("onboarding_completed", {
+      team_id: team.id,
+      ...form,
+    })
+
     await saveOnboardingForm({
       ...form,
       team_id: team.id,
@@ -200,7 +207,7 @@ export const useChainCreationForm = (
 
     // for mainnet
     window.location.href = `${window.location.origin}/dashboard/${team.team_key}`
-  }, [form, team, fieldErrors])
+  }, [form, fieldErrors, mixPanel, team.id, team.team_key])
 
   return {
     form,

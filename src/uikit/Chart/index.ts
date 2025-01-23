@@ -7,6 +7,7 @@ import {
   LineElement,
   PointElement,
   Title,
+  Tooltip,
 } from "chart.js"
 
 import { BarChart } from "./components/BarChart"
@@ -20,6 +21,7 @@ ChartJS.register(
   LineElement,
   Filler,
   Title,
+  Tooltip,
 )
 
 export const Chart = {

@@ -3,6 +3,7 @@ import {
   CircleStackIcon,
   CubeIcon,
   CurrencyDollarIcon,
+  FlagIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline"
 import { redirect } from "next/navigation"
@@ -50,6 +51,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
                 name: "Orders",
                 href: "/admin/orders",
                 icon: <CurrencyDollarIcon />,
+              },
+              {
+                name: "Feature flags",
+                href: "/admin/feature-flags",
+                icon: <FlagIcon />,
               },
             ],
           },

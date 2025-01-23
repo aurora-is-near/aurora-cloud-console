@@ -9,6 +9,7 @@ import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import Helpscout from "@/components/Helpscout"
 import { TopPageBanner } from "@/components/TopPageBanner"
 import type { Silo, Team } from "@/types/types"
+import { setUser } from "@/components/Mixpanel/ServerTracker"
 
 type DashboardLayoutProps = {
   team?: Team
@@ -53,6 +54,8 @@ export const DashboardLayout = async ({
     return items
   }, [team, showAdminMenu])
 
+  await setUser()
+
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
       {showWelcomeBanner && team && !team?.onboarding_status && !silo && (
@@ -69,9 +72,9 @@ export const DashboardLayout = async ({
         )}
         <div className="w-full">{children}</div>
       </div>
-      {process.env.NODE_ENV === "production" &&
-        !!team?.team_key &&
-        !showAdminMenu && <Helpscout />}
+      {process.env.NODE_ENV === "production" && !!team?.team_key && (
+        <Helpscout />
+      )}
     </div>
   )
 }
