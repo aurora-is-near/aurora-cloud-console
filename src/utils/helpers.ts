@@ -51,12 +51,3 @@ export const formatDate = (date: Date | string): string =>
     month: "short",
     day: "numeric",
   })
-
-const formatTime = (date: Date | string): string =>
-  dateTimeFormat(date, {
-    hour: "numeric",
-    minute: "numeric",
-  })
-
-export const formatDateAndTime = (date: Date | string): string =>
-  `${formatDate(date)} at ${formatTime(date)}`
