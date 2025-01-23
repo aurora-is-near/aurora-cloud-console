@@ -1,10 +1,18 @@
 "use client"
 
-import { ComponentProps, forwardRef } from "react"
+import {
+  ComponentProps,
+  forwardRef,
+  MouseEventHandler,
+  useCallback,
+} from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { paramCase } from "change-case"
 import { ButtonContent } from "@/components/ButtonContent"
 import { getButtonClassName } from "@/utils/buttons"
 import { ButtonSize, ButtonVariant } from "@/types/buttons"
+import { useAnalytics } from "@/hooks/useAnalytics"
 
 export type LinkButtonProps = ComponentProps<typeof Link> & {
   variant?: ButtonVariant
@@ -14,6 +22,7 @@ export type LinkButtonProps = ComponentProps<typeof Link> & {
   fullWidth?: boolean
   isExternal?: boolean
   isSquare?: boolean
+  trackEventName?: string
   href: string
 }
 
@@ -29,6 +38,7 @@ export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
       fullWidth,
       isExternal,
       isSquare,
+      trackEventName,
       href,
       ...restProps
     },
@@ -36,11 +46,34 @@ export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(
   ) => {
     const isDisabled = !!disabled || loading
     const Component = isExternal ? "a" : Link
+    const analytics = useAnalytics()
+    const router = useRouter()
+
+    const onClick: MouseEventHandler<HTMLAnchorElement> = useCallback(
+      (evt) => {
+        if (!trackEventName || !analytics) {
+          return
+        }
+
+        evt.preventDefault()
+        analytics.track(paramCase(trackEventName))
+
+        if (isExternal) {
+          window.location.href = href
+
+          return
+        }
+
+        router.push(href)
+      },
+      [analytics, href, isExternal, trackEventName, router],
+    )
 
     return (
       <Component
         ref={ref}
         href={href}
+        onClick={onClick}
         className={getButtonClassName(variant, size, {
           className,
           isDisabled,

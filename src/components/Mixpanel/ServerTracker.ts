@@ -21,7 +21,7 @@ export async function setUser() {
 
 export async function trackEvent(
   event: string,
-  properties: Record<string, string | number>,
+  properties: Record<string, string | number> = {},
 ) {
   const user = await getCurrentUser()
 

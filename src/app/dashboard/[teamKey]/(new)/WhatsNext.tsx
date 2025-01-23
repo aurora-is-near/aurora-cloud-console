@@ -26,6 +26,7 @@ const CompleteOnboardingBanner = () => (
       variant="border"
       isExternal
       href="https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
+      trackEventName="book_a_call_click"
     >
       Book a call
       <ArrowTopRightOnSquareIcon className="w-6 h-6" />
