@@ -21,9 +21,10 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   favicon: "",
   network_logo: "",
   network_logo_dark: "",
-  // type: "evm",
+  type: "evm",
   replenish_amount: 0,
   replenish_threshold: 0,
+  team_id: 1,
   ...data,
 })
 

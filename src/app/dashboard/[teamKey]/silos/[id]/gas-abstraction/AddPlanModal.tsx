@@ -5,6 +5,7 @@ import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { Team } from "@/types/types"
 import { createDeal } from "@/actions/deals/create-deal"
+import { assertNonNullSupabaseResult } from "@/utils/supabase"
 import { AddOrEditPlanModal } from "./AddOrEditPlanModal"
 
 type AddPlanModalProps = {
@@ -22,10 +23,10 @@ const AddPlanModal = ({ team }: AddPlanModalProps) => {
       ...data,
     })
 
-    // Append the deal ID to the current path to navigate to the new deal page.
-    const newPath = `${pathname}/${newDeal.id}`
+    assertNonNullSupabaseResult(newDeal)
 
-    router.push(newPath)
+    // Append the deal ID to the current path to navigate to the new deal page.
+    router.push(`${pathname}/${newDeal?.data?.id}`)
   }
 
   return (
