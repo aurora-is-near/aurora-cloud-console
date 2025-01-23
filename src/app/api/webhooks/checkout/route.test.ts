@@ -13,6 +13,7 @@ import {
 } from "../../../../../test-utils/mock-supabase-client"
 import { mockTeam } from "../../../../../test-utils/mock-team"
 import { createMockOrder } from "../../../../../test-utils/factories/order-factory"
+import { mockUser } from "../../../../../test-utils/mock-user"
 
 jest.mock("stripe")
 jest.mock("../../../../utils/send-slack-notification")
@@ -182,6 +183,10 @@ describe("Checkout webhook route", () => {
     mockSupabaseClient
       .from("orders")
       .update.mockImplementation(() => ordersInsertQueries)
+
+    mockSupabaseClient
+      .from("users")
+      .select.mockImplementation(() => createSelect(mockUser))
 
     const res = await POST(req, { params: {} })
 
