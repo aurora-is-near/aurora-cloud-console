@@ -12,7 +12,13 @@ import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { RuleContext } from "@/providers/RuleProvider"
 import { AddRuleContractModal } from "./AddRuleContractModal"
 
-const ContractsConfigurationCard = ({ silo }: { silo: Silo }) => {
+const ContractsConfigurationCard = ({
+  silo,
+  disabled,
+}: {
+  silo: Silo
+  disabled: boolean
+}) => {
   const { resourceDefinition, removeRuleContract } =
     useRequiredContext(RuleContext)
 
@@ -51,7 +57,7 @@ const ContractsConfigurationCard = ({ silo }: { silo: Silo }) => {
           </div>
         </RuleSetting>
       ))}
-      <AddButton text="Add contract" onClick={onClick} />
+      <AddButton disabled={disabled} text="Add contract" onClick={onClick} />
       <AddRuleContractModal />
     </div>
   )

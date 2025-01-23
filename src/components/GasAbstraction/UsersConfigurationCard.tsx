@@ -20,7 +20,7 @@ type Inputs = {
   open?: boolean
 }
 
-const UsersConfigurationCard = () => {
+const UsersConfigurationCard = ({ disabled }: { disabled: boolean }) => {
   const { deal, queueUpdate, savePendingUpdates } =
     useRequiredContext(DealUpdateContext)
 
@@ -78,6 +78,7 @@ const UsersConfigurationCard = () => {
                 value="true"
                 className={radioClassName}
                 checked={isOpen}
+                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -103,6 +104,7 @@ const UsersConfigurationCard = () => {
                 value="false"
                 className={radioClassName}
                 checked={!isOpen}
+                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -137,7 +139,11 @@ const UsersConfigurationCard = () => {
                   {ruleUsers?.length === 1 ? "" : "es"} added
                 </span>
               </div>
-              <Button onClick={openAddRuleAddressModal} variant="border">
+              <Button
+                disabled={disabled}
+                onClick={openAddRuleAddressModal}
+                variant="border"
+              >
                 Add manually
               </Button>
             </div>

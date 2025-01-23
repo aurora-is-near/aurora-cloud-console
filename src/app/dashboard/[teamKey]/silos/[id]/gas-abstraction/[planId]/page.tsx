@@ -9,6 +9,12 @@ import { createRule } from "@/actions/rules/create-rule"
 import { RuleProvider } from "@/providers/RuleProvider"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { RuleResourceDefinition } from "@/types/types"
+import {
+  assertNonNullSupabaseResult,
+  assertValidSupabaseResult,
+} from "@/utils/supabase"
+import { isAdmin } from "@/actions/is-admin"
+import { featureFlags } from "@/feature-flags/server"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
@@ -31,29 +37,38 @@ const Page = async ({
     notFound()
   }
 
+  const admin = await isAdmin()
+  const enabled = admin || featureFlags.get("gas_plans_configuration")
+  const disabled = !enabled
+
   const userlistRuleDefinition: RuleResourceDefinition = {
     chains: silo.chain_id,
     contracts: [],
   }
 
-  let userlistRule = rules?.find((r) => r.ui_enabled)
+  let userlistRule = rules?.data.find((r) => r.ui_enabled)
 
   if (!userlistRule) {
-    userlistRule = await createRule({
+    const result = await createRule({
       rule: {
         deal_id: dealId,
         resource_definition: userlistRuleDefinition,
       },
       team_id: team.id,
     })
+
+    assertValidSupabaseResult(result)
+    assertNonNullSupabaseResult(result)
+
+    userlistRule = result.data
   }
 
   return (
     <DealUpdateProvider dealId={dealId}>
       <DealUpdatePage deal={deal}>
         <RuleProvider team={team} initialRule={userlistRule}>
-          <UsersConfigurationCard />
-          <ContractsCard silo={silo} />
+          <UsersConfigurationCard disabled={disabled} />
+          <ContractsCard silo={silo} disabled={disabled} />
         </RuleProvider>
         <RulesCard />
         <Contact teamKey={teamKey} />
