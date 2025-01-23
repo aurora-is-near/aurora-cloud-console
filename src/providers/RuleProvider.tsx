@@ -127,7 +127,7 @@ export const RuleProvider = ({
           void getRuleUsers({
             userlist_id: data[0].id,
           })
-            .then((userData) => setRuleUsers(userData))
+            .then((userData) => setRuleUsers(userData.data))
             .catch(() => {
               setRuleUsers([])
             })

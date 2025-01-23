@@ -3,12 +3,13 @@
 import { Rule } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
+import { PostgrestResponseSuccess } from "@/types/postgrest"
 
 export const getRules = async ({
   dealId,
 }: {
   dealId: number
-}): Promise<Rule[]> => {
+}): Promise<PostgrestResponseSuccess<Rule[]>> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("rules")
@@ -18,5 +19,5 @@ export const getRules = async ({
 
   assertValidSupabaseResult(result)
 
-  return result.data
+  return result
 }

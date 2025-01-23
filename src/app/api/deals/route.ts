@@ -2,6 +2,7 @@ import { createApiEndpoint } from "@/utils/api"
 import { adaptDeal } from "@/utils/adapters"
 import { createDeal } from "@/actions/deals/create-deal"
 import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
+import { abortIfNoSupabaseResult } from "@/utils/supabase"
 
 export const GET = createApiEndpoint("getDeals", async (_req, ctx) => {
   const deals = await getTeamDeals(Number(ctx.team.id))
@@ -13,7 +14,9 @@ export const GET = createApiEndpoint("getDeals", async (_req, ctx) => {
 
 export const POST = createApiEndpoint("createDeal", async (_req, ctx) => {
   const { name } = ctx.body
-  const deal = await createDeal({ name, team_id: ctx.team.id })
+  const result = await createDeal({ name, team_id: ctx.team.id })
 
-  return adaptDeal(deal)
+  abortIfNoSupabaseResult(404, result)
+
+  return adaptDeal(result.data)
 })

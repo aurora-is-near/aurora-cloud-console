@@ -1,12 +1,8 @@
 "use server"
 
+import { PostgrestSingleResponse } from "@supabase/supabase-js"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Deal } from "@/types/types"
-import {
-  abortIfNoSupabaseResult,
-  assertNonNullSupabaseResult,
-  assertValidSupabaseResult,
-} from "@/utils/supabase"
 
 /**
  * Create a deal via the ACC database and Proxy API.
@@ -15,7 +11,7 @@ import {
 export const createDeal = async (inputs: {
   name: string
   team_id: number
-}): Promise<Deal> => {
+}): Promise<PostgrestSingleResponse<Deal>> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("deals")
@@ -26,14 +22,5 @@ export const createDeal = async (inputs: {
     .select("*, teams!inner(id)")
     .single()
 
-  assertValidSupabaseResult(result)
-  assertNonNullSupabaseResult(result)
-
-  if (!result.data.teams) {
-    throw new Error("No team found")
-  }
-
-  abortIfNoSupabaseResult(404, result)
-
-  return result.data
+  return result
 }
