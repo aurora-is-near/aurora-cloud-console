@@ -178,6 +178,7 @@ export const DashboardHomePage = async ({
                 description="Select the chain parameters that fit your needs — base token, gas costs, permissions, and more — to create a fully production-ready environment."
                 link={{
                   isDisabled: false,
+                  trackEventName: "get_started_click",
                   label: "Get started",
                   url: `/dashboard/${teamKey}/create-chain`,
                 }}
