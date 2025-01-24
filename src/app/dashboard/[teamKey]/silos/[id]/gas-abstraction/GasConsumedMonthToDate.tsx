@@ -46,9 +46,10 @@ const Items = ({ silo, team }: Props) => {
           </InfoList.Item>
         </InfoList>
       )
-    case "success":
+    case "success": {
       // TODO: this is a temporary solution, we need to get the actual value
       const transactionLeft = 1000 - collectedGasQuery.data.transactionsCount
+
       return (
         <InfoList className="md:max-w-[50%]">
           <InfoList.Item label="Available transactions">
@@ -88,6 +89,7 @@ const Items = ({ silo, team }: Props) => {
           </InfoList.Item>
         </InfoList>
       )
+    }
     default:
       return notReachable(collectedGasQuery)
   }
