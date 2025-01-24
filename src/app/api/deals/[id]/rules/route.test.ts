@@ -11,6 +11,7 @@ import { createMockRule } from "../../../../../../test-utils/factories/rule-fact
 import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
 import { createMockDeal } from "../../../../../../test-utils/factories/deal-factory"
+import { createMockUserList } from "../../../../../../test-utils/factories/userlist-factory"
 
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -75,11 +76,16 @@ describe("Deal Rules route", () => {
     it("creates a rule", async () => {
       const mockDeal = createMockDeal()
       const mockRule = createMockRule()
+      const mockUserList = createMockUserList()
       const ruleInsertQueries = createInsertOrUpdate(mockRule)
 
       mockSupabaseClient
         .from("rules")
         .insert.mockImplementation(() => ruleInsertQueries)
+
+      mockSupabaseClient
+        .from("userlists")
+        .insert.mockImplementation(() => createInsertOrUpdate(mockUserList))
 
       const res = await invokeApiHandler("POST", "/api/deals/1/rules", POST, {
         params: { id: String(mockDeal.id) },
