@@ -3,6 +3,10 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Rule } from "@/types/types"
+import {
+  assertNonNullSupabaseResult,
+  assertValidSupabaseResult,
+} from "@/utils/supabase"
 
 export const createRule = async (inputs: {
   rule: Pick<Rule, "deal_id" | "resource_definition">
@@ -14,6 +18,9 @@ export const createRule = async (inputs: {
     .insert({ ...inputs.rule, ui_enabled: true })
     .select()
     .single()
+
+  assertValidSupabaseResult(result)
+  assertNonNullSupabaseResult(result)
 
   return result
 }

@@ -10,15 +10,10 @@ import { AddButton } from "@/components/AddButton"
 import { Silo } from "@/types/types"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { RuleContext } from "@/providers/RuleProvider"
+import { featureFlags } from "@/feature-flags/browser"
 import { AddRuleContractModal } from "./AddRuleContractModal"
 
-const ContractsConfigurationCard = ({
-  silo,
-  disabled,
-}: {
-  silo: Silo
-  disabled: boolean
-}) => {
+const ContractsConfigurationCard = ({ silo }: { silo: Silo }) => {
   const { resourceDefinition, removeRuleContract } =
     useRequiredContext(RuleContext)
 
@@ -26,6 +21,8 @@ const ContractsConfigurationCard = ({
   const onClick = () => {
     openModal(Modals.AddRuleContract)
   }
+
+  const disabled = !featureFlags.get("gas_plans_configuration")
 
   return (
     <div className="xl:w-1/2 flex flex-col gap-2">

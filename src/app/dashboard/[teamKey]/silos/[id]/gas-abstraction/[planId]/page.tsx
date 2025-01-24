@@ -13,8 +13,6 @@ import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
-import { isAdmin } from "@/actions/is-admin"
-import { featureFlags } from "@/feature-flags/server"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
@@ -36,10 +34,6 @@ const Page = async ({
   if (!deal || !silo) {
     notFound()
   }
-
-  const admin = await isAdmin()
-  const enabled = admin || featureFlags.get("gas_plans_configuration")
-  const disabled = !enabled
 
   const userlistRuleDefinition: RuleResourceDefinition = {
     chains: silo.chain_id,
@@ -67,8 +61,8 @@ const Page = async ({
     <DealUpdateProvider dealId={dealId}>
       <DealUpdatePage deal={deal}>
         <RuleProvider team={team} initialRule={userlistRule}>
-          <UsersConfigurationCard disabled={disabled} />
-          <ContractsCard silo={silo} disabled={disabled} />
+          <UsersConfigurationCard />
+          <ContractsCard silo={silo} />
         </RuleProvider>
         <RulesCard />
         <Contact teamKey={teamKey} />

@@ -3,7 +3,10 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Rule } from "@/types/types"
-import { assertValidSupabaseResult } from "@/utils/supabase"
+import {
+  assertNonNullSupabaseResult,
+  assertValidSupabaseResult,
+} from "@/utils/supabase"
 
 export const updateRule = async (
   id: number,
@@ -20,6 +23,7 @@ export const updateRule = async (
     .single()
 
   assertValidSupabaseResult(result)
+  assertNonNullSupabaseResult(result)
 
   return result
 }

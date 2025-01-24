@@ -2,6 +2,7 @@ import { createApiEndpoint } from "@/utils/api"
 import { adaptDeal } from "@/utils/adapters"
 import { updateDeal } from "@/actions/deals/update-deal"
 import { getDeal } from "@/actions/deals/get-deal"
+import { abortIfNoSupabaseResult } from "@/utils/supabase"
 import { abort } from "../../../../utils/abort"
 
 export const GET = createApiEndpoint("getDeal", async (_req, ctx) => {
@@ -22,5 +23,7 @@ export const PUT = createApiEndpoint("updateDeal", async (req, ctx) => {
     end_time: endTime,
   })
 
-  return adaptDeal(updatedDeal)
+  abortIfNoSupabaseResult(404, updatedDeal)
+
+  return adaptDeal(updatedDeal.data)
 })

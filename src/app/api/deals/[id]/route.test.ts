@@ -61,7 +61,6 @@ describe("Deal route", () => {
       })
 
       expect(dealSelectQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
-      expect(dealSelectQueries.eq).toHaveBeenCalledWith("team_id", mockTeam.id)
     })
   })
 

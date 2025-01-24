@@ -2,11 +2,7 @@ import { createApiEndpoint } from "@/utils/api"
 import { adaptRule } from "@/utils/adapters"
 import { getRules } from "@/actions/rules/get-rules"
 import { createRule } from "@/actions/rules/create-rule"
-import {
-  abortIfNoSupabaseResult,
-  assertNonNullSupabaseResult,
-  assertValidSupabaseResult,
-} from "@/utils/supabase"
+import { abortIfNoSupabaseResult } from "@/utils/supabase"
 import { createRuleUserlist } from "@/actions/rule-userlists/create-rule-userlist"
 
 export const GET = createApiEndpoint("getRules", async (_req, ctx) => {
@@ -29,8 +25,6 @@ export const POST = createApiEndpoint("createRule", async (req, ctx) => {
     team_id: Number(ctx.params.teamId),
   })
 
-  assertValidSupabaseResult(result)
-  assertNonNullSupabaseResult(result)
   abortIfNoSupabaseResult(404, result)
 
   // Every Rule needs a Userlist in ACC's UI

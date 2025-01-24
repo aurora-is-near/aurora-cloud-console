@@ -15,12 +15,13 @@ import { Modals } from "@/utils/modals"
 import { RuleContext } from "@/providers/RuleProvider"
 import { AddRuleUserModal } from "@/components/GasAbstraction/AddRuleUserModal"
 import { Skeleton } from "@/uikit"
+import { featureFlags } from "@/feature-flags/browser"
 
 type Inputs = {
   open?: boolean
 }
 
-const UsersConfigurationCard = ({ disabled }: { disabled: boolean }) => {
+const UsersConfigurationCard = () => {
   const { deal, queueUpdate, savePendingUpdates } =
     useRequiredContext(DealUpdateContext)
 
@@ -28,6 +29,8 @@ const UsersConfigurationCard = ({ disabled }: { disabled: boolean }) => {
   const { register, watch } = useForm<Inputs>()
 
   const { ruleUsers } = useRequiredContext(RuleContext)
+
+  const disabled = !featureFlags.get("gas_plans_configuration")
 
   const isOpen = String(watch("open") ?? deal?.open) === "true"
 

@@ -3,6 +3,10 @@
 import { PostgrestSingleResponse } from "@supabase/supabase-js"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Deal } from "@/types/types"
+import {
+  assertNonNullSupabaseResult,
+  assertValidSupabaseResult,
+} from "@/utils/supabase"
 
 export const createDeal = async (
   inputs: Pick<Deal, "name" | "team_id">,
@@ -16,6 +20,9 @@ export const createDeal = async (
     })
     .select("*, teams!inner(id)")
     .single()
+
+  assertValidSupabaseResult(result)
+  assertNonNullSupabaseResult(result)
 
   return result
 }
