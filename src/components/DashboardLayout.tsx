@@ -42,16 +42,19 @@ export const DashboardLayout = async ({
         name: "Documentation",
         href: "https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains",
         icon: <BookOpenIcon />,
+        isExternal: true,
       },
       {
         name: "Discord",
         href: "https://discord.com/invite/auroralabs",
         icon: <IconDiscord />,
+        isExternal: true,
       },
       {
         name: "Telegram",
         href: "https://t.me/aurorasupportteam",
         icon: <IconTelegram />,
+        isExternal: true,
       },
     ]
 

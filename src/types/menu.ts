@@ -6,6 +6,7 @@ export type MenuItem = {
   icon?: ReactNode
   items?: Omit<MenuItem, "items" | "icon">[]
   variant?: "primary" | "secondary"
+  isExternal?: boolean
 }
 
 export type MenuSection = {
