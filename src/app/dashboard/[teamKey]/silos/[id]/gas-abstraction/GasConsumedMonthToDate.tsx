@@ -46,6 +46,7 @@ const Items = ({ silo, team }: Props) => {
           </InfoList.Item>
         </InfoList>
       )
+
     case "success": {
       // TODO: this is a temporary solution, we need to get the actual value
       const transactionLeft = 1000 - collectedGasQuery.data.transactionsCount
