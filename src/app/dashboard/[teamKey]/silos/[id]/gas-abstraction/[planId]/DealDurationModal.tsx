@@ -5,6 +5,7 @@ import { CheckIcon } from "@heroicons/react/24/outline"
 import { useFormContext } from "react-hook-form"
 import { XCircleIcon } from "@heroicons/react/20/solid"
 import { useParams } from "next/navigation"
+import toast from "react-hot-toast"
 import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
@@ -35,6 +36,7 @@ export const DealDurationModal = ({ deal }: { deal: Deal }) => {
     })
 
     await reloadDeal(teamKey[0], Number(planId))
+    toast.success("Deal duration updated")
     closeModal()
   }
 

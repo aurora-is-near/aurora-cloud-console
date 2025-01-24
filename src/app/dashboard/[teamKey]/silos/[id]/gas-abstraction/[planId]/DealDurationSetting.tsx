@@ -35,7 +35,7 @@ export const DealDurationSetting = ({ deal }: { deal: Deal }) => {
   }, [deal])
 
   return (
-    <RuleSetting title="Plan duration" description={description}>
+    <RuleSetting title="Deal duration" description={description}>
       <Button onClick={onClick} variant="border">
         <PencilSquareIcon className="w-4 h-4" />
       </Button>
