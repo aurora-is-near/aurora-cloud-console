@@ -16,7 +16,14 @@ export const BannerTopup = ({ team }: Props) => {
     <Banner
       variant="info"
       title="Top up your transaction credits"
-      description="While there are no ongoing service fees, transaction credits are needed to settle on NEAR Protocol. Aurora covers the first 1,000 transactions, beyond which you will need to top up."
+      description={
+        <>
+          While there are no ongoing service fees, transaction credits are
+          needed to settle on NEAR Protocol. Aurora covers the first{" "}
+          <strong className="text-slate-900">1,000 transactions</strong>, beyond
+          which you will need to top up.
+        </>
+      }
       icon={<IconCoins className="w-11 h-11 text-green-900" />}
       link={
         topupLink
