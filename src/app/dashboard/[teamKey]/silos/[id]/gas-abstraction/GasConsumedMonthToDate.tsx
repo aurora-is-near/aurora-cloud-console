@@ -18,7 +18,7 @@ type Props = {
 }
 
 const Items = ({ silo, team }: Props) => {
-  const topupLink = useStripePaymentLink(team)
+  const topupLink = useStripePaymentLink(team, "top_up")
   const monthsList = getMonthsList(silo.created_at)
   const startDate = monthsList[monthsList.length - 1].value
   const infoListItemProps = {
@@ -48,8 +48,8 @@ const Items = ({ silo, team }: Props) => {
       )
 
     case "success": {
-      // TODO: this is a temporary solution, we need to get the actual value
-      const transactionLeft = 1000 - collectedGasQuery.data.transactionsCount
+      const transactionLeft =
+        team.prepaid_transactions - collectedGasQuery.data.transactionsCount
 
       return (
         <InfoList className="md:max-w-[50%]">

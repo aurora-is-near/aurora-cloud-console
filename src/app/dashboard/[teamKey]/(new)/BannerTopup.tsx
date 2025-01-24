@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const BannerTopup = ({ team }: Props) => {
-  const topupLink = useStripePaymentLink(team)
+  const topupLink = useStripePaymentLink(team, "top_up")
 
   return (
     <Banner

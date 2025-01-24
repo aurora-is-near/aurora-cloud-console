@@ -16,7 +16,7 @@ export const getStripeConfig = async (): Promise<StripeConfig> => {
       secretKey: process.env.STRIPE_TEST_SECRET_KEY,
       webhookSecret: process.env.STRIPE_TEST_MODE_WEBHOOK_SECRET,
       productIds: {
-        initial_setup: process.env.STRIPE_TEST_MODE_INITIAL_SETUP_PRODUCT_ID,
+        top_up: process.env.STRIPE_TEST_MODE_INITIAL_SETUP_PRODUCT_ID,
       },
     }
   }
@@ -25,7 +25,7 @@ export const getStripeConfig = async (): Promise<StripeConfig> => {
     secretKey: process.env.STRIPE_SECRET_KEY,
     webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     productIds: {
-      initial_setup: process.env.STRIPE_INITIAL_SETUP_PRODUCT_ID,
+      top_up: process.env.STRIPE_INITIAL_SETUP_PRODUCT_ID,
     },
   }
 }
