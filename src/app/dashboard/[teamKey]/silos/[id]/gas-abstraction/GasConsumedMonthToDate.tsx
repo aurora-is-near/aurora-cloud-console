@@ -64,15 +64,28 @@ const Items = ({ silo, team }: Props) => {
                   transactionLeft < 0 ? 0 : transactionLeft,
                 )}
               </Typography>
-              <LinkButton
-                size="sm"
-                variant="border"
-                href={topupLink ?? ""}
-                isExternal
-              >
-                Top up
-                <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-              </LinkButton>
+              {topupLink ? (
+                <LinkButton
+                  size="sm"
+                  variant="border"
+                  href={topupLink}
+                  isExternal
+                >
+                  Top up
+                  <ArrowTopRightOnSquareIcon className="w-3 h-3" />
+                </LinkButton>
+              ) : (
+                <LinkButton
+                  size="sm"
+                  variant="border"
+                  href=""
+                  disabled
+                  isExternal
+                >
+                  Top up
+                  <ArrowTopRightOnSquareIcon className="w-3 h-3" />
+                </LinkButton>
+              )}
             </div>
           </InfoList.Item>
           <InfoList.Item {...infoListItemProps}>
