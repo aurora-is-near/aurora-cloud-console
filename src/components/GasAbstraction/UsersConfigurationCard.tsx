@@ -4,27 +4,26 @@ import clsx from "clsx"
 import Link from "next/link"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { useForm } from "react-hook-form"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
+import toast from "react-hot-toast"
 import { LinkButton } from "@/components/LinkButton"
 import { Button } from "@/components/Button"
 import { ConfigurationCard } from "@/components/ConfigurationCard"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { RuleContext } from "@/providers/RuleProvider"
 import { AddRuleUserModal } from "@/components/GasAbstraction/AddRuleUserModal"
 import { Skeleton } from "@/uikit"
 import { featureFlags } from "@/feature-flags/browser"
+import { updateDeal } from "@/actions/deals/update-deal"
+import { Deal } from "@/types/types"
 
 type Inputs = {
   open?: boolean
 }
 
-const UsersConfigurationCard = () => {
-  const { deal, queueUpdate, savePendingUpdates } =
-    useRequiredContext(DealUpdateContext)
-
+const UsersConfigurationCard = ({ deal }: { deal: Deal }) => {
   const { openModal } = useModals()
   const { register, watch } = useForm<Inputs>()
 
@@ -34,18 +33,26 @@ const UsersConfigurationCard = () => {
 
   const isOpen = String(watch("open") ?? deal?.open) === "true"
 
+  const onSave = useCallback(async () => {
+    if (!deal) {
+      return
+    }
+
+    await updateDeal(deal.id, {
+      open: !isOpen,
+    })
+    toast.success("Deal updated")
+  }, [deal, isOpen])
+
   useEffect(() => {
     const subscription = watch((_value, { name, type: operation }) => {
       if (operation === "change" && name) {
-        queueUpdate({
-          open: isOpen,
-        })
-        void savePendingUpdates()
+        void onSave()
       }
     })
 
     return () => subscription.unsubscribe()
-  }, [watch, queueUpdate, isOpen, savePendingUpdates])
+  }, [watch, onSave])
 
   if (!deal) {
     return <Skeleton className="h-24" />

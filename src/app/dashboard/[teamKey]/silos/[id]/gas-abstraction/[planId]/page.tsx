@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation"
 import Contact from "@/components/Contact"
-import { DealUpdateProvider } from "@/providers/DealUpdateProvider"
 import { getTeamDealByKey } from "@/actions/team-deals/get-team-deal-by-key"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
@@ -52,16 +51,14 @@ const Page = async ({
   }
 
   return (
-    <DealUpdateProvider dealId={dealId}>
-      <DealUpdatePage deal={deal}>
-        <RuleProvider team={team} initialRule={userlistRule}>
-          <UsersConfigurationCard />
-          <ContractsCard silo={silo} />
-        </RuleProvider>
-        <RulesCard deal={deal} />
-        <Contact teamKey={teamKey} />
-      </DealUpdatePage>
-    </DealUpdateProvider>
+    <DealUpdatePage deal={deal}>
+      <RuleProvider team={team} initialRule={userlistRule}>
+        <UsersConfigurationCard deal={deal} />
+        <ContractsCard silo={silo} />
+      </RuleProvider>
+      <RulesCard deal={deal} />
+      <Contact teamKey={teamKey} />
+    </DealUpdatePage>
   )
 }
 
