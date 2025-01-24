@@ -1,77 +1,46 @@
-import {
-  ArrowTopRightOnSquareIcon,
-  BookOpenIcon,
-  SparklesIcon,
-} from "@heroicons/react/24/outline"
+import { BookOpenIcon, SparklesIcon } from "@heroicons/react/24/outline"
 
-import { clsx, Typography } from "@/uikit"
-import { LinkButton } from "@/components/LinkButton"
+import { Typography } from "@/uikit"
+import type { Team } from "@/types/types"
 
-const CompleteOnboardingBanner = () => (
-  <div className="flex flex-wrap sm:flex-nowrap justify-between items-center gap-5 w-full px-6 py-8 border border-slate-200 bg-white rounded-lg shadow-sm">
-    <div className="grow-0">
-      <SparklesIcon className="w-11 h-11 text-green-900" />
-    </div>
-    <div className="mr-auto flex flex-col gap-1">
-      <Typography variant="heading" size={3}>
-        Book a call with our team
-      </Typography>
-      <Typography variant="paragraph" size={4} className="text-gray-500">
-        Schedule a call to finalize configurations, go-to-market strategy, and
-        ensure everything is ready for launch.
-      </Typography>
-    </div>
-    <LinkButton
-      size="lg"
-      variant="border"
-      isExternal
-      href="https://calendly.com/d/5f2-77d-766/aurora-cloud-demo"
-      trackEventName="book_a_call_click"
-    >
-      Book a call
-      <ArrowTopRightOnSquareIcon className="w-6 h-6" />
-    </LinkButton>
-  </div>
-)
-
-const ExploreAuroraDocsBanner = () => (
-  <div className="flex flex-wrap sm:flex-nowrap justify-between items-center gap-5 w-full px-6 py-8 border border-slate-200 bg-white rounded-lg shadow-sm">
-    <div className="grow-0">
-      <BookOpenIcon className="w-11 h-11 text-green-900" />
-    </div>
-    <div className="mr-auto flex flex-col gap-1">
-      <Typography variant="heading" size={3}>
-        Explore Aurora Cloud documentation
-      </Typography>
-      <Typography variant="paragraph" size={4} className="text-gray-500">
-        Dive into our docs to understand the virtual chain concept and get
-        started with development.
-      </Typography>
-    </div>
-    <LinkButton
-      size="lg"
-      isExternal
-      variant="border"
-      href="https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains"
-    >
-      View docs
-      <ArrowTopRightOnSquareIcon className="w-6 h-6" />
-    </LinkButton>
-  </div>
-)
+import { BannerTopup } from "./BannerTopup"
+import { Banner } from "./Banner"
 
 type Props = {
-  className?: string
+  team: Team
 }
 
-export const WhatsNext = ({ className }: Props) => (
-  <section className={clsx("flex flex-col gap-5", className)}>
+export const WhatsNext = ({ team }: Props) => (
+  <section className="flex flex-col gap-5">
     <Typography variant="heading" size={3}>
       Discover more
     </Typography>
     <div className="flex flex-col gap-4">
-      <CompleteOnboardingBanner />
-      <ExploreAuroraDocsBanner />
+      <Banner
+        variant="info"
+        title="Book a call with our team"
+        description="Schedule a call to finalize configurations, go-to-market strategy, and ensure everything is ready for launch."
+        icon={<SparklesIcon className="w-11 h-11 text-green-900" />}
+        link={{
+          isExternal: true,
+          label: "Book a call",
+          trackEventName: "book_a_call_click",
+          url: "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo",
+        }}
+      />
+      <BannerTopup team={team} />
+      <Banner
+        variant="info"
+        title="Explore Aurora Cloud documentation"
+        description="Dive into our docs to understand how virtual chains work and get started with development."
+        icon={<BookOpenIcon className="w-11 h-11 text-green-900" />}
+        link={{
+          isExternal: true,
+          label: "View docs",
+          trackEventName: "view_docs_click",
+          url: "https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains",
+        }}
+      />
     </div>
   </section>
 )

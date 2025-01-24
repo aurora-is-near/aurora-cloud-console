@@ -1,5 +1,6 @@
 import { ReactNode, useMemo } from "react"
 import {
+  BookOpenIcon,
   AdjustmentsHorizontalIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline"
@@ -10,6 +11,9 @@ import Helpscout from "@/components/Helpscout"
 import { TopPageBanner } from "@/components/TopPageBanner"
 import type { Silo, Team } from "@/types/types"
 import { setUser } from "@/components/Mixpanel/ServerTracker"
+
+import IconDiscord from "../../public/static/icons/discord-logo.svg"
+import IconTelegram from "../../public/static/icons/telegram-logo.svg"
 
 type DashboardLayoutProps = {
   team?: Team
@@ -33,7 +37,23 @@ export const DashboardLayout = async ({
   sidebarMenu,
 }: DashboardLayoutProps) => {
   const mainMenuItems = useMemo(() => {
-    const items: MenuItem[] = []
+    const items: MenuItem[] = [
+      {
+        name: "Documentation",
+        href: "https://doc.aurora.dev/aurora-cloud/welcome/about-virtual-chains",
+        icon: <BookOpenIcon />,
+      },
+      {
+        name: "Discord",
+        href: "https://discord.com/invite/auroralabs",
+        icon: <IconDiscord />,
+      },
+      {
+        name: "Telegram",
+        href: "https://t.me/aurorasupportteam",
+        icon: <IconTelegram />,
+      },
+    ]
 
     if (showAdminMenu) {
       items.push({
