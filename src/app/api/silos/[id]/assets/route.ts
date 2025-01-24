@@ -8,8 +8,10 @@ import { SiloAsset } from "@/types/assets"
 
 export const POST = createApiEndpoint("uploadSiloAsset", async (_req, ctx) => {
   const storage = createStorageClient()
-  const file = ctx.body.get("file") as File
-  const type = ctx.body.get("type") as SiloAsset
+
+  const formData = ctx.body as FormData
+  const file = formData.get("file") as File
+  const type = formData.get("type") as SiloAsset
 
   if (!file) {
     abort(400, "No file provided")
