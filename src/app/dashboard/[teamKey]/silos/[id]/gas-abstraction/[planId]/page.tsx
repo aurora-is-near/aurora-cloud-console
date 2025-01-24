@@ -9,10 +9,6 @@ import { createRule } from "@/actions/rules/create-rule"
 import { RuleProvider } from "@/providers/RuleProvider"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { RuleResourceDefinition } from "@/types/types"
-import {
-  assertNonNullSupabaseResult,
-  assertValidSupabaseResult,
-} from "@/utils/supabase"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
@@ -43,18 +39,13 @@ const Page = async ({
   let userlistRule = rules?.data.find((r) => r.ui_enabled)
 
   if (!userlistRule) {
-    const result = await createRule({
+    userlistRule = await createRule({
       rule: {
         deal_id: dealId,
         resource_definition: userlistRuleDefinition,
       },
       team_id: team.id,
     })
-
-    assertValidSupabaseResult(result)
-    assertNonNullSupabaseResult(result)
-
-    userlistRule = result.data
   }
 
   return (

@@ -1,5 +1,3 @@
-"use client"
-
 import { ConfigurationCard } from "@/components/ConfigurationCard"
 import ContractsConfigurationCard from "@/components/GasAbstraction/ContractsConfigurationCard"
 import { Silo } from "@/types/types"
