@@ -1,6 +1,5 @@
 "use server"
 
-import { PostgrestSingleResponse } from "@supabase/supabase-js"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Userlist } from "@/types/types"
 import { assertValidSupabaseResult } from "@/utils/supabase"
@@ -8,7 +7,7 @@ import { assertValidSupabaseResult } from "@/utils/supabase"
 export const createRuleUserlist = async (inputs: {
   team_id: number
   rule_id: number
-}): Promise<PostgrestSingleResponse<Userlist>> => {
+}): Promise<Userlist> => {
   const supabase = createAdminSupabaseClient()
 
   const userlistResult = await supabase
@@ -27,5 +26,5 @@ export const createRuleUserlist = async (inputs: {
 
   assertValidSupabaseResult(result)
 
-  return userlistResult
+  return userlistResult.data
 }

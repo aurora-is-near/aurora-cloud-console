@@ -1,6 +1,5 @@
 "use server"
 
-import { PostgrestSingleResponse } from "@supabase/supabase-js"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Rule } from "@/types/types"
 import { assertValidSupabaseResult } from "@/utils/supabase"
@@ -9,7 +8,7 @@ export const updateRule = async (
   id: number,
   deal_id: number,
   inputs: Pick<Rule, "resource_definition">,
-): Promise<PostgrestSingleResponse<Rule>> => {
+): Promise<Rule> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("rules")
@@ -21,5 +20,5 @@ export const updateRule = async (
 
   assertValidSupabaseResult(result)
 
-  return result
+  return result.data
 }

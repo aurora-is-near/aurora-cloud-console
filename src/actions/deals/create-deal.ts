@@ -1,12 +1,12 @@
 "use server"
 
-import { PostgrestSingleResponse } from "@supabase/supabase-js"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Deal } from "@/types/types"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const createDeal = async (
   inputs: Pick<Deal, "name" | "team_id">,
-): Promise<PostgrestSingleResponse<Deal>> => {
+): Promise<Deal> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("deals")
@@ -17,5 +17,7 @@ export const createDeal = async (
     .select("*, teams!inner(id)")
     .single()
 
-  return result
+  assertValidSupabaseResult(result)
+
+  return result.data
 }
