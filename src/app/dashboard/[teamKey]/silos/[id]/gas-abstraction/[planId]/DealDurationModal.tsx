@@ -14,7 +14,7 @@ import { InputWrapper } from "@/components/InputWrapper"
 import { Modals } from "@/utils/modals"
 import { updateDeal } from "@/actions/deals/update-deal"
 import { Deal } from "@/types/types"
-import { reloadDeal } from "./page"
+import { reloadDeal } from "@/actions/deals/reload-deal"
 
 type Inputs = {
   start_time: string | null
