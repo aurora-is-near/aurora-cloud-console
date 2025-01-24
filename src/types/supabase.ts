@@ -233,6 +233,7 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          number_of_transactions: number | null
           payment_status: Database["public"]["Enums"]["payment_status"]
           session_id: string
           team_id: number
@@ -241,6 +242,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: number
+          number_of_transactions?: number | null
           payment_status: Database["public"]["Enums"]["payment_status"]
           session_id: string
           team_id: number
@@ -249,6 +251,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
+          number_of_transactions?: number | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
           session_id?: string
           team_id?: number
