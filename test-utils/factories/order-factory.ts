@@ -6,6 +6,6 @@ export const createMockOrder = (data?: Partial<Order>): Order => ({
   payment_status: "paid",
   session_id: "mock-session-id",
   team_id: 1,
-  type: "initial_setup",
+  type: "top_up",
   ...data,
 })

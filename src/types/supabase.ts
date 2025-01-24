@@ -375,36 +375,39 @@ export type Database = {
           email: string | null
           id: number
           name: string
-          team_key: string
-          updated_at: string
-          website: string | null
           onboarding_status:
             | Database["public"]["Enums"]["team_onboarding_status"]
             | null
+          prepaid_transactions: number
+          team_key: string
+          updated_at: string
+          website: string | null
         }
         Insert: {
           created_at?: string
           email?: string | null
           id?: number
           name: string
-          team_key: string
-          updated_at?: string
-          website?: string | null
           onboarding_status?:
             | Database["public"]["Enums"]["team_onboarding_status"]
             | null
+          prepaid_transactions?: number
+          team_key: string
+          updated_at?: string
+          website?: string | null
         }
         Update: {
           created_at?: string
           email?: string | null
           id?: number
           name?: string
-          team_key?: string
-          updated_at?: string
-          website?: string | null
           onboarding_status?:
             | Database["public"]["Enums"]["team_onboarding_status"]
             | null
+          prepaid_transactions?: number
+          team_key?: string
+          updated_at?: string
+          website?: string | null
         }
         Relationships: []
       }
@@ -631,7 +634,7 @@ export type Database = {
         | "forwarder:read"
         | "forwarder:write"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
-      order_type: "initial_setup"
+      order_type: "initial_setup" | "top_up"
       payment_status: "paid" | "unpaid" | "no_payment_required"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_type: "customer" | "admin"

@@ -143,7 +143,8 @@ describe("Checkout webhook route", () => {
       id: "session_id",
       metadata: {
         team_id: String(mockTeam.id),
-        product_type: "initial_setup",
+        product_type: "top_up",
+        number_of_transactions: 42,
       },
       payment_status: "paid",
       customer_details: {
@@ -199,15 +200,17 @@ describe("Checkout webhook route", () => {
 
     expect(mockSupabaseClient.from("orders").insert).toHaveBeenCalledTimes(1)
     expect(mockSupabaseClient.from("orders").insert).toHaveBeenCalledWith({
-      type: "initial_setup",
+      type: "top_up",
       payment_status: "paid",
       session_id: "session_id",
       team_id: mockTeam.id,
+      number_of_transactions: 42,
     })
 
     expect(mockSupabaseClient.from("teams").update).toHaveBeenCalledTimes(1)
     expect(mockSupabaseClient.from("teams").update).toHaveBeenCalledWith({
       onboarding_status: "REQUEST_RECEIVED",
+      prepaid_transactions: 1042,
     })
 
     expect(teamUpdateQueries.eq).toHaveBeenCalledWith("id", mockTeam.id)
@@ -250,7 +253,8 @@ describe("Checkout webhook route", () => {
       id: "session_id",
       metadata: {
         team_id: String(teamId),
-        product_type: "initial_setup",
+        product_type: "top_up",
+        number_of_transactions: 42,
       },
     }
 

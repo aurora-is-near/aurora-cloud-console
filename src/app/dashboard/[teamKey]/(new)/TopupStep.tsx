@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const TopupStep = ({ team, index, state }: Props) => {
-  const topupLink = useStripePaymentLink(team)
+  const topupLink = useStripePaymentLink(team, "top_up")
 
   return (
     <StepCard
