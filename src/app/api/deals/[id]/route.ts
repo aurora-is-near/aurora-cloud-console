@@ -1,11 +1,11 @@
 import { createApiEndpoint } from "@/utils/api"
 import { adaptDeal } from "@/utils/adapters"
 import { updateDeal } from "@/actions/deals/update-deal"
-import { getDeal } from "@/actions/deals/get-deal"
+import { getTeamDeal } from "@/actions/team-deals/get-team-deal"
 import { abort } from "../../../../utils/abort"
 
 export const GET = createApiEndpoint("getDeal", async (_req, ctx) => {
-  const result = await getDeal(Number(ctx.params.id))
+  const result = await getTeamDeal(ctx.team.id, Number(ctx.params.id))
 
   if (!result) {
     abort(404)
