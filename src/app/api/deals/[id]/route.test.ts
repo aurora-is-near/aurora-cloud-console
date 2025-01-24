@@ -67,7 +67,15 @@ describe("Deal route", () => {
 
   describe("PUT", () => {
     it("updates a deal", async () => {
-      const mockDeal = createMockDeal()
+      const body = {
+        name: "Test Update",
+        open: true,
+        enabled: true,
+        startTime: "2021-01-02T00:00:00.000Z",
+        endTime: "2021-01-02T00:00:00.000Z",
+      }
+
+      const mockDeal = createMockDeal(body)
       const putQueries = createInsertOrUpdate(mockDeal)
 
       mockSupabaseClient
@@ -82,13 +90,7 @@ describe("Deal route", () => {
           params: {
             id: String(mockDeal.id),
           },
-          body: {
-            name: "Test Update",
-            open: mockDeal.open,
-            enabled: mockDeal.enabled,
-            startTime: "2021-01-02T00:00:00.000Z",
-            endTime: "2021-01-02T00:00:00.000Z",
-          },
+          body,
         },
       )
 
@@ -98,11 +100,11 @@ describe("Deal route", () => {
         id: mockDeal.id,
         siloId: mockDeal.silo_id,
         teamId: mockDeal.team_id,
-        name: "Test Update",
+        name: mockDeal.name,
         open: mockDeal.open,
         enabled: mockDeal.enabled,
-        startTime: "2021-01-02T00:00:00.000Z",
-        endTime: "2021-01-02T00:00:00.000Z",
+        startTime: mockDeal.start_time,
+        endTime: mockDeal.end_time,
         createdAt: mockDeal.created_at,
         updatedAt: mockDeal.updated_at,
         deletedAt: mockDeal.deleted_at,
