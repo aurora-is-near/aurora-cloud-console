@@ -20,13 +20,7 @@ type Props = {
     )
 }
 
-export const Banner = ({
-  variant,
-  Icon,
-  title,
-  description,
-  link,
-}: Props) => (
+export const Banner = ({ variant, Icon, title, description, link }: Props) => (
   <div
     className={clsx(
       "flex flex-wrap sm:flex-nowrap justify-between gap-6 w-full px-6 py-8 border rounded-lg shadow-sm",
