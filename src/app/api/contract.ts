@@ -4,6 +4,7 @@ import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 import { WIDGET_NETWORKS } from "@/constants/bridge"
 import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
+import { SILO_ASSETS } from "@/constants/assets"
 
 extendZodWithOpenApi(z)
 
@@ -98,6 +99,11 @@ export const OracleSchema = z.object({
   createdAt: z.string().nullable(),
   updatedAt: z.string().nullable(),
   address: z.string().nullable(),
+})
+
+const FileSchema = z.instanceof(File).openapi({
+  type: "string",
+  format: "binary",
 })
 
 const WidgetNetwork = z.string().openapi({
@@ -407,6 +413,29 @@ export const contract = c.router({
     pathParams: z.object({
       address: z.string(),
     }),
+  },
+  uploadSiloAsset: {
+    summary: "Upload an asset used in configuring the silo",
+    method: "POST",
+    path: `/api/silos/:id/assets`,
+    contentType: "multipart/form-data",
+    body: z.object({
+      type: z
+        .string()
+        .openapi({
+          enum: SILO_ASSETS,
+        })
+        .optional(),
+      file: FileSchema.optional(),
+    }),
+    responses: {
+      200: z.object({
+        url: z.string(),
+      }),
+    },
+    metadata: {
+      scopes: ["assets:write"],
+    },
   },
   getLists: {
     summary: "Get all lists",
