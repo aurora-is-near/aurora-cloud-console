@@ -9,9 +9,12 @@ import { createRule } from "@/actions/rules/create-rule"
 import { RuleProvider } from "@/providers/RuleProvider"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { RuleResourceDefinition } from "@/types/types"
+import { reloadDeal } from "@/actions/deals/reload-deal"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
+
+export { reloadDeal }
 
 const Page = async ({
   params: { id, planId, teamKey },
@@ -55,7 +58,7 @@ const Page = async ({
           <UsersConfigurationCard />
           <ContractsCard silo={silo} />
         </RuleProvider>
-        <RulesCard />
+        <RulesCard deal={deal} />
         <Contact teamKey={teamKey} />
       </DealUpdatePage>
     </DealUpdateProvider>

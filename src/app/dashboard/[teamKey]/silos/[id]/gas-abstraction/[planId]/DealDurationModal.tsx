@@ -4,39 +4,43 @@ import { useEffect } from "react"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { useFormContext } from "react-hook-form"
 import { XCircleIcon } from "@heroicons/react/20/solid"
+import { useParams } from "next/navigation"
 import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
-import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { DateInput } from "@/components/DateInput"
 import { InputWrapper } from "@/components/InputWrapper"
 import { Modals } from "@/utils/modals"
+import { updateDeal } from "@/actions/deals/update-deal"
+import { Deal } from "@/types/types"
+import { reloadDeal } from "./page"
 
 type Inputs = {
-  startTime: string | null
-  endTime: string | null
+  start_time: string | null
+  end_time: string | null
 }
 
-export const DealDurationModal = () => {
+export const DealDurationModal = ({ deal }: { deal: Deal }) => {
   const { closeModal, activeModal } = useModals()
-  const { deal, queueUpdate } = useRequiredContext(DealUpdateContext)
+  const { teamKey, planId } = useParams()
+
   const { register, getValues, setValue } = useFormContext<Inputs>()
 
   const onSaveClick = async () => {
     const values = getValues()
 
-    queueUpdate({
-      startTime: values.startTime,
-      endTime: values.endTime,
+    await updateDeal(deal.id, {
+      start_time: values.start_time,
+      end_time: values.end_time,
     })
 
+    await reloadDeal(teamKey[0], Number(planId))
     closeModal()
   }
 
   const onClear = () => {
-    setValue("startTime", null)
-    setValue("endTime", null)
+    setValue("start_time", null)
+    setValue("end_time", null)
   }
 
   const onCancel = () => {
@@ -52,28 +56,32 @@ export const DealDurationModal = () => {
       return
     }
 
-    setValue("startTime", deal.startTime)
-    setValue("endTime", deal.endTime)
+    setValue("start_time", deal.start_time)
+    setValue("end_time", deal.end_time)
   }, [deal, open, setValue])
 
   return (
     <SlideOver title="Restrict deal duration" open={open} close={closeModal}>
       <div className="space-y-8">
         <div className="gap-x-3 flex flex-row">
-          <InputWrapper id="startTime" inputName="startTime" label="Start time">
+          <InputWrapper
+            id="start_time"
+            inputName="start_time"
+            label="Start time"
+          >
             <DateInput
-              id="startTime"
-              name="startTime"
+              id="start_time"
+              name="start_time"
               register={register}
-              defaultValue={deal?.startTime}
+              defaultValue={deal?.start_time}
             />
           </InputWrapper>
-          <InputWrapper id="endTime" inputName="endTime" label="End time">
+          <InputWrapper id="end_time" inputName="end_time" label="End time">
             <DateInput
-              id="endTime"
-              name="endTime"
+              id="end_time"
+              name="end_time"
               register={register}
-              defaultValue={deal?.endTime}
+              defaultValue={deal?.end_time}
             />
           </InputWrapper>
         </div>
