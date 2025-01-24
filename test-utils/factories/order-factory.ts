@@ -7,5 +7,6 @@ export const createMockOrder = (data?: Partial<Order>): Order => ({
   session_id: "mock-session-id",
   team_id: 1,
   type: "top_up",
+  number_of_transactions: 42,
   ...data,
 })
