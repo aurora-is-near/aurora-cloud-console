@@ -1,7 +1,7 @@
 import { ReactNode, useMemo } from "react"
 import {
-  BookOpenIcon,
   AdjustmentsHorizontalIcon,
+  BookOpenIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline"
 import { MainMenu } from "@/components/menu/MainMenu"

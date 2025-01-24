@@ -75,11 +75,11 @@ export const DashboardHomePage = async ({
           </section>
         )}
 
-        {!silo && (isOnboardingFormSubmitted || team.onboarding_status) && (
+        {!silo && (isOnboardingFormSubmitted || team.onboarding_status) ? (
           <DeploymentProgress
-            status={team.onboarding_status || "REQUEST_RECEIVED"}
+            status={team.onboarding_status ?? "REQUEST_RECEIVED"}
           />
-        )}
+        ) : null}
 
         <div className="flex flex-col">
           <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">

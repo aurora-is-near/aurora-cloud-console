@@ -26,7 +26,13 @@ type Props = {
 }
 
 export const HeroBadge = ({ hasSilo, isOnboardingFormSubmitted }: Props) => {
-  if (hasSilo) return <LiveBadge />
-  if (isOnboardingFormSubmitted) return <InDeploymentBadge />
+  if (hasSilo) {
+    return <LiveBadge />
+  }
+
+  if (isOnboardingFormSubmitted) {
+    return <InDeploymentBadge />
+  }
+
   return null
 }
