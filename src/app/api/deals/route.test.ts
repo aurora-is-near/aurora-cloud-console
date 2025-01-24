@@ -56,10 +56,10 @@ describe("Deals route", () => {
         items: [
           {
             createdAt: mockDeal.created_at,
-            endTime: "2021-01-01T00:00:00.000Z",
+            endTime: mockDeal.end_time,
             id: mockDeal.id,
             name: mockDeal.name,
-            startTime: "2021-01-01T00:00:00.000Z",
+            startTime: mockDeal.start_time,
             teamId: mockDeal.team_id,
             updatedAt: mockDeal.updated_at,
             deletedAt: mockDeal.deleted_at,
