@@ -20,7 +20,7 @@ export const WhatsNext = ({ team }: Props) => (
         variant="info"
         title="Book a call with our team"
         description="Schedule a call to finalize configurations, go-to-market strategy, and ensure everything is ready for launch."
-        icon={<SparklesIcon className="w-11 h-11 text-green-900" />}
+        Icon={<SparklesIcon className="w-11 h-11 text-green-900" />}
         link={{
           isExternal: true,
           label: "Book a call",
@@ -33,7 +33,7 @@ export const WhatsNext = ({ team }: Props) => (
         variant="info"
         title="Explore Aurora Cloud documentation"
         description="Dive into our docs to understand how virtual chains work and get started with development."
-        icon={<BookOpenIcon className="w-11 h-11 text-green-900" />}
+        Icon={<BookOpenIcon className="w-11 h-11 text-green-900" />}
         link={{
           isExternal: true,
           label: "View docs",

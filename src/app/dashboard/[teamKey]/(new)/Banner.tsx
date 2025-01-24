@@ -12,7 +12,7 @@ type PassedLinkProps = Omit<
 type Props = {
   variant: "info" | "cta"
   title: string
-  icon: JSX.Element
+  Icon: JSX.Element
   description: string | JSX.Element
   link?: PassedLinkProps & { label: string } & (
       | { isDisabled: true; url?: string | null }
@@ -22,7 +22,7 @@ type Props = {
 
 export const Banner = ({
   variant,
-  icon: Icon,
+  Icon,
   title,
   description,
   link,

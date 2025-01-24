@@ -25,7 +25,7 @@ export const BannerTopup = ({ team }: Props) => {
           which you will need to top up.
         </>
       }
-      icon={<IconCoins className="w-11 h-11 text-green-900" />}
+      Icon={<IconCoins className="w-11 h-11 text-green-900" />}
       link={
         topupLink
           ? {

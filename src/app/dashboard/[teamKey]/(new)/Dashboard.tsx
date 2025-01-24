@@ -59,7 +59,7 @@ export const DashboardHomePage = async ({
                 variant="cta"
                 title="Configure your Virtual Chain"
                 description="Select the chain parameters that fit your needs — base token, gas costs, permissions, and more — to create a fully production-ready environment."
-                icon={
+                Icon={
                   <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center">
                     <ArrowRightIcon className="w-6 h-6 text-white" />
                   </div>
