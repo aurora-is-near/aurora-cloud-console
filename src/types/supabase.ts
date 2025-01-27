@@ -146,6 +146,7 @@ export type Database = {
           limit_scope: Database["public"]["Enums"]["limit_scope"]
           limit_type: Database["public"]["Enums"]["limit_type"]
           limit_value: number
+          ui_enabled: boolean
           updated_at: string
         }
         Insert: {
@@ -157,6 +158,7 @@ export type Database = {
           limit_scope: Database["public"]["Enums"]["limit_scope"]
           limit_type: Database["public"]["Enums"]["limit_type"]
           limit_value?: number
+          ui_enabled?: boolean
           updated_at?: string
         }
         Update: {
@@ -168,6 +170,7 @@ export type Database = {
           limit_scope?: Database["public"]["Enums"]["limit_scope"]
           limit_type?: Database["public"]["Enums"]["limit_type"]
           limit_value?: number
+          ui_enabled?: boolean
           updated_at?: string
         }
         Relationships: [

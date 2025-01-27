@@ -8,6 +8,8 @@ import { createRule } from "@/actions/rules/create-rule"
 import { RuleProvider } from "@/providers/RuleProvider"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { RuleResourceDefinition } from "@/types/types"
+import { getUiLimits } from "@/actions/limits/get-ui-limits"
+import { createDefaultLimits } from "@/actions/limits/create-default-limits"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
@@ -19,10 +21,11 @@ const Page = async ({
 }) => {
   const siloId = Number(id)
   const dealId = Number(planId)
-  const [deal, silo, rules, team] = await Promise.all([
+  const [deal, silo, rules, limits, team] = await Promise.all([
     getTeamDealByKey(teamKey, dealId),
     getTeamSiloByKey(teamKey, siloId),
     getRules({ dealId }),
+    getUiLimits(dealId),
     getTeamByKey(teamKey),
   ])
 
@@ -45,6 +48,15 @@ const Page = async ({
       },
       team_id: team.id,
     })
+  }
+
+  let globalLimit = limits?.find((l) => l.limit_scope === "GLOBAL")
+  let userLimit = limits?.find((l) => l.limit_scope === "USER")
+
+  if (!globalLimit || !userLimit) {
+    await createDefaultLimits(dealId)
+    globalLimit = limits?.find((l) => l.limit_scope === "GLOBAL")
+    userLimit = limits?.find((l) => l.limit_scope === "USER")
   }
 
   return (
