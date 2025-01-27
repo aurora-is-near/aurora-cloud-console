@@ -61,7 +61,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.54.0",
     "react-hot-toast": "^2.4.1",
-    "react-select": "^5.8.3",
+    "react-select": "^5.10.0",
     "stripe": "^17.5.0",
     "swagger-ui-react": "^5.11.0",
     "tailwind-merge": "^2.6.0",
