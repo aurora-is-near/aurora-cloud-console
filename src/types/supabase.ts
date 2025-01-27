@@ -295,6 +295,7 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          number_of_transactions: number | null
           payment_status: Database["public"]["Enums"]["payment_status"]
           session_id: string
           team_id: number
@@ -303,6 +304,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: number
+          number_of_transactions?: number | null
           payment_status: Database["public"]["Enums"]["payment_status"]
           session_id: string
           team_id: number
@@ -311,6 +313,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
+          number_of_transactions?: number | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
           session_id?: string
           team_id?: number
@@ -590,7 +593,6 @@ export type Database = {
           replenish_amount: number
           replenish_threshold: number
           rpc_url: string
-          team_id: number
           type: string
           updated_at: string
         }
@@ -616,7 +618,6 @@ export type Database = {
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
-          team_id: number
           type?: string
           updated_at?: string
         }
@@ -642,7 +643,6 @@ export type Database = {
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
-          team_id?: number
           type?: string
           updated_at?: string
         }
@@ -652,13 +652,6 @@ export type Database = {
             columns: ["blockscout_database_id"]
             isOneToOne: false
             referencedRelation: "blockscout_databases"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "silos_team_id_fkey"
-            columns: ["team_id"]
-            isOneToOne: false
-            referencedRelation: "teams"
             referencedColumns: ["id"]
           },
         ]
@@ -702,6 +695,7 @@ export type Database = {
           onboarding_status:
             | Database["public"]["Enums"]["team_onboarding_status"]
             | null
+          prepaid_transactions: number
           team_key: string
           updated_at: string
           website: string | null
@@ -714,6 +708,7 @@ export type Database = {
           onboarding_status?:
             | Database["public"]["Enums"]["team_onboarding_status"]
             | null
+          prepaid_transactions?: number
           team_key: string
           updated_at?: string
           website?: string | null
@@ -726,6 +721,7 @@ export type Database = {
           onboarding_status?:
             | Database["public"]["Enums"]["team_onboarding_status"]
             | null
+          prepaid_transactions?: number
           team_key?: string
           updated_at?: string
           website?: string | null
@@ -994,11 +990,12 @@ export type Database = {
         | "forwarder:write"
         | "payments:read"
         | "payments:write"
+        | "assets:write"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
       limit_scope: "USER" | "GLOBAL"
       limit_type: "CYCLIC" | "RATELIMIT"
-      order_type: "initial_setup"
+      order_type: "initial_setup" | "top_up"
       payment_status:
         | "PAID"
         | "UNPAID"

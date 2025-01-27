@@ -41,7 +41,7 @@ const Page = async ({
     tabs.push(
       {
         title: "Gas consumed",
-        content: <GasAbstractionConsumedTab silo={silo} />,
+        content: <GasAbstractionConsumedTab silo={silo} team={team} />,
       },
       {
         title: "Gas collected",

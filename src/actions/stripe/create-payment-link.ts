@@ -1,7 +1,7 @@
 "use server"
 
 import Stripe from "stripe"
-import { ProductType } from "@/types/products"
+import { ProductMetadata, ProductType } from "@/types/products"
 import { getStripeConfig } from "@/utils/stripe"
 
 const getProductId = async (productType: ProductType) => {
@@ -19,6 +19,18 @@ const getPrice = async (
   }
 
   return product.default_price
+}
+
+const getProductMetadata = <T extends ProductType>(
+  productType: T,
+): ProductMetadata[T] => {
+  const productMetadata = {
+    top_up: {
+      number_of_transactions: 15000,
+    },
+  }[productType]
+
+  return productMetadata
 }
 
 export const createPaymentLink = async (
@@ -66,6 +78,7 @@ export const createPaymentLink = async (
     metadata: {
       team_id: teamId,
       product_type: productType,
+      ...getProductMetadata(productType),
     },
   })
 
