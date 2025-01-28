@@ -26,7 +26,7 @@ export function abortIfNoSupabaseResult<T>(
   }
 }
 
-export function assertUniqueConstraintNotViolated<T>(
+function assertUniqueConstraintNotViolated<T>(
   result: PostgrestResponse<T>,
   key: string,
   message: string,
