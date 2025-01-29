@@ -9,6 +9,8 @@ import { SiloAsset } from "@/types/assets"
 import { ConfigurationCard } from "@/components/ConfigurationCard"
 import { Typography } from "@/uikit"
 import { ImageUploadInput } from "@/components/ImageUploadInput"
+import LightModeIcon from "../../../public/static/icons/light-mode.svg"
+import DarkModeIcon from "../../../public/static/icons/dark-mode.svg"
 
 type Props = {
   silo: Silo
@@ -100,6 +102,7 @@ export const BlockExplorerConfigurationTab = ({ silo }: Props) => {
             label="Light mode"
             register={register}
             currentValue={silo.network_logo}
+            Icon={LightModeIcon}
           />
           <ImageUploadInput
             name="network_logo_dark"
@@ -107,6 +110,7 @@ export const BlockExplorerConfigurationTab = ({ silo }: Props) => {
             className="mt-2.5"
             register={register}
             currentValue={silo.network_logo_dark}
+            Icon={DarkModeIcon}
           />
         </div>
       </ConfigurationCard>
