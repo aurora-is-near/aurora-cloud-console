@@ -31,9 +31,10 @@ describe("Silo tokens route", () => {
 
   describe("GET", () => {
     it("returns a 404 for a non-existant silo", async () => {
-      await expect(async () =>
-        invokeApiHandler("GET", "/api/silos/1/tokens", GET),
-      ).rejects.toThrow("Not Found")
+      const res = await invokeApiHandler("GET", "/api/silos/1/tokens", GET)
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({ message: "Not Found" })
     })
 
     it("returns the silo tokens", async () => {

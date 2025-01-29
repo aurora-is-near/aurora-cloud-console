@@ -58,21 +58,37 @@ describe("Forwarder route", () => {
           },
         })
 
-      await expect(async () =>
-        invokeApiHandler("GET", `/api/forwarder/${address}`, GET, {
+      const res = await invokeApiHandler(
+        "GET",
+        `/api/forwarder/${address}`,
+        GET,
+        {
           params: { address },
-        }),
-      ).rejects.toThrow("Not Found")
+        },
+      )
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({
+        message: "Not Found",
+      })
     })
 
     it("returns a 400 for an invalid address", async () => {
       const address = "0x123"
 
-      await expect(async () =>
-        invokeApiHandler("GET", `/api/forwarder/${address}`, GET, {
+      const res = await invokeApiHandler(
+        "GET",
+        `/api/forwarder/${address}`,
+        GET,
+        {
           params: { address },
-        }),
-      ).rejects.toThrow("Invalid address")
+        },
+      )
+
+      expect(res.status).toBe(400)
+      expect(res.body).toEqual({
+        message: "Invalid address",
+      })
     })
   })
 })

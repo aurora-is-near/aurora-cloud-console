@@ -25,7 +25,6 @@ export const invokeApiHandler = async <TResponseBody, TRequestBody>(
   path: string,
   handler: ApiRequestHandler<TResponseBody, TRequestBody>,
   ctxOptions?: CreateMockApiContextOptions<TRequestBody>,
-  shouldAbort?: boolean, // Temp setting to avoid defer all tests
 ) => {
   const req = new NextRequest(new URL(path, "http://test.com"))
   const ctx = createMockApiContext(ctxOptions)
@@ -34,7 +33,7 @@ export const invokeApiHandler = async <TResponseBody, TRequestBody>(
   try {
     resultBody = await handler(req, ctx)
   } catch (error) {
-    if (shouldAbort && isAbortError(error)) {
+    if (isAbortError(error)) {
       return {
         req: {
           method,

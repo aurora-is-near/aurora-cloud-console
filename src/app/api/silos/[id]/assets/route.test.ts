@@ -28,16 +28,10 @@ describe("Upload silo asset route", () => {
   })
 
   it("returns 400 if no file is provided", async () => {
-    const res = await invokeApiHandler(
-      "POST",
-      "/api/upload",
-      POST,
-      {
-        body: new FormData(),
-        params: { id: "1" },
-      },
-      true,
-    )
+    const res = await invokeApiHandler("POST", "/api/upload", POST, {
+      body: new FormData(),
+      params: { id: "1" },
+    })
 
     expect(res.status).toBe(400)
     expect(res.body).toEqual({ message: "No file provided" })
@@ -92,16 +86,10 @@ describe("Upload silo asset route", () => {
 
     mockStorage.upload.mockResolvedValue({ error: new Error("Upload failed") })
 
-    const res = await invokeApiHandler(
-      "POST",
-      "/api/upload",
-      POST,
-      {
-        body: formData,
-        params: { id: "1" },
-      },
-      true,
-    )
+    const res = await invokeApiHandler("POST", "/api/upload", POST, {
+      body: formData,
+      params: { id: "1" },
+    })
 
     expect(res.status).toBe(500)
     expect(res.body).toEqual({ message: "Upload failed" })

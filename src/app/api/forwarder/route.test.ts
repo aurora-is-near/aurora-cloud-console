@@ -48,9 +48,12 @@ describe("Forwarder route", () => {
     })
 
     it("returns a 400 for an invalid address", async () => {
-      await expect(async () =>
-        invokeApiHandler("POST", "/api/forwarder", POST),
-      ).rejects.toThrow("Invalid address")
+      const res = await invokeApiHandler("POST", "/api/forwarder", POST)
+
+      expect(res.status).toBe(400)
+      expect(res.body).toEqual({
+        message: "Invalid address",
+      })
     })
   })
 })
