@@ -113,6 +113,36 @@ export const BlockExplorerConfigurationTab = ({ silo }: Props) => {
             Icon={DarkModeIcon}
           />
         </div>
+        <div className="flex flex-col mt-12">
+          <Typography
+            variant="label"
+            size={3}
+            className="text-slate-900 mb-1.5"
+          >
+            Blockchain symbol / favicon
+          </Typography>
+          <Typography
+            variant="paragraph"
+            size={4}
+            className="text-slate-500 mb-1"
+          >
+            Displayed in the top-left corner of the Block Explorer’s collapsed
+            navigation and as a favicon on the browser tab.
+          </Typography>
+          <Typography
+            variant="paragraph"
+            size={5}
+            className="text-slate-500 mb-2.5"
+          >
+            Minimum 60x60 px, transparent background (png/svg)
+          </Typography>
+          <ImageUploadInput
+            name="favicon"
+            label="Favicon"
+            register={register}
+            currentValue={silo.favicon}
+          />
+        </div>
       </ConfigurationCard>
     </form>
   )
