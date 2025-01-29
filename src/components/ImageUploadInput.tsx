@@ -37,7 +37,12 @@ export const ImageUploadInput = <Inputs extends Record<string, unknown>>({
             {label}
           </Typography>
           {currentValue ? (
-            <a href={currentValue} className="text-cyan-600 text-xs">
+            <a
+              href={currentValue}
+              className="text-cyan-600 text-xs"
+              target="_blank"
+              rel="noreferrer"
+            >
               {currentValue.split("/").pop()}
             </a>
           ) : (
