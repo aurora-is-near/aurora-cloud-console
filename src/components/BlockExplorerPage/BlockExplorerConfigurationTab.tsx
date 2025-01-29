@@ -101,7 +101,7 @@ export const BlockExplorerConfigurationTab = ({ silo }: Props) => {
             name="network_logo"
             label="Light mode"
             register={register}
-            currentValue={silo.network_logo}
+            defaultValue={silo.network_logo}
             Icon={LightModeIcon}
           />
           <ImageUploadInput
@@ -109,7 +109,7 @@ export const BlockExplorerConfigurationTab = ({ silo }: Props) => {
             label="Dark mode"
             className="mt-2.5"
             register={register}
-            currentValue={silo.network_logo_dark}
+            defaultValue={silo.network_logo_dark}
             Icon={DarkModeIcon}
           />
         </div>
@@ -140,7 +140,7 @@ export const BlockExplorerConfigurationTab = ({ silo }: Props) => {
             name="favicon"
             label="Favicon"
             register={register}
-            currentValue={silo.favicon}
+            defaultValue={silo.favicon}
           />
         </div>
       </ConfigurationCard>
