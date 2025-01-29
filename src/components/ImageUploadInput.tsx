@@ -26,6 +26,7 @@ export const ImageUploadInput = <Inputs extends Record<string, unknown>>({
   Icon,
 }: ImageUploadInputProps<Inputs>) => {
   const [value, setValue] = useState<string | null>(defaultValue ?? null)
+  const [hasNewValue, setHasNewValue] = useState<boolean>(false)
   const ref = useRef<HTMLInputElement>(null)
 
   const handleChange = useCallback(
@@ -34,6 +35,7 @@ export const ImageUploadInput = <Inputs extends Record<string, unknown>>({
 
       if (fileName) {
         setValue(fileName)
+        setHasNewValue(true)
       }
 
       await register?.(name, registerOptions).onChange(event)
@@ -62,7 +64,7 @@ export const ImageUploadInput = <Inputs extends Record<string, unknown>>({
           <Typography variant="label" size={3} className="text-slate-900 mb-1">
             {label}
           </Typography>
-          {value ? (
+          {value && !hasNewValue ? (
             <a
               href={value}
               className="text-cyan-600 text-xs"
@@ -73,7 +75,7 @@ export const ImageUploadInput = <Inputs extends Record<string, unknown>>({
             </a>
           ) : (
             <Typography variant="paragraph" size={5} className="text-slate-500">
-              Not uploaded
+              {value?.split("/").pop() ?? "Not uploaded"}
             </Typography>
           )}
         </div>
