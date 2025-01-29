@@ -1458,16 +1458,13 @@ exports[`OpenAPI Document should be valid 1`] = `
                   },
                   "type": {
                     "enum": [
-                      "network-logo",
-                      "network-logo-dark",
+                      "network_logo",
+                      "network_logo_dark",
                       "favicon",
                     ],
                     "type": "string",
                   },
                 },
-                "required": [
-                  "type",
-                ],
                 "type": "object",
               },
             },
@@ -1480,12 +1477,12 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "message": {
+                    "url": {
                       "type": "string",
                     },
                   },
                   "required": [
-                    "message",
+                    "url",
                   ],
                   "type": "object",
                 },
