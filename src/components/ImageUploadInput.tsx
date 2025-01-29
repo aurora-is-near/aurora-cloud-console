@@ -26,7 +26,7 @@ export const ImageUploadInput = <Inputs extends Record<string, unknown>>({
   return (
     <div
       className={clsx(
-        "p-3 border border-slate-200 rounded-[10px] shadow-sm flex flex-row justify-between",
+        "p-3 border border-slate-200 rounded-[10px] shadow-sm flex flex-row justify-between items-center",
         className,
       )}
     >
