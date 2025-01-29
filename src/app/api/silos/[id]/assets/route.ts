@@ -18,7 +18,7 @@ export const POST = createApiEndpoint("uploadSiloAsset", async (_req, ctx) => {
   }
 
   const filename = snakeCase(file.name)
-  const path = `/${ctx.params.id}/${type}sss/${filename}`
+  const path = `/${ctx.params.id}/${type}/${filename}`
 
   const uploadRes = await storage.from("silo_assets").upload(path, file, {
     contentType: file.type,
