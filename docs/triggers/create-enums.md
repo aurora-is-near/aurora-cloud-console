@@ -82,7 +82,8 @@ SELECT add_values_to_enum(
 SELECT add_values_to_enum(
   'order_type',
   ARRAY[
-    'initial_setup'
+    'initial_setup',
+    'top_up',
   ]
 );
 ```

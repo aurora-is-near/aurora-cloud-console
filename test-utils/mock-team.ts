@@ -9,4 +9,5 @@ export const mockTeam: Team = {
   updated_at: "2023-01-10T00:00:00.000Z",
   website: "https://example.com",
   onboarding_status: null,
+  prepaid_transactions: 1000,
 }

@@ -1,4 +1,3 @@
-import { snakeCase } from "change-case"
 import { abort } from "@/utils/abort"
 import { toError } from "@/utils/errors"
 import { createApiEndpoint } from "@/utils/api"
@@ -17,8 +16,7 @@ export const POST = createApiEndpoint("uploadSiloAsset", async (_req, ctx) => {
     abort(400, "No file provided")
   }
 
-  const filename = snakeCase(file.name)
-  const path = `/${ctx.params.id}/${type}/${filename}`
+  const path = `/${ctx.params.id}/${type}/${file.name}`
 
   const uploadRes = await storage.from("silo_assets").upload(path, file, {
     contentType: file.type,

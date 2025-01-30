@@ -4,6 +4,7 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { Silo } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
+  assertUniqueChainIdNotViolated,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
@@ -19,6 +20,7 @@ export const updateSilo = async (
     .select()
     .single()
 
+  assertUniqueChainIdNotViolated(result)
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 

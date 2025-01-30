@@ -67,10 +67,9 @@ export const GasConsumedChart = ({ silo }: Props) => {
               <Skeleton />
             ) : (
               <Typography variant="heading" size={6}>
-                {`${new Intl.NumberFormat(undefined).format(
+                {new Intl.NumberFormat(undefined).format(
                   collectedGasQuery.data.transactionsCount,
-                )} / `}
-                <span className="text-slate-500">Unlimited</span>
+                )}
               </Typography>
             )}
           </div>
