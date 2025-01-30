@@ -34,7 +34,7 @@ export const invokeApiHandler = async <TResponseBody, TRequestBody>(
   try {
     resultBody = await handler(req, ctx)
   } catch (error) {
-    if (shouldAbort && isAbortError(error)) {
+    if (isAbortError(error)) {
       return {
         req: {
           method,
