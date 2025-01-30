@@ -70,7 +70,7 @@ describe("Upload silo asset route", () => {
     expect(res.status).toBe(200)
     expect(res.body).toEqual({ url: publicUrl })
     expect(mockStorage.upload).toHaveBeenCalledWith(
-      `/1/network_logo/test_png`,
+      `/1/network_logo/test.png`,
       file,
       {
         contentType,
