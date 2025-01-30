@@ -16,11 +16,12 @@ import {
   Team,
   Userlist,
 } from "@/types/types"
-import { getUserlists } from "@/actions/userlists/get-userlists"
 import { getRuleUsers } from "@/actions/rule-users/get-rule-users"
 import { createRuleUser } from "@/actions/rule-users/create-rule-user"
 import { deleteRuleUser } from "@/actions/rule-users/delete-rule-user"
 import { updateRule } from "@/actions/rules/update-rule"
+import { getUiUserlists } from "@/actions/userlists/get-ui-userlists"
+import { createRuleUserlist } from "@/actions/rule-userlists/create-rule-userlist"
 
 type RuleContextType = {
   rule: Rule
@@ -121,8 +122,12 @@ export const RuleProvider = ({
 
   useEffect(() => {
     if (rule?.id) {
-      void getUserlists({ rule_id: rule.id })
+      void getUiUserlists({ rule_id: rule.id })
         .then((data) => {
+          if (data.length === 0) {
+            throw new Error("No userlist found")
+          }
+
           setUserlist(data[0]) // We use the first Userlist, that was created when the Rule was created
           void getRuleUsers({
             userlist_id: data[0].id,
@@ -132,10 +137,22 @@ export const RuleProvider = ({
               setRuleUsers([])
             })
         })
-        .catch(() => {
+        .catch(async (e) => {
+          if (e.message === "No userlist found") {
+            await createRuleUserlist({
+              team_id: team.id,
+              rule_id: rule.id,
+            })
+
+            void getUiUserlists({ rule_id: rule.id }).then((data) => {
+              setUserlist(data[0])
+            })
+          }
+
           setUserlist(undefined)
         })
     } else {
+      console.log("No userlist")
       setUserlist(undefined)
     }
   }, [rule?.id, team.id])

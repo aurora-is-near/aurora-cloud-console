@@ -54,9 +54,15 @@ const Page = async ({
   let userLimit = limits?.find((l) => l.limit_scope === "USER")
 
   if (!globalLimit || !userLimit) {
-    await createDefaultLimits(dealId)
-    globalLimit = limits?.find((l) => l.limit_scope === "GLOBAL")
-    userLimit = limits?.find((l) => l.limit_scope === "USER")
+    const createdLimits = await createDefaultLimits(dealId)
+
+    if (!globalLimit) {
+      globalLimit = createdLimits?.find((l) => l.limit_scope === "GLOBAL")
+    }
+
+    if (!userLimit) {
+      userLimit = createdLimits?.find((l) => l.limit_scope === "USER")
+    }
   }
 
   return (

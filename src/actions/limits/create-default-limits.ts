@@ -28,7 +28,7 @@ export const createDefaultLimits = async (dealId: number) => {
   const limitsToCreate = defaultLimits.filter(
     (limit) =>
       !existingLimits.find(
-        (l) => l.limit_type === limit.limit_type && l.ui_enabled === true,
+        (l) => l.limit_type === limit.limit_type && l.ui_enabled,
       ),
   )
 
