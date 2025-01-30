@@ -10,7 +10,7 @@ import {
 
 export const updateSilo = async (
   id: number,
-  inputs: Omit<Silo, "id" | "created_at" | "team" | "tokens">,
+  inputs: Partial<Omit<Silo, "id" | "created_at" | "team" | "tokens">>,
 ): Promise<Silo> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase

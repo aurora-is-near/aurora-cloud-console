@@ -277,6 +277,7 @@ export type Database = {
           engine_account: string
           engine_version: string
           explorer_url: string | null
+          favicon: string
           gas_collection_address: string | null
           gas_price: number | null
           genesis: string
@@ -284,6 +285,8 @@ export type Database = {
           id: number
           name: string
           network: string
+          network_logo: string
+          network_logo_dark: string
           rpc_url: string
           updated_at: string
         }
@@ -296,6 +299,7 @@ export type Database = {
           engine_account: string
           engine_version: string
           explorer_url?: string | null
+          favicon?: string
           gas_collection_address?: string | null
           gas_price?: number | null
           genesis: string
@@ -303,6 +307,8 @@ export type Database = {
           id?: number
           name: string
           network?: string
+          network_logo?: string
+          network_logo_dark?: string
           rpc_url?: string
           updated_at?: string
         }
@@ -315,6 +321,7 @@ export type Database = {
           engine_account?: string
           engine_version?: string
           explorer_url?: string | null
+          favicon?: string
           gas_collection_address?: string | null
           gas_price?: number | null
           genesis?: string
@@ -322,6 +329,8 @@ export type Database = {
           id?: number
           name?: string
           network?: string
+          network_logo?: string
+          network_logo_dark?: string
           rpc_url?: string
           updated_at?: string
         }
@@ -636,6 +645,7 @@ export type Database = {
         | "lists:write"
         | "forwarder:read"
         | "forwarder:write"
+        | "assets:write"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       order_type: "initial_setup" | "top_up"
       payment_status: "paid" | "unpaid" | "no_payment_required"
