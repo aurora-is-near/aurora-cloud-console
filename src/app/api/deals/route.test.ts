@@ -1,7 +1,6 @@
 /**
  * @jest-environment node
  */
-import { proxyApiClient } from "@/utils/proxy-api/client"
 import { GET } from "./route"
 import {
   createSelect,
@@ -16,14 +15,8 @@ jest.mock("../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
 
-jest.mock("../../../utils/proxy-api/client")
-
 describe("Deals route", () => {
   beforeAll(setupJestOpenApi)
-
-  beforeEach(() => {
-    ;(proxyApiClient.view as jest.Mock).mockResolvedValue({ responses: [] })
-  })
 
   describe("GET", () => {
     beforeEach(() => {

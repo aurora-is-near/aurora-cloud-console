@@ -1,9 +1,6 @@
 import { WalletDetailsSchema } from "@/types/api-schemas"
 import { TransactionsQuery } from "@/types/types"
 
-export const isWalletAddress = (address: string) =>
-  /^0x[a-fA-F0-9]{40}$/g.test(address)
-
 export const getWalletDetails = (
   row: TransactionsQuery,
 ): WalletDetailsSchema => ({

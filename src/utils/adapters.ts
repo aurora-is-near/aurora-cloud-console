@@ -1,13 +1,12 @@
 import {
   DealSchema,
-  ListSchema,
   OracleSchema,
   RuleSchema,
   SiloSchema,
   TokenSchema,
 } from "@/types/api-schemas"
 import { AuroraOracle } from "@/types/oracle"
-import { Deal, List, Rule, Silo, Token } from "@/types/types"
+import { Deal, Rule, Silo, Token } from "@/types/types"
 import { BASE_TOKEN_DECIMALS } from "@/constants/base-token"
 
 const getIsoString = (date: number | null) => {
@@ -86,12 +85,6 @@ export const adaptSilo = (silo: Silo): SiloSchema => ({
     symbol: silo.base_token_symbol,
     decimals: BASE_TOKEN_DECIMALS,
   },
-})
-
-export const adaptList = (list: List): ListSchema => ({
-  id: list.id,
-  createdAt: list.created_at,
-  name: list.name,
 })
 
 export const adaptOracle = (oracle: AuroraOracle): OracleSchema => ({
