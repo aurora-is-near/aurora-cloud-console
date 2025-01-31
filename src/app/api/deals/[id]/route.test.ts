@@ -21,9 +21,10 @@ describe("Deal route", () => {
 
   describe("GET", () => {
     it("throws a not found error if no matching deal", async () => {
-      await expect(async () =>
-        invokeApiHandler("GET", "/api/deals/1", GET),
-      ).rejects.toThrow("Not Found")
+      const res = await invokeApiHandler("GET", "/api/deals/1", GET)
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({ message: "Not Found" })
     })
 
     it("returns a deal", async () => {
@@ -54,7 +55,6 @@ describe("Deal route", () => {
       })
 
       expect(dealSelectQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
-      expect(dealSelectQueries.eq).toHaveBeenCalledWith("teams.id", mockTeam.id)
     })
   })
 

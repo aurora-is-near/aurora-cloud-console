@@ -5,39 +5,37 @@ import { useMemo } from "react"
 import { Button } from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { DealUpdateContext } from "@/providers/DealUpdateProvider"
 import { formatDate } from "@/utils/helpers"
+import { Deal } from "@/types/types"
 import { RuleSetting } from "./RuleSetting"
 
-export const DealDurationSetting = () => {
+export const DealDurationSetting = ({ deal }: { deal: Deal }) => {
   const { openModal } = useModals()
-  const { deal } = useRequiredContext(DealUpdateContext)
 
   const onClick = () => {
     openModal(Modals.DealDuration)
   }
 
   const description = useMemo(() => {
-    const { endTime, startTime } = deal ?? {}
+    const { end_time, start_time } = deal ?? {}
 
-    if (startTime && !endTime) {
-      return `From ${formatDate(startTime)}`
+    if (start_time && !end_time) {
+      return `From ${formatDate(start_time)}`
     }
 
-    if (endTime && !startTime) {
-      return `Until ${formatDate(endTime)}`
+    if (end_time && !start_time) {
+      return `Until ${formatDate(end_time)}`
     }
 
-    if (startTime && endTime) {
-      return `${formatDate(startTime)} - ${formatDate(endTime)}`
+    if (start_time && end_time) {
+      return `${formatDate(start_time)} - ${formatDate(end_time)}`
     }
 
     return "No limit"
   }, [deal])
 
   return (
-    <RuleSetting title="Plan duration" description={description}>
+    <RuleSetting title="Deal duration" description={description}>
       <Button onClick={onClick} variant="border">
         <PencilSquareIcon className="w-4 h-4" />
       </Button>

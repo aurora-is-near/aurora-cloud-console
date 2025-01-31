@@ -2,7 +2,10 @@
 
 import { Rule } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { assertValidSupabaseResult } from "@/utils/supabase"
+import {
+  assertNonNullSupabaseResult,
+  assertValidSupabaseResult,
+} from "@/utils/supabase"
 import { PostgrestResponseSuccess } from "@/types/postgrest"
 
 export const getRules = async ({
@@ -18,6 +21,7 @@ export const getRules = async ({
     .is("deleted_at", null)
 
   assertValidSupabaseResult(result)
+  assertNonNullSupabaseResult(result)
 
   return result
 }

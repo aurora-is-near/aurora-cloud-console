@@ -4,6 +4,7 @@ import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 import { WIDGET_NETWORKS } from "@/constants/bridge"
 import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
+import { SILO_ASSETS } from "@/constants/assets"
 
 extendZodWithOpenApi(z)
 
@@ -89,6 +90,11 @@ export const OracleSchema = z.object({
   createdAt: z.string().nullable(),
   updatedAt: z.string().nullable(),
   address: z.string().nullable(),
+})
+
+const FileSchema = z.instanceof(File).openapi({
+  type: "string",
+  format: "binary",
 })
 
 const WidgetNetwork = z.string().openapi({
@@ -198,6 +204,57 @@ export const contract = c.router({
     },
     pathParams: z.object({
       id: z.number(),
+    }),
+  },
+  getRules: {
+    summary: "Get all rules for a deal",
+    method: "GET",
+    path: "/api/deals/:id/rules",
+    responses: {
+      200: z.object({
+        items: z.array(RuleSchema),
+      }),
+    },
+    metadata: {
+      scopes: ["deals:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  createRule: {
+    summary: "Create a rule for a deal",
+    method: "POST",
+    path: "/api/deals/:id/rules",
+    responses: {
+      200: RuleSchema,
+    },
+    body: z.object({
+      resourceDefinition: z.object({}).nullable(),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  updateRule: {
+    summary: "Update a rule for a deal",
+    method: "PUT",
+    path: "/api/deals/:id/rules/:rule_id",
+    responses: {
+      200: RuleSchema,
+    },
+    body: z.object({
+      resourceDefinition: z.object({}).nullable(),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+      rule_id: z.number(),
     }),
   },
   getRules: {
@@ -413,6 +470,29 @@ export const contract = c.router({
     pathParams: z.object({
       address: z.string(),
     }),
+  },
+  uploadSiloAsset: {
+    summary: "Upload an asset used in configuring the silo",
+    method: "POST",
+    path: `/api/silos/:id/assets`,
+    contentType: "multipart/form-data",
+    body: z.object({
+      type: z
+        .string()
+        .openapi({
+          enum: SILO_ASSETS,
+        })
+        .optional(),
+      file: FileSchema.optional(),
+    }),
+    responses: {
+      200: z.object({
+        url: z.string(),
+      }),
+    },
+    metadata: {
+      scopes: ["assets:write"],
+    },
   },
   getSiloTransactions: {
     summary: "Get transaction chart data for a silo",

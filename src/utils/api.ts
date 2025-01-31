@@ -62,6 +62,10 @@ const getErrorResponse = (error: unknown): NextResponse<ApiErrorResponse> => {
 }
 
 const getRequestBody = async (req: NextRequest) => {
+  if (req.headers.get("content-type")?.startsWith("multipart/form-data")) {
+    return req.formData()
+  }
+
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await req.json()

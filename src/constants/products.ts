@@ -1,1 +1,1 @@
-export const PRODUCT_TYPES = ["initial_setup"] as const
+export const PRODUCT_TYPES = ["top_up"] as const

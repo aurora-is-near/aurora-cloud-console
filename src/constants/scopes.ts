@@ -14,6 +14,7 @@ const API_KEY_SCOPES_MAP: Record<PublicApiScope, boolean> = {
   "forwarder:write": true,
   "payments:read": true,
   "payments:write": true,
+  "assets:write": true,
 }
 
 export const API_KEY_SCOPES = Object.keys(

@@ -5,7 +5,7 @@ import { createPaymentLink } from "@/actions/stripe/create-payment-link"
 jest.mock("stripe")
 
 const stripeSecretKey = "test_stripe_secret_key"
-const productType: ProductType = "initial_setup"
+const productType: ProductType = "top_up"
 const teamId = 42
 const callbackUrl = "https://example.com/callback"
 
@@ -35,6 +35,7 @@ describe("createPaymentLink", () => {
     stripeMock.products.retrieve.mockResolvedValue({
       id: "test_product_id",
       default_price: "test_price_id",
+      number_of_transactions: 15000,
     })
 
     stripeMock.prices.retrieve.mockResolvedValue({ id: "test_price_id" })
@@ -60,6 +61,7 @@ describe("createPaymentLink", () => {
       metadata: {
         team_id: teamId,
         product_type: productType,
+        number_of_transactions: 15000,
       },
     })
   })

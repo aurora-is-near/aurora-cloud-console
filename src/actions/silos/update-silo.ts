@@ -4,12 +4,13 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { Silo } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
+  assertUniqueChainIdNotViolated,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
 export const updateSilo = async (
   id: number,
-  inputs: Omit<Silo, "id" | "created_at" | "team" | "tokens">,
+  inputs: Partial<Omit<Silo, "id" | "created_at" | "team" | "tokens">>,
 ): Promise<Silo> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
@@ -19,6 +20,7 @@ export const updateSilo = async (
     .select()
     .single()
 
+  assertUniqueChainIdNotViolated(result)
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 

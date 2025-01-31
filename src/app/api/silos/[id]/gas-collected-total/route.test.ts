@@ -38,11 +38,17 @@ describe("Collected gas total route", () => {
     })
 
     it("returns a 404 for a non-existant silo", async () => {
-      await expect(async () =>
-        invokeApiHandler("GET", "/api/silos/1/gas-collected-total", GET, {
+      const res = await invokeApiHandler(
+        "GET",
+        "/api/silos/1/gas-collected-total",
+        GET,
+        {
           params: { id: "1" },
-        }),
-      ).rejects.toThrow("Not Found")
+        },
+      )
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({ message: "Not Found" })
     })
 
     it("returns 0 count if no blockscout database found", async () => {
