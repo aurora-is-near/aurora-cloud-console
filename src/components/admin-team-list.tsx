@@ -15,6 +15,10 @@ type AdminTeamListProps = {
 const AdminTeamList = ({ teamSummaries, silosTeams }: AdminTeamListProps) => {
   const [search, setSearch] = useState("")
 
+  const filteredTeamSummaries = teamSummaries.filter((team) =>
+    team.name.toLowerCase().includes(search.toLowerCase()),
+  )
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row items-center gap-2">
@@ -30,31 +34,32 @@ const AdminTeamList = ({ teamSummaries, silosTeams }: AdminTeamListProps) => {
           </Button>
         )}
       </div>
-      {teamSummaries
-        .filter((team) =>
-          team.name.toLowerCase().includes(search.toLowerCase()),
-        )
-        .map((team) => {
-          const siloId = silosTeams.find(
-            (silo) => silo.team_id === team.id,
-          )?.silo_id
+      {filteredTeamSummaries.length === 0 && (
+        <div className="flex flex-col gap-2">
+          <p className="text-lg">No teams found</p>
+        </div>
+      )}
+      {filteredTeamSummaries.map((team) => {
+        const siloId = silosTeams.find(
+          (silo) => silo.team_id === team.id,
+        )?.silo_id
 
-          const siloPrefix = siloId ? `/silos/${siloId}` : ""
+        const siloPrefix = siloId ? `/silos/${siloId}` : ""
 
-          return (
-            <div
-              key={team.id}
-              className="flex flex-0 border border-gray-200 p-2 px-4 bg-white hover:bg-slate-800 hover:text-white"
+        return (
+          <div
+            key={team.id}
+            className="flex flex-0 border border-gray-200 p-2 px-4 bg-white hover:bg-slate-800 hover:text-white"
+          >
+            <Link
+              href={`/dashboard/${team.team_key}${siloPrefix}`}
+              className="flex w-full text-lg"
             >
-              <Link
-                href={`/dashboard/${team.team_key}${siloPrefix}`}
-                className="flex w-full text-lg"
-              >
-                {team.name}
-              </Link>
-            </div>
-          )
-        })}
+              {team.name}
+            </Link>
+          </div>
+        )
+      })}
     </div>
   )
 }
