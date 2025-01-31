@@ -2,11 +2,9 @@ import { z } from "zod"
 import {
   ChartDataSchema as ChartData,
   DealSchema as Deal,
-  ListSchema as List,
   OracleSchema as Oracle,
   RuleSchema as Rule,
   SiloSchema as Silo,
-  SimpleListSchema as SimpleList,
   TokenSchema as Token,
   TransactionDataSchema as TransactionData,
   WalletDetailsSchema as WalletDetails,
@@ -17,8 +15,6 @@ export type DealSchema = z.infer<typeof Deal>
 export type RuleSchema = z.infer<typeof Rule>
 export type SiloSchema = z.infer<typeof Silo>
 export type TokenSchema = z.infer<typeof Token>
-export type ListSchema = z.infer<typeof List>
-export type SimpleListSchema = z.infer<typeof SimpleList>
 export type WalletDetailsSchema = z.infer<typeof WalletDetails>
 export type TransactionDataSchema = z.infer<typeof TransactionData>
 export type ChartDataSchema = z.infer<typeof ChartData>

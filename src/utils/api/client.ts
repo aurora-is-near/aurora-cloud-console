@@ -32,11 +32,6 @@ const put = async <T extends ApiOperation>(
     body: JSON.stringify(data),
   })
 
-const del = async <T extends ApiOperation>(url: string) =>
-  request<ApiResponseBody<T>>(url, {
-    method: "DELETE",
-  })
-
 export const apiClient = {
   getSilo: async ({ id }: ApiRequestParams<"getSilo">) =>
     get<"getSilo">(`/api/silos/${id}`),
@@ -99,50 +94,6 @@ export const apiClient = {
     id,
   }: ApiRequestParams<"getSiloCollectedGasTotal">) =>
     get<"getSiloCollectedGasTotal">(`/api/silos/${id}/gas-collected-total`),
-
-  getDealPriorities: async () =>
-    get<"getDealPriorities">(`/api/deals/priorities`),
-
-  updateDealPriorities: async (data: ApiRequestBody<"updateDealPriorities">) =>
-    put<"updateDealPriorities">(`/api/deals/priorities`, data),
-
-  getLists: async () => get<"getLists">("/api/lists"),
-
-  createList: async (data: ApiRequestBody<"createList">) =>
-    request<ApiResponseBody<"createList">>("/api/lists", {
-      method: "POST",
-      body: JSON.stringify(data),
-    }),
-
-  getList: async ({ id }: ApiRequestParams<"getList">) =>
-    get<"getList">(`/api/lists/${id}`),
-
-  updateList: async ({
-    id,
-    ...data
-  }: ApiRequestParams<"updateList"> & ApiRequestBody<"updateList">) =>
-    put<"updateList">(`/api/lists/${id}`, data),
-
-  deleteList: async ({ id }: ApiRequestParams<"deleteList">) =>
-    del<"deleteList">(`/api/lists/${id}`),
-
-  getListItems: async ({
-    id,
-    ...query
-  }: ApiRequestParams<"getListItems"> & ApiRequestQuery<"getListItems">) =>
-    get<"getListItems">(`/api/lists/${id}/items`, query),
-
-  createListItems: async ({
-    id,
-    ...data
-  }: ApiRequestParams<"createListItems"> & ApiRequestBody<"createListItems">) =>
-    post<"createListItems">(`/api/lists/${id}/items`, data),
-
-  getListItem: async ({ id, item }: ApiRequestParams<"getListItem">) =>
-    get<"getListItem">(`/api/lists/${id}/items/${encodeURIComponent(item)}`),
-
-  deleteListItem: async ({ id, item }: ApiRequestParams<"deleteListItem">) =>
-    del<"deleteListItem">(`/api/lists/${id}/items/${encodeURIComponent(item)}`),
 
   getWallet: async ({ address }: ApiRequestParams<"getWallet">) =>
     request<ApiResponseBody<"getWallet">>(`/api/wallets/${address}`),

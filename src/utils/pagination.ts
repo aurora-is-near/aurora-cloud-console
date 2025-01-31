@@ -23,11 +23,3 @@ export const getLimitAndOffset = (req: NextRequest) => {
 
   return { limit, offset }
 }
-
-export const getLimitAndCursor = (req: NextRequest) => {
-  const { searchParams } = req.nextUrl
-  const limit = getLimit(req)
-  const cursor = searchParams.get("cursor")
-
-  return { limit, cursor }
-}

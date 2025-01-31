@@ -168,7 +168,7 @@ invite other users to the team.
 
 The `DEBUG` environment variable can be used to enable various namespaced debug
 logs. For example, to view logs of all Proxy API requests and responses you can
-add `DEBUG=proxy-api` to your local environment variables.
+add `DEBUG=coingecko` to your local environment variables.
 
 This functionality is enabled via the [debug](https://www.npmjs.com/package/debug)
 package. At the time of writing the available namespaces can be found in the
