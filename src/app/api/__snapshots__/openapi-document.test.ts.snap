@@ -1652,6 +1652,79 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/silos/{id}/assets": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`assets:write\`",
+        "operationId": "uploadSiloAsset",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "nullable": true,
+                    "type": "string",
+                  },
+                  "type": {
+                    "enum": [
+                      "network_logo",
+                      "network_logo_dark",
+                      "favicon",
+                    ],
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "url",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "assets:write",
+            ],
+          },
+        ],
+        "summary": "Upload an asset used in configuring the silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
     "/api/silos/{id}/failure-rate": {
       "get": {
         "deprecated": undefined,

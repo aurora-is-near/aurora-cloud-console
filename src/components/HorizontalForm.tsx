@@ -9,11 +9,13 @@ import {
   useForm,
 } from "react-hook-form"
 import { CheckIcon } from "@heroicons/react/24/outline"
-import { DetailedHTMLProps, InputHTMLAttributes } from "react"
+import { DetailedHTMLProps, InputHTMLAttributes, useCallback } from "react"
 import { Button } from "@/components/Button"
 import { HorizontalInput } from "@/components/HorizontalInput"
 import { HorizontalSelectInput } from "@/components/HorizontalSelectInput"
 import { HorizontalToggleInput } from "@/components/HorizontalToggleInput"
+import { toError } from "@/utils/errors"
+import { Alert } from "@/components/Alert"
 
 type SharedInputProps<Inputs extends Record<string, unknown>> = {
   name: Path<Inputs>
@@ -98,12 +100,28 @@ export const HorizontalForm = <Inputs extends Record<string, unknown>>({
   const {
     register,
     handleSubmit,
+    setError,
     formState: { isSubmitting, errors: internalErrors },
   } = methods
 
+  const onSubmit = useCallback(async () => {
+    try {
+      await handleSubmit(submitHandler)()
+    } catch (err) {
+      setError("root", {
+        message: toError(err).message,
+      })
+    }
+  }, [handleSubmit, setError, submitHandler])
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(submitHandler)}>
+      {!!internalErrors.root?.message && (
+        <Alert type="error" className="mb-6">
+          {internalErrors.root?.message}
+        </Alert>
+      )}
+      <form onSubmit={onSubmit}>
         <div className="space-y-4">
           {inputs.map((inputProps) => {
             if (isDivider(inputProps)) {
@@ -172,11 +190,7 @@ export const HorizontalForm = <Inputs extends Record<string, unknown>>({
               Cancel
             </Button>
           )}
-          <Button
-            type="submit"
-            onClick={handleSubmit(submitHandler)}
-            loading={isSubmitting}
-          >
+          <Button type="submit" onClick={onSubmit} loading={isSubmitting}>
             <CheckIcon className="w-5 h-5" />
             <span>Save</span>
           </Button>

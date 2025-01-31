@@ -83,6 +83,57 @@ export type Database = {
         }
         Relationships: []
       }
+      datadog_web3_monitors: {
+        Row: {
+          created_at: string | null
+          datadog_id: number | null
+          engine_account: string | null
+          id: number
+          key: string
+          name: string
+          need_remove: boolean | null
+          need_update: boolean | null
+          removed: boolean | null
+          silo_chain_id: number | null
+          silo_name: string | null
+          silo_rpc_url: string | null
+          template_key: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          datadog_id?: number | null
+          engine_account?: string | null
+          id?: number
+          key: string
+          name: string
+          need_remove?: boolean | null
+          need_update?: boolean | null
+          removed?: boolean | null
+          silo_chain_id?: number | null
+          silo_name?: string | null
+          silo_rpc_url?: string | null
+          template_key: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          datadog_id?: number | null
+          engine_account?: string | null
+          id?: number
+          key?: string
+          name?: string
+          need_remove?: boolean | null
+          need_update?: boolean | null
+          removed?: boolean | null
+          silo_chain_id?: number | null
+          silo_name?: string | null
+          silo_rpc_url?: string | null
+          template_key?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       deals: {
         Row: {
           created_at: string
@@ -146,6 +197,7 @@ export type Database = {
           limit_scope: Database["public"]["Enums"]["limit_scope"]
           limit_type: Database["public"]["Enums"]["limit_type"]
           limit_value: number
+          ui_enabled: boolean
           updated_at: string
         }
         Insert: {
@@ -157,6 +209,7 @@ export type Database = {
           limit_scope: Database["public"]["Enums"]["limit_scope"]
           limit_type: Database["public"]["Enums"]["limit_type"]
           limit_value?: number
+          ui_enabled?: boolean
           updated_at?: string
         }
         Update: {
@@ -168,6 +221,7 @@ export type Database = {
           limit_scope?: Database["public"]["Enums"]["limit_scope"]
           limit_type?: Database["public"]["Enums"]["limit_type"]
           limit_value?: number
+          ui_enabled?: boolean
           updated_at?: string
         }
         Relationships: [
@@ -593,6 +647,7 @@ export type Database = {
           replenish_amount: number
           replenish_threshold: number
           rpc_url: string
+          silo_to_silo_bridge_address: string | null
           type: string
           updated_at: string
         }
@@ -618,6 +673,7 @@ export type Database = {
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
+          silo_to_silo_bridge_address?: string | null
           type?: string
           updated_at?: string
         }
@@ -643,6 +699,7 @@ export type Database = {
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
+          silo_to_silo_bridge_address?: string | null
           type?: string
           updated_at?: string
         }

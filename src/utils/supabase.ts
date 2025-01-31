@@ -5,8 +5,7 @@ export function assertValidSupabaseResult<T>(
   result: PostgrestResponse<T>,
 ): asserts result is PostgrestResponseSuccess<T> {
   if (result.error) {
-    // eslint-disable-next-line @typescript-eslint/no-throw-literal
-    throw result.error
+    throw new Error(result.error.message)
   }
 }
 
@@ -22,4 +21,27 @@ export function abortIfNotFound<T>(value: unknown): asserts value is T {
   if (!value || (Array.isArray(value) && !value.length)) {
     abort(404)
   }
+}
+
+function assertUniqueConstraintNotViolated<T>(
+  result: PostgrestResponse<T>,
+  key: string,
+  message: string,
+): void {
+  if (
+    result.error?.code === "23505" &&
+    result.error?.message.includes(`"${key}"`)
+  ) {
+    throw new Error(message)
+  }
+}
+
+export function assertUniqueChainIdNotViolated<T>(
+  result: PostgrestResponse<T>,
+): void {
+  assertUniqueConstraintNotViolated(
+    result,
+    "silos_chain_id_key",
+    "A silo with that chain ID already exists",
+  )
 }

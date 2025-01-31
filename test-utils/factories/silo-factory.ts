@@ -18,12 +18,13 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   grafana_network_key: "testnet",
   gas_collection_address: null,
   gas_price: null,
-  favicon: "",
-  network_logo: "",
-  network_logo_dark: "",
+  network_logo: "https://example.com/network_logo.png",
+  network_logo_dark: "https://example.com/network_logo_dark.png",
+  favicon: "https://example.com/favicon.png",
   type: "evm",
   replenish_amount: 0,
   replenish_threshold: 0,
+  silo_to_silo_bridge_address: null,
   ...data,
 })
 

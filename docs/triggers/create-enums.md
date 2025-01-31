@@ -37,7 +37,8 @@ SELECT add_values_to_enum(
     'forwarder:read',
     'forwarder:write',
     'payments:read',
-    'payments:write'
+    'payments:write',
+    'assets:write',
   ]
 );
 

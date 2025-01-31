@@ -83,9 +83,10 @@ describe("Widgets route", () => {
 
   describe("PUT", () => {
     it("returns a 404 for a non-existant silo", async () => {
-      await expect(async () =>
-        invokeApiHandler("PUT", "/api/silos/1/widget", PUT),
-      ).rejects.toThrow("Not Found")
+      const res = await invokeApiHandler("PUT", "/api/silos/1/widget", PUT)
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({ message: "Not Found" })
     })
 
     it("updates a widget", async () => {
