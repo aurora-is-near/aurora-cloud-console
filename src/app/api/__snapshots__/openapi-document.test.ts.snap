@@ -37,6 +37,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "createdAt": {
                             "type": "string",
                           },
+                          "deletedAt": {
+                            "nullable": true,
+                            "type": "string",
+                          },
                           "enabled": {
                             "type": "boolean",
                           },
@@ -47,27 +51,15 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "id": {
                             "type": "number",
                           },
-                          "lists": {
-                            "additionalProperties": {
-                              "nullable": true,
-                              "properties": {
-                                "id": {
-                                  "type": "number",
-                                },
-                                "name": {
-                                  "type": "string",
-                                },
-                              },
-                              "required": [
-                                "id",
-                                "name",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "object",
-                          },
                           "name": {
                             "type": "string",
+                          },
+                          "open": {
+                            "type": "boolean",
+                          },
+                          "siloId": {
+                            "nullable": true,
+                            "type": "number",
                           },
                           "startTime": {
                             "nullable": true,
@@ -85,12 +77,14 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "id",
                           "createdAt",
                           "updatedAt",
+                          "deletedAt",
                           "name",
                           "teamId",
+                          "siloId",
                           "enabled",
+                          "open",
                           "startTime",
                           "endTime",
-                          "lists",
                         ],
                         "type": "object",
                       },
@@ -151,6 +145,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "createdAt": {
                       "type": "string",
                     },
+                    "deletedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                     "enabled": {
                       "type": "boolean",
                     },
@@ -161,27 +159,15 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id": {
                       "type": "number",
                     },
-                    "lists": {
-                      "additionalProperties": {
-                        "nullable": true,
-                        "properties": {
-                          "id": {
-                            "type": "number",
-                          },
-                          "name": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "id",
-                          "name",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "object",
-                    },
                     "name": {
                       "type": "string",
+                    },
+                    "open": {
+                      "type": "boolean",
+                    },
+                    "siloId": {
+                      "nullable": true,
+                      "type": "number",
                     },
                     "startTime": {
                       "nullable": true,
@@ -199,12 +185,14 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id",
                     "createdAt",
                     "updatedAt",
+                    "deletedAt",
                     "name",
                     "teamId",
+                    "siloId",
                     "enabled",
+                    "open",
                     "startTime",
                     "endTime",
-                    "lists",
                   ],
                   "type": "object",
                 },
@@ -397,6 +385,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "createdAt": {
                       "type": "string",
                     },
+                    "deletedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                     "enabled": {
                       "type": "boolean",
                     },
@@ -407,27 +399,15 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id": {
                       "type": "number",
                     },
-                    "lists": {
-                      "additionalProperties": {
-                        "nullable": true,
-                        "properties": {
-                          "id": {
-                            "type": "number",
-                          },
-                          "name": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "id",
-                          "name",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "object",
-                    },
                     "name": {
                       "type": "string",
+                    },
+                    "open": {
+                      "type": "boolean",
+                    },
+                    "siloId": {
+                      "nullable": true,
+                      "type": "number",
                     },
                     "startTime": {
                       "nullable": true,
@@ -445,12 +425,14 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id",
                     "createdAt",
                     "updatedAt",
+                    "deletedAt",
                     "name",
                     "teamId",
+                    "siloId",
                     "enabled",
+                    "open",
                     "startTime",
                     "endTime",
-                    "lists",
                   ],
                   "type": "object",
                 },
@@ -490,14 +472,6 @@ exports[`OpenAPI Document should be valid 1`] = `
             "application/json": {
               "schema": {
                 "properties": {
-                  "chainFilterListId": {
-                    "nullable": true,
-                    "type": "number",
-                  },
-                  "contractFilterListId": {
-                    "nullable": true,
-                    "type": "number",
-                  },
                   "enabled": {
                     "type": "boolean",
                   },
@@ -505,13 +479,11 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "nullable": true,
                     "type": "string",
                   },
-                  "eoaBlacklistListId": {
-                    "nullable": true,
-                    "type": "number",
+                  "name": {
+                    "type": "string",
                   },
-                  "eoaFilterListId": {
-                    "nullable": true,
-                    "type": "number",
+                  "open": {
+                    "type": "boolean",
                   },
                   "startTime": {
                     "nullable": true,
@@ -533,6 +505,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "createdAt": {
                       "type": "string",
                     },
+                    "deletedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                     "enabled": {
                       "type": "boolean",
                     },
@@ -543,27 +519,15 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id": {
                       "type": "number",
                     },
-                    "lists": {
-                      "additionalProperties": {
-                        "nullable": true,
-                        "properties": {
-                          "id": {
-                            "type": "number",
-                          },
-                          "name": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "id",
-                          "name",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "object",
-                    },
                     "name": {
                       "type": "string",
+                    },
+                    "open": {
+                      "type": "boolean",
+                    },
+                    "siloId": {
+                      "nullable": true,
+                      "type": "number",
                     },
                     "startTime": {
                       "nullable": true,
@@ -581,12 +545,14 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id",
                     "createdAt",
                     "updatedAt",
+                    "deletedAt",
                     "name",
                     "teamId",
+                    "siloId",
                     "enabled",
+                    "open",
                     "startTime",
                     "endTime",
-                    "lists",
                   ],
                   "type": "object",
                 },
@@ -603,6 +569,261 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Update a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
+    "/api/deals/{id}/rules": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:read\`",
+        "operationId": "getRules",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "createdAt": {
+                            "type": "string",
+                          },
+                          "dealId": {
+                            "type": "number",
+                          },
+                          "id": {
+                            "type": "number",
+                          },
+                          "resourceDefinition": {
+                            "nullable": true,
+                            "properties": {},
+                            "type": "object",
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "dealId",
+                          "resourceDefinition",
+                          "createdAt",
+                          "updatedAt",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:read",
+            ],
+          },
+        ],
+        "summary": "Get all rules for a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:write\`",
+        "operationId": "createRule",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "resourceDefinition": {
+                    "nullable": true,
+                    "properties": {},
+                    "type": "object",
+                  },
+                },
+                "required": [
+                  "resourceDefinition",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "dealId": {
+                      "type": "number",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "resourceDefinition": {
+                      "nullable": true,
+                      "properties": {},
+                      "type": "object",
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "dealId",
+                    "resourceDefinition",
+                    "createdAt",
+                    "updatedAt",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:write",
+            ],
+          },
+        ],
+        "summary": "Create a rule for a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
+    "/api/deals/{id}/rules/{rule_id}": {
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:write\`",
+        "operationId": "updateRule",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
+            "name": "rule_id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "resourceDefinition": {
+                    "nullable": true,
+                    "properties": {},
+                    "type": "object",
+                  },
+                },
+                "required": [
+                  "resourceDefinition",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "dealId": {
+                      "type": "number",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "resourceDefinition": {
+                      "nullable": true,
+                      "properties": {},
+                      "type": "object",
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "dealId",
+                    "resourceDefinition",
+                    "createdAt",
+                    "updatedAt",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:write",
+            ],
+          },
+        ],
+        "summary": "Update a rule for a deal",
         "tags": [
           "deals",
         ],

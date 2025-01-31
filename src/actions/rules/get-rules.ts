@@ -1,27 +1,27 @@
 "use server"
 
+import { Rule } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { Deal } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
+import { PostgrestResponseSuccess } from "@/types/postgrest"
 
-export const createDeal = async (
-  inputs: Pick<Deal, "name" | "team_id">,
-): Promise<Deal> => {
+export const getRules = async ({
+  dealId,
+}: {
+  dealId: number
+}): Promise<PostgrestResponseSuccess<Rule[]>> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
-    .from("deals")
-    .insert({
-      name: inputs.name,
-      team_id: inputs.team_id,
-    })
-    .select("*, teams!inner(id)")
-    .single()
+    .from("rules")
+    .select("*")
+    .eq("deal_id", dealId)
+    .is("deleted_at", null)
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 
-  return result.data
+  return result
 }

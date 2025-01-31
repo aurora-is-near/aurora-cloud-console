@@ -1,23 +1,21 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { Deal } from "@/types/types"
+import { Rule } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const createDeal = async (
-  inputs: Pick<Deal, "name" | "team_id">,
-): Promise<Deal> => {
+export const createRule = async (inputs: {
+  rule: Pick<Rule, "deal_id" | "resource_definition">
+  team_id: number
+}): Promise<Rule> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
-    .from("deals")
-    .insert({
-      name: inputs.name,
-      team_id: inputs.team_id,
-    })
-    .select("*, teams!inner(id)")
+    .from("rules")
+    .insert({ ...inputs.rule, ui_enabled: true })
+    .select()
     .single()
 
   assertValidSupabaseResult(result)

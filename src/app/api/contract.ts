@@ -29,12 +29,22 @@ export const DealSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
   updatedAt: z.string().nullable(),
+  deletedAt: z.string().nullable(),
   name: z.string(),
   teamId: z.number(),
+  siloId: z.number().nullable(),
   enabled: z.boolean(),
+  open: z.boolean(),
   startTime: z.string().nullable(),
   endTime: z.string().nullable(),
-  lists: z.record(z.string(), SimpleListSchema.nullable()),
+})
+
+export const RuleSchema = z.object({
+  id: z.number(),
+  dealId: z.number(),
+  resourceDefinition: z.object({}).nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 })
 
 const DealPrioritiesSchema = z.array(
@@ -202,13 +212,11 @@ export const contract = c.router({
       200: DealSchema,
     },
     body: z.object({
+      name: z.string().optional(),
+      open: z.boolean().optional(),
       enabled: z.boolean().optional(),
       startTime: z.string().nullable().optional(),
       endTime: z.string().nullable().optional(),
-      chainFilterListId: z.number().nullable().optional(),
-      contractFilterListId: z.number().nullable().optional(),
-      eoaFilterListId: z.number().nullable().optional(),
-      eoaBlacklistListId: z.number().nullable().optional(),
     }),
     metadata: {
       scopes: ["deals:write"],
@@ -250,6 +258,57 @@ export const contract = c.router({
     metadata: {
       scopes: ["deals:write"],
     },
+  },
+  getRules: {
+    summary: "Get all rules for a deal",
+    method: "GET",
+    path: "/api/deals/:id/rules",
+    responses: {
+      200: z.object({
+        items: z.array(RuleSchema),
+      }),
+    },
+    metadata: {
+      scopes: ["deals:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  createRule: {
+    summary: "Create a rule for a deal",
+    method: "POST",
+    path: "/api/deals/:id/rules",
+    responses: {
+      200: RuleSchema,
+    },
+    body: z.object({
+      resourceDefinition: z.object({}).nullable(),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  updateRule: {
+    summary: "Update a rule for a deal",
+    method: "PUT",
+    path: "/api/deals/:id/rules/:rule_id",
+    responses: {
+      200: RuleSchema,
+    },
+    body: z.object({
+      resourceDefinition: z.object({}).nullable(),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+      rule_id: z.number(),
+    }),
   },
   getSilos: {
     summary: "Get all silos",

@@ -7,17 +7,18 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const createDeal = async (
-  inputs: Pick<Deal, "name" | "team_id">,
+export const updateDeal = async (
+  id: number,
+  inputs: Partial<
+    Pick<Deal, "name" | "open" | "enabled" | "start_time" | "end_time">
+  >,
 ): Promise<Deal> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("deals")
-    .insert({
-      name: inputs.name,
-      team_id: inputs.team_id,
-    })
-    .select("*, teams!inner(id)")
+    .update(inputs)
+    .eq("id", id)
+    .select()
     .single()
 
   assertValidSupabaseResult(result)

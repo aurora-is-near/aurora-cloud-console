@@ -83,28 +83,97 @@ export type Database = {
         }
         Relationships: []
       }
+      datadog_web3_monitors: {
+        Row: {
+          created_at: string | null
+          datadog_id: number | null
+          engine_account: string | null
+          id: number
+          key: string
+          name: string
+          need_remove: boolean | null
+          need_update: boolean | null
+          removed: boolean | null
+          silo_chain_id: number | null
+          silo_name: string | null
+          silo_rpc_url: string | null
+          template_key: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          datadog_id?: number | null
+          engine_account?: string | null
+          id?: number
+          key: string
+          name: string
+          need_remove?: boolean | null
+          need_update?: boolean | null
+          removed?: boolean | null
+          silo_chain_id?: number | null
+          silo_name?: string | null
+          silo_rpc_url?: string | null
+          template_key: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          datadog_id?: number | null
+          engine_account?: string | null
+          id?: number
+          key?: string
+          name?: string
+          need_remove?: boolean | null
+          need_update?: boolean | null
+          removed?: boolean | null
+          silo_chain_id?: number | null
+          silo_name?: string | null
+          silo_rpc_url?: string | null
+          template_key?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       deals: {
         Row: {
           created_at: string
+          deleted_at: string | null
           demo_key: string | null
+          enabled: boolean
+          end_time: string | null
           id: number
           name: string
+          open: boolean
+          silo_id: number | null
+          start_time: string | null
           team_id: number
           updated_at: string
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           demo_key?: string | null
+          enabled?: boolean
+          end_time?: string | null
           id?: number
           name: string
+          open?: boolean
+          silo_id?: number | null
+          start_time?: string | null
           team_id: number
           updated_at?: string
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           demo_key?: string | null
+          enabled?: boolean
+          end_time?: string | null
           id?: number
           name?: string
+          open?: boolean
+          silo_id?: number | null
+          start_time?: string | null
           team_id?: number
           updated_at?: string
         }
@@ -114,6 +183,53 @@ export type Database = {
             columns: ["team_id"]
             isOneToOne: false
             referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      limits: {
+        Row: {
+          created_at: string
+          deal_id: number
+          deleted_at: string | null
+          duration: string
+          id: number
+          limit_scope: Database["public"]["Enums"]["limit_scope"]
+          limit_type: Database["public"]["Enums"]["limit_type"]
+          limit_value: number
+          ui_enabled: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deal_id: number
+          deleted_at?: string | null
+          duration: string
+          id?: number
+          limit_scope: Database["public"]["Enums"]["limit_scope"]
+          limit_type: Database["public"]["Enums"]["limit_type"]
+          limit_value?: number
+          ui_enabled?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deal_id?: number
+          deleted_at?: string | null
+          duration?: string
+          id?: number
+          limit_scope?: Database["public"]["Enums"]["limit_scope"]
+          limit_type?: Database["public"]["Enums"]["limit_type"]
+          limit_value?: number
+          ui_enabled?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "limits_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
             referencedColumns: ["id"]
           },
         ]
@@ -267,6 +383,247 @@ export type Database = {
           },
         ]
       }
+      replenishments: {
+        Row: {
+          account_id: string
+          amount: number
+          error_message: string | null
+          id: number
+          inserted_at: string
+          near_transaction_hash: string | null
+          status: string
+        }
+        Insert: {
+          account_id: string
+          amount: number
+          error_message?: string | null
+          id?: number
+          inserted_at?: string
+          near_transaction_hash?: string | null
+          status: string
+        }
+        Update: {
+          account_id?: string
+          amount?: number
+          error_message?: string | null
+          id?: number
+          inserted_at?: string
+          near_transaction_hash?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      rule_user_deal_data: {
+        Row: {
+          created_at: string
+          deal_id: number | null
+          deleted_at: string | null
+          id: number
+          prepaid_txs: number
+          rule_user_id: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deal_id?: number | null
+          deleted_at?: string | null
+          id?: number
+          prepaid_txs?: number
+          rule_user_id?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deal_id?: number | null
+          deleted_at?: string | null
+          id?: number
+          prepaid_txs?: number
+          rule_user_id?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_deal_data_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_deal_data_role_user_id_fkey"
+            columns: ["rule_user_id"]
+            isOneToOne: false
+            referencedRelation: "rule_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rule_users: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          eoas: string[] | null
+          id: number
+          ips: string[] | null
+          team_id: number | null
+          tokens: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          eoas?: string[] | null
+          id?: number
+          ips?: string[] | null
+          team_id?: number | null
+          tokens?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          eoas?: string[] | null
+          id?: number
+          ips?: string[] | null
+          team_id?: number | null
+          tokens?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rule_users_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rule_users_userlists: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: number
+          rule_user_id: number | null
+          updated_at: string
+          userlist_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          rule_user_id?: number | null
+          updated_at?: string
+          userlist_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          rule_user_id?: number | null
+          updated_at?: string
+          userlist_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "role_users_userlists_role_user_id_fkey"
+            columns: ["rule_user_id"]
+            isOneToOne: false
+            referencedRelation: "rule_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rule_users_userlists_userlist_id_fkey"
+            columns: ["userlist_id"]
+            isOneToOne: false
+            referencedRelation: "userlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rules: {
+        Row: {
+          created_at: string
+          deal_id: number
+          deleted_at: string | null
+          id: number
+          resource_definition: Json
+          ui_enabled: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deal_id: number
+          deleted_at?: string | null
+          id?: number
+          resource_definition: Json
+          ui_enabled?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deal_id?: number
+          deleted_at?: string | null
+          id?: number
+          resource_definition?: Json
+          ui_enabled?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rules_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rules_userlists: {
+        Row: {
+          blacklist: boolean
+          created_at: string
+          deleted_at: string | null
+          id: number
+          rule_id: number | null
+          updated_at: string
+          userlist_id: number | null
+        }
+        Insert: {
+          blacklist?: boolean
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          rule_id?: number | null
+          updated_at?: string
+          userlist_id?: number | null
+        }
+        Update: {
+          blacklist?: boolean
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          rule_id?: number | null
+          updated_at?: string
+          userlist_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rules_userlists_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "rules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rules_userlists_userlist_id_fkey"
+            columns: ["userlist_id"]
+            isOneToOne: false
+            referencedRelation: "userlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       silos: {
         Row: {
           base_token_name: string
@@ -287,7 +644,11 @@ export type Database = {
           network: string
           network_logo: string
           network_logo_dark: string
+          replenish_amount: number
+          replenish_threshold: number
           rpc_url: string
+          silo_to_silo_bridge_address: string | null
+          type: string
           updated_at: string
         }
         Insert: {
@@ -309,7 +670,11 @@ export type Database = {
           network?: string
           network_logo?: string
           network_logo_dark?: string
+          replenish_amount?: number
+          replenish_threshold?: number
           rpc_url?: string
+          silo_to_silo_bridge_address?: string | null
+          type?: string
           updated_at?: string
         }
         Update: {
@@ -331,7 +696,11 @@ export type Database = {
           network?: string
           network_logo?: string
           network_logo_dark?: string
+          replenish_amount?: number
+          replenish_threshold?: number
           rpc_url?: string
+          silo_to_silo_bridge_address?: string | null
+          type?: string
           updated_at?: string
         }
         Relationships: [
@@ -340,13 +709,6 @@ export type Database = {
             columns: ["blockscout_database_id"]
             isOneToOne: false
             referencedRelation: "blockscout_databases"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "silos_team_id_fkey"
-            columns: ["team_id"]
-            isOneToOne: false
-            referencedRelation: "teams"
             referencedColumns: ["id"]
           },
         ]
@@ -482,32 +844,70 @@ export type Database = {
           },
         ]
       }
+      userlists: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: number
+          team_id: number
+          ui_enabled: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          team_id: number
+          ui_enabled?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          team_id?: number
+          ui_enabled?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "userlists_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
-          company: string | null
           created_at: string
+          deleted_at: string | null
           email: string
           id: number
           marketing_consent: boolean | null
           name: string | null
+          updated_at: string | null
           user_id: string
         }
         Insert: {
-          company?: string | null
           created_at?: string
+          deleted_at?: string | null
           email: string
           id?: number
           marketing_consent?: boolean | null
           name?: string | null
+          updated_at?: string | null
           user_id: string
         }
         Update: {
-          company?: string | null
           created_at?: string
+          deleted_at?: string | null
           email?: string
           id?: number
           marketing_consent?: boolean | null
           name?: string | null
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: []
@@ -645,17 +1045,28 @@ export type Database = {
         | "lists:write"
         | "forwarder:read"
         | "forwarder:write"
+        | "payments:read"
+        | "payments:write"
         | "assets:write"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
+      filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
+      limit_scope: "USER" | "GLOBAL"
+      limit_type: "CYCLIC" | "RATELIMIT"
       order_type: "initial_setup" | "top_up"
-      payment_status: "paid" | "unpaid" | "no_payment_required"
-      token_type: "ERC20" | "ERC721" | "ERC1155"
-      user_type: "customer" | "admin"
-      widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
+      payment_status:
+        | "PAID"
+        | "UNPAID"
+        | "NO_PAYMENT_REQUIRED"
+        | "paid"
+        | "unpaid"
+        | "no_payment_required"
       team_onboarding_status:
         | "REQUEST_RECEIVED"
         | "DEPLOYMENT_IN_PROGRESS"
         | "DEPLOYMENT_DONE"
+      token_type: "ERC20" | "ERC721" | "ERC1155"
+      user_type: "customer" | "admin"
+      widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -681,14 +1092,14 @@ export type Tables<
     ? R
     : never
   : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-      PublicSchema["Views"])
-  ? (PublicSchema["Tables"] &
-      PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R
-    }
-    ? R
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
     : never
-  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -704,12 +1115,12 @@ export type TablesInsert<
     ? I
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I
-    }
-    ? I
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
     : never
-  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -725,12 +1136,12 @@ export type TablesUpdate<
     ? U
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
-    }
-    ? U
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
     : never
-  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -742,8 +1153,8 @@ export type Enums<
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-  ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-  : never
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
@@ -757,5 +1168,5 @@ export type CompositeTypes<
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-  ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-  : never
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
