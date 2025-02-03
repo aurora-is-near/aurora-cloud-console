@@ -1,0 +1,433 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model api_keys {
+  id           BigInt           @id @default(autoincrement())
+  created_at   DateTime         @default(now()) @db.Timestamptz(6)
+  key          String           @default(dbgenerated("md5((random())::text)"))
+  scopes       api_key_scopes[]
+  note         String?
+  last_used_at DateTime?        @db.Timestamp(6)
+  team_id      BigInt
+  teams        teams            @relation(fields: [team_id], references: [id], onDelete: Cascade, map: "public_api_keys_team_id_fkey")
+}
+
+model blockscout_databases {
+  id         BigInt   @id @default(autoincrement())
+  name       String
+  database   String
+  host       String
+  port       BigInt
+  user       String
+  password   String
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  silos      silos[]
+}
+
+model datadog_web3_monitors {
+  id             BigInt    @id @default(autoincrement())
+  key            String
+  template_key   String
+  name           String
+  datadog_id     BigInt?
+  silo_name      String?
+  engine_account String?
+  silo_chain_id  BigInt?
+  silo_rpc_url   String?
+  need_update    Boolean?  @default(false)
+  removed        Boolean?  @default(false)
+  need_remove    Boolean?  @default(false)
+  created_at     DateTime? @default(now()) @db.Timestamp(6)
+  updated_at     DateTime? @default(now()) @db.Timestamp(6)
+
+  @@index([created_at])
+  @@index([datadog_id])
+  @@index([engine_account])
+  @@index([key])
+  @@index([need_remove])
+  @@index([need_update])
+  @@index([removed])
+  @@index([silo_chain_id])
+  @@index([silo_name])
+  @@index([silo_rpc_url])
+  @@index([template_key])
+  @@index([updated_at])
+}
+
+model deals {
+  id                  BigInt                @id(map: "temp_deals_pkey") @default(autoincrement())
+  created_at          DateTime              @default(now()) @db.Timestamptz(6)
+  name                String
+  demo_key            String?
+  team_id             BigInt
+  updated_at          DateTime              @default(now()) @db.Timestamptz(6)
+  open                Boolean               @default(true)
+  deleted_at          DateTime?             @db.Timestamp(6)
+  enabled             Boolean               @default(false)
+  silo_id             BigInt?
+  start_time          DateTime?             @db.Timestamp(6)
+  end_time            DateTime?             @db.Timestamp(6)
+  teams               teams                 @relation(fields: [team_id], references: [id], onDelete: NoAction)
+  limits              limits[]
+  rule_user_deal_data rule_user_deal_data[]
+  rules               rules[]
+
+  @@index([deleted_at])
+  @@index([updated_at])
+}
+
+model limits {
+  id          BigInt      @id @default(autoincrement())
+  deal_id     BigInt
+  limit_scope limit_scope
+  limit_type  limit_type
+  limit_value BigInt      @default(0)
+  duration    String
+  created_at  DateTime    @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime    @default(now()) @db.Timestamp(6)
+  deleted_at  DateTime?   @db.Timestamp(6)
+  ui_enabled  Boolean     @default(false)
+  deals       deals       @relation(fields: [deal_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([deal_id, deleted_at])
+  @@index([updated_at])
+}
+
+model lists {
+  id         BigInt   @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  team_id    BigInt
+  name       String
+  teams      teams    @relation(fields: [team_id], references: [id], onDelete: Cascade)
+}
+
+model onboarding_form {
+  id                 BigInt   @id @default(autoincrement())
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+  networkType        String?
+  chainPermission    String?
+  baseToken          String?
+  gasMechanics       String?
+  chainName          String?
+  chainId            String?
+  comments           String?
+  team_id            BigInt?
+  integrations       String[]
+  customTokenDetails String?
+  teams              teams?   @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([team_id, networkType], map: "unique_team_network_type")
+}
+
+model oracles {
+  id         BigInt   @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  silo_id    BigInt
+  silos      silos    @relation(fields: [silo_id], references: [id], onDelete: Cascade, map: "public_oracles_silo_id_fkey")
+}
+
+model orders {
+  id                     BigInt         @id(map: "payments_pkey") @default(autoincrement())
+  created_at             DateTime       @default(now()) @db.Timestamptz(6)
+  session_id             String
+  team_id                BigInt
+  type                   order_type
+  payment_status         payment_status
+  number_of_transactions BigInt?
+  teams                  teams          @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "payments_team_id_fkey")
+}
+
+model replenishments {
+  id                    BigInt   @id @default(autoincrement())
+  account_id            String
+  amount                Int
+  near_transaction_hash String?
+  status                String
+  error_message         String?
+  inserted_at           DateTime @default(now()) @db.Timestamp(6)
+
+  @@index([account_id], map: "idx_replenishments_account_id")
+  @@index([inserted_at], map: "idx_replenishments_inserted_at")
+  @@index([status], map: "idx_replenishments_status")
+}
+
+model rule_user_deal_data {
+  id           BigInt      @id(map: "user_deal_data_pkey") @default(autoincrement())
+  created_at   DateTime    @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime    @default(now()) @db.Timestamp(6)
+  deal_id      BigInt?
+  rule_user_id BigInt?
+  prepaid_txs  BigInt      @default(0)
+  deleted_at   DateTime?   @db.Timestamp(6)
+  deals        deals?      @relation(fields: [deal_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_deal_data_deal_id_fkey")
+  rule_users   rule_users? @relation(fields: [rule_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_deal_data_role_user_id_fkey")
+}
+
+model rule_users {
+  id                   BigInt                 @id @default(autoincrement())
+  created_at           DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime?              @default(now()) @db.Timestamp(6)
+  tokens               String[]
+  eoas                 String[]
+  ips                  String[]
+  team_id              BigInt?
+  deleted_at           DateTime?              @db.Timestamp(6)
+  rule_user_deal_data  rule_user_deal_data[]
+  teams                teams?                 @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rule_users_userlists rule_users_userlists[]
+
+  @@index([updated_at])
+}
+
+model rule_users_userlists {
+  id           BigInt      @id(map: "users_userlists_pkey") @default(autoincrement())
+  created_at   DateTime    @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime    @default(now()) @db.Timestamp(6)
+  rule_user_id BigInt?
+  userlist_id  BigInt?
+  deleted_at   DateTime?   @db.Timestamp(6)
+  rule_users   rule_users? @relation(fields: [rule_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "role_users_userlists_role_user_id_fkey")
+  userlists    userlists?  @relation(fields: [userlist_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([userlist_id, deleted_at])
+}
+
+model rules {
+  id                  BigInt            @id @default(autoincrement())
+  created_at          DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime          @default(now()) @db.Timestamp(6)
+  deal_id             BigInt
+  resource_definition Json              @db.Json
+  deleted_at          DateTime?         @db.Timestamp(6)
+  ui_enabled          Boolean           @default(false)
+  deals               deals             @relation(fields: [deal_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rules_userlists     rules_userlists[]
+
+  @@index([deal_id, deleted_at])
+  @@index([updated_at])
+}
+
+model rules_userlists {
+  id          BigInt     @id @default(autoincrement())
+  created_at  DateTime   @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime   @default(now()) @db.Timestamp(6)
+  userlist_id BigInt?
+  rule_id     BigInt?
+  blacklist   Boolean    @default(false)
+  deleted_at  DateTime?  @db.Timestamp(6)
+  rules       rules?     @relation(fields: [rule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userlists   userlists? @relation(fields: [userlist_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([rule_id, userlist_id], map: "rules_userlists_rule_id_userlist_id_unique")
+  @@index([rule_id, deleted_at])
+}
+
+model silos {
+  id                          BigInt                @id @default(autoincrement())
+  created_at                  DateTime              @default(now()) @db.Timestamptz(6)
+  name                        String
+  chain_id                    String                @unique
+  rpc_url                     String                @default("")
+  genesis                     String
+  engine_account              String
+  engine_version              String
+  network                     String                @default("public")
+  updated_at                  DateTime              @default(now()) @db.Timestamptz(6)
+  grafana_network_key         String?
+  explorer_url                String?
+  blockscout_database_id      BigInt?
+  gas_collection_address      String?
+  gas_price                   Float?
+  base_token_name             String
+  base_token_symbol           String
+  type                        String                @default("contract")
+  replenish_threshold         Int                   @default(10)
+  replenish_amount            Int                   @default(10)
+  network_logo                String                @default("")
+  network_logo_dark           String                @default("")
+  favicon                     String                @default("")
+  silo_to_silo_bridge_address String?
+  oracles                     oracles[]
+  blockscout_databases        blockscout_databases? @relation(fields: [blockscout_database_id], references: [id])
+  silos_teams                 silos_teams[]
+  tokens                      tokens[]
+  widgets                     widgets?
+}
+
+model silos_teams {
+  silo_id BigInt
+  team_id BigInt
+  silos   silos  @relation(fields: [silo_id], references: [id], onDelete: Cascade)
+  teams   teams  @relation(fields: [team_id], references: [id], onDelete: Cascade)
+
+  @@id([silo_id, team_id])
+}
+
+model teams {
+  id                   BigInt                  @id @default(autoincrement())
+  created_at           DateTime                @default(now()) @db.Timestamptz(6)
+  team_key             String                  @unique(map: "teams_site_key_key")
+  name                 String
+  website              String?
+  email                String?
+  updated_at           DateTime                @default(now()) @db.Timestamptz(6)
+  onboarding_status    team_onboarding_status?
+  prepaid_transactions BigInt                  @default(1000)
+  api_keys             api_keys[]
+  deals                deals[]
+  lists                lists[]
+  onboarding_form      onboarding_form[]
+  orders               orders[]
+  rule_users           rule_users[]
+  silos_teams          silos_teams[]
+  userlists            userlists[]
+  users_teams          users_teams[]
+}
+
+model tokens {
+  id                       BigInt            @id @default(autoincrement())
+  created_at               DateTime          @default(now()) @db.Timestamptz(6)
+  symbol                   String
+  address                  String
+  silo_id                  BigInt
+  name                     String?
+  bridge_origin            String?           @default("ethereum")
+  decimals                 BigInt?
+  fast_bridge              Boolean           @default(false)
+  bridge_addresses         String[]
+  type                     token_type?
+  deployment_status        deployment_status @default(NOT_DEPLOYED)
+  bridge_deployment_status deployment_status @default(NOT_DEPLOYED)
+  icon_url                 String?
+  silos                    silos             @relation(fields: [silo_id], references: [id], onDelete: Cascade)
+}
+
+model userlists {
+  id                   BigInt                 @id @default(autoincrement())
+  created_at           DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime               @default(now()) @db.Timestamp(6)
+  deleted_at           DateTime?              @db.Timestamp(6)
+  team_id              BigInt
+  ui_enabled           Boolean                @default(false)
+  rule_users_userlists rule_users_userlists[]
+  rules_userlists      rules_userlists[]
+  teams                teams                  @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([updated_at])
+}
+
+model users {
+  id                BigInt        @id @default(autoincrement())
+  created_at        DateTime      @default(now()) @db.Timestamptz(6)
+  user_id           String        @db.Uuid
+  email             String
+  name              String?
+  marketing_consent Boolean?      @default(false)
+  updated_at        DateTime?     @default(now()) @db.Timestamp(6)
+  deleted_at        DateTime?     @db.Timestamp(6)
+  users_teams       users_teams[]
+}
+
+model users_teams {
+  user_id      BigInt
+  team_id      BigInt
+  confirmed_at DateTime? @db.Timestamptz(6)
+  teams        teams     @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  users        users     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, team_id])
+}
+
+model widgets {
+  id            BigInt                @id(map: "bridges_pkey") @default(autoincrement())
+  created_at    DateTime              @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime              @default(now()) @db.Timestamptz(6)
+  silo_id       BigInt                @unique(map: "bridges_silo_id_key")
+  tokens        BigInt[]              @default([])
+  to_networks   widget_network_type[]
+  from_networks widget_network_type[]
+  silos         silos                 @relation(fields: [silo_id], references: [id], onDelete: Cascade, map: "bridges_silo_id_fkey")
+}
+
+enum api_key_scopes {
+  deals_read        @map("deals:read")
+  deals_write       @map("deals:write")
+  silos_read        @map("silos:read")
+  users_read        @map("users:read")
+  transactions_read @map("transactions:read")
+  users_write       @map("users:write")
+  lists_read        @map("lists:read")
+  lists_write       @map("lists:write")
+  forwarder_read    @map("forwarder:read")
+  forwarder_write   @map("forwarder:write")
+  payments_read     @map("payments:read")
+  payments_write    @map("payments:write")
+  assets_write      @map("assets:write")
+}
+
+enum deployment_status {
+  PENDING
+  DEPLOYED
+  NOT_DEPLOYED
+}
+
+enum filter_type {
+  USER
+  CONTRACT
+  CHAIN
+  EOA
+  TOKEN
+  IP
+}
+
+enum limit_scope {
+  USER
+  GLOBAL
+}
+
+enum limit_type {
+  CYCLIC
+  RATELIMIT
+}
+
+enum order_type {
+  initial_setup
+  top_up
+}
+
+enum payment_status {
+  PAID
+  UNPAID
+  NO_PAYMENT_REQUIRED
+  paid
+  unpaid
+  no_payment_required
+}
+
+enum team_onboarding_status {
+  REQUEST_RECEIVED
+  DEPLOYMENT_IN_PROGRESS
+  DEPLOYMENT_DONE
+}
+
+enum token_type {
+  ERC20
+  ERC721
+  ERC1155
+}
+
+enum user_type {
+  customer
+  admin
+}
+
+enum widget_network_type {
+  AURORA
+  NEAR
+  ETHEREUM
+  CUSTOM
+}

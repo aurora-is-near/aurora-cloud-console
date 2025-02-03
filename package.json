@@ -10,10 +10,12 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
     "knip": "knip --production --exclude types",
+    "clean": "rimraf dist",
     "generate-supabase-types": "supabase gen types typescript --project-id xqharbhfobwuhpcdsapg --schema public > src/types/supabase.ts",
     "generate-tailwind-styles": "tailwindcss -i ./src/styles/globals.css -o ./tests/tailwind.css",
     "fix-tailwind-font-family": "sed -i '' 's/var(--font-circular)/CircularXXSub/g' tests/tailwind.css",
-    "test:regression": "npm-run-all2 generate-tailwind-styles fix-tailwind-font-family && PUPPETEER_DISABLE_HEADLESS_WARNING=true JEST_PUPPETEER_CONFIG=jest-puppeteer.config.js npx jest --config=jest.visual.config.js"
+    "test:regression": "npm-run-all2 generate-tailwind-styles fix-tailwind-font-family && PUPPETEER_DISABLE_HEADLESS_WARNING=true JEST_PUPPETEER_CONFIG=jest-puppeteer.config.js npx jest --config=jest.visual.config.js",
+    "prebuild": "yarn run clean && yarn prisma generate"
   },
   "engines": {
     "node": ">=20.8.1"
@@ -113,8 +115,10 @@
     "openapi3-ts": "^4.4.0",
     "postcss": "8.5.1",
     "prettier": "^3.4.2",
+    "prisma": "^6.3.0",
     "puppeteer": "^23.9.0",
     "resize-observer-polyfill": "^1.5.1",
+    "rimraf": "^3.0.2",
     "supabase": "^2.9.6",
     "tailwindcss": "^3.4.13",
     "ts-jest": "^29.2.5",
