@@ -14,36 +14,27 @@ const DeploymentStatus = z.string().openapi({
   enum: DEPLOYMENT_STATUSES,
 })
 
-export const ListSchema = z.object({
-  id: z.number(),
-  createdAt: z.string(),
-  name: z.string(),
-})
-
-export const SimpleListSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-})
-
 export const DealSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
   updatedAt: z.string().nullable(),
+  deletedAt: z.string().nullable(),
   name: z.string(),
   teamId: z.number(),
+  siloId: z.number().nullable(),
   enabled: z.boolean(),
+  open: z.boolean(),
   startTime: z.string().nullable(),
   endTime: z.string().nullable(),
-  lists: z.record(z.string(), SimpleListSchema.nullable()),
 })
 
-const DealPrioritiesSchema = z.array(
-  z.object({
-    dealId: z.number(),
-    name: z.string(),
-    priority: z.string(),
-  }),
-)
+export const RuleSchema = z.object({
+  id: z.number(),
+  dealId: z.number(),
+  resourceDefinition: z.object({}).nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+})
 
 export const TokenSchema = z.object({
   address: z.string(),
@@ -202,13 +193,11 @@ export const contract = c.router({
       200: DealSchema,
     },
     body: z.object({
+      name: z.string().optional(),
+      open: z.boolean().optional(),
       enabled: z.boolean().optional(),
       startTime: z.string().nullable().optional(),
       endTime: z.string().nullable().optional(),
-      chainFilterListId: z.number().nullable().optional(),
-      contractFilterListId: z.number().nullable().optional(),
-      eoaFilterListId: z.number().nullable().optional(),
-      eoaBlacklistListId: z.number().nullable().optional(),
     }),
     metadata: {
       scopes: ["deals:write"],
@@ -217,39 +206,56 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
-  getDealPriorities: {
-    summary: "Get deal execution priorities",
+  getRules: {
+    summary: "Get all rules for a deal",
     method: "GET",
-    path: "/api/deals/priorities",
+    path: "/api/deals/:id/rules",
     responses: {
       200: z.object({
-        items: DealPrioritiesSchema,
+        items: z.array(RuleSchema),
       }),
     },
     metadata: {
       scopes: ["deals:read"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
   },
-  updateDealPriorities: {
-    summary: "Update deal execution priorities",
-    method: "PUT",
-    path: "/api/deals/priorities",
+  createRule: {
+    summary: "Create a rule for a deal",
+    method: "POST",
+    path: "/api/deals/:id/rules",
     responses: {
-      200: z.object({
-        items: DealPrioritiesSchema,
-      }),
+      200: RuleSchema,
     },
     body: z.object({
-      priorities: z.array(
-        z.object({
-          dealId: z.number(),
-          priority: z.string(),
-        }),
-      ),
+      resourceDefinition: z.object({}).nullable(),
     }),
     metadata: {
       scopes: ["deals:write"],
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  updateRule: {
+    summary: "Update a rule for a deal",
+    method: "PUT",
+    path: "/api/deals/:id/rules/:rule_id",
+    responses: {
+      200: RuleSchema,
+    },
+    body: z.object({
+      resourceDefinition: z.object({}).nullable(),
+    }),
+    metadata: {
+      scopes: ["deals:write"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+      rule_id: z.number(),
+    }),
   },
   getSilos: {
     summary: "Get all silos",
@@ -436,150 +442,6 @@ export const contract = c.router({
     metadata: {
       scopes: ["assets:write"],
     },
-  },
-  getLists: {
-    summary: "Get all lists",
-    method: "GET",
-    path: "/api/lists",
-    responses: {
-      200: z.object({
-        items: z.array(ListSchema),
-      }),
-    },
-    metadata: {
-      scopes: ["lists:read"],
-    },
-  },
-  getList: {
-    summary: "Get a single list",
-    method: "GET",
-    path: "/api/lists/:id",
-    responses: {
-      200: ListSchema,
-    },
-    metadata: {
-      scopes: ["lists:read"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  createList: {
-    summary: "Create a list",
-    method: "POST",
-    path: "/api/lists",
-    responses: {
-      200: ListSchema,
-    },
-    body: z.object({
-      name: z.string(),
-    }),
-    metadata: {
-      scopes: ["lists:write"],
-    },
-  },
-  updateList: {
-    summary: "Update a list",
-    method: "PUT",
-    path: "/api/lists/:id",
-    responses: {
-      200: ListSchema,
-    },
-    body: z.object({
-      name: z.string(),
-    }),
-    metadata: {
-      scopes: ["lists:write"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  deleteList: {
-    summary: "Delete a list",
-    method: "DELETE",
-    path: "/api/lists/:id",
-    responses: {
-      204: null,
-    },
-    metadata: {
-      scopes: ["lists:write"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-    body: null,
-  },
-  getListItems: {
-    summary: "Get the items in a list",
-    method: "GET",
-    path: "/api/lists/:id/items",
-    responses: {
-      200: z.object({
-        total: z.number(),
-        items: z.array(z.string()),
-      }),
-    },
-    metadata: {
-      scopes: ["lists:read"],
-    },
-    query: z.object({
-      limit: z.number().optional(),
-      cursor: z.string().optional(),
-    }),
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  createListItems: {
-    summary: "Add items to a list",
-    method: "POST",
-    path: "/api/lists/:id/items",
-    responses: {
-      200: z.object({
-        count: z.number(),
-      }),
-    },
-    body: z.object({
-      items: z.array(z.string()),
-    }),
-    metadata: {
-      scopes: ["lists:write"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
-  getListItem: {
-    summary: "Get a single item from a list",
-    method: "GET",
-    path: "/api/lists/:id/items/:item",
-    responses: {
-      200: z.string(),
-    },
-    metadata: {
-      scopes: ["lists:read"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-      item: z.string(),
-    }),
-  },
-  deleteListItem: {
-    summary: "Remove an item from a list",
-    method: "DELETE",
-    path: "/api/lists/:id/items/:item",
-    responses: {
-      204: null,
-    },
-    metadata: {
-      scopes: ["lists:write"],
-    },
-    body: null,
-    pathParams: z.object({
-      id: z.number(),
-      item: z.string(),
-    }),
   },
   getSiloTransactions: {
     summary: "Get transaction chart data for a silo",

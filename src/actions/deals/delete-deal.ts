@@ -8,6 +8,5 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 export const deleteDeal = async (id: number) => {
   const supabase = createAdminSupabaseClient()
 
-  // TODO: Also delete from the Proxy API
   await supabase.from("deals").delete().eq("id", id)
 }

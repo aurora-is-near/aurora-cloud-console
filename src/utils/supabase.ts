@@ -17,12 +17,9 @@ export function assertNonNullSupabaseResult<T>(
   }
 }
 
-export function abortIfNoSupabaseResult<T>(
-  statusCode: number,
-  result?: PostgrestResponse<T>,
-): asserts result is PostgrestResponseSuccess<T> {
-  if (!result) {
-    abort(statusCode)
+export function abortIfNotFound<T>(value: unknown): asserts value is T {
+  if (!value || (Array.isArray(value) && !value.length)) {
+    abort(404)
   }
 }
 

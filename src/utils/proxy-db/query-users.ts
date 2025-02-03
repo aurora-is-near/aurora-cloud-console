@@ -45,7 +45,10 @@ export const queryWallets = async (chainId: string, params: Params) => {
   )
 }
 
-export const queryWalletCount = async (chainId: string, params: Params) => {
+export const queryWalletCount = async (
+  chainId: string,
+  params: Params = {},
+) => {
   const whereClause = getWhereClause(chainId, params)
 
   return query<{

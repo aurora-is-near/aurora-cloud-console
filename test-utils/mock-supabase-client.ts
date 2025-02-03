@@ -58,7 +58,16 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   onboarding_form: createTableClient(),
   blockscout_databases: createTableClient(),
   orders: createTableClient(),
+  limits: createTableClient(),
+  rules: createTableClient(),
+  rule_users: createTableClient(),
+  rule_user_deal_data: createTableClient(),
+  rule_users_userlists: createTableClient(),
+  userlists: createTableClient(),
+  rules_userlists: createTableClient(),
+  replenishments: createTableClient(),
   silos_teams: createTableClient(),
+  datadog_web3_monitors: createTableClient(),
 }
 
 export const mockSupabaseClient = {

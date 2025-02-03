@@ -69,9 +69,25 @@ export type Deal = Tables<"deals">
 
 export type Order = Tables<"orders">
 
+export type Rule = Tables<"rules">
+
+export type Userlist = Tables<"userlists">
+
+export type RuleUser = Tables<"rule_users">
+
+export type Filter = Tables<"filters">
+
+export type FilterEntry = Tables<"filter_entries">
+
 export type OnboardingForm = Tables<"onboarding_form">
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
+
+export type RuleResourceDefinition = {
+  chains: string
+  contracts: string[]
+  blacklist?: boolean
+}
 
 type ChartData = {
   label: string

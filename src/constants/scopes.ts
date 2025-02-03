@@ -12,6 +12,8 @@ const API_KEY_SCOPES_MAP: Record<PublicApiScope, boolean> = {
   "lists:write": true,
   "forwarder:read": true,
   "forwarder:write": true,
+  "payments:read": true,
+  "payments:write": true,
   "assets:write": true,
   "payments:read": true,
   "payments:write": true,
