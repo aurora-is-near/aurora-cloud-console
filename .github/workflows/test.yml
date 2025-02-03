@@ -5,6 +5,23 @@ on: workflow_call
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: NuuzigkJCtbpf6RU
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    env:
+      DATABASE_URL: postgresql://postgres:NuuzigkJCtbpf6RU@localhost:5432/app
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,3 +44,5 @@ jobs:
         run: yarn run knip
       - name: Test
         run: yarn run test
+      - name: Test database migration
+        run: npx prisma migrate deploy
