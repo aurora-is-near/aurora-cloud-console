@@ -112,7 +112,7 @@ const setCustomChainsParam = (url: URL, { silo }: { silo: Silo }) => {
     siloToSiloBridge: silo.silo_to_silo_bridge_address,
     rpcUrl: silo.rpc_url,
     auroraEvmAccount: silo.engine_account,
-    logo: silo.network_logo,
+    logo: silo.favicon,
   }
 
   if (silo.explorer_url) {
