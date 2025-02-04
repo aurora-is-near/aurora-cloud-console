@@ -1,14 +1,26 @@
 # Aurora Cloud Console
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project.
 
-## Getting Started
+## Local development
 
-Install dependencies using [yarn](https://classic.yarnpkg.com/):
+This section takes you through how to get the service up and running locally.
+
+### Prerequisites
+
+- Install [Node](https://nodejs.org/en/)
+- Install [yarn](https://yarnpkg.com/)
+- Install and launch [PostgreSQL](https://www.postgresql.org/)
+
+### Install
+
+Install dependencies:
 
 ```text
 yarn install
 ```
+
+### Configure
 
 Create a local environment variables file:
 
@@ -16,18 +28,32 @@ Create a local environment variables file:
 cp .env.local.template .env.local
 ```
 
-Fill in the values accordingly, then run the development server:
+Fill in the values accordingly. Assuming you have access you can
+[export environment variables from Vercel](https://vercel.com/docs/projects/environment-variables).
+
+### Setup the database
+
+Create a local PostgreSQL database by running the following script:
+
+```text
+yarn create-local-db
+```
+
+Apply migrations by running:
+
+```text
+yarn prisma migrate deploy
+```
+
+### Run
+
+Run the development server:
 
 ```text
 yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 ## Authentication
 

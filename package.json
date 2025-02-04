@@ -15,7 +15,8 @@
     "generate-tailwind-styles": "tailwindcss -i ./src/styles/globals.css -o ./tests/tailwind.css",
     "fix-tailwind-font-family": "sed -i '' 's/var(--font-circular)/CircularXXSub/g' tests/tailwind.css",
     "test:regression": "npm-run-all2 generate-tailwind-styles fix-tailwind-font-family && PUPPETEER_DISABLE_HEADLESS_WARNING=true JEST_PUPPETEER_CONFIG=jest-puppeteer.config.js npx jest --config=jest.visual.config.js",
-    "prebuild": "yarn run clean && yarn prisma generate"
+    "prebuild": "yarn run clean && yarn prisma generate",
+    "create-local-db": "./bin/create-local-db.sh"
   },
   "engines": {
     "node": ">=20.8.1"
