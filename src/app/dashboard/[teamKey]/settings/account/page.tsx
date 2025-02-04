@@ -1,4 +1,4 @@
-import differenceInHours from "date-fns/differenceInHours"
+import { differenceInHours } from "date-fns/differenceInHours"
 import { createServerComponentClient } from "@/supabase/create-server-component-client"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import UserInfoForm from "./UserInfoForm"
