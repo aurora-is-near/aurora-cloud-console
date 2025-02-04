@@ -93,6 +93,8 @@ describe("getWidgetUrl", () => {
             name: "Test Silo Explorer",
             url: "https://explorer.testnet.aurora.dev",
           },
+          logo: "https://example.com/favicon.png",
+          siloToSiloBridge: silo.silo_to_silo_bridge_address,
         },
       ],
     })
@@ -142,6 +144,8 @@ describe("getWidgetUrl", () => {
             name: "Test Silo Explorer",
             url: "https://explorer.testnet.aurora.dev",
           },
+          logo: "https://example.com/favicon.png",
+          siloToSiloBridge: silo.silo_to_silo_bridge_address,
         },
       ],
       customTokens: [
