@@ -101,7 +101,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-image-snapshot": "^6.4.0",
     "jest-openapi": "^0.14.2",
-    "jest-puppeteer": "^10.1.4",
+    "jest-puppeteer": "^11.0.0",
     "jest-react-hooks-shallow": "^1.5.1",
     "jest-transform-stub": "^2.0.0",
     "knip": "^5.39.2",
