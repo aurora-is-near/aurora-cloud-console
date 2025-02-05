@@ -175,7 +175,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
                 </SelectableBox>
               ))}
             </div>
-            {form.baseToken === "custom" ? (
+            {form.baseToken === "CUSTOM" ? (
               <Card className="p-6 mt-6">
                 <Typography variant="label" size={2}>
                   Custom base token

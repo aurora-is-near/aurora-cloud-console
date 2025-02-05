@@ -24,7 +24,6 @@ export const assignSiloToTeam = async (
     .select("id, teams(id)")
     .is("teams", null)
     .order("id", { ascending: true })
-    .limit(1)
     .single()
 
   assertNonNullSupabaseResult(unassignedSiloResult, "Unassigned silo not found")
@@ -32,7 +31,6 @@ export const assignSiloToTeam = async (
 
   // 2. Assign silo to a team
   const siloId = unassignedSiloResult.data.id
-
   await supabase
     .from("silos_teams")
     .insert([{ team_id: teamId, silo_id: siloId }])

@@ -176,6 +176,7 @@ export const useChainCreationForm = (
       }))
     }
 
+    if (!form.baseToken) return
     if (fieldErrors && Object.values(fieldErrors).find((v) => !!v)) {
       return
     }
@@ -208,19 +209,15 @@ export const useChainCreationForm = (
     }
 
     // for mainnet
-    const knownTokenSymbol = Object.keys(KNOWN_BASE_TOKENS).find(
-      (tokenSymbol): tokenSymbol is KnownBaseTokenSymbol =>
-        tokenSymbol === form.baseToken,
-    )
+    if (form.baseToken === "CUSTOM") {
+      await assignSiloToTeam(team.id, {
+        symbol: form.chainName.replace(/\s+/g, "").toUpperCase(),
+        name: form.chainName,
+      })
+    } else {
+      await assignSiloToTeam(team.id, { symbol: form.baseToken })
+    }
 
-    const baseToken = knownTokenSymbol
-      ? { symbol: knownTokenSymbol }
-      : {
-          symbol: form.chainName.replace(/\s+/g, "").toUpperCase(),
-          name: form.chainName,
-        }
-
-    await assignSiloToTeam(team.id, baseToken)
     window.location.href = `${window.location.origin}/dashboard/${team.team_key}`
   }, [form, fieldErrors, mixPanel, team.id, team.team_key])
 

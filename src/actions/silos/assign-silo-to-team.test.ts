@@ -37,7 +37,9 @@ describe("assignSiloToTeam", () => {
       ),
     )
 
-    const result = await assignSiloToTeam(teamId, { symbol: "AURORA" })
+    const result = await assignSiloToTeam(teamId, {
+      symbol: "AURORA",
+    })
 
     expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledWith({
       base_token_name: "Aurora",
@@ -48,6 +50,35 @@ describe("assignSiloToTeam", () => {
       expect.objectContaining({
         base_token_symbol: "AURORA",
         base_token_name: "Aurora",
+      }),
+    )
+  })
+
+  it("returns assigned silo with unknown base token", async () => {
+    mockSupabaseClient.from("silos").update.mockImplementationOnce(() =>
+      createInsertOrUpdate(
+        createMockSilo({
+          id: 1,
+          base_token_name: "Custom Token",
+          base_token_symbol: "CUSTOMTOKEN",
+        }),
+      ),
+    )
+
+    const result = await assignSiloToTeam(teamId, {
+      symbol: "CUSTOMTOKEN",
+      name: "Custom Token",
+    })
+
+    expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledWith({
+      base_token_name: "Custom Token",
+      base_token_symbol: "CUSTOMTOKEN",
+    })
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        base_token_symbol: "CUSTOMTOKEN",
+        base_token_name: "Custom Token",
       }),
     )
   })
