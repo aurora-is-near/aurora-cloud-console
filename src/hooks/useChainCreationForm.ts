@@ -36,12 +36,12 @@ export const integrationOptions: Integration[] = [
 ]
 
 export const tokenOptions: TokenOption[] = [
-  { id: "aurora", name: "Aurora", icon: AuroraToken },
-  { id: "eth", name: "ETH", icon: EtherToken },
-  { id: "usdt", name: "USDT", icon: USDTToken },
-  { id: "usdc", name: "USDC", icon: USDCToken },
-  { id: "btc", name: "BTC", icon: Bitcoin },
-  { id: "custom", name: "My Token", icon: CustomToken },
+  { id: "AURORA", name: "Aurora", icon: AuroraToken },
+  { id: "ETH", name: "ETH", icon: EtherToken },
+  { id: "USDT", name: "USDT", icon: USDTToken },
+  { id: "USDC", name: "USDC", icon: USDCToken },
+  { id: "BTC", name: "BTC", icon: Bitcoin },
+  { id: "CUSTOM", name: "My Token", icon: CustomToken },
 ]
 
 interface ChainCreationForm {

@@ -59,7 +59,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
   const handleBaseTokenSelect = (token: TokenOption) => {
     updateForm("baseToken", token.id)
 
-    if (token.id !== "custom") {
+    if (token.id !== "CUSTOM") {
       updateForm("customTokenDetails", "")
     }
   }
