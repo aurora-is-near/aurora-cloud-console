@@ -1,8 +1,8 @@
 import { assignSiloToTeam } from "@/actions/silos/assign-silo-to-team"
 
 import {
-  createSelect,
   createInsertOrUpdate,
+  createSelect,
   mockSupabaseClient,
 } from "../../../test-utils/mock-supabase-client"
 import { createMockSilo } from "../../../test-utils/factories/silo-factory"
@@ -38,6 +38,7 @@ describe("assignSiloToTeam", () => {
     )
 
     const result = await assignSiloToTeam(teamId, { symbol: "AURORA" })
+
     expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledWith({
       base_token_name: "Aurora",
       base_token_symbol: "AURORA",

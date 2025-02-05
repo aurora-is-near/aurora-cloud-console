@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { Team, KnownBaseTokenSymbol } from "@/types/types"
+import { KnownBaseTokenSymbol, Team } from "@/types/types"
 import { KNOWN_BASE_TOKENS } from "@/constants/tokens"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
 import {

@@ -15,7 +15,7 @@ export type Integration =
   | "dex"
 
 export interface TokenOption {
-  id: KnownBaseTokenSymbol | 'CUSTOM'
+  id: KnownBaseTokenSymbol | "CUSTOM"
   name: string
   icon: ComponentType<React.SVGProps<SVGSVGElement>>
 }
