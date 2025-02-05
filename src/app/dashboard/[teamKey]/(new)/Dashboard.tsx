@@ -1,7 +1,6 @@
 import Image from "next/image"
 import { ArrowRightIcon } from "@heroicons/react/24/solid"
 
-import { logger } from "@/logger"
 import Hero from "@/components/Hero/Hero"
 import { Silo, Team } from "@/types/types"
 import { FeatureCTA } from "@/components/FeatureCTA"
