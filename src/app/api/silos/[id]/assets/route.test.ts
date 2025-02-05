@@ -38,23 +38,62 @@ describe("Upload silo asset route", () => {
   })
 
   it("uploads a file and updates the silo", async () => {
+    const silo = createMockSilo()
+    const type = "network_logo"
     const formData = new FormData()
     const fileName = "test.png"
     const contentType = "image/png"
-    const publicUrl = `https://images.com/${fileName}`
+    const publicUrl = `https://app.auroracloud.dev/images/silo_assets/${silo.id}/${type}/${fileName}`
     const file = new File(["test content"], fileName, { type: contentType })
 
     formData.append("file", file)
     formData.append("type", "network_logo")
 
     mockStorage.upload.mockResolvedValue({ error: null })
-    mockStorage.getPublicUrl.mockReturnValue({
-      data: { publicUrl },
-    })
 
     mockSupabaseClient
       .from("silos")
       .update.mockImplementation(() => createInsertOrUpdate(createMockSilo()))
+
+    const res = await invokeApiHandler("POST", "/api/upload", POST, {
+      body: formData,
+      params: { id: "1" },
+    })
+
+    expect(res.status).toBe(200)
+    expect(res.body).toEqual({ url: publicUrl })
+    expect(mockStorage.upload).toHaveBeenCalledWith(
+      `/1/network_logo/test.png`,
+      file,
+      {
+        contentType,
+        upsert: true,
+      },
+    )
+
+    expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledWith({
+      network_logo: publicUrl,
+    })
+  })
+
+  it("uploads a file with a width param", async () => {
+    const silo = createMockSilo()
+    const type = "network_logo"
+    const formData = new FormData()
+    const fileName = "test.png"
+    const contentType = "image/png"
+    const publicUrl = `https://app.auroracloud.dev/images/silo_assets/${silo.id}/${type}/${fileName}?w=42`
+    const file = new File(["test content"], fileName, { type: contentType })
+
+    formData.append("file", file)
+    formData.append("type", type)
+    formData.append("width", "42")
+
+    mockStorage.upload.mockResolvedValue({ error: null })
+
+    mockSupabaseClient
+      .from("silos")
+      .update.mockImplementation(() => createInsertOrUpdate(silo))
 
     const res = await invokeApiHandler("POST", "/api/upload", POST, {
       body: formData,

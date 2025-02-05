@@ -7,6 +7,7 @@ import {
   AUTH_CALLBACK_ROUTE,
   EMAIL_PREVIEW_ROUTE,
   HOME_ROUTE,
+  IMAGES_ROUTE,
   LINK_SENT_ROUTE,
   LOGIN_ROUTE,
   LOGOUT_ROUTE,
@@ -56,6 +57,7 @@ export async function middleware(req: NextRequest) {
       UNAUTHORISED_ROUTE,
       LINK_SENT_ROUTE,
       SIGNUP_ROUTE,
+      IMAGES_ROUTE,
     ].includes(pathname)
   ) {
     return res

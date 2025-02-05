@@ -12,6 +12,9 @@ import { ImageUploadInput } from "@/components/ImageUploadInput"
 import LightModeIcon from "../../../public/static/icons/light-mode.svg"
 import DarkModeIcon from "../../../public/static/icons/dark-mode.svg"
 
+const NETWORK_IMAGE_SIZE = 300
+const FAVICON_IMAGE_SIZE = 120
+
 type Props = {
   silo: Silo
 }
@@ -22,11 +25,17 @@ type Inputs = {
   favicon: FileList
 }
 
-const uploadFile = async (silo: Silo, file: File, type: SiloAsset) => {
+const uploadFile = async (
+  silo: Silo,
+  file: File,
+  type: SiloAsset,
+  width: number,
+) => {
   const formData = new FormData()
 
   formData.append("file", file)
   formData.append("type", type)
+  formData.append("width", String(width))
 
   return fetch(`/api/silos/${silo.id}/assets`, {
     method: "POST",
@@ -41,12 +50,31 @@ export const BlockExplorerConfigurationTab = ({ silo }: Props) => {
     formState: { isSubmitting },
   } = useForm<Inputs>()
 
-  const handleUpdateTeam: SubmitHandler<Inputs> = async ({ network_logo }) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({
+    network_logo,
+    network_logo_dark,
+    favicon,
+  }) => {
     const [networkLogo] = network_logo
+    const [networkLogoDark] = network_logo_dark
+    const [faviconFile] = favicon
 
     try {
       await Promise.all([
-        networkLogo ? uploadFile(silo, networkLogo, "network_logo") : undefined,
+        networkLogo
+          ? uploadFile(silo, networkLogo, "network_logo", NETWORK_IMAGE_SIZE)
+          : undefined,
+        networkLogoDark
+          ? uploadFile(
+              silo,
+              networkLogoDark,
+              "network_logo_dark",
+              NETWORK_IMAGE_SIZE,
+            )
+          : undefined,
+        faviconFile
+          ? uploadFile(silo, faviconFile, "favicon", FAVICON_IMAGE_SIZE)
+          : undefined,
       ])
     } catch (error) {
       logger.error(error)
@@ -59,7 +87,7 @@ export const BlockExplorerConfigurationTab = ({ silo }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(handleUpdateTeam)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <ConfigurationCard
         title="Customize your Block Explorer"
         description="Add your brand assets to represent your blockchain. Once uploaded, you can crop the images as required."
