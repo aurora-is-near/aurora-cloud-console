@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react"
-import { Team } from "@/types/types"
+import { Team, KnownBaseTokenSymbol } from "@/types/types"
+import { KNOWN_BASE_TOKENS } from "@/constants/tokens"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
 import {
   BaseToken,
@@ -13,6 +14,7 @@ import { DEVNET_CHAIN_ID } from "@/constants/devnet"
 import { notReachable } from "@/utils/notReachable"
 import { getSiloByChainId } from "@/actions/silos/get-silo-by-chain-id"
 import { addTeamsToSilo } from "@/actions/silos/add-teams-to-silo"
+import { assignSiloToTeam } from "@/actions/silos/assign-silo-to-team"
 import { useAnalytics } from "@/hooks/useAnalytics"
 import {
   AuroraToken,
@@ -206,6 +208,19 @@ export const useChainCreationForm = (
     }
 
     // for mainnet
+    const knownTokenSymbol = Object.keys(KNOWN_BASE_TOKENS).find(
+      (tokenSymbol): tokenSymbol is KnownBaseTokenSymbol =>
+        tokenSymbol === form.baseToken,
+    )
+
+    const baseToken = knownTokenSymbol
+      ? { symbol: knownTokenSymbol }
+      : {
+          symbol: form.chainName.replace(/\s+/g, "").toUpperCase(),
+          name: form.chainName,
+        }
+
+    await assignSiloToTeam(team.id, baseToken)
     window.location.href = `${window.location.origin}/dashboard/${team.team_key}`
   }, [form, fieldErrors, mixPanel, team.id, team.team_key])
 

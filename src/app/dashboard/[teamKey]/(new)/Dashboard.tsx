@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { ArrowRightIcon } from "@heroicons/react/24/solid"
 
+import { logger } from "@/logger"
 import Hero from "@/components/Hero/Hero"
 import { Silo, Team } from "@/types/types"
 import { FeatureCTA } from "@/components/FeatureCTA"
@@ -12,7 +13,6 @@ import { Typography } from "@/uikit"
 import { Banner } from "./Banner"
 import { WhatsNext } from "./WhatsNext"
 import { HeroBadge } from "./HeroBadge"
-import { DeploymentProgress } from "./DeploymentProgress"
 
 type DashboardHomePageProps = {
   team: Team
@@ -74,12 +74,6 @@ export const DashboardHomePage = async ({
             </div>
           </section>
         )}
-
-        {!silo && (isOnboardingFormSubmitted || team.onboarding_status) ? (
-          <DeploymentProgress
-            status={team.onboarding_status ?? "REQUEST_RECEIVED"}
-          />
-        ) : null}
 
         <div className="flex flex-col">
           <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
