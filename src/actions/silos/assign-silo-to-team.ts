@@ -31,6 +31,7 @@ export const assignSiloToTeam = async (
 
   // 2. Assign silo to a team
   const siloId = unassignedSiloResult.data.id
+
   await supabase
     .from("silos_teams")
     .insert([{ team_id: teamId, silo_id: siloId }])

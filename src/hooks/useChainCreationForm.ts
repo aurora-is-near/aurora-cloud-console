@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react"
-import { KnownBaseTokenSymbol, Team } from "@/types/types"
-import { KNOWN_BASE_TOKENS } from "@/constants/tokens"
+import { Team } from "@/types/types"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
 import {
   BaseToken,
@@ -176,7 +175,10 @@ export const useChainCreationForm = (
       }))
     }
 
-    if (!form.baseToken) return
+    if (!form.baseToken) {
+      return
+    }
+
     if (fieldErrors && Object.values(fieldErrors).find((v) => !!v)) {
       return
     }
