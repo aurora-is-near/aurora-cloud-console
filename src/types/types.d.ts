@@ -1,5 +1,4 @@
 import { CHART_COLOURS } from "@/constants/charts"
-import { KNOWN_BASE_TOKENS } from "@/constants/tokens"
 import { Database } from "./supabase"
 
 export type UserInfo = {
@@ -95,5 +94,3 @@ type ChartData = {
     count: number
   }[]
 }
-
-export type KnownBaseTokenSymbol = keyof typeof KNOWN_BASE_TOKENS

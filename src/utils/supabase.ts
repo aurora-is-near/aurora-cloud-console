@@ -11,10 +11,9 @@ export function assertValidSupabaseResult<T>(
 
 export function assertNonNullSupabaseResult<T>(
   result: PostgrestResponse<T>,
-  message?: string,
 ): asserts result is PostgrestResponseSuccess<NonNullable<T>> {
   if (!result.data) {
-    throw new Error(message ?? "No data returned from Supabase query")
+    throw new Error("No data returned from Supabase query")
   }
 }
 
