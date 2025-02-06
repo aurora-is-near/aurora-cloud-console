@@ -24,7 +24,8 @@ export const assignSiloToTeam = async (
     .select("id, teams(id)")
     .is("teams", null)
     .order("id", { ascending: true })
-    .single()
+    .limit(1)
+    .maybeSingle()
 
   assertNonNullSupabaseResult(unassignedSiloResult, "Unassigned silo not found")
   assertValidSupabaseResult(unassignedSiloResult)
