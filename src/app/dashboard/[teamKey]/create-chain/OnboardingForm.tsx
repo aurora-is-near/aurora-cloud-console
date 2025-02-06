@@ -59,7 +59,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
   const handleBaseTokenSelect = (token: TokenOption) => {
     updateForm("baseToken", token.id)
 
-    if (token.id !== "custom") {
+    if (token.id !== "CUSTOM") {
       updateForm("customTokenDetails", "")
     }
   }
@@ -175,7 +175,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
                 </SelectableBox>
               ))}
             </div>
-            {form.baseToken === "custom" ? (
+            {form.baseToken === "CUSTOM" ? (
               <Card className="p-6 mt-6">
                 <Typography variant="label" size={2}>
                   Custom base token
