@@ -8,7 +8,6 @@ export const createSelect = <T>(data?: T) => ({
   order: jest.fn().mockReturnThis(),
   gte: jest.fn().mockReturnThis(),
   lte: jest.fn().mockReturnThis(),
-  limit: jest.fn().mockReturnThis(),
   single: jest.fn(() => ({
     data,
     error: null,

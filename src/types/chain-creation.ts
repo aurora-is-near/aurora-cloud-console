@@ -1,9 +1,8 @@
 import { ComponentType } from "react"
-import type { KnownBaseTokenSymbol } from "@/types/types"
 
 export type NetworkType = "devnet" | "mainnet"
 export type ChainPermission = "public" | "public_permissioned" | "private"
-export type BaseToken = KnownBaseTokenSymbol | "CUSTOM"
+export type BaseToken = string
 export type GasMechanics = "usage" | "free" | "custom"
 export type Integration =
   | "onramp"
@@ -15,7 +14,7 @@ export type Integration =
   | "dex"
 
 export interface TokenOption {
-  id: KnownBaseTokenSymbol | "CUSTOM"
+  id: string
   name: string
   icon: ComponentType<React.SVGProps<SVGSVGElement>>
 }

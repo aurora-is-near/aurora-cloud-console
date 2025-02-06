@@ -13,7 +13,6 @@ import { DEVNET_CHAIN_ID } from "@/constants/devnet"
 import { notReachable } from "@/utils/notReachable"
 import { getSiloByChainId } from "@/actions/silos/get-silo-by-chain-id"
 import { addTeamsToSilo } from "@/actions/silos/add-teams-to-silo"
-import { assignSiloToTeam } from "@/actions/silos/assign-silo-to-team"
 import { useAnalytics } from "@/hooks/useAnalytics"
 import {
   AuroraToken,
@@ -35,12 +34,12 @@ export const integrationOptions: Integration[] = [
 ]
 
 export const tokenOptions: TokenOption[] = [
-  { id: "AURORA", name: "Aurora", icon: AuroraToken },
-  { id: "ETH", name: "ETH", icon: EtherToken },
-  { id: "USDT", name: "USDT", icon: USDTToken },
-  { id: "USDC", name: "USDC", icon: USDCToken },
-  { id: "BTC", name: "BTC", icon: Bitcoin },
-  { id: "CUSTOM", name: "My Token", icon: CustomToken },
+  { id: "aurora", name: "Aurora", icon: AuroraToken },
+  { id: "eth", name: "ETH", icon: EtherToken },
+  { id: "usdt", name: "USDT", icon: USDTToken },
+  { id: "usdc", name: "USDC", icon: USDCToken },
+  { id: "btc", name: "BTC", icon: Bitcoin },
+  { id: "custom", name: "My Token", icon: CustomToken },
 ]
 
 interface ChainCreationForm {
@@ -175,10 +174,6 @@ export const useChainCreationForm = (
       }))
     }
 
-    if (!form.baseToken) {
-      return
-    }
-
     if (fieldErrors && Object.values(fieldErrors).find((v) => !!v)) {
       return
     }
@@ -211,15 +206,6 @@ export const useChainCreationForm = (
     }
 
     // for mainnet
-    if (form.baseToken === "CUSTOM") {
-      await assignSiloToTeam(team.id, {
-        symbol: form.chainName.replace(/\s+/g, "").toUpperCase(),
-        name: form.chainName,
-      })
-    } else {
-      await assignSiloToTeam(team.id, { symbol: form.baseToken })
-    }
-
     window.location.href = `${window.location.origin}/dashboard/${team.team_key}`
   }, [form, fieldErrors, mixPanel, team.id, team.team_key])
 

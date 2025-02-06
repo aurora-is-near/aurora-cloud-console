@@ -6,9 +6,6 @@ const config: KnipConfig = {
     "jest.*",
     "test-utils/**",
     "jest-puppeteer.config.js",
-    // --- not used uikit components in current design state
-    "src/uikit/CardProgress/CardProgress.tsx",
-    // ---
   ],
 }
 
