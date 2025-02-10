@@ -234,35 +234,6 @@ export type Database = {
           },
         ]
       }
-      lists: {
-        Row: {
-          created_at: string
-          id: number
-          name: string
-          team_id: number
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          name: string
-          team_id: number
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          name?: string
-          team_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "lists_team_id_fkey"
-            columns: ["team_id"]
-            isOneToOne: false
-            referencedRelation: "teams"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       onboarding_form: {
         Row: {
           baseToken: string | null

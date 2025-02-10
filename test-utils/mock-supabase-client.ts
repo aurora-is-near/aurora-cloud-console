@@ -47,7 +47,6 @@ const createTableClient = jest.fn(() => ({
 const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   teams: createTableClient(),
   deals: createTableClient(),
-  lists: createTableClient(),
   api_keys: createTableClient(),
   tokens: createTableClient(),
   silos: createTableClient(),
