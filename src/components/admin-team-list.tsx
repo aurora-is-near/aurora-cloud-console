@@ -54,11 +54,11 @@ const AdminTeamList = ({ teamSummaries, silosTeams }: AdminTeamListProps) => {
           return (
             <div
               key={team.id}
-              className="flex flex-0 border border-gray-200 p-2 px-4 bg-white hover:bg-slate-100 rounded-md text-slate-500 hover:text-slate-700"
+              className="flex flex-0 border border-gray-200 bg-white hover:bg-slate-100 rounded-md text-slate-500 hover:text-slate-700"
             >
               <Link
                 href={`/dashboard/${team.team_key}${siloPrefix}`}
-                className="flex w-full text-lg"
+                className="w-full text-lg overflow-hidden whitespace-nowrap text-ellipsis block p-2 px-4"
               >
                 {team.name}
               </Link>
