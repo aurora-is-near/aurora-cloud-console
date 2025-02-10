@@ -612,5 +612,8 @@ export const contract = c.router({
         ),
       }),
     },
+    metadata: {
+      scopes: ["forwarder:read"],
+    },
   },
 })
