@@ -8,9 +8,7 @@ type DeleteTeamTableButtonProps = {
   team: Team
 }
 
-export const DeleteTeamTableButton = async ({
-  team,
-}: DeleteTeamTableButtonProps) => {
+export const DeleteTeamTableButton = ({ team }: DeleteTeamTableButtonProps) => {
   const onDelete = async () => deleteTeam(team.id)
 
   return (
