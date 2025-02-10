@@ -8,10 +8,47 @@ import {
 
 export const getOnboardingReport = async () => {
   const supabase = createAdminSupabaseClient()
-  const result = await supabase.from("onboarding_form").select("*").csv()
+  const result = await supabase.from("onboarding_form").select(
+    `
+        *,
+        teams (
+            name,
+            users_teams (
+                user:users (email)
+            )
+        )
+    `,
+  )
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 
-  return result
+  const csvData = result.data.map(({ teams: team, ...restRow }) => {
+    if (!team) {
+      return restRow
+    }
+
+    const emails = team.users_teams
+      .map((userTeam) => userTeam.user?.email)
+      .filter(Boolean)
+
+    return {
+      ...restRow,
+      team_name: team.name,
+      team_user_emails: emails,
+    }
+  })
+
+  return [
+    Object.keys(csvData[0]).join(","),
+    ...csvData.map((row) => {
+      return Object.values(row).map((value) => {
+        if (Array.isArray(value)) {
+          return `"[${value.join(", ")}]"`
+        }
+
+        return value
+      })
+    }),
+  ].join("\n")
 }

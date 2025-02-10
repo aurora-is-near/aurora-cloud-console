@@ -11,8 +11,8 @@ export const OnboardingReportDownloadButton = () => {
   const [reportUrl, setReportUrl] = useState<string | null>(null)
 
   const downloadReport = async () => {
-    const { data } = await getOnboardingReport()
-    const blob = new Blob([data], { type: "text/csv" })
+    const csvData = await getOnboardingReport()
+    const blob = new Blob([csvData], { type: "text/csv" })
     const url = URL.createObjectURL(blob)
 
     setReportUrl(url)
