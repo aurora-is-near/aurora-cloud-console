@@ -165,6 +165,12 @@ export const SiloForm = ({
       options: blockscoutDatabases.map(getBlockscoutDatabaseOption),
     },
     {
+      name: "silo_to_silo_bridge_address",
+      label: "Silo to silo bridge address",
+      defaultValue: silo?.silo_to_silo_bridge_address ?? "",
+      autoComplete: "silo_to_silo_bridge_address",
+    },
+    {
       name: "grafana_network_key",
       label: "Grafanana network key",
       defaultValue: silo?.grafana_network_key ?? "",

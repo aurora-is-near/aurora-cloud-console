@@ -16,6 +16,8 @@ type CustomChain = {
     name: string
     url: string
   }
+  siloToSiloBridge: string | null
+  logo: string | null
 }
 
 const getNetworkEvms = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
@@ -107,8 +109,10 @@ const setCustomChainsParam = (url: URL, { silo }: { silo: Silo }) => {
       name: silo.base_token_name,
       symbol: silo.base_token_symbol,
     },
+    siloToSiloBridge: silo.silo_to_silo_bridge_address,
     rpcUrl: silo.rpc_url,
     auroraEvmAccount: silo.engine_account,
+    logo: silo.favicon,
   }
 
   if (silo.explorer_url) {

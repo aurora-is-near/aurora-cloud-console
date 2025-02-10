@@ -1,9 +1,7 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { Team } from "@/types/types"
-
-type TeamSummary = Pick<Team, "id" | "name" | "team_key">
+import { TeamSummary } from "@/types/types"
 
 export const getTeamSummaries = async (): Promise<TeamSummary[]> => {
   const supabase = createAdminSupabaseClient()
