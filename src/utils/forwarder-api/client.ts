@@ -6,7 +6,6 @@ import {
 
 const FORWARDER_API_BASE_URL = "https://forwarder.mainnet.aurora.dev"
 const FORWARDER_CONTRACT_ID = "fees.deposit.aurora"
-const FORWARDER_TARGET_NETWORK = "aurora"
 
 const request = async <T>(
   endpoint: string,
@@ -61,24 +60,36 @@ const request = async <T>(
  * @see https://github.com/aurora-is-near/near-forwarder-indexer
  */
 export const forwarderApiClient = {
-  getContract: async ({ targetAddress }: { targetAddress: string }) =>
+  getContract: async ({
+    targetAddress,
+    targetNetwork,
+  }: {
+    targetAddress: string
+    targetNetwork: string
+  }) =>
     request<ForwarderApiGetContractResponse>(
       `/api/v1/forwarder_contract_params`,
       {
         params: {
           fees_contract_id: FORWARDER_CONTRACT_ID,
           target_address: targetAddress,
-          target_network: FORWARDER_TARGET_NETWORK,
+          target_network: targetNetwork,
         },
       },
     ),
-  createContract: async ({ targetAddress }: { targetAddress: string }) =>
+  createContract: async ({
+    targetAddress,
+    targetNetwork,
+  }: {
+    targetAddress: string
+    targetNetwork: string
+  }) =>
     request<ForwarderApiCreateContractResponse>("/api/v1/create_contract", {
       method: "POST",
       data: {
         fees_contract_id: FORWARDER_CONTRACT_ID,
         target_address: targetAddress,
-        target_network: FORWARDER_TARGET_NETWORK,
+        target_network: targetNetwork,
       },
     }),
 }

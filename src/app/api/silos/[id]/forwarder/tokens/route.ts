@@ -1,0 +1,117 @@
+import { Contract, JsonRpcProvider } from "ethers"
+import { createApiEndpoint } from "@/utils/api"
+import { abort } from "@/utils/abort"
+import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
+import { logger } from "@/logger"
+
+const TOKEN_SYMBOLS = ["NEAR", "wNEAR", "USDt", "USDC", "AURORA"] as const
+
+type TokenSymbol = (typeof TOKEN_SYMBOLS)[number]
+
+type Token = {
+  address: string
+  decimals: number
+  symbol: TokenSymbol
+}
+
+const ABI = ["function symbol() view returns (string)"]
+
+// These are the tokens potentially supported by the forwarder. The address is
+// the token's NEAR contract address.
+const AVAILABLE_TOKENS: Token[] = [
+  {
+    address: "near",
+    decimals: 24,
+    symbol: "NEAR",
+  },
+  {
+    address: "wrap.near",
+    decimals: 24,
+    symbol: "wNEAR",
+  },
+  {
+    address: "usdt.tether-token.near",
+    decimals: 6,
+    symbol: "USDt",
+  },
+  {
+    address: "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+    decimals: 6,
+    symbol: "USDC",
+  },
+  {
+    address: "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
+    decimals: 18,
+    symbol: "AURORA",
+  },
+]
+
+// The matching Aurora token contract addresses are listed below. We deploy
+// token contracts all of our silos with the same address, so to confirm that
+// a particular token is supported on a given silo we just need to check if
+// the token contract has been deployed.
+const AURORA_TOKEN_ADDRESSES: Record<TokenSymbol, string> = {
+  NEAR: "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d",
+  wNEAR: "0x6BB0c4d909a84d118B5e6c4b17117e79E621ae94",
+  USDt: "0x80Da25Da4D783E57d2FCdA0436873A193a4BEccF",
+  USDC: "0x368EBb46ACa6b8D0787C96B2b20bD3CC3F2c45F7",
+  AURORA: "0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79",
+}
+
+/**
+ * Check if the token contract address corresponds to the expected symbol.
+ */
+const checkToken = async (
+  provider: JsonRpcProvider,
+  symbol: TokenSymbol,
+): Promise<TokenSymbol | null> => {
+  const tokenContractAddress = AURORA_TOKEN_ADDRESSES[symbol]
+  const contract = new Contract(tokenContractAddress, ABI, provider)
+  let actualSymbol
+
+  try {
+    actualSymbol = await contract.symbol()
+  } catch (error) {
+    return null
+  }
+
+  if (actualSymbol !== symbol) {
+    logger.error(
+      `Expected symbol ${symbol} for token contract ${tokenContractAddress}, got ${actualSymbol}`,
+    )
+
+    return null
+  }
+
+  return symbol
+}
+
+export const GET = createApiEndpoint(
+  "getForwarderTokens",
+  async (_req, ctx) => {
+    const silo = await getTeamSilo(ctx.team.id, Number(ctx.params.id))
+
+    if (!silo) {
+      abort(404)
+    }
+
+    const provider = new JsonRpcProvider(silo.rpc_url)
+    const supportedTokens = (
+      await Promise.all(
+        TOKEN_SYMBOLS.map((symbol) => checkToken(provider, symbol)),
+      )
+    ).filter((token) => token !== null)
+
+    return {
+      items: AVAILABLE_TOKENS.filter((token) =>
+        supportedTokens.includes(token.symbol),
+      ),
+    }
+  },
+  {
+    cache: {
+      maxAge: "1h",
+      staleWhileRevalidate: "1y",
+    },
+  },
+)

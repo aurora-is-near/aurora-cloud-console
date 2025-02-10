@@ -682,112 +682,6 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
-    "/api/forwarder": {
-      "post": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`forwarder:write\`",
-        "operationId": "createForwarderAddress",
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "address": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "address",
-                ],
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "forwarderAddress": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "forwarderAddress",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "forwarder:write",
-            ],
-          },
-        ],
-        "summary": "Create a forwarder address for given target address",
-        "tags": [
-          "forwarder",
-        ],
-      },
-    },
-    "/api/forwarder/{address}": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`forwarder:read\`",
-        "operationId": "getForwarderAddress",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "address",
-            "required": true,
-            "schema": {
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "forwarderAddress": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "forwarderAddress",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "forwarder:read",
-            ],
-          },
-        ],
-        "summary": "Get the forwarder address for given target address",
-        "tags": [
-          "forwarder",
-        ],
-      },
-    },
     "/api/silos": {
       "get": {
         "deprecated": undefined,
@@ -1148,6 +1042,186 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Get the failure rate chart for a single silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/forwarder/contract": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "createForwarderAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "targetAddress": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "targetAddress",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "address": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "address",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Create a forwarder contract address for given target address",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/forwarder/contract/{targetAddress}": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:read\`",
+        "operationId": "getForwarderAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "path",
+            "name": "targetAddress",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "address": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "address",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:read",
+            ],
+          },
+        ],
+        "summary": "Get the forwarder contract address for given target address",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/forwarder/tokens": {
+      "get": {
+        "deprecated": undefined,
+        "description": undefined,
+        "operationId": "getForwarderTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "symbol": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "symbol",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [],
+          },
+        ],
+        "summary": "Get the tokens supported by the forwarder for your silo",
         "tags": [
           "silos",
         ],
