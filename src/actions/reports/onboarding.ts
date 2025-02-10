@@ -6,6 +6,14 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
+const getCsvSafeValue = (value?: string | number | null) => {
+  if (typeof value === "string") {
+    return value.replace(/"/g, '""')
+  }
+
+  return value
+}
+
 export const getOnboardingReport = async () => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase.from("onboarding_form").select(
@@ -44,10 +52,10 @@ export const getOnboardingReport = async () => {
     ...csvData.map((row) => {
       return Object.values(row).map((value) => {
         if (Array.isArray(value)) {
-          return `"[${value.join(", ")}]"`
+          return `"[${value.map(getCsvSafeValue).join(", ")}]"`
         }
 
-        return value
+        return `"${getCsvSafeValue(value)}"`
       })
     }),
   ].join("\n")
