@@ -277,51 +277,93 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
           >
             <div className="grid grid-cols-1 space-y-4">
               <Card className="p-6">
-                <label
-                  htmlFor="chainName"
-                  className="block font-medium text-md"
-                >
-                  Your chain name*
-                </label>
-                <p className="text-sm text-slate-500">
-                  Choose the name for your chain on the Aurora Cloud platform.
-                </p>
-                <input
-                  type="text"
-                  id="chainName"
-                  value={form.chainName}
-                  onChange={(e) => {
-                    clearErrors()
-                    updateForm("chainName", e.target.value)
-                  }}
-                  className={clsx(
-                    "w-full mt-2 p-2 border rounded",
-                    fieldErrors?.chainName
-                      ? "border-rose-300 bg-rose-50"
-                      : "border-slate-300",
-                  )}
-                />
-                {!!fieldErrors?.chainName && (
-                  <p className="mt-2 text-sm text-rose-600">
-                    {fieldErrors.chainName}
-                  </p>
-                )}
-              </Card>
-              <Card className="p-6">
-                <label htmlFor="comments" className="block font-medium text-md">
-                  Tell us more about your needs
-                </label>
-                <p className="text-sm text-slate-500">
-                  Provide any relevant information related to your request that
-                  will help us better support us.
-                </p>
-                <textarea
-                  id="comments"
-                  value={form.comments}
-                  onChange={(e) => updateForm("comments", e.target.value)}
-                  className="w-full mt-2 p-2 border border-slate-300 rounded"
-                  rows={4}
-                />
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="chainName"
+                      className="block font-medium text-md"
+                    >
+                      Your chain name*
+                    </label>
+                    <p className="text-sm text-slate-500">
+                      Choose the name for your chain on the Aurora Cloud
+                      platform.
+                    </p>
+                    <input
+                      type="text"
+                      id="chainName"
+                      value={form.chainName}
+                      onChange={(e) => {
+                        clearErrors()
+                        updateForm("chainName", e.target.value)
+                      }}
+                      className={clsx(
+                        "w-full mt-2 p-2 border rounded",
+                        fieldErrors?.chainName
+                          ? "border-rose-300 bg-rose-50"
+                          : "border-slate-300",
+                      )}
+                    />
+                    {!!fieldErrors?.chainName && (
+                      <p className="mt-2 text-sm text-rose-600">
+                        {fieldErrors.chainName}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="telegramHandle"
+                      className="block font-medium text-md"
+                    >
+                      Your Telegram @handle
+                    </label>
+                    <p className="text-sm text-slate-500">
+                      Our team will create a group chat to share your chain
+                      updates and answer your questions.
+                    </p>
+                    <input
+                      type="text"
+                      id="telegramHandle"
+                      value={form.telegramHandle}
+                      onChange={(e) => {
+                        clearErrors()
+                        updateForm("telegramHandle", e.target.value)
+                      }}
+                      className={clsx(
+                        "w-full mt-2 p-2 border rounded",
+                        fieldErrors?.telegramHandle
+                          ? "border-rose-300 bg-rose-50"
+                          : "border-slate-300",
+                      )}
+                    />
+                    {!!fieldErrors?.telegramHandle && (
+                      <p className="mt-2 text-sm text-rose-600">
+                        {fieldErrors.telegramHandle}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="comments"
+                      className="block font-medium text-md"
+                    >
+                      Tell us more about your needs
+                    </label>
+                    <p className="text-sm text-slate-500">
+                      Provide any relevant information related to your request
+                      that will help us better support us.
+                    </p>
+                    <textarea
+                      id="comments"
+                      value={form.comments}
+                      onChange={(e) => updateForm("comments", e.target.value)}
+                      className="w-full mt-2 p-2 border border-slate-300 rounded"
+                      rows={4}
+                    />
+                  </div>
+                </div>
               </Card>
             </div>
           </Step>

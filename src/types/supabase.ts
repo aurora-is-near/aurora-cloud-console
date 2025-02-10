@@ -9,6 +9,39 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      _prisma_migrations: {
+        Row: {
+          applied_steps_count: number
+          checksum: string
+          finished_at: string | null
+          id: string
+          logs: string | null
+          migration_name: string
+          rolled_back_at: string | null
+          started_at: string
+        }
+        Insert: {
+          applied_steps_count?: number
+          checksum: string
+          finished_at?: string | null
+          id: string
+          logs?: string | null
+          migration_name: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+        Update: {
+          applied_steps_count?: number
+          checksum?: string
+          finished_at?: string | null
+          id?: string
+          logs?: string | null
+          migration_name?: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+        Relationships: []
+      }
       api_keys: {
         Row: {
           created_at: string
@@ -248,6 +281,7 @@ export type Database = {
           integrations: string[] | null
           networkType: string | null
           team_id: number | null
+          telegramHandle: string | null
         }
         Insert: {
           baseToken?: string | null
@@ -262,6 +296,7 @@ export type Database = {
           integrations?: string[] | null
           networkType?: string | null
           team_id?: number | null
+          telegramHandle?: string | null
         }
         Update: {
           baseToken?: string | null
@@ -276,6 +311,7 @@ export type Database = {
           integrations?: string[] | null
           networkType?: string | null
           team_id?: number | null
+          telegramHandle?: string | null
         }
         Relationships: [
           {
