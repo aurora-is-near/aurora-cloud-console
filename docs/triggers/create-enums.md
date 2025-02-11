@@ -86,4 +86,16 @@ SELECT add_values_to_enum(
     'top_up',
   ]
 );
+
+SELECT add_values_to_enum(
+  'base_token_symbol',
+  ARRAY[
+    'AURORA',
+    'BTC',
+    'ETH',
+    'USDC',
+    'USDT',
+    'CUSTOM'
+  ]
+);
 ```

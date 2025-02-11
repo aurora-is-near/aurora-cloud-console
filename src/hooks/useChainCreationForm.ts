@@ -1,8 +1,7 @@
 import { useCallback, useState } from "react"
-import { Team } from "@/types/types"
+import { BaseTokenSymbol, Team } from "@/types/types"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
 import {
-  BaseToken,
   ChainPermission,
   GasMechanics,
   Integration,
@@ -45,7 +44,7 @@ export const tokenOptions: TokenOption[] = [
 interface ChainCreationForm {
   networkType: NetworkType | null
   chainPermission: ChainPermission | null
-  baseToken: BaseToken | null
+  baseToken: BaseTokenSymbol | null
   gasMechanics: GasMechanics | null
   integrations: Integration[]
   chainName: string

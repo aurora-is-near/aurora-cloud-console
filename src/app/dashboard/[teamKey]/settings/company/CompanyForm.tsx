@@ -9,7 +9,7 @@ import Card from "@/components/Card"
 import { Team } from "@/types/types"
 import { Button } from "@/components/Button"
 import { HorizontalInput } from "@/components/HorizontalInput"
-import { updateTeamForm } from "@/actions/teams/update-team"
+import { updateTeam } from "@/actions/teams/update-team"
 import { logger } from "@/logger"
 import { DashboardPage } from "@/components/DashboardPage"
 
@@ -40,7 +40,7 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
     onboarding_status = null,
   }) => {
     try {
-      await updateTeamForm(team.id, { name, email, website, onboarding_status })
+      await updateTeam(team.id, { name, email, website, onboarding_status })
       toast.success("Company information updated.")
       toggleForm()
       router.refresh()
