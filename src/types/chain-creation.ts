@@ -2,7 +2,7 @@ import { ComponentType } from "react"
 
 export type NetworkType = "devnet" | "mainnet"
 export type ChainPermission = "public" | "public_permissioned" | "private"
-export type BaseToken = string
+export type BaseToken = "AURORA" | "BTC" | "ETH" | "USDC" | "USDT" | "CUSTOM"
 export type GasMechanics = "usage" | "free" | "custom"
 export type Integration =
   | "onramp"
@@ -14,7 +14,7 @@ export type Integration =
   | "dex"
 
 export interface TokenOption {
-  id: string
+  symbol: BaseToken
   name: string
   icon: ComponentType<React.SVGProps<SVGSVGElement>>
 }

@@ -57,9 +57,9 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
   }
 
   const handleBaseTokenSelect = (token: TokenOption) => {
-    updateForm("baseToken", token.id)
+    updateForm("baseToken", token.symbol)
 
-    if (token.id !== "custom") {
+    if (token.symbol !== "CUSTOM") {
       updateForm("customTokenDetails", "")
     }
   }
@@ -161,8 +161,8 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
             <div className="grid sm:grid-cols-3 md:grid-cols-6 gap-4">
               {tokenOptions.map((token) => (
                 <SelectableBox
-                  key={token.id}
-                  selected={form.baseToken === token.id}
+                  key={token.symbol}
+                  selected={form.baseToken === token.symbol}
                   onClick={() => handleBaseTokenSelect(token)}
                   className="p-2 pt-3"
                 >
@@ -175,7 +175,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
                 </SelectableBox>
               ))}
             </div>
-            {form.baseToken === "custom" ? (
+            {form.baseToken === "CUSTOM" ? (
               <Card className="p-6 mt-6">
                 <Typography variant="label" size={2}>
                   Custom base token
