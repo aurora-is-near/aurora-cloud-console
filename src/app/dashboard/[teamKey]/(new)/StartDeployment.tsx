@@ -1,6 +1,6 @@
 import { DeploymentProgress } from "@/app/dashboard/[teamKey]/(new)/DeploymentProgress"
 import { featureFlags } from "@/feature-flags/server"
-import { OnboardingForm, OnboardingStatus } from "@/types/types"
+import { OnboardingStatus } from "@/types/types"
 import { StartDeploymentButton } from "@/app/dashboard/[teamKey]/(new)/StartDeploymentButton"
 
 type StartDeploymentProps = {
