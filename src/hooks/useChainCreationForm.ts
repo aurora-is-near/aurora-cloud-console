@@ -35,12 +35,12 @@ export const integrationOptions: Integration[] = [
 ]
 
 export const tokenOptions: TokenOption[] = [
-  { id: "aurora", name: "Aurora", icon: AuroraToken },
-  { id: "eth", name: "ETH", icon: EtherToken },
-  { id: "usdt", name: "USDT", icon: USDTToken },
-  { id: "usdc", name: "USDC", icon: USDCToken },
-  { id: "btc", name: "BTC", icon: Bitcoin },
-  { id: "custom", name: "My Token", icon: CustomToken },
+  { symbol: "AURORA", name: "Aurora", icon: AuroraToken },
+  { symbol: "ETH", name: "ETH", icon: EtherToken },
+  { symbol: "USDT", name: "USDT", icon: USDTToken },
+  { symbol: "USDC", name: "USDC", icon: USDCToken },
+  { symbol: "BTC", name: "BTC", icon: Bitcoin },
+  { symbol: "CUSTOM", name: "My Token", icon: CustomToken },
 ]
 
 export interface ChainCreationForm {
@@ -190,6 +190,7 @@ export const useChainCreationForm = (
     await saveOnboardingForm({
       ...form,
       team_id: team.id,
+      baseToken: form.baseToken ?? "AURORA",
     })
 
     if (form.telegramHandle) {

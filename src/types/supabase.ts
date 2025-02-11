@@ -269,7 +269,7 @@ export type Database = {
       }
       onboarding_form: {
         Row: {
-          baseToken: string | null
+          baseToken: Database["public"]["Enums"]["base_token_symbol"]
           chainId: string | null
           chainName: string | null
           chainPermission: string | null
@@ -284,7 +284,7 @@ export type Database = {
           telegramHandle: string | null
         }
         Insert: {
-          baseToken?: string | null
+          baseToken?: Database["public"]["Enums"]["base_token_symbol"]
           chainId?: string | null
           chainName?: string | null
           chainPermission?: string | null
@@ -299,7 +299,7 @@ export type Database = {
           telegramHandle?: string | null
         }
         Update: {
-          baseToken?: string | null
+          baseToken?: Database["public"]["Enums"]["base_token_symbol"]
           chainId?: string | null
           chainName?: string | null
           chainPermission?: string | null
@@ -1055,6 +1055,7 @@ export type Database = {
         | "payments:read"
         | "payments:write"
         | "assets:write"
+      base_token_symbol: "AURORA" | "BTC" | "ETH" | "USDC" | "USDT" | "CUSTOM"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
       limit_scope: "USER" | "GLOBAL"

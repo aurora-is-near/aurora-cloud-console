@@ -9,10 +9,10 @@ import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Typography } from "@/uikit"
 
+import { StartDeployment } from "./StartDeployment"
 import { Banner } from "./Banner"
 import { WhatsNext } from "./WhatsNext"
 import { HeroBadge } from "./HeroBadge"
-import { DeploymentProgress } from "./DeploymentProgress"
 
 type DashboardHomePageProps = {
   team: Team
@@ -75,11 +75,12 @@ export const DashboardHomePage = async ({
           </section>
         )}
 
-        {!silo && (isOnboardingFormSubmitted || team.onboarding_status) ? (
-          <DeploymentProgress
-            status={team.onboarding_status ?? "REQUEST_RECEIVED"}
+        {!silo && (isOnboardingFormSubmitted || !!team.onboarding_status) && (
+          <StartDeployment
+            teamId={team.id}
+            onboardingStatus={team.onboarding_status ?? "REQUEST_RECEIVED"}
           />
-        ) : null}
+        )}
 
         <div className="flex flex-col">
           <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
