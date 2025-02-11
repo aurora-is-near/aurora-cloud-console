@@ -1173,7 +1173,7 @@ exports[`OpenAPI Document should be valid 1`] = `
     "/api/silos/{id}/forwarder/tokens": {
       "get": {
         "deprecated": undefined,
-        "description": undefined,
+        "description": "**Required scopes:** \`forwarder:read\`",
         "operationId": "getForwarderTokens",
         "parameters": [
           {
@@ -1218,7 +1218,9 @@ exports[`OpenAPI Document should be valid 1`] = `
         },
         "security": [
           {
-            "bearerAuth": [],
+            "bearerAuth": [
+              "forwarder:read",
+            ],
           },
         ],
         "summary": "Get the tokens supported by the forwarder for your silo",
