@@ -5,6 +5,7 @@ import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 import { WIDGET_NETWORKS } from "@/constants/bridge"
 import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
 import { SILO_ASSETS } from "@/constants/assets"
+import { FORWARDER_TOKENS } from "@/constants/forwarder-tokens"
 
 extendZodWithOpenApi(z)
 
@@ -142,6 +143,8 @@ export const ChartDataSchema = z.object({
 const TransactionDataIntervalQueryParamSchema = z.string().optional().openapi({
   enum: CHART_DATE_OPTION_VALUES,
 })
+
+const ForwarderToken = z.string().openapi({ enum: [...FORWARDER_TOKENS] })
 
 export const contract = c.router({
   getDeals: {
@@ -600,20 +603,53 @@ export const contract = c.router({
     },
   },
   getForwarderTokens: {
-    summary: "Get the tokens supported by the forwarder for your silo",
+    summary: "Get the tokens supported by the forwarder",
     method: "GET",
     path: "/api/silos/:id/forwarder/tokens",
     responses: {
       200: z.object({
         items: z.array(
           z.object({
-            symbol: z.string(),
+            symbol: ForwarderToken,
+            enabled: z.boolean(),
           }),
         ),
       }),
     },
     metadata: {
       scopes: ["forwarder:read"],
+    },
+  },
+  addForwarderToken: {
+    summary: "Add forwarder support for the given token(s)",
+    method: "POST",
+    path: "/api/silos/:id/forwarder/tokens",
+    responses: {
+      200: z.object({
+        status: z.string(),
+      }),
+    },
+    body: z.object({
+      tokens: z.array(ForwarderToken),
+    }),
+    metadata: {
+      scopes: ["forwarder:write"],
+    },
+  },
+  removeForwarderToken: {
+    summary: "Remove forwarder support for the given token(s)",
+    method: "DELETE",
+    path: "/api/silos/:id/forwarder/tokens/:symbol",
+    responses: {
+      200: z.object({
+        status: z.string(),
+      }),
+    },
+    body: z.object({
+      tokens: z.array(ForwarderToken),
+    }),
+    metadata: {
+      scopes: ["forwarder:write"],
     },
   },
 })

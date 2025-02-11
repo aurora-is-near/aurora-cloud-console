@@ -92,4 +92,5 @@ export const forwarderApiClient = {
         target_network: targetNetwork,
       },
     }),
+  getSupportedTokens: async () => request<string[]>("/api/v1/supported_tokens"),
 }

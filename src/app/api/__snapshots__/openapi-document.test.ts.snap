@@ -1191,23 +1191,22 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "items": {
+                    "tokens": {
                       "items": {
-                        "properties": {
-                          "symbol": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "symbol",
+                        "enum": [
+                          "NEAR",
+                          "wNEAR",
+                          "USDt",
+                          "USDC",
+                          "AURORA",
                         ],
-                        "type": "object",
+                        "type": "string",
                       },
                       "type": "array",
                     },
                   },
                   "required": [
-                    "items",
+                    "tokens",
                   ],
                   "type": "object",
                 },
@@ -1223,7 +1222,165 @@ exports[`OpenAPI Document should be valid 1`] = `
             ],
           },
         ],
-        "summary": "Get the tokens supported by the forwarder for your silo",
+        "summary": "Get the tokens supported by the forwarder",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "addForwarderToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "tokens": {
+                    "items": {
+                      "enum": [
+                        "NEAR",
+                        "wNEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "tokens",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Add forwarder support for the given token(s)",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/forwarder/tokens/{symbol}": {
+      "delete": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "removeForwarderToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "path",
+            "name": "symbol",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "tokens": {
+                    "items": {
+                      "enum": [
+                        "NEAR",
+                        "wNEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "tokens",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Remove forwarder support for the given token(s)",
         "tags": [
           "silos",
         ],
