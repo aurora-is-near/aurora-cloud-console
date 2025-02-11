@@ -14,6 +14,7 @@ import { notReachable } from "@/utils/notReachable"
 import { getSiloByChainId } from "@/actions/silos/get-silo-by-chain-id"
 import { addTeamsToSilo } from "@/actions/silos/add-teams-to-silo"
 import { useAnalytics } from "@/hooks/useAnalytics"
+import { sendSlackOnboardingNotification } from "@/utils/slack-onboarding-notifier"
 import {
   AuroraToken,
   Bitcoin,
@@ -42,7 +43,7 @@ export const tokenOptions: TokenOption[] = [
   { id: "custom", name: "My Token", icon: CustomToken },
 ]
 
-interface ChainCreationForm {
+export interface ChainCreationForm {
   networkType: NetworkType | null
   chainPermission: ChainPermission | null
   baseToken: BaseToken | null
@@ -191,6 +192,10 @@ export const useChainCreationForm = (
       team_id: team.id,
     })
 
+    if (form.telegramHandle) {
+      void sendSlackOnboardingNotification(team, form)
+    }
+
     // Note that an upsert is used here in case the user somehow submits the
     // form twice. For example, if they opened it in two browser tabs.
     if (form.networkType === "devnet") {
@@ -210,7 +215,7 @@ export const useChainCreationForm = (
 
     // for mainnet
     window.location.href = `${window.location.origin}/dashboard/${team.team_key}`
-  }, [form, fieldErrors, mixPanel, team.id, team.team_key])
+  }, [form, fieldErrors, mixPanel, team])
 
   return {
     form,
