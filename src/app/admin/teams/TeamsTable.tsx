@@ -86,7 +86,7 @@ const TeamsTable = ({ teams, onboardingForms }: Props) => {
               </Table.TD>
             </Table.TR>,
             expandedTeamId === team.id && (
-              <Table.TR>
+              <Table.TR className="bg-slate-100">
                 <Table.TD colSpan={100}>
                   <div className="w-full grid grid-cols-3 gap-4 py-4">
                     <Card className="flex flex-col md:p-2 gap-2">
