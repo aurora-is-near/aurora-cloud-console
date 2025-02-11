@@ -4,6 +4,7 @@ export const FEATURE_FLAG_COOKIE_PREFIX = "ff"
 export const FEATURE_FLAGS = [
   "stripe_test_payments",
   "gas_plans_configuration",
+  "automate_silo_configuration",
 ] as const
 
 // The default values for each feature flag are defined below. In general, we
@@ -14,4 +15,5 @@ export const FEATURE_FLAGS_DEFAULTS: Record<
 > = {
   stripe_test_payments: false,
   gas_plans_configuration: false,
+  automate_silo_configuration: false,
 }
