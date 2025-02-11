@@ -52,6 +52,7 @@ interface ChainCreationForm {
   chainId: string
   comments: string
   customTokenDetails: string
+  telegramHandle: string
 }
 
 const initialFormDevNet: ChainCreationForm = {
@@ -64,6 +65,7 @@ const initialFormDevNet: ChainCreationForm = {
   chainId: "",
   comments: "",
   customTokenDetails: "",
+  telegramHandle: "",
 }
 
 const initialFormMainNet: ChainCreationForm = {
@@ -76,6 +78,7 @@ const initialFormMainNet: ChainCreationForm = {
   chainId: "",
   comments: "",
   customTokenDetails: "",
+  telegramHandle: "",
 }
 
 type ErrorName =

@@ -67,6 +67,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   replenishments: createTableClient(),
   silos_teams: createTableClient(),
   datadog_web3_monitors: createTableClient(),
+  _prisma_migrations: createTableClient(),
 }
 
 export const mockSupabaseClient = {
