@@ -14,7 +14,6 @@ import { notReachable } from "@/utils/notReachable"
 import { getSiloByChainId } from "@/actions/silos/get-silo-by-chain-id"
 import { addTeamsToSilo } from "@/actions/silos/add-teams-to-silo"
 import { useAnalytics } from "@/hooks/useAnalytics"
-import { sendSlackOnboardingNotification } from "@/utils/slack-onboarding-notifier"
 import {
   AuroraToken,
   Bitcoin,
@@ -184,11 +183,7 @@ export const useChainCreationForm = (
       ...form,
     })
 
-    if (form.telegramHandle) {
-      await sendSlackOnboardingNotification(team, form)
-    }
-
-    await saveOnboardingForm({
+    await saveOnboardingForm(team, {
       ...form,
       team_id: team.id,
       baseToken: form.baseToken ?? "AURORA",

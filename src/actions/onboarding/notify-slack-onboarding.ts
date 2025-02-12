@@ -1,10 +1,9 @@
-import { ChainCreationForm } from "@/hooks/useChainCreationForm"
-import { Team } from "@/types/types"
+import { OnboardingForm, Team } from "@/types/types"
 import { sendSlackMessage } from "@/utils/send-slack-notification"
 
-export const sendSlackOnboardingNotification = async (
+export const notifySlackOnboarding = async (
   team: Team,
-  onboardingForm: ChainCreationForm,
+  onboardingForm: Omit<OnboardingForm, "id" | "chainId" | "created_at">,
 ) => {
   const summary = `New onboarding completed with Telegram handle added for team "${
     team?.name ?? "Unknown"
