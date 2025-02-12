@@ -18,19 +18,8 @@ export const BASE_TOKENS: Record<
     name: "Ethereum",
     nearAccountId: "aurora",
   },
-  USDC: {
-    name: "USD Coin",
-    nearAccountId:
-      "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
-  },
-  USDT: {
-    name: "Tether",
-    nearAccountId: "usdt.tether-token.near",
-  },
-  BTC: {
-    name: "Bitcoin",
-    nearAccountId:
-      "2260fac5e5542a773aa44fbcfedf7c193bc2c599.factory.bridge.near",
-  },
+  USDC: null,
+  USDT: null,
+  BTC: null,
   CUSTOM: null,
 }

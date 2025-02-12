@@ -1,9 +1,7 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/Button"
-import { deploySilo } from "@/actions/deployment/deploy-silo"
-import { logger } from "@/logger"
+import { useSiloDeployment } from "@/hooks/useSiloDeployment"
 
 type StartDeploymentButtonProps = {
   teamId: number
@@ -12,22 +10,11 @@ type StartDeploymentButtonProps = {
 export const StartDeploymentButton = ({
   teamId,
 }: StartDeploymentButtonProps) => {
-  const [isLoading, setIsLoading] = useState(false)
-
-  const onStartDeploymentClick = async () => {
-    setIsLoading(true)
-
-    try {
-      await deploySilo(teamId)
-    } catch (error) {
-      logger.error(error)
-    }
-
-    setIsLoading(false)
-  }
+  const { status, startDeployment } = useSiloDeployment(teamId)
+  const isLoading = status !== "NOT_STARTED"
 
   return (
-    <Button onClick={onStartDeploymentClick} loading={isLoading}>
+    <Button onClick={startDeployment} loading={isLoading}>
       Start deployment
     </Button>
   )
