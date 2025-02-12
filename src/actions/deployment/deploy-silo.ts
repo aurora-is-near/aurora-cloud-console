@@ -2,7 +2,7 @@
 
 import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
 import { updateTeam } from "@/actions/teams/update-team"
-import { BASE_TOKENS } from "@/constants/base-tokens"
+import { BASE_TOKENS } from "@/constants/base-token"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { OnboardingForm, Silo } from "@/types/types"
 import { createSiloDeployerApiClient } from "@/utils/silo-deployer-api/silo-deployer-api-client"
