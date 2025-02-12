@@ -1,5 +1,6 @@
 "use server"
 
+import { createSiloConfigTransaction } from "@/actions/silo-config-transactions/create-silo-config-transaction"
 import { BASE_TOKENS } from "@/constants/base-token"
 import { BaseTokenSymbol, Silo } from "@/types/types"
 import { createSiloDeployerApiClient } from "@/utils/silo-deployer-api/silo-deployer-api-client"
@@ -23,14 +24,23 @@ export const setBaseToken = async (silo: Silo) => {
     )
   }
 
-  // TODO: Place the transaction hash returned from this API call in a database,
-  // so that we can track success or failure.
-  await siloDeployerApiClient.setBaseToken({
+  const { tx_hash } = await siloDeployerApiClient.setBaseToken({
     params: {
       contract_id: silo.engine_account,
     },
     data: {
       base_token_account_id: baseTokenConfig.nearAccountId,
     },
+  })
+
+  if (!tx_hash) {
+    return
+  }
+
+  await createSiloConfigTransaction({
+    silo_id: silo.id,
+    transaction_hash: tx_hash,
+    operation: "SET_BASE_TOKEN",
+    status: "PENDING",
   })
 }

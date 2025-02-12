@@ -98,4 +98,20 @@ SELECT add_values_to_enum(
     'CUSTOM'
   ]
 );
+
+SELECT add_values_to_enum(
+  'silo_config_transaction_operation',
+  ARRAY[
+    'SET_BASE_TOKEN'
+  ]
+);
+
+SELECT add_values_to_enum(
+  'silo_config_transaction_status',
+  ARRAY[
+    'PENDING',
+    'SUCCESSFUL',
+    'FAILED'
+  ]
+);
 ```
