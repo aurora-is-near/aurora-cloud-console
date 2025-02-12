@@ -633,7 +633,7 @@ export type Database = {
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id: number | null
-          chain_id: string
+          chain_id: number
           created_at: string
           engine_account: string
           engine_version: string
@@ -644,6 +644,7 @@ export type Database = {
           genesis: string
           grafana_network_key: string | null
           id: number
+          is_active: boolean
           name: string
           network: string
           network_logo: string
@@ -659,7 +660,7 @@ export type Database = {
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id?: number | null
-          chain_id: string
+          chain_id: number
           created_at?: string
           engine_account: string
           engine_version: string
@@ -670,6 +671,7 @@ export type Database = {
           genesis: string
           grafana_network_key?: string | null
           id?: number
+          is_active?: boolean
           name: string
           network?: string
           network_logo?: string
@@ -685,7 +687,7 @@ export type Database = {
           base_token_name?: string
           base_token_symbol?: string
           blockscout_database_id?: number | null
-          chain_id?: string
+          chain_id?: number
           created_at?: string
           engine_account?: string
           engine_version?: string
@@ -696,6 +698,7 @@ export type Database = {
           genesis?: string
           grafana_network_key?: string | null
           id?: number
+          is_active?: boolean
           name?: string
           network?: string
           network_logo?: string

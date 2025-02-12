@@ -1,7 +1,7 @@
 "use server"
 
 import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
-import { updateTeam } from "@/actions/teams/update-team"
+import { updateSilo } from "@/actions/silos/update-silo"
 import { BASE_TOKENS } from "@/constants/base-token"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { OnboardingForm, Silo } from "@/types/types"
@@ -67,24 +67,28 @@ const assignSiloToTeam = async (
   return updateSiloResult.data
 }
 
-const updateSiloContract = async (silo: Silo) => {
+const updateSiloContract = async (
+  silo: Silo,
+  { baseToken }: OnboardingForm,
+) => {
   const siloDeployerApiClient = createSiloDeployerApiClient()
+  const baseTokenConfig = BASE_TOKENS[baseToken]
 
   // TODO: Place the transaction hash returned from this API call in a database,
   // so that we can track success or failure.
-  if (silo.base_token_symbol) {
+  if (baseTokenConfig) {
     await siloDeployerApiClient.setBaseToken({
       params: {
         contract_id: silo.engine_account,
       },
       data: {
-        base_token_addr: silo.base_token_symbol,
+        base_token_account_id: baseTokenConfig.nearAccountId,
       },
     })
   }
 }
 
-export const deploySilo = async (teamId: number) => {
+export const deploySilo = async (teamId: number): Promise<boolean> => {
   const onboardingForm = await getTeamOnboardingForm(teamId)
 
   if (!onboardingForm) {
@@ -96,18 +100,18 @@ export const deploySilo = async (teamId: number) => {
   // should be seen as holding the desired, not necessarily the actual state.
   const silo = await assignSiloToTeam(teamId, onboardingForm)
 
-  // TODO: Handle the case where no silo could not be assigned
-  // (i.e. they have run out).
+  // If no silo was assigned it means we have run out and will need to feedback
+  // to the user that they need to wait for more to be made available.
   if (!silo) {
-    return
+    return false
   }
 
-  // Update the team to indicate that the deployment is in progress.
-  await updateTeam(teamId, { onboarding_status: "DEPLOYMENT_IN_PROGRESS" })
-
   // Trigger a process to update the silo on the contract level.
-  await updateSiloContract(silo)
+  await updateSiloContract(silo, onboardingForm)
 
-  // For now, if the above call succeeds we will consider the deployment done.
-  await updateTeam(teamId, { onboarding_status: "DEPLOYMENT_DONE" })
+  // If the above call succeeds we consider the deployment done and mark the
+  // silo as activated.
+  await updateSilo(silo.id, { is_active: true })
+
+  return true
 }

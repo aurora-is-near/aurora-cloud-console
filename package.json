@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@anatine/zod-openapi": "^2.2.2",
-    "@aurora-is-near/silo-deployer-sdk": "^1.0.2",
+    "@aurora-is-near/silo-deployer-sdk": "^1.1.0",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.10.0",
