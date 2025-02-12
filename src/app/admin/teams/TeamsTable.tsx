@@ -4,7 +4,12 @@ import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/20/solid"
 import { sentenceCase } from "change-case"
 import { useMemo, useState } from "react"
 import { Button } from "@headlessui/react"
-import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline"
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  ListBulletIcon,
+  MagnifyingGlassCircleIcon,
+} from "@heroicons/react/24/outline"
 import Table from "@/components/Table"
 import TableButton from "@/components/TableButton"
 import { OnboardingForm, Team } from "@/types/types"
@@ -50,6 +55,9 @@ const TeamsTable = ({ teams, onboardingForms }: Props) => {
         )}
       </div>
       <Table>
+        <Table.TH>
+          <ListBulletIcon className="w-5 h-5" />
+        </Table.TH>
         <Table.TH>ID</Table.TH>
         <Table.TH>Name</Table.TH>
         <Table.TH>Status</Table.TH>
@@ -62,11 +70,19 @@ const TeamsTable = ({ teams, onboardingForms }: Props) => {
           return [
             <Table.TR
               key={team.id}
-              onClick={() =>
-                setExpandedTeamId(team.id === expandedTeamId ? null : team.id)
-              }
               className={expandedTeamId === team.id ? "bg-slate-100" : ""}
             >
+              <Table.TD
+                onClick={() =>
+                  setExpandedTeamId(team.id === expandedTeamId ? null : team.id)
+                }
+              >
+                <TableButton
+                  Icon={
+                    team.id === expandedTeamId ? ChevronUpIcon : ChevronDownIcon
+                  }
+                />
+              </Table.TD>
               <Table.TD>{team.id}</Table.TD>
               <Table.TD>{team.name}</Table.TD>
               <Table.TD>
