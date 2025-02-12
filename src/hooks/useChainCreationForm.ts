@@ -50,7 +50,6 @@ export interface ChainCreationForm {
   gasMechanics: GasMechanics | null
   integrations: Integration[]
   chainName: string
-  chainId: string
   comments: string
   customTokenDetails: string
   telegramHandle: string
@@ -63,7 +62,6 @@ const initialFormDevNet: ChainCreationForm = {
   gasMechanics: null,
   integrations: [],
   chainName: "",
-  chainId: "",
   comments: "",
   customTokenDetails: "",
   telegramHandle: "",
@@ -76,7 +74,6 @@ const initialFormMainNet: ChainCreationForm = {
   gasMechanics: null,
   integrations: [],
   chainName: "",
-  chainId: "",
   comments: "",
   customTokenDetails: "",
   telegramHandle: "",
@@ -187,15 +184,15 @@ export const useChainCreationForm = (
       ...form,
     })
 
+    if (form.telegramHandle) {
+      await sendSlackOnboardingNotification(team, form)
+    }
+
     await saveOnboardingForm({
       ...form,
       team_id: team.id,
       baseToken: form.baseToken ?? "AURORA",
     })
-
-    if (form.telegramHandle) {
-      void sendSlackOnboardingNotification(team, form)
-    }
 
     // Note that an upsert is used here in case the user somehow submits the
     // form twice. For example, if they opened it in two browser tabs.

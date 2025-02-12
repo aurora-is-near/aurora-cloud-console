@@ -5,7 +5,7 @@ import { Tables } from "@/types/supabase"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const saveOnboardingForm = async (
-  inputs: Omit<Tables<"onboarding_form">, "id" | "created_at">,
+  inputs: Omit<Tables<"onboarding_form">, "id" | "chainId" | "created_at">,
 ) => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
