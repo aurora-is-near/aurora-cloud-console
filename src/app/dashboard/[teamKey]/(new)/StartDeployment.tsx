@@ -18,7 +18,7 @@ export const StartDeployment = ({
     featureFlags.get("automate_silo_configuration") && !!onboardingForm
 
   if (isAutomated) {
-    return <StartDeploymentButton team={team} onboardingForm={onboardingForm} />
+    return <StartDeploymentButton team={team} />
   }
 
   return <DeploymentProgress status={onboardingStatus} />
