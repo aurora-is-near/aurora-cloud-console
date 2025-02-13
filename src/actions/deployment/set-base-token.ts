@@ -3,15 +3,13 @@
 import { createSiloConfigTransaction } from "@/actions/silo-config-transactions/create-silo-config-transaction"
 import { BASE_TOKENS } from "@/constants/base-token"
 import { BaseTokenSymbol, Silo } from "@/types/types"
-import { createSiloDeployerApiClient } from "@/utils/silo-deployer-api/silo-deployer-api-client"
+import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 
 const isValidBaseToken = (baseToken: string): baseToken is BaseTokenSymbol => {
   return Object.keys(BASE_TOKENS).includes(baseToken)
 }
 
 export const setBaseToken = async (silo: Silo) => {
-  const siloDeployerApiClient = createSiloDeployerApiClient()
-
   if (!isValidBaseToken(silo.base_token_symbol)) {
     throw new Error(`Invalid base token symbol: ${silo.base_token_symbol}`)
   }
@@ -24,13 +22,9 @@ export const setBaseToken = async (silo: Silo) => {
     )
   }
 
-  const { tx_hash } = await siloDeployerApiClient.setBaseToken({
-    params: {
-      contract_id: silo.engine_account,
-    },
-    data: {
-      base_token_account_id: baseTokenConfig.nearAccountId,
-    },
+  const { tx_hash } = await contractChangerApiClient.setBaseToken({
+    siloEngineAccountId: silo.engine_account,
+    baseTokenAccountId: baseTokenConfig.nearAccountId,
   })
 
   if (!tx_hash) {

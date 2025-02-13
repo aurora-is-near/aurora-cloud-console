@@ -70,13 +70,6 @@
     eslint-plugin-storybook "^0.8.0"
     eslint-plugin-testing-library "^6.2.2"
 
-"@aurora-is-near/silo-deployer-sdk@^1.1.1":
-  version "1.1.1"
-  resolved "https://npm.pkg.github.com/download/@aurora-is-near/silo-deployer-sdk/1.1.1/a0e0cdf3fbb30cdde2601b099d5cb4757349f239#a0e0cdf3fbb30cdde2601b099d5cb4757349f239"
-  integrity sha512-Tly4YeER88kklJlAW6C+qm2dqF/9RcD68sV5MgO87VI84t5hn6N9kE7PmmUHT4BbJXzfdiRKiFDS3+KYf8rC+A==
-  dependencies:
-    yaml "^2.7.0"
-
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.22.10", "@babel/code-frame@^7.22.5":
   version "7.22.10"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.22.10.tgz#1c20e612b768fefa75f6e90d6ecb86329247f0a3"
@@ -12330,11 +12323,6 @@ yaml@^2.1.1, yaml@^2.5.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.6.1.tgz#42f2b1ba89203f374609572d5349fb8686500773"
   integrity sha512-7r0XPzioN/Q9kXBro/XPnA6kznR73DHq+GXh5ON7ZozRO6aMjbmiBuKste2wslTFkC5d1dw0GooOCepZXJ2SAg==
-
-yaml@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.7.0.tgz#aef9bb617a64c937a9a748803786ad8d3ffe1e98"
-  integrity sha512-+hSoy/QHluxmC9kCIJyL/uyFmLmc+e5CFR5Wa+bpIhIj85LVb9ZH2nVnqrHoSvKogwODv0ClqZkmiSSaIH5LTA==
 
 yargs-parser@^21.1.1:
   version "21.1.1"

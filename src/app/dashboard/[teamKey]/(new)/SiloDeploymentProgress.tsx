@@ -7,7 +7,7 @@ type SiloDeploymentProgressProps = {
   silo: Silo
 }
 
-export const SiloDeploymentProgress = async ({
+export const SiloDeploymentProgress = ({
   silo,
 }: SiloDeploymentProgressProps) => {
   const { status } = useSiloConfiguration(silo)
