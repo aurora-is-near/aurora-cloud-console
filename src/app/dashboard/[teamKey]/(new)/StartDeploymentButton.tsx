@@ -5,17 +5,13 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/Button"
 import { logger } from "@/logger"
 import { assignSiloToTeam } from "@/actions/deployment/assign-silo-to-team"
-import { OnboardingForm, Silo, Team } from "@/types/types"
+import { Silo, Team } from "@/types/types"
 
 type StartDeploymentButtonProps = {
   team: Team
-  onboardingForm: OnboardingForm
 }
 
-export const StartDeploymentButton = ({
-  team,
-  onboardingForm,
-}: StartDeploymentButtonProps) => {
+export const StartDeploymentButton = ({ team }: StartDeploymentButtonProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
