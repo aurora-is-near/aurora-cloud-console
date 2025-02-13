@@ -101,7 +101,7 @@ const setCustomTokensParam = (
 
 const setCustomChainsParam = (url: URL, { silo }: { silo: Silo }) => {
   const customChain: CustomChain = {
-    id: silo.chain_id,
+    id: String(silo.chain_id),
     name: silo.name,
     network: silo.name,
     nativeCurrency: {

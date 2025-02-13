@@ -10,7 +10,7 @@ type Params = {
 
 const FROM_CLAUSE = "FROM tx_traces"
 
-const getWhereClause = (chainId: string, params: Params) => {
+const getWhereClause = (chainId: number, params: Params) => {
   let whereClause = `WHERE chain_id = '${chainId}'`
 
   if (params.dealKey) {
@@ -24,7 +24,7 @@ const getWhereClause = (chainId: string, params: Params) => {
   return whereClause
 }
 
-export const queryWallets = async (chainId: string, params: Params) => {
+export const queryWallets = async (chainId: number, params: Params) => {
   const { limit, offset } = params
   const whereClause = getWhereClause(chainId, params)
 
@@ -46,7 +46,7 @@ export const queryWallets = async (chainId: string, params: Params) => {
 }
 
 export const queryWalletCount = async (
-  chainId: string,
+  chainId: number,
   params: Params = {},
 ) => {
   const whereClause = getWhereClause(chainId, params)

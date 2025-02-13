@@ -65,7 +65,7 @@ export const SiloSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  chainId: z.string(),
+  chainId: z.number(),
   engineAccount: z.string(),
   engineVersion: z.string(),
   genesis: z.string(),

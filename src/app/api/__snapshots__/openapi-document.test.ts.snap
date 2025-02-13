@@ -804,7 +804,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "items": {
                         "properties": {
                           "chainId": {
-                            "type": "string",
+                            "type": "number",
                           },
                           "createdAt": {
                             "type": "string",
@@ -918,7 +918,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                 "schema": {
                   "properties": {
                     "chainId": {
-                      "type": "string",
+                      "type": "number",
                     },
                     "createdAt": {
                       "type": "string",
