@@ -9,6 +9,7 @@ import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Typography } from "@/uikit"
 
+import { SiloDeploymentProgress } from "./SiloDeploymentProgress"
 import { StartDeployment } from "./StartDeployment"
 import { Banner } from "./Banner"
 import { WhatsNext } from "./WhatsNext"
@@ -48,6 +49,8 @@ export const DashboardHomePage = async ({
           />
         }
       />
+
+      {silo && <SiloDeploymentProgress silo={silo} />}
 
       <section className="flex flex-col gap-14">
         {!silo && !isOnboardingFormSubmitted && (
