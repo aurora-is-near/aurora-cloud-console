@@ -23,7 +23,8 @@ export const DashboardHomePage = async ({
   team,
   silo = null,
 }: DashboardHomePageProps) => {
-  const isOnboardingFormSubmitted = !!(await getTeamOnboardingForm(team.id))
+  const onboardingForm = await getTeamOnboardingForm(team.id)
+  const isOnboardingFormSubmitted = !!onboardingForm
 
   return (
     <DashboardPage>
@@ -77,8 +78,9 @@ export const DashboardHomePage = async ({
 
         {!silo && (isOnboardingFormSubmitted || !!team.onboarding_status) && (
           <StartDeployment
-            teamId={team.id}
+            team={team}
             onboardingStatus={team.onboarding_status ?? "REQUEST_RECEIVED"}
+            onboardingForm={onboardingForm}
           />
         )}
 
