@@ -22,25 +22,25 @@ export const setBaseToken = async (silo: Silo) => {
     return
   }
 
+  // If there is already a pending transaction or successful transaction for
+  // setting the base token, we don't need to trigger another one.
+  const pendingTransactions = await getSiloConfigTransactions(silo.id)
+  const pendingBaseTokenTransaction = pendingTransactions.find(
+    (transaction) =>
+      transaction.operation === "SET_BASE_TOKEN" &&
+      (transaction.status === "PENDING" || transaction.status === "SUCCESSFUL"),
+  )
+
+  if (!pendingBaseTokenTransaction) {
+    return
+  }
+
   const baseTokenConfig = BASE_TOKENS[silo.base_token_symbol]
 
   if (!baseTokenConfig) {
     throw new Error(
       `Attempted to set unsupported base token: ${silo.base_token_symbol}`,
     )
-  }
-
-  const pendingTransactions = await getSiloConfigTransactions(silo.id)
-  const pendingBaseTokenTransaction = pendingTransactions.find(
-    (transaction) =>
-      transaction.operation === "SET_BASE_TOKEN" &&
-      transaction.status === "PENDING",
-  )
-
-  // If there is already a pending transaction for setting the base token, we
-  // don't need to trigger another one.
-  if (!pendingBaseTokenTransaction) {
-    return
   }
 
   const { tx_hash } = await contractChangerApiClient.setBaseToken({
