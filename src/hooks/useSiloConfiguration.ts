@@ -50,8 +50,10 @@ export const useSiloConfiguration = (silo: Silo) => {
   }, [silo])
 
   useEffect(() => {
-    void startConfiguration()
-  }, [startConfiguration])
+    if (!silo.is_active) {
+      void startConfiguration()
+    }
+  }, [silo.is_active, startConfiguration])
 
   return { status, hasError }
 }
