@@ -13,6 +13,7 @@ import { sendEmail } from "@/utils/email"
 import { getDeploymentDoneEmail } from "@/email-templates/get-deployment-done-email"
 import { getDeploymentInProgressEmail } from "@/email-templates/get-deployment-in-progress-email"
 import { getRequestReceivedEmail } from "@/email-templates/get-request-received-email"
+import { getTeamMembers } from "@/actions/team-members/get-team-members"
 
 type TeamFormProps = {
   team?: Team
@@ -36,15 +37,18 @@ const EMAIL_FUNCTIONS: Record<OnboardingStatus, () => string> = {
 }
 
 const sendUpdateEmail = async (
-  { email }: Team,
+  { team_key }: Team,
   onboardingStatus: OnboardingStatus | null,
 ) => {
-  if (!email || !onboardingStatus) {
+  const teamMembers = await getTeamMembers(team_key)
+  const emails = teamMembers.map((member) => member.email).join()
+
+  if (!onboardingStatus) {
     return
   }
 
   await sendEmail({
-    To: email,
+    To: emails,
     Subject: "Deployment started",
     HtmlBody: EMAIL_FUNCTIONS[onboardingStatus](),
   })
@@ -98,20 +102,6 @@ export const TeamForm = ({ team }: TeamFormProps) => {
           label: "Team key",
           defaultValue: team?.team_key ?? "",
           autoComplete: "team_key",
-          required: true,
-        },
-        {
-          name: "email",
-          label: "Email",
-          defaultValue: team?.email ?? "",
-          autoComplete: "email",
-          required: true,
-        },
-        {
-          name: "website",
-          label: "Website",
-          defaultValue: team?.website ?? "",
-          autoComplete: "website",
           required: true,
         },
         {
