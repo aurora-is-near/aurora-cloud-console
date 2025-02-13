@@ -6,7 +6,7 @@ import { StartDeploymentButton } from "@/app/dashboard/[teamKey]/(new)/StartDepl
 type StartDeploymentProps = {
   team: Team
   onboardingStatus: OnboardingStatus
-  onboardingForm?: OnboardingForm
+  onboardingForm?: OnboardingForm | null
 }
 
 export const StartDeployment = ({
