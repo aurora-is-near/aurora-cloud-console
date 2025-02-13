@@ -31,6 +31,7 @@ const request = async <T>(
     method,
     body: data ? JSON.stringify(data) : undefined,
     headers: {
+      Authorization: `Basic ${btoa("test:justfortunnel")}`, // temp auth
       "Content-Type": "application/json",
     },
   })
@@ -62,7 +63,7 @@ export const contractChangerApiClient = {
       {
         method: "POST",
         data: {
-          fees_contract_id: baseTokenAccountId,
+          base_token_account_id: baseTokenAccountId,
         },
       },
     ),
