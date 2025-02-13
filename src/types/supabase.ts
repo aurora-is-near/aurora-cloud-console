@@ -270,7 +270,6 @@ export type Database = {
       onboarding_form: {
         Row: {
           baseToken: Database["public"]["Enums"]["base_token_symbol"]
-          chainId: string | null
           chainName: string | null
           chainPermission: string | null
           comments: string | null
@@ -285,7 +284,6 @@ export type Database = {
         }
         Insert: {
           baseToken?: Database["public"]["Enums"]["base_token_symbol"]
-          chainId?: string | null
           chainName?: string | null
           chainPermission?: string | null
           comments?: string | null
@@ -300,7 +298,6 @@ export type Database = {
         }
         Update: {
           baseToken?: Database["public"]["Enums"]["base_token_symbol"]
-          chainId?: string | null
           chainName?: string | null
           chainPermission?: string | null
           comments?: string | null
@@ -636,7 +633,7 @@ export type Database = {
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id: number | null
-          chain_id: string
+          chain_id: number
           created_at: string
           engine_account: string
           engine_version: string
@@ -662,7 +659,7 @@ export type Database = {
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id?: number | null
-          chain_id: string
+          chain_id: number
           created_at?: string
           engine_account: string
           engine_version: string
@@ -688,7 +685,7 @@ export type Database = {
           base_token_name?: string
           base_token_symbol?: string
           blockscout_database_id?: number | null
-          chain_id?: string
+          chain_id?: number
           created_at?: string
           engine_account?: string
           engine_version?: string

@@ -84,7 +84,7 @@ export type OnboardingForm = Tables<"onboarding_form">
 export type ChartColor = (typeof CHART_COLOURS)[number]
 
 export type RuleResourceDefinition = {
-  chains: string
+  chains: number
   contracts: string[]
   blacklist?: boolean
 }

@@ -49,7 +49,6 @@ interface ChainCreationForm {
   gasMechanics: GasMechanics | null
   integrations: Integration[]
   chainName: string
-  chainId: string
   comments: string
   customTokenDetails: string
   telegramHandle: string
@@ -62,7 +61,6 @@ const initialFormDevNet: ChainCreationForm = {
   gasMechanics: null,
   integrations: [],
   chainName: "",
-  chainId: "",
   comments: "",
   customTokenDetails: "",
   telegramHandle: "",
@@ -75,7 +73,6 @@ const initialFormMainNet: ChainCreationForm = {
   gasMechanics: null,
   integrations: [],
   chainName: "",
-  chainId: "",
   comments: "",
   customTokenDetails: "",
   telegramHandle: "",

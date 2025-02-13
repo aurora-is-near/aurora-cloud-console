@@ -7,7 +7,7 @@ type Params = {
 
 const FROM_CLAUSE = "FROM tx_traces"
 
-const getWhereClause = (chainId: string, { interval, dealId }: Params) => {
+const getWhereClause = (chainId: number, { interval, dealId }: Params) => {
   let whereClause = `WHERE chain_id = '${chainId}'`
 
   if (interval) {
@@ -21,7 +21,7 @@ const getWhereClause = (chainId: string, { interval, dealId }: Params) => {
   return whereClause
 }
 
-export const queryTransactions = async (chainId: string, params: Params) => {
+export const queryTransactions = async (chainId: number, params: Params) => {
   const countWhereClause = getWhereClause(chainId, params)
   const chartWhereClause = getWhereClause(chainId, {
     ...params,

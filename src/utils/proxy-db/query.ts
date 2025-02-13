@@ -46,14 +46,14 @@ const DEFAULT_POOL = new Pool({
 /**
  * Get the pool for the given chain ID.
  */
-const getPool = (chainId: string) => {
-  if (DEMO_CHAINS.includes(Number(chainId))) {
+const getPool = (chainId: number) => {
+  if (DEMO_CHAINS.includes(chainId)) {
     debug("Using demo pool for chain", chainId)
 
     return DEMO_POOL
   }
 
-  if (AURORA_CHAINS.includes(Number(chainId))) {
+  if (AURORA_CHAINS.includes(chainId)) {
     debug("Using aurora pool for chain", chainId)
 
     return AURORA_POOL
@@ -68,7 +68,7 @@ const getPool = (chainId: string) => {
  * Perform a query on the database.
  */
 export const query = async <TRow extends QueryResultRow>(
-  chainId: string,
+  chainId: number,
   text: string,
   params?: string[],
 ): Promise<QueryResult<TRow>> => {
