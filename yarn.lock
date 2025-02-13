@@ -70,10 +70,10 @@
     eslint-plugin-storybook "^0.8.0"
     eslint-plugin-testing-library "^6.2.2"
 
-"@aurora-is-near/silo-deployer-sdk@^1.1.0":
-  version "1.1.0"
-  resolved "https://npm.pkg.github.com/download/@aurora-is-near/silo-deployer-sdk/1.1.0/232f22cc07d24ac9c16527cf7d1ea93098880a5c#232f22cc07d24ac9c16527cf7d1ea93098880a5c"
-  integrity sha512-9mMUxnwjHs9TxSyeZnZXpK2/PUJf7cKaF/J766kb0fUtAAujeyYZoyO4Brv/UxK8z7XnsBgmIzNfcpXKj3NPzw==
+"@aurora-is-near/silo-deployer-sdk@^1.1.1":
+  version "1.1.1"
+  resolved "https://npm.pkg.github.com/download/@aurora-is-near/silo-deployer-sdk/1.1.1/a0e0cdf3fbb30cdde2601b099d5cb4757349f239#a0e0cdf3fbb30cdde2601b099d5cb4757349f239"
+  integrity sha512-Tly4YeER88kklJlAW6C+qm2dqF/9RcD68sV5MgO87VI84t5hn6N9kE7PmmUHT4BbJXzfdiRKiFDS3+KYf8rC+A==
   dependencies:
     yaml "^2.7.0"
 
