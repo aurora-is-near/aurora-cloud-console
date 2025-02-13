@@ -16,7 +16,10 @@ const sleep = (ms: number) =>
   })
 
 export const useSiloConfiguration = (silo: Silo) => {
-  const [status, setStatus] = useState<SiloDeploymentStatus>("INITIALIZING")
+  const [status, setStatus] = useState<SiloDeploymentStatus>(
+    silo.is_active ? "DEPLOYMENT_COMPLETE" : "INITIALIZING",
+  )
+
   const [hasError, setHasError] = useState(false)
 
   const startConfiguration = useCallback(async () => {
