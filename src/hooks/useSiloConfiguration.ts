@@ -1,13 +1,11 @@
-import { useCallback, useState } from "react"
-import { assignSiloToTeam } from "@/actions/deployment/assign-silo-to-team"
+import { useCallback, useEffect, useState } from "react"
 import { logger } from "@/logger"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { Silo } from "@/types/types"
 import { updateSilo } from "@/actions/silos/update-silo"
 
 type SiloDeploymentStatus =
-  | "NOT_STARTED"
-  | "ASSIGNING_SILO"
+  | "INITIALIZING"
   | "SETTING_BASE_TOKEN"
   | "STARTING_BLOCK_EXPLORER"
   | "DEPLOYMENT_COMPLETE"
@@ -17,28 +15,13 @@ const sleep = (ms: number) =>
     setTimeout(resolve, ms)
   })
 
-export const useSiloDeployment = (teamId: number) => {
-  const [status, setStatus] = useState<SiloDeploymentStatus>("NOT_STARTED")
+export const useSiloConfiguration = (silo: Silo) => {
+  const [status, setStatus] = useState<SiloDeploymentStatus>("INITIALIZING")
   const [hasError, setHasError] = useState(false)
 
-  const startDeployment = useCallback(async () => {
-    // 1. Assign silo to team
-    setStatus("ASSIGNING_SILO")
-
-    let silo: Silo | null = null
-
-    try {
-      silo = await assignSiloToTeam(teamId)
-    } catch (error) {
-      logger.error(error)
-      setHasError(true)
-
-      return
-    }
-
+  const startConfiguration = useCallback(async () => {
     await sleep(2000)
 
-    // 2. Set base token
     setStatus("SETTING_BASE_TOKEN")
 
     try {
@@ -60,7 +43,12 @@ export const useSiloDeployment = (teamId: number) => {
     // 4. If the above process succeeds we consider the deployment complete and
     // mark the silo as active
     await updateSilo(silo.id, { is_active: true })
-  }, [teamId])
+    setStatus("DEPLOYMENT_COMPLETE")
+  }, [silo])
 
-  return { startDeployment, status, hasError }
+  useEffect(() => {
+    void startConfiguration()
+  }, [startConfiguration])
+
+  return { status, hasError }
 }
