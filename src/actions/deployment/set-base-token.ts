@@ -22,8 +22,6 @@ export const setBaseToken = async (silo: Silo) => {
     return
   }
 
-  // If there is already a pending transaction or successful transaction for
-  // setting the base token, we don't need to trigger another one.
   const pendingTransactions = await getSiloConfigTransactions(silo.id)
   const pendingBaseTokenTransaction = pendingTransactions.find(
     (transaction) =>
@@ -31,7 +29,9 @@ export const setBaseToken = async (silo: Silo) => {
       (transaction.status === "PENDING" || transaction.status === "SUCCESSFUL"),
   )
 
-  if (!pendingBaseTokenTransaction) {
+  // If there is already a pending transaction or successful transaction for
+  // setting the base token, we don't need to trigger another one.
+  if (pendingBaseTokenTransaction) {
     return
   }
 

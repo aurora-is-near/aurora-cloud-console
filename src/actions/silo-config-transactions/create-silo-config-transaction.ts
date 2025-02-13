@@ -2,23 +2,13 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { SilosConfigTransaction } from "@/types/types"
-import {
-  assertNonNullSupabaseResult,
-  assertValidSupabaseResult,
-} from "@/utils/supabase"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const createSiloConfigTransaction = async (
   inputs: Omit<SilosConfigTransaction, "id" | "created_at">,
-): Promise<SilosConfigTransaction> => {
+): Promise<void> => {
   const supabase = createAdminSupabaseClient()
-  const result = await supabase
-    .from("silo_config_transactions")
-    .insert(inputs)
-    .select()
-    .single()
+  const result = await supabase.from("silo_config_transactions").insert(inputs)
 
   assertValidSupabaseResult(result)
-  assertNonNullSupabaseResult(result)
-
-  return result.data
 }
