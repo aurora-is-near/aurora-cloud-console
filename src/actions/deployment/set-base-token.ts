@@ -15,6 +15,13 @@ export const setBaseToken = async (silo: Silo) => {
     throw new Error(`Invalid base token symbol: ${silo.base_token_symbol}`)
   }
 
+  // The default base token for all silos is ETH. Considering we can only ever
+  // set the base token once, if the base token selected for the silo is ETH we
+  // don't need to do anything.
+  if (silo.base_token_symbol === "ETH") {
+    return
+  }
+
   const baseTokenConfig = BASE_TOKENS[silo.base_token_symbol]
 
   if (!baseTokenConfig) {
