@@ -18,6 +18,10 @@ export const BASE_TOKENS: Record<
     name: "Ethereum",
     nearAccountId: "aurora",
   },
+  NEAR: {
+    name: "Near",
+    nearAccountId: "near",
+  },
   USDC: null,
   USDT: null,
   BTC: null,

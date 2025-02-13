@@ -95,6 +95,7 @@ SELECT add_values_to_enum(
     'ETH',
     'USDC',
     'USDT',
+    'NEAR',
     'CUSTOM'
   ]
 );
