@@ -7,18 +7,27 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
 import { Button } from "@/components/Button"
 import type { Silo, Team } from "@/types/types"
 
-import { ModalConfirmDeployment, Steps } from "./components"
 import { useSteps } from "./hooks"
+import { ModalConfirmDeployment, Steps } from "./components"
+import type { BaseToken } from "@/types/chain-creation"
 
-type Props = {
-  team: Team
-  silo: Silo | null
-  isOnboardingFormSubmitted: boolean
-}
+type Props = { team: Team } & (
+  | {
+      isOnboardingFormSubmitted: true
+      baseToken: BaseToken
+      silo: Silo | null
+    }
+  | {
+      isOnboardingFormSubmitted: false
+      baseToken?: never
+      silo?: never
+    }
+)
 
 export const DeploymentProgressAuto = ({
   team,
   silo,
+  baseToken,
   isOnboardingFormSubmitted,
 }: Props) => {
   const router = useRouter()
@@ -43,6 +52,24 @@ export const DeploymentProgressAuto = ({
         steps={[
           { name: "CONFIGURE_CHAIN", state: "current" },
           { name: "START_DEPLOYMENT", state: "upcoming" },
+        ]}
+      />
+    )
+  }
+
+  // Custom base token
+  if (
+    !silo &&
+    !isDeploymentStarted &&
+    isOnboardingFormSubmitted &&
+    baseToken === "CUSTOM"
+  ) {
+    return (
+      <Steps
+        allSteps={allSteps}
+        steps={[
+          { name: "CONFIGURE_CHAIN", state: "completed" },
+          { name: "MANUAL_DEPLOYMENT", state: "current" },
         ]}
       />
     )

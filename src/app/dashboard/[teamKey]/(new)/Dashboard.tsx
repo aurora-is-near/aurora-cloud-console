@@ -23,8 +23,9 @@ export const DashboardHomePage = async ({
   team,
   silo = null,
 }: DashboardHomePageProps) => {
+  const onboardingFormData = await getTeamOnboardingForm(team.id)
   const isAutomated = featureFlags.get("automate_silo_configuration")
-  const isOnboardingFormSubmitted = !!(await getTeamOnboardingForm(team.id))
+  const isOnboardingFormSubmitted = !!onboardingFormData
 
   return (
     <DashboardPage>
@@ -68,11 +69,21 @@ export const DashboardHomePage = async ({
         }
       >
         {isAutomated && (
-          <DeploymentProgressAuto
-            team={team}
-            silo={silo}
-            isOnboardingFormSubmitted={isOnboardingFormSubmitted}
-          />
+          <>
+            {isOnboardingFormSubmitted ? (
+              <DeploymentProgressAuto
+                team={team}
+                silo={silo}
+                baseToken={onboardingFormData?.baseToken}
+                isOnboardingFormSubmitted
+              />
+            ) : (
+              <DeploymentProgressAuto
+                team={team}
+                isOnboardingFormSubmitted={false}
+              />
+            )}
+          </>
         )}
       </Hero>
 

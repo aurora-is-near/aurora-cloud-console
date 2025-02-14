@@ -98,5 +98,19 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
         },
       },
     },
+
+    MANUAL_DEPLOYMENT: {
+      title: "Contact us on Telegram to start deployment",
+      current: {
+        description: "We’d like to review your unique setup before proceeding.",
+        action: {
+          variant: "primary",
+          title: "Contact us",
+          onClick: () => {
+            window.open("https://t.me/Aurora_TG_Manager", "_blank")
+          },
+        },
+      },
+    },
   } as const
 }
