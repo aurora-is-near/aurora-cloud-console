@@ -48,17 +48,16 @@ export const BridgePage: React.FC<BridgePageProps> = ({ teamKey, siloId }) => {
             alt="Bridge Preview"
           />
         }
-        actions={
-          !!siloId && (
-            <UniversalWidgetOpenButton
-              siloId={siloId}
-              variant="border"
-              size="lg"
-              isExternal
-            />
-          )
-        }
-      />
+      >
+        {!!siloId && (
+          <UniversalWidgetOpenButton
+            siloId={siloId}
+            variant="border"
+            size="lg"
+            isExternal
+          />
+        )}
+      </Hero>
       <Tabs tabs={tabs} />
     </DashboardPage>
   )

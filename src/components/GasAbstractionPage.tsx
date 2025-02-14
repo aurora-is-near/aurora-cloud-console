@@ -24,14 +24,11 @@ export const GasAbstractionPage = async ({ children, silo }: Props) => (
           alt=""
         />
       }
-      actions={
-        !silo && (
-          <NotAvailableBadge>
-            Available with your Virtual Chain
-          </NotAvailableBadge>
-        )
-      }
-    />
+    >
+      {!silo && (
+        <NotAvailableBadge>Available with your Virtual Chain</NotAvailableBadge>
+      )}
+    </Hero>
     <div className="flex flex-col gap-14">{children}</div>
   </DashboardPage>
 )

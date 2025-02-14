@@ -1,22 +1,21 @@
-import { DeploymentProgress } from "@/app/dashboard/[teamKey]/(new)/DeploymentProgress"
 import { featureFlags } from "@/feature-flags/server"
-import { OnboardingStatus } from "@/types/types"
-import { StartDeploymentButton } from "@/app/dashboard/[teamKey]/(new)/StartDeploymentButton"
+import { DeploymentProgressAuto } from "@/app/dashboard/[teamKey]/(new)/DeploymentProgress"
+import { DeploymentProgressManual } from "@/app/dashboard/[teamKey]/(new)/DeploymentProgressManual"
+import type { OnboardingStatus, Team, Silo } from "@/types/types"
 
 type StartDeploymentProps = {
-  teamId: number
+  team: Team
+  silo: Silo | null
   onboardingStatus: OnboardingStatus
+  isOnboardingFormSubmitted: boolean
 }
 
-export const StartDeployment = ({
-  teamId,
-  onboardingStatus,
-}: StartDeploymentProps) => {
+export const StartDeployment = (props: StartDeploymentProps) => {
   const isAutomated = featureFlags.get("automate_silo_configuration")
 
   if (isAutomated) {
-    return <StartDeploymentButton teamId={teamId} />
+    return <DeploymentProgressAuto {...props} />
   }
 
-  return <DeploymentProgress status={onboardingStatus} />
+  return <DeploymentProgressManual status={props.onboardingStatus} />
 }

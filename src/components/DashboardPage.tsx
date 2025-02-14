@@ -45,7 +45,7 @@ export const DashboardPage = ({
       <main className={clsx("overflow-auto flex-1", className)}>
         <Toaster />
         {!!banner && (
-          <BaseContainer className="w-full bg-white shadow">
+          <BaseContainer className="w-full shadow">
             {banner}
           </BaseContainer>
         )}

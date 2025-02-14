@@ -39,16 +39,18 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
   return (
     <DashboardPage>
       <Hero
-        title="Universal Widget"
-        description="Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum."
-        titlePrefix={
-          <Image
-            width="48"
-            height="48"
-            src="/static/v2/images/icons/marketplace/universal-widget.svg"
-            alt="Universal Widget Logo"
-          />
+        title={
+          <>
+            <Image
+              width="48"
+              height="48"
+              src="/static/v2/images/icons/marketplace/universal-widget.svg"
+              alt="Universal Widget Logo"
+            />
+            Universal Widget
+          </>
         }
+        description="Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum."
         image={
           <Image
             width="400"
@@ -57,17 +59,16 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
             alt="Universal Widget Preview"
           />
         }
-        actions={
-          !!siloId && (
-            <UniversalWidgetOpenButton
-              siloId={siloId}
-              variant="border"
-              size="lg"
-              isExternal
-            />
-          )
-        }
-      />
+      >
+        {!!siloId && (
+          <UniversalWidgetOpenButton
+            siloId={siloId}
+            variant="border"
+            size="lg"
+            isExternal
+          />
+        )}
+      </Hero>
       <Tabs tabs={tabs} />
     </DashboardPage>
   )

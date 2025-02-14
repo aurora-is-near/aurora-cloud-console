@@ -5,7 +5,7 @@ type Props = {
   status: Exclude<Team["onboarding_status"], null>
 }
 
-export const DeploymentProgress = ({ status }: Props) => (
+export const DeploymentProgressManual = ({ status }: Props) => (
   <section className="flex flex-col gap-6">
     <Typography variant="heading" size={4}>
       Your chain’s deployment progress

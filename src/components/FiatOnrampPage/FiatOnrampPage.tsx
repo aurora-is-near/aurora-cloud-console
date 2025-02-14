@@ -56,8 +56,9 @@ export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
             alt="Onramp Preview"
           />
         }
-        actions={silo && <MunzenWidgetOpenButton silo={silo} size="lg" />}
-      />
+      >
+        {silo && <MunzenWidgetOpenButton silo={silo} size="lg" />}
+      </Hero>
 
       <Tabs tabs={tabs} />
     </DashboardPage>
