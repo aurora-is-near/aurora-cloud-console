@@ -1,11 +1,13 @@
 "use server"
 
+import { notifySlackOnboarding } from "@/actions/onboarding/notify-slack-onboarding"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { Tables } from "@/types/supabase"
+import { OnboardingForm, Team } from "@/types/types"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const saveOnboardingForm = async (
-  inputs: Omit<Tables<"onboarding_form">, "id" | "created_at">,
+  team: Team,
+  inputs: Omit<OnboardingForm, "id" | "chainId" | "created_at">,
 ) => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
@@ -15,6 +17,10 @@ export const saveOnboardingForm = async (
     .single()
 
   assertValidSupabaseResult(result)
+
+  if (inputs.telegramHandle) {
+    await notifySlackOnboarding(team, inputs)
+  }
 
   return result.data
 }

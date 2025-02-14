@@ -14,6 +14,7 @@ import { sendEmail } from "@/utils/email"
 import { getRequestReceivedEmail } from "@/email-templates/get-request-received-email"
 import { getStripeConfig } from "@/utils/stripe"
 import { trackEvent } from "@/components/Mixpanel/ServerTracker"
+import { getTeamMembers } from "@/actions/team-members/get-team-members"
 
 type WebhookResponse = {
   fulfilled: boolean
@@ -65,19 +66,18 @@ const sendEmails = async (
   session: Stripe.Checkout.Session,
   team?: Team | null,
 ) => {
-  const emailAddresses = [team?.email, session.customer_details?.email].filter(
-    (email): email is string => !!email,
-  )
+  const teamMembers = team ? await getTeamMembers(team.team_key) : []
+  const teamEmails = teamMembers.map((member) => member.email)
+  const emailAddresses = [
+    session.customer_details?.email,
+    ...teamEmails,
+  ].filter((email): email is string => !!email)
 
-  return Promise.all(
-    emailAddresses.map(async (email) =>
-      sendEmail({
-        To: email,
-        Subject: "Your request was received",
-        HtmlBody: getRequestReceivedEmail(),
-      }),
-    ),
-  )
+  await sendEmail({
+    To: emailAddresses.join(),
+    Subject: "Your request was received",
+    HtmlBody: getRequestReceivedEmail(),
+  })
 }
 
 const getTeamFromId = async (teamId: number) => {

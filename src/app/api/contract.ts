@@ -31,7 +31,10 @@ export const DealSchema = z.object({
 export const RuleSchema = z.object({
   id: z.number(),
   dealId: z.number(),
-  resourceDefinition: z.object({}).nullable(),
+  chains: z.array(z.number()).nullable(),
+  contracts: z.array(z.string()).nullable(),
+  exceptChains: z.array(z.number()).nullable(),
+  exceptContracts: z.array(z.string()).nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
 })
@@ -230,7 +233,10 @@ export const contract = c.router({
       200: RuleSchema,
     },
     body: z.object({
-      resourceDefinition: z.object({}).nullable(),
+      chains: z.array(z.number()).nullable(),
+      contracts: z.array(z.string()).nullable(),
+      exceptChains: z.array(z.number()).nullable(),
+      exceptContracts: z.array(z.string()).nullable(),
     }),
     metadata: {
       scopes: ["deals:write"],
@@ -247,7 +253,10 @@ export const contract = c.router({
       200: RuleSchema,
     },
     body: z.object({
-      resourceDefinition: z.object({}).nullable(),
+      chains: z.array(z.number()).nullable(),
+      contracts: z.array(z.string()).nullable(),
+      exceptChains: z.array(z.number()).nullable(),
+      exceptContracts: z.array(z.string()).nullable(),
     }),
     metadata: {
       scopes: ["deals:write"],

@@ -31,16 +31,18 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
   return (
     <DashboardPage>
       <Hero
-        title="Forwarder"
-        description="Allow users to deposit assets from centralized exchanges to your chain."
-        titlePrefix={
-          <Image
-            width="48"
-            height="48"
-            src="/static/v2/images/icons/marketplace/cex_withdrawals.svg"
-            alt="Onramp Logo"
-          />
+        title={
+          <>
+            <Image
+              width="48"
+              height="48"
+              src="/static/v2/images/icons/marketplace/cex_withdrawals.svg"
+              alt="Onramp Logo"
+            />
+            Forwarder
+          </>
         }
+        description="Allow users to deposit assets from centralized exchanges to your chain."
         image={
           <Image
             width="400"
@@ -49,17 +51,16 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
             alt="Forwarder Preview"
           />
         }
-        actions={
-          silo && (
-            <ForwarderWidgetOpenButton
-              silo={silo}
-              variant="border"
-              size="lg"
-              isExternal
-            />
-          )
-        }
-      />
+      >
+        {silo && (
+          <ForwarderWidgetOpenButton
+            silo={silo}
+            variant="border"
+            size="lg"
+            isExternal
+          />
+        )}
+      </Hero>
 
       <Tabs tabs={tabs} />
     </DashboardPage>

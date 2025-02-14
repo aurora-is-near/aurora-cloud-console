@@ -41,7 +41,7 @@ export const tokenOptions: TokenOption[] = [
   { symbol: "CUSTOM", name: "My Token", icon: CustomToken },
 ]
 
-interface ChainCreationForm {
+export interface ChainCreationForm {
   networkType: NetworkType | null
   chainPermission: ChainPermission | null
   baseToken: BaseTokenSymbol | null
@@ -182,7 +182,7 @@ export const useChainCreationForm = (
       ...form,
     })
 
-    await saveOnboardingForm({
+    await saveOnboardingForm(team, {
       ...form,
       team_id: team.id,
       baseToken: form.baseToken ?? "AURORA",
@@ -207,7 +207,7 @@ export const useChainCreationForm = (
 
     // for mainnet
     window.location.href = `${window.location.origin}/dashboard/${team.team_key}`
-  }, [form, fieldErrors, mixPanel, team.id, team.team_key])
+  }, [form, fieldErrors, mixPanel, team])
 
   return {
     form,

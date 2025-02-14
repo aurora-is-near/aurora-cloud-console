@@ -70,7 +70,7 @@ const UsersConfigurationCard = ({ deal }: { deal: Deal }) => {
       title="Users"
       description="Choose who will benefit from this plan."
     >
-      <div className="xl:w-1/2 flex flex-col gap-2">
+      <div className="flex flex-col gap-2">
         <div
           className={clsx(
             "rounded-md ring-1",

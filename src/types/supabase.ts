@@ -547,29 +547,38 @@ export type Database = {
       }
       rules: {
         Row: {
+          chains: number[] | null
+          contracts: string[] | null
           created_at: string
           deal_id: number
           deleted_at: string | null
+          except_chains: number[] | null
+          except_contracts: string[] | null
           id: number
-          resource_definition: Json
           ui_enabled: boolean
           updated_at: string
         }
         Insert: {
+          chains?: number[] | null
+          contracts?: string[] | null
           created_at?: string
           deal_id: number
           deleted_at?: string | null
+          except_chains?: number[] | null
+          except_contracts?: string[] | null
           id?: number
-          resource_definition: Json
           ui_enabled?: boolean
           updated_at?: string
         }
         Update: {
+          chains?: number[] | null
+          contracts?: string[] | null
           created_at?: string
           deal_id?: number
           deleted_at?: string | null
+          except_chains?: number[] | null
+          except_contracts?: string[] | null
           id?: number
-          resource_definition?: Json
           ui_enabled?: boolean
           updated_at?: string
         }
@@ -788,7 +797,6 @@ export type Database = {
       teams: {
         Row: {
           created_at: string
-          email: string | null
           id: number
           name: string
           onboarding_status:
@@ -797,11 +805,9 @@ export type Database = {
           prepaid_transactions: number
           team_key: string
           updated_at: string
-          website: string | null
         }
         Insert: {
           created_at?: string
-          email?: string | null
           id?: number
           name: string
           onboarding_status?:
@@ -810,11 +816,9 @@ export type Database = {
           prepaid_transactions?: number
           team_key: string
           updated_at?: string
-          website?: string | null
         }
         Update: {
           created_at?: string
-          email?: string | null
           id?: number
           name?: string
           onboarding_status?:
@@ -823,7 +827,6 @@ export type Database = {
           prepaid_transactions?: number
           team_key?: string
           updated_at?: string
-          website?: string | null
         }
         Relationships: []
       }

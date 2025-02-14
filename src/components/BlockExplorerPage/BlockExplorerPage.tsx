@@ -60,16 +60,18 @@ export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
   return (
     <DashboardPage>
       <Hero
-        title="Block Explorer"
-        description="Access a dedicated blockchain explorer for real-time transaction and contract tracking on your chain."
-        titlePrefix={
-          <Image
-            width="48"
-            height="48"
-            src="/static/v2/images/icons/marketplace/block_explorer.svg"
-            alt="Block Explorer Logo"
-          />
+        title={
+          <>
+            <Image
+              width="48"
+              height="48"
+              src="/static/v2/images/icons/marketplace/block_explorer.svg"
+              alt="Block Explorer Logo"
+            />
+            Block Explorer
+          </>
         }
+        description="Access a dedicated blockchain explorer for real-time transaction and contract tracking on your chain."
         image={
           <Image
             width="400"
@@ -78,28 +80,25 @@ export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
             alt="Block Explorer Preview"
           />
         }
-        actions={
-          <>
-            {!silo && (
-              <NotAvailableBadge>
-                Available with your Virtual Chain
-              </NotAvailableBadge>
-            )}
+      >
+        {!silo && (
+          <NotAvailableBadge>
+            Available with your Virtual Chain
+          </NotAvailableBadge>
+        )}
 
-            {!!silo?.explorer_url && (
-              <LinkButton
-                isExternal
-                variant="border"
-                href={silo.explorer_url}
-                size="lg"
-              >
-                <span>Open the explorer</span>
-                <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-              </LinkButton>
-            )}
-          </>
-        }
-      />
+        {!!silo?.explorer_url && (
+          <LinkButton
+            isExternal
+            variant="border"
+            href={silo.explorer_url}
+            size="lg"
+          >
+            <span>Open the explorer</span>
+            <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+          </LinkButton>
+        )}
+      </Hero>
 
       <Tabs tabs={tabs} />
     </DashboardPage>
