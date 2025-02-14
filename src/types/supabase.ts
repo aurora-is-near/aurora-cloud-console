@@ -547,29 +547,38 @@ export type Database = {
       }
       rules: {
         Row: {
+          chains: number[] | null
+          contracts: string[] | null
           created_at: string
           deal_id: number
           deleted_at: string | null
+          except_chains: number[] | null
+          except_contracts: string[] | null
           id: number
-          resource_definition: Json
           ui_enabled: boolean
           updated_at: string
         }
         Insert: {
+          chains?: number[] | null
+          contracts?: string[] | null
           created_at?: string
           deal_id: number
           deleted_at?: string | null
+          except_chains?: number[] | null
+          except_contracts?: string[] | null
           id?: number
-          resource_definition: Json
           ui_enabled?: boolean
           updated_at?: string
         }
         Update: {
+          chains?: number[] | null
+          contracts?: string[] | null
           created_at?: string
           deal_id?: number
           deleted_at?: string | null
+          except_chains?: number[] | null
+          except_contracts?: string[] | null
           id?: number
-          resource_definition?: Json
           ui_enabled?: boolean
           updated_at?: string
         }
@@ -628,6 +637,41 @@ export type Database = {
           },
         ]
       }
+      silo_config_transactions: {
+        Row: {
+          created_at: string
+          id: number
+          operation: Database["public"]["Enums"]["silo_config_transaction_operation"]
+          silo_id: number
+          status: Database["public"]["Enums"]["silo_config_transaction_status"]
+          transaction_hash: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          operation: Database["public"]["Enums"]["silo_config_transaction_operation"]
+          silo_id: number
+          status?: Database["public"]["Enums"]["silo_config_transaction_status"]
+          transaction_hash: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          operation?: Database["public"]["Enums"]["silo_config_transaction_operation"]
+          silo_id?: number
+          status?: Database["public"]["Enums"]["silo_config_transaction_status"]
+          transaction_hash?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_config_transactions_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       silos: {
         Row: {
           base_token_name: string
@@ -644,6 +688,7 @@ export type Database = {
           genesis: string
           grafana_network_key: string | null
           id: number
+          is_active: boolean
           name: string
           network: string
           network_logo: string
@@ -670,6 +715,7 @@ export type Database = {
           genesis: string
           grafana_network_key?: string | null
           id?: number
+          is_active?: boolean
           name: string
           network?: string
           network_logo?: string
@@ -696,6 +742,7 @@ export type Database = {
           genesis?: string
           grafana_network_key?: string | null
           id?: number
+          is_active?: boolean
           name?: string
           network?: string
           network_logo?: string
@@ -1046,7 +1093,14 @@ export type Database = {
         | "payments:read"
         | "payments:write"
         | "assets:write"
-      base_token_symbol: "AURORA" | "BTC" | "ETH" | "USDC" | "USDT" | "CUSTOM"
+      base_token_symbol:
+        | "AURORA"
+        | "BTC"
+        | "ETH"
+        | "USDC"
+        | "USDT"
+        | "CUSTOM"
+        | "NEAR"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
       limit_scope: "USER" | "GLOBAL"
@@ -1059,6 +1113,8 @@ export type Database = {
         | "paid"
         | "unpaid"
         | "no_payment_required"
+      silo_config_transaction_operation: "SET_BASE_TOKEN"
+      silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       team_onboarding_status:
         | "REQUEST_RECEIVED"
         | "DEPLOYMENT_IN_PROGRESS"

@@ -8,13 +8,19 @@ import {
 } from "@/utils/supabase"
 
 export const createRule = async (inputs: {
-  rule: Pick<Rule, "deal_id" | "resource_definition">
+  rule: Pick<
+    Rule,
+    "deal_id" | "chains" | "except_chains" | "contracts" | "except_contracts"
+  >
   team_id: number
 }): Promise<Rule> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("rules")
-    .insert({ ...inputs.rule, ui_enabled: true })
+    .insert({
+      ...inputs.rule,
+      ui_enabled: true,
+    })
     .select()
     .single()
 
