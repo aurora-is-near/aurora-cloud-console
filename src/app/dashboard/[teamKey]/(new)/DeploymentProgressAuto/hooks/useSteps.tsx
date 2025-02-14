@@ -7,7 +7,7 @@ import type { Step, StepsAttrs } from "../types"
 
 type Args = {
   team: Team
-  onClick?: (step: Step) => void
+  onClick?: (step: Step) => Promise<void> | void
 }
 
 export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
@@ -69,7 +69,8 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
         action: {
           variant: "destructive",
           title: "Try again",
-          onClick: () => null,
+          onClick: () =>
+            onClick?.({ name: "SETTING_BASE_TOKEN", state: "failed" }),
         },
       },
     },

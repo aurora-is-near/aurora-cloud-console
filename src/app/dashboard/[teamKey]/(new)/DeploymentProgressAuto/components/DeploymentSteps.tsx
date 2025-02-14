@@ -33,15 +33,6 @@ export const DeploymentSteps = ({
   silo,
   onDeploymentComplete,
 }: DeploymentStepsProps) => {
-  const allSteps = useSteps({
-    team,
-    onClick: (step) => {
-      if (step.name === "CHAIN_DEPLOYED" && step.state === "completed") {
-        onDeploymentComplete()
-      }
-    },
-  })
-
   const [hasError, setHasError] = useState(false)
   const [currentStep, setCurrentStep] = useState<StepName>("INIT_AURORA_ENGINE")
 
@@ -97,6 +88,20 @@ export const DeploymentSteps = ({
   useEffect(() => {
     void startConfiguration()
   }, [startConfiguration])
+
+  const allSteps = useSteps({
+    team,
+    onClick: async (step) => {
+      if (step.name === "CHAIN_DEPLOYED" && step.state === "completed") {
+        onDeploymentComplete()
+      }
+
+      if (step.name === "SETTING_BASE_TOKEN" && step.state === "failed") {
+        setHasError(false)
+        await startConfiguration()
+      }
+    },
+  })
 
   return <Steps allSteps={allSteps} steps={steps} />
 }
