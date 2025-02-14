@@ -63,6 +63,9 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
 
     SETTING_BASE_TOKEN: {
       title: "Setting up the base token",
+      delayed: {
+        description: "Running a bit slow — come back shortly.",
+      },
       failed: {
         description:
           "Please try again or contact us to resolve the server issue promptly.",
@@ -72,13 +75,6 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
           onClick: () =>
             onClick?.({ name: "SETTING_BASE_TOKEN", state: "failed" }),
         },
-      },
-    },
-
-    SETTING_BASE_TOKEN_RETRY: {
-      title: "Setting up the base token",
-      pending: {
-        description: "Running a bit slow — come back shortly.",
       },
     },
 

@@ -3,6 +3,7 @@ import { Silo, Team } from "@/types/types"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { logger } from "@/logger"
 import { updateSilo } from "@/actions/silos/update-silo"
+import { ListProgressState } from "@/uikit"
 import { useSteps } from "../hooks"
 import { Steps } from "./Steps"
 import { Step, StepName } from "../types"
@@ -22,6 +23,7 @@ const STEPS: StepName[] = [
 ]
 
 const STEP_DELAY = 2500
+const CURRENT_STEP_DEFAULT_STATE: ListProgressState = "pending"
 
 const sleep = () =>
   new Promise((resolve) => {
@@ -33,7 +35,10 @@ export const DeploymentSteps = ({
   silo,
   onDeploymentComplete,
 }: DeploymentStepsProps) => {
-  const [hasError, setHasError] = useState(false)
+  const [currentStepState, setCurrentStepState] = useState<ListProgressState>(
+    CURRENT_STEP_DEFAULT_STATE,
+  )
+
   const [currentStep, setCurrentStep] = useState<StepName>("INIT_AURORA_ENGINE")
 
   const steps = useMemo(() => {
@@ -46,12 +51,12 @@ export const DeploymentSteps = ({
       }
 
       if (step === currentStep) {
-        return { name: step, state: hasError ? "failed" : "pending" }
+        return { name: step, state: currentStepState }
       }
 
       return { name: step, state: "upcoming" }
     })
-  }, [currentStep, hasError])
+  }, [currentStep, currentStepState])
 
   const startConfiguration = useCallback(async () => {
     await sleep()
@@ -64,12 +69,15 @@ export const DeploymentSteps = ({
       isBaseTokenSet = await setBaseToken(silo)
     } catch (error) {
       logger.error(error)
-      setHasError(true)
+      setCurrentStepState("failed")
 
       return
     }
 
     if (!isBaseTokenSet) {
+      await sleep()
+      setCurrentStepState("delayed")
+
       return
     }
 
@@ -97,7 +105,7 @@ export const DeploymentSteps = ({
       }
 
       if (step.name === "SETTING_BASE_TOKEN" && step.state === "failed") {
-        setHasError(false)
+        setCurrentStepState(CURRENT_STEP_DEFAULT_STATE)
         await startConfiguration()
       }
     },
