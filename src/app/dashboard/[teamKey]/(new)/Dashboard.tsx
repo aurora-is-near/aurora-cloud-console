@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { featureFlags } from "@/feature-flags/server"
 import { CheckIcon } from "@heroicons/react/24/outline"
 
 import Hero from "@/components/Hero/Hero"
@@ -8,7 +9,9 @@ import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
 import { DashboardPage } from "@/components/DashboardPage"
 
-import { StartDeployment } from "./StartDeployment"
+import { StartDeploymentButton } from "./StartDeploymentButton"
+import { DeploymentProgressManual } from "./DeploymentProgressManual"
+import { DeploymentProgressAuto } from "./DeploymentProgress/DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
 
 type DashboardHomePageProps = {
@@ -20,6 +23,7 @@ export const DashboardHomePage = async ({
   team,
   silo = null,
 }: DashboardHomePageProps) => {
+  const isAutomated = featureFlags.get("automate_silo_configuration")
   const isOnboardingFormSubmitted = !!(await getTeamOnboardingForm(team.id))
 
   return (
@@ -63,15 +67,25 @@ export const DashboardHomePage = async ({
           />
         }
       >
-        <StartDeployment
-          silo={silo}
-          team={team}
-          isOnboardingFormSubmitted={isOnboardingFormSubmitted}
-          onboardingStatus={team.onboarding_status ?? "REQUEST_RECEIVED"}
-        />
+        {isAutomated && (
+          <DeploymentProgressAuto
+            team={team}
+            silo={silo}
+            isOnboardingFormSubmitted={isOnboardingFormSubmitted}
+          />
+        )}
       </Hero>
 
       <section className="flex flex-col pt-4 gap-14">
+        {!isAutomated ? (
+          <DeploymentProgressManual
+            status={team.onboarding_status ?? "REQUEST_RECEIVED"}
+          />
+        ) : (
+          // TODO: Remove it after logic moved to a Stepper
+          <StartDeploymentButton teamId={team.id} />
+        )}
+
         <WhatsNext team={team} />
 
         <div className="flex flex-col">
