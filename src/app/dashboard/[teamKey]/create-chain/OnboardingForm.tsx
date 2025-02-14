@@ -319,8 +319,9 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
                       Your Telegram @handle
                     </label>
                     <p className="text-sm text-slate-500">
-                      Our team will create a group chat to share your chain
-                      updates and answer your questions.
+                      You will be contacted by{" "}
+                      <strong>@Aurora_TG_Manager</strong> to provide chain
+                      updates and address any questions you may have.
                     </p>
                     <input
                       type="text"
