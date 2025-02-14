@@ -23,6 +23,8 @@ const ContractsConfigurationCard = ({ silo }: { silo: Silo }) => {
 
   const disabled = !featureFlags.get("gas_plans_configuration")
 
+  console.log("Rule loaded", rule.contracts)
+
   return (
     <div className="flex flex-col gap-2">
       {rule.contracts?.map((contract: string) => (

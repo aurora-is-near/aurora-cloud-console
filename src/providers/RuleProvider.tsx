@@ -77,9 +77,12 @@ export const RuleProvider = ({
       const contracts = rule.contracts ?? []
       const updatedContracts = [...contracts, address]
 
-      await updateRule(rule.id, rule.deal_id, {
+      const updatedRule = await updateRule(rule.id, rule.deal_id, {
         contracts: updatedContracts,
       })
+
+      setRule(updatedRule)
+
       toast.success("Contract address added")
     },
     [rule.deal_id, rule.id, rule.contracts],
@@ -90,9 +93,12 @@ export const RuleProvider = ({
       const contracts = rule.contracts ?? []
       const updatedContracts = contracts.filter((a: string) => a !== address)
 
-      await updateRule(rule.id, rule.deal_id, {
+      const updatedRule = await updateRule(rule.id, rule.deal_id, {
         contracts: updatedContracts,
       })
+
+      setRule(updatedRule)
+
       toast.success("Contract address removed")
     },
     [rule.deal_id, rule.id, rule.contracts],
