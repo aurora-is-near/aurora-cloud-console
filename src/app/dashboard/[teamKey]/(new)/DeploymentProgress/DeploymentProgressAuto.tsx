@@ -1,46 +1,15 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
-import type { ComponentProps } from "react"
 
 import { Button } from "@/components/Button"
-import { ListProgress } from "@/uikit"
-import type { ListProgressState } from "@/uikit"
 import type { Silo, Team } from "@/types/types"
 
+import { Steps } from "./Steps"
+import { ModalConfirmDeployment } from "./ModalConfirmDeployment"
 import { useSteps } from "./useSteps"
-
-const StepAction = (props: ComponentProps<typeof Button>) => (
-  <Button {...props} size="md" />
-)
-
-const Steps = ({
-  team,
-  steps,
-}: {
-  team: Team
-  steps: { name: keyof ReturnType<typeof useSteps>; state: ListProgressState }[]
-}) => {
-  const possibleSteps = useSteps({ team })
-
-  return (
-    <ListProgress>
-      {steps.map(({ name, state }) => (
-        <ListProgress.Item
-          key={name}
-          state={state}
-          title={possibleSteps[name].title}
-          {...possibleSteps[name][state]}
-        >
-          {possibleSteps[name][state]?.action && (
-            <StepAction {...possibleSteps[name][state].action} />
-          )}
-        </ListProgress.Item>
-      ))}
-    </ListProgress>
-  )
-}
 
 type Props = {
   team: Team
@@ -53,13 +22,25 @@ export const DeploymentProgressAuto = ({
   silo,
   isOnboardingFormSubmitted,
 }: Props) => {
+  const router = useRouter()
   const [isDeploymentStarted] = useState(false)
+  const [isConfirmDeploymentModalOpen, setIsConfirmDeploymentModalOpen] =
+    useState(false)
+
+  const allSteps = useSteps({
+    team,
+    onClick: ({ name }) => {
+      if (name === "START_DEPLOYMENT") {
+        setIsConfirmDeploymentModalOpen(true)
+      }
+    },
+  })
 
   // Welcome
-  if (!silo && !isDeploymentStarted) {
+  if (!silo && !isDeploymentStarted && !isOnboardingFormSubmitted) {
     return (
       <Steps
-        team={team}
+        allSteps={allSteps}
         steps={[
           { name: "CONFIGURE_CHAIN", state: "current" },
           { name: "START_DEPLOYMENT", state: "upcoming" },
@@ -71,13 +52,23 @@ export const DeploymentProgressAuto = ({
   // Onboarding passed
   if (!silo && !isDeploymentStarted && isOnboardingFormSubmitted) {
     return (
-      <Steps
-        team={team}
-        steps={[
-          { name: "CONFIGURE_CHAIN", state: "completed" },
-          { name: "START_DEPLOYMENT", state: "current" },
-        ]}
-      />
+      <>
+        <Steps
+          allSteps={allSteps}
+          steps={[
+            { name: "CONFIGURE_CHAIN", state: "completed" },
+            { name: "START_DEPLOYMENT", state: "current" },
+          ]}
+        />
+        <ModalConfirmDeployment
+          isOpen={isConfirmDeploymentModalOpen}
+          onClickConfirm={() => null} // TODO: implement
+          onClose={() => setIsConfirmDeploymentModalOpen(false)}
+          onClickEdit={() => {
+            router.push(`/dashboard/${team.team_key}/create-chain`)
+          }}
+        />
+      </>
     )
   }
 
@@ -85,7 +76,7 @@ export const DeploymentProgressAuto = ({
   if (!silo && isDeploymentStarted) {
     return (
       <Steps
-        team={team}
+        allSteps={allSteps}
         steps={[
           { name: "CONFIGURED_CHAIN", state: "completed" },
           { name: "INIT_AURORA_ENGINE", state: "current" },

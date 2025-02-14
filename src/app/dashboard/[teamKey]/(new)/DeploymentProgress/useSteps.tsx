@@ -5,7 +5,12 @@ import type { Team } from "@/types/types"
 
 import type { StepsAttrs } from "./types"
 
-export const useSteps = ({ team }: { team: Team }): StepsAttrs => {
+type Args = {
+  team: Team
+  onClick: (step: { name: "START_DEPLOYMENT"; state: "current" }) => void
+}
+
+export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
   const router = useRouter()
 
   return {
@@ -25,7 +30,7 @@ export const useSteps = ({ team }: { team: Team }): StepsAttrs => {
       },
       completed: {
         action: {
-          variant: "secondary",
+          variant: "border",
           title: "Edit",
           onClick: () =>
             router.push(`/dashboard/${team.team_key}/create-chain`),
@@ -40,14 +45,14 @@ export const useSteps = ({ team }: { team: Team }): StepsAttrs => {
           disabled: true,
           variant: "secondary",
           title: "Deploy now",
-          onClick: () => null,
         },
       },
       current: {
         action: {
           variant: "primary",
           title: "Deploy now",
-          onClick: () => null,
+          onClick: () =>
+            onClick({ name: "START_DEPLOYMENT", state: "current" }),
         },
       },
     },

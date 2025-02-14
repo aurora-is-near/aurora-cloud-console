@@ -4,11 +4,12 @@ import type { ListProgressState } from "@/uikit"
 
 type DeploymentStepAction = {
   title: string
-  variant: "primary" | "secondary" | "destructive"
-  onClick: () => void
-  disabled?: boolean
   icon?: ReactNode
-}
+  variant: "border" | "primary" | "secondary" | "destructive"
+} & (
+  | { disabled: true; onClick?: () => void }
+  | { disabled?: false; onClick: () => void }
+)
 
 type DeploymentStep = {
   title: string

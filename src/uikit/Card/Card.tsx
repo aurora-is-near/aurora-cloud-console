@@ -17,7 +17,7 @@ export const Card = ({
   <Tag
     className={clsx(
       "w-full bg-white border border-slate-200 shadow-sm rounded-[10px]",
-      noPadding ? "" : "p-5 md:p-6",
+      !noPadding && "p-5 md:p-6",
       className,
     )}
   >
