@@ -59,11 +59,6 @@ export const submitContactForm = async (
       name: "name",
       value: team.name,
     },
-    {
-      objectTypeId: "0-2",
-      name: "domain",
-      value: team.website,
-    },
   ].filter((field) => !!field.value)
 
   const res = await fetch(

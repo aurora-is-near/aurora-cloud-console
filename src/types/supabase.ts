@@ -750,7 +750,6 @@ export type Database = {
       teams: {
         Row: {
           created_at: string
-          email: string | null
           id: number
           name: string
           onboarding_status:
@@ -759,11 +758,9 @@ export type Database = {
           prepaid_transactions: number
           team_key: string
           updated_at: string
-          website: string | null
         }
         Insert: {
           created_at?: string
-          email?: string | null
           id?: number
           name: string
           onboarding_status?:
@@ -772,11 +769,9 @@ export type Database = {
           prepaid_transactions?: number
           team_key: string
           updated_at?: string
-          website?: string | null
         }
         Update: {
           created_at?: string
-          email?: string | null
           id?: number
           name?: string
           onboarding_status?:
@@ -785,7 +780,6 @@ export type Database = {
           prepaid_transactions?: number
           team_key?: string
           updated_at?: string
-          website?: string | null
         }
         Relationships: []
       }

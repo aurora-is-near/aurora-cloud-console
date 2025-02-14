@@ -24,6 +24,6 @@ export const getTeamMembers = async (
     id: user.id,
     name: user.name,
     email: user.email,
-    isPending: !user.users_teams[0].confirmed_at,
+    isPending: !user.users_teams[0]?.confirmed_at,
   }))
 }
