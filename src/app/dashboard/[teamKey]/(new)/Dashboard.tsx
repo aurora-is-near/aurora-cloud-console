@@ -1,6 +1,6 @@
 import Image from "next/image"
-import { featureFlags } from "@/feature-flags/server"
 import { CheckIcon } from "@heroicons/react/24/outline"
+import { featureFlags } from "@/feature-flags/server"
 
 import Hero from "@/components/Hero/Hero"
 import { Silo, Team } from "@/types/types"
