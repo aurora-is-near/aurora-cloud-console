@@ -16,6 +16,7 @@ export const ListProgress = ({ children, className }: Props) => (
       if (child.type !== Item) {
         console.warn("ListProgress only accepts ListProgress.Item components")
       }
+
       return child
     })}
   </Card>

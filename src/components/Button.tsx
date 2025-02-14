@@ -44,7 +44,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
         {...restProps}
       >
         <ButtonContent fullWidth={fullWidth} isLoading={loading}>
-          {children || title}
+          {children ?? title}
         </ButtonContent>
       </button>
     )

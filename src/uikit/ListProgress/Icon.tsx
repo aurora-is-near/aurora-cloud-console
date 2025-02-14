@@ -1,6 +1,6 @@
 import {
-  CheckIcon,
   ArrowRightIcon,
+  CheckIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/solid"
 

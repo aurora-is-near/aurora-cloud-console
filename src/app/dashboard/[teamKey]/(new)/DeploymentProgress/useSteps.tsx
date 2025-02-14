@@ -7,6 +7,7 @@ import type { StepsAttrs } from "./types"
 
 export const useSteps = ({ team }: { team: Team }): StepsAttrs => {
   const router = useRouter()
+
   return {
     CONFIGURED_CHAIN: {
       title: "Configure your virtual chain",
@@ -39,14 +40,14 @@ export const useSteps = ({ team }: { team: Team }): StepsAttrs => {
           disabled: true,
           variant: "secondary",
           title: "Deploy now",
-          onClick: () => console.log("Deploy now"),
+          onClick: () => null,
         },
       },
       current: {
         action: {
           variant: "primary",
           title: "Deploy now",
-          onClick: () => console.log("Deploy now"),
+          onClick: () => null,
         },
       },
     },
@@ -63,7 +64,7 @@ export const useSteps = ({ team }: { team: Team }): StepsAttrs => {
         action: {
           variant: "destructive",
           title: "Try again",
-          onClick: () => console.log("Try again"),
+          onClick: () => null,
         },
       },
     },

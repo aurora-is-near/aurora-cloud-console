@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import type { ReactNode, PropsWithChildren } from "react"
+import type { PropsWithChildren, ReactNode } from "react"
 
 import HeroTitle from "./HeroTitle"
 import HeroContent from "./HeroContent"

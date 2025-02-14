@@ -42,12 +42,12 @@ export const Item = ({
         </Typography>
         <Badge state={state} />
       </div>
-      {description && (
+      {description ? (
         <Typography variant="paragraph" size={4} className="text-slate-500">
           {description}
         </Typography>
-      )}
+      ) : null}
     </div>
-    {children && <div className="ml-auto">{children}</div>}
+    {children ? <div className="ml-auto">{children}</div> : null}
   </li>
 )

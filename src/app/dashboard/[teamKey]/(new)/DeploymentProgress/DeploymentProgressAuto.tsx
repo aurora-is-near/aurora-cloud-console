@@ -7,16 +7,9 @@ import type { ComponentProps } from "react"
 import { Button } from "@/components/Button"
 import { ListProgress } from "@/uikit"
 import type { ListProgressState } from "@/uikit"
-import type { Silo, Team, OnboardingStatus } from "@/types/types"
+import type { Silo, Team } from "@/types/types"
 
 import { useSteps } from "./useSteps"
-
-type Props = {
-  team: Team
-  silo: Silo | null
-  onboardingStatus: OnboardingStatus
-  isOnboardingFormSubmitted: boolean
-}
 
 const StepAction = (props: ComponentProps<typeof Button>) => (
   <Button {...props} size="md" />
@@ -30,10 +23,12 @@ const Steps = ({
   steps: { name: keyof ReturnType<typeof useSteps>; state: ListProgressState }[]
 }) => {
   const possibleSteps = useSteps({ team })
+
   return (
     <ListProgress>
       {steps.map(({ name, state }) => (
         <ListProgress.Item
+          key={name}
           state={state}
           title={possibleSteps[name].title}
           {...possibleSteps[name][state]}
@@ -47,12 +42,18 @@ const Steps = ({
   )
 }
 
+type Props = {
+  team: Team
+  silo: Silo | null
+  isOnboardingFormSubmitted: boolean
+}
+
 export const DeploymentProgressAuto = ({
   team,
   silo,
   isOnboardingFormSubmitted,
 }: Props) => {
-  const [isDeploymentStarted, setIsDeploymentStarted] = useState(false)
+  const [isDeploymentStarted] = useState(false)
 
   // Welcome
   if (!silo && !isDeploymentStarted) {
@@ -101,7 +102,7 @@ export const DeploymentProgressAuto = ({
   if (silo) {
     return (
       <div className="flex gap-2">
-        {silo.explorer_url && (
+        {silo.explorer_url ? (
           <Button
             size="lg"
             variant="primary"
@@ -112,7 +113,7 @@ export const DeploymentProgressAuto = ({
             Open Block Explorer
             <ArrowTopRightOnSquareIcon className="w-5 h-5" />
           </Button>
-        )}
+        ) : null}
         <Button size="lg" variant="border">
           Customize Block Explorer
         </Button>
