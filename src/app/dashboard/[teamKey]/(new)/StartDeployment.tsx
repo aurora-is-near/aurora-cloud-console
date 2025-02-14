@@ -11,13 +11,21 @@ type StartDeploymentProps = {
 }
 
 export const StartDeployment = ({
+  team,
+  silo,
   onboardingStatus,
-  ...props
+  isOnboardingFormSubmitted,
 }: StartDeploymentProps) => {
   const isAutomated = featureFlags.get("automate_silo_configuration")
 
   if (isAutomated) {
-    return <DeploymentProgressAuto {...props} />
+    return (
+      <DeploymentProgressAuto
+        team={team}
+        silo={silo}
+        isOnboardingFormSubmitted={isOnboardingFormSubmitted}
+      />
+    )
   }
 
   return <DeploymentProgressManual status={onboardingStatus} />
