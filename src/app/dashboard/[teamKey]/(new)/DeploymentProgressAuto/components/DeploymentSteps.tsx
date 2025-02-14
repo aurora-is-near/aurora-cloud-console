@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Silo, Team } from "@/types/types"
-import { ListProgressState } from "@/uikit"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { logger } from "@/logger"
 import { updateSilo } from "@/actions/silos/update-silo"
