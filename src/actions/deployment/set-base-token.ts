@@ -10,7 +10,7 @@ const isValidBaseToken = (baseToken: string): baseToken is BaseTokenSymbol => {
   return Object.keys(BASE_TOKENS).includes(baseToken)
 }
 
-export const setBaseToken = async (silo: Silo) => {
+export const setBaseToken = async (silo: Silo): Promise<boolean> => {
   if (!isValidBaseToken(silo.base_token_symbol)) {
     throw new Error(`Invalid base token symbol: ${silo.base_token_symbol}`)
   }
@@ -19,7 +19,7 @@ export const setBaseToken = async (silo: Silo) => {
   // set the base token once, if the base token selected for the silo is ETH we
   // don't need to do anything.
   if (silo.base_token_symbol === "ETH") {
-    return
+    return true
   }
 
   const pendingTransactions = await getSiloConfigTransactions(silo.id)
@@ -32,7 +32,7 @@ export const setBaseToken = async (silo: Silo) => {
   // If there is already a pending transaction or successful transaction for
   // setting the base token, we don't need to trigger another one.
   if (pendingBaseTokenTransaction) {
-    return
+    return false
   }
 
   const baseTokenConfig = BASE_TOKENS[silo.base_token_symbol]
@@ -49,7 +49,7 @@ export const setBaseToken = async (silo: Silo) => {
   })
 
   if (!tx_hash) {
-    return
+    return true
   }
 
   await createSiloConfigTransaction({
@@ -58,4 +58,6 @@ export const setBaseToken = async (silo: Silo) => {
     operation: "SET_BASE_TOKEN",
     status: "PENDING",
   })
+
+  return false
 }

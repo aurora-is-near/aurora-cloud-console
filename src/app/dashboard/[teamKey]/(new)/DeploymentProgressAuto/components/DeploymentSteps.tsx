@@ -67,12 +67,18 @@ export const DeploymentSteps = ({
 
     setCurrentStep("SETTING_BASE_TOKEN")
 
+    let isBaseTokenSet
+
     try {
-      await setBaseToken(silo)
+      isBaseTokenSet = await setBaseToken(silo)
     } catch (error) {
       logger.error(error)
       setHasError(true)
 
+      return
+    }
+
+    if (!isBaseTokenSet) {
       return
     }
 
