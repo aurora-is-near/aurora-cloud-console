@@ -28,7 +28,7 @@ export const StartDeploymentButton = ({
 
   return (
     <Button onClick={onStartDeploymentClick} loading={isLoading}>
-      Start deployment
+      Get started
     </Button>
   )
 }

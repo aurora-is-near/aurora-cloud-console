@@ -30,16 +30,18 @@ export const BridgePage: React.FC<BridgePageProps> = ({ teamKey, siloId }) => {
   return (
     <DashboardPage>
       <Hero
-        title="Bridge"
-        description="Bridge assets between Ethereum, NEAR and Aurora. Configure your bridge widget and embed it."
-        titlePrefix={
-          <Image
-            width="48"
-            height="48"
-            src="/static/v2/images/icons/marketplace/bridge.svg"
-            alt="Bridge Logo"
-          />
+        title={
+          <>
+            <Image
+              width="48"
+              height="48"
+              src="/static/v2/images/icons/marketplace/bridge.svg"
+              alt="Bridge Logo"
+            />
+            Bridge
+          </>
         }
+        description="Bridge assets between Ethereum, NEAR and Aurora. Configure your bridge widget and embed it."
         image={
           <Image
             width="400"
@@ -48,17 +50,16 @@ export const BridgePage: React.FC<BridgePageProps> = ({ teamKey, siloId }) => {
             alt="Bridge Preview"
           />
         }
-        actions={
-          !!siloId && (
-            <UniversalWidgetOpenButton
-              siloId={siloId}
-              variant="border"
-              size="lg"
-              isExternal
-            />
-          )
-        }
-      />
+      >
+        {!!siloId && (
+          <UniversalWidgetOpenButton
+            siloId={siloId}
+            variant="border"
+            size="lg"
+            isExternal
+          />
+        )}
+      </Hero>
       <Tabs tabs={tabs} />
     </DashboardPage>
   )

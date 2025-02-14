@@ -39,29 +39,18 @@ const OraclePage = ({ teamKey, siloId, oracle, tokens }: OraclePageProps) => {
     <DashboardPage>
       <div className="flex flex-col gap-10">
         <Hero
-          title="Oracle"
-          description="Secure your smart contracts with reliable, low-latency market data from institutional sources."
-          actions={
+          title={
             <>
-              {!siloId && (
-                <NotAvailableBadge>
-                  Available with your Virtual Chain
-                </NotAvailableBadge>
-              )}
-
-              {!!siloId && !oracle && (
-                <OracleRequestDeploymentButton siloId={siloId} />
-              )}
+              <Image
+                width="48"
+                height="48"
+                src="/static/v2/images/icons/marketplace/oracle.svg"
+                alt="Oracle Logo"
+              />
+              Oracle
             </>
           }
-          titlePrefix={
-            <Image
-              width="48"
-              height="48"
-              src="/static/v2/images/icons/marketplace/oracle.svg"
-              alt="Oracle Logo"
-            />
-          }
+          description="Secure your smart contracts with reliable, low-latency market data from institutional sources."
           image={
             <Image
               width="400"
@@ -70,7 +59,17 @@ const OraclePage = ({ teamKey, siloId, oracle, tokens }: OraclePageProps) => {
               alt="Oracle Preview"
             />
           }
-        />
+        >
+          {!siloId && (
+            <NotAvailableBadge>
+              Available with your Virtual Chain
+            </NotAvailableBadge>
+          )}
+
+          {!!siloId && !oracle && (
+            <OracleRequestDeploymentButton siloId={siloId} />
+          )}
+        </Hero>
 
         <Tabs tabs={tabs} />
       </div>
