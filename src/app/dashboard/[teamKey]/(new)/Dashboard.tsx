@@ -9,7 +9,6 @@ import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
 import { DashboardPage } from "@/components/DashboardPage"
 
-import { StartDeploymentButton } from "./StartDeploymentButton"
 import { DeploymentProgressManual } from "./DeploymentProgressManual"
 import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
@@ -77,13 +76,10 @@ export const DashboardHomePage = async ({
       </Hero>
 
       <section className="flex flex-col pt-4 gap-14">
-        {!isAutomated ? (
+        {!isAutomated && (
           <DeploymentProgressManual
             status={team.onboarding_status ?? "REQUEST_RECEIVED"}
           />
-        ) : (
-          // TODO: Remove it after logic moved to a Stepper
-          <StartDeploymentButton team={team} />
         )}
 
         <WhatsNext team={team} />

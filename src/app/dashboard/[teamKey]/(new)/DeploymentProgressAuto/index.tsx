@@ -6,7 +6,7 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
 import { Button } from "@/components/Button"
 import type { Silo, Team } from "@/types/types"
 
-import { ModalConfirmDeployment, Steps } from "./components"
+import { DeploymentSteps, ModalConfirmDeployment, Steps } from "./components"
 import { useSteps } from "./hooks"
 
 type Props = {
@@ -20,6 +20,10 @@ export const DeploymentProgressAuto = ({
   silo,
   isOnboardingFormSubmitted,
 }: Props) => {
+  const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
+    !!silo?.is_active,
+  )
+
   const [isConfirmDeploymentModalOpen, setIsConfirmDeploymentModalOpen] =
     useState(false)
 
@@ -66,17 +70,14 @@ export const DeploymentProgressAuto = ({
   }
 
   // Automatic deployment in progress
-  if (!silo.is_active) {
+  if (!isDeploymentComplete) {
     return (
-      <Steps
-        allSteps={allSteps}
-        steps={[
-          { name: "CONFIGURED_CHAIN", state: "completed" },
-          { name: "INIT_AURORA_ENGINE", state: "current" },
-          { name: "SETTING_BASE_TOKEN", state: "upcoming" },
-          { name: "START_BLOCK_EXPLORER", state: "upcoming" },
-          { name: "CHAIN_DEPLOYED", state: "upcoming" },
-        ]}
+      <DeploymentSteps
+        silo={silo}
+        team={team}
+        onDeploymentComplete={() => {
+          setIsDeploymentComplete(true)
+        }}
       />
     )
   }

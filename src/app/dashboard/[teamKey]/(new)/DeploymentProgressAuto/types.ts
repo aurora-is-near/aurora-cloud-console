@@ -6,10 +6,9 @@ type DeploymentStepAction = {
   title: string
   icon?: ReactNode
   variant: "border" | "primary" | "secondary" | "destructive"
-} & (
-  | { disabled: true; onClick?: () => void }
-  | { disabled?: false; onClick: () => void }
-)
+  disabled?: boolean
+  onClick?: () => void
+}
 
 type DeploymentStep = {
   title: string
@@ -29,7 +28,7 @@ const stepNames = [
   "CHAIN_DEPLOYED",
 ] as const
 
-type StepName = (typeof stepNames)[number]
+export type StepName = (typeof stepNames)[number]
 
 export type StepsAttrs = Record<
   StepName,
@@ -39,3 +38,5 @@ export type StepsAttrs = Record<
     >
   }
 >
+
+export type Step = { name: StepName; state: ListProgressState }
