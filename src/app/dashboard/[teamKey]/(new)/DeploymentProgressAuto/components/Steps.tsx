@@ -6,7 +6,7 @@ import { Button } from "@/components/Button"
 import { ListProgress } from "@/uikit"
 import type { ListProgressState } from "@/uikit"
 
-import { useSteps } from "./useSteps"
+import { useSteps } from "../hooks/useSteps"
 
 const StepAction = (props: ComponentProps<typeof Button>) => (
   <Button {...props} size="md" />

@@ -7,9 +7,8 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
 import { Button } from "@/components/Button"
 import type { Silo, Team } from "@/types/types"
 
-import { Steps } from "./Steps"
-import { ModalConfirmDeployment } from "./ModalConfirmDeployment"
-import { useSteps } from "./useSteps"
+import { Steps, ModalConfirmDeployment } from "./components"
+import { useSteps } from "./hooks"
 
 type Props = {
   team: Team

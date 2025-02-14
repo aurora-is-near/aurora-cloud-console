@@ -3,7 +3,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/solid"
 
 import type { Team } from "@/types/types"
 
-import type { StepsAttrs } from "./types"
+import type { StepsAttrs } from "../types"
 
 type Args = {
   team: Team

@@ -11,7 +11,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 
 import { StartDeploymentButton } from "./StartDeploymentButton"
 import { DeploymentProgressManual } from "./DeploymentProgressManual"
-import { DeploymentProgressAuto } from "./DeploymentProgress"
+import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
 
 type DashboardHomePageProps = {
