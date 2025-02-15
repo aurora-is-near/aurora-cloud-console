@@ -68,23 +68,20 @@ export const DashboardHomePage = async ({
           />
         }
       >
-        {isAutomated && (
-          <>
-            {isOnboardingFormSubmitted ? (
-              <DeploymentProgressAuto
-                team={team}
-                silo={silo}
-                baseToken={onboardingFormData?.baseToken}
-                isOnboardingFormSubmitted
-              />
-            ) : (
-              <DeploymentProgressAuto
-                team={team}
-                isOnboardingFormSubmitted={false}
-              />
-            )}
-          </>
-        )}
+        {isAutomated &&
+          (isOnboardingFormSubmitted ? (
+            <DeploymentProgressAuto
+              team={team}
+              silo={silo}
+              baseToken={onboardingFormData?.baseToken}
+              isOnboardingFormSubmitted
+            />
+          ) : (
+            <DeploymentProgressAuto
+              team={team}
+              isOnboardingFormSubmitted={false}
+            />
+          ))}
       </Hero>
 
       <section className="flex flex-col pt-4 gap-14">
