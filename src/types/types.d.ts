@@ -67,6 +67,9 @@ export type SilosTeams = Tables<"silos_teams">
 
 export type SilosConfigTransaction = Tables<"silo_config_transactions">
 
+export type SiloConfigTransactionStatus =
+  Enums<"silo_config_transaction_status">
+
 export type List = Tables<"lists">
 
 export type Deal = Tables<"deals">

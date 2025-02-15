@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { Silo, Team } from "@/types/types"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { Silo, SiloConfigTransactionStatus, Team } from "@/types/types"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { logger } from "@/logger"
 import { updateSilo } from "@/actions/silos/update-silo"
@@ -22,12 +22,11 @@ const STEPS: StepName[] = [
   "CHAIN_DEPLOYED",
 ]
 
-const STEP_DELAY = 2500
 const CURRENT_STEP_DEFAULT_STATE: ListProgressState = "pending"
 
-const sleep = () =>
+const sleep = (delay: number) =>
   new Promise((resolve) => {
-    setTimeout(resolve, STEP_DELAY)
+    setTimeout(resolve, delay)
   })
 
 export const DeploymentSteps = ({
@@ -35,6 +34,7 @@ export const DeploymentSteps = ({
   silo,
   onDeploymentComplete,
 }: DeploymentStepsProps) => {
+  const wasConfigurationStarted = useRef(false)
   const [currentStepState, setCurrentStepState] = useState<ListProgressState>(
     CURRENT_STEP_DEFAULT_STATE,
   )
@@ -59,14 +59,22 @@ export const DeploymentSteps = ({
   }, [currentStep, currentStepState])
 
   const startConfiguration = useCallback(async () => {
-    await sleep()
+    // A guard against starting the configuration process multiple times, for
+    // example, if a re-render causes the `useEffect` to run again.
+    if (wasConfigurationStarted.current) {
+      return
+    }
+
+    wasConfigurationStarted.current = true
+
+    await sleep(2500)
 
     setCurrentStep("SETTING_BASE_TOKEN")
 
-    let isBaseTokenSet
+    let setBaseTokenStatus: SiloConfigTransactionStatus = "PENDING"
 
     try {
-      isBaseTokenSet = await setBaseToken(silo)
+      setBaseTokenStatus = await setBaseToken(silo)
     } catch (error) {
       logger.error(error)
       setCurrentStepState("failed")
@@ -74,18 +82,30 @@ export const DeploymentSteps = ({
       return
     }
 
-    if (!isBaseTokenSet) {
-      await sleep()
-      setCurrentStepState("delayed")
+    // If the transaction has failed we mark the step as failed and exit. It is
+    // up the the user to hit retry.
+    if (setBaseTokenStatus === "FAILED") {
+      setCurrentStepState("failed")
 
       return
     }
 
-    await sleep()
+    // If the transaction is pending we wait a little before setting to delayed
+    // (to display another message in the UI), then we the process to check the
+    // transaction again.
+    if (setBaseTokenStatus === "PENDING") {
+      await sleep(5000)
+      setCurrentStepState("delayed")
+      await startConfiguration()
+
+      return
+    }
+
+    await sleep(2000)
 
     setCurrentStep("START_BLOCK_EXPLORER")
 
-    await sleep()
+    await sleep(2500)
 
     // If the above process succeeds we consider the deployment complete and
     // mark the silo as active
