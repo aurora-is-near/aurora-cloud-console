@@ -2,7 +2,14 @@ import { ComponentType } from "react"
 
 export type NetworkType = "devnet" | "mainnet"
 export type ChainPermission = "public" | "public_permissioned" | "private"
-export type BaseToken = "AURORA" | "BTC" | "ETH" | "USDC" | "USDT" | "CUSTOM"
+export type BaseToken =
+  | "AURORA"
+  | "BTC"
+  | "ETH"
+  | "USDC"
+  | "USDT"
+  | "NEAR"
+  | "CUSTOM"
 export type GasMechanics = "usage" | "free" | "custom"
 export type Integration =
   | "onramp"
