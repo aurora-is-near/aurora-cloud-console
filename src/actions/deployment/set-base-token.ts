@@ -8,13 +8,13 @@ import {
   BaseTokenSymbol,
   Silo,
   SiloConfigTransactionStatus,
-  SilosConfigTransaction,
+  SiloConfigTransaction,
 } from "@/types/types"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import { getNearTransactionStatus } from "@/utils/near-api/transactions"
 
 const checkPendingTransaction = async (
-  transaction: SilosConfigTransaction,
+  transaction: SiloConfigTransaction,
   silo: Silo,
 ): Promise<SiloConfigTransactionStatus> => {
   const status = await getNearTransactionStatus(
@@ -38,9 +38,9 @@ const isValidBaseToken = (baseToken: string): baseToken is BaseTokenSymbol => {
 }
 
 const findTransactionWithStatus = (
-  transactions: SilosConfigTransaction[],
+  transactions: SiloConfigTransaction[],
   status: SiloConfigTransactionStatus,
-): SilosConfigTransaction | undefined => {
+): SiloConfigTransaction | undefined => {
   return transactions.find((transaction) => transaction.status === status)
 }
 

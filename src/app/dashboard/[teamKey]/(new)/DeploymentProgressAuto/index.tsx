@@ -4,7 +4,7 @@ import { useState } from "react"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
 
 import { Button } from "@/components/Button"
-import type { Silo, Team } from "@/types/types"
+import type { Silo, SiloConfigTransactionStatus, Team } from "@/types/types"
 
 import { LinkButton } from "@/components/LinkButton"
 import { DeploymentSteps, ModalConfirmDeployment, Steps } from "./components"
@@ -14,12 +14,14 @@ type Props = {
   team: Team
   silo: Silo | null
   isOnboardingFormSubmitted: boolean
+  siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
 }
 
 export const DeploymentProgressAuto = ({
   team,
   silo,
   isOnboardingFormSubmitted,
+  siloBaseTokenTransactionStatus,
 }: Props) => {
   const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
     !!silo?.is_active,
@@ -75,6 +77,7 @@ export const DeploymentProgressAuto = ({
     return (
       <DeploymentSteps
         silo={silo}
+        siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
         team={team}
         onDeploymentComplete={() => {
           setIsDeploymentComplete(true)

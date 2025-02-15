@@ -1,12 +1,12 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { SilosConfigTransaction } from "@/types/types"
+import { SiloConfigTransaction } from "@/types/types"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const updateSiloConfigTransaction = async (
   id: number,
-  inputs: Partial<Omit<SilosConfigTransaction, "id" | "created_at">>,
+  inputs: Partial<Omit<SiloConfigTransaction, "id" | "created_at">>,
 ): Promise<void> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase

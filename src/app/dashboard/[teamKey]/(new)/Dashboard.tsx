@@ -3,7 +3,7 @@ import { CheckIcon } from "@heroicons/react/24/outline"
 import { featureFlags } from "@/feature-flags/server"
 
 import Hero from "@/components/Hero/Hero"
-import { Silo, Team } from "@/types/types"
+import { Silo, SiloConfigTransactionStatus, Team } from "@/types/types"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
@@ -16,11 +16,13 @@ import { WhatsNext } from "./WhatsNext"
 type DashboardHomePageProps = {
   team: Team
   silo?: Silo | null
+  siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
 }
 
 export const DashboardHomePage = async ({
   team,
   silo = null,
+  siloBaseTokenTransactionStatus,
 }: DashboardHomePageProps) => {
   const isAutomated = featureFlags.get("automate_silo_configuration")
   const isOnboardingFormSubmitted = !!(await getTeamOnboardingForm(team.id))
@@ -71,6 +73,7 @@ export const DashboardHomePage = async ({
             team={team}
             silo={silo}
             isOnboardingFormSubmitted={isOnboardingFormSubmitted}
+            siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
           />
         )}
       </Hero>

@@ -1,7 +1,7 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { SilosConfigTransaction } from "@/types/types"
+import { SiloConfigTransaction } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
@@ -9,7 +9,7 @@ import {
 
 export const getSiloConfigTransactions = async (
   siloId: number,
-): Promise<SilosConfigTransaction[]> => {
+): Promise<SiloConfigTransaction[]> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("silo_config_transactions")
