@@ -54,7 +54,7 @@ export interface ChainCreationForm {
   telegramHandle: string
 }
 
-export const initialFormDevNet: ChainCreationForm = {
+const initialFormDevNet: ChainCreationForm = {
   networkType: "mainnet",
   chainPermission: "public",
   baseToken: null,
