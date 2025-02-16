@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { featureFlags } from "@/feature-flags/server"
 

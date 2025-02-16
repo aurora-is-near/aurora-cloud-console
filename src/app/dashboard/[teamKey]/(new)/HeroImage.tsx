@@ -1,4 +1,5 @@
 "use client"
+
 import Image from "next/image"
 import Lottie from "lottie-react"
 
@@ -21,7 +22,7 @@ export const HeroImage = ({ isSiloReady }: Props) => (
       alt="Aurora Cloud"
       className="shadow-xl rounded-[2rem] z-10"
     />
-    {isSiloReady && (
+    {!isSiloReady && (
       <Lottie
         loop
         animationData={confettiLottieAnimation}
