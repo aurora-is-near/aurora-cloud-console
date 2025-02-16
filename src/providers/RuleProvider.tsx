@@ -9,13 +9,7 @@ import {
   useState,
 } from "react"
 import toast from "react-hot-toast"
-import {
-  Rule,
-  RuleResourceDefinition,
-  RuleUser,
-  Team,
-  Userlist,
-} from "@/types/types"
+import { Rule, RuleUser, Team, Userlist } from "@/types/types"
 import { getUserlists } from "@/actions/userlists/get-userlists"
 import { getRuleUsers } from "@/actions/rule-users/get-rule-users"
 import { createRuleUser } from "@/actions/rule-users/create-rule-user"
@@ -24,7 +18,6 @@ import { updateRule } from "@/actions/rules/update-rule"
 
 type RuleContextType = {
   rule: Rule
-  resourceDefinition: RuleResourceDefinition
   userlist: Userlist | undefined
   ruleUsers: RuleUser[]
   setRule: (rule: Rule) => void
@@ -52,10 +45,6 @@ export const RuleProvider = ({
   const [rule, setRule] = useState<Rule>(initialRule)
   const [userlist, setUserlist] = useState<Userlist>()
   const [ruleUsers, setRuleUsers] = useState<RuleUser[]>([])
-  const [resourceDefinition, setResourceDefinition] =
-    useState<RuleResourceDefinition>(
-      initialRule.resource_definition as RuleResourceDefinition,
-    )
 
   const addRuleUser = useCallback(
     async (address: string) => {
@@ -85,38 +74,34 @@ export const RuleProvider = ({
 
   const addRuleContract = useCallback(
     async (address: string) => {
-      const contracts = resourceDefinition?.contracts || []
+      const contracts = rule.contracts ?? []
       const updatedContracts = [...contracts, address]
 
-      await updateRule(rule.id, rule.deal_id, {
-        resource_definition: {
-          contracts: updatedContracts,
-        },
-      })
-      setResourceDefinition({
-        ...resourceDefinition,
+      const updatedRule = await updateRule(rule.id, rule.deal_id, {
         contracts: updatedContracts,
       })
+
+      setRule(updatedRule)
+
       toast.success("Contract address added")
     },
-    [resourceDefinition, rule.deal_id, rule.id],
+    [rule.deal_id, rule.id, rule.contracts],
   )
 
   const removeRuleContract = useCallback(
     async (address: string) => {
-      const contracts = resourceDefinition?.contracts || []
+      const contracts = rule.contracts ?? []
       const updatedContracts = contracts.filter((a: string) => a !== address)
 
-      await updateRule(rule.id, rule.deal_id, {
-        resource_definition: { contracts: updatedContracts },
-      })
-      setResourceDefinition({
-        ...resourceDefinition,
+      const updatedRule = await updateRule(rule.id, rule.deal_id, {
         contracts: updatedContracts,
       })
+
+      setRule(updatedRule)
+
       toast.success("Contract address removed")
     },
-    [resourceDefinition, rule.deal_id, rule.id],
+    [rule.deal_id, rule.id, rule.contracts],
   )
 
   useEffect(() => {
@@ -143,7 +128,6 @@ export const RuleProvider = ({
   const value = useMemo(
     () => ({
       rule,
-      resourceDefinition,
       userlist,
       ruleUsers,
       setRule,
@@ -160,7 +144,6 @@ export const RuleProvider = ({
       ruleUsers,
       addRuleUser,
       removeRuleUser,
-      resourceDefinition,
       addRuleContract,
       removeRuleContract,
     ],
