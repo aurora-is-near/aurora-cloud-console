@@ -45,8 +45,6 @@ const findTransactionWithStatus = (
 export const setBaseToken = async (
   silo: Silo,
 ): Promise<SiloConfigTransactionStatus> => {
-  console.log("setting", silo.base_token_symbol)
-
   if (!isValidBaseToken(silo.base_token_symbol)) {
     throw new Error(`Invalid base token symbol: ${silo.base_token_symbol}`)
   }
