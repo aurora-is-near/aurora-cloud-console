@@ -54,7 +54,7 @@ export interface ChainCreationForm {
   telegramHandle: string
 }
 
-const initialFormDevNet: ChainCreationForm = {
+export const initialFormDevNet: ChainCreationForm = {
   networkType: "mainnet",
   chainPermission: "public",
   baseToken: null,
@@ -66,7 +66,7 @@ const initialFormDevNet: ChainCreationForm = {
   telegramHandle: "",
 }
 
-const initialFormMainNet: ChainCreationForm = {
+export const initialFormMainNet: ChainCreationForm = {
   networkType: "mainnet",
   chainPermission: "public",
   baseToken: null,
@@ -103,6 +103,7 @@ export class FormTokenNotFoundError extends FormValidationError {
 
 export const useChainCreationForm = (
   team: Team,
+  initialData: ChainCreationForm | null,
   networkTypeSelected: NetworkType,
 ) => {
   const mixPanel = useAnalytics()
@@ -110,9 +111,9 @@ export const useChainCreationForm = (
     (() => {
       switch (networkTypeSelected) {
         case "devnet":
-          return initialFormDevNet
+          return initialData ?? initialFormDevNet
         case "mainnet":
-          return initialFormMainNet
+          return initialData ?? initialFormMainNet
         default:
           return notReachable(networkTypeSelected)
       }
