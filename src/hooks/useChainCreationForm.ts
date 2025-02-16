@@ -102,8 +102,8 @@ export class FormTokenNotFoundError extends FormValidationError {
 }
 
 type Args = {
-  team: Team,
-  initialData: ChainCreationForm | null,
+  team: Team
+  initialData: ChainCreationForm | null
   networkTypeSelected: NetworkType
 }
 
