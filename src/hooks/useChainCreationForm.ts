@@ -16,10 +16,10 @@ import { addTeamsToSilo } from "@/actions/silos/add-teams-to-silo"
 import { useAnalytics } from "@/hooks/useAnalytics"
 import {
   AuroraToken,
-  NearToken,
   Bitcoin,
   CustomToken,
   EtherToken,
+  NearToken,
   USDCToken,
   USDTToken,
 } from "../../public/static/v2/images/icons"
