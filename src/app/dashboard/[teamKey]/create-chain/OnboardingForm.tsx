@@ -10,15 +10,15 @@ import { CheckBadgeIcon } from "@heroicons/react/20/solid"
 import {
   ChainCreationForm,
   FormTokenNotFoundError,
-  integrationOptions,
   initialFormMainNet,
+  integrationOptions,
   tokenOptions,
   useChainCreationForm,
 } from "@/hooks/useChainCreationForm"
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { Button } from "@/components/Button"
 import Card from "@/components/Card"
-import { Team, OnboardingForm as OnboardingFormData } from "@/types/types"
+import { OnboardingForm as OnboardingFormData, Team } from "@/types/types"
 import {
   ChainPermission,
   GasMechanics,
@@ -108,6 +108,7 @@ const getInitialFormData = (data: OnboardingFormData): ChainCreationForm => {
     return OnboardingFormSchema.parse(data)
   } catch (error) {
     logger.error(error)
+
     return initialFormMainNet
   }
 }
@@ -123,11 +124,11 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
     handleIntegrationToggle,
     handleDeselectAllIntegrations,
     handleSubmit,
-  } = useChainCreationForm(
+  } = useChainCreationForm({
     team,
-    data ? getInitialFormData(data) : null,
-    "mainnet",
-  )
+    initialData: data ? getInitialFormData(data) : null,
+    networkTypeSelected: "mainnet",
+  })
 
   const handleChainPermissionSelect = (permission: ChainPermission) => {
     updateForm("chainPermission", permission)

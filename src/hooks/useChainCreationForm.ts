@@ -101,11 +101,17 @@ export class FormTokenNotFoundError extends FormValidationError {
   }
 }
 
-export const useChainCreationForm = (
+type Args = {
   team: Team,
   initialData: ChainCreationForm | null,
-  networkTypeSelected: NetworkType,
-) => {
+  networkTypeSelected: NetworkType
+}
+
+export const useChainCreationForm = ({
+  team,
+  initialData,
+  networkTypeSelected,
+}: Args) => {
   const mixPanel = useAnalytics()
   const [form, setForm] = useState<ChainCreationForm>(
     (() => {

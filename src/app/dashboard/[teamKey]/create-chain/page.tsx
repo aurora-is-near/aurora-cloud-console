@@ -14,11 +14,11 @@ const Page = async ({
   const onboardingFormData = await getTeamOnboardingForm(team.id)
 
   if (!onboardingFormData) {
-    trackEvent("onboarding_started", {
+    await trackEvent("onboarding_started", {
       team_key: teamKey,
     })
   } else {
-    trackEvent("onboarding_edited", {
+    await trackEvent("onboarding_edited", {
       team_key: teamKey,
     })
   }
