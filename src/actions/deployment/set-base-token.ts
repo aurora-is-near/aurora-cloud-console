@@ -7,8 +7,8 @@ import { BASE_TOKENS } from "@/constants/base-token"
 import {
   BaseTokenSymbol,
   Silo,
-  SiloConfigTransactionStatus,
   SiloConfigTransaction,
+  SiloConfigTransactionStatus,
 } from "@/types/types"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import { getNearTransactionStatus } from "@/utils/near-api/transactions"
@@ -21,8 +21,6 @@ const checkPendingTransaction = async (
     transaction.transaction_hash,
     silo.engine_account,
   )
-
-  console.log(`Transaction status: ${status}`)
 
   if (status !== "PENDING") {
     await updateSiloConfigTransaction(transaction.id, {
