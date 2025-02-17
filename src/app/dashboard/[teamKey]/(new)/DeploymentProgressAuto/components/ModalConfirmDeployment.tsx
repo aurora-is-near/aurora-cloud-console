@@ -1,20 +1,51 @@
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Modal from "@/components/Modal"
 import { Button } from "@/components/Button"
 import { Typography } from "@/uikit"
+import { Silo, Team } from "@/types/types"
+import { assignSiloToTeam } from "@/actions/deployment/assign-silo-to-team"
+import { logger } from "@/logger"
 
 type Props = {
+  team: Team
   isOpen: boolean
   onClose: () => void
-  onClickEdit: () => void
-  onClickConfirm: () => void
 }
 
-export const ModalConfirmDeployment = ({
-  isOpen,
-  onClose,
-  onClickConfirm,
-  onClickEdit,
-}: Props) => {
+export const ModalConfirmDeployment = ({ team, isOpen, onClose }: Props) => {
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+
+  /**
+   * Start deployment by assigning a silo to the team.
+   *
+   * We are navigated to the silo page, where the deployment process continues.
+   */
+  const onConfirmClick = async () => {
+    setIsLoading(true)
+
+    let silo: Silo | null = null
+
+    try {
+      silo = await assignSiloToTeam(team.id)
+    } catch (error) {
+      logger.error(error)
+      setIsLoading(false)
+
+      return
+    }
+
+    setIsLoading(false)
+    router.push(`/dashboard/${team.team_key}/silos/${silo.id}`)
+  }
+
+  const onEditClick = () => {
+    router.push(`/dashboard/${team.team_key}/create-chain`)
+  }
+
   return (
     <Modal
       title="Ready to deploy your virtual chain?"
@@ -33,11 +64,12 @@ export const ModalConfirmDeployment = ({
             fullWidth
             size="lg"
             variant="primary"
-            onClick={onClickConfirm}
+            onClick={onConfirmClick}
+            loading={isLoading}
           >
             Start deployment
           </Button>
-          <Button fullWidth size="lg" variant="border" onClick={onClickEdit}>
+          <Button fullWidth size="lg" variant="border" onClick={onEditClick}>
             Edit configuration
           </Button>
         </div>

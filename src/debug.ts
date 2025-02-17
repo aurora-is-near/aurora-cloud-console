@@ -7,5 +7,6 @@ type DebuggerName =
   | "forwarder"
   | "coingecko"
   | "blockscout-db"
+  | "contract-changer"
 
 export const createDebugger = (name: DebuggerName) => debug(name)

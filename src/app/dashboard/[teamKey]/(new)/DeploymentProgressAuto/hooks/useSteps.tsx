@@ -3,11 +3,11 @@ import { ArrowRightIcon } from "@heroicons/react/24/solid"
 
 import type { Team } from "@/types/types"
 
-import type { StepsAttrs } from "../types"
+import type { Step, StepsAttrs } from "../types"
 
 type Args = {
   team: Team
-  onClick: (step: { name: "START_DEPLOYMENT"; state: "current" }) => void
+  onClick?: (step: Step) => Promise<void> | void
 }
 
 export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
@@ -52,7 +52,7 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
           variant: "primary",
           title: "Deploy now",
           onClick: () =>
-            onClick({ name: "START_DEPLOYMENT", state: "current" }),
+            onClick?.({ name: "START_DEPLOYMENT", state: "current" }),
         },
       },
     },
@@ -63,21 +63,18 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
 
     SETTING_BASE_TOKEN: {
       title: "Setting up the base token",
+      delayed: {
+        description: "Running a bit slow — come back shortly.",
+      },
       failed: {
         description:
           "Please try again or contact us to resolve the server issue promptly.",
         action: {
           variant: "destructive",
           title: "Try again",
-          onClick: () => null,
+          onClick: () =>
+            onClick?.({ name: "SETTING_BASE_TOKEN", state: "failed" }),
         },
-      },
-    },
-
-    SETTING_BASE_TOKEN_RETRY: {
-      title: "Setting up the base token",
-      pending: {
-        description: "Running a bit slow — come back shortly.",
       },
     },
 
@@ -92,9 +89,8 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
           variant: "primary",
           title: "Finish deployment",
           icon: <ArrowRightIcon className="w-4 h-4" />,
-          // TODO: Set Silo ID
           onClick: () =>
-            router.push(`/dashboard/${team.team_key}/silos/1/gas-abstraction`),
+            onClick?.({ name: "CHAIN_DEPLOYED", state: "completed" }),
         },
       },
     },
