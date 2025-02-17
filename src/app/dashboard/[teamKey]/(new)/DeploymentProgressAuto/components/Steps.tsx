@@ -21,6 +21,8 @@ export const Steps = ({ steps, allSteps }: Props) => (
         key={name}
         state={state}
         title={allSteps[name].title}
+        testID="deployment-step"
+        id={name}
         {...allSteps[name][state]}
       >
         {allSteps[name][state]?.action && (

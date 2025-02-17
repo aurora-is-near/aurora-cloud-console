@@ -4,6 +4,17 @@ import { mockTeam } from "../../../../../../test-utils/mock-team"
 import { createWrapper } from "../../../../../../test-utils/create-wrapper"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
 
+const getSteps = () => {
+  const steps = screen.getAllByTestId("deployment-step")
+
+  return steps.map((step) => {
+    return {
+      id: step.id,
+      isSelected: step.getAttribute("aria-current") === "step",
+    }
+  })
+}
+
 describe("DeploymentProgressAuto", () => {
   describe("welcome", () => {
     it("shows the expected steps", async () => {
@@ -18,15 +29,16 @@ describe("DeploymentProgressAuto", () => {
         { wrapper: createWrapper() },
       )
 
-      const steps = screen.getByTestId("deployment-steps")
-
-      expect(
-        within(steps).getByText(/Configure your virtual chain/i),
-      ).not.toBeNull()
-
-      expect(
-        within(steps).getByText(/Start automatic deployment/i),
-      ).not.toBeNull()
+      expect(getSteps()).toEqual([
+        {
+          id: "CONFIGURE_CHAIN",
+          isSelected: true,
+        },
+        {
+          id: "START_DEPLOYMENT",
+          isSelected: false,
+        },
+      ])
     })
   })
 
@@ -43,15 +55,16 @@ describe("DeploymentProgressAuto", () => {
         { wrapper: createWrapper() },
       )
 
-      const steps = screen.getByTestId("deployment-steps")
-
-      expect(
-        within(steps).getByText(/Configure your virtual chain/i),
-      ).not.toBeNull()
-
-      expect(
-        within(steps).getByText(/Start automatic deployment/i),
-      ).not.toBeNull()
+      expect(getSteps()).toEqual([
+        {
+          id: "CONFIGURE_CHAIN",
+          isSelected: false,
+        },
+        {
+          id: "START_DEPLOYMENT",
+          isSelected: true,
+        },
+      ])
     })
   })
 
@@ -68,23 +81,28 @@ describe("DeploymentProgressAuto", () => {
         { wrapper: createWrapper() },
       )
 
-      const steps = screen.getByTestId("deployment-steps")
-
-      expect(
-        within(steps).getByText(/Initializing the Aurora engine/i),
-      ).not.toBeNull()
-
-      expect(
-        within(steps).getByText(/Setting up the base token/i),
-      ).not.toBeNull()
-
-      expect(
-        within(steps).getByText(/Starting your Block Explorer/i),
-      ).not.toBeNull()
-
-      expect(
-        within(steps).getByText(/Chain successfully deployed/i),
-      ).not.toBeNull()
+      expect(getSteps()).toEqual([
+        {
+          id: "CONFIGURED_CHAIN",
+          isSelected: false,
+        },
+        {
+          id: "INIT_AURORA_ENGINE",
+          isSelected: false,
+        },
+        {
+          id: "SETTING_BASE_TOKEN",
+          isSelected: false,
+        },
+        {
+          id: "START_BLOCK_EXPLORER",
+          isSelected: false,
+        },
+        {
+          id: "CHAIN_DEPLOYED",
+          isSelected: false,
+        },
+      ])
     })
   })
 
