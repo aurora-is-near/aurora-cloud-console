@@ -6,6 +6,7 @@ type Props = PropsWithChildren<{
   tag?: keyof JSX.IntrinsicElements
   className?: string
   noPadding?: boolean
+  testID?: string
 }>
 
 export const Card = ({
@@ -13,6 +14,7 @@ export const Card = ({
   noPadding,
   children,
   className,
+  testID,
 }: Props) => (
   <Tag
     className={clsx(
@@ -20,6 +22,7 @@ export const Card = ({
       !noPadding && "p-5 md:p-6",
       className,
     )}
+    data-testid={testID}
   >
     {children}
   </Tag>
