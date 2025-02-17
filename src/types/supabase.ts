@@ -547,37 +547,37 @@ export type Database = {
       }
       rules: {
         Row: {
-          chains: number[] | null
-          contracts: string[] | null
+          chains: number[]
+          contracts: string[]
           created_at: string
           deal_id: number
           deleted_at: string | null
-          except_chains: number[] | null
-          except_contracts: string[] | null
+          except_chains: number[]
+          except_contracts: string[]
           id: number
           ui_enabled: boolean
           updated_at: string
         }
         Insert: {
-          chains?: number[] | null
-          contracts?: string[] | null
+          chains: number[]
+          contracts: string[]
           created_at?: string
           deal_id: number
           deleted_at?: string | null
-          except_chains?: number[] | null
-          except_contracts?: string[] | null
+          except_chains: number[]
+          except_contracts: string[]
           id?: number
           ui_enabled?: boolean
           updated_at?: string
         }
         Update: {
-          chains?: number[] | null
-          contracts?: string[] | null
+          chains?: number[]
+          contracts?: string[]
           created_at?: string
           deal_id?: number
           deleted_at?: string | null
-          except_chains?: number[] | null
-          except_contracts?: string[] | null
+          except_chains?: number[]
+          except_contracts?: string[]
           id?: number
           ui_enabled?: boolean
           updated_at?: string
