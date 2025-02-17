@@ -18,9 +18,15 @@ const NEAR_RPCS: string[] = [
   "https://nearrpc.aurora.dev",
 ]
 
+/**
+ * The `nodeUrl` is not used when a `provider` array is provided but the
+ * near-api-js types are incorrect in still requiring it, hence the empty
+ * string, below.
+ * @see https://github.com/near/near-api-js/blob/8ad6e73eff2ecf00f08301c9426cc0df372c6a26/packages/wallet-account/src/near.ts#L109
+ */
 export const NEAR_API_CONFIG: NearConfig = {
   networkId: "mainnet",
-  nodeUrl: "https://incorrect-rpc-url.com", // Incorrect RPC URL
+  nodeUrl: "",
   provider: new providers.FailoverRpcProvider(
     NEAR_RPCS.map(
       (url) =>
