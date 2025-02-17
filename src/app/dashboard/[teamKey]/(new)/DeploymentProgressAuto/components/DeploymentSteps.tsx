@@ -93,14 +93,6 @@ export const DeploymentSteps = ({
   }, [currentStep, currentStepState])
 
   const startConfiguration = useCallback(async () => {
-    // A guard against starting the configuration process multiple times, for
-    // example, if a re-render causes the `useEffect` to run again.
-    if (wasConfigurationStarted.current) {
-      return
-    }
-
-    wasConfigurationStarted.current = true
-
     // Start with a little delay while pretending to initialize the Aurora engine.
     if (!isStepCompleted("INIT_AURORA_ENGINE", currentStep)) {
       await sleep(2500)
@@ -153,7 +145,16 @@ export const DeploymentSteps = ({
     setCurrentStep("CHAIN_DEPLOYED")
   }, [currentStep, silo])
 
+  // Start the configuration on mount.
   useEffect(() => {
+    if (wasConfigurationStarted.current) {
+      return
+    }
+
+    // A guard against starting the configuration process multiple times, for
+    // example, if a re-render causes the `useEffect` to run again.
+    wasConfigurationStarted.current = true
+
     void startConfiguration()
   }, [startConfiguration])
 
