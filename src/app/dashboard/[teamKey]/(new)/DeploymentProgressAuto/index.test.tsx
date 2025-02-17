@@ -88,7 +88,7 @@ describe("DeploymentProgressAuto", () => {
         },
         {
           id: "INIT_AURORA_ENGINE",
-          isSelected: false,
+          isSelected: true,
         },
         {
           id: "SETTING_BASE_TOKEN",

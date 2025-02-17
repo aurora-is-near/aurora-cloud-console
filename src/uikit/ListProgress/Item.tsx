@@ -38,7 +38,7 @@ export const Item = ({
         className,
       )}
       aria-labelledby={titleId}
-      aria-current={state === "current" ? "step" : undefined}
+      aria-current={["current", "pending"].includes(state) ? "step" : undefined}
       data-testid={testID}
     >
       <Icon state={state} />
