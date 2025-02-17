@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Lottie from "lottie-react"
 
-import confettiLottieAnimation from "../../../../../public/static/v2/animation/confetti.json"
+import confettiLottieAnimation from "../../../../resources/animation/confetti.json"
 
 type Props = {
   isSiloReady: boolean
