@@ -158,7 +158,7 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
             description="The base token of your chain will be used to pay for transaction fees on your chain. It supports any ERC-20 or NEP-141 token, including your own custom token."
             hasError={!!fieldErrors?.baseToken}
           >
-            <div className="grid grid-cols-2 sm:grid-cols-4 min-[860px]:grid-cols-7  gap-4">
+            <div className="grid gap-4 grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">
               {tokenOptions.map((token) => (
                 <SelectableBox
                   key={token.symbol}
