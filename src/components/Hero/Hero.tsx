@@ -20,7 +20,7 @@ const Hero = ({
 }: HeroProps) => (
   <div
     className={clsx(
-      "pt-3 pb-12",
+      "py-12",
       hasDivider ? "border-b border-slate-200 mb-7" : "",
     )}
   >
