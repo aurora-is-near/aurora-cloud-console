@@ -19,6 +19,7 @@ import {
   Bitcoin,
   CustomToken,
   EtherToken,
+  NearToken,
   USDCToken,
   USDTToken,
 } from "../../public/static/v2/images/icons"
@@ -35,11 +36,12 @@ export const integrationOptions: Integration[] = [
 
 export const tokenOptions: TokenOption[] = [
   { symbol: "AURORA", name: "Aurora", icon: AuroraToken },
+  { symbol: "NEAR", name: "NEAR", icon: NearToken },
   { symbol: "ETH", name: "ETH", icon: EtherToken },
   { symbol: "USDT", name: "USDT", icon: USDTToken },
   { symbol: "USDC", name: "USDC", icon: USDCToken },
   { symbol: "BTC", name: "BTC", icon: Bitcoin },
-  { symbol: "CUSTOM", name: "My Token", icon: CustomToken },
+  { symbol: "CUSTOM", name: "My token", icon: CustomToken },
 ]
 
 export interface ChainCreationForm {

@@ -4,11 +4,11 @@ export type NetworkType = "devnet" | "mainnet"
 export type ChainPermission = "public" | "public_permissioned" | "private"
 export type BaseToken =
   | "AURORA"
+  | "NEAR"
   | "BTC"
   | "ETH"
   | "USDC"
   | "USDT"
-  | "NEAR"
   | "CUSTOM"
 export type GasMechanics = "usage" | "free" | "custom"
 export type Integration =
