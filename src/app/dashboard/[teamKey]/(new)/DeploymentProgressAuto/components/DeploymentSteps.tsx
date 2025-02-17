@@ -133,7 +133,7 @@ export const DeploymentSteps = ({
       // (to display another message in the UI), then we the process to check the
       // transaction again.
       if (setBaseTokenStatus === "PENDING") {
-        await sleep(5000)
+        await sleep(10000)
         setCurrentStepState("delayed")
         await startConfiguration()
 
