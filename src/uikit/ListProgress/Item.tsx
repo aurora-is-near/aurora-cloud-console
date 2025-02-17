@@ -1,4 +1,5 @@
 import React from "react"
+import { paramCase } from "change-case"
 
 import { clsx } from "../clsx"
 import { Typography } from "../Typography"
@@ -26,7 +27,7 @@ export const Item = ({
   className,
   testID,
 }: Props) => {
-  const titleId = id ? `${id}-title` : undefined
+  const titleId = id ? paramCase(`${id}-title`) : undefined
 
   return (
     <li
@@ -38,7 +39,9 @@ export const Item = ({
         className,
       )}
       aria-labelledby={titleId}
-      aria-current={["current", "pending"].includes(state) ? "step" : undefined}
+      aria-current={
+        ["current", "pending", "failed"].includes(state) ? "step" : undefined
+      }
       data-testid={testID}
     >
       <Icon state={state} />
