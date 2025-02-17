@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { featureFlags } from "@/feature-flags/server"
 
@@ -12,6 +11,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { DeploymentProgressManual } from "./DeploymentProgressManual"
 import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
+import { HeroImage } from "./HeroImage"
 
 type DashboardHomePageProps = {
   team: Team
@@ -54,19 +54,7 @@ export const DashboardHomePage = async ({
             ? "Your virtual chain is ready — start building with Aurora Cloud stack."
             : "Welcome to Aurora Cloud! Set up your virtual chain in just a few steps and let the automatic deployment handle the rest."
         }
-        image={
-          <Image
-            width="180"
-            height="180"
-            src={
-              silo
-                ? "/static/v2/images/heroIcons/cloud.webp"
-                : "/static/v2/images/heroIcons/cloud-dev.webp"
-            }
-            alt="Aurora Cloud"
-            className="mr-16 shadow-xl rounded-[2rem]"
-          />
-        }
+        image={<HeroImage isSiloReady={!!silo} />}
       >
         {isAutomated && (
           <DeploymentProgressAuto
