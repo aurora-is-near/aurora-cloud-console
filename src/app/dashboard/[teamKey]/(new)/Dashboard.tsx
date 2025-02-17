@@ -1,13 +1,18 @@
+"use client"
+
 import { CheckIcon } from "@heroicons/react/24/outline"
-import { featureFlags } from "@/feature-flags/server"
+import { useState } from "react"
 
 import Hero from "@/components/Hero/Hero"
-import { Silo, SiloConfigTransactionStatus, Team } from "@/types/types"
+import {
+  OnboardingForm,
+  Silo,
+  SiloConfigTransactionStatus,
+  Team,
+} from "@/types/types"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
-import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
 import { DashboardPage } from "@/components/DashboardPage"
-
 import { DeploymentProgressManual } from "./DeploymentProgressManual"
 import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
@@ -16,23 +21,28 @@ import { HeroImage } from "./HeroImage"
 type DashboardHomePageProps = {
   team: Team
   silo?: Silo | null
+  onboardingForm: OnboardingForm | null
+  isAutomated: boolean
   siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
 }
 
-export const DashboardHomePage = async ({
+export const DashboardHomePage = ({
   team,
   silo = null,
+  onboardingForm,
+  isAutomated,
   siloBaseTokenTransactionStatus,
 }: DashboardHomePageProps) => {
-  const isAutomated = featureFlags.get("automate_silo_configuration")
-  const isOnboardingFormSubmitted = !!(await getTeamOnboardingForm(team.id))
+  const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
+    !!silo?.is_active,
+  )
 
   return (
     <DashboardPage>
       <Hero
         hasDivider
         title={
-          silo ? (
+          isDeploymentComplete ? (
             <>
               <div className="w-11 h-11 flex items-center justify-center rounded-full bg-green-400">
                 <CheckIcon className="w-6 h-6 stroke-2 stroke-slate-900" />
@@ -50,7 +60,7 @@ export const DashboardHomePage = async ({
           )
         }
         description={
-          silo
+          isDeploymentComplete
             ? "Your virtual chain is ready — start building with Aurora Cloud stack."
             : "Welcome to Aurora Cloud! Set up your virtual chain in just a few steps and let the automatic deployment handle the rest."
         }
@@ -60,7 +70,9 @@ export const DashboardHomePage = async ({
           <DeploymentProgressAuto
             team={team}
             silo={silo}
-            isOnboardingFormSubmitted={isOnboardingFormSubmitted}
+            isDeploymentComplete={isDeploymentComplete}
+            setIsDeploymentComplete={setIsDeploymentComplete}
+            isOnboardingFormSubmitted={!!onboardingForm}
             siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
           />
         )}

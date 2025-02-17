@@ -14,6 +14,8 @@ type Props = {
   team: Team
   silo: Silo | null
   isOnboardingFormSubmitted: boolean
+  isDeploymentComplete: boolean
+  setIsDeploymentComplete: (isDeploymentComplete: boolean) => void
   siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
 }
 
@@ -21,12 +23,10 @@ export const DeploymentProgressAuto = ({
   team,
   silo,
   isOnboardingFormSubmitted,
+  isDeploymentComplete,
+  setIsDeploymentComplete,
   siloBaseTokenTransactionStatus,
 }: Props) => {
-  const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
-    !!silo?.is_active,
-  )
-
   const [isConfirmDeploymentModalOpen, setIsConfirmDeploymentModalOpen] =
     useState(false)
 
