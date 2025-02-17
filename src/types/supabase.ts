@@ -674,6 +674,7 @@ export type Database = {
       }
       silos: {
         Row: {
+          applied_deal_ids: number[] | null
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id: number | null
@@ -701,6 +702,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          applied_deal_ids?: number[] | null
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id?: number | null
@@ -728,6 +730,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          applied_deal_ids?: number[] | null
           base_token_name?: string
           base_token_symbol?: string
           blockscout_database_id?: number | null
