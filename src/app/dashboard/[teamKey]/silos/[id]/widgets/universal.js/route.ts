@@ -21,9 +21,15 @@ export async function GET(req: NextRequest) {
     return new NextResponse(null, { status: 404 })
   }
 
-  const widgetUrl = getWidgetUrl({ silo, widget, tokens })
   const res = new NextResponse(
-    `window.auroraCloudConsole = { openWidget: () => { window.open('${widgetUrl}',"newwindow",\`width=600,height=800,left=\${window.screen.width / 2 - 300},top=\${window.screen.height / 2 - 400}\`); } };`,
+    `
+    window.acc = window.acc || {};
+
+    window.acc.universalWidget = {
+      open: () => {
+        window.open('${getWidgetUrl({ silo, widget, tokens })}',"newwindow",\`width=600,height=800,left=\${window.screen.width / 2 - 300},top=\${window.screen.height / 2 - 400}\`);
+      }
+    };`,
   )
 
   res.headers.append("content-type", "application/javascript")
