@@ -45,62 +45,58 @@ export const DeploymentSteps = ({
   // The initial state accounts for the case where the user started a
   // transaction to set the base token then navigated away from the page. In
   // this case we want to jump straight to the relevant step and state.
-  const [currentStepState, setCurrentStepState] = useState<ListProgressState>(
-    () => {
-      if (!siloBaseTokenTransactionStatus) {
-        return CURRENT_STEP_DEFAULT_STATE
-      }
-
-      if (siloBaseTokenTransactionStatus === "FAILED") {
-        return "failed"
-      }
-
-      if (siloBaseTokenTransactionStatus === "PENDING") {
-        return "pending"
-      }
-
-      return "completed"
-    },
-  )
-
-  const [currentStep, setCurrentStep] = useState<StepName>(() => {
+  const [currentStep, setCurrentStep] = useState<{
+    name: StepName
+    state: ListProgressState
+  }>(() => {
     if (!siloBaseTokenTransactionStatus) {
-      return "INIT_AURORA_ENGINE"
+      return { name: "INIT_AURORA_ENGINE", state: CURRENT_STEP_DEFAULT_STATE }
     }
 
     if (siloBaseTokenTransactionStatus === "SUCCESSFUL") {
-      return "START_BLOCK_EXPLORER"
+      return { name: "START_BLOCK_EXPLORER", state: "pending" }
     }
 
-    return "SETTING_BASE_TOKEN"
+    if (siloBaseTokenTransactionStatus === "FAILED") {
+      return { name: "SETTING_BASE_TOKEN", state: "failed" }
+    }
+
+    if (siloBaseTokenTransactionStatus === "PENDING") {
+      return { name: "SETTING_BASE_TOKEN", state: "pending" }
+    }
+
+    return { name: "SETTING_BASE_TOKEN", state: "completed" }
   })
 
   const steps = useMemo(() => {
     return STEPS.map((step, index): Step => {
       if (
-        STEPS.indexOf(currentStep) > index ||
-        currentStep === "CHAIN_DEPLOYED"
+        STEPS.indexOf(currentStep.name) > index ||
+        currentStep.name === "CHAIN_DEPLOYED"
       ) {
         return { name: step, state: "completed" }
       }
 
-      if (step === currentStep) {
-        return { name: step, state: currentStepState }
+      if (step === currentStep.name) {
+        return { name: step, state: currentStep.state }
       }
 
       return { name: step, state: "upcoming" }
     })
-  }, [currentStep, currentStepState])
+  }, [currentStep])
 
   const startConfiguration = useCallback(async () => {
     // Start with a little delay while pretending to initialize the Aurora engine.
-    if (!isStepCompleted("INIT_AURORA_ENGINE", currentStep)) {
+    if (!isStepCompleted("INIT_AURORA_ENGINE", currentStep.name)) {
       await sleep(2500)
     }
 
     // Set the base token
-    if (!isStepCompleted("SETTING_BASE_TOKEN", currentStep)) {
-      setCurrentStep("SETTING_BASE_TOKEN")
+    if (!isStepCompleted("SETTING_BASE_TOKEN", currentStep.name)) {
+      setCurrentStep({
+        name: "SETTING_BASE_TOKEN",
+        state: "pending",
+      })
 
       let setBaseTokenStatus: SiloConfigTransactionStatus = "PENDING"
 
@@ -108,7 +104,10 @@ export const DeploymentSteps = ({
         setBaseTokenStatus = await setBaseToken(silo)
       } catch (error) {
         logger.error(error)
-        setCurrentStepState("failed")
+        setCurrentStep({
+          name: "SETTING_BASE_TOKEN",
+          state: "failed",
+        })
 
         return
       }
@@ -116,7 +115,10 @@ export const DeploymentSteps = ({
       // If the transaction has failed we mark the step as failed and exit. It is
       // up the the user to hit retry.
       if (setBaseTokenStatus === "FAILED") {
-        setCurrentStepState("failed")
+        setCurrentStep({
+          name: "SETTING_BASE_TOKEN",
+          state: "failed",
+        })
 
         return
       }
@@ -126,7 +128,11 @@ export const DeploymentSteps = ({
       // transaction again.
       if (setBaseTokenStatus === "PENDING") {
         await sleep(10000)
-        setCurrentStepState("delayed")
+        setCurrentStep({
+          name: "SETTING_BASE_TOKEN",
+          state: "delayed",
+        })
+
         await startConfiguration()
 
         return
@@ -134,15 +140,21 @@ export const DeploymentSteps = ({
     }
 
     // "Start" the block explorer.
-    if (!isStepCompleted("START_BLOCK_EXPLORER", currentStep)) {
-      setCurrentStep("START_BLOCK_EXPLORER")
+    if (!isStepCompleted("START_BLOCK_EXPLORER", currentStep.name)) {
+      setCurrentStep({
+        name: "START_BLOCK_EXPLORER",
+        state: "pending",
+      })
       await sleep(2500)
     }
 
     // If the above process succeeds we consider the deployment complete and
     // mark the silo as active.
     await updateSilo(silo.id, { is_active: true })
-    setCurrentStep("CHAIN_DEPLOYED")
+    setCurrentStep({
+      name: "CHAIN_DEPLOYED",
+      state: "completed",
+    })
   }, [currentStep, silo])
 
   // Start the configuration on mount.
@@ -166,7 +178,11 @@ export const DeploymentSteps = ({
       }
 
       if (step.name === "SETTING_BASE_TOKEN" && step.state === "failed") {
-        setCurrentStepState(CURRENT_STEP_DEFAULT_STATE)
+        setCurrentStep({
+          name: "SETTING_BASE_TOKEN",
+          state: "pending",
+        })
+
         await startConfiguration()
       }
     },
