@@ -14,6 +14,13 @@ updates:
       - dependency-type: direct
     registries:
       - npm-github
+    ignore:
+      - dependency-name: "eslint"
+        versions: [">=9.0.0"]
+      - dependency-name: "next"
+        versions: [">=15.0.0"]
+      - dependency-name: "react"
+        versions: [">=19.0.0"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
