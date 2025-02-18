@@ -14,11 +14,20 @@ export const GET = createApiEndpoint("getRules", async (_req, ctx) => {
 })
 
 export const POST = createApiEndpoint("createRule", async (req, ctx) => {
-  const { resourceDefinition } = ctx.body
+  const {
+    chains = [],
+    contracts = [],
+    exceptChains = [],
+    exceptContracts = [],
+  } = ctx.body
+
   const rule = await createRule({
     rule: {
       deal_id: Number(ctx.params.id),
-      resource_definition: resourceDefinition,
+      chains,
+      contracts,
+      except_chains: exceptChains,
+      except_contracts: exceptContracts,
     },
     team_id: Number(ctx.params.teamId),
   })

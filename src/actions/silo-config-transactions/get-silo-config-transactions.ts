@@ -1,28 +1,21 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { Rule } from "@/types/types"
+import { SiloConfigTransaction } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const createRule = async (inputs: {
-  rule: Pick<
-    Rule,
-    "deal_id" | "chains" | "except_chains" | "contracts" | "except_contracts"
-  >
-  team_id: number
-}): Promise<Rule> => {
+export const getSiloConfigTransactions = async (
+  siloId: number,
+): Promise<SiloConfigTransaction[]> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
-    .from("rules")
-    .insert({
-      ...inputs.rule,
-      ui_enabled: true,
-    })
-    .select()
-    .single()
+    .from("silo_config_transactions")
+    .select("*")
+    .order("id", { ascending: true })
+    .eq("silo_id", siloId)
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)

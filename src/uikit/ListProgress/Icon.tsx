@@ -35,6 +35,7 @@ export const Icon = ({ state = "upcoming" }: Props) => {
         <div className="w-6 h-6 rounded-full bg-transparent border-[3px] border-slate-300" />
       )
     case "pending":
+    case "delayed":
       return (
         <div className="w-6 h-6 border-[3px] border-slate-300 border-t-transparent rounded-full animate-spin" />
       )

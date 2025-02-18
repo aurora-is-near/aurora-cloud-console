@@ -38,7 +38,10 @@ export const adaptRule = (rule: Rule): RuleSchema => ({
   createdAt: rule.created_at,
   updatedAt: rule.updated_at,
   dealId: rule.deal_id,
-  resourceDefinition: rule.resource_definition,
+  chains: rule.chains,
+  contracts: rule.contracts,
+  exceptChains: rule.except_chains,
+  exceptContracts: rule.except_contracts,
 })
 
 export const adaptToken = (token: Token): TokenSchema => ({

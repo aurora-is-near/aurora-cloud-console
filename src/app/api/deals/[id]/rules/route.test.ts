@@ -58,9 +58,12 @@ describe("Deal Rules route", () => {
           {
             id: mockRule.id,
             dealId: mockRule.deal_id,
-            resourceDefinition: mockRule.resource_definition,
             createdAt: mockRule.created_at,
             updatedAt: mockRule.updated_at,
+            chains: mockRule.chains,
+            contracts: mockRule.contracts,
+            exceptChains: mockRule.except_chains,
+            exceptContracts: mockRule.except_contracts,
           },
         ],
       })
@@ -87,16 +90,19 @@ describe("Deal Rules route", () => {
 
       const res = await invokeApiHandler("POST", "/api/deals/1/rules", POST, {
         params: { id: String(mockDeal.id) },
-        body: { resourceDefinition: mockRule.resource_definition },
+        body: { contracts: mockRule.contracts, chains: mockRule.chains },
       })
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
         id: mockRule.id,
         dealId: mockRule.deal_id,
-        resourceDefinition: mockRule.resource_definition,
         createdAt: mockRule.created_at,
         updatedAt: mockRule.updated_at,
+        chains: mockRule.chains,
+        contracts: mockRule.contracts,
+        exceptChains: mockRule.except_chains,
+        exceptContracts: mockRule.except_contracts,
       })
     })
   })

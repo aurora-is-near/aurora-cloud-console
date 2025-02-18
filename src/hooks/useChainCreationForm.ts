@@ -1,8 +1,7 @@
 import { useCallback, useState } from "react"
-import { Team } from "@/types/types"
+import { BaseTokenSymbol, Team } from "@/types/types"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
 import {
-  BaseToken,
   ChainPermission,
   GasMechanics,
   Integration,
@@ -19,6 +18,7 @@ import {
   Bitcoin,
   CustomToken,
   EtherToken,
+  NearToken,
   USDCToken,
   USDTToken,
 } from "../../public/static/v2/images/icons"
@@ -35,17 +35,18 @@ export const integrationOptions: Integration[] = [
 
 export const tokenOptions: TokenOption[] = [
   { symbol: "AURORA", name: "Aurora", icon: AuroraToken },
+  { symbol: "NEAR", name: "NEAR", icon: NearToken },
   { symbol: "ETH", name: "ETH", icon: EtherToken },
   { symbol: "USDT", name: "USDT", icon: USDTToken },
   { symbol: "USDC", name: "USDC", icon: USDCToken },
   { symbol: "BTC", name: "BTC", icon: Bitcoin },
-  { symbol: "CUSTOM", name: "My Token", icon: CustomToken },
+  { symbol: "CUSTOM", name: "My token", icon: CustomToken },
 ]
 
 export interface ChainCreationForm {
   networkType: NetworkType | null
   chainPermission: ChainPermission | null
-  baseToken: BaseToken | null
+  baseToken: BaseTokenSymbol | null
   gasMechanics: GasMechanics | null
   integrations: Integration[]
   chainName: string

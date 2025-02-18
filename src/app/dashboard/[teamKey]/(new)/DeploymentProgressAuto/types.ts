@@ -6,10 +6,9 @@ type DeploymentStepAction = {
   title: string
   icon?: ReactNode
   variant: "border" | "primary" | "secondary" | "destructive"
-} & (
-  | { disabled: true; onClick?: () => void }
-  | { disabled?: false; onClick: () => void }
-)
+  disabled?: boolean
+  onClick?: () => void
+}
 
 type DeploymentStep = {
   title: string
@@ -24,13 +23,12 @@ const stepNames = [
   "START_DEPLOYMENT",
   "INIT_AURORA_ENGINE",
   "SETTING_BASE_TOKEN",
-  "SETTING_BASE_TOKEN_RETRY",
   "START_BLOCK_EXPLORER",
   "CHAIN_DEPLOYED",
   "MANUAL_DEPLOYMENT",
 ] as const
 
-type StepName = (typeof stepNames)[number]
+export type StepName = (typeof stepNames)[number]
 
 export type StepsAttrs = Record<
   StepName,
@@ -40,3 +38,5 @@ export type StepsAttrs = Record<
     >
   }
 >
+
+export type Step = { name: StepName; state: ListProgressState }

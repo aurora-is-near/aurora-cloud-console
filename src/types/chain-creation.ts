@@ -1,15 +1,8 @@
 import { ComponentType } from "react"
+import { BaseTokenSymbol } from "@/types/types"
 
 export type NetworkType = "devnet" | "mainnet"
 export type ChainPermission = "public" | "public_permissioned" | "private"
-export type BaseToken =
-  | "AURORA"
-  | "BTC"
-  | "ETH"
-  | "USDC"
-  | "USDT"
-  | "NEAR"
-  | "CUSTOM"
 export type GasMechanics = "usage" | "free" | "custom"
 export type Integration =
   | "onramp"
@@ -21,7 +14,7 @@ export type Integration =
   | "dex"
 
 export interface TokenOption {
-  symbol: BaseToken
+  symbol: BaseTokenSymbol
   name: string
   icon: ComponentType<React.SVGProps<SVGSVGElement>>
 }
