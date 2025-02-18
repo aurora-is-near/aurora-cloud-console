@@ -1,6 +1,5 @@
 "use client"
 
-import z from "zod"
 import clsx from "clsx"
 import Link from "next/link"
 import { useState } from "react"
@@ -8,9 +7,7 @@ import toast from "react-hot-toast"
 import { CheckBadgeIcon } from "@heroicons/react/20/solid"
 
 import {
-  ChainCreationForm,
   FormTokenNotFoundError,
-  initialFormMainNet,
   integrationOptions,
   tokenOptions,
   useChainCreationForm,
@@ -43,76 +40,6 @@ type OnboardingFormProps = {
   data: OnboardingFormData | null
 }
 
-// TODO: When starting with client types - move this to schemas
-const OnboardingFormSchema: z.ZodSchema<
-  ChainCreationForm,
-  z.ZodTypeDef,
-  unknown
-> = z
-  .object({
-    id: z.number(),
-    chainName: z.string(),
-    comments: z.string().optional(),
-    customTokenDetails: z.string().optional(),
-    telegramHandle: z.string().optional(),
-    networkType: z.union([z.literal("devnet"), z.literal("mainnet")]),
-    integrations: z
-      .array(
-        z.union([
-          z.literal("block_explorer"),
-          z.literal("bridge_widget"),
-          z.literal("onramp"),
-          z.literal("cex_withdrawals_widget"),
-          z.literal("dex"),
-          z.literal("intense_support"),
-          z.literal("oracle"),
-        ]),
-      )
-      .optional(),
-    chainPermission: z.union([
-      z.literal("public"),
-      z.literal("public_permissioned"),
-      z.literal("private"),
-    ]),
-    gasMechanics: z.union([
-      z.literal("usage"),
-      z.literal("free"),
-      z.literal("custom"),
-    ]),
-    baseToken: z.union([
-      z.literal("AURORA"),
-      z.literal("BTC"),
-      z.literal("ETH"),
-      z.literal("USDC"),
-      z.literal("USDT"),
-      z.literal("CUSTOM"),
-    ]),
-  })
-  .transform((data) => {
-    const mergedData = {
-      ...initialFormMainNet,
-      ...data,
-    }
-
-    return {
-      ...mergedData,
-      comments: mergedData.comments ?? "",
-      customTokenDetails: mergedData.customTokenDetails ?? "",
-      telegramHandle: mergedData.telegramHandle ?? "",
-    }
-  })
-
-const getInitialFormData = (data: OnboardingFormData): ChainCreationForm => {
-  try {
-    // fail silently, report an error, show the default form
-    return OnboardingFormSchema.parse(data)
-  } catch (error) {
-    logger.error(error)
-
-    return initialFormMainNet
-  }
-}
-
 const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -126,7 +53,7 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
     handleSubmit,
   } = useChainCreationForm({
     team,
-    initialData: data ? getInitialFormData(data) : null,
+    initialData: data,
     networkTypeSelected: "mainnet",
   })
 

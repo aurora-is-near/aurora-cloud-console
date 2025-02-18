@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { BaseTokenSymbol, Team } from "@/types/types"
+import { BaseTokenSymbol, OnboardingForm, Team } from "@/types/types"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
 import {
   ChainPermission,
@@ -67,17 +67,19 @@ const initialFormDevNet: ChainCreationForm = {
   telegramHandle: "",
 }
 
-export const initialFormMainNet: ChainCreationForm = {
-  networkType: "mainnet",
-  chainPermission: "public",
-  baseToken: null,
-  gasMechanics: null,
-  integrations: [],
-  chainName: "",
-  comments: "",
-  customTokenDetails: "",
-  telegramHandle: "",
-}
+const getInitialFormMainNet = (
+  data: OnboardingForm | null = null,
+): ChainCreationForm => ({
+  networkType: data?.networkType ?? "mainnet",
+  chainPermission: data?.chainPermission ?? "public",
+  baseToken: data?.baseToken ?? null,
+  gasMechanics: data?.gasMechanics ?? null,
+  integrations: data?.integrations ?? [],
+  chainName: data?.chainName ?? "",
+  comments: data?.comments ?? "",
+  customTokenDetails: data?.customTokenDetails ?? "",
+  telegramHandle: data?.telegramHandle ?? "",
+})
 
 type ErrorName =
   | "UNKNOWN_VALIDATION_ERROR"
@@ -104,7 +106,7 @@ export class FormTokenNotFoundError extends FormValidationError {
 
 type Args = {
   team: Team
-  initialData: ChainCreationForm | null
+  initialData: OnboardingForm | null
   networkTypeSelected: NetworkType
 }
 
@@ -118,9 +120,9 @@ export const useChainCreationForm = ({
     (() => {
       switch (networkTypeSelected) {
         case "devnet":
-          return initialData ?? initialFormDevNet
+          return initialFormDevNet
         case "mainnet":
-          return initialData ?? initialFormMainNet
+          return getInitialFormMainNet(initialData)
         default:
           return notReachable(networkTypeSelected)
       }
