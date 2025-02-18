@@ -21,12 +21,7 @@ const Page = async ({
   }
 
   // If the team has no silos return the "empty" state
-  return (
-    <DashboardHomePage
-      team={team}
-      onboardingForm={onboardingForm}
-    />
-  )
+  return <DashboardHomePage team={team} onboardingForm={onboardingForm} />
 }
 
 export default Page
