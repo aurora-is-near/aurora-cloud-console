@@ -5,10 +5,10 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
 
 import { Button } from "@/components/Button"
 import type {
+  OnboardingForm,
   Silo,
   SiloConfigTransactionStatus,
   Team,
-  OnboardingForm,
 } from "@/types/types"
 
 import { LinkButton } from "@/components/LinkButton"
