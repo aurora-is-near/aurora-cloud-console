@@ -5,19 +5,7 @@ import { Team } from "@/types/types"
 
 export const updateTeam = async (
   id: number,
-  inputs: Omit<Team, "id" | "created_at">,
-): Promise<void> => {
-  const supabase = createAdminSupabaseClient()
-
-  await supabase.from("teams").update(inputs).eq("id", id)
-}
-
-export const updateTeamForm = async (
-  id: number,
-  inputs: Omit<
-    Team,
-    "id" | "created_at" | "team_key" | "updated_at" | "prepaid_transactions"
-  >,
+  inputs: Partial<Omit<Team, "id" | "created_at">>,
 ): Promise<void> => {
   const supabase = createAdminSupabaseClient()
 

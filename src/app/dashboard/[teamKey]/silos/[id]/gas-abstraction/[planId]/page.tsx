@@ -36,9 +36,9 @@ const Page = async ({
       rule: {
         deal_id: dealId,
         chains: [silo.chain_id],
-        except_chains: null,
-        contracts: null,
-        except_contracts: null,
+        except_chains: [],
+        contracts: [],
+        except_contracts: [],
       },
       team_id: team.id,
     })

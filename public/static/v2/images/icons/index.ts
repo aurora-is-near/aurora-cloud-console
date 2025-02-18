@@ -3,6 +3,7 @@ export { default as ChainPrivate } from "./chain_private.svg"
 export { default as ChainPublic } from "./chain_public.svg"
 export { default as ChainPublicPermissioned } from "./chain_public_permissioned.svg"
 
+export { default as NearToken } from "./tokens/near.svg"
 export { default as AuroraToken } from "./tokens/aurora.svg"
 export { default as Bitcoin } from "./tokens/bitcoin.svg"
 export { default as CustomToken } from "./tokens/custom.svg"
