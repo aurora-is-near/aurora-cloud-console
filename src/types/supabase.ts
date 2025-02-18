@@ -1095,12 +1095,12 @@ export type Database = {
         | "assets:write"
       base_token_symbol:
         | "AURORA"
+        | "NEAR"
         | "BTC"
         | "ETH"
         | "USDC"
         | "USDT"
         | "CUSTOM"
-        | "NEAR"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
       limit_scope: "USER" | "GLOBAL"
