@@ -32,6 +32,10 @@ describe("DeploymentProgressAuto", () => {
     ;(setBaseToken as jest.Mock).mockResolvedValue("PENDING")
   })
 
+  afterEach(() => {
+    jest.clearAllTimers()
+  })
+
   describe("welcome", () => {
     it("shows the expected steps", async () => {
       render(
@@ -122,13 +126,15 @@ describe("DeploymentProgressAuto", () => {
     })
 
     it("moves on to setting the base token after a short delay", async () => {
+      const silo = createMockSilo({
+        base_token_symbol: "AURORA",
+        base_token_name: "Aurora",
+      })
+
       render(
         <DeploymentProgressAuto
           team={mockTeam}
-          silo={createMockSilo({
-            base_token_symbol: "AURORA",
-            base_token_name: "Aurora",
-          })}
+          silo={silo}
           isOnboardingFormSubmitted
           isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
@@ -143,6 +149,9 @@ describe("DeploymentProgressAuto", () => {
       await waitFor(() => {
         expect(getCurrentStep()).toBe("SETTING_BASE_TOKEN")
       })
+
+      expect(setBaseToken).toHaveBeenCalledTimes(1)
+      expect(setBaseToken).toHaveBeenCalledWith(silo)
     })
 
     it("starts the block explorer once the base token is set", async () => {
