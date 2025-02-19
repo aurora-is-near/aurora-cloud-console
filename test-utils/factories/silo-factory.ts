@@ -26,6 +26,8 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   replenish_threshold: 0,
   silo_to_silo_bridge_address: null,
   is_active: true,
+  applied_deal_ids: [],
+  deleted_at: null,
   ...data,
 })
 

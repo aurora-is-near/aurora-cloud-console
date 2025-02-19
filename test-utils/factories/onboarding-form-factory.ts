@@ -12,7 +12,7 @@ export const createMockOnboardingForm = (
   customTokenDetails: null,
   gasMechanics: "usage",
   integrations: [],
-  networkType: "public",
+  networkType: "mainnet",
   team_id: 1,
   telegramHandle: "@me",
   ...data,
