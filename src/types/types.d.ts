@@ -45,6 +45,8 @@ export type OnboardingStatus = Enums<"team_onboarding_status">
 
 export type WidgetNetworkType = Enums<"widget_network_type">
 
+export type BaseTokenSymbol = Enums<"base_token_symbol">
+
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
@@ -62,6 +64,11 @@ export type Team = Tables<"teams">
 export type Silo = Tables<"silos">
 
 export type SilosTeams = Tables<"silos_teams">
+
+export type SiloConfigTransaction = Tables<"silo_config_transactions">
+
+export type SiloConfigTransactionStatus =
+  Enums<"silo_config_transaction_status">
 
 export type List = Tables<"lists">
 

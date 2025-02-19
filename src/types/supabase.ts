@@ -279,7 +279,7 @@ export type Database = {
           customTokenDetails: string | null
           gasMechanics: Database["public"]["Enums"]["gas_mechanics"] | null
           id: number
-          integrations: string[] | null
+          integrations: Database["public"]["Enums"]["user_integration"][] | null
           networkType: Database["public"]["Enums"]["network_type"] | null
           team_id: number | null
           telegramHandle: string | null
@@ -295,7 +295,9 @@ export type Database = {
           customTokenDetails?: string | null
           gasMechanics?: Database["public"]["Enums"]["gas_mechanics"] | null
           id?: number
-          integrations?: string[] | null
+          integrations?:
+            | Database["public"]["Enums"]["user_integration"][]
+            | null
           networkType?: Database["public"]["Enums"]["network_type"] | null
           team_id?: number | null
           telegramHandle?: string | null
@@ -311,7 +313,9 @@ export type Database = {
           customTokenDetails?: string | null
           gasMechanics?: Database["public"]["Enums"]["gas_mechanics"] | null
           id?: number
-          integrations?: string[] | null
+          integrations?:
+            | Database["public"]["Enums"]["user_integration"][]
+            | null
           networkType?: Database["public"]["Enums"]["network_type"] | null
           team_id?: number | null
           telegramHandle?: string | null
@@ -686,6 +690,7 @@ export type Database = {
           blockscout_database_id: number | null
           chain_id: number
           created_at: string
+          deleted_at: string | null
           engine_account: string
           engine_version: string
           explorer_url: string | null
@@ -714,6 +719,7 @@ export type Database = {
           blockscout_database_id?: number | null
           chain_id: number
           created_at?: string
+          deleted_at?: string | null
           engine_account: string
           engine_version: string
           explorer_url?: string | null
@@ -742,6 +748,7 @@ export type Database = {
           blockscout_database_id?: number | null
           chain_id?: number
           created_at?: string
+          deleted_at?: string | null
           engine_account?: string
           engine_version?: string
           explorer_url?: string | null

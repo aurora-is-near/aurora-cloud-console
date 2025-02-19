@@ -57,9 +57,13 @@ export async function middleware(req: NextRequest) {
       UNAUTHORISED_ROUTE,
       LINK_SENT_ROUTE,
       SIGNUP_ROUTE,
-      IMAGES_ROUTE,
     ].includes(pathname)
   ) {
+    return res
+  }
+
+  // Allow requests for images services via our image resizer
+  if (pathname.startsWith(IMAGES_ROUTE)) {
     return res
   }
 

@@ -1,0 +1,270 @@
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
+import { setBaseToken } from "@/actions/deployment/set-base-token"
+import { updateSilo } from "@/actions/silos/update-silo"
+import { DeploymentProgressAuto } from "./index"
+import { mockTeam } from "../../../../../../test-utils/mock-team"
+import { createWrapper } from "../../../../../../test-utils/create-wrapper"
+import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
+
+jest.useFakeTimers()
+jest.mock("../../../../../actions/deployment/set-base-token")
+jest.mock("../../../../../actions/silos/update-silo")
+
+const getSteps = () => {
+  const steps = screen.getAllByTestId("deployment-step")
+
+  return steps.map((step) => {
+    return {
+      id: step.id,
+      isSelected: step.getAttribute("aria-current") === "step",
+    }
+  })
+}
+
+const getCurrentStep = () => {
+  const steps = getSteps()
+
+  return steps.find((step) => step.isSelected)?.id
+}
+
+describe("DeploymentProgressAuto", () => {
+  beforeEach(() => {
+    ;(setBaseToken as jest.Mock).mockResolvedValue("PENDING")
+  })
+
+  afterEach(() => {
+    jest.clearAllTimers()
+  })
+
+  describe("welcome", () => {
+    it("shows the expected steps", async () => {
+      render(
+        <DeploymentProgressAuto
+          team={mockTeam}
+          silo={null}
+          isOnboardingFormSubmitted={false}
+          isDeploymentComplete={false}
+          setIsDeploymentComplete={() => {}}
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      expect(getSteps()).toEqual([
+        {
+          id: "CONFIGURE_CHAIN",
+          isSelected: true,
+        },
+        {
+          id: "START_DEPLOYMENT",
+          isSelected: false,
+        },
+      ])
+    })
+  })
+
+  describe("onboarding", () => {
+    it("shows the expected steps", async () => {
+      render(
+        <DeploymentProgressAuto
+          team={mockTeam}
+          silo={null}
+          isOnboardingFormSubmitted
+          isDeploymentComplete={false}
+          setIsDeploymentComplete={() => {}}
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      expect(getSteps()).toEqual([
+        {
+          id: "CONFIGURE_CHAIN",
+          isSelected: false,
+        },
+        {
+          id: "START_DEPLOYMENT",
+          isSelected: true,
+        },
+      ])
+    })
+  })
+
+  describe("deployment in progress", () => {
+    it("shows the expected steps on mount", async () => {
+      render(
+        <DeploymentProgressAuto
+          team={mockTeam}
+          silo={createMockSilo()}
+          isOnboardingFormSubmitted
+          isDeploymentComplete={false}
+          setIsDeploymentComplete={() => {}}
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      expect(getSteps()).toEqual([
+        {
+          id: "CONFIGURED_CHAIN",
+          isSelected: false,
+        },
+        {
+          id: "INIT_AURORA_ENGINE",
+          isSelected: true,
+        },
+        {
+          id: "SETTING_BASE_TOKEN",
+          isSelected: false,
+        },
+        {
+          id: "START_BLOCK_EXPLORER",
+          isSelected: false,
+        },
+        {
+          id: "CHAIN_DEPLOYED",
+          isSelected: false,
+        },
+      ])
+    })
+
+    it("moves on to setting the base token after a short delay", async () => {
+      const silo = createMockSilo({
+        base_token_symbol: "AURORA",
+        base_token_name: "Aurora",
+      })
+
+      render(
+        <DeploymentProgressAuto
+          team={mockTeam}
+          silo={silo}
+          isOnboardingFormSubmitted
+          isDeploymentComplete={false}
+          setIsDeploymentComplete={() => {}}
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      act(() => {
+        jest.advanceTimersByTime(2500)
+      })
+
+      await waitFor(() => {
+        expect(getCurrentStep()).toBe("SETTING_BASE_TOKEN")
+      })
+
+      expect(setBaseToken).toHaveBeenCalledTimes(1)
+      expect(setBaseToken).toHaveBeenCalledWith(silo)
+    })
+
+    it("starts the block explorer once the base token is set", async () => {
+      ;(setBaseToken as jest.Mock).mockResolvedValue("SUCCESSFUL")
+
+      render(
+        <DeploymentProgressAuto
+          team={mockTeam}
+          silo={createMockSilo({
+            base_token_symbol: "AURORA",
+            base_token_name: "Aurora",
+          })}
+          isOnboardingFormSubmitted
+          isDeploymentComplete={false}
+          setIsDeploymentComplete={() => {}}
+          siloBaseTokenTransactionStatus="PENDING"
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      await waitFor(() => {
+        expect(getCurrentStep()).toBe("START_BLOCK_EXPLORER")
+      })
+    })
+
+    it("marks the silo as active and the deployment as complete once everything is configured", async () => {
+      const setIsDeploymentComplete = jest.fn()
+      const silo = createMockSilo({
+        is_active: false,
+        base_token_symbol: "AURORA",
+        base_token_name: "Aurora",
+      })
+
+      render(
+        <DeploymentProgressAuto
+          team={mockTeam}
+          silo={silo}
+          isOnboardingFormSubmitted
+          isDeploymentComplete={false}
+          setIsDeploymentComplete={setIsDeploymentComplete}
+          siloBaseTokenTransactionStatus="SUCCESSFUL"
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      await waitFor(() => {
+        expect(getCurrentStep()).toBe("START_BLOCK_EXPLORER")
+      })
+
+      act(() => {
+        jest.advanceTimersByTime(2500)
+      })
+
+      fireEvent.click(await screen.findByText(/Finish deployment/i))
+
+      expect(setIsDeploymentComplete).toHaveBeenCalledTimes(1)
+      expect(setIsDeploymentComplete).toHaveBeenCalledWith(true)
+
+      expect(updateSilo).toHaveBeenCalledWith(silo.id, {
+        is_active: true,
+      })
+    })
+
+    it("retrys when the try again button is clicked when setting the base token fails", async () => {
+      ;(setBaseToken as jest.Mock).mockResolvedValue("FAILED")
+
+      render(
+        <DeploymentProgressAuto
+          team={mockTeam}
+          silo={createMockSilo({
+            base_token_symbol: "AURORA",
+            base_token_name: "Aurora",
+          })}
+          isOnboardingFormSubmitted
+          isDeploymentComplete={false}
+          setIsDeploymentComplete={() => {}}
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      act(() => {
+        jest.advanceTimersByTime(2500)
+      })
+
+      await waitFor(() => {
+        expect(getCurrentStep()).toBe("SETTING_BASE_TOKEN")
+      })
+
+      expect(setBaseToken).toHaveBeenCalledTimes(1)
+
+      fireEvent.click(await screen.findByRole("button", { name: "Try again" }))
+
+      await waitFor(() => {
+        expect(setBaseToken).toHaveBeenCalledTimes(2)
+      })
+    })
+  })
+
+  describe("deployment complete", () => {
+    it("shows the expected content", async () => {
+      render(
+        <DeploymentProgressAuto
+          team={mockTeam}
+          silo={createMockSilo({ is_active: true })}
+          isOnboardingFormSubmitted
+          isDeploymentComplete
+          setIsDeploymentComplete={() => {}}
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      expect(screen.queryByTestId("deployment-steps")).toBeNull()
+      expect(screen.getByText(/Open Block Explorer/i)).not.toBeNull()
+    })
+  })
+})

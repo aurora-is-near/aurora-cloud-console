@@ -12,6 +12,7 @@ export const getSiloByChainId = async (
     .from("silos")
     .select("*")
     .eq("chain_id", chainId)
+    .is("deleted_at", null)
     .maybeSingle()
 
   return silo
