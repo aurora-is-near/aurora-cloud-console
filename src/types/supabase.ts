@@ -271,42 +271,52 @@ export type Database = {
         Row: {
           baseToken: Database["public"]["Enums"]["base_token_symbol"]
           chainName: string | null
-          chainPermission: string | null
+          chainPermission:
+            | Database["public"]["Enums"]["chain_permission"]
+            | null
           comments: string | null
           created_at: string
           customTokenDetails: string | null
-          gasMechanics: string | null
+          gasMechanics: Database["public"]["Enums"]["gas_mechanics"] | null
           id: number
-          integrations: string[] | null
-          networkType: string | null
+          integrations: Database["public"]["Enums"]["user_integration"][] | null
+          networkType: Database["public"]["Enums"]["network_type"] | null
           team_id: number | null
           telegramHandle: string | null
         }
         Insert: {
           baseToken?: Database["public"]["Enums"]["base_token_symbol"]
           chainName?: string | null
-          chainPermission?: string | null
+          chainPermission?:
+            | Database["public"]["Enums"]["chain_permission"]
+            | null
           comments?: string | null
           created_at?: string
           customTokenDetails?: string | null
-          gasMechanics?: string | null
+          gasMechanics?: Database["public"]["Enums"]["gas_mechanics"] | null
           id?: number
-          integrations?: string[] | null
-          networkType?: string | null
+          integrations?:
+            | Database["public"]["Enums"]["user_integration"][]
+            | null
+          networkType?: Database["public"]["Enums"]["network_type"] | null
           team_id?: number | null
           telegramHandle?: string | null
         }
         Update: {
           baseToken?: Database["public"]["Enums"]["base_token_symbol"]
           chainName?: string | null
-          chainPermission?: string | null
+          chainPermission?:
+            | Database["public"]["Enums"]["chain_permission"]
+            | null
           comments?: string | null
           created_at?: string
           customTokenDetails?: string | null
-          gasMechanics?: string | null
+          gasMechanics?: Database["public"]["Enums"]["gas_mechanics"] | null
           id?: number
-          integrations?: string[] | null
-          networkType?: string | null
+          integrations?:
+            | Database["public"]["Enums"]["user_integration"][]
+            | null
+          networkType?: Database["public"]["Enums"]["network_type"] | null
           team_id?: number | null
           telegramHandle?: string | null
         }
@@ -674,11 +684,13 @@ export type Database = {
       }
       silos: {
         Row: {
+          applied_deal_ids: number[]
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id: number | null
           chain_id: number
           created_at: string
+          deleted_at: string | null
           engine_account: string
           engine_version: string
           explorer_url: string | null
@@ -701,11 +713,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          applied_deal_ids: number[]
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id?: number | null
           chain_id: number
           created_at?: string
+          deleted_at?: string | null
           engine_account: string
           engine_version: string
           explorer_url?: string | null
@@ -728,11 +742,13 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          applied_deal_ids?: number[]
           base_token_name?: string
           base_token_symbol?: string
           blockscout_database_id?: number | null
           chain_id?: number
           created_at?: string
+          deleted_at?: string | null
           engine_account?: string
           engine_version?: string
           explorer_url?: string | null
@@ -1101,10 +1117,13 @@ export type Database = {
         | "USDT"
         | "CUSTOM"
         | "NEAR"
+      chain_permission: "public" | "public_permissioned" | "private"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
+      gas_mechanics: "usage" | "free" | "custom"
       limit_scope: "USER" | "GLOBAL"
       limit_type: "CYCLIC" | "RATELIMIT"
+      network_type: "devnet" | "mainnet"
       order_type: "initial_setup" | "top_up"
       payment_status:
         | "PAID"
@@ -1120,6 +1139,14 @@ export type Database = {
         | "DEPLOYMENT_IN_PROGRESS"
         | "DEPLOYMENT_DONE"
       token_type: "ERC20" | "ERC721" | "ERC1155"
+      user_integration:
+        | "onramp"
+        | "oracle"
+        | "bridge_widget"
+        | "cex_withdrawals_widget"
+        | "block_explorer"
+        | "intense_support"
+        | "dex"
       user_type: "customer" | "admin"
       widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
     }
