@@ -15,7 +15,7 @@ import {
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { Button } from "@/components/Button"
 import Card from "@/components/Card"
-import { Team } from "@/types/types"
+import { OnboardingForm as OnboardingFormData, Team } from "@/types/types"
 import {
   ChainPermission,
   GasMechanics,
@@ -37,9 +37,10 @@ import IconNearIntenseSquare from "../../../../../public/static/icons/near-inten
 
 type OnboardingFormProps = {
   team: Team
+  data: OnboardingFormData | null
 }
 
-const OnboardingForm = ({ team }: OnboardingFormProps) => {
+const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
@@ -50,7 +51,11 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
     handleIntegrationToggle,
     handleDeselectAllIntegrations,
     handleSubmit,
-  } = useChainCreationForm(team, "mainnet")
+  } = useChainCreationForm({
+    team,
+    initialData: data,
+    networkTypeSelected: "mainnet",
+  })
 
   const handleChainPermissionSelect = (permission: ChainPermission) => {
     updateForm("chainPermission", permission)
