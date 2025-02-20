@@ -11,7 +11,7 @@ export const getForwarderWidgetUrl = (silo: Silo) => {
   if (silo.explorer_url) {
     widgetUrl.searchParams.append(
       "customSiloExplorer",
-      silo.explorer_url?.split("://")[1].split("/")[0],
+      silo.explorer_url.split("://")[1].split("/")[0],
     )
   }
 
