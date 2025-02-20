@@ -4,7 +4,7 @@ import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
 import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
-import { WidgetEmbedCodeCard } from "@/components/EmbedCodeCard"
+import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
 import { UniversalWidgetAboutTab } from "./UniversalWidgetAboutTab"
 
 interface UniversalWidgetPageProps {

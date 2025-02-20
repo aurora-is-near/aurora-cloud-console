@@ -4,7 +4,7 @@ import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Silo, Team } from "@/types/types"
 import { ForwarderWidgetOpenButton } from "@/components/ForwarderOpenButton"
-import { WidgetEmbedCodeCard } from "@/components/EmbedCodeCard"
+import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
 import { ForwarderAboutTab } from "./ForwarderAboutTab"
 import ForwarderConfigurationTab from "./ForwarderConfigurationTab"
 
