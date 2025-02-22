@@ -4,10 +4,10 @@ import { MenuSection } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import Helpscout from "@/components/Helpscout"
 import { TopPageBanner } from "@/components/TopPageBanner"
-import type { Silo, Team } from "@/types/types"
+import type { Silo } from "@/types/types"
 
 type DashboardLayoutProps = {
-  team?: Team
+  teamKey?: string
   silo?: Silo
   showWelcomeBanner?: boolean
   children: ReactNode
@@ -19,7 +19,7 @@ type DashboardLayoutProps = {
 }
 
 export const DashboardLayout = ({
-  team,
+  teamKey,
   silo,
   showWelcomeBanner = false,
   children,
@@ -27,10 +27,10 @@ export const DashboardLayout = ({
 }: DashboardLayoutProps) => {
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
-      {showWelcomeBanner && team && !team?.onboarding_status && !silo && (
-        <TopPageBanner team={team} />
+      {showWelcomeBanner && !silo?.id && !!teamKey && (
+        <TopPageBanner teamKey={teamKey} />
       )}
-      <MainMenu teamKey={team?.team_key} />
+      <MainMenu teamKey={teamKey} />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
         {!!sidebarMenu?.sections.length && (
           <SidebarMenu
@@ -41,9 +41,7 @@ export const DashboardLayout = ({
         )}
         <div className="w-full">{children}</div>
       </div>
-      {process.env.NODE_ENV === "production" && !!team?.team_key && (
-        <Helpscout />
-      )}
+      {process.env.NODE_ENV === "production" && !!teamKey && <Helpscout />}
     </div>
   )
 }

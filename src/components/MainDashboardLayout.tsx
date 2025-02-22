@@ -50,7 +50,7 @@ export const MainDashboardLayout = ({
   return (
     <Suspense fallback={<Spinner fullScreen size="lg" />}>
       <DashboardLayout
-        team={team}
+        teamKey={teamKey}
         silo={silo}
         showWelcomeBanner={!onboardingForm}
         sidebarMenu={{

@@ -7,21 +7,18 @@ import {
   UsersIcon,
 } from "@heroicons/react/20/solid"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { LinkButton } from "@/components/LinkButton"
 
-const Layout = async ({
+const Layout = ({
   children,
   params: { teamKey },
 }: {
   children: ReactNode
   params: { teamKey: string }
 }) => {
-  const team = await getTeamByKey(teamKey)
-
   return (
     <DashboardLayout
-      team={team}
+      teamKey={teamKey}
       sidebarMenu={{
         heading: "Settings",
         action: (
