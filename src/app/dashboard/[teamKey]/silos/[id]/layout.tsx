@@ -1,47 +1,31 @@
 import { ReactNode } from "react"
-import { notFound } from "next/navigation"
-import { isAdmin } from "@/actions/is-admin"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
-import { SiloSelect } from "@/components/SiloSelect"
-import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
-import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
+import { getQueryClient } from "@/query-client"
+import { queries } from "@/actions/queries"
 
-const Layout = async ({
+const Layout = ({
   children,
   params: { id, teamKey },
 }: {
   children: ReactNode
   params: { id: string; teamKey: string }
 }) => {
-  const [isAdminUser, team, deals] = await Promise.all([
-    isAdmin(),
-    getTeamByKey(teamKey),
-    getTeamDealsByKey(teamKey),
-  ])
+  const queryClient = getQueryClient()
+  const siloId = Number(id)
 
-  const silos = await getTeamSilos(team.id)
-  const silo = silos.find((siloPredicate) => siloPredicate.id === Number(id))
-
-  // Protect against unauthorized access to another team's silo
-  if (!silo) {
-    notFound()
-  }
+  // Prefetch some common queries used throughout the dashboard
+  void queryClient.prefetchQuery(queries.getTeamByKey(teamKey))
+  void queryClient.prefetchQuery(queries.getTeamSiloByKey(teamKey, siloId))
+  void queryClient.prefetchQuery(queries.getSiloConfigTransactions(siloId))
+  void queryClient.prefetchQuery(queries.getTeamOnboardingFormByKey(teamKey))
 
   return (
-    <MainDashboardLayout
-      team={team}
-      silo={silo}
-      deals={deals}
-      showAdminMenu={isAdminUser}
-      sidebarAction={
-        silos.length > 1 ? (
-          <SiloSelect defaultValue={Number(id)} silos={silos} />
-        ) : undefined
-      }
-    >
-      {children}
-    </MainDashboardLayout>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <MainDashboardLayout teamKey={teamKey} siloId={siloId}>
+        {children}
+      </MainDashboardLayout>
+    </HydrationBoundary>
   )
 }
 

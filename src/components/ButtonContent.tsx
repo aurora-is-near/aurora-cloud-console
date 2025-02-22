@@ -22,6 +22,6 @@ export const ButtonContent = ({
     >
       {children}
     </span>
-    {isLoading && <Spinner />}
+    {isLoading && <Spinner size="sm" />}
   </>
 )

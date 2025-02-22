@@ -3,7 +3,7 @@ import { XMarkIcon } from "@heroicons/react/20/solid"
 import OnboardingForm from "@/app/dashboard/[teamKey]/create-chain/OnboardingForm"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
-import { trackEvent } from "@/components/Mixpanel/ServerTracker"
+import { trackEvent } from "@/mixpanel"
 
 const Page = async ({
   params: { teamKey },

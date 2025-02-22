@@ -1,38 +1,16 @@
 "use client"
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { QueryClientProvider } from "@tanstack/react-query"
 import { ReactNode } from "react"
-import { isRequestError } from "@/utils/api/request"
-
-const MAX_RETRIES = 2
-const HTTP_STATUS_TO_NOT_RETRY = [400, 401, 403, 404]
+import { getQueryClient } from "@/query-client"
 
 type QueryProviderProps = {
   children: ReactNode
 }
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: (failureCount, error) => {
-        if (failureCount >= MAX_RETRIES) {
-          return false
-        }
-
-        if (
-          isRequestError(error) &&
-          HTTP_STATUS_TO_NOT_RETRY.includes(error.statusCode ?? 0)
-        ) {
-          return false
-        }
-
-        return true
-      },
-    },
-  },
-})
-
 export const QueryProvider = ({ children }: QueryProviderProps) => {
+  const queryClient = getQueryClient()
+
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )

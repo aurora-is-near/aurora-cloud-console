@@ -13,8 +13,8 @@ import { Team } from "@/types/types"
 import { sendEmail } from "@/utils/email"
 import { getRequestReceivedEmail } from "@/email-templates/get-request-received-email"
 import { getStripeConfig } from "@/utils/stripe"
-import { trackEvent } from "@/components/Mixpanel/ServerTracker"
 import { getTeamMembers } from "@/actions/team-members/get-team-members"
+import { trackEvent } from "@/mixpanel"
 
 type WebhookResponse = {
   fulfilled: boolean

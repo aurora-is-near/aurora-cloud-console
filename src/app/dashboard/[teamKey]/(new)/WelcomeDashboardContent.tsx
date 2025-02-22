@@ -18,7 +18,7 @@ import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
 import { HeroImage } from "./HeroImage"
 
-type DashboardHomePageProps = {
+type WelcomeDashboardContentProps = {
   team: Team
   silo?: Silo | null
   onboardingForm: OnboardingForm | null
@@ -26,13 +26,13 @@ type DashboardHomePageProps = {
   siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
 }
 
-export const DashboardHomePage = ({
+export const WelcomeDashboardContent = ({
   team,
   silo = null,
   onboardingForm,
   isAutomated,
   siloBaseTokenTransactionStatus,
-}: DashboardHomePageProps) => {
+}: WelcomeDashboardContentProps) => {
   const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
     !!silo?.is_active,
   )

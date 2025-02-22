@@ -1,19 +1,30 @@
-import { notFound } from "next/navigation"
-import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
-import { OnrampHomePage } from "@/components/OnrampHomePage/OnrampHomePage"
+"use client"
 
-const Page = async ({
+import { notFound } from "next/navigation"
+import { useSuspenseQueries } from "@tanstack/react-query"
+import { Suspense } from "react"
+import { OnrampHomePage } from "@/components/OnrampHomePage/OnrampHomePage"
+import { queries } from "@/actions/queries"
+import { Spinner } from "@/components/Spinner"
+
+const Page = ({
   params: { id, teamKey },
 }: {
   params: { id: string; teamKey: string }
 }) => {
-  const silo = await getTeamSiloByKey(teamKey, Number(id))
+  const [{ data: silo }] = useSuspenseQueries({
+    queries: [queries.getTeamSiloByKey(teamKey, Number(id))],
+  })
 
   if (!silo) {
     notFound()
   }
 
-  return <OnrampHomePage teamKey={teamKey} silo={silo} />
+  return (
+    <Suspense fallback={<Spinner size="lg" />}>
+      <OnrampHomePage teamKey={teamKey} silo={silo} />
+    </Suspense>
+  )
 }
 
 export default Page

@@ -10,7 +10,6 @@ import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import Helpscout from "@/components/Helpscout"
 import { TopPageBanner } from "@/components/TopPageBanner"
 import type { Silo, Team } from "@/types/types"
-import { setUser } from "@/components/Mixpanel/ServerTracker"
 
 import IconDiscord from "../../public/static/icons/discord-logo.svg"
 import IconTelegram from "../../public/static/icons/telegram-logo.svg"
@@ -28,7 +27,7 @@ type DashboardLayoutProps = {
   }
 }
 
-export const DashboardLayout = async ({
+export const DashboardLayout = ({
   team,
   silo,
   showAdminMenu,
@@ -76,8 +75,6 @@ export const DashboardLayout = async ({
 
     return items
   }, [team, showAdminMenu])
-
-  await setUser()
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
