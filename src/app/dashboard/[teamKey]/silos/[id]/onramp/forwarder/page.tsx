@@ -21,7 +21,7 @@ const Page = ({
   }
 
   return (
-    <Suspense fallback={<Spinner size="lg" />}>
+    <Suspense fallback={<Spinner fullScreen size="lg" />}>
       <ForwarderPage silo={silo} />
     </Suspense>
   )

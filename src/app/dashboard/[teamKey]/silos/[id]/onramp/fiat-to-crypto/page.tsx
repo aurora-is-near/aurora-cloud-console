@@ -21,7 +21,7 @@ const Page = ({
   }
 
   return (
-    <Suspense fallback={<Spinner size="lg" />}>
+    <Suspense fallback={<Spinner fullScreen size="lg" />}>
       <FiatOnrampPage teamKey={teamKey} silo={silo} />
     </Suspense>
   )

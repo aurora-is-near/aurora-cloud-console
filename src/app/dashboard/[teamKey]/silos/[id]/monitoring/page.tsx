@@ -25,7 +25,7 @@ const Page = ({
   }
 
   return (
-    <Suspense fallback={<Spinner size="lg" />}>
+    <Suspense fallback={<Spinner fullScreen size="lg" />}>
       <DashboardPage>
         <section>
           <SiloTransactionsCharts siloId={Number(id)} />
