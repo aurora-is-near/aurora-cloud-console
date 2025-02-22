@@ -1,36 +1,45 @@
+"use client"
+
 import { notFound } from "next/navigation"
+import { useSuspenseQueries } from "@tanstack/react-query"
+import { Suspense } from "react"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
+import { queries } from "@/actions/queries"
+import { Spinner } from "@/components/Spinner"
 import { SiloTransactionsCharts } from "./SiloTransactionsCharts"
 import { LatencyChart } from "../../LatencyChart"
 import { RpcRequestsChart } from "../../RpcRequestsChart"
 import { FailureRateChart } from "../../FailureRateChart"
 
-const Page = async ({
+const Page = ({
   params: { id, teamKey },
 }: {
   params: { id: string; teamKey: string }
 }) => {
-  const silo = await getTeamSiloByKey(teamKey, Number(id))
+  const [{ data: silo }] = useSuspenseQueries({
+    queries: [queries.getTeamSiloByKey(teamKey, Number(id))],
+  })
 
   if (!silo) {
     notFound()
   }
 
   return (
-    <DashboardPage>
-      <section>
-        <SiloTransactionsCharts siloId={Number(id)} />
-      </section>
-
-      {!!silo.grafana_network_key && (
-        <section className="grid md:grid-cols-2 gap-y-5 gap-x-2.5">
-          <LatencyChart id={id} />
-          <RpcRequestsChart id={id} />
-          <FailureRateChart id={id} />
+    <Suspense fallback={<Spinner size="lg" />}>
+      <DashboardPage>
+        <section>
+          <SiloTransactionsCharts siloId={Number(id)} />
         </section>
-      )}
-    </DashboardPage>
+
+        {!!silo.grafana_network_key && (
+          <section className="grid md:grid-cols-2 gap-y-5 gap-x-2.5">
+            <LatencyChart id={id} />
+            <RpcRequestsChart id={id} />
+            <FailureRateChart id={id} />
+          </section>
+        )}
+      </DashboardPage>
+    </Suspense>
   )
 }
 

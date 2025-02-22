@@ -8,11 +8,7 @@ const CalendlyWidget = dynamic(
   },
 )
 
-const Page = async ({
-  params: { teamKey },
-}: {
-  params: { teamKey: string }
-}) => {
+const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
   return (
     <>
       <Script
