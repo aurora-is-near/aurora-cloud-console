@@ -22,7 +22,6 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <DashboardLayout
-      showAdminMenu={isAdminUser}
       sidebarMenu={{
         heading: "Admin",
         sections: [

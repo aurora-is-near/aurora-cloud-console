@@ -7,7 +7,6 @@ import {
   UsersIcon,
 } from "@heroicons/react/20/solid"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { isAdmin } from "@/actions/is-admin"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { LinkButton } from "@/components/LinkButton"
 
@@ -18,13 +17,11 @@ const Layout = async ({
   children: ReactNode
   params: { teamKey: string }
 }) => {
-  const showAdminMenu = await isAdmin()
   const team = await getTeamByKey(teamKey)
 
   return (
     <DashboardLayout
       team={team}
-      showAdminMenu={showAdminMenu}
       sidebarMenu={{
         heading: "Settings",
         action: (

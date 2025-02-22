@@ -1,10 +1,10 @@
+import { isAdmin } from "@/actions/is-admin"
 import { getTeamOnboardingFormByKey } from "@/actions/onboarding/get-team-onboarding-form-by-key"
 import { getSiloConfigTransactions } from "@/actions/silo-config-transactions/get-silo-config-transactions"
 import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { isAdminUser } from "@/utils/admin"
 
 /**
  * A set of queries to be used with `useSuspenseQuery` or `useSuspenseQueries`.
@@ -38,8 +38,8 @@ export const queries = {
     queryKey: ["team-deals", teamKey],
     queryFn: () => getTeamDealsByKey(teamKey),
   }),
-  isAdminUser: () => ({
+  isAdmin: () => ({
     queryKey: ["is-admin"],
-    queryFn: () => isAdminUser(),
+    queryFn: () => isAdmin(),
   }),
 } as const

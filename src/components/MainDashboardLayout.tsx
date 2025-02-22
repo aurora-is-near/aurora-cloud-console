@@ -36,14 +36,12 @@ export const MainDashboardLayout = ({
     { data: onboardingForm },
     { data: silos },
     { data: deals },
-    { data: showAdminMenu },
   ] = useSuspenseQueries({
     queries: [
       queries.getTeamByKey(teamKey),
       queries.getTeamOnboardingFormByKey(teamKey),
       queries.getTeamSilosByKey(teamKey),
       queries.getTeamDealsByKey(teamKey),
-      queries.isAdminUser(),
     ],
   })
 
@@ -55,7 +53,6 @@ export const MainDashboardLayout = ({
         team={team}
         silo={silo}
         showWelcomeBanner={!onboardingForm}
-        showAdminMenu={showAdminMenu}
         sidebarMenu={{
           heading: silo?.name ?? "Explore Aurora",
           action:

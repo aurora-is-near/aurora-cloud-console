@@ -1,8 +1,12 @@
-import { ReactNode } from "react"
+"use client"
+
+import { ReactNode, useEffect } from "react"
 import { setUser } from "@/mixpanel"
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  void setUser()
+  useEffect(() => {
+    void setUser()
+  }, [])
 
   return children
 }
