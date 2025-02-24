@@ -86,4 +86,12 @@ describe("assignSiloToTeam", () => {
       name: "Test Chain",
     })
   })
+
+  it("returns null if there are no unassigned silos", async () => {
+    mockSupabaseClient.from("silos").select.mockReturnValue(createSelect())
+
+    const result = await assignSiloToTeam(123)
+
+    expect(result).toBeNull()
+  })
 })

@@ -24,6 +24,7 @@ type DashboardHomePageProps = {
   onboardingForm: OnboardingForm | null
   isAutomated: boolean
   siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
+  hasUnassignedSilo?: boolean
 }
 
 export const DashboardHomePage = ({
@@ -32,6 +33,7 @@ export const DashboardHomePage = ({
   onboardingForm,
   isAutomated,
   siloBaseTokenTransactionStatus,
+  hasUnassignedSilo,
 }: DashboardHomePageProps) => {
   const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
     !!silo?.is_active,
@@ -72,8 +74,9 @@ export const DashboardHomePage = ({
             silo={silo}
             isDeploymentComplete={isDeploymentComplete}
             setIsDeploymentComplete={setIsDeploymentComplete}
-            isOnboardingFormSubmitted={!!onboardingForm}
+            onboardingForm={onboardingForm}
             siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
+            hasUnassignedSilo={hasUnassignedSilo}
           />
         )}
       </Hero>

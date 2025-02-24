@@ -27,3 +27,10 @@ export const BASE_TOKENS: Record<
   BTC: null,
   CUSTOM: null,
 }
+
+export const AUTOMATED_BASE_TOKENS: BaseTokenSymbol[] = Object.keys(
+  BASE_TOKENS,
+).filter(
+  (baseToken): baseToken is BaseTokenSymbol =>
+    !!BASE_TOKENS[baseToken as BaseTokenSymbol],
+)

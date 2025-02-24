@@ -1,6 +1,7 @@
 "use server"
 
 import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
+import { getUnassignedSiloId } from "@/actions/silos/get-unassigned-silo-id"
 import { BASE_TOKENS } from "@/constants/base-token"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Silo } from "@/types/types"
@@ -9,7 +10,9 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const assignSiloToTeam = async (teamId: number): Promise<Silo> => {
+export const assignSiloToTeam = async (
+  teamId: number,
+): Promise<Silo | null> => {
   const supabase = createAdminSupabaseClient()
   const onboardingForm = await getTeamOnboardingForm(teamId)
 
@@ -20,26 +23,17 @@ export const assignSiloToTeam = async (teamId: number): Promise<Silo> => {
   const { chainName, baseToken } = onboardingForm
 
   // 1. Get next available unassigned silo
-  const unassignedSiloResult = await supabase
-    .from("silos")
-    .select("id, teams(id)")
-    .is("teams", null)
-    .order("id", { ascending: true })
-    .limit(1)
-    .maybeSingle()
+  const unassignedSiloId = await getUnassignedSiloId()
 
-  assertValidSupabaseResult(unassignedSiloResult)
-
-  if (!unassignedSiloResult.data) {
-    throw new Error("No unassigned silos found")
+  // Exit early if no unassigned silos, found
+  if (!unassignedSiloId) {
+    return null
   }
 
   // 2. Assign silo to a team
-  const siloId = unassignedSiloResult.data.id
-
   await supabase
     .from("silos_teams")
-    .insert([{ team_id: teamId, silo_id: siloId }])
+    .insert([{ team_id: teamId, silo_id: unassignedSiloId }])
 
   // 3. Update the silo based on the onboarding form details
   const siloUpdateData: Partial<Silo> = {}
@@ -58,7 +52,7 @@ export const assignSiloToTeam = async (teamId: number): Promise<Silo> => {
   const updateSiloResult = await supabase
     .from("silos")
     .update(siloUpdateData)
-    .eq("id", siloId)
+    .eq("id", unassignedSiloId)
     .select()
     .single()
 

@@ -4,31 +4,44 @@ import { useState } from "react"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
 
 import { Button } from "@/components/Button"
-import type { Silo, SiloConfigTransactionStatus, Team } from "@/types/types"
+import type {
+  OnboardingForm,
+  Silo,
+  SiloConfigTransactionStatus,
+  Team,
+} from "@/types/types"
 
 import { LinkButton } from "@/components/LinkButton"
+import { AUTOMATED_BASE_TOKENS } from "@/constants/base-token"
 import { DeploymentSteps, ModalConfirmDeployment, Steps } from "./components"
 import { useSteps } from "./hooks"
 
 type Props = {
   team: Team
   silo: Silo | null
-  isOnboardingFormSubmitted: boolean
+  onboardingForm: OnboardingForm | null
   isDeploymentComplete: boolean
   setIsDeploymentComplete: (isDeploymentComplete: boolean) => void
   siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
+  hasUnassignedSilo?: boolean
 }
 
 export const DeploymentProgressAuto = ({
   team,
   silo,
-  isOnboardingFormSubmitted,
+  onboardingForm,
   isDeploymentComplete,
   setIsDeploymentComplete,
   siloBaseTokenTransactionStatus,
+  hasUnassignedSilo,
 }: Props) => {
   const [isConfirmDeploymentModalOpen, setIsConfirmDeploymentModalOpen] =
     useState(false)
+
+  const canBeAutomated =
+    hasUnassignedSilo &&
+    onboardingForm?.baseToken &&
+    AUTOMATED_BASE_TOKENS.includes(onboardingForm.baseToken)
 
   const allSteps = useSteps({
     team,
@@ -40,7 +53,7 @@ export const DeploymentProgressAuto = ({
   })
 
   // Welcome
-  if (!silo && !isOnboardingFormSubmitted) {
+  if (!silo && !onboardingForm) {
     return (
       <Steps
         allSteps={allSteps}
@@ -54,7 +67,7 @@ export const DeploymentProgressAuto = ({
 
   // Onboarding passed
   if (!silo) {
-    return (
+    return canBeAutomated ? (
       <>
         <Steps
           allSteps={allSteps}
@@ -69,6 +82,14 @@ export const DeploymentProgressAuto = ({
           onClose={() => setIsConfirmDeploymentModalOpen(false)}
         />
       </>
+    ) : (
+      <Steps
+        allSteps={allSteps}
+        steps={[
+          { name: "CONFIGURE_CHAIN", state: "completed" },
+          { name: "MANUAL_DEPLOYMENT", state: "current" },
+        ]}
+      />
     )
   }
 

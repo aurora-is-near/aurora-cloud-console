@@ -4,6 +4,7 @@ import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { DashboardHomePage } from "@/app/dashboard/[teamKey]/(new)/Dashboard"
 import { getTeamOnboardingFormByKey } from "@/actions/onboarding/get-team-onboarding-form-by-key"
 import { featureFlags } from "@/feature-flags/server"
+import { getUnassignedSiloId } from "@/actions/silos/get-unassigned-silo-id"
 
 const Page = async ({
   params: { teamKey },
@@ -11,9 +12,10 @@ const Page = async ({
   params: { teamKey: string }
 }) => {
   const isAutomated = featureFlags.get("automate_silo_configuration")
-  const [team, onboardingForm] = await Promise.all([
+  const [team, onboardingForm, unassignedSiloId] = await Promise.all([
     getTeamByKey(teamKey),
     getTeamOnboardingFormByKey(teamKey),
+    getUnassignedSiloId(),
   ])
 
   const [silo] = await getTeamSilos(team.id)
@@ -28,6 +30,7 @@ const Page = async ({
       team={team}
       onboardingForm={onboardingForm}
       isAutomated={isAutomated}
+      hasUnassignedSilo={!!unassignedSiloId}
     />
   )
 }

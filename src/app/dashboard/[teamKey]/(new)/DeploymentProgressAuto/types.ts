@@ -25,6 +25,7 @@ const stepNames = [
   "SETTING_BASE_TOKEN",
   "START_BLOCK_EXPLORER",
   "CHAIN_DEPLOYED",
+  "MANUAL_DEPLOYMENT",
 ] as const
 
 export type StepName = (typeof stepNames)[number]
