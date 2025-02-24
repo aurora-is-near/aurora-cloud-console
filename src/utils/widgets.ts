@@ -1,3 +1,5 @@
+import { WidgetName } from "@/types/widgets"
+
 const getOrigin = () => {
   if (process.env.VERCEL_ENV === "production") {
     return "https://app.auroracloud.dev"
@@ -26,7 +28,7 @@ export const isTeamWidgetUrl = (teamKey: string, url: string | URL) => {
 export const getWidgetUrl = (
   teamKey: string,
   siloId: number,
-  widgetName: "universal",
+  widgetName: WidgetName,
 ) => {
   return new URL(
     `/dashboard/${teamKey}/silos/${siloId}/widgets/${widgetName}.js`,
