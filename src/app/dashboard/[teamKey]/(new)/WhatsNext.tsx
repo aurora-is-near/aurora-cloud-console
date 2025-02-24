@@ -12,7 +12,7 @@ type Props = {
 
 export const WhatsNext = ({ team }: Props) => (
   <section className="flex flex-col gap-5">
-    <Typography variant="heading" size={3}>
+    <Typography variant="heading" size={1}>
       Discover more
     </Typography>
     <div className="flex flex-col gap-4">

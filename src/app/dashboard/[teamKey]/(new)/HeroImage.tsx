@@ -10,7 +10,7 @@ type Props = {
 }
 
 export const HeroImage = ({ isSiloReady }: Props) => (
-  <div className="relative flex items-center justify-center w-[180px] h-[180px] mr-16">
+  <div className="relative flex items-center justify-center w-[180px] h-[180px] xl:mr-16">
     <Image
       width="180"
       height="180"
@@ -22,7 +22,7 @@ export const HeroImage = ({ isSiloReady }: Props) => (
       alt="Aurora Cloud"
       className="shadow-xl rounded-[2rem] z-10"
     />
-    {!isSiloReady && (
+    {isSiloReady && (
       <Lottie
         loop
         animationData={confettiLottieAnimation}
