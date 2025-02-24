@@ -8,7 +8,6 @@ import { Typography } from "@/uikit"
 import { Silo, Team } from "@/types/types"
 import { assignSiloToTeam } from "@/actions/deployment/assign-silo-to-team"
 import { logger } from "@/logger"
-import { toError } from "@/utils/errors"
 
 type Props = {
   team: Team
