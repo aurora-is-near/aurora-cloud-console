@@ -52,10 +52,10 @@ export const DashboardHomePage = ({
               Your chain is live
             </>
           ) : (
-            <div className="tracking-normal">
+            <div>
               Your virtual chain,
               <br />
-              <span className="text-3xl text-slate-600 tracking-tight">
+              <span className="text-4xl text-slate-600 tracking-tight leading-[4.5rem] mt-5">
                 ready in minutes
               </span>
             </div>

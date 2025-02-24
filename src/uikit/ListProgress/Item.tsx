@@ -49,7 +49,7 @@ export const Item = ({
         <div className="flex items-center gap-3">
           <Typography
             id={titleId}
-            size={2}
+            size={1}
             variant="paragraph"
             className={
               state === "upcoming" ? "text-slate-500" : "text-slate-900"

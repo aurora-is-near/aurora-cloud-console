@@ -71,7 +71,7 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
         </div>
         <Typography
           variant="heading"
-          size={3}
+          size={1}
           className={disabled ? "text-slate-500" : "text-slate-900"}
         >
           {TITLES[permission]}

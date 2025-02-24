@@ -109,7 +109,7 @@ export const DeploymentProgressAuto = ({
 
   // Deployment done
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-3">
       {!!silo.explorer_url && (
         <LinkButton
           isExternal
