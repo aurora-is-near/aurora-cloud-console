@@ -26,6 +26,7 @@ type DashboardHomePageProps = {
   silos: Silo[]
   onboardingForm: OnboardingForm | null
   isAutomated: boolean
+  hasUnassignedSilo?: boolean
 }
 
 export const DashboardHomePage = ({
@@ -35,6 +36,7 @@ export const DashboardHomePage = ({
   siloConfigTransactions,
   onboardingForm,
   isAutomated,
+  hasUnassignedSilo,
 }: DashboardHomePageProps) => {
   const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
     !!silo?.is_active,
@@ -63,10 +65,10 @@ export const DashboardHomePage = ({
               Your chain is live
             </>
           ) : (
-            <div className="tracking-normal">
+            <div>
               Your virtual chain,
               <br />
-              <span className="text-3xl text-slate-600 tracking-tight">
+              <span className="text-4xl text-slate-600 tracking-tight leading-[4.5rem] mt-5">
                 ready in minutes
               </span>
             </div>
@@ -85,8 +87,9 @@ export const DashboardHomePage = ({
             silo={silo}
             isDeploymentComplete={isDeploymentComplete}
             setIsDeploymentComplete={setIsDeploymentComplete}
-            isOnboardingFormSubmitted={!!onboardingForm}
+            onboardingForm={onboardingForm}
             siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
+            hasUnassignedSilo={hasUnassignedSilo}
           />
         )}
       </Hero>

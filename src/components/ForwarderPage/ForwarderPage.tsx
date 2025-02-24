@@ -2,16 +2,19 @@ import Image from "next/image"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
-import { Silo } from "@/types/types"
+import { Silo, Team } from "@/types/types"
 import { ForwarderWidgetOpenButton } from "@/components/ForwarderOpenButton"
+import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
 import { ForwarderAboutTab } from "./ForwarderAboutTab"
 import ForwarderConfigurationTab from "./ForwarderConfigurationTab"
 
 interface ForwarderPageProps {
+  team: Team
   silo?: Silo | null
 }
 
 export const ForwarderPage: React.FC<ForwarderPageProps> = ({
+  team,
   silo = null,
 }) => {
   const tabs = [
@@ -22,10 +25,22 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
   ]
 
   if (silo) {
-    tabs.push({
-      title: "Configuration",
-      content: <ForwarderConfigurationTab silo={silo} />,
-    })
+    tabs.push(
+      {
+        title: "Configuration",
+        content: <ForwarderConfigurationTab silo={silo} />,
+      },
+      {
+        title: "Embed Code",
+        content: (
+          <WidgetEmbedCodeCard
+            siloId={silo.id}
+            teamKey={team.team_key}
+            widgetName="forwarder"
+          />
+        ),
+      },
+    )
   }
 
   return (

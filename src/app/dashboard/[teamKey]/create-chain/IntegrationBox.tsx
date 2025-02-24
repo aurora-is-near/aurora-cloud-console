@@ -74,7 +74,7 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
       <div className="flex flex-col mb-2">
         {Icon && <Icon className="w-14 h-10" />}
         <div className="w-full mt-4">
-          <Typography variant="heading" size={3} className="mb-1">
+          <Typography variant="heading" size={1} className="mb-1">
             {TITLES[integration]}
           </Typography>
           <p className="text-sm text-slate-700">{DESCRIPTIONS[integration]}</p>

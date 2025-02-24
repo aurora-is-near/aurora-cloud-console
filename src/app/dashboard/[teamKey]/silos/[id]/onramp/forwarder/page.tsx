@@ -12,8 +12,11 @@ const Page = ({
 }: {
   params: { id: string; teamKey: string }
 }) => {
-  const [{ data: silo }] = useSuspenseQueries({
-    queries: [queries.getTeamSiloByKey(teamKey, Number(id))],
+  const [{ data: team }, { data: silo }] = useSuspenseQueries({
+    queries: [
+      queries.getTeamByKey(teamKey),
+      queries.getTeamSiloByKey(teamKey, Number(id)),
+    ],
   })
 
   if (!silo) {
@@ -22,7 +25,7 @@ const Page = ({
 
   return (
     <Suspense fallback={<Spinner size="lg" />}>
-      <ForwarderPage silo={silo} />
+      <ForwarderPage team={team} silo={silo} />
     </Suspense>
   )
 }
