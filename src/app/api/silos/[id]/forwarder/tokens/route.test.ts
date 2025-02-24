@@ -56,6 +56,13 @@ describe("Forwarder tokens route", () => {
     it("returns the tokens", async () => {
       nock("https://forwarder.mainnet.aurora.dev")
         .get("/api/v1/supported_tokens")
+        .query((query) => {
+          expect(query).toEqual({
+            target_network: mockSilo.engine_account,
+          })
+
+          return true
+        })
         .reply(200, {
           result: {
             tokens: [
@@ -85,94 +92,104 @@ describe("Forwarder tokens route", () => {
           {
             symbol: "NEAR",
             decimals: 24,
-            confirmed: true,
+            contractDeployed: true,
             enabled: true,
           },
           {
             symbol: "wNEAR",
             decimals: 24,
-            confirmed: false,
+            contractDeployed: false,
             enabled: false,
           },
           {
             symbol: "USDt",
             decimals: 6,
-            confirmed: true,
+            contractDeployed: true,
             enabled: false,
           },
           {
             symbol: "USDC",
             decimals: 6,
-            confirmed: false,
+            contractDeployed: false,
             enabled: false,
           },
           {
             symbol: "AURORA",
             decimals: 18,
-            confirmed: false,
+            contractDeployed: false,
             enabled: false,
           },
         ],
       })
     })
 
-    it("returns the expected result if there are no supported tokens", async () => {
-      nock("https://forwarder.mainnet.aurora.dev")
-        .persist()
-        .get("/api/v1/supported_tokens")
-        .reply(200, {
-          result: {
-            tokens: [],
+    it.each([null, []])(
+      "returns the expected result if the supported tokens is %p",
+      async (supportedTokens) => {
+        nock("https://forwarder.mainnet.aurora.dev")
+          .persist()
+          .get("/api/v1/supported_tokens")
+          .query((query) => {
+            expect(query).toEqual({
+              target_network: mockSilo.engine_account,
+            })
+
+            return true
+          })
+          .reply(200, {
+            result: {
+              tokens: supportedTokens,
+            },
+          })
+        ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+          symbol: () => {
+            throw new Error("Not implemented")
           },
+        }))
+
+        const res = await invokeApiHandler(
+          "GET",
+          `/api/silos/1/forwarder/tokens`,
+          GET,
+        )
+
+        expect(res).toSatisfyApiSpec()
+        expect(res.body).toEqual({
+          items: [
+            {
+              symbol: "NEAR",
+              decimals: 24,
+              contractDeployed: false,
+              enabled: false,
+            },
+            {
+              symbol: "wNEAR",
+              decimals: 24,
+              contractDeployed: false,
+              enabled: false,
+            },
+            {
+              symbol: "USDt",
+              decimals: 6,
+              contractDeployed: false,
+              enabled: false,
+            },
+            {
+              symbol: "USDC",
+              decimals: 6,
+              contractDeployed: false,
+              enabled: false,
+            },
+            {
+              symbol: "AURORA",
+              decimals: 18,
+              contractDeployed: false,
+              enabled: false,
+            },
+          ],
         })
-      ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
-        symbol: () => {
-          throw new Error("Not implemented")
-        },
-      }))
-
-      const res = await invokeApiHandler(
-        "GET",
-        `/api/silos/1/forwarder/tokens`,
-        GET,
-      )
-
-      expect(res).toSatisfyApiSpec()
-      expect(res.body).toEqual({
-        items: [
-          {
-            symbol: "NEAR",
-            decimals: 24,
-            confirmed: false,
-            enabled: false,
-          },
-          {
-            symbol: "wNEAR",
-            decimals: 24,
-            confirmed: false,
-            enabled: false,
-          },
-          {
-            symbol: "USDt",
-            decimals: 6,
-            confirmed: false,
-            enabled: false,
-          },
-          {
-            symbol: "USDC",
-            decimals: 6,
-            confirmed: false,
-            enabled: false,
-          },
-          {
-            symbol: "AURORA",
-            decimals: 18,
-            confirmed: false,
-            enabled: false,
-          },
-        ],
-      })
-    })
+      },
+    )
 
     it("returns a 404 for a non-existant silo", async () => {
       mockSupabaseClient

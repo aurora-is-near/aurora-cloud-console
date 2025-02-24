@@ -133,15 +133,19 @@ export const GET = createApiEndpoint(
     const provider = new JsonRpcProvider(silo.rpc_url)
     const {
       result: { tokens: supportedTokens },
-    } = await forwarderApiClient.getSupportedTokens()
+    } = await forwarderApiClient.getSupportedTokens({
+      target_network: silo.engine_account,
+    })
 
     return {
       items: await Promise.all(
         KNOWN_TOKENS.map(async ({ symbol, decimals }) => ({
           symbol,
           decimals,
-          confirmed: await checkToken(provider, symbol),
-          enabled: supportedTokens.some((token) => token.symbol === symbol),
+          contractDeployed: await checkToken(provider, symbol),
+          enabled: (supportedTokens ?? []).some(
+            (token) => token.symbol === symbol,
+          ),
         })),
       ),
     }

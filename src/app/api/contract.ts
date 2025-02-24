@@ -616,7 +616,7 @@ export const contract = c.router({
           z.object({
             symbol: ForwarderToken,
             decimals: z.number(),
-            confirmed: z.boolean(),
+            contractDeployed: z.boolean(),
             enabled: z.boolean(),
           }),
         ),

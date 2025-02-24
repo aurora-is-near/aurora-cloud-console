@@ -1268,7 +1268,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "items": {
                       "items": {
                         "properties": {
-                          "confirmed": {
+                          "contractDeployed": {
                             "type": "boolean",
                           },
                           "decimals": {
@@ -1291,7 +1291,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "required": [
                           "symbol",
                           "decimals",
-                          "confirmed",
+                          "contractDeployed",
                           "enabled",
                         ],
                         "type": "object",

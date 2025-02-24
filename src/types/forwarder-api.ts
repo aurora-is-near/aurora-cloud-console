@@ -14,10 +14,12 @@ export type ForwarderApiGetContractResponse = {
 
 export type ForwarderApiGetSupportedTokensResponse = {
   result: {
-    tokens: {
-      address: string
-      decimals: number
-      symbol: string
-    }[]
+    tokens:
+      | {
+          address: string
+          decimals: number
+          symbol: string
+        }[]
+      | null
   }
 }

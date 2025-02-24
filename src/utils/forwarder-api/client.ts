@@ -93,8 +93,10 @@ export const forwarderApiClient = {
         target_network: targetNetwork,
       },
     }),
-  getSupportedTokens: async () =>
-    request<ForwarderApiGetSupportedTokensResponse>("/api/v1/supported_tokens"),
+  getSupportedTokens: async ({ target_network }: { target_network: string }) =>
+    request<ForwarderApiGetSupportedTokensResponse>(
+      `/api/v1/supported_tokens?target_network=${target_network}`,
+    ),
   addSupportedToken: async ({
     target_network,
     tokens,
