@@ -107,7 +107,7 @@
     "jest-puppeteer": "^11.0.0",
     "jest-react-hooks-shallow": "^1.5.1",
     "jest-transform-stub": "^2.0.0",
-    "knip": "^5.39.2",
+    "knip": "^5.44.5",
     "nock": "14.0.0-beta.13",
     "node-font2base64": "^0.9.2",
     "node-html-to-image": "^5.0.0",
