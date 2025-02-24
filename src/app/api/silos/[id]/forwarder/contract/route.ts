@@ -27,7 +27,7 @@ export const POST = createApiEndpoint(
     })
 
     return {
-      address: result.result.address,
+      forwarderAddress: result.result.address,
     }
   },
 )

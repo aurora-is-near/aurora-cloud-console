@@ -31,14 +31,14 @@ describe("Forwarder contract route", () => {
   describe("GET", () => {
     it("returns an existing forwarder address", async () => {
       const targetAddress = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F"
-      const address = "0xc0ffee254729296a45a3885639AC7E10F9d54979"
+      const forwarderAddress = "0xc0ffee254729296a45a3885639AC7E10F9d54979"
 
       nock("https://forwarder.mainnet.aurora.dev")
         .get("/api/v1/forwarder_contract_params")
         .query(true)
         .reply(200, {
           result: {
-            address,
+            address: forwarderAddress,
             account_created: true,
           },
         })
@@ -54,7 +54,7 @@ describe("Forwarder contract route", () => {
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
-        address,
+        forwarderAddress,
       })
     })
 

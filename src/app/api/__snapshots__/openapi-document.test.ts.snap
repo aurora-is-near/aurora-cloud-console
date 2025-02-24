@@ -1086,13 +1086,13 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "address": {
+                    "forwarderAddress": {
                       "nullable": true,
                       "type": "string",
                     },
                   },
                   "required": [
-                    "address",
+                    "forwarderAddress",
                   ],
                   "type": "object",
                 },
@@ -1143,12 +1143,12 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "address": {
+                    "forwarderAddress": {
                       "type": "string",
                     },
                   },
                   "required": [
-                    "address",
+                    "forwarderAddress",
                   ],
                   "type": "object",
                 },
@@ -1191,22 +1191,42 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "tokens": {
+                    "items": {
                       "items": {
-                        "enum": [
-                          "NEAR",
-                          "wNEAR",
-                          "USDt",
-                          "USDC",
-                          "AURORA",
+                        "properties": {
+                          "confirmed": {
+                            "type": "boolean",
+                          },
+                          "decimals": {
+                            "type": "number",
+                          },
+                          "enabled": {
+                            "type": "boolean",
+                          },
+                          "symbol": {
+                            "enum": [
+                              "NEAR",
+                              "wNEAR",
+                              "USDt",
+                              "USDC",
+                              "AURORA",
+                            ],
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "symbol",
+                          "decimals",
+                          "confirmed",
+                          "enabled",
                         ],
-                        "type": "string",
+                        "type": "object",
                       },
                       "type": "array",
                     },
                   },
                   "required": [
-                    "tokens",
+                    "items",
                   ],
                   "type": "object",
                 },

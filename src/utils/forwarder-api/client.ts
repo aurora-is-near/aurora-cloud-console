@@ -2,6 +2,7 @@ import { createDebugger } from "@/debug"
 import {
   ForwarderApiCreateContractResponse,
   ForwarderApiGetContractResponse,
+  ForwarderApiGetSupportedTokensResponse,
 } from "@/types/forwarder-api"
 
 const FORWARDER_API_BASE_URL = "https://forwarder.mainnet.aurora.dev"
@@ -92,5 +93,6 @@ export const forwarderApiClient = {
         target_network: targetNetwork,
       },
     }),
-  getSupportedTokens: async () => request<string[]>("/api/v1/supported_tokens"),
+  getSupportedTokens: async () =>
+    request<ForwarderApiGetSupportedTokensResponse>("/api/v1/supported_tokens"),
 }

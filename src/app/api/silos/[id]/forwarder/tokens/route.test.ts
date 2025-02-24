@@ -3,6 +3,7 @@
  */
 import nock from "nock"
 import * as ethers from "ethers"
+import { symbol } from "zod"
 import { GET } from "./route"
 import { setupJestOpenApi } from "../../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../../test-utils/invoke-api-handler"
@@ -36,7 +37,25 @@ describe("Forwarder tokens route", () => {
   })
 
   describe("GET", () => {
-    it("returns the supported tokens", async () => {
+    it("returns the tokens", async () => {
+      nock("https://forwarder.mainnet.aurora.dev")
+        .get("/api/v1/supported_tokens")
+        .reply(200, {
+          result: {
+            tokens: [
+              {
+                address: "near",
+                decimals: 24,
+                symbol: "NEAR",
+              },
+              {
+                address: "aurora",
+                decimals: 18,
+                symbol: "ETH",
+              },
+            ],
+          },
+        })
       ;(ethers.Contract as jest.Mock).mockImplementation(
         (tokenContractAddress) => ({
           symbol: () => {
@@ -69,20 +88,49 @@ describe("Forwarder tokens route", () => {
       expect(res.body).toEqual({
         items: [
           {
-            address: "near",
-            decimals: 24,
             symbol: "NEAR",
+            decimals: 24,
+            confirmed: true,
+            enabled: true,
           },
           {
-            address: "usdt.tether-token.near",
-            decimals: 6,
+            symbol: "wNEAR",
+            decimals: 24,
+            confirmed: false,
+            enabled: false,
+          },
+          {
             symbol: "USDt",
+            decimals: 6,
+            confirmed: true,
+            enabled: false,
+          },
+          {
+            symbol: "USDC",
+            decimals: 6,
+            confirmed: false,
+            enabled: false,
+          },
+          {
+            symbol: "AURORA",
+            decimals: 18,
+            confirmed: false,
+            enabled: false,
           },
         ],
       })
     })
 
-    it("returns an empty array if there are no supported tokens", async () => {
+    it("returns the expected result if there are no supported tokens", async () => {
+      nock("https://forwarder.mainnet.aurora.dev")
+        .persist()
+        .get("/api/v1/supported_tokens")
+        .reply(200, {
+          result: {
+            tokens: [],
+          },
+        })
+
       const res = await invokeApiHandler(
         "GET",
         `/api/silos/1/forwarder/tokens`,
@@ -90,7 +138,40 @@ describe("Forwarder tokens route", () => {
       )
 
       expect(res).toSatisfyApiSpec()
-      expect(res.body).toEqual({ items: [] })
+      expect(res.body).toEqual({
+        items: [
+          {
+            symbol: "NEAR",
+            decimals: 24,
+            confirmed: false,
+            enabled: false,
+          },
+          {
+            symbol: "wNEAR",
+            decimals: 24,
+            confirmed: false,
+            enabled: false,
+          },
+          {
+            symbol: "USDt",
+            decimals: 6,
+            confirmed: false,
+            enabled: false,
+          },
+          {
+            symbol: "USDC",
+            decimals: 6,
+            confirmed: false,
+            enabled: false,
+          },
+          {
+            symbol: "AURORA",
+            decimals: 18,
+            confirmed: false,
+            enabled: false,
+          },
+        ],
+      })
     })
 
     it("returns a 404 for a non-existant silo", async () => {

@@ -5,7 +5,6 @@ import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { logger } from "@/logger"
 import { FORWARDER_TOKENS } from "@/constants/forwarder-tokens"
 import { forwarderApiClient } from "@/utils/forwarder-api/client"
-import { Silo } from "@/types/types"
 
 type TokenSymbol = (typeof FORWARDER_TOKENS)[number]
 
@@ -19,7 +18,7 @@ const ABI = ["function symbol() view returns (string)"]
 
 // These are the tokens potentially supported by the forwarder. The address is
 // the token's NEAR contract address.
-const AVAILABLE_TOKENS: Token[] = [
+const KNOWN_TOKENS: Token[] = [
   {
     address: "near",
     decimals: 24,
@@ -59,13 +58,21 @@ const AURORA_TOKEN_ADDRESSES: Record<TokenSymbol, string> = {
   AURORA: "0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79",
 }
 
+const isKnownToken = (symbol: string): symbol is TokenSymbol => {
+  return KNOWN_TOKENS.some((known) => known.symbol === symbol)
+}
+
 /**
  * Check if the token contract address corresponds to the expected symbol.
  */
 const checkToken = async (
   provider: JsonRpcProvider,
-  symbol: TokenSymbol,
-): Promise<TokenSymbol | null> => {
+  symbol: string,
+): Promise<boolean> => {
+  if (!isKnownToken(symbol)) {
+    return false
+  }
+
   const tokenContractAddress = AURORA_TOKEN_ADDRESSES[symbol]
   const contract = new Contract(tokenContractAddress, ABI, provider)
   let actualSymbol
@@ -73,7 +80,7 @@ const checkToken = async (
   try {
     actualSymbol = await contract.symbol()
   } catch (error) {
-    return null
+    return false
   }
 
   if (actualSymbol !== symbol) {
@@ -81,20 +88,10 @@ const checkToken = async (
       `Expected symbol ${symbol} for token contract ${tokenContractAddress}, got ${actualSymbol}`,
     )
 
-    return null
+    return false
   }
 
-  return symbol
-}
-
-const getAvailableTokens = async (silo: Silo): Promise<TokenSymbol[]> => {
-  const provider = new JsonRpcProvider(silo.rpc_url)
-
-  const availableTokens = await Promise.all(
-    FORWARDER_TOKENS.map((symbol) => checkToken(provider, symbol)),
-  )
-
-  return availableTokens.filter((token): token is TokenSymbol => token !== null)
+  return true
 }
 
 export const GET = createApiEndpoint(
@@ -106,16 +103,20 @@ export const GET = createApiEndpoint(
       abort(404)
     }
 
-    const [availableTokens, supportedTokens] = await Promise.all([
-      getAvailableTokens(silo),
-      forwarderApiClient.getSupportedTokens(),
-    ])
+    const provider = new JsonRpcProvider(silo.rpc_url)
+    const {
+      result: { tokens: supportedTokens },
+    } = await forwarderApiClient.getSupportedTokens()
 
     return {
-      items: availableTokens.map((symbol) => ({
-        symbol,
-        enabled: supportedTokens.includes(symbol),
-      })),
+      items: await Promise.all(
+        KNOWN_TOKENS.map(async ({ symbol, decimals }) => ({
+          symbol,
+          decimals,
+          confirmed: await checkToken(provider, symbol),
+          enabled: supportedTokens.some((token) => token.symbol === symbol),
+        })),
+      ),
     }
   },
   {

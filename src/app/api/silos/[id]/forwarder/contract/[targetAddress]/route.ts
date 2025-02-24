@@ -31,7 +31,7 @@ export const GET = createApiEndpoint(
     }
 
     return {
-      address: result.result.address,
+      forwarderAddress: result.result.address,
     }
   },
 )

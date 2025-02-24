@@ -576,7 +576,7 @@ export const contract = c.router({
     path: "/api/silos/:id/forwarder/contract/:targetAddress",
     responses: {
       200: z.object({
-        address: z.string(),
+        forwarderAddress: z.string(),
       }),
     },
     pathParams: z.object({
@@ -592,7 +592,7 @@ export const contract = c.router({
     path: "/api/silos/:id/forwarder/contract",
     responses: {
       200: z.object({
-        address: z.string().nullable(),
+        forwarderAddress: z.string().nullable(),
       }),
     },
     body: z.object({
@@ -611,6 +611,8 @@ export const contract = c.router({
         items: z.array(
           z.object({
             symbol: ForwarderToken,
+            decimals: z.number(),
+            confirmed: z.boolean(),
             enabled: z.boolean(),
           }),
         ),
