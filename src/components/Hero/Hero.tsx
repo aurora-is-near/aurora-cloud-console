@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import type { PropsWithChildren, ReactNode } from "react"
 
-import { Typography } from '@/uikit'
+import { Typography } from "@/uikit"
 
 interface HeroProps extends PropsWithChildren {
   title: ReactNode
