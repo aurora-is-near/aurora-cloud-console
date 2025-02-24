@@ -4,7 +4,10 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useState } from "react"
 import toast from "react-hot-toast"
-import { CheckBadgeIcon } from "@heroicons/react/20/solid"
+import {
+  CheckBadgeIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/20/solid"
 
 import {
   FormTokenNotFoundError,
@@ -180,7 +183,25 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
                 </SelectableBox>
               ))}
             </div>
-            {form.baseToken === "CUSTOM" ? (
+            {["USDT", "USDC", "BTC"].includes(form.baseToken ?? "") && (
+              <Card className="flex flex-col gap-2 p-6 mt-6 bg-slate-100">
+                <div className="flex flex-row items-start justify-start gap-2">
+                  <ExclamationCircleIcon className="w-6 h-6" />
+                  <Typography variant="label" size={2}>
+                    This base token will require a longer deployment time
+                  </Typography>
+                </div>
+                <Typography
+                  variant="paragraph"
+                  size={4}
+                  className="text-slate-500"
+                >
+                  We would need to get in touch with you before starting the
+                  deployment of your chain.
+                </Typography>
+              </Card>
+            )}
+            {form.baseToken === "CUSTOM" && (
               <Card className="p-6 mt-6">
                 <Typography variant="label" size={2}>
                   Custom base token
@@ -219,7 +240,7 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
                   className="w-full mt-3 p-2 border rounded"
                 />
               </Card>
-            ) : null}
+            )}
           </Step>
           <Step
             number={3}
