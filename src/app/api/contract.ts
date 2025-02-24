@@ -550,7 +550,7 @@ export const contract = c.router({
         .string()
         .optional()
         .openapi({
-          enum: ["now-24h", "now-12h", "now-1h", "now-15m"],
+          enum: ["now-2 h", "now-12h", "now-1h", "now-15m"],
         }),
     }),
   },
@@ -622,7 +622,7 @@ export const contract = c.router({
       scopes: ["forwarder:read"],
     },
   },
-  addForwarderToken: {
+  addForwarderTokens: {
     summary: "Add forwarder support for the given token(s)",
     method: "POST",
     path: "/api/silos/:id/forwarder/tokens",
@@ -638,10 +638,10 @@ export const contract = c.router({
       scopes: ["forwarder:write"],
     },
   },
-  removeForwarderToken: {
+  removeForwarderTokens: {
     summary: "Remove forwarder support for the given token(s)",
     method: "DELETE",
-    path: "/api/silos/:id/forwarder/tokens/:symbol",
+    path: "/api/silos/:id/forwarder/tokens",
     responses: {
       200: z.object({
         status: z.string(),

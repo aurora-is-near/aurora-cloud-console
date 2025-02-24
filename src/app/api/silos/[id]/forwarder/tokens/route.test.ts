@@ -4,7 +4,7 @@
 import nock from "nock"
 import * as ethers from "ethers"
 import { symbol } from "zod"
-import { GET } from "./route"
+import { DELETE, GET, POST } from "./route"
 import { setupJestOpenApi } from "../../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../../test-utils/invoke-api-handler"
 import {
@@ -29,11 +29,27 @@ describe("Forwarder tokens route", () => {
     mockSupabaseClient
       .from("silos")
       .select.mockImplementation(() => createSelect(mockSilo))
-    ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
-      symbol: () => {
-        throw new Error("Not implemented")
-      },
-    }))
+    ;(ethers.Contract as jest.Mock).mockImplementation(
+      (tokenContractAddress) => ({
+        symbol: () => {
+          if (
+            tokenContractAddress ===
+            "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d"
+          ) {
+            return "NEAR"
+          }
+
+          if (
+            tokenContractAddress ===
+            "0x80Da25Da4D783E57d2FCdA0436873A193a4BEccF"
+          ) {
+            return "USDt"
+          }
+
+          throw new Error("Not implemented")
+        },
+      }),
+    )
   })
 
   describe("GET", () => {
@@ -56,27 +72,6 @@ describe("Forwarder tokens route", () => {
             ],
           },
         })
-      ;(ethers.Contract as jest.Mock).mockImplementation(
-        (tokenContractAddress) => ({
-          symbol: () => {
-            if (
-              tokenContractAddress ===
-              "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d"
-            ) {
-              return "NEAR"
-            }
-
-            if (
-              tokenContractAddress ===
-              "0x80Da25Da4D783E57d2FCdA0436873A193a4BEccF"
-            ) {
-              return "USDt"
-            }
-
-            throw new Error("Not implemented")
-          },
-        }),
-      )
 
       const res = await invokeApiHandler(
         "GET",
@@ -130,6 +125,11 @@ describe("Forwarder tokens route", () => {
             tokens: [],
           },
         })
+      ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+        symbol: () => {
+          throw new Error("Not implemented")
+        },
+      }))
 
       const res = await invokeApiHandler(
         "GET",
@@ -187,6 +187,163 @@ describe("Forwarder tokens route", () => {
 
       expect(res.status).toBe(404)
       expect(res.body).toEqual({ message: "Not Found" })
+    })
+  })
+
+  describe("POST", () => {
+    it("adds some supported tokens", async () => {
+      const silo = createMockSilo()
+
+      nock("https://forwarder.mainnet.aurora.dev")
+        .post("/api/v1/supported_tokens/add", (body) => {
+          expect(body).toEqual({
+            target_network: silo.engine_account,
+            tokens: [
+              {
+                address: "near",
+                decimals: 24,
+                symbol: "NEAR",
+              },
+              {
+                address: "usdt.tether-token.near",
+                decimals: 6,
+                symbol: "USDt",
+              },
+            ],
+          })
+
+          return true
+        })
+        .reply(200, {
+          result: {
+            message: "ok",
+          },
+        })
+
+      const res = await invokeApiHandler(
+        "POST",
+        "/api/silos/1/forwarder/tokens",
+        POST,
+        {
+          body: {
+            tokens: ["NEAR", "USDt"],
+          },
+        },
+      )
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.status).toBe(200)
+    })
+
+    it("returns a 400 for an unknown token", async () => {
+      const res = await invokeApiHandler(
+        "POST",
+        "/api/silos/1/forwarder/tokens",
+        POST,
+        {
+          body: {
+            tokens: ["NOGOOD"],
+          },
+        },
+      )
+
+      expect(res.status).toBe(400)
+      expect(res.body).toEqual({ message: "Unknown token: NOGOOD" })
+    })
+
+    it("returns a 400 for an token with no contract", async () => {
+      ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+        symbol: () => {
+          throw new Error("Not implemented")
+        },
+      }))
+
+      const res = await invokeApiHandler(
+        "POST",
+        "/api/silos/1/forwarder/tokens",
+        POST,
+        {
+          body: {
+            tokens: ["NEAR"],
+          },
+        },
+      )
+
+      expect(res.status).toBe(400)
+      expect(res.body).toEqual({ message: "Token contract not deployed: NEAR" })
+    })
+  })
+
+  describe("DELETE", () => {
+    it("removes some tokens", async () => {
+      const silo = createMockSilo()
+
+      nock("https://forwarder.mainnet.aurora.dev")
+        .post("/api/v1/supported_tokens/remove", (body) => {
+          expect(body).toEqual({
+            target_network: silo.engine_account,
+            token_addresses: ["near", "usdt.tether-token.near"],
+          })
+
+          return true
+        })
+        .reply(200, {
+          result: {
+            message: "ok",
+          },
+        })
+
+      const res = await invokeApiHandler(
+        "DELETE",
+        "/api/silos/1/forwarder/tokens",
+        DELETE,
+        {
+          body: {
+            tokens: ["NEAR", "USDt"],
+          },
+        },
+      )
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.status).toBe(200)
+    })
+
+    it("returns a 400 for an unknown token", async () => {
+      const res = await invokeApiHandler(
+        "DELETE",
+        "/api/silos/1/forwarder/tokens",
+        DELETE,
+        {
+          body: {
+            tokens: ["NOGOOD"],
+          },
+        },
+      )
+
+      expect(res.status).toBe(400)
+      expect(res.body).toEqual({ message: "Unknown token: NOGOOD" })
+    })
+
+    it("returns a 400 for an token with no contract", async () => {
+      ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+        symbol: () => {
+          throw new Error("Not implemented")
+        },
+      }))
+
+      const res = await invokeApiHandler(
+        "DELETE",
+        "/api/silos/1/forwarder/tokens",
+        DELETE,
+        {
+          body: {
+            tokens: ["NEAR"],
+          },
+        },
+      )
+
+      expect(res.status).toBe(400)
+      expect(res.body).toEqual({ message: "Token contract not deployed: NEAR" })
     })
   })
 })

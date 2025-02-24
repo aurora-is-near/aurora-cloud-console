@@ -5,6 +5,7 @@ import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { logger } from "@/logger"
 import { FORWARDER_TOKENS } from "@/constants/forwarder-tokens"
 import { forwarderApiClient } from "@/utils/forwarder-api/client"
+import { Silo } from "@/types/types"
 
 type TokenSymbol = (typeof FORWARDER_TOKENS)[number]
 
@@ -94,6 +95,32 @@ const checkToken = async (
   return true
 }
 
+const getValidTokens = async (silo: Silo, tokens: string[]) => {
+  const provider = new JsonRpcProvider(silo.rpc_url)
+
+  // Check for unknown tokens
+  const knownTokens: TokenSymbol[] = tokens.filter(
+    (token): token is TokenSymbol => {
+      if (!isKnownToken(token)) {
+        abort(400, `Unknown token: ${token}`)
+      }
+
+      return true
+    },
+  )
+
+  // Check token contracts
+  await Promise.all(
+    knownTokens.map(async (symbol) => {
+      if (!(await checkToken(provider, symbol))) {
+        abort(400, `Token contract not deployed: ${symbol}`)
+      }
+    }),
+  )
+
+  return knownTokens
+}
+
 export const GET = createApiEndpoint(
   "getForwarderTokens",
   async (_req, ctx) => {
@@ -124,5 +151,63 @@ export const GET = createApiEndpoint(
       maxAge: "1h",
       staleWhileRevalidate: "1y",
     },
+  },
+)
+
+export const POST = createApiEndpoint(
+  "addForwarderTokens",
+  async (_req, ctx) => {
+    const silo = await getTeamSilo(ctx.team.id, Number(ctx.params.id))
+
+    if (!silo) {
+      abort(404)
+    }
+
+    const { tokens } = ctx.body
+    const validTokens = await getValidTokens(silo, tokens)
+
+    await forwarderApiClient.addSupportedToken({
+      target_network: silo.engine_account,
+      tokens: validTokens.map((symbol) => {
+        const { address, decimals } = KNOWN_TOKENS.find(
+          (token) => token.symbol === symbol,
+        )!
+
+        return { address, decimals, symbol }
+      }),
+    })
+
+    return {
+      status: "ok",
+    }
+  },
+)
+
+export const DELETE = createApiEndpoint(
+  "removeForwarderTokens",
+  async (_req, ctx) => {
+    const silo = await getTeamSilo(ctx.team.id, Number(ctx.params.id))
+
+    if (!silo) {
+      abort(404)
+    }
+
+    const { tokens } = ctx.body
+    const validTokens = await getValidTokens(silo, tokens)
+
+    await forwarderApiClient.removeSupportedToken({
+      target_network: silo.engine_account,
+      token_addresses: validTokens.map((symbol) => {
+        const { address } = KNOWN_TOKENS.find(
+          (token) => token.symbol === symbol,
+        )!
+
+        return address
+      }),
+    })
+
+    return {
+      status: "ok",
+    }
   },
 )

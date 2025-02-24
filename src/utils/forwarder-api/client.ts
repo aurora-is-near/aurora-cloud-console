@@ -95,4 +95,42 @@ export const forwarderApiClient = {
     }),
   getSupportedTokens: async () =>
     request<ForwarderApiGetSupportedTokensResponse>("/api/v1/supported_tokens"),
+  addSupportedToken: async ({
+    target_network,
+    tokens,
+  }: {
+    target_network: string
+    tokens: {
+      address: string
+      decimals: number
+      symbol: string
+    }[]
+  }) =>
+    request<ForwarderApiGetSupportedTokensResponse>(
+      "/api/v1/supported_tokens/add",
+      {
+        method: "POST",
+        data: {
+          target_network,
+          tokens,
+        },
+      },
+    ),
+  removeSupportedToken: async ({
+    target_network,
+    token_addresses,
+  }: {
+    target_network: string
+    token_addresses: string[]
+  }) =>
+    request<ForwarderApiGetSupportedTokensResponse>(
+      "/api/v1/supported_tokens/remove",
+      {
+        method: "POST",
+        data: {
+          target_network,
+          token_addresses,
+        },
+      },
+    ),
 }
