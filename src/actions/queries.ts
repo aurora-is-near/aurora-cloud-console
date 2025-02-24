@@ -4,6 +4,7 @@ import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { getUnassignedSiloId } from "@/actions/silos/get-unassigned-silo-id"
 import { isAdminUser } from "@/utils/admin"
 
 /**
@@ -41,5 +42,9 @@ export const queries = {
   isAdminUser: () => ({
     queryKey: ["is-admin"],
     queryFn: () => isAdminUser(),
+  }),
+  getUnassignedSiloId: () => ({
+    queryKey: ["unassigned-silo-id"],
+    queryFn: () => getUnassignedSiloId(),
   }),
 } as const

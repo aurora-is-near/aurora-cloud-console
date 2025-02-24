@@ -8,14 +8,19 @@ import { DashboardHomePage } from "@/app/dashboard/[teamKey]/(new)/Dashboard"
 import { useFeatureFlags } from "@/hooks/useFeatureFlags"
 
 const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
-  const [{ data: team }, { data: silos }, { data: onboardingForm }] =
-    useSuspenseQueries({
-      queries: [
-        queries.getTeamByKey(teamKey),
-        queries.getTeamSilosByKey(teamKey),
-        queries.getTeamOnboardingFormByKey(teamKey),
-      ],
-    })
+  const [
+    { data: team },
+    { data: silos },
+    { data: onboardingForm },
+    { data: unassignedSiloId },
+  ] = useSuspenseQueries({
+    queries: [
+      queries.getTeamByKey(teamKey),
+      queries.getTeamSilosByKey(teamKey),
+      queries.getTeamOnboardingFormByKey(teamKey),
+      queries.getUnassignedSiloId(),
+    ],
+  })
 
   const { flags } = useFeatureFlags()
 
@@ -26,6 +31,7 @@ const Page = ({ params: { teamKey } }: { params: { teamKey: string } }) => {
         silos={silos}
         onboardingForm={onboardingForm}
         isAutomated={!!flags.automate_silo_configuration}
+        hasUnassignedSilo={!!unassignedSiloId}
       />
     </Suspense>
   )
