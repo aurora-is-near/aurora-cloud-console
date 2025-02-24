@@ -580,6 +580,7 @@ export const contract = c.router({
       }),
     },
     pathParams: z.object({
+      id: z.number(),
       targetAddress: z.string(),
     }),
     metadata: {
@@ -595,6 +596,9 @@ export const contract = c.router({
         forwarderAddress: z.string().nullable(),
       }),
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
     body: z.object({
       targetAddress: z.string(),
     }),
@@ -618,6 +622,9 @@ export const contract = c.router({
         ),
       }),
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
     metadata: {
       scopes: ["forwarder:read"],
     },
@@ -631,6 +638,9 @@ export const contract = c.router({
         status: z.string(),
       }),
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
     body: z.object({
       tokens: z.array(ForwarderToken),
     }),
@@ -647,6 +657,9 @@ export const contract = c.router({
         status: z.string(),
       }),
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
     body: z.object({
       tokens: z.array(ForwarderToken),
     }),

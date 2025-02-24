@@ -1058,7 +1058,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             "name": "id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
         ],
@@ -1125,7 +1125,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             "name": "id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
           {
@@ -1181,7 +1181,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             "name": "id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
         ],
@@ -1255,7 +1255,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             "name": "id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
         ],
@@ -1331,7 +1331,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             "name": "id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
         ],
