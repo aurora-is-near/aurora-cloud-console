@@ -18,17 +18,17 @@ export const queries = {
     queryKey: ["team", teamKey],
     queryFn: () => getTeamByKey(teamKey),
   }),
-  getTeamSiloByKey: (teamKey: string, siloId?: number) => ({
+  getTeamSiloByKey: (teamKey: string, siloId: number) => ({
     queryKey: ["team-silo", teamKey, siloId],
-    queryFn: () => (siloId ? getTeamSiloByKey(teamKey, siloId) : undefined),
+    queryFn: () => getTeamSiloByKey(teamKey, siloId),
   }),
   getTeamSilosByKey: (teamKey: string) => ({
     queryKey: ["team-silos", teamKey],
     queryFn: () => getTeamSilosByKey(teamKey),
   }),
-  getSiloConfigTransactions: (siloId?: number) => ({
+  getSiloConfigTransactions: (siloId: number) => ({
     queryKey: ["silo-config-tx", siloId],
-    queryFn: () => (siloId ? getSiloConfigTransactions(siloId) : []),
+    queryFn: () => getSiloConfigTransactions(siloId),
   }),
   getTeamOnboardingFormByKey: (teamKey: string) => ({
     queryKey: ["team-onboarding-form", teamKey],

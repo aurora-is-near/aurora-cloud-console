@@ -3,11 +3,12 @@
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
 
+import { redirect } from "next/navigation"
 import Hero from "@/components/Hero/Hero"
 import {
   OnboardingForm,
   Silo,
-  SiloConfigTransactionStatus,
+  SiloConfigTransaction,
   Team,
 } from "@/types/types"
 import { FeatureCTA } from "@/components/FeatureCTA"
@@ -18,24 +19,36 @@ import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
 import { HeroImage } from "./HeroImage"
 
-type WelcomeDashboardContentProps = {
+type DashboardHomePageProps = {
   team: Team
   silo?: Silo | null
+  siloConfigTransactions?: SiloConfigTransaction[]
+  silos: Silo[]
   onboardingForm: OnboardingForm | null
   isAutomated: boolean
-  siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
 }
 
-export const WelcomeDashboardContent = ({
+export const DashboardHomePage = ({
   team,
   silo = null,
+  silos,
+  siloConfigTransactions,
   onboardingForm,
   isAutomated,
-  siloBaseTokenTransactionStatus,
-}: WelcomeDashboardContentProps) => {
+}: DashboardHomePageProps) => {
   const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
     !!silo?.is_active,
   )
+
+  const siloBaseTokenTransactionStatus = siloConfigTransactions?.find(
+    (transaction) => transaction.operation === "SET_BASE_TOKEN",
+  )?.status
+
+  // If no silo ID was given but the team does have silos redirect to the
+  // first one.
+  if (!silo && !!silos[0]) {
+    redirect(`/dashboard/${team.team_key}/silos/${silos[0].id}`)
+  }
 
   return (
     <DashboardPage>
