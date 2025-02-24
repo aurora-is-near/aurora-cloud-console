@@ -5,6 +5,7 @@ import { DeploymentProgressAuto } from "./index"
 import { mockTeam } from "../../../../../../test-utils/mock-team"
 import { createWrapper } from "../../../../../../test-utils/create-wrapper"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
+import { createMockOnboardingForm } from "../../../../../../test-utils/factories/onboarding-form-factory"
 
 jest.useFakeTimers()
 jest.mock("../../../../../actions/deployment/set-base-token")
@@ -40,9 +41,10 @@ describe("DeploymentProgressAuto", () => {
     it("shows the expected steps", async () => {
       render(
         <DeploymentProgressAuto
+          hasUnassignedSilo
           team={mockTeam}
           silo={null}
-          isOnboardingFormSubmitted={false}
+          onboardingForm={null}
           isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
@@ -66,9 +68,10 @@ describe("DeploymentProgressAuto", () => {
     it("shows the expected steps", async () => {
       render(
         <DeploymentProgressAuto
+          hasUnassignedSilo
           team={mockTeam}
           silo={null}
-          isOnboardingFormSubmitted
+          onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
@@ -92,9 +95,10 @@ describe("DeploymentProgressAuto", () => {
     it("shows the expected steps on mount", async () => {
       render(
         <DeploymentProgressAuto
+          hasUnassignedSilo
           team={mockTeam}
           silo={createMockSilo()}
-          isOnboardingFormSubmitted
+          onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
@@ -133,9 +137,10 @@ describe("DeploymentProgressAuto", () => {
 
       render(
         <DeploymentProgressAuto
+          hasUnassignedSilo
           team={mockTeam}
           silo={silo}
-          isOnboardingFormSubmitted
+          onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
@@ -159,12 +164,13 @@ describe("DeploymentProgressAuto", () => {
 
       render(
         <DeploymentProgressAuto
+          hasUnassignedSilo
           team={mockTeam}
           silo={createMockSilo({
             base_token_symbol: "AURORA",
             base_token_name: "Aurora",
           })}
-          isOnboardingFormSubmitted
+          onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
           siloBaseTokenTransactionStatus="PENDING"
@@ -187,9 +193,10 @@ describe("DeploymentProgressAuto", () => {
 
       render(
         <DeploymentProgressAuto
+          hasUnassignedSilo
           team={mockTeam}
           silo={silo}
-          isOnboardingFormSubmitted
+          onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete={false}
           setIsDeploymentComplete={setIsDeploymentComplete}
           siloBaseTokenTransactionStatus="SUCCESSFUL"
@@ -220,12 +227,13 @@ describe("DeploymentProgressAuto", () => {
 
       render(
         <DeploymentProgressAuto
+          hasUnassignedSilo
           team={mockTeam}
           silo={createMockSilo({
             base_token_symbol: "AURORA",
             base_token_name: "Aurora",
           })}
-          isOnboardingFormSubmitted
+          onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
@@ -254,9 +262,10 @@ describe("DeploymentProgressAuto", () => {
     it("shows the expected content", async () => {
       render(
         <DeploymentProgressAuto
+          hasUnassignedSilo
           team={mockTeam}
           silo={createMockSilo({ is_active: true })}
-          isOnboardingFormSubmitted
+          onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete
           setIsDeploymentComplete={() => {}}
         />,
@@ -265,6 +274,58 @@ describe("DeploymentProgressAuto", () => {
 
       expect(screen.queryByTestId("deployment-steps")).toBeNull()
       expect(screen.getByText(/Open Block Explorer/i)).not.toBeNull()
+    })
+  })
+
+  describe("manual deployment", () => {
+    it("shows the expected content when the base token cannot be automated", async () => {
+      render(
+        <DeploymentProgressAuto
+          hasUnassignedSilo
+          team={mockTeam}
+          silo={null}
+          onboardingForm={createMockOnboardingForm({ baseToken: "BTC" })}
+          isDeploymentComplete={false}
+          setIsDeploymentComplete={() => {}}
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      expect(getSteps()).toEqual([
+        {
+          id: "CONFIGURE_CHAIN",
+          isSelected: false,
+        },
+        {
+          id: "MANUAL_DEPLOYMENT",
+          isSelected: true,
+        },
+      ])
+    })
+
+    it("shows the expected content when the base token can be automated but there are no more silos", async () => {
+      render(
+        <DeploymentProgressAuto
+          hasUnassignedSilo={false}
+          team={mockTeam}
+          silo={null}
+          onboardingForm={createMockOnboardingForm({ baseToken: "AURORA" })}
+          isDeploymentComplete={false}
+          setIsDeploymentComplete={() => {}}
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      expect(getSteps()).toEqual([
+        {
+          id: "CONFIGURE_CHAIN",
+          isSelected: false,
+        },
+        {
+          id: "MANUAL_DEPLOYMENT",
+          isSelected: true,
+        },
+      ])
     })
   })
 })

@@ -8,6 +8,7 @@ import { Typography } from "@/uikit"
 import { Silo, Team } from "@/types/types"
 import { assignSiloToTeam } from "@/actions/deployment/assign-silo-to-team"
 import { logger } from "@/logger"
+import { toError } from "@/utils/errors"
 
 type Props = {
   team: Team
@@ -39,6 +40,18 @@ export const ModalConfirmDeployment = ({ team, isOpen, onClose }: Props) => {
     }
 
     setIsLoading(false)
+
+    // If no silo was returned it means we have no unassigned silos left in our
+    // pool and the user will have to wait for us to deploy one for them manually.
+    // As we also check for unassigned silos on page load refreshing the page will
+    // take them to the correct state. There could be some nice feedback in future
+    // but with such low traffic it's probably somewhat of an edge case anyway!
+    if (!silo) {
+      router.refresh()
+
+      return
+    }
+
     router.push(`/dashboard/${team.team_key}/silos/${silo.id}`)
   }
 
