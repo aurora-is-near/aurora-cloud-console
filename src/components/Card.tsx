@@ -101,6 +101,9 @@ const Card = ({
 
   const hasHeader = !!(title ?? subtitle ?? actions)
 
+  const classNamesContainsBg = className?.includes("bg-")
+  const bgColor = classNamesContainsBg ? "" : "bg-white"
+
   return (
     <Tag
       className={clsx(
@@ -111,7 +114,7 @@ const Card = ({
           "rounded-2xl": borderRadius === "2xl",
           "p-5 md:p-6": !hasHeader,
         },
-        isDisabled ? "bg-gray-100" : "bg-white",
+        isDisabled ? "bg-gray-100" : bgColor,
         isClickable
           ? "transition-shadow transition-border-color hover:transition-shadow hover:transition-border-color hover:shadow-3xl hover:border-slate-300"
           : "",
