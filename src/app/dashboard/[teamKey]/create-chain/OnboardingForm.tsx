@@ -183,7 +183,7 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
                 </SelectableBox>
               ))}
             </div>
-            {["USDT", "USDC", "BTC"].includes(form.baseToken ?? "") && (
+            {!["AURORA", "NEAR", "ETH"].includes(form.baseToken ?? "") && (
               <Card className="flex flex-col gap-2 p-6 mt-6 bg-slate-100">
                 <div className="flex flex-row items-start justify-start gap-2">
                   <ExclamationCircleIcon className="w-6 h-6" />
