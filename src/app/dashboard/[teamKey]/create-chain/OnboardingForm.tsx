@@ -95,14 +95,14 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
   return (
     <div className="overflow-x-hidden overflow-y-auto">
       <section className="flex justify-center px-6 py-16 bg-white w-full border-b border-slate-200 md:px-16">
-        <div className="flex flex-col justify-center items-center gap-8 w-full max-w-[1044px] md:px-5">
+        <div className="flex flex-col justify-center items-center gap-8 w-full max-w-[1044px] sm:px-5 md:px-0">
           <div className="flex flex-col justify-center items-center gap-3">
             <Typography variant="heading" size={5} className="text-center">
               Set up your Aurora Chain
             </Typography>
             <Typography
               variant="paragraph"
-              size={2}
+              size={1}
               className="text-center text-slate-500"
             >
               Get a production ready Aurora Chain with all the functionalities
