@@ -13,7 +13,6 @@ import {
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { DashboardPage } from "@/components/DashboardPage"
-import { DeploymentProgressManual } from "./DeploymentProgressManual"
 import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
 import { HeroImage } from "./HeroImage"
@@ -22,7 +21,6 @@ type DashboardHomePageProps = {
   team: Team
   silo?: Silo | null
   onboardingForm: OnboardingForm | null
-  isAutomated: boolean
   siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
   hasUnassignedSilo?: boolean
 }
@@ -31,7 +29,6 @@ export const DashboardHomePage = ({
   team,
   silo = null,
   onboardingForm,
-  isAutomated,
   siloBaseTokenTransactionStatus,
   hasUnassignedSilo,
 }: DashboardHomePageProps) => {
@@ -68,26 +65,18 @@ export const DashboardHomePage = ({
         }
         image={<HeroImage isSiloReady={!!silo} />}
       >
-        {isAutomated && (
-          <DeploymentProgressAuto
-            team={team}
-            silo={silo}
-            isDeploymentComplete={isDeploymentComplete}
-            setIsDeploymentComplete={setIsDeploymentComplete}
-            onboardingForm={onboardingForm}
-            siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
-            hasUnassignedSilo={hasUnassignedSilo}
-          />
-        )}
+        <DeploymentProgressAuto
+          team={team}
+          silo={silo}
+          isDeploymentComplete={isDeploymentComplete}
+          setIsDeploymentComplete={setIsDeploymentComplete}
+          onboardingForm={onboardingForm}
+          siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
+          hasUnassignedSilo={hasUnassignedSilo}
+        />
       </Hero>
 
       <section className="flex flex-col pt-4 gap-14">
-        {!isAutomated && (
-          <DeploymentProgressManual
-            status={team.onboarding_status ?? "REQUEST_RECEIVED"}
-          />
-        )}
-
         <WhatsNext team={team} />
 
         <div className="flex flex-col">
