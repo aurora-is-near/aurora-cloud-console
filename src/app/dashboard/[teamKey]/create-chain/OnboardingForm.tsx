@@ -28,6 +28,7 @@ import { BaseContainer } from "@/components/BaseContainer"
 import { logger } from "@/logger"
 import { Typography } from "@/uikit"
 
+import { AUTOMATED_BASE_TOKENS } from "@/constants/base-token"
 import Step from "./Step"
 import ChainPermissionBox from "./ChainPermissionBox"
 import GasMechanicsBox from "./GasMechanicsBox"
@@ -183,8 +184,8 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
                 </SelectableBox>
               ))}
             </div>
-            {!["AURORA", "NEAR", "ETH"].includes(form.baseToken ?? "") && (
-              <Card className="flex flex-col gap-2 p-6 mt-6 bg-slate-100">
+            {!AUTOMATED_BASE_TOKENS.includes(form.baseToken ?? "AURORA") && (
+              <div className="flex flex-col gap-2 p-6 mt-6 bg-slate-100 rounded-lg border border-slate-300">
                 <div className="flex flex-row items-start justify-start gap-2">
                   <ExclamationCircleIcon className="w-6 h-6" />
                   <Typography variant="label" size={2}>
@@ -199,7 +200,7 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
                   We would need to get in touch with you before starting the
                   deployment of your chain.
                 </Typography>
-              </Card>
+              </div>
             )}
             {form.baseToken === "CUSTOM" && (
               <Card className="p-6 mt-6">
