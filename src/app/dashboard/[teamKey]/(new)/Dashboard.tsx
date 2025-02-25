@@ -3,6 +3,7 @@
 import { CheckIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
 
+import { Typography } from "@/uikit"
 import Hero from "@/components/Hero/Hero"
 import {
   OnboardingForm,
@@ -91,9 +92,9 @@ export const DashboardHomePage = ({
         <WhatsNext team={team} />
 
         <div className="flex flex-col">
-          <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
+          <Typography variant="heading" size={3}>
             Get involved
-          </h2>
+          </Typography>
           <FeatureCTAList>
             <FeatureCTA
               title="Share your feedback"
