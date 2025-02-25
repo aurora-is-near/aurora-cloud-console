@@ -74,7 +74,7 @@ const getInitialFormMainNet = (
   chainPermission: data?.chainPermission ?? "public",
   baseToken: data?.baseToken ?? null,
   gasMechanics: data?.gasMechanics ?? null,
-  integrations: data?.integrations ?? [],
+  integrations: data?.integrations ?? ["block_explorer"],
   chainName: data?.chainName ?? "",
   comments: data?.comments ?? "",
   customTokenDetails: data?.customTokenDetails ?? "",
