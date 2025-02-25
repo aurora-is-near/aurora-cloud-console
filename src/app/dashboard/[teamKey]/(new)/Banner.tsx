@@ -32,7 +32,7 @@ export const Banner = ({ variant, Icon, title, description, link }: Props) => (
   >
     <div className="grow-0 shrink-0 flex">{Icon}</div>
     <div className="flex flex-col gap-1 mr-auto max-w-[684px]">
-      <Typography variant="heading" size={1}>
+      <Typography variant="heading" size={3}>
         {title}
       </Typography>
       <Typography variant="paragraph" size={4} className="text-gray-500">
