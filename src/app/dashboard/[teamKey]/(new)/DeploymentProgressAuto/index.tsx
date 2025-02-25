@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
 
-import { Button } from "@/components/Button"
 import type {
   OnboardingForm,
   Silo,
@@ -121,9 +120,13 @@ export const DeploymentProgressAuto = ({
           <ArrowTopRightOnSquareIcon className="w-5 h-5" />
         </LinkButton>
       )}
-      <Button size="lg" variant="border">
+      <LinkButton
+        size="lg"
+        variant="border"
+        href={`/dashboard/${team.team_key}/silos/${silo.id}/block-explorer`}
+      >
         Customize Block Explorer
-      </Button>
+      </LinkButton>
     </div>
   )
 }
