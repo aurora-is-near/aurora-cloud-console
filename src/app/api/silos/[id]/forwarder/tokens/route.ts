@@ -66,12 +66,8 @@ const isKnownToken = (symbol: string): symbol is ForwarderTokenSymbol => {
  */
 const checkToken = async (
   provider: JsonRpcProvider,
-  symbol: string,
+  symbol: ForwarderTokenSymbol,
 ): Promise<boolean> => {
-  if (!isKnownToken(symbol)) {
-    return false
-  }
-
   const tokenContractAddress = AURORA_TOKEN_ADDRESSES[symbol]
   const contract = new Contract(tokenContractAddress, ABI, provider)
   let actualSymbol
@@ -93,39 +89,36 @@ const checkToken = async (
   return true
 }
 
-const getValidTokens = async (silo: Silo, tokens: string[]) => {
+const checkTokenContracts = async (silo: Silo, tokens: string[]) => {
   const provider = new JsonRpcProvider(silo.rpc_url)
 
-  // Check for unknown tokens
-  const knownTokens: ForwarderTokenSymbol[] = tokens.filter(
-    (token): token is ForwarderTokenSymbol => {
-      if (!isKnownToken(token)) {
-        abort(400, `Unknown token: ${token}`)
+  await Promise.all(
+    tokens.map(async (symbol) => {
+      if (!isKnownToken(symbol)) {
+        abort(400, `Unknown token: ${symbol}`)
       }
 
-      return true
-    },
-  )
-
-  // Check token contracts
-  await Promise.all(
-    knownTokens.map(async (symbol) => {
       if (!(await checkToken(provider, symbol))) {
         abort(400, `Token contract not deployed: ${symbol}`)
       }
     }),
   )
-
-  return knownTokens
 }
 
 const addTokens = async (silo: Silo, tokens: string[]) => {
+  if (!tokens.length) {
+    return
+  }
+
   await forwarderApiClient.addSupportedToken({
     target_network: silo.engine_account,
     tokens: tokens.map((symbol) => {
-      const { address, decimals } = KNOWN_TOKENS.find(
-        (token) => token.symbol === symbol,
-      )!
+      const { address, decimals } =
+        KNOWN_TOKENS.find((token) => token.symbol === symbol) ?? {}
+
+      if (!address || !decimals) {
+        abort(400, `Unknown token: ${symbol}`)
+      }
 
       return { address, decimals, symbol }
     }),
@@ -133,10 +126,19 @@ const addTokens = async (silo: Silo, tokens: string[]) => {
 }
 
 const removeTokens = async (silo: Silo, tokens: string[]) => {
+  if (!tokens.length) {
+    return
+  }
+
   await forwarderApiClient.removeSupportedToken({
     target_network: silo.engine_account,
     token_addresses: tokens.map((symbol) => {
-      const { address } = KNOWN_TOKENS.find((token) => token.symbol === symbol)!
+      const { address } =
+        KNOWN_TOKENS.find((token) => token.symbol === symbol) ?? {}
+
+      if (!address) {
+        abort(400, `Unknown token: ${symbol}`)
+      }
 
       return address
     }),
@@ -184,9 +186,9 @@ export const POST = createApiEndpoint(
     }
 
     const { tokens } = ctx.body
-    const validTokens = await getValidTokens(silo, tokens)
 
-    await addTokens(silo, validTokens)
+    await checkTokenContracts(silo, tokens)
+    await addTokens(silo, tokens)
 
     return {
       status: "ok",
@@ -204,9 +206,9 @@ export const DELETE = createApiEndpoint(
     }
 
     const { tokens } = ctx.body
-    const validTokens = await getValidTokens(silo, tokens)
 
-    await removeTokens(silo, validTokens)
+    await checkTokenContracts(silo, tokens)
+    await removeTokens(silo, tokens)
 
     return {
       status: "ok",
@@ -231,17 +233,22 @@ export const PUT = createApiEndpoint(
       target_network: silo.engine_account,
     })
 
-    const tokensToRemove = (currentTokens ?? [])
-      .filter((token) => !tokens.includes(token.symbol))
-      .map((token) => token.symbol)
-
-    const tokensToAdd = tokens.filter(
-      (token) =>
-        !(currentTokens ?? []).some((current) => current.symbol === token),
+    const currentTokenSymbols = (currentTokens ?? []).map(
+      (token) => token.symbol,
     )
 
+    const tokensToRemove = currentTokenSymbols.filter(
+      (symbol) => !tokens.includes(symbol),
+    )
+
+    const tokensToAdd = tokens.filter(
+      (symbol) => !currentTokenSymbols.includes(symbol),
+    )
+
+    await checkTokenContracts(silo, tokensToAdd)
+
     await Promise.all([
-      addTokens(silo, await getValidTokens(silo, tokensToAdd)),
+      addTokens(silo, tokensToAdd),
       removeTokens(silo, tokensToRemove),
     ])
 
