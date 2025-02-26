@@ -667,4 +667,23 @@ export const contract = c.router({
       scopes: ["forwarder:write"],
     },
   },
+  updateForwarderTokens: {
+    summary: "Update forwarder support for the given token(s)",
+    method: "PUT",
+    path: "/api/silos/:id/forwarder/tokens",
+    responses: {
+      200: z.object({
+        status: z.string(),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    body: z.object({
+      tokens: z.array(ForwarderToken),
+    }),
+    metadata: {
+      scopes: ["forwarder:write"],
+    },
+  },
 })
