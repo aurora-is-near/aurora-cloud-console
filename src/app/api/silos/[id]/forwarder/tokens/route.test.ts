@@ -127,7 +127,6 @@ describe("Forwarder tokens route", () => {
       "returns the expected result if the supported tokens is %p",
       async (supportedTokens) => {
         nock("https://forwarder.mainnet.aurora.dev")
-          .persist()
           .get("/api/v1/supported_tokens")
           .query((query) => {
             expect(query).toEqual({
@@ -364,7 +363,7 @@ describe("Forwarder tokens route", () => {
     })
   })
 
-  describe.only("updateForwarderTokens", () => {
+  describe("updateForwarderTokens", () => {
     it("updates some tokens", async () => {
       nock("https://forwarder.mainnet.aurora.dev")
         .get("/api/v1/supported_tokens")
