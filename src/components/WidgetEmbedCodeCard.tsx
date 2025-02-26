@@ -1,13 +1,18 @@
 import { TabCard } from "@/components/TabCard/TabCard"
+import { WidgetName } from "@/types/widgets"
+import { getWidgetUrl } from "@/utils/widgets"
 
-const ORIGIN = "https://app.auroracloud.dev"
-
-type EmbedCodeCardProps = {
+type WidgetEmbedCodeCardProps = {
   teamKey: string
   siloId: number
+  widgetName: WidgetName
 }
 
-export const EmbedCodeCard = ({ teamKey, siloId }: EmbedCodeCardProps) => {
+export const WidgetEmbedCodeCard = ({
+  teamKey,
+  siloId,
+  widgetName,
+}: WidgetEmbedCodeCardProps) => {
   return (
     <TabCard>
       <p className="text-sm">
@@ -16,13 +21,13 @@ export const EmbedCodeCard = ({ teamKey, siloId }: EmbedCodeCardProps) => {
         tag.
       </p>
       <pre className="text-sm font-mono bg-slate-100 p-4 rounded-md whitespace-pre-wrap">
-        {`<script src="${ORIGIN}/dashboard/${teamKey}/silos/${siloId}/widget.js"></script>`}
+        {`<script src="${getWidgetUrl(teamKey, siloId, widgetName)}"></script>`}
       </pre>
       <p className="text-sm mt-1 pt-3">
         Open the widget by calling the following function:
       </p>
       <pre className="text-sm font-mono bg-slate-100 p-4 rounded-md whitespace-pre-wrap">
-        window.auroraCloudConsole.openWidget()
+        window.acc.{widgetName}Widget.open()
       </pre>
     </TabCard>
   )

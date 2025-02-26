@@ -9,6 +9,7 @@ export const getSilos = async (): Promise<Silo[]> => {
   const { data: silo } = await supabase
     .from("silos")
     .select("*")
+    .is("deleted_at", null)
     .order("id", { ascending: true })
 
   return silo ?? []

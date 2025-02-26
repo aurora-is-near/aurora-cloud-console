@@ -38,16 +38,18 @@ export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
   return (
     <DashboardPage>
       <Hero
-        title="Fiat onramp"
-        description="Enable your users to onramp from fiat to crypto directly on your chain."
-        titlePrefix={
-          <Image
-            width="48"
-            height="48"
-            src="/static/v2/images/icons/marketplace/cex_withdrawals.svg"
-            alt="Onramp Logo"
-          />
+        title={
+          <>
+            <Image
+              width="48"
+              height="48"
+              src="/static/v2/images/icons/marketplace/cex_withdrawals.svg"
+              alt="Onramp Logo"
+            />
+            Fiat onramp
+          </>
         }
+        description="Enable your users to onramp from fiat to crypto directly on your chain."
         image={
           <Image
             width="400"
@@ -56,8 +58,9 @@ export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
             alt="Onramp Preview"
           />
         }
-        actions={silo && <MunzenWidgetOpenButton silo={silo} size="lg" />}
-      />
+      >
+        {silo && <MunzenWidgetOpenButton silo={silo} size="lg" />}
+      </Hero>
 
       <Tabs tabs={tabs} />
     </DashboardPage>

@@ -15,7 +15,6 @@ import { Modals } from "@/utils/modals"
 import { RuleContext } from "@/providers/RuleProvider"
 import { AddRuleUserModal } from "@/components/GasAbstraction/AddRuleUserModal"
 import { Skeleton } from "@/uikit"
-import { featureFlags } from "@/feature-flags/browser"
 import { updateDeal } from "@/actions/deals/update-deal"
 import { Deal } from "@/types/types"
 
@@ -28,8 +27,6 @@ const UsersConfigurationCard = ({ deal }: { deal: Deal }) => {
   const { register, watch } = useForm<Inputs>()
 
   const { ruleUsers } = useRequiredContext(RuleContext)
-
-  const disabled = !featureFlags.get("gas_plans_configuration")
 
   const isOpen = String(watch("open") ?? deal?.open) === "true"
 
@@ -70,7 +67,7 @@ const UsersConfigurationCard = ({ deal }: { deal: Deal }) => {
       title="Users"
       description="Choose who will benefit from this plan."
     >
-      <div className="xl:w-1/2 flex flex-col gap-2">
+      <div className="flex flex-col gap-2">
         <div
           className={clsx(
             "rounded-md ring-1",
@@ -88,7 +85,6 @@ const UsersConfigurationCard = ({ deal }: { deal: Deal }) => {
                 value="true"
                 className={radioClassName}
                 checked={isOpen}
-                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -114,7 +110,6 @@ const UsersConfigurationCard = ({ deal }: { deal: Deal }) => {
                 value="false"
                 className={radioClassName}
                 checked={!isOpen}
-                disabled={disabled}
                 {...register("open")}
               />
             </div>
@@ -149,11 +144,7 @@ const UsersConfigurationCard = ({ deal }: { deal: Deal }) => {
                   {ruleUsers?.length === 1 ? "" : "es"} added
                 </span>
               </div>
-              <Button
-                disabled={disabled}
-                onClick={openAddRuleAddressModal}
-                variant="border"
-              >
+              <Button onClick={openAddRuleAddressModal} variant="border">
                 Add manually
               </Button>
             </div>

@@ -10,6 +10,7 @@ export const getTeamSilos = async (teamId: number): Promise<Silo[]> => {
     .select("*, silos_teams!inner(silo_id)")
     .order("id", { ascending: true })
     .eq("silos_teams.team_id", teamId)
+    .is("deleted_at", null)
 
   return silos ?? []
 }

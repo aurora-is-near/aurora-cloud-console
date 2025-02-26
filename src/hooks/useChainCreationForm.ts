@@ -1,8 +1,7 @@
 import { useCallback, useState } from "react"
-import { Team } from "@/types/types"
+import { BaseTokenSymbol, OnboardingForm, Team } from "@/types/types"
 import { saveOnboardingForm } from "@/actions/onboarding/save-onboarding-form"
 import {
-  BaseToken,
   ChainPermission,
   GasMechanics,
   Integration,
@@ -19,6 +18,7 @@ import {
   Bitcoin,
   CustomToken,
   EtherToken,
+  NearToken,
   USDCToken,
   USDTToken,
 } from "../../public/static/v2/images/icons"
@@ -34,24 +34,25 @@ export const integrationOptions: Integration[] = [
 ]
 
 export const tokenOptions: TokenOption[] = [
-  { id: "aurora", name: "Aurora", icon: AuroraToken },
-  { id: "eth", name: "ETH", icon: EtherToken },
-  { id: "usdt", name: "USDT", icon: USDTToken },
-  { id: "usdc", name: "USDC", icon: USDCToken },
-  { id: "btc", name: "BTC", icon: Bitcoin },
-  { id: "custom", name: "My Token", icon: CustomToken },
+  { symbol: "AURORA", name: "Aurora", icon: AuroraToken },
+  { symbol: "NEAR", name: "NEAR", icon: NearToken },
+  { symbol: "ETH", name: "ETH", icon: EtherToken },
+  { symbol: "USDT", name: "USDT", icon: USDTToken },
+  { symbol: "USDC", name: "USDC", icon: USDCToken },
+  { symbol: "BTC", name: "BTC", icon: Bitcoin },
+  { symbol: "CUSTOM", name: "My token", icon: CustomToken },
 ]
 
-interface ChainCreationForm {
+export interface ChainCreationForm {
   networkType: NetworkType | null
   chainPermission: ChainPermission | null
-  baseToken: BaseToken | null
+  baseToken: BaseTokenSymbol | null
   gasMechanics: GasMechanics | null
   integrations: Integration[]
   chainName: string
-  chainId: string
   comments: string
   customTokenDetails: string
+  telegramHandle: string
 }
 
 const initialFormDevNet: ChainCreationForm = {
@@ -61,22 +62,24 @@ const initialFormDevNet: ChainCreationForm = {
   gasMechanics: null,
   integrations: [],
   chainName: "",
-  chainId: "",
   comments: "",
   customTokenDetails: "",
+  telegramHandle: "",
 }
 
-const initialFormMainNet: ChainCreationForm = {
-  networkType: "mainnet",
-  chainPermission: "public",
-  baseToken: null,
-  gasMechanics: null,
-  integrations: [],
-  chainName: "",
-  chainId: "",
-  comments: "",
-  customTokenDetails: "",
-}
+const getInitialFormMainNet = (
+  data: OnboardingForm | null = null,
+): ChainCreationForm => ({
+  networkType: data?.networkType ?? "mainnet",
+  chainPermission: data?.chainPermission ?? "public",
+  baseToken: data?.baseToken ?? null,
+  gasMechanics: data?.gasMechanics ?? null,
+  integrations: data?.integrations ?? ["block_explorer"],
+  chainName: data?.chainName ?? "",
+  comments: data?.comments ?? "",
+  customTokenDetails: data?.customTokenDetails ?? "",
+  telegramHandle: data?.telegramHandle ?? "",
+})
 
 type ErrorName =
   | "UNKNOWN_VALIDATION_ERROR"
@@ -101,10 +104,17 @@ export class FormTokenNotFoundError extends FormValidationError {
   }
 }
 
-export const useChainCreationForm = (
-  team: Team,
-  networkTypeSelected: NetworkType,
-) => {
+type Args = {
+  team: Team
+  initialData: OnboardingForm | null
+  networkTypeSelected: NetworkType
+}
+
+export const useChainCreationForm = ({
+  team,
+  initialData,
+  networkTypeSelected,
+}: Args) => {
   const mixPanel = useAnalytics()
   const [form, setForm] = useState<ChainCreationForm>(
     (() => {
@@ -112,7 +122,7 @@ export const useChainCreationForm = (
         case "devnet":
           return initialFormDevNet
         case "mainnet":
-          return initialFormMainNet
+          return getInitialFormMainNet(initialData)
         default:
           return notReachable(networkTypeSelected)
       }
@@ -183,9 +193,10 @@ export const useChainCreationForm = (
       ...form,
     })
 
-    await saveOnboardingForm({
+    await saveOnboardingForm(team, {
       ...form,
       team_id: team.id,
+      baseToken: form.baseToken ?? "AURORA",
     })
 
     // Note that an upsert is used here in case the user somehow submits the
@@ -207,7 +218,7 @@ export const useChainCreationForm = (
 
     // for mainnet
     window.location.href = `${window.location.origin}/dashboard/${team.team_key}`
-  }, [form, fieldErrors, mixPanel, team.id, team.team_key])
+  }, [form, fieldErrors, mixPanel, team])
 
   return {
     form,

@@ -23,13 +23,10 @@ export const OnrampHomePageHero = ({ silo }: Props) => {
           className="mr-16 shadow-xl rounded-[2rem]"
         />
       }
-      actions={
-        !silo && (
-          <NotAvailableBadge>
-            Available with your Virtual Chain
-          </NotAvailableBadge>
-        )
-      }
-    />
+    >
+      {!silo && (
+        <NotAvailableBadge>Available with your Virtual Chain</NotAvailableBadge>
+      )}
+    </Hero>
   )
 }

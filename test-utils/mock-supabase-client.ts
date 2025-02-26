@@ -8,6 +8,7 @@ export const createSelect = <T>(data?: T) => ({
   order: jest.fn().mockReturnThis(),
   gte: jest.fn().mockReturnThis(),
   lte: jest.fn().mockReturnThis(),
+  limit: jest.fn().mockReturnThis(),
   single: jest.fn(() => ({
     data,
     error: null,
@@ -67,6 +68,8 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   replenishments: createTableClient(),
   silos_teams: createTableClient(),
   datadog_web3_monitors: createTableClient(),
+  silo_config_transactions: createTableClient(),
+  _prisma_migrations: createTableClient(),
 }
 
 export const mockSupabaseClient = {

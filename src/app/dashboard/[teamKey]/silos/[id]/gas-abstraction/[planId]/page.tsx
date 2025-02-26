@@ -7,7 +7,6 @@ import { getRules } from "@/actions/rules/get-rules"
 import { createRule } from "@/actions/rules/create-rule"
 import { RuleProvider } from "@/providers/RuleProvider"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { RuleResourceDefinition } from "@/types/types"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
@@ -30,18 +29,16 @@ const Page = async ({
     notFound()
   }
 
-  const userlistRuleDefinition: RuleResourceDefinition = {
-    chains: silo.chain_id,
-    contracts: [],
-  }
-
   let userlistRule = rules?.data.find((r) => r.ui_enabled)
 
   if (!userlistRule) {
     userlistRule = await createRule({
       rule: {
         deal_id: dealId,
-        resource_definition: userlistRuleDefinition,
+        chains: [silo.chain_id],
+        except_chains: [],
+        contracts: [],
+        except_contracts: [],
       },
       team_id: team.id,
     })

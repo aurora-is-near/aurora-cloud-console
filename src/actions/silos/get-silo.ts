@@ -10,6 +10,7 @@ export const getSilo = async (id: number): Promise<Silo | null> => {
     .from("silos")
     .select("*")
     .eq("id", id)
+    .is("deleted_at", null)
     .maybeSingle()
 
   return silo

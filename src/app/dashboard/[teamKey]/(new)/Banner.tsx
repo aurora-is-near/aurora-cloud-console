@@ -41,7 +41,7 @@ export const Banner = ({ variant, Icon, title, description, link }: Props) => (
     </div>
     {link && (
       <LinkButton
-        size="lg"
+        size="md"
         variant={variant === "cta" ? "primary" : "border"}
         href={link.isDisabled ? (link.url ?? "") : link.url}
         {...link}

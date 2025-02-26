@@ -34,13 +34,9 @@ describe("Checkout webhook route", () => {
     process.env.STRIPE_SECRET_KEY = stripeSecretKey
     process.env.STRIPE_WEBHOOK_SECRET = stripeWebhookSecret
 
-    mockSupabaseClient
-      .from("orders")
-      .select.mockImplementation(() => createSelect([]))
-
-    mockSupabaseClient
-      .from("teams")
-      .select.mockImplementation(() => createSelect([]))
+    mockSupabaseClient.from("orders").select.mockReturnValue(createSelect([]))
+    mockSupabaseClient.from("teams").select.mockReturnValue(createSelect([]))
+    mockSupabaseClient.from("users").select.mockReturnValue(createSelect([]))
   })
 
   it("returns a 400 if no payload is provided", async () => {
@@ -187,7 +183,16 @@ describe("Checkout webhook route", () => {
 
     mockSupabaseClient
       .from("users")
-      .select.mockImplementation(() => createSelect(mockUser))
+      .select.mockImplementationOnce(() => createSelect(mockUser))
+
+    mockSupabaseClient.from("users").select.mockImplementationOnce(() =>
+      createSelect([
+        {
+          ...mockUser,
+          users_teams: [],
+        },
+      ]),
+    )
 
     const res = await POST(req, { params: {} })
 
