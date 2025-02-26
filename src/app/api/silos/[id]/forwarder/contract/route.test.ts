@@ -10,6 +10,7 @@ import {
   mockSupabaseClient,
 } from "../../../../../../../test-utils/mock-supabase-client"
 import { createMockSilo } from "../../../../../../../test-utils/factories/silo-factory"
+import { cleanUpNock } from "../../../../../../../test-utils/cleanUpNock"
 
 jest.mock("../../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -27,6 +28,8 @@ describe("Forwarder route", () => {
       .from("silos")
       .select.mockImplementation(() => createSelect(mockSilo))
   })
+
+  afterAll(cleanUpNock)
 
   describe("POST", () => {
     it("creates a forwarder address", async () => {

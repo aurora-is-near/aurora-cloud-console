@@ -12,6 +12,7 @@ import {
   mockSupabaseClient,
 } from "../../../../../../../test-utils/mock-supabase-client"
 import { createMockSilo } from "../../../../../../../test-utils/factories/silo-factory"
+import { cleanUpNock } from "../../../../../../../test-utils/cleanUpNock"
 
 jest.mock("ethers")
 jest.mock("../../../../../../utils/api", () => ({
@@ -51,6 +52,8 @@ describe("Forwarder tokens route", () => {
       }),
     )
   })
+
+  afterAll(cleanUpNock)
 
   describe("GET", () => {
     it("returns the tokens", async () => {
