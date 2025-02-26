@@ -559,7 +559,7 @@ export const contract = c.router({
         .string()
         .optional()
         .openapi({
-          enum: ["now-2 h", "now-12h", "now-1h", "now-15m"],
+          enum: ["now-24h", "now-12h", "now-1h", "now-15m"],
         }),
     }),
   },
