@@ -1216,7 +1216,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             ],
           },
         ],
-        "summary": "Create a forwarder contract address for given target address",
+        "summary": "Create a forwarder address for given target address",
         "tags": [
           "silos",
         ],
@@ -1272,7 +1272,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             ],
           },
         ],
-        "summary": "Get the forwarder contract address for given target address",
+        "summary": "Get the forwarder address for given target address",
         "tags": [
           "silos",
         ],
@@ -1503,6 +1503,80 @@ exports[`OpenAPI Document should be valid 1`] = `
           "silos",
         ],
       },
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "updateForwarderTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "tokens": {
+                    "items": {
+                      "enum": [
+                        "NEAR",
+                        "wNEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "tokens",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Update forwarder support for the given token(s)",
+        "tags": [
+          "silos",
+        ],
+      },
     },
     "/api/silos/{id}/gas-collected": {
       "get": {
@@ -1662,7 +1736,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             "name": "interval",
             "schema": {
               "enum": [
-                "now-2 h",
+                "now-24h",
                 "now-12h",
                 "now-1h",
                 "now-15m",

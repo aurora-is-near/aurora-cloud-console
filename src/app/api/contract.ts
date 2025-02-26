@@ -580,7 +580,7 @@ export const contract = c.router({
     },
   },
   getForwarderAddress: {
-    summary: "Get the forwarder contract address for given target address",
+    summary: "Get the forwarder address for given target address",
     method: "GET",
     path: "/api/silos/:id/forwarder/contract/:targetAddress",
     responses: {
@@ -597,7 +597,7 @@ export const contract = c.router({
     },
   },
   createForwarderAddress: {
-    summary: "Create a forwarder contract address for given target address",
+    summary: "Create a forwarder address for given target address",
     method: "POST",
     path: "/api/silos/:id/forwarder/contract",
     responses: {
@@ -660,6 +660,25 @@ export const contract = c.router({
   removeForwarderTokens: {
     summary: "Remove forwarder support for the given token(s)",
     method: "DELETE",
+    path: "/api/silos/:id/forwarder/tokens",
+    responses: {
+      200: z.object({
+        status: z.string(),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    body: z.object({
+      tokens: z.array(ForwarderToken),
+    }),
+    metadata: {
+      scopes: ["forwarder:write"],
+    },
+  },
+  updateForwarderTokens: {
+    summary: "Update forwarder support for the given token(s)",
+    method: "PUT",
     path: "/api/silos/:id/forwarder/tokens",
     responses: {
       200: z.object({
