@@ -4,7 +4,6 @@ import { ContactButton } from "@/components/ContactButton"
 import { LinkButton } from "@/components/LinkButton"
 
 type ContactProps = {
-  teamKey: string
   text?: string
   description?: string
   className?: string
@@ -15,7 +14,6 @@ type ContactProps = {
 }
 
 const Contact = ({
-  teamKey,
   text = "Need help setting up deals?",
   description = "Reach out to our support team to get assistance.",
   className,
@@ -45,7 +43,7 @@ const Contact = ({
             {button.text}
           </LinkButton>
         ) : (
-          <ContactButton teamKey={teamKey} />
+          <ContactButton />
         )}
       </div>
     </section>
