@@ -145,30 +145,6 @@ const removeTokens = async (silo: Silo, tokens: string[]) => {
   })
 }
 
-const addTokens = async (silo: Silo, tokens: string[]) => {
-  await forwarderApiClient.addSupportedToken({
-    target_network: silo.engine_account,
-    tokens: tokens.map((symbol) => {
-      const { address, decimals } = KNOWN_TOKENS.find(
-        (token) => token.symbol === symbol,
-      )!
-
-      return { address, decimals, symbol }
-    }),
-  })
-}
-
-const removeTokens = async (silo: Silo, tokens: string[]) => {
-  await forwarderApiClient.removeSupportedToken({
-    target_network: silo.engine_account,
-    token_addresses: tokens.map((symbol) => {
-      const { address } = KNOWN_TOKENS.find((token) => token.symbol === symbol)!
-
-      return address
-    }),
-  })
-}
-
 export const GET = createApiEndpoint(
   "getForwarderTokens",
   async (_req, ctx) => {
