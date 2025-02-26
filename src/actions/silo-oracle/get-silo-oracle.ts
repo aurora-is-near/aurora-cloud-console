@@ -20,7 +20,7 @@ export const getSiloOracle = async (
   }
 
   const contract = contracts.items.find(
-    ({ chainId }) => chainId === silo?.chain_id,
+    ({ chainId }) => Number(chainId) === silo?.chain_id,
   )
 
   return { ...oracle, contract }

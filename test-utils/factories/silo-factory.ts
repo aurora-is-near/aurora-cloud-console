@@ -6,8 +6,8 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   created_at: "2021-01-01T00:00:00Z",
   updated_at: "2021-01-01T00:00:00Z",
   base_token_name: "Test Token",
-  base_token_symbol: "TEST",
-  chain_id: "1313161555",
+  base_token_symbol: "ETH",
+  chain_id: 1313161555,
   engine_account: "testnet.aurora-silo-dev.near",
   explorer_url: "https://explorer.testnet.aurora.dev",
   blockscout_database_id: 1,
@@ -25,6 +25,9 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   replenish_amount: 0,
   replenish_threshold: 0,
   silo_to_silo_bridge_address: null,
+  is_active: true,
+  applied_deal_ids: [],
+  deleted_at: null,
   ...data,
 })
 

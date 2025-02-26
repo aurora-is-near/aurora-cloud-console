@@ -30,7 +30,7 @@ const Page = async ({
     },
     {
       term: "Chain ID",
-      description: silo.chain_id,
+      description: String(silo.chain_id),
       tooltip:
         "EIP-155 standard field to protect against transaction replay attacks.",
       showCopyButton: true,

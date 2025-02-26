@@ -11,7 +11,7 @@ export const RulesCard = ({ deal }: { deal: Deal }) => {
         title="Define rules"
         description="Define specifics about this gas plan."
       >
-        <div className="flex flex-col gap-y-2.5 w-full xl:w-1/2">
+        <div className="flex flex-col gap-y-2.5 w-full">
           <DealDurationSetting deal={deal} />
           <RuleSetting
             title="Total transactions limit"

@@ -1,4 +1,6 @@
 import { getSiloOracle } from "@/actions/silo-oracle/get-silo-oracle"
+import { getSilo } from "@/actions/silos/get-silo"
+import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import OraclePage from "@/components/OraclePage/OraclePage"
 import { auroraOracleApiClient } from "@/utils/aurora-oracle-api/client"
 
@@ -8,19 +10,14 @@ const Page = async ({
   params: { id: string; teamKey: string }
 }) => {
   const siloId = Number(id)
-  const [oracle, { items: tokens }] = await Promise.all([
+  const [silo, team, oracle, { items: tokens }] = await Promise.all([
+    getSilo(siloId),
+    getTeamByKey(teamKey),
     getSiloOracle(siloId),
     auroraOracleApiClient.getTokens(),
   ])
 
-  return (
-    <OraclePage
-      siloId={siloId}
-      oracle={oracle}
-      teamKey={teamKey}
-      tokens={tokens}
-    />
-  )
+  return <OraclePage silo={silo} oracle={oracle} team={team} tokens={tokens} />
 }
 
 export default Page

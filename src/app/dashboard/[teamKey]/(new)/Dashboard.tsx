@@ -1,90 +1,89 @@
-import Image from "next/image"
-import { ArrowRightIcon } from "@heroicons/react/24/solid"
+"use client"
 
+import { CheckIcon } from "@heroicons/react/24/outline"
+import { useState } from "react"
+
+import { Typography } from "@/uikit"
 import Hero from "@/components/Hero/Hero"
-import { Silo, Team } from "@/types/types"
+import {
+  OnboardingForm,
+  Silo,
+  SiloConfigTransactionStatus,
+  Team,
+} from "@/types/types"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
-import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
 import { DashboardPage } from "@/components/DashboardPage"
-import { Typography } from "@/uikit"
-
-import { Banner } from "./Banner"
+import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
-import { HeroBadge } from "./HeroBadge"
-import { DeploymentProgress } from "./DeploymentProgress"
+import { HeroImage } from "./HeroImage"
 
 type DashboardHomePageProps = {
   team: Team
   silo?: Silo | null
+  onboardingForm: OnboardingForm | null
+  siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
+  hasUnassignedSilo?: boolean
 }
 
-export const DashboardHomePage = async ({
+export const DashboardHomePage = ({
   team,
   silo = null,
+  onboardingForm,
+  siloBaseTokenTransactionStatus,
+  hasUnassignedSilo,
 }: DashboardHomePageProps) => {
-  const isOnboardingFormSubmitted = !!(await getTeamOnboardingForm(team.id))
+  const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
+    !!silo?.is_active,
+  )
 
   return (
     <DashboardPage>
       <Hero
         hasDivider
-        title={!silo ? "Welcome to Aurora Cloud" : `Welcome to ${team.name}`}
-        description="Get started with your own Virtual Chain and start building! Configure your chain, set up on-ramps, bridges, and manage gas abstraction — all within the Aurora Cloud Console."
-        image={
-          <Image
-            width="180"
-            height="180"
-            src="/static/v2/images/heroIcons/cloud.webp"
-            alt="Aurora Cloud"
-            className="mr-16 shadow-xl rounded-[2rem]"
-          />
-        }
-        actions={
-          <HeroBadge
-            hasSilo={!!silo}
-            isOnboardingFormSubmitted={isOnboardingFormSubmitted}
-          />
-        }
-      />
-
-      <section className="flex flex-col gap-14">
-        {!silo && !isOnboardingFormSubmitted && (
-          <section className="flex flex-col gap-5">
-            <Typography variant="heading" size={3}>
-              Start here
-            </Typography>
-            <div className="flex flex-col gap-4">
-              <Banner
-                variant="cta"
-                title="Configure your Virtual Chain"
-                description="Select the chain parameters that fit your needs — base token, gas costs, permissions, and more — to create a fully production-ready environment."
-                Icon={
-                  <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center">
-                    <ArrowRightIcon className="w-6 h-6 text-white" />
-                  </div>
-                }
-                link={{
-                  isDisabled: false,
-                  trackEventName: "get_started_click",
-                  label: "Get started",
-                  url: `/dashboard/${team.team_key}/create-chain`,
-                }}
-              />
+        title={
+          isDeploymentComplete ? (
+            <>
+              <div className="w-11 h-11 flex items-center justify-center rounded-full bg-green-400">
+                <CheckIcon className="w-6 h-6 stroke-2 stroke-slate-900" />
+              </div>
+              Your chain is live
+            </>
+          ) : (
+            <div>
+              Your virtual chain,
+              <br />
+              <span className="text-4xl text-slate-600 tracking-tight leading-[4.5rem] mt-5">
+                ready in minutes
+              </span>
             </div>
-          </section>
-        )}
+          )
+        }
+        description={
+          isDeploymentComplete
+            ? "Your virtual chain is ready — start building with Aurora Cloud stack."
+            : "Welcome to Aurora Cloud! Set up your virtual chain in just a few steps and let the automatic deployment handle the rest."
+        }
+        image={<HeroImage isSiloReady={!!silo} />}
+      >
+        <DeploymentProgressAuto
+          team={team}
+          silo={silo}
+          isDeploymentComplete={isDeploymentComplete}
+          setIsDeploymentComplete={setIsDeploymentComplete}
+          onboardingForm={onboardingForm}
+          siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
+          hasUnassignedSilo={hasUnassignedSilo}
+        />
+      </Hero>
 
-        {!silo && (isOnboardingFormSubmitted || team.onboarding_status) ? (
-          <DeploymentProgress
-            status={team.onboarding_status ?? "REQUEST_RECEIVED"}
-          />
-        ) : null}
+      <section className="flex flex-col pt-4 gap-14">
+        <WhatsNext team={team} />
 
         <div className="flex flex-col">
-          <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
+          <Typography variant="heading" size={3}>
             Get involved
-          </h2>
+          </Typography>
           <FeatureCTAList>
             <FeatureCTA
               title="Share your feedback"
@@ -106,8 +105,6 @@ export const DashboardHomePage = async ({
             />
           </FeatureCTAList>
         </div>
-
-        <WhatsNext team={team} />
       </section>
     </DashboardPage>
   )

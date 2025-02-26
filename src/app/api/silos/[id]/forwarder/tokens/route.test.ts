@@ -4,7 +4,7 @@
 import nock from "nock"
 import * as ethers from "ethers"
 import { symbol } from "zod"
-import { DELETE, GET, POST } from "./route"
+import { DELETE, GET, POST, PUT } from "./route"
 import { setupJestOpenApi } from "../../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../../test-utils/invoke-api-handler"
 import {
@@ -361,6 +361,187 @@ describe("Forwarder tokens route", () => {
 
       expect(res.status).toBe(400)
       expect(res.body).toEqual({ message: "Token contract not deployed: NEAR" })
+    })
+  })
+
+  describe.only("updateForwarderTokens", () => {
+    it("updates some tokens", async () => {
+      nock("https://forwarder.mainnet.aurora.dev")
+        .get("/api/v1/supported_tokens")
+        .query((query) => {
+          expect(query).toEqual({
+            target_network: mockSilo.engine_account,
+          })
+
+          return true
+        })
+        .reply(200, {
+          result: {
+            tokens: [
+              {
+                address: "near",
+                decimals: 24,
+                symbol: "NEAR",
+              },
+              {
+                address:
+                  "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
+                decimals: 18,
+                symbol: "AURORA",
+              },
+            ],
+          },
+        })
+        .post("/api/v1/supported_tokens/add", (body) => {
+          // We expect USDt to be added
+          expect(body).toEqual({
+            target_network: mockSilo.engine_account,
+            tokens: [
+              {
+                address: "usdt.tether-token.near",
+                decimals: 6,
+                symbol: "USDt",
+              },
+            ],
+          })
+
+          return true
+        })
+        .reply(200, {
+          result: {
+            message: "ok",
+          },
+        })
+        .post("/api/v1/supported_tokens/remove", (body) => {
+          // We expect AURORA to be removed
+          expect(body).toEqual({
+            target_network: mockSilo.engine_account,
+            token_addresses: [
+              "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
+            ],
+          })
+
+          return true
+        })
+        .reply(200, {
+          result: {
+            message: "ok",
+          },
+        })
+
+      const res = await invokeApiHandler(
+        "PUT",
+        "/api/silos/1/forwarder/tokens",
+        PUT,
+        {
+          body: {
+            tokens: ["NEAR", "USDt"],
+          },
+        },
+      )
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.status).toBe(200)
+    })
+
+    it("returns a 400 for an unknown token", async () => {
+      nock("https://forwarder.mainnet.aurora.dev")
+        .get("/api/v1/supported_tokens")
+        .query(true)
+        .reply(200, {
+          result: {
+            tokens: [],
+          },
+        })
+
+      const res = await invokeApiHandler(
+        "PUT",
+        "/api/silos/1/forwarder/tokens",
+        PUT,
+        {
+          body: {
+            tokens: ["NOGOOD"],
+          },
+        },
+      )
+
+      expect(res.status).toBe(400)
+      expect(res.body).toEqual({ message: "Unknown token: NOGOOD" })
+    })
+
+    it("returns a 400 when trying to add a token with no contract", async () => {
+      nock("https://forwarder.mainnet.aurora.dev")
+        .get("/api/v1/supported_tokens")
+        .query(true)
+        .reply(200, {
+          result: {
+            tokens: [],
+          },
+        })
+      ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+        symbol: () => {
+          throw new Error("Not implemented")
+        },
+      }))
+
+      const res = await invokeApiHandler(
+        "PUT",
+        "/api/silos/1/forwarder/tokens",
+        PUT,
+        {
+          body: {
+            tokens: ["NEAR"],
+          },
+        },
+      )
+
+      expect(res.status).toBe(400)
+      expect(res.body).toEqual({ message: "Token contract not deployed: NEAR" })
+    })
+
+    it("still removes a token with no contract", async () => {
+      nock("https://forwarder.mainnet.aurora.dev")
+        .get("/api/v1/supported_tokens")
+        .query(true)
+        .reply(200, {
+          result: {
+            tokens: [
+              {
+                address: "near",
+                decimals: 24,
+                symbol: "NEAR",
+              },
+            ],
+          },
+        })
+        .post("/api/v1/supported_tokens/remove", (body) => {
+          // We expect AURORA to be removed
+          expect(body).toEqual({
+            target_network: mockSilo.engine_account,
+            token_addresses: ["near"],
+          })
+
+          return true
+        })
+        .reply(200, {
+          result: {
+            message: "ok",
+          },
+        })
+
+      const res = await invokeApiHandler(
+        "PUT",
+        "/api/silos/1/forwarder/tokens",
+        PUT,
+        {
+          body: {
+            tokens: [],
+          },
+        },
+      )
+
+      expect(res).toSatisfyApiSpec()
+      expect(res.status).toBe(200)
     })
   })
 })

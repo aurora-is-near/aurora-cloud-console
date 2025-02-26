@@ -2,13 +2,20 @@ import { redirect } from "next/navigation"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { DashboardHomePage } from "@/app/dashboard/[teamKey]/(new)/Dashboard"
+import { getTeamOnboardingFormByKey } from "@/actions/onboarding/get-team-onboarding-form-by-key"
+import { getUnassignedSiloId } from "@/actions/silos/get-unassigned-silo-id"
 
 const Page = async ({
   params: { teamKey },
 }: {
   params: { teamKey: string }
 }) => {
-  const team = await getTeamByKey(teamKey)
+  const [team, onboardingForm, unassignedSiloId] = await Promise.all([
+    getTeamByKey(teamKey),
+    getTeamOnboardingFormByKey(teamKey),
+    getUnassignedSiloId(),
+  ])
+
   const [silo] = await getTeamSilos(team.id)
 
   if (silo) {
@@ -16,7 +23,13 @@ const Page = async ({
   }
 
   // If the team has no silos return the "empty" state
-  return <DashboardHomePage team={team} />
+  return (
+    <DashboardHomePage
+      team={team}
+      onboardingForm={onboardingForm}
+      hasUnassignedSilo={!!unassignedSiloId}
+    />
+  )
 }
 
 export default Page

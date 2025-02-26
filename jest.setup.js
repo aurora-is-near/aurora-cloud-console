@@ -18,6 +18,22 @@ jest.mock("next/headers", () => {
   }
 })
 
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    forward: jest.fn(),
+    prefetch: jest.fn(),
+    refresh: jest.fn(),
+    pathname: "/mock-path",
+    route: "/mock-path",
+    query: { key: "value" },
+    asPath: "/mock-path?key=value",
+    isFallback: false,
+  }),
+}))
+
 jest.mock("@supabase/supabase-js", () => ({
   createClient: jest.fn(() => mockSupabaseClient),
 }))

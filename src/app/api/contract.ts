@@ -32,7 +32,10 @@ export const DealSchema = z.object({
 export const RuleSchema = z.object({
   id: z.number(),
   dealId: z.number(),
-  resourceDefinition: z.object({}).nullable(),
+  chains: z.array(z.number()),
+  contracts: z.array(z.string()),
+  exceptChains: z.array(z.number()),
+  exceptContracts: z.array(z.string()),
   createdAt: z.string(),
   updatedAt: z.string(),
 })
@@ -66,7 +69,7 @@ export const SiloSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  chainId: z.string(),
+  chainId: z.number(),
   engineAccount: z.string(),
   engineVersion: z.string(),
   genesis: z.string(),
@@ -233,7 +236,10 @@ export const contract = c.router({
       200: RuleSchema,
     },
     body: z.object({
-      resourceDefinition: z.object({}).nullable(),
+      chains: z.array(z.number()).optional(),
+      contracts: z.array(z.string()).optional(),
+      exceptChains: z.array(z.number()).optional(),
+      exceptContracts: z.array(z.string()).optional(),
     }),
     metadata: {
       scopes: ["deals:write"],
@@ -250,7 +256,10 @@ export const contract = c.router({
       200: RuleSchema,
     },
     body: z.object({
-      resourceDefinition: z.object({}).nullable(),
+      chains: z.array(z.number()).nullable(),
+      contracts: z.array(z.string()).nullable(),
+      exceptChains: z.array(z.number()).nullable(),
+      exceptContracts: z.array(z.string()).nullable(),
     }),
     metadata: {
       scopes: ["deals:write"],
@@ -550,7 +559,7 @@ export const contract = c.router({
         .string()
         .optional()
         .openapi({
-          enum: ["now-2 h", "now-12h", "now-1h", "now-15m"],
+          enum: ["now-24h", "now-12h", "now-1h", "now-15m"],
         }),
     }),
   },
@@ -571,7 +580,7 @@ export const contract = c.router({
     },
   },
   getForwarderAddress: {
-    summary: "Get the forwarder contract address for given target address",
+    summary: "Get the forwarder address for given target address",
     method: "GET",
     path: "/api/silos/:id/forwarder/contract/:targetAddress",
     responses: {
@@ -588,7 +597,7 @@ export const contract = c.router({
     },
   },
   createForwarderAddress: {
-    summary: "Create a forwarder contract address for given target address",
+    summary: "Create a forwarder address for given target address",
     method: "POST",
     path: "/api/silos/:id/forwarder/contract",
     responses: {

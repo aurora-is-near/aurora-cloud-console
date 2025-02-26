@@ -22,18 +22,16 @@ const addressSchema = z.object({
 
 export const AddRuleContractModal = () => {
   const { closeModal, activeModal } = useModals()
-  const { resourceDefinition, addRuleContract, removeRuleContract } =
+  const { rule, addRuleContract, removeRuleContract } =
     useRequiredContext(RuleContext)
 
   const [newAddress, setNewAddress] = useState<string>("")
 
-  const [addresses, setAddresses] = useState<string[]>(
-    resourceDefinition?.contracts ?? [],
-  )
+  const [addresses, setAddresses] = useState<string[]>(rule.contracts ?? [])
 
   useEffect(() => {
-    setAddresses(resourceDefinition?.contracts ?? [])
-  }, [resourceDefinition])
+    setAddresses(rule.contracts ?? [])
+  }, [rule.contracts])
 
   const addAddress = async () => {
     const result = addressSchema.safeParse({ newAddress })

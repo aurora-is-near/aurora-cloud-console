@@ -14,7 +14,7 @@ import { Silo } from "@/types/types"
  * @see https://explorer.near.org/accounts/relayer.aurora
  */
 export const getRelayerAccount = (silo: Silo): string => {
-  if (["1313161554", "1313161555"].includes(silo.chain_id)) {
+  if ([1313161554, 1313161555].includes(silo.chain_id)) {
     return "relay.aurora"
   }
 

@@ -2,9 +2,9 @@ import Image from "next/image"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
-import { EmbedCodeCard } from "@/components/UniversalWidgetPage/EmbedCodeCard"
 import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
 import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
+import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
 import { UniversalWidgetAboutTab } from "./UniversalWidgetAboutTab"
 
 interface UniversalWidgetPageProps {
@@ -31,7 +31,13 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
       },
       {
         title: "Embed Code",
-        content: <EmbedCodeCard siloId={siloId} teamKey={teamKey} />,
+        content: (
+          <WidgetEmbedCodeCard
+            siloId={siloId}
+            teamKey={teamKey}
+            widgetName="universal"
+          />
+        ),
       },
     )
   }
@@ -39,16 +45,18 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
   return (
     <DashboardPage>
       <Hero
-        title="Universal Widget"
-        description="Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum."
-        titlePrefix={
-          <Image
-            width="48"
-            height="48"
-            src="/static/v2/images/icons/marketplace/universal-widget.svg"
-            alt="Universal Widget Logo"
-          />
+        title={
+          <>
+            <Image
+              width="48"
+              height="48"
+              src="/static/v2/images/icons/marketplace/universal-widget.svg"
+              alt="Universal Widget Logo"
+            />
+            Universal Widget
+          </>
         }
+        description="Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum."
         image={
           <Image
             width="400"
@@ -57,17 +65,16 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
             alt="Universal Widget Preview"
           />
         }
-        actions={
-          !!siloId && (
-            <UniversalWidgetOpenButton
-              siloId={siloId}
-              variant="border"
-              size="lg"
-              isExternal
-            />
-          )
-        }
-      />
+      >
+        {!!siloId && (
+          <UniversalWidgetOpenButton
+            siloId={siloId}
+            variant="border"
+            size="lg"
+            isExternal
+          />
+        )}
+      </Hero>
       <Tabs tabs={tabs} />
     </DashboardPage>
   )

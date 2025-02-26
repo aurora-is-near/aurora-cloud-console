@@ -5,7 +5,7 @@ const MUNZEN_BASE_URL = "https://widget.munzen.io/"
 
 describe("getMunzenWidgetUrl", () => {
   it("returns a URL with Aurora parameters", async () => {
-    const silo = createMockSilo({ chain_id: "1313161554" })
+    const silo = createMockSilo({ chain_id: 1313161554 })
     const urlResult = await getMunzenWidgetUrl(silo)
 
     const urlObject = new URL(urlResult)

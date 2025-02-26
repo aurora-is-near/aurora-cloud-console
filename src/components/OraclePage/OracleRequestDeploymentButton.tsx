@@ -1,32 +1,35 @@
 "use client"
 
-import { useMutation } from "@tanstack/react-query"
+import { useTransition } from "react"
+import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/Button"
+import { Silo, Team } from "@/types/types"
+import { requestOracleDeployment } from "@/actions/contact/request-oracle-deployment"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
-import { apiClient } from "@/utils/api/client"
 
 type OracleRequestDeploymentButtonProps = {
-  siloId: number
+  silo: Silo
+  team: Team
 }
 
 export const OracleRequestDeploymentButton = ({
-  siloId,
+  silo,
+  team,
 }: OracleRequestDeploymentButtonProps) => {
-  const getSiloOracleUpdater = useOptimisticUpdater("getSiloOracle")
   const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+  const getSiloOracleUpdater = useOptimisticUpdater("getSiloOracle")
 
-  const { mutate: createSiloOracle, isPending } = useMutation({
-    mutationFn: apiClient.createSiloOracle,
-    onSettled: () => {
-      getSiloOracleUpdater.invalidate()
-      router.push(window.location.pathname)
-    },
-  })
+  const onClick = () => {
+    if (silo) {
+      startTransition(async () => {
+        await requestOracleDeployment(team, silo)
+        getSiloOracleUpdater.invalidate()
 
-  const onClick = async () => {
-    if (siloId) {
-      createSiloOracle({ id: siloId })
+        toast.success("Oracle deployment requested")
+        router.refresh()
+      })
     }
   }
 

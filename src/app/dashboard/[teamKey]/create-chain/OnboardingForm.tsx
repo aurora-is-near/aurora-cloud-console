@@ -4,7 +4,10 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useState } from "react"
 import toast from "react-hot-toast"
-import { CheckBadgeIcon } from "@heroicons/react/20/solid"
+import {
+  CheckBadgeIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/20/solid"
 
 import {
   FormTokenNotFoundError,
@@ -15,7 +18,7 @@ import {
 import SelectableBox from "@/components/onboarding/SelectableBox"
 import { Button } from "@/components/Button"
 import Card from "@/components/Card"
-import { Team } from "@/types/types"
+import { OnboardingForm as OnboardingFormData, Team } from "@/types/types"
 import {
   ChainPermission,
   GasMechanics,
@@ -25,6 +28,7 @@ import { BaseContainer } from "@/components/BaseContainer"
 import { logger } from "@/logger"
 import { Typography } from "@/uikit"
 
+import { AUTOMATED_BASE_TOKENS } from "@/constants/base-token"
 import Step from "./Step"
 import ChainPermissionBox from "./ChainPermissionBox"
 import GasMechanicsBox from "./GasMechanicsBox"
@@ -37,9 +41,10 @@ import IconNearIntenseSquare from "../../../../../public/static/icons/near-inten
 
 type OnboardingFormProps = {
   team: Team
+  data: OnboardingFormData | null
 }
 
-const OnboardingForm = ({ team }: OnboardingFormProps) => {
+const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
@@ -50,16 +55,20 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
     handleIntegrationToggle,
     handleDeselectAllIntegrations,
     handleSubmit,
-  } = useChainCreationForm(team, "mainnet")
+  } = useChainCreationForm({
+    team,
+    initialData: data,
+    networkTypeSelected: "mainnet",
+  })
 
   const handleChainPermissionSelect = (permission: ChainPermission) => {
     updateForm("chainPermission", permission)
   }
 
   const handleBaseTokenSelect = (token: TokenOption) => {
-    updateForm("baseToken", token.id)
+    updateForm("baseToken", token.symbol)
 
-    if (token.id !== "custom") {
+    if (token.symbol !== "CUSTOM") {
       updateForm("customTokenDetails", "")
     }
   }
@@ -87,14 +96,14 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
   return (
     <div className="overflow-x-hidden overflow-y-auto">
       <section className="flex justify-center px-6 py-16 bg-white w-full border-b border-slate-200 md:px-16">
-        <div className="flex flex-col justify-center items-center gap-8 w-full max-w-[1044px] md:px-5">
+        <div className="flex flex-col justify-center items-center gap-8 w-full max-w-[1044px] sm:px-5 md:px-0">
           <div className="flex flex-col justify-center items-center gap-3">
             <Typography variant="heading" size={5} className="text-center">
               Set up your Aurora Chain
             </Typography>
             <Typography
               variant="paragraph"
-              size={2}
+              size={1}
               className="text-center text-slate-500"
             >
               Get a production ready Aurora Chain with all the functionalities
@@ -158,24 +167,24 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
             description="The base token of your chain will be used to pay for transaction fees on your chain. It supports any ERC-20 or NEP-141 token, including your own custom token."
             hasError={!!fieldErrors?.baseToken}
           >
-            <div className="grid sm:grid-cols-3 md:grid-cols-6 gap-4">
+            <div className="grid gap-4 grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">
               {tokenOptions.map((token) => (
                 <SelectableBox
-                  key={token.id}
-                  selected={form.baseToken === token.id}
+                  key={token.symbol}
+                  selected={form.baseToken === token.symbol}
                   onClick={() => handleBaseTokenSelect(token)}
                   className="p-2 pt-3"
                 >
                   <div className="flex flex-col items-center space-y-2 w-full">
                     <token.icon className="w-10 h-10" />
-                    <span className="uppercase text-base font-bold leading-5 tracking-[1px]">
+                    <span className="text-base font-bold leading-5 tracking-[1px]">
                       {token.name}
                     </span>
                   </div>
                 </SelectableBox>
               ))}
             </div>
-            {form.baseToken === "custom" ? (
+            {form.baseToken === "CUSTOM" && (
               <Card className="p-6 mt-6">
                 <Typography variant="label" size={2}>
                   Custom base token
@@ -214,7 +223,27 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
                   className="w-full mt-3 p-2 border rounded"
                 />
               </Card>
-            ) : null}
+            )}
+
+            {form.baseToken &&
+              !AUTOMATED_BASE_TOKENS.includes(form.baseToken) && (
+                <div className="flex flex-col gap-2 p-6 mt-6 bg-slate-100 rounded-lg border border-slate-300">
+                  <div className="flex flex-row items-start justify-start gap-2">
+                    <ExclamationCircleIcon className="w-6 h-6" />
+                    <Typography variant="label" size={2}>
+                      This base token will require a longer deployment time
+                    </Typography>
+                  </div>
+                  <Typography
+                    variant="paragraph"
+                    size={4}
+                    className="text-slate-500"
+                  >
+                    We would need to get in touch with you before starting the
+                    deployment of your chain.
+                  </Typography>
+                </div>
+              )}
           </Step>
           <Step
             number={3}
@@ -277,51 +306,94 @@ const OnboardingForm = ({ team }: OnboardingFormProps) => {
           >
             <div className="grid grid-cols-1 space-y-4">
               <Card className="p-6">
-                <label
-                  htmlFor="chainName"
-                  className="block font-medium text-md"
-                >
-                  Your chain name*
-                </label>
-                <p className="text-sm text-slate-500">
-                  Choose the name for your chain on the Aurora Cloud platform.
-                </p>
-                <input
-                  type="text"
-                  id="chainName"
-                  value={form.chainName}
-                  onChange={(e) => {
-                    clearErrors()
-                    updateForm("chainName", e.target.value)
-                  }}
-                  className={clsx(
-                    "w-full mt-2 p-2 border rounded",
-                    fieldErrors?.chainName
-                      ? "border-rose-300 bg-rose-50"
-                      : "border-slate-300",
-                  )}
-                />
-                {!!fieldErrors?.chainName && (
-                  <p className="mt-2 text-sm text-rose-600">
-                    {fieldErrors.chainName}
-                  </p>
-                )}
-              </Card>
-              <Card className="p-6">
-                <label htmlFor="comments" className="block font-medium text-md">
-                  Tell us more about your needs
-                </label>
-                <p className="text-sm text-slate-500">
-                  Provide any relevant information related to your request that
-                  will help us better support us.
-                </p>
-                <textarea
-                  id="comments"
-                  value={form.comments}
-                  onChange={(e) => updateForm("comments", e.target.value)}
-                  className="w-full mt-2 p-2 border border-slate-300 rounded"
-                  rows={4}
-                />
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="chainName"
+                      className="block font-medium text-md"
+                    >
+                      Your chain name*
+                    </label>
+                    <p className="text-sm text-slate-500">
+                      Choose the name for your chain on the Aurora Cloud
+                      platform.
+                    </p>
+                    <input
+                      type="text"
+                      id="chainName"
+                      value={form.chainName}
+                      onChange={(e) => {
+                        clearErrors()
+                        updateForm("chainName", e.target.value)
+                      }}
+                      className={clsx(
+                        "w-full mt-2 p-2 border rounded",
+                        fieldErrors?.chainName
+                          ? "border-rose-300 bg-rose-50"
+                          : "border-slate-300",
+                      )}
+                    />
+                    {!!fieldErrors?.chainName && (
+                      <p className="mt-2 text-sm text-rose-600">
+                        {fieldErrors.chainName}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="telegramHandle"
+                      className="block font-medium text-md"
+                    >
+                      Your Telegram @handle
+                    </label>
+                    <p className="text-sm text-slate-500">
+                      You will be contacted by{" "}
+                      <strong>@Aurora_TG_Manager</strong> to provide chain
+                      updates and address any questions you may have.
+                    </p>
+                    <input
+                      type="text"
+                      id="telegramHandle"
+                      value={form.telegramHandle}
+                      onChange={(e) => {
+                        clearErrors()
+                        updateForm("telegramHandle", e.target.value)
+                      }}
+                      className={clsx(
+                        "w-full mt-2 p-2 border rounded",
+                        fieldErrors?.telegramHandle
+                          ? "border-rose-300 bg-rose-50"
+                          : "border-slate-300",
+                      )}
+                    />
+                    {!!fieldErrors?.telegramHandle && (
+                      <p className="mt-2 text-sm text-rose-600">
+                        {fieldErrors.telegramHandle}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="comments"
+                      className="block font-medium text-md"
+                    >
+                      Tell us more about your needs
+                    </label>
+                    <p className="text-sm text-slate-500">
+                      Provide any relevant information related to your request
+                      that will help us better support us.
+                    </p>
+                    <textarea
+                      id="comments"
+                      value={form.comments}
+                      onChange={(e) => updateForm("comments", e.target.value)}
+                      className="w-full mt-2 p-2 border border-slate-300 rounded"
+                      rows={4}
+                    />
+                  </div>
+                </div>
               </Card>
             </div>
           </Step>
