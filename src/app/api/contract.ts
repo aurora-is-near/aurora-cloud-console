@@ -5,6 +5,7 @@ import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 import { WIDGET_NETWORKS } from "@/constants/bridge"
 import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
 import { SILO_ASSETS } from "@/constants/assets"
+import { FORWARDER_TOKENS } from "@/constants/forwarder-tokens"
 
 extendZodWithOpenApi(z)
 
@@ -145,6 +146,8 @@ export const ChartDataSchema = z.object({
 const TransactionDataIntervalQueryParamSchema = z.string().optional().openapi({
   enum: CHART_DATE_OPTION_VALUES,
 })
+
+const ForwarderToken = z.string().openapi({ enum: [...FORWARDER_TOKENS] })
 
 export const contract = c.router({
   getDeals: {
@@ -579,14 +582,15 @@ export const contract = c.router({
   getForwarderAddress: {
     summary: "Get the forwarder address for given target address",
     method: "GET",
-    path: "/api/forwarder/:address",
+    path: "/api/silos/:id/forwarder/contract/:targetAddress",
     responses: {
       200: z.object({
         forwarderAddress: z.string(),
       }),
     },
     pathParams: z.object({
-      address: z.string(),
+      id: z.number(),
+      targetAddress: z.string(),
     }),
     metadata: {
       scopes: ["forwarder:read"],
@@ -595,14 +599,97 @@ export const contract = c.router({
   createForwarderAddress: {
     summary: "Create a forwarder address for given target address",
     method: "POST",
-    path: "/api/forwarder",
+    path: "/api/silos/:id/forwarder/contract",
     responses: {
       200: z.object({
         forwarderAddress: z.string().nullable(),
       }),
     },
+    pathParams: z.object({
+      id: z.number(),
+    }),
     body: z.object({
-      address: z.string(),
+      targetAddress: z.string(),
+    }),
+    metadata: {
+      scopes: ["forwarder:write"],
+    },
+  },
+  getForwarderTokens: {
+    summary: "Get the tokens supported by the forwarder",
+    method: "GET",
+    path: "/api/silos/:id/forwarder/tokens",
+    responses: {
+      200: z.object({
+        items: z.array(
+          z.object({
+            symbol: ForwarderToken,
+            decimals: z.number(),
+            contractDeployed: z.boolean(),
+            enabled: z.boolean(),
+          }),
+        ),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["forwarder:read"],
+    },
+  },
+  addForwarderTokens: {
+    summary: "Add forwarder support for the given token(s)",
+    method: "POST",
+    path: "/api/silos/:id/forwarder/tokens",
+    responses: {
+      200: z.object({
+        status: z.string(),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    body: z.object({
+      tokens: z.array(ForwarderToken),
+    }),
+    metadata: {
+      scopes: ["forwarder:write"],
+    },
+  },
+  removeForwarderTokens: {
+    summary: "Remove forwarder support for the given token(s)",
+    method: "DELETE",
+    path: "/api/silos/:id/forwarder/tokens",
+    responses: {
+      200: z.object({
+        status: z.string(),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    body: z.object({
+      tokens: z.array(ForwarderToken),
+    }),
+    metadata: {
+      scopes: ["forwarder:write"],
+    },
+  },
+  updateForwarderTokens: {
+    summary: "Update forwarder support for the given token(s)",
+    method: "PUT",
+    path: "/api/silos/:id/forwarder/tokens",
+    responses: {
+      200: z.object({
+        status: z.string(),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    body: z.object({
+      tokens: z.array(ForwarderToken),
     }),
     metadata: {
       scopes: ["forwarder:write"],
