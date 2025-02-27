@@ -2,7 +2,7 @@ import { Silo } from "@/types/types"
 
 export const getForwarderWidgetUrl = (silo: Silo) => {
   const widgetUrl = new URL(
-    "https://aurora-plus-git-forwarder-widget-auroraisnear.vercel.app/forwarder",
+    "https://aurora-plus-git-forwarder-widget-auroraisnear.vercel.app/forwarder-widget",
   )
 
   widgetUrl.searchParams.append("customSiloName", silo.name)

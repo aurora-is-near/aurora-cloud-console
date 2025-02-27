@@ -136,11 +136,7 @@ const Page = async ({
       />
 
       <div>
-        <Contact
-          text="Need help configuring your chain?"
-          teamKey={teamKey}
-          className="!mt-12"
-        />
+        <Contact text="Need help configuring your chain?" className="!mt-12" />
       </div>
     </DashboardPage>
   )
