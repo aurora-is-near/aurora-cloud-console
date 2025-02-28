@@ -17,11 +17,11 @@ type Props = {
   silo: Silo
 }
 
-export const decimalsToFloat = (value: number, decimals: number) => {
+export const decimalsToFloat = (value: number, decimals: number = 18) => {
   return value / 10 ** decimals
 }
 
-export const floatToDecimals = (value: number, decimals: number) => {
+export const floatToDecimals = (value: number, decimals: number = 18) => {
   return value * 10 ** decimals
 }
 
@@ -86,9 +86,7 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
           silo={silo}
           formId={formId}
           onSubmitted={({ gasPrice }) => {
-            setGasPriceDisplayed(
-              floatToDecimals(gasPrice, silo.base_token_decimals),
-            )
+            setGasPriceDisplayed(gasPrice)
             closeModal()
           }}
         />

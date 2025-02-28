@@ -11,7 +11,10 @@ import { logger } from "@/logger"
 import { HorizontalInput } from "@/components/HorizontalInput"
 import { updateSiloGasPrice } from "@/actions/silos/update-silo-gas-price"
 import type { Silo } from "@/types/types"
-import { decimalsToFloat } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/GasAbstractionMechanics"
+import {
+  decimalsToFloat,
+  floatToDecimals,
+} from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/GasAbstractionMechanics"
 
 type FormData = {
   gasPrice: number
@@ -30,7 +33,9 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
 
   const saveGasPrice: SubmitHandler<FormData> = async (values: FormData) => {
     try {
-      await updateSiloGasPrice(silo.id, { gas_price: values.gasPrice })
+      await updateSiloGasPrice(silo.id, {
+        gas_price: floatToDecimals(values.gasPrice, silo.base_token_decimals),
+      })
       toast.success("Gas price updated successfully.")
     } catch (e: unknown) {
       logger.error(e)
