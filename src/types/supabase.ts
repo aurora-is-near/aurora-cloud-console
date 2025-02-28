@@ -682,9 +682,40 @@ export type Database = {
           },
         ]
       }
+      silo_relayers: {
+        Row: {
+          account_id: string
+          id: number
+          inserted_at: string
+          replenish_amount: number
+          replenish_threshold: number
+          type: Database["public"]["Enums"]["account_type"]
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          id?: number
+          inserted_at?: string
+          replenish_amount: number
+          replenish_threshold: number
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          id?: number
+          inserted_at?: string
+          replenish_amount?: number
+          replenish_threshold?: number
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       silos: {
         Row: {
           applied_deal_ids: number[]
+          base_token_decimals: number
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id: number | null
@@ -714,6 +745,7 @@ export type Database = {
         }
         Insert: {
           applied_deal_ids: number[]
+          base_token_decimals?: number
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id?: number | null
@@ -743,6 +775,7 @@ export type Database = {
         }
         Update: {
           applied_deal_ids?: number[]
+          base_token_decimals?: number
           base_token_name?: string
           base_token_symbol?: string
           blockscout_database_id?: number | null
@@ -1095,6 +1128,7 @@ export type Database = {
       }
     }
     Enums: {
+      account_type: "contract" | "wallet"
       api_key_scopes:
         | "deals:read"
         | "deals:write"

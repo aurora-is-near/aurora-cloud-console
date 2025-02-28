@@ -17,13 +17,21 @@ type Props = {
   silo: Silo
 }
 
-const CAN_EDIT_GAS_PRICE = false
+export const decimalsToFloat = (value: number, decimals: number) => {
+  return value / 10 ** decimals
+}
+
+export const floatToDecimals = (value: number, decimals: number) => {
+  return value * 10 ** decimals
+}
 
 export const GasAbstractionMechanics = ({ silo }: Props) => {
   const formId = useId()
 
   const [gasPriceDisplayed, setGasPriceDisplayed] = useState(
-    silo.gas_price ?? 0,
+    silo.gas_price
+      ? decimalsToFloat(silo.gas_price, silo.base_token_decimals)
+      : 0,
   )
 
   const { closeModal, openModal, activeModal } = useModals()
@@ -63,13 +71,11 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
               <Typography variant="paragraph" size={4}>
                 {`${gasPriceDisplayed} ${silo.base_token_symbol} per gas`}
               </Typography>
-              {CAN_EDIT_GAS_PRICE && (
-                <Btn.Iconed
-                  icon={PencilSquareIcon}
-                  label="Edit gas price"
-                  onClick={() => openModal(Modals.EditGasPrice)}
-                />
-              )}
+              <Btn.Iconed
+                icon={PencilSquareIcon}
+                label="Edit gas price"
+                onClick={() => openModal(Modals.EditGasPrice)}
+              />
             </div>
           </InfoList.Item>
         </InfoList>
@@ -80,7 +86,9 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
           silo={silo}
           formId={formId}
           onSubmitted={({ gasPrice }) => {
-            setGasPriceDisplayed(gasPrice)
+            setGasPriceDisplayed(
+              floatToDecimals(gasPrice, silo.base_token_decimals),
+            )
             closeModal()
           }}
         />

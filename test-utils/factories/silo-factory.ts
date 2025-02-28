@@ -7,6 +7,7 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   updated_at: "2021-01-01T00:00:00Z",
   base_token_name: "Test Token",
   base_token_symbol: "ETH",
+  base_token_decimals: 18,
   chain_id: 1313161555,
   engine_account: "testnet.aurora-silo-dev.near",
   explorer_url: "https://explorer.testnet.aurora.dev",

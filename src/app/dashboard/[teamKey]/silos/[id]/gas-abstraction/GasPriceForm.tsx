@@ -11,6 +11,7 @@ import { logger } from "@/logger"
 import { HorizontalInput } from "@/components/HorizontalInput"
 import { updateSiloGasPrice } from "@/actions/silos/update-silo-gas-price"
 import type { Silo } from "@/types/types"
+import { decimalsToFloat } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/GasAbstractionMechanics"
 
 type FormData = {
   gasPrice: number
@@ -49,7 +50,9 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
     reValidateMode: "onSubmit",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      gasPrice: silo.gas_price ?? 0,
+      gasPrice: silo.gas_price
+        ? decimalsToFloat(silo.gas_price, silo.base_token_decimals)
+        : 0,
     },
   })
 
@@ -73,7 +76,9 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
         errors={{ gasPrice: errors.gasPrice }}
         register={register}
         registerOptions={{
-          value: silo.gas_price ?? 0,
+          value: silo.gas_price
+            ? decimalsToFloat(silo.gas_price, silo.base_token_decimals)
+            : 0,
         }}
       />
     </form>
