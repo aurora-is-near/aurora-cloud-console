@@ -11,10 +11,7 @@ import { logger } from "@/logger"
 import { HorizontalInput } from "@/components/HorizontalInput"
 import { updateSiloGasPrice } from "@/actions/silos/update-silo-gas-price"
 import type { Silo } from "@/types/types"
-import {
-  decimalsToFloat,
-  floatToDecimals,
-} from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/GasAbstractionMechanics"
+import { decimalsToFloat, floatToDecimals } from "@/utils/decimals"
 
 type FormData = {
   gasPrice: number

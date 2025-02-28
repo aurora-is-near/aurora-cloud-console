@@ -10,19 +10,11 @@ import { useModals } from "@/hooks/useModals"
 import { Button } from "@/components/Button"
 import { Button as Btn, Card, InfoList, Typography } from "@/uikit"
 import type { Silo } from "@/types/types"
-
+import { decimalsToFloat } from "@/utils/decimals"
 import { GasPriceForm } from "./GasPriceForm"
 
 type Props = {
   silo: Silo
-}
-
-export const decimalsToFloat = (value: number, decimals: number = 18) => {
-  return value / 10 ** decimals
-}
-
-export const floatToDecimals = (value: number, decimals: number = 18) => {
-  return value * 10 ** decimals
 }
 
 export const GasAbstractionMechanics = ({ silo }: Props) => {
