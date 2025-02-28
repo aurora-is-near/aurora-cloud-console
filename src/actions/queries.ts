@@ -6,6 +6,7 @@ import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { getUnassignedSiloId } from "@/actions/silos/get-unassigned-silo-id"
 import { isAdminUser } from "@/utils/admin"
+import { queryKeys } from "@/actions/query-keys"
 
 /**
  * A set of queries to be used with `useSuspenseQuery` or `useSuspenseQueries`.
@@ -16,35 +17,35 @@ import { isAdminUser } from "@/utils/admin"
  */
 export const queries = {
   getTeamByKey: (teamKey: string) => ({
-    queryKey: ["team", teamKey],
+    queryKey: queryKeys.getTeamByKey(teamKey),
     queryFn: () => getTeamByKey(teamKey),
   }),
   getTeamSiloByKey: (teamKey: string, siloId: number) => ({
-    queryKey: ["team-silo", teamKey, siloId],
+    queryKey: queryKeys.getTeamSiloByKey(teamKey, siloId),
     queryFn: () => getTeamSiloByKey(teamKey, siloId),
   }),
   getTeamSilosByKey: (teamKey: string) => ({
-    queryKey: ["team-silos", teamKey],
+    queryKey: queryKeys.getTeamSilosByKey(teamKey),
     queryFn: () => getTeamSilosByKey(teamKey),
   }),
   getSiloConfigTransactions: (siloId: number) => ({
-    queryKey: ["silo-config-tx", siloId],
+    queryKey: queryKeys.getSiloConfigTransactions(siloId),
     queryFn: () => getSiloConfigTransactions(siloId),
   }),
   getTeamOnboardingFormByKey: (teamKey: string) => ({
-    queryKey: ["team-onboarding-form", teamKey],
+    queryKey: queryKeys.getTeamOnboardingFormByKey(teamKey),
     queryFn: () => getTeamOnboardingFormByKey(teamKey),
   }),
   getTeamDealsByKey: (teamKey: string) => ({
-    queryKey: ["team-deals", teamKey],
+    queryKey: queryKeys.getTeamDealsByKey(teamKey),
     queryFn: () => getTeamDealsByKey(teamKey),
   }),
   isAdminUser: () => ({
-    queryKey: ["is-admin"],
+    queryKey: queryKeys.isAdminUser(),
     queryFn: () => isAdminUser(),
   }),
   getUnassignedSiloId: () => ({
-    queryKey: ["unassigned-silo-id"],
+    queryKey: queryKeys.getUnassignedSiloId(),
     queryFn: () => getUnassignedSiloId(),
   }),
 } as const
