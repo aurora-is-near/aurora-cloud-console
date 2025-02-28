@@ -24,7 +24,7 @@ const Page = ({
 
   return (
     <Suspense fallback={<Spinner size="lg" />}>
-      <ConfigurationPage teamKey={teamKey} silo={silo} />
+      <ConfigurationPage silo={silo} />
     </Suspense>
   )
 }

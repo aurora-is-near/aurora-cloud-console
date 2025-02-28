@@ -9,14 +9,10 @@ import {
 } from "./ConfigurationItemsCard"
 
 type ConfigurationPageProps = {
-  teamKey: string
   silo: Silo
 }
 
-export const ConfigurationPage = ({
-  teamKey,
-  silo,
-}: ConfigurationPageProps) => {
+export const ConfigurationPage = ({ silo }: ConfigurationPageProps) => {
   const relayerAccount = getRelayerAccount(silo)
 
   const items: ConfigurationItemsCardProps["items"] = [
@@ -133,11 +129,7 @@ export const ConfigurationPage = ({
       />
 
       <div>
-        <Contact
-          text="Need help configuring your chain?"
-          teamKey={teamKey}
-          className="!mt-12"
-        />
+        <Contact text="Need help configuring your chain?" className="!mt-12" />
       </div>
     </DashboardPage>
   )
