@@ -140,9 +140,7 @@ export const getWidgetUrl = ({
       token.bridge_deployment_status === "DEPLOYED",
   )
 
-  const url = new URL(
-    "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud",
-  )
+  const url = new URL("https://aurora.plus/cloud")
 
   if (widget.to_networks?.length) {
     url.searchParams.set(

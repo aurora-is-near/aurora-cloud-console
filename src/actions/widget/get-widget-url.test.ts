@@ -38,9 +38,7 @@ describe("getWidgetUrl", () => {
       }),
     )
 
-    expect(url.href).toBe(
-      "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud",
-    )
+    expect(url.href).toBe("https://aurora.plus/cloud")
   })
 
   it("returns a URL with from and to networks", () => {
