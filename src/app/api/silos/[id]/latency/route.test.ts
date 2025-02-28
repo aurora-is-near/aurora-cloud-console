@@ -10,6 +10,7 @@ import {
 import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
+import { cleanUpNock } from "../../../../../../test-utils/cleanUpNock"
 
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -23,6 +24,8 @@ describe("Silo latency", () => {
       .from("silos")
       .select.mockImplementation(() => createSelect())
   })
+
+  afterAll(cleanUpNock)
 
   describe("POST", () => {
     it("returns a 404 for a non-existant silo", async () => {

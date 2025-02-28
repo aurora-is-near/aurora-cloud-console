@@ -1,9 +1,11 @@
 import Image from "next/image"
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Silo, Team } from "@/types/types"
 import { ForwarderWidgetOpenButton } from "@/components/ForwarderOpenButton"
+import { LinkButton } from "@/components/LinkButton"
 import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
 import { ForwarderAboutTab } from "./ForwarderAboutTab"
 import ForwarderConfigurationTab from "./ForwarderConfigurationTab"
@@ -67,14 +69,22 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
           />
         }
       >
-        {silo && (
-          <ForwarderWidgetOpenButton
-            silo={silo}
-            variant="border"
-            size="lg"
-            isExternal
-          />
-        )}
+        <div className="flex flex-row gap-4">
+          {silo && (
+            <ForwarderWidgetOpenButton
+              silo={silo}
+              variant="border"
+              size="lg"
+              isExternal
+            />
+          )}
+          <LinkButton variant="border" href="/api" size="lg" isExternal>
+            <div className="flex flex-row items-center gap-1">
+              View API
+              <ArrowTopRightOnSquareIcon className="ml-2.5 w-6 h-6" />
+            </div>
+          </LinkButton>
+        </div>
       </Hero>
 
       <Tabs tabs={tabs} />

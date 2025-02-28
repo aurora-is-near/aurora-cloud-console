@@ -68,7 +68,7 @@ const GasMechanicsBox: React.FC<GasMechanicsBoxProps> = ({
         </div>
         <Typography
           variant="heading"
-          size={1}
+          size={3}
           className={disabled ? "text-slate-500" : "text-slate-900"}
         >
           {TITLES[mechanic]}

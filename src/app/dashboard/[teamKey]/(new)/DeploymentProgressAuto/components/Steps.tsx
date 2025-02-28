@@ -15,7 +15,7 @@ type Props = {
 }
 
 export const Steps = ({ steps, allSteps }: Props) => (
-  <ListProgress testID="deployment-steps">
+  <ListProgress className="mt-3" testID="deployment-steps">
     {steps.map(({ name, state }) => (
       <ListProgress.Item
         key={name}

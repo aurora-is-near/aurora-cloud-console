@@ -1,9 +1,7 @@
 import { Silo } from "@/types/types"
 
 export const getForwarderWidgetUrl = (silo: Silo) => {
-  const widgetUrl = new URL(
-    "https://aurora-plus-git-forwarder-widget-auroraisnear.vercel.app/forwarder",
-  )
+  const widgetUrl = new URL("https://aurora.plus/forwarder-widget")
 
   widgetUrl.searchParams.append("customSiloName", silo.name)
   widgetUrl.searchParams.append("customSiloId", silo.engine_account)

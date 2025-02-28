@@ -47,6 +47,7 @@ export const getButtonClassName = (
       "hover:border-slate-600": variant === "border" && !isDisabled,
       "hover:bg-rose-600": variant === "destructive" && !isDisabled,
       "w-full": isFullWidth,
+      "w-fit": !isFullWidth && !isSquare,
     },
     className,
   )

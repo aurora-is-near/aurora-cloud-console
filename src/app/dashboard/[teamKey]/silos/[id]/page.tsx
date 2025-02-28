@@ -3,7 +3,6 @@
 import { useSuspenseQueries } from "@tanstack/react-query"
 import { queries } from "@/actions/queries"
 import { DashboardHomePage } from "@/app/dashboard/[teamKey]/(new)/Dashboard"
-import { useFeatureFlags } from "@/hooks/useFeatureFlags"
 
 const Page = ({
   params: { id, teamKey },
@@ -27,8 +26,6 @@ const Page = ({
     ],
   })
 
-  const { flags } = useFeatureFlags()
-
   return (
     <DashboardHomePage
       team={team}
@@ -36,7 +33,6 @@ const Page = ({
       silos={silos}
       siloConfigTransactions={siloConfigTransactions}
       onboardingForm={onboardingForm}
-      isAutomated={!!flags.automate_silo_configuration}
     />
   )
 }

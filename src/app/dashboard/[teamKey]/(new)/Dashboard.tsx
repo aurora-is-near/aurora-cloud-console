@@ -4,6 +4,7 @@ import { CheckIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
 
 import { redirect } from "next/navigation"
+import { Typography } from "@/uikit"
 import Hero from "@/components/Hero/Hero"
 import {
   OnboardingForm,
@@ -14,7 +15,6 @@ import {
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { DashboardPage } from "@/components/DashboardPage"
-import { DeploymentProgressManual } from "./DeploymentProgressManual"
 import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
 import { HeroImage } from "./HeroImage"
@@ -25,7 +25,6 @@ type DashboardHomePageProps = {
   siloConfigTransactions?: SiloConfigTransaction[]
   silos: Silo[]
   onboardingForm: OnboardingForm | null
-  isAutomated: boolean
   hasUnassignedSilo?: boolean
 }
 
@@ -35,7 +34,6 @@ export const DashboardHomePage = ({
   silos,
   siloConfigTransactions,
   onboardingForm,
-  isAutomated,
   hasUnassignedSilo,
 }: DashboardHomePageProps) => {
   const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
@@ -68,7 +66,7 @@ export const DashboardHomePage = ({
             <div>
               Your virtual chain,
               <br />
-              <span className="text-4xl text-slate-600 tracking-tight leading-[4.5rem] mt-5">
+              <span className="block text-4xl text-slate-600 tracking-tight">
                 ready in minutes
               </span>
             </div>
@@ -81,32 +79,24 @@ export const DashboardHomePage = ({
         }
         image={<HeroImage isSiloReady={!!silo} />}
       >
-        {isAutomated && (
-          <DeploymentProgressAuto
-            team={team}
-            silo={silo}
-            isDeploymentComplete={isDeploymentComplete}
-            setIsDeploymentComplete={setIsDeploymentComplete}
-            onboardingForm={onboardingForm}
-            siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
-            hasUnassignedSilo={hasUnassignedSilo}
-          />
-        )}
+        <DeploymentProgressAuto
+          team={team}
+          silo={silo}
+          isDeploymentComplete={isDeploymentComplete}
+          setIsDeploymentComplete={setIsDeploymentComplete}
+          onboardingForm={onboardingForm}
+          siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
+          hasUnassignedSilo={hasUnassignedSilo}
+        />
       </Hero>
 
       <section className="flex flex-col pt-4 gap-14">
-        {!isAutomated && (
-          <DeploymentProgressManual
-            status={team.onboarding_status ?? "REQUEST_RECEIVED"}
-          />
-        )}
-
         <WhatsNext team={team} />
 
-        <div className="flex flex-col">
-          <h2 className="text-xl text-slate-900 font-bold tracking-tighter leading-6 mb-6">
+        <div className="flex flex-col gap-5">
+          <Typography variant="heading" size={3}>
             Get involved
-          </h2>
+          </Typography>
           <FeatureCTAList>
             <FeatureCTA
               title="Share your feedback"
