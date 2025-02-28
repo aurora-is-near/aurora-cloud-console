@@ -1116,7 +1116,7 @@ export type Database = {
         | "USDC"
         | "USDT"
         | "CUSTOM"
-        | "NEAR"
+        | "WNEAR"
       chain_permission: "public" | "public_permissioned" | "private"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
