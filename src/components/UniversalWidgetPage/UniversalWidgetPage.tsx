@@ -5,6 +5,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/UniversalWidgetConfigurationTab"
 import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
 import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
+import { WidgetShareCard } from "@/components/WidgetShareCard"
 import { UniversalWidgetAboutTab } from "./UniversalWidgetAboutTab"
 
 interface UniversalWidgetPageProps {
@@ -33,6 +34,16 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
         title: "Embed Code",
         content: (
           <WidgetEmbedCodeCard
+            siloId={siloId}
+            teamKey={teamKey}
+            widgetName="universal"
+          />
+        ),
+      },
+      {
+        title: "Shareable URL",
+        content: (
+          <WidgetShareCard
             siloId={siloId}
             teamKey={teamKey}
             widgetName="universal"
