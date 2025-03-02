@@ -14,7 +14,7 @@ export const WidgetEmbedCodeCard = ({
   widgetName,
 }: WidgetEmbedCodeCardProps) => {
   return (
-    <TabCard className="space-y-2">
+    <TabCard>
       <p className="text-sm">
         Copy and paste the following code into your website, immediately after
         the opening <pre className="font-mono inline-block">&lt;body&gt;</pre>{" "}
