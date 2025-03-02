@@ -815,9 +815,6 @@ export type Database = {
           created_at: string
           id: number
           name: string
-          onboarding_status:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions: number
           team_key: string
           updated_at: string
@@ -826,9 +823,6 @@ export type Database = {
           created_at?: string
           id?: number
           name: string
-          onboarding_status?:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions?: number
           team_key: string
           updated_at?: string
@@ -837,9 +831,6 @@ export type Database = {
           created_at?: string
           id?: number
           name?: string
-          onboarding_status?:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions?: number
           team_key?: string
           updated_at?: string
@@ -1134,10 +1125,6 @@ export type Database = {
         | "no_payment_required"
       silo_config_transaction_operation: "SET_BASE_TOKEN"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
-      team_onboarding_status:
-        | "REQUEST_RECEIVED"
-        | "DEPLOYMENT_IN_PROGRESS"
-        | "DEPLOYMENT_DONE"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:
         | "onramp"

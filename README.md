@@ -240,13 +240,3 @@ Trigger events with the CLI:
 ```text
 stripe trigger checkout.session.completed
 ```
-
-## Emails
-
-Certain emails are sent to users from [Postmark](https://postmarkapp.com/), such
-as those received when a new chain is paid for. To make the HTML email templates
-easier to develop they can be previewed by visiting:
-
-- <http://localhost:3000/emails/requestReceived>
-- <http://localhost:3000/emails/deploymentInProgress>
-- <http://localhost:3000/emails/deploymentDone>

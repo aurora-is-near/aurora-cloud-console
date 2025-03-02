@@ -10,11 +10,8 @@ import { assertValidSupabaseResult } from "@/utils/supabase"
 import { sendSlackMessage } from "@/utils/send-slack-notification"
 import { getTeam } from "@/actions/teams/get-team"
 import { Team } from "@/types/types"
-import { sendEmail } from "@/utils/email"
-import { getRequestReceivedEmail } from "@/email-templates/get-request-received-email"
 import { getStripeConfig } from "@/utils/stripe"
 import { trackEvent } from "@/components/Mixpanel/ServerTracker"
-import { getTeamMembers } from "@/actions/team-members/get-team-members"
 
 type WebhookResponse = {
   fulfilled: boolean
@@ -59,24 +56,6 @@ const sendSlackNotification = async (
         },
       },
     ],
-  })
-}
-
-const sendEmails = async (
-  session: Stripe.Checkout.Session,
-  team?: Team | null,
-) => {
-  const teamMembers = team ? await getTeamMembers(team.team_key) : []
-  const teamEmails = teamMembers.map((member) => member.email)
-  const emailAddresses = [
-    session.customer_details?.email,
-    ...teamEmails,
-  ].filter((email): email is string => !!email)
-
-  await sendEmail({
-    To: emailAddresses.join(),
-    Subject: "Your request was received",
-    HtmlBody: getRequestReceivedEmail(),
   })
 }
 
@@ -142,7 +121,6 @@ const fulfillOrder = async <T extends ProductType>(
     supabase
       .from("teams")
       .update({
-        onboarding_status: "REQUEST_RECEIVED",
         prepaid_transactions:
           team.prepaid_transactions +
           (productMetadata.number_of_transactions ?? 0),
@@ -151,7 +129,6 @@ const fulfillOrder = async <T extends ProductType>(
       .select()
       .single(),
     sendSlackNotification(session, teamId, team),
-    sendEmails(session, team),
     trackEvent("payment_received"),
   ])
 
