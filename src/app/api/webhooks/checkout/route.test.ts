@@ -214,7 +214,6 @@ describe("Checkout webhook route", () => {
 
     expect(mockSupabaseClient.from("teams").update).toHaveBeenCalledTimes(1)
     expect(mockSupabaseClient.from("teams").update).toHaveBeenCalledWith({
-      onboarding_status: "REQUEST_RECEIVED",
       prepaid_transactions: 1042,
     })
 

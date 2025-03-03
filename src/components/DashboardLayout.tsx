@@ -81,9 +81,7 @@ export const DashboardLayout = async ({
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
-      {showWelcomeBanner && team && !team?.onboarding_status && !silo && (
-        <TopPageBanner team={team} />
-      )}
+      {showWelcomeBanner && team && !silo && <TopPageBanner team={team} />}
       <MainMenu menuItems={mainMenuItems} />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
         {!!sidebarMenu?.sections.length && (

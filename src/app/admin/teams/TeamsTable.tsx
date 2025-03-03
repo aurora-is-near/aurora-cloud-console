@@ -1,7 +1,6 @@
 "use client"
 
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/20/solid"
-import { sentenceCase } from "change-case"
 import { useMemo, useState } from "react"
 import { Button } from "@headlessui/react"
 import {
@@ -60,7 +59,6 @@ const TeamsTable = ({ teams, onboardingForms }: Props) => {
         </Table.TH>
         <Table.TH>ID</Table.TH>
         <Table.TH>Name</Table.TH>
-        <Table.TH>Status</Table.TH>
         <Table.TH hidden>Actions</Table.TH>
         {filteredTeams.map((team) => {
           const onboardingForm = onboardingForms.find(
@@ -85,11 +83,6 @@ const TeamsTable = ({ teams, onboardingForms }: Props) => {
               </Table.TD>
               <Table.TD>{team.id}</Table.TD>
               <Table.TD>{team.name}</Table.TD>
-              <Table.TD>
-                {team.onboarding_status
-                  ? sentenceCase(team.onboarding_status)
-                  : "-"}
-              </Table.TD>
               <Table.TD align="right">
                 <div className="flex gap-x-3">
                   <TableButton
