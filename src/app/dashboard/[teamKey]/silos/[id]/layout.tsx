@@ -1,11 +1,10 @@
 import { ReactNode } from "react"
 import { notFound } from "next/navigation"
 import { isAdmin } from "@/actions/is-admin"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
 import { SiloSelect } from "@/components/SiloSelect"
-import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
+import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
 
 const Layout = async ({
   children,
@@ -14,13 +13,12 @@ const Layout = async ({
   children: ReactNode
   params: { id: string; teamKey: string }
 }) => {
-  const [isAdminUser, team, deals] = await Promise.all([
+  const [isAdminUser, silos, deals] = await Promise.all([
     isAdmin(),
-    getTeamByKey(teamKey),
+    getTeamSilosByKey(teamKey),
     getTeamDealsByKey(teamKey),
   ])
 
-  const silos = await getTeamSilos(team.id)
   const silo = silos.find((siloPredicate) => siloPredicate.id === Number(id))
 
   // Protect against unauthorized access to another team's silo
@@ -30,7 +28,7 @@ const Layout = async ({
 
   return (
     <MainDashboardLayout
-      team={team}
+      teamKey={teamKey}
       silo={silo}
       deals={deals}
       showAdminMenu={isAdminUser}
