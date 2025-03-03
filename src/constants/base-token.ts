@@ -5,21 +5,24 @@ export const BASE_TOKENS: Record<
   {
     name: string
     nearAccountId: string
-    decimals?: number
+    decimals: number
   } | null
 > = {
   AURORA: {
     name: "Aurora",
     nearAccountId:
       "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
+    decimals: 18,
   },
   ETH: {
     name: "Ethereum",
     nearAccountId: "aurora",
+    decimals: 18,
   },
   WNEAR: {
     name: "Near",
     nearAccountId: "near",
+    decimals: 18,
   },
   USDC: null,
   USDT: null,
