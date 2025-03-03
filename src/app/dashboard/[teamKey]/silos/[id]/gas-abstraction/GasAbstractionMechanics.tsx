@@ -21,9 +21,7 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
   const formId = useId()
 
   const [gasPriceDisplayed, setGasPriceDisplayed] = useState(
-    silo.gas_price
-      ? decimalsToFloat(silo.gas_price, silo.base_token_decimals)
-      : 0,
+    decimalsToFloat(silo.gas_price, silo.base_token_decimals),
   )
 
   const { closeModal, openModal, activeModal } = useModals()
