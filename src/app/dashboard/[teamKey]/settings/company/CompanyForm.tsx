@@ -33,12 +33,9 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
     formState: { isSubmitting },
   } = useForm<Inputs>()
 
-  const handleUpdateTeam: SubmitHandler<Inputs> = async ({
-    name = "",
-    onboarding_status = null,
-  }) => {
+  const handleUpdateTeam: SubmitHandler<Inputs> = async ({ name = "" }) => {
     try {
-      await updateTeam(team.id, { name, onboarding_status })
+      await updateTeam(team.id, { name })
       toast.success("Company information updated.")
       toggleForm()
       router.refresh()
