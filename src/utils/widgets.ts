@@ -29,9 +29,14 @@ export const getWidgetUrl = (
   teamKey: string,
   siloId: number,
   widgetName: WidgetName,
+  {
+    isShareableUrl = false,
+  }: {
+    isShareableUrl?: boolean
+  } = {},
 ) => {
   return new URL(
-    `/dashboard/${teamKey}/silos/${siloId}/widgets/${widgetName}.js`,
+    `/dashboard/${teamKey}/silos/${siloId}/widgets/${widgetName}${isShareableUrl ? "" : ".js"}`,
     getOrigin(),
   ).href
 }
