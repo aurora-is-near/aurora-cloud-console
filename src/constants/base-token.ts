@@ -1,12 +1,11 @@
 import { BaseTokenSymbol } from "@/types/types"
 
-export const BASE_TOKEN_DECIMALS = 18
-
 export const BASE_TOKENS: Record<
   BaseTokenSymbol,
   {
     name: string
     nearAccountId: string
+    decimals?: number
   } | null
 > = {
   AURORA: {

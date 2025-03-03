@@ -7,7 +7,6 @@ import {
 } from "@/types/api-schemas"
 import { AuroraOracle } from "@/types/oracle"
 import { Deal, Rule, Silo, Token } from "@/types/types"
-import { BASE_TOKEN_DECIMALS } from "@/constants/base-token"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
@@ -86,7 +85,7 @@ export const adaptSilo = (silo: Silo): SiloSchema => ({
   nativeToken: {
     name: silo.base_token_name,
     symbol: silo.base_token_symbol,
-    decimals: BASE_TOKEN_DECIMALS,
+    decimals: silo.base_token_decimals,
   },
 })
 
