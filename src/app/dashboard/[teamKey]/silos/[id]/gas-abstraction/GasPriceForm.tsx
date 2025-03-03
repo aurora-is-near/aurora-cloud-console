@@ -52,9 +52,7 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
     reValidateMode: "onSubmit",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      gasPrice: silo.gas_price
-        ? decimalsToFloat(silo.gas_price, silo.base_token_decimals)
-        : 0,
+      gasPrice: decimalsToFloat(silo.gas_price, silo.base_token_decimals),
     },
   })
 
@@ -78,9 +76,7 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
         errors={{ gasPrice: errors.gasPrice }}
         register={register}
         registerOptions={{
-          value: silo.gas_price
-            ? decimalsToFloat(silo.gas_price, silo.base_token_decimals)
-            : 0,
+          value: decimalsToFloat(silo.gas_price, silo.base_token_decimals),
         }}
       />
     </form>
