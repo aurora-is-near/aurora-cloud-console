@@ -20,7 +20,7 @@ export const isTeamWidgetUrl = (teamKey: string, url: string | URL) => {
     return false
   }
 
-  return new RegExp(`^/dashboard/${teamKey}/silos/\\d+/widgets/.*js$`).test(
+  return new RegExp(`^/dashboard/${teamKey}/silos/\\d+/widgets/.*`).test(
     pathname,
   )
 }
