@@ -1,7 +1,6 @@
 import { ReactNode } from "react"
 
 import { isAdmin } from "@/actions/is-admin"
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
 
 const Layout = async ({
@@ -12,10 +11,9 @@ const Layout = async ({
   params: { teamKey: string }
 }) => {
   const isAdminUser = await isAdmin()
-  const team = await getTeamByKey(teamKey)
 
   return (
-    <MainDashboardLayout team={team} showAdminMenu={isAdminUser}>
+    <MainDashboardLayout teamKey={teamKey} showAdminMenu={isAdminUser}>
       {children}
     </MainDashboardLayout>
   )
