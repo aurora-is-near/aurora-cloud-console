@@ -41,6 +41,7 @@ describe("assignSiloToTeam", () => {
       name: "Test Chain",
       base_token_name: "Aurora",
       base_token_symbol: "AURORA",
+      base_token_decimals: 18,
     })
 
     expect(onboardingFormSelectQueries.eq).toHaveBeenCalledTimes(1)

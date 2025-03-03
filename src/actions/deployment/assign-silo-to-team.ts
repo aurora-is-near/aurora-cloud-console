@@ -47,6 +47,7 @@ export const assignSiloToTeam = async (
   if (baseTokenConfig) {
     siloUpdateData.base_token_name = baseTokenConfig.name
     siloUpdateData.base_token_symbol = baseToken
+    siloUpdateData.base_token_decimals = baseTokenConfig.decimals
   }
 
   const updateSiloResult = await supabase

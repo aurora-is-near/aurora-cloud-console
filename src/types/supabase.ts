@@ -285,7 +285,7 @@ export type Database = {
           telegramHandle: string | null
         }
         Insert: {
-          baseToken?: Database["public"]["Enums"]["base_token_symbol"]
+          baseToken: Database["public"]["Enums"]["base_token_symbol"]
           chainName?: string | null
           chainPermission?:
             | Database["public"]["Enums"]["chain_permission"]
@@ -682,9 +682,40 @@ export type Database = {
           },
         ]
       }
+      silo_relayers: {
+        Row: {
+          account_id: string
+          id: number
+          inserted_at: string
+          replenish_amount: number
+          replenish_threshold: number
+          type: Database["public"]["Enums"]["account_type"]
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          id?: number
+          inserted_at?: string
+          replenish_amount: number
+          replenish_threshold: number
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          id?: number
+          inserted_at?: string
+          replenish_amount?: number
+          replenish_threshold?: number
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       silos: {
         Row: {
           applied_deal_ids: number[]
+          base_token_decimals: number
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id: number | null
@@ -696,7 +727,7 @@ export type Database = {
           explorer_url: string | null
           favicon: string
           gas_collection_address: string | null
-          gas_price: number | null
+          gas_price: number
           genesis: string
           grafana_network_key: string | null
           id: number
@@ -711,9 +742,12 @@ export type Database = {
           silo_to_silo_bridge_address: string | null
           type: string
           updated_at: string
+          white_list_deploy_contract: string[]
+          whitelist_create_txs: string[] | null
         }
         Insert: {
           applied_deal_ids: number[]
+          base_token_decimals?: number
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id?: number | null
@@ -725,7 +759,7 @@ export type Database = {
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: number | null
+          gas_price?: number
           genesis: string
           grafana_network_key?: string | null
           id?: number
@@ -740,9 +774,12 @@ export type Database = {
           silo_to_silo_bridge_address?: string | null
           type?: string
           updated_at?: string
+          white_list_deploy_contract?: string[]
+          whitelist_create_txs?: string[] | null
         }
         Update: {
           applied_deal_ids?: number[]
+          base_token_decimals?: number
           base_token_name?: string
           base_token_symbol?: string
           blockscout_database_id?: number | null
@@ -754,7 +791,7 @@ export type Database = {
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: number | null
+          gas_price?: number
           genesis?: string
           grafana_network_key?: string | null
           id?: number
@@ -769,6 +806,8 @@ export type Database = {
           silo_to_silo_bridge_address?: string | null
           type?: string
           updated_at?: string
+          white_list_deploy_contract?: string[]
+          whitelist_create_txs?: string[] | null
         }
         Relationships: [
           {
@@ -1086,6 +1125,7 @@ export type Database = {
       }
     }
     Enums: {
+      account_type: "contract" | "wallet"
       api_key_scopes:
         | "deals:read"
         | "deals:write"
@@ -1106,8 +1146,8 @@ export type Database = {
         | "ETH"
         | "USDC"
         | "USDT"
-        | "CUSTOM"
         | "WNEAR"
+        | "CUSTOM"
       chain_permission: "public" | "public_permissioned" | "private"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"

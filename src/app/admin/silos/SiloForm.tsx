@@ -189,6 +189,12 @@ export const SiloForm = ({
       required: true,
     },
     {
+      name: "base_token_decimals",
+      label: "Base token decimals",
+      defaultValue: silo?.base_token_decimals,
+      required: true,
+    },
+    {
       name: "silos_teams",
       label: "Teams",
       isMulti: true,

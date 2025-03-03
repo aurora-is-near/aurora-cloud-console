@@ -11,6 +11,7 @@ import { logger } from "@/logger"
 import { HorizontalInput } from "@/components/HorizontalInput"
 import { updateSiloGasPrice } from "@/actions/silos/update-silo-gas-price"
 import type { Silo } from "@/types/types"
+import { decimalsToFloat, floatToDecimals } from "@/utils/decimals"
 
 type FormData = {
   gasPrice: number
@@ -29,7 +30,9 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
 
   const saveGasPrice: SubmitHandler<FormData> = async (values: FormData) => {
     try {
-      await updateSiloGasPrice(silo.id, { gas_price: values.gasPrice })
+      await updateSiloGasPrice(silo.id, {
+        gas_price: floatToDecimals(values.gasPrice, silo.base_token_decimals),
+      })
       toast.success("Gas price updated successfully.")
     } catch (e: unknown) {
       logger.error(e)
@@ -49,7 +52,7 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
     reValidateMode: "onSubmit",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      gasPrice: silo.gas_price ?? 0,
+      gasPrice: decimalsToFloat(silo.gas_price, silo.base_token_decimals),
     },
   })
 
@@ -73,7 +76,7 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
         errors={{ gasPrice: errors.gasPrice }}
         register={register}
         registerOptions={{
-          value: silo.gas_price ?? 0,
+          value: decimalsToFloat(silo.gas_price, silo.base_token_decimals),
         }}
       />
     </form>
