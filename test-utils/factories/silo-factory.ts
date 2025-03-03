@@ -18,7 +18,7 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   network: "public",
   grafana_network_key: "testnet",
   gas_collection_address: null,
-  gas_price: null,
+  gas_price: 0,
   network_logo: "https://example.com/network_logo.png",
   network_logo_dark: "https://example.com/network_logo_dark.png",
   favicon: "https://example.com/favicon.png",
@@ -29,6 +29,8 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   is_active: true,
   applied_deal_ids: [],
   deleted_at: null,
+  white_list_deploy_contract: [],
+  whitelist_create_txs: [],
   ...data,
 })
 
