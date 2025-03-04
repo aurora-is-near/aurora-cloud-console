@@ -64,7 +64,7 @@ export const DashboardHomePage = ({
             ? "Your virtual chain is ready — start building with Aurora Cloud stack."
             : "Welcome to Aurora Cloud! Set up your virtual chain in just a few steps and let the automatic deployment handle the rest."
         }
-        image={<HeroImage isSiloReady={!!silo} />}
+        image={<HeroImage isDeploymentComplete={isDeploymentComplete} />}
       >
         <DeploymentProgressAuto
           team={team}
