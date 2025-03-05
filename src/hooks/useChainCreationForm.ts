@@ -35,7 +35,7 @@ export const integrationOptions: Integration[] = [
 
 export const tokenOptions: TokenOption[] = [
   { symbol: "AURORA", name: "Aurora", icon: AuroraToken },
-  { symbol: "NEAR", name: "NEAR", icon: NearToken },
+  { symbol: "WNEAR", name: "NEAR", icon: NearToken },
   { symbol: "ETH", name: "ETH", icon: EtherToken },
   { symbol: "USDT", name: "USDT", icon: USDTToken },
   { symbol: "USDC", name: "USDC", icon: USDCToken },

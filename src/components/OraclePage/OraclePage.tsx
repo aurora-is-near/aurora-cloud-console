@@ -33,9 +33,7 @@ const OraclePage = ({ team, silo, oracle, tokens }: OraclePageProps) => {
       },
       {
         title: "Deployment",
-        content: (
-          <OracleDeploymentTab teamKey={team.team_key} oracle={oracle} />
-        ),
+        content: <OracleDeploymentTab oracle={oracle} />,
       },
     )
   }

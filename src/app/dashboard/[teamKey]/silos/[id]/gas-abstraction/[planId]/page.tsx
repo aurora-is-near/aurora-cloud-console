@@ -51,7 +51,7 @@ const Page = async ({
         <ContractsCard silo={silo} />
       </RuleProvider>
       <RulesCard deal={deal} />
-      <Contact teamKey={teamKey} />
+      <Contact />
     </DealUpdatePage>
   )
 }

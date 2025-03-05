@@ -1,22 +1,25 @@
 import { redirect } from "next/navigation"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { getTeamSilos } from "@/actions/team-silos/get-team-silos"
 import { DashboardHomePage } from "@/app/dashboard/[teamKey]/(new)/Dashboard"
 import { getTeamOnboardingFormByKey } from "@/actions/onboarding/get-team-onboarding-form-by-key"
 import { getUnassignedSiloId } from "@/actions/silos/get-unassigned-silo-id"
+import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
 
 const Page = async ({
   params: { teamKey },
 }: {
   params: { teamKey: string }
 }) => {
-  const [team, onboardingForm, unassignedSiloId] = await Promise.all([
-    getTeamByKey(teamKey),
-    getTeamOnboardingFormByKey(teamKey),
-    getUnassignedSiloId(),
-  ])
+  const [team, teamSilos, onboardingForm, unassignedSiloId] = await Promise.all(
+    [
+      getTeamByKey(teamKey),
+      getTeamSilosByKey(teamKey),
+      getTeamOnboardingFormByKey(teamKey),
+      getUnassignedSiloId(),
+    ],
+  )
 
-  const [silo] = await getTeamSilos(team.id)
+  const [silo] = teamSilos
 
   if (silo) {
     redirect(`/dashboard/${teamKey}/silos/${silo.id}`)

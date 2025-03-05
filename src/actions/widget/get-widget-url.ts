@@ -1,4 +1,3 @@
-import { BASE_TOKEN_DECIMALS } from "@/constants/base-token"
 import { Silo, Token, Widget, WidgetNetworkType } from "@/types/types"
 
 type CustomChain = {
@@ -105,7 +104,7 @@ const setCustomChainsParam = (url: URL, { silo }: { silo: Silo }) => {
     name: silo.name,
     network: silo.name,
     nativeCurrency: {
-      decimals: BASE_TOKEN_DECIMALS,
+      decimals: silo.base_token_decimals,
       name: silo.base_token_name,
       symbol: silo.base_token_symbol,
     },
@@ -140,9 +139,7 @@ export const getWidgetUrl = ({
       token.bridge_deployment_status === "DEPLOYED",
   )
 
-  const url = new URL(
-    "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud",
-  )
+  const url = new URL("https://aurora.plus/cloud")
 
   if (widget.to_networks?.length) {
     url.searchParams.set(

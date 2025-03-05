@@ -20,7 +20,7 @@ export const isTeamWidgetUrl = (teamKey: string, url: string | URL) => {
     return false
   }
 
-  return new RegExp(`^/dashboard/${teamKey}/silos/\\d+/widgets/.*js$`).test(
+  return new RegExp(`^/dashboard/${teamKey}/silos/\\d+/widgets/.*`).test(
     pathname,
   )
 }
@@ -29,9 +29,14 @@ export const getWidgetUrl = (
   teamKey: string,
   siloId: number,
   widgetName: WidgetName,
+  {
+    isShareableUrl = false,
+  }: {
+    isShareableUrl?: boolean
+  } = {},
 ) => {
   return new URL(
-    `/dashboard/${teamKey}/silos/${siloId}/widgets/${widgetName}.js`,
+    `/dashboard/${teamKey}/silos/${siloId}/widgets/${widgetName}${isShareableUrl ? "" : ".js"}`,
     getOrigin(),
   ).href
 }

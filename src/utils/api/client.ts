@@ -145,6 +145,16 @@ export const apiClient = {
       `/api/silos/${id}/permissions`,
       data,
     ),
+
+  getForwarderTokens: async ({ id }: ApiRequestParams<"getForwarderTokens">) =>
+    get<"getForwarderTokens">(`/api/silos/${id}/forwarder/tokens`),
+
+  updateForwarderTokens: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"updateForwarderTokens"> &
+    ApiRequestBody<"updateForwarderTokens">) =>
+    put<"updateForwarderTokens">(`/api/silos/${id}/forwarder/tokens`, data),
 }
 
 export type ApiClient = typeof apiClient

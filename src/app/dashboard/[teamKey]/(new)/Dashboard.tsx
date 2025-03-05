@@ -53,7 +53,7 @@ export const DashboardHomePage = ({
             <div>
               Your virtual chain,
               <br />
-              <span className="text-4xl text-slate-600 tracking-tight leading-[4.5rem] mt-5">
+              <span className="block text-4xl text-slate-600 tracking-tight">
                 ready in minutes
               </span>
             </div>
@@ -80,7 +80,7 @@ export const DashboardHomePage = ({
       <section className="flex flex-col pt-4 gap-14">
         <WhatsNext team={team} />
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-5">
           <Typography variant="heading" size={3}>
             Get involved
           </Typography>
