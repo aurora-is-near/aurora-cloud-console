@@ -1,6 +1,6 @@
 import { UniversalWidgetPage } from "@/components/UniversalWidgetPage/UniversalWidgetPage"
 
-const Page = async ({
+const Page = ({
   params: { teamKey, id },
 }: {
   params: { teamKey: string; id: string }
