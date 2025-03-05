@@ -6,6 +6,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/solid"
 import { Button } from "@/uikit"
 import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
+import { useFeatureFlags } from "@/hooks/useFeatureFlags"
 import type {
   Silo,
   SiloWhitelistAddress,
@@ -45,6 +46,9 @@ export const EditPermissions = ({ silo, whitelists }: Props) => {
     null,
   )
 
+  const { flags } = useFeatureFlags()
+  const isWhitelistsEditingEnabled = flags.silo_whitelist_permissions
+
   const displayTxsWhitelistLabel = useDisplayValue(
     silo,
     "MAKE_TRANSACTION",
@@ -74,32 +78,34 @@ export const EditPermissions = ({ silo, whitelists }: Props) => {
             description: displayTxsWhitelistLabel,
             tooltip:
               "This whitelist contains the list of addresses allowed to interact with your chain.",
-            Action: () => (
-              <Button.Iconed
-                label="Edit"
-                icon={PencilSquareIcon}
-                onClick={() => {
-                  setCurrentModal("MAKE_TRANSACTION")
-                  openModal(Modals.EditSiloAddressPermissions)
-                }}
-              />
-            ),
+            Action: () =>
+              isWhitelistsEditingEnabled && (
+                <Button.Iconed
+                  label="Edit"
+                  icon={PencilSquareIcon}
+                  onClick={() => {
+                    setCurrentModal("MAKE_TRANSACTION")
+                    openModal(Modals.EditSiloAddressPermissions)
+                  }}
+                />
+              ),
           },
           {
             term: "Deploy contracts",
             description: displayDeployWhitelistLabel,
             tooltip:
               "This whitelist contains the list of addresses allowed to deploy contracts on your chain.",
-            Action: () => (
-              <Button.Iconed
-                label="Edit"
-                icon={PencilSquareIcon}
-                onClick={() => {
-                  setCurrentModal("DEPLOY_CONTRACT")
-                  openModal(Modals.EditSiloAddressPermissions)
-                }}
-              />
-            ),
+            Action: () =>
+              isWhitelistsEditingEnabled && (
+                <Button.Iconed
+                  label="Edit"
+                  icon={PencilSquareIcon}
+                  onClick={() => {
+                    setCurrentModal("DEPLOY_CONTRACT")
+                    openModal(Modals.EditSiloAddressPermissions)
+                  }}
+                />
+              ),
           },
         ]}
       />

@@ -15,9 +15,9 @@ import { abort } from "../../../../../utils/abort"
 
 import {
   toggleSiloPermissionUpdateMap,
-  whitelistKindToggleOperationMap,
-  whitelistKindPopulateOperationMap,
   whitelistKindActionMap,
+  whitelistKindPopulateOperationMap,
+  whitelistKindToggleOperationMap,
 } from "./maps"
 
 import { checkPendingTransaction, isTransactionExpired } from "./utils"
@@ -41,6 +41,7 @@ const getBodyParamsOrAbort = <P extends Record<string, unknown>>(
 ) => {
   params.forEach((param) => {
     const typedParam = param as string
+
     if (!ctx.body[typedParam]) {
       abort(
         400,
@@ -242,6 +243,7 @@ export const POST = createApiEndpoint(
         await updateSiloWhitelistAddress(whitelistedAddress.address, {
           is_applied: true,
         })
+
         return {
           action,
           address,

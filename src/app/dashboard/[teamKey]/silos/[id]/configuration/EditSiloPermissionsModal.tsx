@@ -73,7 +73,6 @@ const EditSiloPermissionsModalContent = ({
     silo,
     whitelistType,
     onSuccess: () => {},
-    // onSuccess: (address) => setAddresses((p) => [...p, address]),
     addresses: [
       {
         id: 1,
@@ -102,13 +101,13 @@ const EditSiloPermissionsModalContent = ({
         <RadioGroup.Item
           name="public"
           label="Allow everyone"
-          isLoading={isToggleWhitelistPending && !isPublic}
+          isLoading={isToggleWhitelistPending && isPublic}
           tooltip={copies[whitelistType].allowRadioTooltip}
         />
         <RadioGroup.Item
           name="restricted"
           label="Only selected users"
-          isLoading={isToggleWhitelistPending && isPublic}
+          isLoading={isToggleWhitelistPending && !isPublic}
           tooltip={copies[whitelistType].restrictedRadioTooltip}
         />
       </RadioGroup>
@@ -165,7 +164,6 @@ const EditSiloPermissionsModalContent = ({
                     </span>
                     <Button
                       variant="border"
-                      // onClick={() => onRemoveAddress(addrItem)}
                       className="text-gray-400 hover:text-gray-500"
                     >
                       <TrashIcon className="w-5 h-5" />
