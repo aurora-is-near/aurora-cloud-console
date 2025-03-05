@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { PencilSquareIcon } from "@heroicons/react/24/solid"
 
 import { Button } from "@/uikit"
@@ -41,7 +41,9 @@ const useDisplayValue = (
 
 export const EditPermissions = ({ silo, whitelists }: Props) => {
   const { openModal } = useModals()
-  const [modalOpen, setModalOpen] = useState<SiloWhitelistType | null>(null)
+  const [currentModal, setCurrentModal] = useState<SiloWhitelistType | null>(
+    null,
+  )
 
   const displayTxsWhitelistLabel = useDisplayValue(
     silo,
@@ -55,21 +57,13 @@ export const EditPermissions = ({ silo, whitelists }: Props) => {
     whitelists.DEPLOY_CONTRACT,
   )
 
-  useEffect(() => {
-    if (modalOpen) {
-      openModal(Modals.EditSiloAddressPermissions)
-    }
-  }, [modalOpen, openModal])
-
   return (
     <>
-      {modalOpen ? (
-        <EditSiloPermissionsModal
-          silo={silo}
-          whitelistType={modalOpen}
-          addresses={modalOpen ? whitelists[modalOpen] : []}
-        />
-      ) : null}
+      <EditSiloPermissionsModal
+        silo={silo}
+        whitelistType={currentModal}
+        addresses={currentModal ? whitelists[currentModal] : []}
+      />
 
       <ConfigurationItemsCard
         title="Permissions"
@@ -84,7 +78,10 @@ export const EditPermissions = ({ silo, whitelists }: Props) => {
               <Button.Iconed
                 label="Edit"
                 icon={PencilSquareIcon}
-                onClick={() => setModalOpen("MAKE_TRANSACTION")}
+                onClick={() => {
+                  setCurrentModal("MAKE_TRANSACTION")
+                  openModal(Modals.EditSiloAddressPermissions)
+                }}
               />
             ),
           },
@@ -97,7 +94,10 @@ export const EditPermissions = ({ silo, whitelists }: Props) => {
               <Button.Iconed
                 label="Edit"
                 icon={PencilSquareIcon}
-                onClick={() => setModalOpen("DEPLOY_CONTRACT")}
+                onClick={() => {
+                  setCurrentModal("DEPLOY_CONTRACT")
+                  openModal(Modals.EditSiloAddressPermissions)
+                }}
               />
             ),
           },
