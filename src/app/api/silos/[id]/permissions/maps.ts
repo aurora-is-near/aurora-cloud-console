@@ -19,22 +19,6 @@ export const whitelistKindToggleOperationMap: Record<
   DEPLOY_CONTRACT: "TOGGLE_DEPLOY_CONTRACT_WHITELIST",
 }
 
-export const whitelistKindPopulateOperationMap: Record<
-  SiloWhitelistType,
-  SiloConfigTransactionOperation
-> = {
-  MAKE_TRANSACTION: "POPULATE_MAKE_TXS_WHITELIST",
-  DEPLOY_CONTRACT: "POPULATE_DEPLOY_CONTRACT_WHITELIST",
-}
-
-// export const whitelistKindPurgeOperationMap: Record<
-//   SiloWhitelistType,
-//   SiloConfigTransactionOperation
-// > = {
-//   MAKE_TRANSACTION: "PURGE_MAKE_TXS_WHITELIST",
-//   DEPLOY_CONTRACT: "PURGE_DEPLOY_CONTRACT_WHITELIST",
-// }
-
 export const toggleSiloPermissionUpdateMap: Record<
   SiloWhitelistType,
   (isEnabled: boolean) => Partial<Silo>

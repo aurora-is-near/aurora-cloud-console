@@ -32,15 +32,6 @@ const put = async <T extends ApiOperation>(
     body: JSON.stringify(data),
   })
 
-const del = async <T extends ApiOperation>(
-  url: string,
-  data: ApiRequestBody<T>,
-) =>
-  request<ApiResponseBody<T>>(url, {
-    method: "DELETE",
-    body: JSON.stringify(data),
-  })
-
 export const apiClient = {
   getSilo: async ({ id }: ApiRequestParams<"getSilo">) =>
     get<"getSilo">(`/api/silos/${id}`),

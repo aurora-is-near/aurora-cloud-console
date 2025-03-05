@@ -11,9 +11,8 @@ import { abort } from "../../../../../utils/abort"
 
 import {
   toggleSiloPermissionUpdateMap,
-  whitelistKindToggleOperationMap,
-  whitelistKindPopulateOperationMap,
   whitelistKindActionMap,
+  whitelistKindToggleOperationMap,
 } from "./maps"
 
 import { checkPendingTransaction, isTransactionExpired } from "./utils"
@@ -37,6 +36,7 @@ const getBodyParamsOrAbort = <P extends Record<string, unknown>>(
 ) => {
   params.forEach((param) => {
     const typedParam = param as string
+
     if (ctx.body[typedParam] === undefined) {
       abort(
         400,

@@ -1174,10 +1174,6 @@ export type Database = {
         | "SET_BASE_TOKEN"
         | "TOGGLE_MAKE_TXS_WHITELIST"
         | "TOGGLE_DEPLOY_CONTRACT_WHITELIST"
-        | "POPULATE_MAKE_TXS_WHITELIST"
-        | "POPULATE_DEPLOY_CONTRACT_WHITELIST"
-        | "PURGE_MAKE_TXS_WHITELIST"
-        | "PURGE_DEPLOY_CONTRACT_WHITELIST"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:
