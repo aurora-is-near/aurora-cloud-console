@@ -1,33 +1,21 @@
 import { PlusIcon } from "@heroicons/react/24/outline"
 import { redirect } from "next/navigation"
-import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { isAdmin } from "@/actions/is-admin"
 import { NotAllowed } from "@/components/NotAllowed"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { DashboardPage } from "@/components/DashboardPage"
 import { FullScreenPage } from "@/components/FullScreenPage"
 import { LinkButton } from "@/components/LinkButton"
-import { getUserTeamKeys } from "@/utils/team"
 import { getTeamSummaries } from "@/actions/teams/get-team-summaries"
-import { getSilosTeams } from "@/actions/silos/get-silos-teams"
-import AdminTeamList from "@/components/admin-team-list"
+import { TeamsList } from "@/app/dashboard/TeamsList"
 
 const Page = async () => {
-  const [currentUser, teamSummaries, silosTeams, isAdminUser] =
-    await Promise.all([
-      getCurrentUser(),
-      getTeamSummaries(),
-      getSilosTeams(),
-      isAdmin(),
-    ])
+  const [teamSummaries, isAdminUser] = await Promise.all([
+    getTeamSummaries(),
+    isAdmin(),
+  ])
 
-  const teamKeys = await getUserTeamKeys(currentUser.id)
-
-  const currentUserTeams = teamSummaries.filter(
-    (team) => teamKeys.includes(team.team_key) || isAdminUser,
-  )
-
-  if (!currentUserTeams.length) {
+  if (!teamSummaries.length) {
     return (
       <FullScreenPage>
         <NotAllowed
@@ -39,8 +27,8 @@ const Page = async () => {
     )
   }
 
-  if (currentUserTeams.length === 1 && !isAdminUser) {
-    return redirect(`/dashboard/${currentUserTeams[0].team_key}`)
+  if (teamSummaries.length === 1) {
+    return redirect(`/dashboard/${teamSummaries[0].team_key}`)
   }
 
   return (
@@ -58,7 +46,7 @@ const Page = async () => {
           )
         }
       >
-        <AdminTeamList teamSummaries={teamSummaries} silosTeams={silosTeams} />
+        <TeamsList teamSummaries={teamSummaries} />
       </DashboardPage>
     </DashboardLayout>
   )
