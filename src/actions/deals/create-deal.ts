@@ -13,7 +13,7 @@ export const createDeal = async ({
   siloId,
 }: {
   deal: Pick<Deal, "name" | "team_id">
-  siloId: number
+  siloId?: number
 }): Promise<Deal> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
@@ -28,7 +28,9 @@ export const createDeal = async ({
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 
-  await applyDealToSilo(result.data.id, siloId)
+  if (siloId) {
+    await applyDealToSilo(result.data.id, siloId)
+  }
 
   return result.data
 }

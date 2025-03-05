@@ -14,7 +14,7 @@ export const GET = createApiEndpoint("getDeals", async (_req, ctx) => {
 
 export const POST = createApiEndpoint("createDeal", async (_req, ctx) => {
   const { name } = ctx.body
-  const deal = await createDeal({ name, team_id: ctx.team.id })
+  const deal = await createDeal({ deal: { name, team_id: ctx.team.id } })
 
   abortIfNotFound(deal)
 
