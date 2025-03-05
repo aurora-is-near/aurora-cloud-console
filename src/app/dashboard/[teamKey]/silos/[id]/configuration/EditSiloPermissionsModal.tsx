@@ -2,6 +2,7 @@
 
 import toast from "react-hot-toast"
 import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
 
 import { Hr, RadioGroup, Typography } from "@/uikit"
@@ -49,6 +50,8 @@ const EditSiloPermissionsModalContent = ({
   whitelistType,
   addresses: existingAddresses,
 }: Props) => {
+  const router = useRouter()
+
   const { isPending, isPublic, isFailed, onToggleWhitelist } =
     useToggleWhitelist({
       silo,
@@ -70,6 +73,12 @@ const EditSiloPermissionsModalContent = ({
       toast.error("Failed to update whitelist rules")
     }
   }, [isFailed])
+
+  useEffect(() => {
+    if (!isPending && !isFailed) {
+      router.refresh()
+    }
+  }, [isPending, isFailed, addresses])
 
   return (
     <div className="flex flex-col gap-8">
