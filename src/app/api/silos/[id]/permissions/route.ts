@@ -16,8 +16,6 @@ import {
   whitelistKindToggleOperationMap,
 } from "./maps"
 
-import { isTransactionExpired } from "./utils"
-
 const getSiloOrAbort = async (
   teamId: number,
   siloId: number,
@@ -67,7 +65,7 @@ export const PUT = createApiEndpoint(
     // 2. If it has expired or was successful - consider current request as new
     if (
       !previousTransaction ||
-      isTransactionExpired(previousTransaction) ||
+      previousTransaction.status === "FAILED" ||
       previousTransaction.status === "SUCCESSFUL"
     ) {
       const { tx_hash } = await contractChangerApiClient.toggleWhitelist({
@@ -105,10 +103,7 @@ export const PUT = createApiEndpoint(
     }
 
     // 3. Check and update the transaction status
-    if (
-      previousTransaction.status === "FAILED" ||
-      previousTransaction.status === "PENDING"
-    ) {
+    if (previousTransaction.status === "PENDING") {
       const txStatus = await checkPendingTransaction(previousTransaction, silo)
 
       if (txStatus === "FAILED") {
