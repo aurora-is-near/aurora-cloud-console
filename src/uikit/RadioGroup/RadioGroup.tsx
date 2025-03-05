@@ -22,19 +22,9 @@ const Group = ({
   defaultSelected,
   onSelect,
 }: GroupProps) => {
-  const [selected, setSelected] = useState(defaultSelected)
-  const onSelectItem = (value: string) => {
-    setSelected(value)
-    onSelect(value)
-  }
-
-  useEffect(() => {
-    setSelected(defaultSelected)
-  }, [defaultSelected])
-
   return (
     <RadioGroupContextProvider
-      value={{ selected, isClickable, onSelect: onSelectItem }}
+      value={{ selected: defaultSelected, isClickable, onSelect }}
     >
       <div className="flex flex-col gap-4">{children}</div>
     </RadioGroupContextProvider>
