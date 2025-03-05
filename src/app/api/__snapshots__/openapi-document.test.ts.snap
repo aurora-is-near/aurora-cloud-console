@@ -1717,6 +1717,87 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/silos/{id}/healthcheck": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "healthcheck",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "defaultTokenContractsDeployed": {
+                      "properties": {
+                        "AURORA": {
+                          "type": "boolean",
+                        },
+                        "NEAR": {
+                          "type": "boolean",
+                        },
+                        "USDC": {
+                          "type": "boolean",
+                        },
+                        "USDt": {
+                          "type": "boolean",
+                        },
+                        "wNEAR": {
+                          "type": "boolean",
+                        },
+                      },
+                      "required": [
+                        "NEAR",
+                        "wNEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "object",
+                    },
+                    "networkStatus": {
+                      "enum": [
+                        "ok",
+                        "invalid-network",
+                        "stalled",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "networkStatus",
+                    "defaultTokenContractsDeployed",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Perform various checks on the silo and report the status",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
     "/api/silos/{id}/latency": {
       "get": {
         "deprecated": undefined,
