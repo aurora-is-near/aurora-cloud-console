@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useId, useState } from "react"
+import { useId } from "react"
 import { ArrowPathIcon } from "@heroicons/react/24/solid"
 
 import { clsx } from "../clsx"
