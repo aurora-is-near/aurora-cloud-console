@@ -32,26 +32,29 @@ export const useToggleWhitelist = ({
 
   const toggleSiloWhitelist = useMutation({
     mutationFn: apiClient.toggleSiloPermissions,
-    onError: () => setIsFailed(true),
+    onError: () => {
+      setIsFailed(true)
+      setIsPublic((p) => !p)
+    },
     onSuccess: (data, variables) => {
       if (data.status === "PENDING") {
         retry(() => toggleSiloWhitelist.mutate(variables))
       } else if (data.status === "SUCCESSFUL") {
-        setIsPublic((p) => !p)
         setIsFailed(false)
         onSuccess()
       } else if (data.status === "FAILED") {
+        setIsPublic((p) => !p)
         setIsFailed(true)
       }
     },
   })
 
   const isPending =
-    !isFailed &&
-    (toggleSiloWhitelist.isPending ||
-      toggleSiloWhitelist.data?.status === "PENDING")
+    toggleSiloWhitelist.isPending ||
+    toggleSiloWhitelist.data?.status === "PENDING"
 
   const onToggleWhitelist = (status: string) => {
+    setIsPublic((p) => !p)
     toggleSiloWhitelist.mutate({
       id: silo.id,
       isEnabled: status === "restricted",

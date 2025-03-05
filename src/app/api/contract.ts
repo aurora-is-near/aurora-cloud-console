@@ -508,62 +508,6 @@ export const contract = c.router({
       scopes: ["silo:write"],
     },
   },
-  addAddressToPermissionsWhitelist: {
-    summary:
-      "Add wallet address to whitelist to allow make transactions or deploy contracts",
-    method: "POST",
-    path: "/api/silos/:id/permissions",
-    responses: {
-      200: z.object({
-        address: z.string(),
-        action: z.union([
-          z.literal("MAKE_TRANSACTION"),
-          z.literal("DEPLOY_CONTRACT"),
-        ]),
-      }),
-    },
-    body: z.object({
-      address: z.string(),
-      action: z.union([
-        z.literal("MAKE_TRANSACTION"),
-        z.literal("DEPLOY_CONTRACT"),
-      ]),
-    }),
-    pathParams: z.object({
-      id: z.number(),
-    }),
-    metadata: {
-      scopes: ["silo:write"],
-    },
-  },
-  removeAddressFromPermissionsWhitelist: {
-    summary:
-      "Remove wallet address from whitelist to forbid make transactions or deploy contracts",
-    method: "DELETE",
-    path: "/api/silos/:id/permissions",
-    responses: {
-      200: z.object({
-        address: z.string(),
-        action: z.union([
-          z.literal("MAKE_TRANSACTION"),
-          z.literal("DEPLOY_CONTRACT"),
-        ]),
-      }),
-    },
-    body: z.object({
-      address: z.string(),
-      action: z.union([
-        z.literal("MAKE_TRANSACTION"),
-        z.literal("DEPLOY_CONTRACT"),
-      ]),
-    }),
-    pathParams: z.object({
-      id: z.number(),
-    }),
-    metadata: {
-      scopes: ["silo:write"],
-    },
-  },
   getSiloCollectedGas: {
     summary: "Get collected gas over time for a single silo",
     method: "GET",

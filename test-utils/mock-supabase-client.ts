@@ -69,7 +69,6 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   silos_teams: createTableClient(),
   datadog_web3_monitors: createTableClient(),
   silo_config_transactions: createTableClient(),
-  silo_addresses: createTableClient(),
   silo_relayers: createTableClient(),
   _prisma_migrations: createTableClient(),
 }

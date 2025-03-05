@@ -126,26 +126,6 @@ export const apiClient = {
     ApiRequestBody<"toggleSiloPermissions">) =>
     put<"toggleSiloPermissions">(`/api/silos/${id}/permissions`, data),
 
-  addAddressToPermissionsWhitelist: async ({
-    id,
-    ...data
-  }: ApiRequestParams<"addAddressToPermissionsWhitelist"> &
-    ApiRequestBody<"addAddressToPermissionsWhitelist">) =>
-    post<"addAddressToPermissionsWhitelist">(
-      `/api/silos/${id}/permissions`,
-      data,
-    ),
-
-  removeAddressFromPermissionsWhitelist: async ({
-    id,
-    ...data
-  }: ApiRequestParams<"removeAddressFromPermissionsWhitelist"> &
-    ApiRequestBody<"removeAddressFromPermissionsWhitelist">) =>
-    del<"removeAddressFromPermissionsWhitelist">(
-      `/api/silos/${id}/permissions`,
-      data,
-    ),
-
   getForwarderTokens: async ({ id }: ApiRequestParams<"getForwarderTokens">) =>
     get<"getForwarderTokens">(`/api/silos/${id}/forwarder/tokens`),
 

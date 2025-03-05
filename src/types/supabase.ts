@@ -647,48 +647,6 @@ export type Database = {
           },
         ]
       }
-      silo_addresses: {
-        Row: {
-          address: string
-          id: number
-          is_applied: boolean
-          list: Database["public"]["Enums"]["address_whitelist_type"]
-          silo_id: number
-          tx_id: number | null
-        }
-        Insert: {
-          address: string
-          id?: number
-          is_applied?: boolean
-          list: Database["public"]["Enums"]["address_whitelist_type"]
-          silo_id: number
-          tx_id: number | null
-        }
-        Update: {
-          address?: string
-          id?: number
-          is_applied?: boolean
-          list?: Database["public"]["Enums"]["address_whitelist_type"]
-          silo_id?: number
-          tx_id?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "silo_addresses_silo_id_fkey"
-            columns: ["silo_id"]
-            isOneToOne: false
-            referencedRelation: "silos"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "silo_addresses_tx_id_fkey"
-            columns: ["tx_id"]
-            isOneToOne: false
-            referencedRelation: "silo_config_transactions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       silo_config_transactions: {
         Row: {
           created_at: string
