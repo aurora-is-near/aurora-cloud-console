@@ -5,7 +5,7 @@ import { abort } from "@/utils/abort"
 import { checkToken } from "@/utils/check-token-contract"
 import { Silo } from "@/types/types"
 
-const DEFAULT_TOKENS = ["NEAR", "wNEAR", "USDt", "USDC", "AURORA"] as const
+const DEFAULT_TOKENS = ["NEAR", "USDt", "USDC", "AURORA", "ETH"] as const
 const STALLED_THRESHOLD = 60
 
 /**
@@ -25,10 +25,10 @@ const checkDefaultTokens = async (provider: JsonRpcProvider) => {
     }),
     {
       NEAR: false,
-      wNEAR: false,
       USDt: false,
       USDC: false,
       AURORA: false,
+      ETH: false,
     },
   )
 }

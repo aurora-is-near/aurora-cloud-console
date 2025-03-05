@@ -708,10 +708,10 @@ export const contract = c.router({
         ]),
         defaultTokenContractsDeployed: z.object({
           NEAR: z.boolean(),
-          wNEAR: z.boolean(),
           USDt: z.boolean(),
           USDC: z.boolean(),
           AURORA: z.boolean(),
+          ETH: z.boolean(),
         }),
       }),
     },

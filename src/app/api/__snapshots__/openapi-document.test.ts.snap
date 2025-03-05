@@ -1743,6 +1743,9 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "AURORA": {
                           "type": "boolean",
                         },
+                        "ETH": {
+                          "type": "boolean",
+                        },
                         "NEAR": {
                           "type": "boolean",
                         },
@@ -1752,16 +1755,13 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "USDt": {
                           "type": "boolean",
                         },
-                        "wNEAR": {
-                          "type": "boolean",
-                        },
                       },
                       "required": [
                         "NEAR",
-                        "wNEAR",
                         "USDt",
                         "USDC",
                         "AURORA",
+                        "ETH",
                       ],
                       "type": "object",
                     },
