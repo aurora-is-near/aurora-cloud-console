@@ -1,2 +1,2 @@
-export * from "./useManageAddressList"
+export * from "./useAddAddress"
 export * from "./useToggleWhitelist"

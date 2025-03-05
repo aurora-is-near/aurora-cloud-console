@@ -4,9 +4,8 @@ import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 
 import { apiClient } from "@/utils/api/client"
-import type { Silo, SiloWhitelistType } from "@/types/types"
-
 import { useProgressiveRetry } from "@/hooks/useProgressiveRetry"
+import type { Silo, SiloWhitelistType } from "@/types/types"
 
 type Args = {
   silo: Silo

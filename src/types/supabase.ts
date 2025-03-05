@@ -654,7 +654,7 @@ export type Database = {
           is_applied: boolean
           list: Database["public"]["Enums"]["address_whitelist_type"]
           silo_id: number
-          tx_id: number
+          tx_id: number | null
         }
         Insert: {
           address: string
@@ -662,7 +662,7 @@ export type Database = {
           is_applied?: boolean
           list: Database["public"]["Enums"]["address_whitelist_type"]
           silo_id: number
-          tx_id: number
+          tx_id: number | null
         }
         Update: {
           address?: string
@@ -670,7 +670,7 @@ export type Database = {
           is_applied?: boolean
           list?: Database["public"]["Enums"]["address_whitelist_type"]
           silo_id?: number
-          tx_id?: number
+          tx_id?: number | null
         }
         Relationships: [
           {

@@ -1,7 +1,7 @@
 "use client"
 
 import toast from "react-hot-toast"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
 
@@ -18,7 +18,7 @@ import type {
   SiloWhitelistType,
 } from "@/types/types"
 
-import { useManageAddressList, useToggleWhitelist } from "./hooks"
+import { useAddAddress, useToggleWhitelist } from "./hooks"
 
 type Copies = {
   title: string
@@ -51,53 +51,70 @@ const EditSiloPermissionsModalContent = ({
   addresses: existingAddresses,
 }: Props) => {
   const router = useRouter()
-
-  const { isPending, isPublic, isFailed, onToggleWhitelist } =
-    useToggleWhitelist({
-      silo,
-      whitelistType,
-      onSuccess: router.refresh,
-    })
+  const [addresses, setAddresses] = useState(existingAddresses)
 
   const {
-    addresses,
+    isPublic,
+    isFailed: isToggleWhitelistFailed,
+    isPending: isToggleWhitelistPending,
+    onToggleWhitelist,
+  } = useToggleWhitelist({
+    silo,
+    whitelistType,
+    onSuccess: router.refresh,
+  })
+
+  const {
     addressValue,
-    onAddAddress,
-    onRemoveAddress,
+    isFailed: isAddingAddressFailed,
     onChangeAddressValue,
-  } = useManageAddressList({
-    existingAddresses,
+    onAddAddress,
+  } = useAddAddress({
+    silo,
+    whitelistType,
+    onSuccess: () => {},
+    // onSuccess: (address) => setAddresses((p) => [...p, address]),
+    addresses: [
+      {
+        id: 1,
+        tx_id: 1,
+        silo_id: 103,
+        is_applied: true,
+        list: "MAKE_TRANSACTION",
+        address: "0x2f4c316ce3E722a47B987B7f321a03d57d3b6CB6",
+      },
+    ],
   })
 
   useEffect(() => {
-    if (isFailed) {
+    if (isToggleWhitelistFailed) {
       toast.error("Failed to update whitelist rules")
     }
-  }, [isFailed])
+  }, [isToggleWhitelistFailed])
 
   return (
     <div className="flex flex-col gap-8">
       <RadioGroup
-        isClickable={!isPending}
+        isClickable={!isToggleWhitelistPending}
         defaultSelected={isPublic ? "public" : "restricted"}
         onSelect={onToggleWhitelist}
       >
         <RadioGroup.Item
           name="public"
           label="Allow everyone"
-          isLoading={isPending && !isPublic}
+          isLoading={isToggleWhitelistPending && !isPublic}
           tooltip={copies[whitelistType].allowRadioTooltip}
         />
         <RadioGroup.Item
           name="restricted"
           label="Only selected users"
-          isLoading={isPending && isPublic}
+          isLoading={isToggleWhitelistPending && isPublic}
           tooltip={copies[whitelistType].restrictedRadioTooltip}
         />
       </RadioGroup>
 
       {!isPublic && (
-        <>
+        <div>
           <InputWrapper
             id="newAddress"
             inputName="newAddress"
@@ -111,11 +128,11 @@ const EditSiloPermissionsModalContent = ({
                 onChange={(e) => onChangeAddressValue(e.target.value)}
                 placeholder="0x..."
                 className="flex-1"
-                disabled={isPending}
+                disabled={isToggleWhitelistPending}
               />
               <Button
                 variant="border"
-                disabled={isPending}
+                disabled={isToggleWhitelistPending}
                 onClick={onAddAddress}
               >
                 <PlusIcon className="w-5 h-5" />
@@ -123,31 +140,42 @@ const EditSiloPermissionsModalContent = ({
             </div>
             <Hr />
           </InputWrapper>
-          <Typography
-            variant="paragraph"
-            size={4}
-            className="text-slate-500 text-center"
-          >
-            You have no wallet addresses added yet. It means that no one it
-            allowed to make transactions on your chain.
-          </Typography>
-          <div className="flex flex-col space-y-2">
-            {addresses.map((address) => (
-              <div key={address} className="flex items-center gap-2">
-                <span className="text-sm flex flex-1 border border-slate-300 p-2 bg-slate-50 rounded-md text-ellipsis">
-                  {address}
-                </span>
-                <Button
-                  variant="border"
-                  onClick={() => onRemoveAddress(address)}
-                  className="text-gray-400 hover:text-gray-500"
-                >
-                  <TrashIcon className="w-5 h-5" />
-                </Button>
+          {addresses.length === 0 ? (
+            <Typography
+              variant="paragraph"
+              size={4}
+              className="text-slate-500 text-center"
+            >
+              You have no wallet addresses added yet. It means that no one it
+              allowed to make transactions on your chain.
+            </Typography>
+          ) : (
+            <div className="flex flex-col gap-3">
+              <Typography variant="label" size={3} className="text-slate-900">
+                Whitelisted addresses
+              </Typography>
+              <div className="flex flex-col gap-2">
+                {addresses.map((addrItem) => (
+                  <div
+                    key={addrItem.address}
+                    className="flex items-center gap-2"
+                  >
+                    <span className="text-sm flex flex-1 border border-slate-300 p-2 bg-slate-50 rounded-md text-ellipsis">
+                      {addrItem.address}
+                    </span>
+                    <Button
+                      variant="border"
+                      // onClick={() => onRemoveAddress(addrItem)}
+                      className="text-gray-400 hover:text-gray-500"
+                    >
+                      <TrashIcon className="w-5 h-5" />
+                    </Button>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </>
+            </div>
+          )}
+        </div>
       )}
     </div>
   )
