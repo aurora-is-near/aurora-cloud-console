@@ -3,7 +3,6 @@
 import toast from "react-hot-toast"
 import { useEffect } from "react"
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
-import type { PropsWithChildren } from "react"
 
 import { Hr, RadioGroup, Typography } from "@/uikit"
 import SlideOver from "@/components/SlideOver"
@@ -45,33 +44,7 @@ type Props = {
   addresses: SiloWhitelistAddress[]
 }
 
-export const EditSiloPermissionsModal = ({
-  silo,
-  whitelistType,
-  addresses,
-}: Omit<Props, "whitelistType"> & {
-  whitelistType: SiloWhitelistType | null
-}) => {
-  const { closeModal, activeModal } = useModals()
-  const open = activeModal === Modals.EditSiloAddressPermissions
-  return (
-    <SlideOver
-      open={open}
-      close={closeModal}
-      title={whitelistType ? copies[whitelistType].title : ""}
-    >
-      {whitelistType ? (
-        <EditSiloPermissionsModalContent
-          silo={silo}
-          addresses={addresses}
-          whitelistType={whitelistType}
-        />
-      ) : null}
-    </SlideOver>
-  )
-}
-
-export const EditSiloPermissionsModalContent = ({
+const EditSiloPermissionsModalContent = ({
   silo,
   whitelistType,
   addresses: existingAddresses,
@@ -173,5 +146,32 @@ export const EditSiloPermissionsModalContent = ({
         </>
       )}
     </div>
+  )
+}
+
+export const EditSiloPermissionsModal = ({
+  silo,
+  whitelistType,
+  addresses,
+}: Omit<Props, "whitelistType"> & {
+  whitelistType: SiloWhitelistType | null
+}) => {
+  const { closeModal, activeModal } = useModals()
+  const open = activeModal === Modals.EditSiloAddressPermissions
+
+  return (
+    <SlideOver
+      open={open}
+      close={closeModal}
+      title={whitelistType ? copies[whitelistType].title : ""}
+    >
+      {whitelistType ? (
+        <EditSiloPermissionsModalContent
+          silo={silo}
+          addresses={addresses}
+          whitelistType={whitelistType}
+        />
+      ) : null}
+    </SlideOver>
   )
 }
