@@ -24,7 +24,7 @@ type Args = {
   silo: Silo
   addressValue: string
   whitelistType: SiloWhitelistType
-  addresses: SiloWhitelistAddress[]
+  addresses: string[]
   onSuccess: (address: string) => void
   onSubmit: (address: string) => void
 }
@@ -48,11 +48,8 @@ const assertInvalidAddress = (address: string) => {
   }
 }
 
-const assertExistingAddress = (
-  address: string,
-  addresses: SiloWhitelistAddress[],
-) => {
-  if (addresses.map((item) => item.address).includes(address)) {
+const assertExistingAddress = (address: string, addresses: string[]) => {
+  if (addresses.includes(address)) {
     throw new AddressError("Address already exists")
   }
 }

@@ -45,17 +45,6 @@ type Props = {
   addresses: SiloWhitelistAddress[]
 }
 
-const addressesMock: SiloWhitelistAddress[] = [
-  {
-    id: 1,
-    tx_id: 1,
-    silo_id: 103,
-    is_applied: true,
-    list: "MAKE_TRANSACTION",
-    address: "0x2f4c316ce3E722a47B987B7f321a03d57d3b6CB6",
-  },
-]
-
 const EditSiloPermissionsModalContent = ({
   silo,
   whitelistType,
@@ -83,7 +72,7 @@ const EditSiloPermissionsModalContent = ({
     silo,
     addressValue,
     whitelistType,
-    addresses: addressesMock,
+    addresses,
     onSuccess: () => setAddressValue(""),
     onSubmit: (address) => setAddresses((p) => [...p, address]),
   })
