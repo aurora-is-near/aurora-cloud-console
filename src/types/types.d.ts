@@ -67,8 +67,13 @@ export type SilosTeams = Tables<"silos_teams">
 
 export type SiloConfigTransaction = Tables<"silo_config_transactions">
 
+export type SiloWhitelistAddress = Tables<"silo_addresses">
+
 export type SiloConfigTransactionStatus =
   Enums<"silo_config_transaction_status">
+
+export type SiloConfigTransactionOperation =
+  Enums<"silo_config_transaction_operation">
 
 export type List = Tables<"lists">
 
@@ -89,6 +94,8 @@ export type FilterEntry = Tables<"filter_entries">
 export type OnboardingForm = Tables<"onboarding_form">
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
+
+export type SiloWhitelistType = Enums<"address_whitelist_type">
 
 type ChartData = {
   label: string

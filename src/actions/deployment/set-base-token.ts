@@ -56,7 +56,10 @@ export const setBaseToken = async (
     return "SUCCESSFUL"
   }
 
-  const previousTransactions = await getSiloConfigTransactions(silo.id)
+  const previousTransactions = await getSiloConfigTransactions(
+    silo.id,
+    "SET_BASE_TOKEN",
+  )
 
   // If there has already been a successful transaction for setting the base
   // token we don't need to trigger another one.

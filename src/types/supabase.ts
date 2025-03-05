@@ -285,7 +285,7 @@ export type Database = {
           telegramHandle: string | null
         }
         Insert: {
-          baseToken?: Database["public"]["Enums"]["base_token_symbol"]
+          baseToken: Database["public"]["Enums"]["base_token_symbol"]
           chainName?: string | null
           chainPermission?:
             | Database["public"]["Enums"]["chain_permission"]
@@ -647,6 +647,48 @@ export type Database = {
           },
         ]
       }
+      silo_addresses: {
+        Row: {
+          address: string
+          id: number
+          is_applied: boolean
+          list: Database["public"]["Enums"]["address_whitelist_type"]
+          silo_id: number
+          tx_id: number
+        }
+        Insert: {
+          address: string
+          id?: number
+          is_applied?: boolean
+          list: Database["public"]["Enums"]["address_whitelist_type"]
+          silo_id: number
+          tx_id: number
+        }
+        Update: {
+          address?: string
+          id?: number
+          is_applied?: boolean
+          list?: Database["public"]["Enums"]["address_whitelist_type"]
+          silo_id?: number
+          tx_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_addresses_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_addresses_tx_id_fkey"
+            columns: ["tx_id"]
+            isOneToOne: false
+            referencedRelation: "silo_config_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       silo_config_transactions: {
         Row: {
           created_at: string
@@ -682,9 +724,40 @@ export type Database = {
           },
         ]
       }
+      silo_relayers: {
+        Row: {
+          account_id: string
+          id: number
+          inserted_at: string
+          replenish_amount: number
+          replenish_threshold: number
+          type: Database["public"]["Enums"]["account_type"]
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          id?: number
+          inserted_at?: string
+          replenish_amount: number
+          replenish_threshold: number
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          id?: number
+          inserted_at?: string
+          replenish_amount?: number
+          replenish_threshold?: number
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       silos: {
         Row: {
           applied_deal_ids: number[]
+          base_token_decimals: number
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id: number | null
@@ -696,11 +769,13 @@ export type Database = {
           explorer_url: string | null
           favicon: string
           gas_collection_address: string | null
-          gas_price: number | null
+          gas_price: number
           genesis: string
           grafana_network_key: string | null
           id: number
           is_active: boolean
+          is_deploy_contracts_public: boolean
+          is_make_txs_public: boolean
           name: string
           network: string
           network_logo: string
@@ -714,6 +789,7 @@ export type Database = {
         }
         Insert: {
           applied_deal_ids: number[]
+          base_token_decimals?: number
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id?: number | null
@@ -725,11 +801,13 @@ export type Database = {
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: number | null
+          gas_price?: number
           genesis: string
           grafana_network_key?: string | null
           id?: number
           is_active?: boolean
+          is_deploy_contracts_public?: boolean
+          is_make_txs_public?: boolean
           name: string
           network?: string
           network_logo?: string
@@ -743,6 +821,7 @@ export type Database = {
         }
         Update: {
           applied_deal_ids?: number[]
+          base_token_decimals?: number
           base_token_name?: string
           base_token_symbol?: string
           blockscout_database_id?: number | null
@@ -754,11 +833,13 @@ export type Database = {
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: number | null
+          gas_price?: number
           genesis?: string
           grafana_network_key?: string | null
           id?: number
           is_active?: boolean
+          is_deploy_contracts_public?: boolean
+          is_make_txs_public?: boolean
           name?: string
           network?: string
           network_logo?: string
@@ -1095,6 +1176,8 @@ export type Database = {
       }
     }
     Enums: {
+      account_type: "contract" | "wallet"
+      address_whitelist_type: "DEPLOY_CONTRACT" | "MAKE_TRANSACTION"
       api_key_scopes:
         | "deals:read"
         | "deals:write"
@@ -1115,8 +1198,8 @@ export type Database = {
         | "ETH"
         | "USDC"
         | "USDT"
+        | "WNEAR"
         | "CUSTOM"
-        | "NEAR"
       chain_permission: "public" | "public_permissioned" | "private"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
@@ -1132,7 +1215,14 @@ export type Database = {
         | "paid"
         | "unpaid"
         | "no_payment_required"
-      silo_config_transaction_operation: "SET_BASE_TOKEN"
+      silo_config_transaction_operation:
+        | "SET_BASE_TOKEN"
+        | "TOGGLE_MAKE_TXS_WHITELIST"
+        | "TOGGLE_DEPLOY_CONTRACT_WHITELIST"
+        | "POPULATE_MAKE_TXS_WHITELIST"
+        | "POPULATE_DEPLOY_CONTRACT_WHITELIST"
+        | "PURGE_MAKE_TXS_WHITELIST"
+        | "PURGE_DEPLOY_CONTRACT_WHITELIST"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       team_onboarding_status:
         | "REQUEST_RECEIVED"

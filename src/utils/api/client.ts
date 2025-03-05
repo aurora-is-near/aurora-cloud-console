@@ -32,6 +32,15 @@ const put = async <T extends ApiOperation>(
     body: JSON.stringify(data),
   })
 
+const del = async <T extends ApiOperation>(
+  url: string,
+  data: ApiRequestBody<T>,
+) =>
+  request<ApiResponseBody<T>>(url, {
+    method: "DELETE",
+    body: JSON.stringify(data),
+  })
+
 export const apiClient = {
   getSilo: async ({ id }: ApiRequestParams<"getSilo">) =>
     get<"getSilo">(`/api/silos/${id}`),
@@ -109,6 +118,33 @@ export const apiClient = {
 
   getSiloFailureRate: async ({ id }: ApiRequestParams<"getSiloFailureRate">) =>
     get<"getSiloFailureRate">(`/api/silos/${id}/failure-rate`),
+
+  toggleSiloPermissions: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"toggleSiloPermissions"> &
+    ApiRequestBody<"toggleSiloPermissions">) =>
+    put<"toggleSiloPermissions">(`/api/silos/${id}/permissions`, data),
+
+  addAddressToPermissionsWhitelist: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"addAddressToPermissionsWhitelist"> &
+    ApiRequestBody<"addAddressToPermissionsWhitelist">) =>
+    post<"addAddressToPermissionsWhitelist">(
+      `/api/silos/${id}/permissions`,
+      data,
+    ),
+
+  removeAddressFromPermissionsWhitelist: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"removeAddressFromPermissionsWhitelist"> &
+    ApiRequestBody<"removeAddressFromPermissionsWhitelist">) =>
+    del<"removeAddressFromPermissionsWhitelist">(
+      `/api/silos/${id}/permissions`,
+      data,
+    ),
 }
 
 export type ApiClient = typeof apiClient

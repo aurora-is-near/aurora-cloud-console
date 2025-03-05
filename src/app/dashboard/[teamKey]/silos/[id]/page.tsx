@@ -14,7 +14,7 @@ const Page = async ({
     await Promise.all([
       getTeamByKey(teamKey),
       getTeamSiloByKey(teamKey, Number(id)),
-      getSiloConfigTransactions(Number(id)),
+      getSiloConfigTransactions(Number(id), "SET_BASE_TOKEN"),
       getTeamOnboardingFormByKey(teamKey),
     ])
 

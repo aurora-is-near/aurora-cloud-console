@@ -1,13 +1,18 @@
 import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
-import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
+
 import Contact from "@/components/Contact"
+import CopyButton from "@/components/CopyButton"
 import { DashboardPage } from "@/components/DashboardPage"
+import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
+import { getSiloWhitelist } from "@/actions/silo-whitelist/get-silo-whitelist"
 import { getRelayerAccount } from "@/utils/relayer"
+
 import {
   ConfigurationItemsCard,
   ConfigurationItemsCardProps,
 } from "./ConfigurationItemsCard"
+import { EditPermissions } from "./EditPermissions"
 
 const Page = async ({
   params: { id, teamKey },
@@ -19,6 +24,9 @@ const Page = async ({
   if (!silo) {
     notFound()
   }
+
+  const makeTxsWhitelist = await getSiloWhitelist(silo.id, "MAKE_TRANSACTION")
+  const deployTxsWhitelist = await getSiloWhitelist(silo.id, "DEPLOY_CONTRACT")
 
   const relayerAccount = getRelayerAccount(silo)
 
@@ -33,18 +41,21 @@ const Page = async ({
       description: String(silo.chain_id),
       tooltip:
         "EIP-155 standard field to protect against transaction replay attacks.",
-      showCopyButton: true,
+      Action: ({ description }) =>
+        description && <CopyButton hasBorder value={description} />,
     },
     {
       term: "Genesis",
       description: silo.genesis,
-      showCopyButton: true,
+      Action: ({ description }) =>
+        description && <CopyButton hasBorder value={description} />,
     },
     {
       term: "Engine account",
       description: silo.engine_account,
       tooltip: "EVM contract account on the Near blockchain.",
-      showCopyButton: true,
+      Action: ({ description }) =>
+        description && <CopyButton hasBorder value={description} />,
     },
     {
       term: "Engine version",
@@ -55,7 +66,8 @@ const Page = async ({
       term: "RPC URL",
       description: silo.rpc_url,
       tooltip: "Use this endpoint to access the network.",
-      showCopyButton: true,
+      Action: ({ description }) =>
+        description && <CopyButton hasBorder value={description} />,
     },
   ]
 
@@ -64,7 +76,8 @@ const Page = async ({
       term: "Explorer",
       description: silo.explorer_url,
       tooltip: "You can trace the activity on your chain here.",
-      showCopyButton: true,
+      Action: ({ description }) =>
+        description && <CopyButton hasBorder value={description} />,
     })
   }
 
@@ -85,14 +98,16 @@ const Page = async ({
             description: relayerAccount,
             tooltip:
               "This account is responsible for paying gas on the Near blockchain for your Aurora chain. It will also accumulate the transaction fees collected on your chain.",
-            showCopyButton: true,
+            Action: ({ description }) =>
+              description && <CopyButton hasBorder value={description} />,
           },
           {
             term: "Near explorer",
             description: `https://explorer.near.org/accounts/${relayerAccount}`,
             tooltip:
               "You can trace the activity of the relay account in the Near Explorer here.",
-            showCopyButton: true,
+            Action: ({ description }) =>
+              description && <CopyButton hasBorder value={description} />,
           },
         ]}
       />
@@ -116,23 +131,12 @@ const Page = async ({
         ]}
       />
 
-      <ConfigurationItemsCard
-        title="Permissions"
-        description="Your virtual chain access restrictions and contract deployment support."
-        items={[
-          {
-            term: "Make transactions",
-            description: "Allowed for whitelisted addresses",
-            tooltip:
-              "This whitelist contains the list of addresses allowed to interact with your chain.",
-          },
-          {
-            term: "Deploy contracts",
-            description: "Allowed for whitelisted addresses",
-            tooltip:
-              "This whitelist contains the list of addresses allowed to deploy contracts on your chain.",
-          },
-        ]}
+      <EditPermissions
+        silo={silo}
+        whitelists={{
+          MAKE_TRANSACTION: makeTxsWhitelist,
+          DEPLOY_CONTRACT: deployTxsWhitelist,
+        }}
       />
 
       <div>

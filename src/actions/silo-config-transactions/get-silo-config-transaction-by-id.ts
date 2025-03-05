@@ -10,17 +10,20 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const getSiloConfigTransactions = async (
+export const getSiloConfigTransactionById = async (
+  txId: number,
   siloId: number,
   operation: SiloConfigTransactionOperation,
-): Promise<SiloConfigTransaction[]> => {
+): Promise<SiloConfigTransaction> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("silo_config_transactions")
     .select("*")
     .order("id", { ascending: true })
+    .eq("id", txId)
     .eq("silo_id", siloId)
     .eq("operation", operation)
+    .single()
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
