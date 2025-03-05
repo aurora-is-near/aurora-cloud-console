@@ -8,13 +8,17 @@ import type { Silo, SiloWhitelistType } from "@/types/types"
 
 import { useProgressiveRetry } from "@/hooks/useProgressiveRetry"
 
+type Args = {
+  silo: Silo
+  whitelistType: SiloWhitelistType
+  onSuccess: () => void
+}
+
 export const useToggleWhitelist = ({
   silo,
   whitelistType,
-}: {
-  silo: Silo
-  whitelistType: SiloWhitelistType
-}) => {
+  onSuccess,
+}: Args) => {
   const [isFailed, setIsFailed] = useState<boolean>(false)
   const { retry } = useProgressiveRetry({
     maxRetries: 5,
@@ -36,6 +40,7 @@ export const useToggleWhitelist = ({
       } else if (data.status === "SUCCESSFUL") {
         setIsPublic((p) => !p)
         setIsFailed(false)
+        onSuccess()
       } else if (data.status === "FAILED") {
         setIsFailed(true)
       }

@@ -56,6 +56,7 @@ const EditSiloPermissionsModalContent = ({
     useToggleWhitelist({
       silo,
       whitelistType,
+      onSuccess: router.refresh,
     })
 
   const {
@@ -73,12 +74,6 @@ const EditSiloPermissionsModalContent = ({
       toast.error("Failed to update whitelist rules")
     }
   }, [isFailed])
-
-  useEffect(() => {
-    if (!isPending && !isFailed) {
-      router.refresh()
-    }
-  }, [router, isPending, isFailed, addresses])
 
   return (
     <div className="flex flex-col gap-8">
