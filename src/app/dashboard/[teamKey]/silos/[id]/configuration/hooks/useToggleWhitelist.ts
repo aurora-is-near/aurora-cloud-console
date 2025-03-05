@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 
 import { apiClient } from "@/utils/api/client"
@@ -47,13 +47,13 @@ export const useToggleWhitelist = ({
     (toggleSiloWhitelist.isPending ||
       toggleSiloWhitelist.data?.status === "PENDING")
 
-  const onToggleWhitelist = useCallback((status: string) => {
+  const onToggleWhitelist = (status: string) => {
     toggleSiloWhitelist.mutate({
       id: silo.id,
       isEnabled: status === "restricted",
       action: whitelistType,
     })
-  }, [])
+  }
 
   return { isPending, isPublic, isFailed, onToggleWhitelist }
 }

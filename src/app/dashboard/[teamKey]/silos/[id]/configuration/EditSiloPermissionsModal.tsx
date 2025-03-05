@@ -17,7 +17,7 @@ import type {
   SiloWhitelistType,
 } from "@/types/types"
 
-import { useToggleWhitelist, useManageAddressList } from "./hooks"
+import { useManageAddressList, useToggleWhitelist } from "./hooks"
 
 type Copies = {
   title: string

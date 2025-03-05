@@ -5,10 +5,7 @@ import {
   SiloConfigTransaction,
   SiloConfigTransactionOperation,
 } from "@/types/types"
-import {
-  assertNonNullSupabaseResult,
-  assertValidSupabaseResult,
-} from "@/utils/supabase"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const getLastSiloConfigTransaction = async (
   siloId: number,

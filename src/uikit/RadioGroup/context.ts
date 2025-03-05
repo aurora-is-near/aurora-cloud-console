@@ -12,9 +12,11 @@ const RadioGroupContext = createContext<RadioGroupContextValue>(null)
 
 export const useRadioGroupContext = () => {
   const context = useContext(RadioGroupContext)
+
   if (!context) {
     throw new Error("useRadioGroupContext must be used within a RadioGroup")
   }
+
   return context
 }
 

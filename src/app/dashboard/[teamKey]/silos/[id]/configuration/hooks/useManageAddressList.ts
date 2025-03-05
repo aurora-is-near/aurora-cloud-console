@@ -28,11 +28,13 @@ export const useManageAddressList = ({
 
     if (!result.success) {
       toast.error(result.error.errors[0].message)
+
       return
     }
 
     if (addresses.includes(addressValue)) {
       toast.error("Address already exists")
+
       return
     }
 

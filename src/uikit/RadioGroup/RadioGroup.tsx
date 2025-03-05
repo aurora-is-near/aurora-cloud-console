@@ -7,7 +7,7 @@ import { clsx } from "../clsx"
 import { Typography } from "../Typography"
 import { InfoTooltip } from "../InfoTooltip"
 
-import { useRadioGroupContext, RadioGroupContextProvider } from "./context"
+import { RadioGroupContextProvider, useRadioGroupContext } from "./context"
 
 type GroupProps = {
   isClickable: boolean

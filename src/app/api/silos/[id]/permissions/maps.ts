@@ -1,8 +1,8 @@
 import type { WhitelistKind } from "@/utils/contract-changer-api/contract-changer-api-client"
 import type {
+  Silo,
   SiloConfigTransactionOperation,
   SiloWhitelistType,
-  Silo,
 } from "@/types/types"
 
 export const whitelistKindActionMap: Record<SiloWhitelistType, WhitelistKind> =

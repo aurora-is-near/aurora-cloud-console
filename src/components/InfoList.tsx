@@ -14,9 +14,10 @@ export type InfoListProps = {
 
 const TextDescription = ({ children }: { children: string }) => {
   const isLink = children.startsWith("http")
+
   return (
     <span className="text-sm leading-5 text-slate-900 whitespace-nowrap text-ellipsis overflow-hidden">
-      {isLink ? <Link target="_blank" href={children}></Link> : children}
+      {isLink ? <Link target="_blank" href={children} /> : children}
     </span>
   )
 }

@@ -15,5 +15,6 @@ export const createSiloConfigTransaction = async (
     .single()
 
   assertValidSupabaseResult(result)
+
   return result.data
 }

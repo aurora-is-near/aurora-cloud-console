@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { PencilSquareIcon } from "@heroicons/react/24/solid"
 
 import { Button } from "@/uikit"
@@ -59,7 +59,7 @@ export const EditPermissions = ({ silo, whitelists }: Props) => {
     if (modalOpen) {
       openModal(Modals.EditSiloAddressPermissions)
     }
-  }, [modalOpen])
+  }, [modalOpen, openModal])
 
   return (
     <>

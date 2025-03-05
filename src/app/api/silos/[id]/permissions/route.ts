@@ -9,12 +9,12 @@ import type { Silo } from "@/types/types"
 import { abort } from "../../../../../utils/abort"
 
 import {
+  toggleSiloPermissionUpdateMap,
   whitelistKindActionMap,
   whitelistKindToggleOperationMap,
-  toggleSiloPermissionUpdateMap,
 } from "./maps"
 
-import { isTransactionExpired, checkPendingTransaction } from "./utils"
+import { checkPendingTransaction, isTransactionExpired } from "./utils"
 
 const getSiloOrAbort = async (
   teamId: number,
@@ -102,10 +102,7 @@ export const PUT = createApiEndpoint(
     }
 
     // 4. Transaction is successful
-    const updatedSilo = await updateSilo(
-      silo.id,
-      toggleSiloPermissionUpdateMap[action](!isEnabled),
-    )
+    await updateSilo(silo.id, toggleSiloPermissionUpdateMap[action](!isEnabled))
 
     return {
       action,
@@ -142,7 +139,8 @@ export const POST = createApiEndpoint(
 
     const silo = await getSiloOrAbort(ctx.team.id, Number(ctx.params.id))
 
-    const { tx_hash } = await contractChangerApiClient.addAddressToWhitelist({
+    // const { tx_hash } =
+    await contractChangerApiClient.addAddressToWhitelist({
       siloEngineAccountId: silo.engine_account,
       whitelistKind: whitelistKindActionMap[action],
       addr: address,
@@ -182,12 +180,12 @@ export const DELETE = createApiEndpoint(
 
     const silo = await getSiloOrAbort(ctx.team.id, Number(ctx.params.id))
 
-    const { tx_hash } =
-      await contractChangerApiClient.removeAddressFromWhitelist({
-        siloEngineAccountId: silo.engine_account,
-        whitelistKind: whitelistKindActionMap[action],
-        addr: address,
-      })
+    // const { tx_hash } =
+    await contractChangerApiClient.removeAddressFromWhitelist({
+      siloEngineAccountId: silo.engine_account,
+      whitelistKind: whitelistKindActionMap[action],
+      addr: address,
+    })
 
     return {
       address,

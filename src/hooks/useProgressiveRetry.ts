@@ -19,6 +19,7 @@ export const useProgressiveRetry = (options?: Partial<Options>) => {
     ...defaultOptions,
     ...options,
   }
+
   const retryCount = useRef(0)
   const delay = delays[retryCount.current] || delays[delays.length - 1]
 
@@ -27,6 +28,7 @@ export const useProgressiveRetry = (options?: Partial<Options>) => {
       retryCount.current += 1
       setTimeout(() => {
         callback()
+
         if (retryCount.current === maxRetries) {
           onRetriesComplete()
         }
