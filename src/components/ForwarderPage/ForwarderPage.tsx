@@ -7,6 +7,7 @@ import { Silo, Team } from "@/types/types"
 import { ForwarderWidgetOpenButton } from "@/components/ForwarderOpenButton"
 import { LinkButton } from "@/components/LinkButton"
 import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
+import { WidgetShareCard } from "@/components/WidgetShareCard"
 import { ForwarderAboutTab } from "./ForwarderAboutTab"
 import ForwarderConfigurationTab from "./ForwarderConfigurationTab"
 
@@ -36,6 +37,16 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
         title: "Embed Code",
         content: (
           <WidgetEmbedCodeCard
+            siloId={silo.id}
+            teamKey={team.team_key}
+            widgetName="forwarder"
+          />
+        ),
+      },
+      {
+        title: "Shareable URL",
+        content: (
+          <WidgetShareCard
             siloId={silo.id}
             teamKey={team.team_key}
             widgetName="forwarder"
