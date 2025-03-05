@@ -132,12 +132,12 @@ export const EditSiloPermissionsModal = ({
       close={closeModal}
       title={whitelistType ? copies[whitelistType].title : ""}
     >
-      {whitelistType && (
+      {whitelistType ? (
         <EditSiloPermissionsModalContent
           silo={silo}
           whitelistType={whitelistType}
         />
-      )}
+      ) : null}
     </SlideOver>
   )
 }
