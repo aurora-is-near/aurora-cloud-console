@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import ContactModal from "@/components/ContactModal"
 
-const Layout = async ({
+const Layout = ({
   children,
   params: { teamKey },
 }: {
