@@ -78,7 +78,7 @@ const EditSiloPermissionsModalContent = ({
     if (!isPending && !isFailed) {
       router.refresh()
     }
-  }, [isPending, isFailed, addresses])
+  }, [router, isPending, isFailed, addresses])
 
   return (
     <div className="flex flex-col gap-8">
