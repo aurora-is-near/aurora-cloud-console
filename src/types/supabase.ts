@@ -647,6 +647,48 @@ export type Database = {
           },
         ]
       }
+      silo_addresses: {
+        Row: {
+          address: string
+          id: number
+          is_applied: boolean
+          list: Database["public"]["Enums"]["address_whitelist_type"]
+          silo_id: number
+          tx_id: number | null
+        }
+        Insert: {
+          address: string
+          id?: number
+          is_applied?: boolean
+          list: Database["public"]["Enums"]["address_whitelist_type"]
+          silo_id: number
+          tx_id: number | null
+        }
+        Update: {
+          address?: string
+          id?: number
+          is_applied?: boolean
+          list?: Database["public"]["Enums"]["address_whitelist_type"]
+          silo_id?: number
+          tx_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_addresses_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_addresses_tx_id_fkey"
+            columns: ["tx_id"]
+            isOneToOne: false
+            referencedRelation: "silo_config_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       silo_config_transactions: {
         Row: {
           created_at: string
@@ -1174,6 +1216,10 @@ export type Database = {
         | "SET_BASE_TOKEN"
         | "TOGGLE_MAKE_TXS_WHITELIST"
         | "TOGGLE_DEPLOY_CONTRACT_WHITELIST"
+        | "POPULATE_MAKE_TXS_WHITELIST"
+        | "POPULATE_DEPLOY_CONTRACT_WHITELIST"
+        | "PURGE_MAKE_TXS_WHITELIST"
+        | "PURGE_DEPLOY_CONTRACT_WHITELIST"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:

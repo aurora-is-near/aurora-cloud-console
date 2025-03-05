@@ -1,9 +1,9 @@
 "use client"
 
 import toast from "react-hot-toast"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { PlusIcon } from "@heroicons/react/24/outline"
+import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
 
 import { Hr, RadioGroup, Typography } from "@/uikit"
 import SlideOver from "@/components/SlideOver"
@@ -12,9 +12,13 @@ import { Input } from "@/components/Input"
 import { Button } from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
 import { InputWrapper } from "@/components/InputWrapper"
-import type { Silo, SiloWhitelistType } from "@/types/types"
+import type {
+  Silo,
+  SiloWhitelistAddress,
+  SiloWhitelistType,
+} from "@/types/types"
 
-import { useToggleWhitelist } from "./hooks"
+import { useToggleWhitelist, useAddAddress } from "./hooks"
 
 type Copies = {
   title: string
@@ -38,10 +42,31 @@ const copies: Record<SiloWhitelistType, Copies> = {
 type Props = {
   silo: Silo
   whitelistType: SiloWhitelistType
+  addresses: SiloWhitelistAddress[]
 }
 
-const EditSiloPermissionsModalContent = ({ silo, whitelistType }: Props) => {
+const addressesMock: SiloWhitelistAddress[] = [
+  {
+    id: 1,
+    tx_id: 1,
+    silo_id: 103,
+    is_applied: true,
+    list: "MAKE_TRANSACTION",
+    address: "0x2f4c316ce3E722a47B987B7f321a03d57d3b6CB6",
+  },
+]
+
+const EditSiloPermissionsModalContent = ({
+  silo,
+  whitelistType,
+  addresses: existingAddresses,
+}: Props) => {
   const router = useRouter()
+
+  const [addressValue, setAddressValue] = useState<string>("")
+  const [addresses, setAddresses] = useState(
+    existingAddresses.map((item) => item.address),
+  )
 
   const {
     isPublic,
@@ -52,6 +77,15 @@ const EditSiloPermissionsModalContent = ({ silo, whitelistType }: Props) => {
     silo,
     whitelistType,
     onSuccess: router.refresh,
+  })
+
+  const { isFailed: isAddingAddressFailed, onAddAddress } = useAddAddress({
+    silo,
+    addressValue,
+    whitelistType,
+    addresses: addressesMock,
+    onSuccess: () => setAddressValue(""),
+    onSubmit: (address) => setAddresses((p) => [...p, address]),
   })
 
   useEffect(() => {
@@ -92,8 +126,8 @@ const EditSiloPermissionsModalContent = ({ silo, whitelistType }: Props) => {
               <Input
                 id="newAddress"
                 name="newAddress"
-                value=""
-                onChange={() => {}}
+                value={addressValue}
+                onChange={(e) => setAddressValue(e.target.value)}
                 placeholder="0x..."
                 className="flex-1"
                 disabled={isToggleWhitelistPending}
@@ -101,21 +135,44 @@ const EditSiloPermissionsModalContent = ({ silo, whitelistType }: Props) => {
               <Button
                 variant="border"
                 disabled={isToggleWhitelistPending}
-                onClick={() => {}}
+                onClick={onAddAddress}
               >
                 <PlusIcon className="w-5 h-5" />
               </Button>
             </div>
             <Hr />
           </InputWrapper>
-          <Typography
-            variant="paragraph"
-            size={4}
-            className="text-slate-500 text-center"
-          >
-            You have no wallet addresses added yet. It means that no one it
-            allowed to make transactions on your chain.
-          </Typography>
+          {addresses.length === 0 ? (
+            <Typography
+              variant="paragraph"
+              size={4}
+              className="text-slate-500 text-center"
+            >
+              You have no wallet addresses added yet. It means that no one it
+              allowed to make transactions on your chain.
+            </Typography>
+          ) : (
+            <div className="flex flex-col gap-3">
+              <Typography variant="label" size={3} className="text-slate-900">
+                Whitelisted addresses
+              </Typography>
+              <div className="flex flex-col gap-2">
+                {addresses.map((address) => (
+                  <div key={address} className="flex items-center gap-2">
+                    <span className="text-sm flex flex-1 border border-slate-300 p-2 bg-slate-50 rounded-md text-ellipsis">
+                      {address}
+                    </span>
+                    <Button
+                      variant="border"
+                      className="text-gray-400 hover:text-gray-500"
+                    >
+                      <TrashIcon className="w-5 h-5" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -124,6 +181,7 @@ const EditSiloPermissionsModalContent = ({ silo, whitelistType }: Props) => {
 
 export const EditSiloPermissionsModal = ({
   silo,
+  addresses,
   whitelistType,
 }: Omit<Props, "whitelistType"> & {
   whitelistType: SiloWhitelistType | null
@@ -140,6 +198,7 @@ export const EditSiloPermissionsModal = ({
       {whitelistType ? (
         <EditSiloPermissionsModalContent
           silo={silo}
+          addresses={addresses}
           whitelistType={whitelistType}
         />
       ) : null}
