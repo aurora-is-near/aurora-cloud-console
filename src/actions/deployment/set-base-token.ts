@@ -2,7 +2,6 @@
 
 import { createSiloConfigTransaction } from "@/actions/silo-config-transactions/create-silo-config-transaction"
 import { getSiloConfigTransactions } from "@/actions/silo-config-transactions/get-silo-config-transactions"
-import { updateSiloConfigTransaction } from "@/actions/silo-config-transactions/update-silo-config-transaction"
 import { BASE_TOKENS } from "@/constants/base-token"
 import {
   BaseTokenSymbol,
@@ -11,25 +10,7 @@ import {
   SiloConfigTransactionStatus,
 } from "@/types/types"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
-import { getNearTransactionStatus } from "@/utils/near-api/transactions"
-
-const checkPendingTransaction = async (
-  transaction: SiloConfigTransaction,
-  silo: Silo,
-): Promise<SiloConfigTransactionStatus> => {
-  const status = await getNearTransactionStatus(
-    transaction.transaction_hash,
-    silo.engine_account,
-  )
-
-  if (status !== "PENDING") {
-    await updateSiloConfigTransaction(transaction.id, {
-      status,
-    })
-  }
-
-  return status
-}
+import { checkPendingTransaction } from "@/utils/check-pending-silo-config-transaction"
 
 const isValidBaseToken = (baseToken: string): baseToken is BaseTokenSymbol => {
   return Object.keys(BASE_TOKENS).includes(baseToken)

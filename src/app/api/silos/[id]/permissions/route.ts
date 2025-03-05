@@ -4,6 +4,7 @@ import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import { createSiloConfigTransaction } from "@/actions/silo-config-transactions/create-silo-config-transaction"
 import { getLastSiloConfigTransaction } from "@/actions/silo-config-transactions/get-last-silo-config-transaction"
+import { checkPendingTransaction } from "@/utils/check-pending-silo-config-transaction"
 import type { ApiRequestContext } from "@/types/api"
 import type { Silo } from "@/types/types"
 
@@ -15,7 +16,7 @@ import {
   whitelistKindToggleOperationMap,
 } from "./maps"
 
-import { checkPendingTransaction, isTransactionExpired } from "./utils"
+import { isTransactionExpired } from "./utils"
 
 const getSiloOrAbort = async (
   teamId: number,
@@ -131,11 +132,5 @@ export const PUT = createApiEndpoint(
       isEnabled,
       status: "SUCCESSFUL" as const,
     }
-  },
-  {
-    cache: {
-      maxAge: "1h",
-      staleWhileRevalidate: "1y",
-    },
   },
 )

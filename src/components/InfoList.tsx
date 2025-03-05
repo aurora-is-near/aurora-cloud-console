@@ -49,14 +49,14 @@ export const InfoList = ({ items, className }: InfoListProps) => (
                 description
               )}
             </dd>
-            {Action ? (
+            {Action && (
               <Action
                 term={term}
                 description={
                   typeof description === "string" ? description : undefined
                 }
               />
-            ) : null}
+            )}
           </div>
         </div>
       )

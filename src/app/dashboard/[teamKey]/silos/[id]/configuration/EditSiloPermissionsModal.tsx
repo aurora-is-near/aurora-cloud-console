@@ -93,16 +93,11 @@ const EditSiloPermissionsModalContent = ({ silo, whitelistType }: Props) => {
                 id="newAddress"
                 name="newAddress"
                 value=""
-                onChange={() => {}}
                 placeholder="0x..."
                 className="flex-1"
                 disabled={isToggleWhitelistPending}
               />
-              <Button
-                variant="border"
-                disabled={isToggleWhitelistPending}
-                onClick={() => {}}
-              >
+              <Button variant="border" disabled={isToggleWhitelistPending}>
                 <PlusIcon className="w-5 h-5" />
               </Button>
             </div>
@@ -113,7 +108,7 @@ const EditSiloPermissionsModalContent = ({ silo, whitelistType }: Props) => {
             size={4}
             className="text-slate-500 text-center"
           >
-            You have no wallet addresses added yet. It means that no one it
+            You have not added any wallet addresses yet. It means that no one is
             allowed to make transactions on your chain.
           </Typography>
         </div>
@@ -137,12 +132,12 @@ export const EditSiloPermissionsModal = ({
       close={closeModal}
       title={whitelistType ? copies[whitelistType].title : ""}
     >
-      {whitelistType ? (
+      {whitelistType && (
         <EditSiloPermissionsModalContent
           silo={silo}
           whitelistType={whitelistType}
         />
-      ) : null}
+      )}
     </SlideOver>
   )
 }
