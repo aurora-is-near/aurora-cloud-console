@@ -56,7 +56,7 @@ export const performSiloConfigTransaction = async (
   await createSiloConfigTransaction({
     silo_id: silo.id,
     transaction_hash: tx_hash,
-    operation: "SET_BASE_TOKEN",
+    operation,
     status: "PENDING",
   })
 
