@@ -9,7 +9,7 @@ export const getTeamSilosByKey = async (teamKey: string): Promise<Silo[]> => {
     .from("silos")
     .select("*, silos_teams!inner(silo_id), teams!inner(team_key)")
     .eq("teams.team_key", teamKey)
-    .is("silos.deleted_at", null)
+    .is("deleted_at", null)
 
   return silos ?? []
 }
