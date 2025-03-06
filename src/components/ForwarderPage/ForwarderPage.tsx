@@ -71,12 +71,7 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
       >
         <div className="flex flex-row gap-4">
           {silo && (
-            <ForwarderWidgetOpenButton
-              silo={silo}
-              variant="border"
-              size="lg"
-              isExternal
-            />
+            <ForwarderWidgetOpenButton silo={silo} size="lg" isExternal />
           )}
           <LinkButton variant="border" href="/api" size="lg" isExternal>
             <div className="flex flex-row items-center gap-1">
