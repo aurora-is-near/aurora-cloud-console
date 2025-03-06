@@ -130,6 +130,72 @@ describe("deployDefaultTokens", () => {
     expect(result).toBe("PENDING")
   })
 
+  it("skips if a token contract was already deployed", async () => {
+    ;(ethers.Contract as jest.Mock).mockImplementation(
+      (tokenContractAddress) => ({
+        symbol: () => {
+          if (
+            tokenContractAddress ===
+            "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d"
+          ) {
+            return "NEAR"
+          }
+
+          if (
+            tokenContractAddress ===
+            "0x80Da25Da4D783E57d2FCdA0436873A193a4BEccF"
+          ) {
+            return "USDt"
+          }
+
+          throw new Error("Not implemented")
+        },
+      }),
+    )
+
+    const result = await deployDefaultTokens(mockSilo)
+
+    expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledTimes(2)
+    expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledWith({
+      siloEngineAccountId: mockSilo.engine_account,
+      token: "Aurora",
+    })
+
+    expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledWith({
+      siloEngineAccountId: mockSilo.engine_account,
+      token: "Usdc",
+    })
+
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).toHaveBeenCalledTimes(2)
+
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).toHaveBeenCalledWith({
+      operation: "DEPLOY_AURORA",
+      silo_id: 1,
+      status: "PENDING",
+      transaction_hash: "mock_tx_hash_Aurora",
+    })
+
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).toHaveBeenCalledWith({
+      operation: "DEPLOY_USDC",
+      silo_id: 1,
+      status: "PENDING",
+      transaction_hash: "mock_tx_hash_Usdc",
+    })
+
+    expect(mockTxStatus).not.toHaveBeenCalled()
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").update,
+    ).not.toHaveBeenCalled()
+
+    expect(result).toBe("PENDING")
+  })
+
   it("handles FAILED transactions", async () => {
     mockSupabaseClient
       .from("silo_config_transactions")
