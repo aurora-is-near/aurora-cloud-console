@@ -2,7 +2,7 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const applyDealToSilo = async (siloId: number, dealId: number) => {
+export const applyDealToSilo = async (dealId: number, siloId: number) => {
   const supabase = createAdminSupabaseClient()
 
   const { data: silo } = await supabase
