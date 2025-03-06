@@ -31,7 +31,7 @@ const SILO_CONFIG_TRANSACTION_OPERATIONS: Record<
   USDC: "DEPLOY_USDC",
 }
 
-export const deployDefaultToken = async ({
+const deployDefaultToken = async ({
   provider,
   silo,
   symbol,
