@@ -7,11 +7,7 @@ import { useMutation } from "@tanstack/react-query"
 
 import { apiClient } from "@/utils/api/client"
 import { useProgressiveRetry } from "@/hooks/useProgressiveRetry"
-import type {
-  SiloWhitelistAddress,
-  SiloWhitelistType,
-  Silo,
-} from "@/types/types"
+import type { Silo, SiloWhitelistType } from "@/types/types"
 
 const addressSchema = z.object({
   address: z

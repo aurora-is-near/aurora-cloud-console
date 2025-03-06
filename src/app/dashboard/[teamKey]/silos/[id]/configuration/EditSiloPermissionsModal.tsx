@@ -18,7 +18,7 @@ import type {
   SiloWhitelistType,
 } from "@/types/types"
 
-import { useToggleWhitelist, useAddAddress } from "./hooks"
+import { useAddAddress, useToggleWhitelist } from "./hooks"
 
 type Copies = {
   title: string
@@ -68,7 +68,7 @@ const EditSiloPermissionsModalContent = ({
     onSuccess: router.refresh,
   })
 
-  const { isFailed: isAddingAddressFailed, onAddAddress } = useAddAddress({
+  const { onAddAddress } = useAddAddress({
     silo,
     addressValue,
     whitelistType,

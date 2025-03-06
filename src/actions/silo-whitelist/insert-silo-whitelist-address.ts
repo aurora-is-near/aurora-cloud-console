@@ -1,8 +1,8 @@
 "use server"
 
 import {
-  assertValidSupabaseResult,
   assertNonNullSupabaseResult,
+  assertValidSupabaseResult,
 } from "@/utils/supabase"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import type { SiloWhitelistAddress } from "@/types/types"
