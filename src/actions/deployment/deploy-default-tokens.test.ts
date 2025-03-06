@@ -63,7 +63,7 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledTimes(4)
 
-    ;["Near", "Aurora", "Usdt", "Usdc"].forEach((token) => {
+    contractChangerTokens.forEach((token) => {
       expect(
         mockSupabaseClient.from("silo_config_transactions").insert,
       ).toHaveBeenCalledWith({
@@ -211,7 +211,7 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledTimes(contractChangerTokens.length)
 
-    ;["Near", "Aurora", "Usdt", "Usdc"].forEach((token) => {
+    contractChangerTokens.forEach((token) => {
       expect(
         mockSupabaseClient.from("silo_config_transactions").insert,
       ).toHaveBeenCalledWith({
