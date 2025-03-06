@@ -19,6 +19,8 @@ export const performSiloConfigTransaction = async (
     operation,
   )
 
+  // If there has already been a successful transaction for this operation
+  // we don't need to trigger another one.
   if (findTransactionWithStatus(previousTransactions, "SUCCESSFUL")) {
     return "SUCCESSFUL"
   }
@@ -28,6 +30,8 @@ export const performSiloConfigTransaction = async (
     "PENDING",
   )
 
+  // If there is already a pending transaction we can check its status and
+  // return the result.
   if (pendingBaseTokenTransaction) {
     return checkPendingTransaction(pendingBaseTokenTransaction, silo)
   }
