@@ -695,4 +695,31 @@ export const contract = c.router({
       scopes: ["forwarder:write"],
     },
   },
+  healthcheck: {
+    summary: "Perform various checks on the silo and report the status",
+    method: "GET",
+    path: "/api/silos/:id/healthcheck",
+    responses: {
+      200: z.object({
+        networkStatus: z.union([
+          z.literal("ok"),
+          z.literal("invalid-network"),
+          z.literal("stalled"),
+        ]),
+        defaultTokenContractsDeployed: z.object({
+          NEAR: z.boolean(),
+          USDt: z.boolean(),
+          USDC: z.boolean(),
+          AURORA: z.boolean(),
+          ETH: z.boolean(),
+        }),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silos:read"],
+    },
+  },
 })
