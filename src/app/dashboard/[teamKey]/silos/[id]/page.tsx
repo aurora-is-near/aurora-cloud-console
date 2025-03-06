@@ -4,17 +4,7 @@ import { DashboardHomePage } from "@/app/dashboard/[teamKey]/(new)/Dashboard"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { getSiloConfigTransactions } from "@/actions/silo-config-transactions/get-silo-config-transactions"
 import { getTeamOnboardingFormByKey } from "@/actions/onboarding/get-team-onboarding-form-by-key"
-import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
-
-const DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES: SiloConfigTransactionStatuses =
-  {
-    SET_BASE_TOKEN: null,
-    DEPLOY_NEAR: null,
-    DEPLOY_USDC: null,
-    DEPLOY_USDT: null,
-    DEPLOY_AURORA: null,
-    DEPLOY_ETH: null,
-  }
+import { DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES } from "@/constants/silo-config-transactions"
 
 const Page = async ({
   params: { id, teamKey },

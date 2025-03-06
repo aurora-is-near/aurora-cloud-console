@@ -11,6 +11,7 @@ import { updateSilo } from "@/actions/silos/update-silo"
 import { ListProgressState } from "@/uikit"
 import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
 import { deployDefaultTokens } from "@/actions/deployment/deploying-default-tokens"
+import { DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES } from "@/constants/silo-config-transactions"
 import { useSteps } from "../hooks"
 import { Steps } from "./Steps"
 import { Step, StepName } from "../types"
@@ -57,6 +58,11 @@ export const DeploymentSteps = ({
     name: StepName
     state: ListProgressState
   }>(() => {
+    const transactionStatuses = {
+      ...DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES,
+      ...siloTransactionStatuses,
+    }
+
     const noTransactions = Object.values(siloTransactionStatuses ?? {}).every(
       (status) => !status,
     )
@@ -66,9 +72,15 @@ export const DeploymentSteps = ({
       return { name: "INIT_AURORA_ENGINE", state: CURRENT_STEP_DEFAULT_STATE }
     }
 
-    const allTransactionsSuccessful = Object.values(
-      siloTransactionStatuses ?? {},
-    ).every((status) => status === "SUCCESSFUL")
+    const tokenDeploymentTransactionStatuses = Object.keys(transactionStatuses)
+      .filter((key): key is SiloConfigTransactionOperation =>
+        key.startsWith("DEPLOY_"),
+      )
+      .map((key) => siloTransactionStatuses?.[key])
+
+    const allTransactionsSuccessful = Object.values(transactionStatuses).every(
+      (status) => status === "SUCCESSFUL",
+    )
 
     // If all transactions are successful we jump ahead to the start block
     // explorer step.
@@ -83,14 +95,6 @@ export const DeploymentSteps = ({
     if (siloTransactionStatuses?.SET_BASE_TOKEN === "PENDING") {
       return { name: "SETTING_BASE_TOKEN", state: "pending" }
     }
-
-    const tokenDeploymentTransactionStatuses = Object.keys(
-      siloTransactionStatuses ?? {},
-    )
-      .filter((key): key is SiloConfigTransactionOperation =>
-        key.startsWith("DEPLOY_"),
-      )
-      .map((key) => siloTransactionStatuses?.[key])
 
     if (
       !tokenDeploymentTransactionStatuses.length ||
