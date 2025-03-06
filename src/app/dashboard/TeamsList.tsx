@@ -5,16 +5,15 @@ import { useState } from "react"
 import { Button } from "@headlessui/react"
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline"
 import { XMarkIcon } from "@heroicons/react/20/solid"
-import { SilosTeams, TeamSummary } from "@/types/types"
+import { TeamSummary } from "@/types/types"
 import Card from "@/components/Card"
 import { Input } from "@/components/Input"
 
-type AdminTeamListProps = {
+type TeamsListProps = {
   teamSummaries: TeamSummary[]
-  silosTeams: SilosTeams[]
 }
 
-const AdminTeamList = ({ teamSummaries, silosTeams }: AdminTeamListProps) => {
+export const TeamsList = ({ teamSummaries }: TeamsListProps) => {
   const [search, setSearch] = useState("")
 
   const filteredTeamSummaries = teamSummaries.filter((team) =>
@@ -44,23 +43,20 @@ const AdminTeamList = ({ teamSummaries, silosTeams }: AdminTeamListProps) => {
             <p className="text-lg text-slate-500">No teams found</p>
           </div>
         )}
-        {filteredTeamSummaries.map((team) => {
-          const siloId = silosTeams.find(
-            (silo) => silo.team_id === team.id,
-          )?.silo_id
-
-          const siloPrefix = siloId ? `/silos/${siloId}` : ""
+        {filteredTeamSummaries.map((teamSummary) => {
+          const firstSiloId = teamSummary.silo_ids[0]
+          const siloPrefix = firstSiloId ? `/silos/${firstSiloId}` : ""
 
           return (
             <div
-              key={team.id}
+              key={teamSummary.id}
               className="flex flex-0 border border-gray-200 bg-white hover:bg-slate-100 rounded-md text-slate-500 hover:text-slate-700"
             >
               <Link
-                href={`/dashboard/${team.team_key}${siloPrefix}`}
+                href={`/dashboard/${teamSummary.team_key}${siloPrefix}`}
                 className="w-full text-lg overflow-hidden whitespace-nowrap text-ellipsis block p-2 px-4"
               >
-                {team.name}
+                {teamSummary.name}
               </Link>
             </div>
           )
@@ -69,5 +65,3 @@ const AdminTeamList = ({ teamSummaries, silosTeams }: AdminTeamListProps) => {
     </Card>
   )
 }
-
-export default AdminTeamList
