@@ -119,6 +119,10 @@ describe("DeploymentProgressAuto", () => {
           isSelected: false,
         },
         {
+          id: "DEPLOYING_DEFAULT_TOKENS",
+          isSelected: false,
+        },
+        {
           id: "START_BLOCK_EXPLORER",
           isSelected: false,
         },
@@ -159,7 +163,7 @@ describe("DeploymentProgressAuto", () => {
       expect(setBaseToken).toHaveBeenCalledWith(silo)
     })
 
-    it("starts the block explorer once the base token is set", async () => {
+    it("starts the block explorer once all transaction-based steps are complete", async () => {
       ;(setBaseToken as jest.Mock).mockResolvedValue("SUCCESSFUL")
 
       render(
@@ -173,7 +177,13 @@ describe("DeploymentProgressAuto", () => {
           onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
-          siloBaseTokenTransactionStatus="PENDING"
+          siloTransactionStatuses={{
+            SET_BASE_TOKEN: "SUCCESSFUL",
+            DEPLOY_AURORA: "SUCCESSFUL",
+            DEPLOY_NEAR: "SUCCESSFUL",
+            DEPLOY_USDT: "SUCCESSFUL",
+            DEPLOY_USDC: "SUCCESSFUL",
+          }}
         />,
         { wrapper: createWrapper() },
       )
@@ -199,7 +209,13 @@ describe("DeploymentProgressAuto", () => {
           onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete={false}
           setIsDeploymentComplete={setIsDeploymentComplete}
-          siloBaseTokenTransactionStatus="SUCCESSFUL"
+          siloTransactionStatuses={{
+            SET_BASE_TOKEN: "SUCCESSFUL",
+            DEPLOY_AURORA: "SUCCESSFUL",
+            DEPLOY_NEAR: "SUCCESSFUL",
+            DEPLOY_USDT: "SUCCESSFUL",
+            DEPLOY_USDC: "SUCCESSFUL",
+          }}
         />,
         { wrapper: createWrapper() },
       )

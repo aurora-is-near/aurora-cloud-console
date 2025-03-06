@@ -61,8 +61,6 @@ export const DeploymentSteps = ({
       (status) => !status,
     )
 
-    console.log("noTransactions", noTransactions)
-
     // If there have been no transactions we start from the beginning.
     if (noTransactions) {
       return { name: "INIT_AURORA_ENGINE", state: CURRENT_STEP_DEFAULT_STATE }
