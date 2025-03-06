@@ -1,12 +1,12 @@
 "use server"
 
-import { getSession } from "@/actions/session/get-session"
+import { getAuthSession } from "@/actions/auth-session/get-auth-session"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { TeamSummary } from "@/types/types"
 import { isAdminUser } from "@/utils/admin"
 
 export const getTeamSummaries = async (): Promise<TeamSummary[]> => {
-  const { user } = (await getSession()) ?? {}
+  const { user } = (await getAuthSession()) ?? {}
 
   if (!user) {
     return []
