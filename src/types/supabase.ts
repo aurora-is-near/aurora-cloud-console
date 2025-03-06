@@ -116,6 +116,42 @@ export type Database = {
         }
         Relationships: []
       }
+      bridged_tokens: {
+        Row: {
+          aurora_address: string | null
+          created_at: string
+          decimals: number
+          ethereum_address: string | null
+          icon_url: string | null
+          id: number
+          name: string
+          near_address: string | null
+          symbol: string
+        }
+        Insert: {
+          aurora_address?: string | null
+          created_at?: string
+          decimals: number
+          ethereum_address?: string | null
+          icon_url?: string | null
+          id?: number
+          name: string
+          near_address?: string | null
+          symbol: string
+        }
+        Update: {
+          aurora_address?: string | null
+          created_at?: string
+          decimals?: number
+          ethereum_address?: string | null
+          icon_url?: string | null
+          id?: number
+          name?: string
+          near_address?: string | null
+          symbol?: string
+        }
+        Relationships: []
+      }
       datadog_web3_monitors: {
         Row: {
           created_at: string | null
