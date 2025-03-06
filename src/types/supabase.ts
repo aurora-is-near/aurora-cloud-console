@@ -1163,7 +1163,13 @@ export type Database = {
         | "paid"
         | "unpaid"
         | "no_payment_required"
-      silo_config_transaction_operation: "SET_BASE_TOKEN"
+        silo_config_transaction_operation:
+        | "SET_BASE_TOKEN"
+        | "DEPLOY_AURORA"
+        | "DEPLOY_USDT"
+        | "DEPLOY_USDC"
+        | "DEPLOY_NEAR"
+        | "DEPLOY_ETH"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:

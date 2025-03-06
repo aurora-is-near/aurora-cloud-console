@@ -1,9 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { Silo, SiloConfigTransactionStatus, Team } from "@/types/types"
+import {
+  Silo,
+  SiloConfigTransactionOperation,
+  SiloConfigTransactionStatus,
+  Team,
+} from "@/types/types"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { logger } from "@/logger"
 import { updateSilo } from "@/actions/silos/update-silo"
 import { ListProgressState } from "@/uikit"
+import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
+import { deployDefaultTokens } from "@/actions/deployment/deploying-default-tokens"
 import { useSteps } from "../hooks"
 import { Steps } from "./Steps"
 import { Step, StepName } from "../types"
@@ -11,7 +18,7 @@ import { Step, StepName } from "../types"
 type DeploymentStepsProps = {
   team: Team
   silo: Silo
-  siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
+  siloTransactionStatuses?: SiloConfigTransactionStatuses
   onDeploymentComplete: () => void
 }
 
@@ -19,6 +26,7 @@ const STEPS: StepName[] = [
   "CONFIGURED_CHAIN",
   "INIT_AURORA_ENGINE",
   "SETTING_BASE_TOKEN",
+  "DEPLOYING_DEFAULT_TOKENS",
   "START_BLOCK_EXPLORER",
   "CHAIN_DEPLOYED",
 ]
@@ -37,7 +45,7 @@ const isStepCompleted = (step: StepName, currentStep: StepName) =>
 export const DeploymentSteps = ({
   team,
   silo,
-  siloBaseTokenTransactionStatus,
+  siloTransactionStatuses,
   onDeploymentComplete,
 }: DeploymentStepsProps) => {
   const wasConfigurationStarted = useRef(false)
@@ -49,23 +57,59 @@ export const DeploymentSteps = ({
     name: StepName
     state: ListProgressState
   }>(() => {
-    if (!siloBaseTokenTransactionStatus) {
+    const noTransactions = Object.values(siloTransactionStatuses ?? {}).every(
+      (status) => !status,
+    )
+
+    console.log("noTransactions", noTransactions)
+
+    // If there have been no transactions we start from the beginning.
+    if (noTransactions) {
       return { name: "INIT_AURORA_ENGINE", state: CURRENT_STEP_DEFAULT_STATE }
     }
 
-    if (siloBaseTokenTransactionStatus === "SUCCESSFUL") {
+    const allTransactionsSuccessful = Object.values(
+      siloTransactionStatuses ?? {},
+    ).every((status) => status === "SUCCESSFUL")
+
+    // If all transactions are successful we jump ahead to the start block
+    // explorer step.
+    if (allTransactionsSuccessful) {
       return { name: "START_BLOCK_EXPLORER", state: "pending" }
     }
 
-    if (siloBaseTokenTransactionStatus === "FAILED") {
+    if (siloTransactionStatuses?.SET_BASE_TOKEN === "FAILED") {
       return { name: "SETTING_BASE_TOKEN", state: "failed" }
     }
 
-    if (siloBaseTokenTransactionStatus === "PENDING") {
+    if (siloTransactionStatuses?.SET_BASE_TOKEN === "PENDING") {
       return { name: "SETTING_BASE_TOKEN", state: "pending" }
     }
 
-    return { name: "SETTING_BASE_TOKEN", state: "completed" }
+    const tokenDeploymentTransactionStatuses = Object.keys(
+      siloTransactionStatuses ?? {},
+    )
+      .filter((key): key is SiloConfigTransactionOperation =>
+        key.startsWith("DEPLOY_"),
+      )
+      .map((key) => siloTransactionStatuses?.[key])
+
+    if (
+      !tokenDeploymentTransactionStatuses.length ||
+      tokenDeploymentTransactionStatuses.every((status) => !status)
+    ) {
+      return { name: "SETTING_BASE_TOKEN", state: "completed" }
+    }
+
+    if (tokenDeploymentTransactionStatuses.includes("FAILED")) {
+      return { name: "DEPLOYING_DEFAULT_TOKENS", state: "failed" }
+    }
+
+    if (tokenDeploymentTransactionStatuses.includes("PENDING")) {
+      return { name: "DEPLOYING_DEFAULT_TOKENS", state: "pending" }
+    }
+
+    return { name: "DEPLOYING_DEFAULT_TOKENS", state: "completed" }
   })
 
   const steps = useMemo(() => {
@@ -85,6 +129,59 @@ export const DeploymentSteps = ({
     })
   }, [currentStep])
 
+  const runTransactionStep = useCallback(
+    async (
+      name: StepName,
+      performTransaction: () => Promise<SiloConfigTransactionStatus>,
+    ): Promise<ListProgressState> => {
+      setCurrentStep({
+        name,
+        state: "pending",
+      })
+
+      let status: SiloConfigTransactionStatus = "PENDING"
+
+      try {
+        status = await performTransaction()
+      } catch (error) {
+        logger.error(error)
+        setCurrentStep({
+          name,
+          state: "failed",
+        })
+
+        return "failed"
+      }
+
+      // If the transaction has failed we mark the step as failed and exit. It is
+      // up the the user to hit retry.
+      if (status === "FAILED") {
+        setCurrentStep({
+          name,
+          state: "failed",
+        })
+
+        return "failed"
+      }
+
+      // If the transaction is pending we wait a little before setting to delayed
+      // (to display another message in the UI), then we the process to check the
+      // transaction again.
+      if (status === "PENDING") {
+        await sleep(10000)
+        setCurrentStep({
+          name,
+          state: "delayed",
+        })
+
+        return "delayed"
+      }
+
+      return "completed"
+    },
+    [],
+  )
+
   const startConfiguration = useCallback(async () => {
     // Start with a little delay while pretending to initialize the Aurora engine.
     if (!isStepCompleted("INIT_AURORA_ENGINE", currentStep.name)) {
@@ -93,48 +190,34 @@ export const DeploymentSteps = ({
 
     // Set the base token
     if (!isStepCompleted("SETTING_BASE_TOKEN", currentStep.name)) {
-      setCurrentStep({
-        name: "SETTING_BASE_TOKEN",
-        state: "pending",
-      })
+      const status = await runTransactionStep("SETTING_BASE_TOKEN", () =>
+        setBaseToken(silo),
+      )
 
-      let setBaseTokenStatus: SiloConfigTransactionStatus = "PENDING"
-
-      try {
-        setBaseTokenStatus = await setBaseToken(silo)
-      } catch (error) {
-        logger.error(error)
-        setCurrentStep({
-          name: "SETTING_BASE_TOKEN",
-          state: "failed",
-        })
-
-        return
-      }
-
-      // If the transaction has failed we mark the step as failed and exit. It is
-      // up the the user to hit retry.
-      if (setBaseTokenStatus === "FAILED") {
-        setCurrentStep({
-          name: "SETTING_BASE_TOKEN",
-          state: "failed",
-        })
-
-        return
-      }
-
-      // If the transaction is pending we wait a little before setting to delayed
-      // (to display another message in the UI), then we the process to check the
-      // transaction again.
-      if (setBaseTokenStatus === "PENDING") {
-        await sleep(10000)
-        setCurrentStep({
-          name: "SETTING_BASE_TOKEN",
-          state: "delayed",
-        })
-
+      if (status === "delayed") {
         await startConfiguration()
 
+        return
+      }
+
+      if (status === "failed") {
+        return
+      }
+    }
+
+    // Deploy the default token contracts
+    if (!isStepCompleted("DEPLOYING_DEFAULT_TOKENS", currentStep.name)) {
+      const status = await runTransactionStep("DEPLOYING_DEFAULT_TOKENS", () =>
+        deployDefaultTokens(silo),
+      )
+
+      if (status === "delayed") {
+        await startConfiguration()
+
+        return
+      }
+
+      if (status === "failed") {
         return
       }
     }
@@ -155,7 +238,7 @@ export const DeploymentSteps = ({
       name: "CHAIN_DEPLOYED",
       state: "completed",
     })
-  }, [currentStep, silo])
+  }, [currentStep.name, runTransactionStep, silo])
 
   // Start the configuration on mount.
   useEffect(() => {

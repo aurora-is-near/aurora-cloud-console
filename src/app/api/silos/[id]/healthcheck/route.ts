@@ -4,8 +4,9 @@ import { getSilo } from "@/actions/silos/get-silo"
 import { abort } from "@/utils/abort"
 import { checkToken } from "@/utils/check-token-contract"
 import { Silo } from "@/types/types"
+import { DEFAULT_TOKENS } from "@/constants/default-tokens"
+import { DefaultToken } from "@/types/default-tokens"
 
-const DEFAULT_TOKENS = ["NEAR", "USDt", "USDC", "AURORA", "ETH"] as const
 const STALLED_THRESHOLD = 60
 
 /**
@@ -16,9 +17,7 @@ const checkDefaultTokens = async (provider: JsonRpcProvider) => {
     DEFAULT_TOKENS.map(async (symbol) => checkToken(provider, symbol)),
   )
 
-  return DEFAULT_TOKENS.reduce<
-    Record<(typeof DEFAULT_TOKENS)[number], boolean>
-  >(
+  return DEFAULT_TOKENS.reduce<Record<DefaultToken, boolean>>(
     (acc, symbol, index) => ({
       ...acc,
       [symbol]: supportedTokens[index],
@@ -28,7 +27,6 @@ const checkDefaultTokens = async (provider: JsonRpcProvider) => {
       USDt: false,
       USDC: false,
       AURORA: false,
-      ETH: false,
     },
   )
 }
