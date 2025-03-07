@@ -1,4 +1,10 @@
-import { Silo, Token, Widget, WidgetNetworkType } from "@/types/types"
+import {
+  Silo,
+  SiloBridgedToken,
+  Token,
+  Widget,
+  WidgetNetworkType,
+} from "@/types/types"
 
 type CustomChain = {
   id: string
@@ -42,7 +48,7 @@ const getNetworkEvms = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
 
 const setTokensParam = (
   url: URL,
-  { activeTokens }: { activeTokens: Token[] },
+  { activeTokens }: { activeTokens: SiloBridgedToken[] },
 ) => {
   if (!activeTokens.length) {
     return
@@ -131,14 +137,9 @@ export const getWidgetUrl = ({
 }: {
   silo: Silo
   widget: Widget
-  tokens: Token[]
+  tokens: SiloBridgedToken[]
 }): string => {
-  const activeTokens = tokens.filter(
-    (token) =>
-      token.silo_id === silo.id &&
-      token.bridge_deployment_status === "DEPLOYED",
-  )
-
+  const activeTokens = tokens.filter((token) => token.is_active)
   const url = new URL("https://aurora.plus/cloud")
 
   if (widget.to_networks?.length) {
