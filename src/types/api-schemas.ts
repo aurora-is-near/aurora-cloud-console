@@ -5,7 +5,7 @@ import {
   OracleSchema as Oracle,
   RuleSchema as Rule,
   SiloSchema as Silo,
-  TokenSchema as Token,
+  SiloBridgedTokenSchema as SiloBridgedToken,
   TransactionDataSchema as TransactionData,
   WalletDetailsSchema as WalletDetails,
   WidgetSchema as Widget,
@@ -14,7 +14,7 @@ import {
 export type DealSchema = z.infer<typeof Deal>
 export type RuleSchema = z.infer<typeof Rule>
 export type SiloSchema = z.infer<typeof Silo>
-export type TokenSchema = z.infer<typeof Token>
+export type SiloBridgedTokenSchema = z.infer<typeof SiloBridgedToken>
 export type WalletDetailsSchema = z.infer<typeof WalletDetails>
 export type TransactionDataSchema = z.infer<typeof TransactionData>
 export type ChartDataSchema = z.infer<typeof ChartData>

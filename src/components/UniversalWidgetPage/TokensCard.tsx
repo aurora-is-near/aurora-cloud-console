@@ -10,7 +10,7 @@ import Card from "@/components/Card"
 import { Input } from "@/components/Input"
 import { RadioInput } from "@/components/RadioInput"
 import { SelectInput, SelectInputOption } from "@/components/SelectInput"
-import { useWidgetTokens } from "@/hooks/useWidgetTokens"
+import { useBridgedTokens } from "@/hooks/useBridgedTokens"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
 import { logger } from "@/logger"
@@ -33,15 +33,19 @@ type Inputs = Partial<{
 }>
 
 export const TokensCard = ({ siloId }: TokensCardProps) => {
-  const { undeployedTokens } = useWidgetTokens(siloId)
-  const getSiloTokensUpdater = useOptimisticUpdater("getSiloTokens")
+  const { supportedTokens } = useBridgedTokens(siloId)
+  const getSiloBridgedTokensUpdater = useOptimisticUpdater(
+    "getSiloBridgedTokens",
+  )
 
   const { mutate: bridgeSiloToken, isPending: isBridgeSiloTokenPending } =
     useMutation({
       mutationFn: apiClient.bridgeSiloToken,
-      onSettled: getSiloTokensUpdater.invalidate,
-      onSuccess: () => {
-        toast.success("Token deployment requested")
+      onSettled: getSiloBridgedTokensUpdater.invalidate,
+      onSuccess: ({ isDeploymentPending }) => {
+        toast.success(
+          isDeploymentPending ? "Token deployment requested" : "Token deployed",
+        )
       },
       onError: (error) => {
         logger.error(error)
@@ -76,7 +80,7 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
   }
 
   const onExistingTokenSymbolChange = (option: SelectInputOption) => {
-    const selectedToken = undeployedTokens.find(
+    const selectedToken = supportedTokens.find(
       (token) => token.id === Number(option.value),
     )
 
@@ -85,7 +89,7 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
     }
 
     setSelectedExistingToken(option)
-    methods.setValue("existing-token-address", selectedToken.address)
+    methods.setValue("existing-token-address", selectedToken.aurora_address)
   }
 
   const onRequestExistingTokenDeploymentClick = async () => {
@@ -141,7 +145,7 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
                   id="existing-token-symbol"
                   name="existing-token-symbol"
                   register={register}
-                  options={undeployedTokens.map((token) => ({
+                  options={supportedTokens.map((token) => ({
                     label: token.symbol,
                     value: token.id,
                   }))}

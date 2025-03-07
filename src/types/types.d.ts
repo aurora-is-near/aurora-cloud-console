@@ -89,6 +89,11 @@ export type FilterEntry = Tables<"filter_entries">
 
 export type BridgedToken = Tables<"bridged_tokens">
 
+export type SiloBridgedToken = BridgedToken & {
+  is_deployment_pending: boolean
+  is_active: boolean
+}
+
 export type OnboardingForm = Tables<"onboarding_form">
 
 export type ChartColor = (typeof CHART_COLOURS)[number]

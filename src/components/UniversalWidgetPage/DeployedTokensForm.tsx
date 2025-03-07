@@ -7,22 +7,20 @@ import { CheckIcon, ClockIcon } from "@heroicons/react/20/solid"
 import toast from "react-hot-toast"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
-import { TokenSchema } from "@/types/api-schemas"
 import { Tag } from "@/components/Tag"
 import { Checkbox } from "@/components/Checkbox"
+import { SiloBridgedTokenSchema } from "@/types/api-schemas"
 
 type Inputs = Partial<Record<string, boolean>>
 
 type DeployedTokensFormProps = {
   siloId: number
-  deployedTokens: TokenSchema[]
-  activeTokens: TokenSchema[]
+  bridgedSiloTokens: SiloBridgedTokenSchema[]
 }
 
 const DeployedTokensForm = ({
   siloId,
-  deployedTokens,
-  activeTokens,
+  bridgedSiloTokens,
 }: DeployedTokensFormProps) => {
   const methods = useForm<Inputs>()
   const {
@@ -39,10 +37,10 @@ const DeployedTokensForm = ({
     onMutate: getWidgetUpdater.update,
     onSettled: getWidgetUpdater.invalidate,
     onSuccess: () => {
-      toast.success("Widget tokens updated")
+      toast.success("Active tokens updated")
     },
     onError: () => {
-      toast.error("Failed to update bridge tokens")
+      toast.error("Failed to update active tokens")
     },
   })
 
@@ -63,10 +61,10 @@ const DeployedTokensForm = ({
   )
 
   useEffect(() => {
-    activeTokens.forEach((token) => {
-      setValue(String(token.id), true)
+    bridgedSiloTokens.forEach((token) => {
+      setValue(String(token.id), token.isActive)
     })
-  }, [setValue, activeTokens])
+  }, [setValue, bridgedSiloTokens])
 
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
@@ -80,20 +78,18 @@ const DeployedTokensForm = ({
 
   return (
     <FormProvider {...methods}>
-      <div>
-        {deployedTokens.map((token) => {
-          const isDeployed = token.bridge?.deploymentStatus === "DEPLOYED"
-
+      <div className="flex flex-col space-y-2">
+        {bridgedSiloTokens.map((token) => {
           return (
             <Checkbox
               key={token.id}
               label={token.symbol}
               id={String(token.id)}
               name={String(token.id)}
-              disabled={!isDeployed || isPending || isSubmitting}
+              disabled={isPending || isSubmitting || token.isDeploymentPending}
               register={register}
               afterLabel={
-                isDeployed ? (
+                !token.isDeploymentPending ? (
                   <Tag
                     size="sm"
                     color="green"

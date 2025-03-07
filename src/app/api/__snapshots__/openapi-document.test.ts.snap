@@ -2098,7 +2098,7 @@ exports[`OpenAPI Document should be valid 1`] = `
       "get": {
         "deprecated": undefined,
         "description": "**Required scopes:** \`silos:read\`",
-        "operationId": "getSiloTokens",
+        "operationId": "getSiloBridgedTokens",
         "parameters": [
           {
             "in": "path",

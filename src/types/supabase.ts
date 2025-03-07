@@ -118,7 +118,7 @@ export type Database = {
       }
       bridged_tokens: {
         Row: {
-          aurora_address: string | null
+          aurora_address: string
           created_at: string
           decimals: number
           ethereum_address: string | null
@@ -129,7 +129,7 @@ export type Database = {
           symbol: string
         }
         Insert: {
-          aurora_address?: string | null
+          aurora_address: string
           created_at?: string
           decimals: number
           ethereum_address?: string | null
@@ -140,7 +140,7 @@ export type Database = {
           symbol: string
         }
         Update: {
-          aurora_address?: string | null
+          aurora_address: string
           created_at?: string
           decimals?: number
           ethereum_address?: string | null
@@ -679,6 +679,42 @@ export type Database = {
             columns: ["userlist_id"]
             isOneToOne: false
             referencedRelation: "userlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      silo_bridged_tokens: {
+        Row: {
+          bridged_token_id: number
+          is_active: boolean
+          is_deployment_pending: boolean
+          silo_id: number
+        }
+        Insert: {
+          bridged_token_id: number
+          is_active?: boolean
+          is_deployment_pending?: boolean
+          silo_id?: number
+        }
+        Update: {
+          bridged_token_id?: number
+          is_active?: boolean
+          is_deployment_pending?: boolean
+          silo_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_bridged_tokens_bridged_token_id_fkey"
+            columns: ["bridged_token_id"]
+            isOneToOne: false
+            referencedRelation: "bridged_tokens"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_bridged_tokens_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
             referencedColumns: ["id"]
           },
         ]

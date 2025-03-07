@@ -3,17 +3,12 @@ import { z } from "zod"
 import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 import { WIDGET_NETWORKS } from "@/constants/bridge"
-import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
 import { SILO_ASSETS } from "@/constants/assets"
 import { FORWARDER_TOKENS } from "@/constants/forwarder-tokens"
 
 extendZodWithOpenApi(z)
 
 const c = initContract()
-
-const DeploymentStatus = z.string().openapi({
-  enum: DEPLOYMENT_STATUSES,
-})
 
 export const DealSchema = z.object({
   id: z.number(),
@@ -40,29 +35,18 @@ export const RuleSchema = z.object({
   updatedAt: z.string(),
 })
 
-export const TokenSchema = z.object({
-  address: z.string(),
-  createdAt: z.string(),
+export const SiloBridgedTokenSchema = z.object({
   id: z.number(),
+  createdAt: z.string(),
+  name: z.string(),
   symbol: z.string(),
-  name: z.string().nullable(),
-  decimals: z.number().nullable(),
+  decimals: z.number(),
+  aurora_address: z.string().nullable(),
+  near_address: z.string().nullable(),
+  ethereum_address: z.string().nullable(),
   iconUrl: z.string().nullable(),
-  type: z.string().nullable(),
-  deploymentStatus: DeploymentStatus,
-  bridge: z
-    .object({
-      deploymentStatus: DeploymentStatus,
-      isFast: z.boolean(),
-      addresses: z.array(
-        z.object({
-          network: z.string(),
-          address: z.string(),
-        }),
-      ),
-      origin: z.string().nullable(),
-    })
-    .nullable(),
+  isDeploymentPending: z.boolean(),
+  isActive: z.boolean(),
 })
 
 export const SiloSchema = z.object({
@@ -296,13 +280,14 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
-  getSiloTokens: {
-    summary: "Get the tokens associated with a silo",
+  getSiloBridgedTokens: {
+    summary: "Get the bridged tokens associated with a silo",
     method: "GET",
     path: "/api/silos/:id/tokens",
     responses: {
       200: z.object({
-        items: z.array(TokenSchema),
+        total: z.number(),
+        items: z.array(SiloBridgedTokenSchema),
       }),
     },
     metadata: {
@@ -318,7 +303,8 @@ export const contract = c.router({
     path: "/api/silos/:id/tokens/bridge",
     responses: {
       200: z.object({
-        status: DeploymentStatus,
+        isActive: z.boolean(),
+        isDeploymentPending: z.boolean(),
       }),
     },
     metadata: {
