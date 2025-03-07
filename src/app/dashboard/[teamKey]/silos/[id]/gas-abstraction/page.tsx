@@ -71,7 +71,7 @@ const Page = async ({
       <GasAbstractionPage>
         <Tabs tabs={tabs} />
       </GasAbstractionPage>
-      <AddPlanModal team={team} />
+      <AddPlanModal siloId={silo.id} team={team} />
     </>
   )
 }
