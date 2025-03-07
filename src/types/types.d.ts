@@ -52,8 +52,6 @@ export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
 
-export type Token = Tables<"tokens">
-
 export type Oracle = Tables<"oracles">
 
 export type BlockscoutDatabase = Tables<"blockscout_databases">
