@@ -968,9 +968,6 @@ export type Database = {
           created_at: string
           id: number
           name: string
-          onboarding_status:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions: number
           team_key: string
           updated_at: string
@@ -979,9 +976,6 @@ export type Database = {
           created_at?: string
           id?: number
           name: string
-          onboarding_status?:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions?: number
           team_key: string
           updated_at?: string
@@ -990,9 +984,6 @@ export type Database = {
           created_at?: string
           id?: number
           name?: string
-          onboarding_status?:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions?: number
           team_key?: string
           updated_at?: string
