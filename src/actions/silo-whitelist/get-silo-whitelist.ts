@@ -13,7 +13,7 @@ export const getSiloWhitelist = async (
 ): Promise<SiloWhitelistAddress[]> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
-    .from("silo_addresses")
+    .from("silo_whitelist_addresses")
     .select("*")
     .order("id", { ascending: true })
     .eq("silo_id", siloId)

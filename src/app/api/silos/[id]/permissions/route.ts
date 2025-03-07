@@ -8,6 +8,7 @@ import { updateSiloWhitelistAddress } from "@/actions/silo-whitelist/update-silo
 import { createSiloConfigTransaction } from "@/actions/silo-config-transactions/create-silo-config-transaction"
 import { getLastSiloConfigTransaction } from "@/actions/silo-config-transactions/get-last-silo-config-transaction"
 import { getSiloConfigTransactionById } from "@/actions/silo-config-transactions/get-silo-config-transaction-by-id"
+import { checkPendingTransaction } from "@/utils/check-pending-silo-config-transaction"
 import type { ApiRequestContext } from "@/types/api"
 import type { Silo, SiloConfigTransaction } from "@/types/types"
 
@@ -19,8 +20,6 @@ import {
   whitelistKindPopulateOperationMap,
   whitelistKindToggleOperationMap,
 } from "./maps"
-
-import { checkPendingTransaction, isTransactionExpired } from "./utils"
 
 const getSiloOrAbort = async (
   teamId: number,
@@ -71,7 +70,7 @@ export const PUT = createApiEndpoint(
     // 2. If it has expired or was successful - consider current request as new
     if (
       !previousTransaction ||
-      isTransactionExpired(previousTransaction) ||
+      previousTransaction.status === "FAILED" ||
       previousTransaction.status === "SUCCESSFUL"
     ) {
       const { tx_hash } = await contractChangerApiClient.toggleWhitelist({
@@ -109,10 +108,7 @@ export const PUT = createApiEndpoint(
     }
 
     // 3. Check and update the transaction status
-    if (
-      previousTransaction.status === "FAILED" ||
-      previousTransaction.status === "PENDING"
-    ) {
+    if (previousTransaction.status === "PENDING") {
       const txStatus = await checkPendingTransaction(previousTransaction, silo)
 
       if (txStatus === "FAILED") {
@@ -136,12 +132,6 @@ export const PUT = createApiEndpoint(
       isEnabled,
       status: "SUCCESSFUL" as const,
     }
-  },
-  {
-    cache: {
-      maxAge: "1h",
-      staleWhileRevalidate: "1y",
-    },
   },
 )
 
@@ -260,12 +250,6 @@ export const POST = createApiEndpoint(
         abort(500, "Unexpected transaction status")
     }
   },
-  {
-    cache: {
-      maxAge: "1h",
-      staleWhileRevalidate: "1y",
-    },
-  },
 )
 
 export const DELETE = createApiEndpoint(
@@ -301,11 +285,5 @@ export const DELETE = createApiEndpoint(
       address,
       action,
     }
-  },
-  {
-    cache: {
-      maxAge: "1h",
-      staleWhileRevalidate: "1y",
-    },
   },
 )

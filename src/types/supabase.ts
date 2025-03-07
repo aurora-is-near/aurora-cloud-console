@@ -116,6 +116,42 @@ export type Database = {
         }
         Relationships: []
       }
+      bridged_tokens: {
+        Row: {
+          aurora_address: string
+          created_at: string
+          decimals: number
+          ethereum_address: string | null
+          icon_url: string | null
+          id: number
+          name: string
+          near_address: string | null
+          symbol: string
+        }
+        Insert: {
+          aurora_address: string
+          created_at?: string
+          decimals: number
+          ethereum_address?: string | null
+          icon_url?: string | null
+          id?: number
+          name: string
+          near_address?: string | null
+          symbol: string
+        }
+        Update: {
+          aurora_address?: string
+          created_at?: string
+          decimals?: number
+          ethereum_address?: string | null
+          icon_url?: string | null
+          id?: number
+          name?: string
+          near_address?: string | null
+          symbol?: string
+        }
+        Relationships: []
+      }
       datadog_web3_monitors: {
         Row: {
           created_at: string | null
@@ -647,44 +683,38 @@ export type Database = {
           },
         ]
       }
-      silo_addresses: {
+      silo_bridged_tokens: {
         Row: {
-          address: string
-          id: number
-          is_applied: boolean
-          list: Database["public"]["Enums"]["address_whitelist_type"]
+          bridged_token_id: number
+          is_active: boolean
+          is_deployment_pending: boolean
           silo_id: number
-          tx_id: number | null
         }
         Insert: {
-          address: string
-          id?: number
-          is_applied?: boolean
-          list: Database["public"]["Enums"]["address_whitelist_type"]
-          silo_id: number
-          tx_id: number | null
+          bridged_token_id: number
+          is_active: boolean
+          is_deployment_pending?: boolean
+          silo_id?: number
         }
         Update: {
-          address?: string
-          id?: number
-          is_applied?: boolean
-          list?: Database["public"]["Enums"]["address_whitelist_type"]
+          bridged_token_id?: number
+          is_active?: boolean
+          is_deployment_pending?: boolean
           silo_id?: number
-          tx_id?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "silo_addresses_silo_id_fkey"
-            columns: ["silo_id"]
+            foreignKeyName: "silo_bridged_tokens_bridged_token_id_fkey"
+            columns: ["bridged_token_id"]
             isOneToOne: false
-            referencedRelation: "silos"
+            referencedRelation: "bridged_tokens"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "silo_addresses_tx_id_fkey"
-            columns: ["tx_id"]
+            foreignKeyName: "silo_bridged_tokens_silo_id_fkey"
+            columns: ["silo_id"]
             isOneToOne: false
-            referencedRelation: "silo_config_transactions"
+            referencedRelation: "silos"
             referencedColumns: ["id"]
           },
         ]
@@ -754,6 +784,48 @@ export type Database = {
         }
         Relationships: []
       }
+      silo_whitelist_addresses: {
+        Row: {
+          address: string
+          id: number
+          is_applied: boolean
+          list: Database["public"]["Enums"]["address_whitelist_type"]
+          silo_id: number
+          tx_id: number | null
+        }
+        Insert: {
+          address: string
+          id?: number
+          is_applied?: boolean
+          list: Database["public"]["Enums"]["address_whitelist_type"]
+          silo_id: number
+          tx_id?: number | null
+        }
+        Update: {
+          address?: string
+          id?: number
+          is_applied?: boolean
+          list?: Database["public"]["Enums"]["address_whitelist_type"]
+          silo_id?: number
+          tx_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_addresses_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_addresses_tx_id_fkey"
+            columns: ["tx_id"]
+            isOneToOne: false
+            referencedRelation: "silo_config_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       silos: {
         Row: {
           applied_deal_ids: number[]
@@ -786,8 +858,6 @@ export type Database = {
           silo_to_silo_bridge_address: string | null
           type: string
           updated_at: string
-          white_list_deploy_contract: string[]
-          whitelist_create_txs: string[] | null
         }
         Insert: {
           applied_deal_ids: number[]
@@ -820,8 +890,6 @@ export type Database = {
           silo_to_silo_bridge_address?: string | null
           type?: string
           updated_at?: string
-          white_list_deploy_contract?: string[]
-          whitelist_create_txs?: string[] | null
         }
         Update: {
           applied_deal_ids?: number[]
@@ -854,8 +922,6 @@ export type Database = {
           silo_to_silo_bridge_address?: string | null
           type?: string
           updated_at?: string
-          white_list_deploy_contract?: string[]
-          whitelist_create_txs?: string[] | null
         }
         Relationships: [
           {
@@ -902,6 +968,9 @@ export type Database = {
           created_at: string
           id: number
           name: string
+          onboarding_status:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           prepaid_transactions: number
           team_key: string
           updated_at: string
@@ -910,6 +979,9 @@ export type Database = {
           created_at?: string
           id?: number
           name: string
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           prepaid_transactions?: number
           team_key: string
           updated_at?: string
@@ -918,6 +990,9 @@ export type Database = {
           created_at?: string
           id?: number
           name?: string
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           prepaid_transactions?: number
           team_key?: string
           updated_at?: string
@@ -1220,7 +1295,16 @@ export type Database = {
         | "POPULATE_DEPLOY_CONTRACT_WHITELIST"
         | "PURGE_MAKE_TXS_WHITELIST"
         | "PURGE_DEPLOY_CONTRACT_WHITELIST"
+        | "DEPLOY_AURORA"
+        | "DEPLOY_USDT"
+        | "DEPLOY_USDC"
+        | "DEPLOY_NEAR"
+        | "DEPLOY_ETH"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
+      team_onboarding_status:
+        | "REQUEST_RECEIVED"
+        | "DEPLOYMENT_IN_PROGRESS"
+        | "DEPLOYMENT_DONE"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:
         | "onramp"

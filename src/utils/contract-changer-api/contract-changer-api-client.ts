@@ -50,7 +50,7 @@ const request = async <T>(
 export type WhitelistKind = "env-admin" | "address"
 
 /**
- * @see https://github.com/aurora-is-near/silo-deployer-sdk
+ * @see https://github.com/aurora-is-near/silo-deployer
  */
 export const contractChangerApiClient = {
   setBaseToken: async ({

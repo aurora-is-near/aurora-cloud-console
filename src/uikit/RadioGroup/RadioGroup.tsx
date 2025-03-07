@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useId, useState } from "react"
+import { useId } from "react"
 import { ArrowPathIcon } from "@heroicons/react/24/solid"
 
 import { clsx } from "../clsx"
@@ -20,20 +20,12 @@ const Group = ({
   children,
   isClickable,
   defaultSelected,
-  ...props
+  onSelect,
 }: GroupProps) => {
-  const [selected, setSelected] = useState(defaultSelected)
-  const onSelect = (value: string) => {
-    setSelected(value)
-    props.onSelect(value)
-  }
-
-  useEffect(() => {
-    setSelected(defaultSelected)
-  }, [defaultSelected])
-
   return (
-    <RadioGroupContextProvider value={{ selected, isClickable, onSelect }}>
+    <RadioGroupContextProvider
+      value={{ selected: defaultSelected, isClickable, onSelect }}
+    >
       <div className="flex flex-col gap-4">{children}</div>
     </RadioGroupContextProvider>
   )

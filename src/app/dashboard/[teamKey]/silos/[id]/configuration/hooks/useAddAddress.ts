@@ -3,10 +3,10 @@
 import z from "zod"
 import toast from "react-hot-toast"
 import { useState } from "react"
+import { backOff } from "exponential-backoff"
 import { useMutation } from "@tanstack/react-query"
 
 import { apiClient } from "@/utils/api/client"
-import { useProgressiveRetry } from "@/hooks/useProgressiveRetry"
 import type { Silo, SiloWhitelistType } from "@/types/types"
 
 const addressSchema = z.object({
@@ -32,19 +32,19 @@ class AddressError extends Error {
   }
 }
 
-const assertEmptyAddress = (address: string) => {
+const assertNonEmptyAddress = (address: string) => {
   if (!address) {
     throw new AddressError("Address is required")
   }
 }
 
-const assertInvalidAddress = (address: string) => {
+const assertValidAddress = (address: string) => {
   if (!addressSchema.safeParse({ address }).success) {
     throw new AddressError("Invalid address format")
   }
 }
 
-const assertExistingAddress = (address: string, addresses: string[]) => {
+const assertPopulatedAddress = (address: string, addresses: string[]) => {
   if (addresses.includes(address)) {
     throw new AddressError("Address already exists")
   }
@@ -59,17 +59,13 @@ export const useAddAddress = ({
   onSubmit,
 }: Args) => {
   const [isFailed, setIsFailed] = useState<boolean>(false)
-  const { retry } = useProgressiveRetry({
-    maxRetries: 5,
-    onRetriesComplete: () => setIsFailed(true),
-  })
 
   const addAddressToList = useMutation({
     mutationFn: apiClient.addAddressToPermissionsWhitelist,
     onError: () => setIsFailed(true),
-    onSuccess: (data, variables) => {
+    onSuccess: async (data, variables) => {
       if (data.status === "PENDING") {
-        retry(() => addAddressToList.mutate(variables))
+        await backOff(() => addAddressToList.mutateAsync(variables))
       } else if (data.status === "SUCCESSFUL") {
         setIsFailed(false)
         onSuccess(data.address)
@@ -81,12 +77,14 @@ export const useAddAddress = ({
 
   const onAddAddress = () => {
     try {
-      assertEmptyAddress(addressValue)
-      assertInvalidAddress(addressValue)
-      assertExistingAddress(addressValue, addresses)
+      assertNonEmptyAddress(addressValue)
+      assertValidAddress(addressValue)
+      assertPopulatedAddress(addressValue, addresses)
     } catch (error: unknown) {
       if (error instanceof AddressError) {
         toast.error(error.message)
+      } else {
+        throw error
       }
     }
 

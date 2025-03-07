@@ -28,13 +28,13 @@ const whitelistContractsMock = {
 describe("getSiloAddressesWhitelist", () => {
   it("returns list of addresses that are allowed to make transaction for a silo", async () => {
     mockSupabaseClient
-      .from("silo_addresses")
+      .from("silo_whitelist_addresses")
       .select.mockImplementation(() => createSelect([whitelistTxsMock]))
 
     const result = await getSiloWhitelist(mockSilo.id, "MAKE_TRANSACTION")
 
     expect(
-      mockSupabaseClient.from("silo_addresses").select,
+      mockSupabaseClient.from("silo_whitelist_addresses").select,
     ).toHaveBeenCalledTimes(1)
 
     expect(result[0]).toEqual(expect.objectContaining(whitelistTxsMock))
@@ -45,13 +45,13 @@ describe("getSiloAddressesWhitelist", () => {
 
   it("returns list of addresses that are allowed to deploy contracts for a silo", async () => {
     mockSupabaseClient
-      .from("silo_addresses")
+      .from("silo_whitelist_addresses")
       .select.mockImplementation(() => createSelect([whitelistContractsMock]))
 
     const result = await getSiloWhitelist(mockSilo.id, "DEPLOY_CONTRACT")
 
     expect(
-      mockSupabaseClient.from("silo_addresses").select,
+      mockSupabaseClient.from("silo_whitelist_addresses").select,
     ).toHaveBeenCalledTimes(1)
 
     expect(result[0]).toEqual(expect.objectContaining(whitelistContractsMock))

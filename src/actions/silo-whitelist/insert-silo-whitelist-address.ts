@@ -12,7 +12,7 @@ export const insertSiloWhitelistAddress = async (
 ): Promise<SiloWhitelistAddress | null> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
-    .from("silo_addresses")
+    .from("silo_whitelist_addresses")
     .insert(inputs)
     .select("*")
     .single()
