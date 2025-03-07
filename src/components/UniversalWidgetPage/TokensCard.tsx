@@ -34,6 +34,7 @@ type Inputs = Partial<{
 
 export const TokensCard = ({ siloId }: TokensCardProps) => {
   const { supportedTokens } = useBridgedTokens(siloId)
+  const getWidgetUpdater = useOptimisticUpdater("getWidget")
   const getSiloBridgedTokensUpdater = useOptimisticUpdater(
     "getSiloBridgedTokens",
   )
@@ -41,7 +42,10 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
   const { mutate: bridgeSiloToken, isPending: isBridgeSiloTokenPending } =
     useMutation({
       mutationFn: apiClient.bridgeSiloToken,
-      onSettled: getSiloBridgedTokensUpdater.invalidate,
+      onSettled: () => {
+        getWidgetUpdater.invalidate()
+        getSiloBridgedTokensUpdater.invalidate()
+      },
       onSuccess: ({ isDeploymentPending }) => {
         toast.success(
           isDeploymentPending ? "Token deployment requested" : "Token deployed",
