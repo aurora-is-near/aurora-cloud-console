@@ -3,15 +3,11 @@
 import { useState } from "react"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
 
-import type {
-  OnboardingForm,
-  Silo,
-  SiloConfigTransactionStatus,
-  Team,
-} from "@/types/types"
+import type { OnboardingForm, Silo, Team } from "@/types/types"
 
 import { LinkButton } from "@/components/LinkButton"
 import { AUTOMATED_BASE_TOKENS } from "@/constants/base-token"
+import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
 import { DeploymentSteps, ModalConfirmDeployment, Steps } from "./components"
 import { useSteps } from "./hooks"
 
@@ -21,7 +17,7 @@ type Props = {
   onboardingForm: OnboardingForm | null
   isDeploymentComplete: boolean
   setIsDeploymentComplete: (isDeploymentComplete: boolean) => void
-  siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
+  siloTransactionStatuses?: SiloConfigTransactionStatuses
   hasUnassignedSilo?: boolean
 }
 
@@ -31,7 +27,7 @@ export const DeploymentProgressAuto = ({
   onboardingForm,
   isDeploymentComplete,
   setIsDeploymentComplete,
-  siloBaseTokenTransactionStatus,
+  siloTransactionStatuses,
   hasUnassignedSilo,
 }: Props) => {
   const [isConfirmDeploymentModalOpen, setIsConfirmDeploymentModalOpen] =
@@ -97,7 +93,7 @@ export const DeploymentProgressAuto = ({
     return (
       <DeploymentSteps
         silo={silo}
-        siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
+        siloTransactionStatuses={siloTransactionStatuses}
         team={team}
         onDeploymentComplete={() => {
           setIsDeploymentComplete(true)
