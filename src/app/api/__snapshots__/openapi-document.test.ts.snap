@@ -2073,8 +2073,16 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "address": {
                       "type": "string",
                     },
+                    "status": {
+                      "enum": [
+                        "PENDING",
+                        "SUCCESSFUL",
+                      ],
+                      "type": "string",
+                    },
                   },
                   "required": [
+                    "status",
                     "address",
                     "action",
                   ],
@@ -2153,8 +2161,16 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "address": {
                       "type": "string",
                     },
+                    "status": {
+                      "enum": [
+                        "PENDING",
+                        "SUCCESSFUL",
+                      ],
+                      "type": "string",
+                    },
                   },
                   "required": [
+                    "status",
                     "address",
                     "action",
                   ],
