@@ -1,7 +1,7 @@
+import cleanDeep from "clean-deep"
 import {
   Silo,
   SiloBridgedToken,
-  Token,
   Widget,
   WidgetNetworkType,
 } from "@/types/types"
@@ -62,7 +62,7 @@ const setTokensParam = (
 
 const setCustomTokensParam = (
   url: URL,
-  { activeCustomTokens }: { activeCustomTokens: Token[] },
+  { activeCustomTokens }: { activeCustomTokens: SiloBridgedToken[] },
 ) => {
   if (!activeCustomTokens.length) {
     return
@@ -75,26 +75,19 @@ const setCustomTokensParam = (
         name,
         decimals,
         icon_url,
-        bridge_origin,
-        fast_bridge,
-        bridge_addresses,
+        ethereum_address,
+        aurora_address,
+        near_address,
       }) => {
-        const data = {
+        const data = cleanDeep({
           symbol,
           name,
           decimals,
-          origin: bridge_origin,
-          isFast: fast_bridge,
           icon: icon_url,
-          ...bridge_addresses?.reduce((acc, bridgeAddress) => {
-            const [network, address] = bridgeAddress.split(":")
-
-            return {
-              ...acc,
-              [network]: address,
-            }
-          }, {}),
-        }
+          ethereum: ethereum_address,
+          aurora: aurora_address,
+          near: near_address,
+        })
 
         return data
       },
