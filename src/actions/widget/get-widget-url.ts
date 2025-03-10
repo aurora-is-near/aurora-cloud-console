@@ -62,7 +62,10 @@ const setTokensParam = (
 
 const setCustomTokensParam = (
   url: URL,
-  { activeCustomTokens }: { activeCustomTokens: SiloBridgedToken[] },
+  {
+    silo,
+    activeCustomTokens,
+  }: { silo: Silo; activeCustomTokens: SiloBridgedToken[] },
 ) => {
   if (!activeCustomTokens.length) {
     return
@@ -87,6 +90,7 @@ const setCustomTokensParam = (
           ethereum: ethereum_address,
           aurora: aurora_address,
           near: near_address,
+          [silo.engine_account]: aurora_address,
         })
 
         return data
@@ -132,7 +136,10 @@ export const getWidgetUrl = ({
   widget: Widget
   tokens: SiloBridgedToken[]
 }): string => {
-  const activeTokens = tokens.filter((token) => token.is_active)
+  const activeTokens = tokens.filter((token) =>
+    widget.tokens.includes(token.id),
+  )
+
   const url = new URL("https://aurora.plus/cloud")
 
   if (widget.to_networks?.length) {
@@ -158,7 +165,7 @@ export const getWidgetUrl = ({
   // define the token's address on all the chains including the custom one.
   if (hasCustomChain) {
     setCustomChainsParam(url, { silo })
-    setCustomTokensParam(url, { activeCustomTokens: activeTokens })
+    setCustomTokensParam(url, { silo, activeCustomTokens: activeTokens })
 
     return url.href
   }
@@ -168,7 +175,7 @@ export const getWidgetUrl = ({
   })
 
   setTokensParam(url, { activeTokens })
-  setCustomTokensParam(url, { activeCustomTokens })
+  setCustomTokensParam(url, { silo, activeCustomTokens })
 
   return url.href
 }

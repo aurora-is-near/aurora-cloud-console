@@ -12,7 +12,7 @@ import {
 import { setupJestOpenApi } from "../../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../../test-utils/factories/silo-factory"
-import { createMockToken } from "../../../../../../../test-utils/factories/token-factory"
+import { createMockSiloBridgedToken } from "../../../../../../../test-utils/factories/silo-bridged-token-factory"
 
 jest.mock("../../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -63,7 +63,7 @@ describe("Bridge silo token route", () => {
       })
 
       it("returns a 400 if the token is already deployed", async () => {
-        const mockToken = createMockToken({
+        const mockToken = createMockSiloBridgedToken({
           bridge_deployment_status: "DEPLOYED",
         })
 
@@ -89,72 +89,67 @@ describe("Bridge silo token route", () => {
         expect(mockSupabaseClient.from("tokens").update).not.toHaveBeenCalled()
       })
 
-      it.each(["NOT_DEPLOYED", "PENDING"] as DeploymentStatus[])(
-        "updates a token that is %s",
-        async (status) => {
-          const mockToken = createMockToken({ id: 42 })
-          const selectQueries = createSelect(mockToken)
-          const updateQueries = createInsertOrUpdate(mockToken)
+      it("updates a token that was not previously deployed", async () => {
+        const mockToken = createMockSiloBridgedToken({ id: 42 })
+        const selectQueries = createSelect(mockToken)
+        const updateQueries = createInsertOrUpdate(mockToken)
 
-          updateQueries.select.mockReturnValue(
-            createSelect({
-              ...mockToken,
-              bridge_deployment_status: "PENDING",
-            }),
-          )
+        updateQueries.select.mockReturnValue(
+          createSelect({
+            ...mockToken,
+            bridge_deployment_status: "PENDING",
+          }),
+        )
 
-          mockSupabaseClient
-            .from("silos")
-            .select.mockImplementation(() => createSelect(createMockSilo()))
+        mockSupabaseClient
+          .from("silos")
+          .select.mockImplementation(() => createSelect(createMockSilo()))
 
-          mockSupabaseClient
-            .from("tokens")
-            .select.mockImplementation(() => selectQueries)
+        mockSupabaseClient
+          .from("tokens")
+          .select.mockImplementation(() => selectQueries)
 
-          mockSupabaseClient
-            .from("tokens")
-            .update.mockImplementation(() => updateQueries)
+        mockSupabaseClient
+          .from("tokens")
+          .update.mockImplementation(() => updateQueries)
 
-          const res = await invokeApiHandler(
-            "POST",
-            "/api/silos/1/tokens/bridge",
-            POST,
-            { body: { tokenId: mockToken.id } },
-          )
+        const res = await invokeApiHandler(
+          "POST",
+          "/api/silos/1/tokens/bridge",
+          POST,
+          { body: { tokenId: mockToken.id } },
+        )
 
-          expect(res).toSatisfyApiSpec()
-          expect(res.body).toEqual({
-            status: "PENDING",
-          })
+        expect(res).toSatisfyApiSpec()
+        expect(res.body).toEqual({
+          status: "PENDING",
+        })
 
-          expect(
-            mockSupabaseClient.from("tokens").select,
-          ).toHaveBeenCalledTimes(1)
-          expect(mockSupabaseClient.from("tokens").select).toHaveBeenCalledWith(
-            "*",
-          )
-          expect(selectQueries.eq).toHaveBeenCalledTimes(2)
-          expect(selectQueries.eq).toHaveBeenCalledWith("id", mockToken.id)
-          expect(selectQueries.eq).toHaveBeenCalledWith("silo_id", 1)
+        expect(mockSupabaseClient.from("tokens").select).toHaveBeenCalledTimes(
+          1,
+        )
+        expect(mockSupabaseClient.from("tokens").select).toHaveBeenCalledWith(
+          "*",
+        )
+        expect(selectQueries.eq).toHaveBeenCalledTimes(2)
+        expect(selectQueries.eq).toHaveBeenCalledWith("id", mockToken.id)
+        expect(selectQueries.eq).toHaveBeenCalledWith("silo_id", 1)
 
-          expect(
-            mockSupabaseClient.from("tokens").update,
-          ).toHaveBeenCalledTimes(1)
-          expect(mockSupabaseClient.from("tokens").update).toHaveBeenCalledWith(
-            {
-              bridge_deployment_status: "PENDING",
-            },
-          )
+        expect(mockSupabaseClient.from("tokens").update).toHaveBeenCalledTimes(
+          1,
+        )
+        expect(mockSupabaseClient.from("tokens").update).toHaveBeenCalledWith({
+          bridge_deployment_status: "PENDING",
+        })
 
-          expect(updateQueries.eq).toHaveBeenCalledTimes(1)
-          expect(updateQueries.eq).toHaveBeenCalledWith("id", mockToken.id)
-        },
-      )
+        expect(updateQueries.eq).toHaveBeenCalledTimes(1)
+        expect(updateQueries.eq).toHaveBeenCalledWith("id", mockToken.id)
+      })
     })
 
     describe("updating by symbol and address", () => {
       it("creates a new token", async () => {
-        const mockToken = createMockToken({ id: 42 })
+        const mockToken = createMockSiloBridgedToken({ id: 42 })
         const insertQueries = createInsertOrUpdate(mockToken)
 
         insertQueries.select.mockReturnValue(
@@ -211,7 +206,7 @@ describe("Bridge silo token route", () => {
       it.each(["NOT_DEPLOYED", "PENDING"] as DeploymentStatus[])(
         "updates a token that is %s",
         async (status) => {
-          const mockToken = createMockToken({ id: 42 })
+          const mockToken = createMockSiloBridgedToken({ id: 42 })
           const updateQueries = createInsertOrUpdate(mockToken)
 
           updateQueries.select.mockReturnValue(
@@ -267,7 +262,7 @@ describe("Bridge silo token route", () => {
       )
 
       it("returns a 400 if the token is already deployed", async () => {
-        const mockToken = createMockToken({
+        const mockToken = createMockSiloBridgedToken({
           bridge_deployment_status: "DEPLOYED",
         })
 

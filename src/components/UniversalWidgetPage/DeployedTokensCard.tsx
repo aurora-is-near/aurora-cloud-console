@@ -7,6 +7,7 @@ import { AddButton } from "@/components/AddButton"
 import { useBridgedTokens } from "@/hooks/useBridgedTokens"
 import DeployedTokensForm from "@/components/UniversalWidgetPage/DeployedTokensForm"
 import { Skeleton } from "@/uikit"
+import { useWidgetTokens } from "@/hooks/useWidgetTokens"
 
 type DeployedTokensCardProps = {
   siloId: number
@@ -14,7 +15,7 @@ type DeployedTokensCardProps = {
 
 export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
   const { bridgedSiloTokens, isPending } = useBridgedTokens(siloId)
-
+  const activeTokenIds = useWidgetTokens(siloId)
   const [isAddingNewAsset, setIsAddingNewAsset] = useState(false)
 
   return (
@@ -39,6 +40,7 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
             <DeployedTokensForm
               siloId={siloId}
               bridgedSiloTokens={bridgedSiloTokens}
+              activeTokenIds={activeTokenIds}
             />
 
             <AddButton

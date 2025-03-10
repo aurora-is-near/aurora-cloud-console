@@ -2,9 +2,9 @@ import { getWidgetUrl } from "@/actions/widget/get-widget-url"
 import { createMockSilo } from "../../../test-utils/factories/silo-factory"
 import { createMockWidget } from "../../../test-utils/factories/widget-factory"
 import {
-  createMockToken,
-  createMockTokens,
-} from "../../../test-utils/factories/token-factory"
+  createMockSiloBridgedToken,
+  createMockSiloBridgedTokens,
+} from "../../../test-utils/factories/silo-bridged-token-factory"
 
 const parseMaybeJson = (str: string) => {
   try {
@@ -49,7 +49,7 @@ describe("getWidgetUrl", () => {
           to_networks: ["AURORA"],
           from_networks: ["NEAR", "ETHEREUM"],
         }),
-        tokens: createMockTokens(1),
+        tokens: createMockSiloBridgedTokens(1),
       }),
     )
 
@@ -68,7 +68,7 @@ describe("getWidgetUrl", () => {
           to_networks: ["CUSTOM"],
           from_networks: ["ETHEREUM"],
         }),
-        tokens: createMockTokens(1),
+        tokens: createMockSiloBridgedTokens(1),
       }),
     )
 
@@ -100,15 +100,11 @@ describe("getWidgetUrl", () => {
 
   it("returns a URL with a custom chain and custom tokens", () => {
     const silo = createMockSilo()
-    const token = createMockToken({
+    const token = createMockSiloBridgedToken({
       symbol: "ETH",
-      bridge_addresses: [
-        "aurora:0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-        "ethereum:0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-        "near:aurora",
-        "0x4e45415e.c.aurora:0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-      ],
-      bridge_deployment_status: "DEPLOYED",
+      aurora_address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      ethereum_address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      near_address: "aurora",
     })
 
     const url = new URL(

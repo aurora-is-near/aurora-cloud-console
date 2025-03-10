@@ -26,7 +26,6 @@ export const getSiloBridgedTokens = async (
     return {
       ...token,
       is_deployment_pending: bridgedTokenMeta.is_deployment_pending,
-      is_active: bridgedTokenMeta.is_active,
     }
   })
 }

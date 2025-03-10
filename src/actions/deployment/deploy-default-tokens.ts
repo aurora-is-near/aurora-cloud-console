@@ -8,7 +8,7 @@ import {
   SiloConfigTransactionStatus,
 } from "@/types/types"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
-import { checkToken } from "@/utils/check-token-contract"
+import { checkTokenBySymbol } from "@/utils/check-token-contract"
 import { DefaultToken } from "@/types/default-tokens"
 
 const CONTRACT_CHANGER_SYMBOLS: Record<
@@ -40,7 +40,7 @@ const deployDefaultToken = async ({
   silo: Silo
   symbol: DefaultToken
 }): Promise<SiloConfigTransactionStatus> => {
-  if (await checkToken(provider, symbol)) {
+  if (await checkTokenBySymbol(provider, symbol)) {
     return "SUCCESSFUL"
   }
 

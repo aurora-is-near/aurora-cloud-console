@@ -46,7 +46,6 @@ export const SiloBridgedTokenSchema = z.object({
   ethereum_address: z.string().nullable(),
   iconUrl: z.string().nullable(),
   isDeploymentPending: z.boolean(),
-  isActive: z.boolean(),
 })
 
 export const SiloSchema = z.object({

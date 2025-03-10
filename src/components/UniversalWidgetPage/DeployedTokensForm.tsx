@@ -16,11 +16,13 @@ type Inputs = Partial<Record<string, boolean>>
 type DeployedTokensFormProps = {
   siloId: number
   bridgedSiloTokens: SiloBridgedTokenSchema[]
+  activeTokenIds: number[]
 }
 
 const DeployedTokensForm = ({
   siloId,
   bridgedSiloTokens,
+  activeTokenIds,
 }: DeployedTokensFormProps) => {
   const methods = useForm<Inputs>()
   const {
@@ -61,10 +63,10 @@ const DeployedTokensForm = ({
   )
 
   useEffect(() => {
-    bridgedSiloTokens.forEach((token) => {
-      setValue(String(token.id), token.isActive)
+    activeTokenIds.forEach((tokenId) => {
+      setValue(String(tokenId), true)
     })
-  }, [setValue, bridgedSiloTokens])
+  }, [setValue, activeTokenIds])
 
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {

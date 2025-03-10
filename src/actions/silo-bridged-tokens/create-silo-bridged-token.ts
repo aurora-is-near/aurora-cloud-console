@@ -8,10 +8,8 @@ export const createSiloBridgedToken = async (
   bridgedTokenId: number,
   {
     isDeploymentPending,
-    isActive,
   }: {
     isDeploymentPending: boolean
-    isActive: boolean
   },
 ): Promise<void> => {
   const supabase = createAdminSupabaseClient()
@@ -22,7 +20,6 @@ export const createSiloBridgedToken = async (
         silo_id: siloId,
         bridged_token_id: bridgedTokenId,
         is_deployment_pending: isDeploymentPending,
-        is_active: isActive,
       },
     ])
     .select()

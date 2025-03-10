@@ -140,7 +140,7 @@ export type Database = {
           symbol: string
         }
         Update: {
-          aurora_address: string
+          aurora_address?: string
           created_at?: string
           decimals?: number
           ethereum_address?: string | null
@@ -686,19 +686,16 @@ export type Database = {
       silo_bridged_tokens: {
         Row: {
           bridged_token_id: number
-          is_active: boolean
           is_deployment_pending: boolean
           silo_id: number
         }
         Insert: {
           bridged_token_id: number
-          is_active?: boolean
           is_deployment_pending?: boolean
           silo_id?: number
         }
         Update: {
           bridged_token_id?: number
-          is_active?: boolean
           is_deployment_pending?: boolean
           silo_id?: number
         }

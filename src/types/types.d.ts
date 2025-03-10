@@ -92,7 +92,6 @@ export type BridgedToken = Tables<"bridged_tokens">
 
 export type SiloBridgedToken = BridgedToken & {
   is_deployment_pending: boolean
-  is_active: boolean
 }
 
 export type OnboardingForm = Tables<"onboarding_form">

@@ -70,6 +70,8 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   datadog_web3_monitors: createTableClient(),
   silo_config_transactions: createTableClient(),
   silo_relayers: createTableClient(),
+  bridged_tokens: createTableClient(),
+  silo_bridged_tokens: createTableClient(),
   _prisma_migrations: createTableClient(),
 }
 

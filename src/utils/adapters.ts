@@ -56,7 +56,6 @@ export const adaptToken = (
   near_address: token.near_address,
   iconUrl: token.icon_url,
   isDeploymentPending: token.is_deployment_pending,
-  isActive: token.is_active,
 })
 
 export const adaptSilo = (silo: Silo): SiloSchema => ({
