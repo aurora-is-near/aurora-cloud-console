@@ -6,20 +6,20 @@ import { GET } from "./route"
 import {
   createSelect,
   mockSupabaseClient,
-} from "../../../../../../test-utils/mock-supabase-client"
-import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
-import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
-import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
+} from "../../../../../../../test-utils/mock-supabase-client"
+import { setupJestOpenApi } from "../../../../../../../test-utils/setup-jest-openapi"
+import { invokeApiHandler } from "../../../../../../../test-utils/invoke-api-handler"
+import { createMockSilo } from "../../../../../../../test-utils/factories/silo-factory"
 import {
   createMockSiloBridgedToken,
   createMockSiloBridgedTokens,
-} from "../../../../../../test-utils/factories/silo-bridged-token-factory"
+} from "../../../../../../../test-utils/factories/silo-bridged-token-factory"
 
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
 
-describe("Silo tokens route", () => {
+describe("Silo token requests route", () => {
   beforeAll(setupJestOpenApi)
 
   beforeEach(() => {

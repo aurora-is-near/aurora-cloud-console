@@ -2,7 +2,9 @@
  * @jest-environment node
  */
 import { symbol } from "zod"
+import { ethers } from "ethers"
 import { DeploymentStatus } from "@/types/types"
+import { createBridgedToken } from "@/actions/bridged-tokens/create-bridged-token"
 import { POST } from "./route"
 import {
   createInsertOrUpdate,
@@ -13,7 +15,9 @@ import { setupJestOpenApi } from "../../../../../../../test-utils/setup-jest-ope
 import { invokeApiHandler } from "../../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../../test-utils/factories/silo-factory"
 import { createMockSiloBridgedToken } from "../../../../../../../test-utils/factories/silo-bridged-token-factory"
+import { createMockBridgedToken } from "../../../../../../../test-utils/factories/bridged-token-factory"
 
+jest.mock("ethers")
 jest.mock("../../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
@@ -29,6 +33,11 @@ describe("Bridge silo token route", () => {
     mockSupabaseClient
       .from("tokens")
       .select.mockImplementation(() => createSelect())
+    ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+      symbol: () => {
+        throw new Error("Not implemented")
+      },
+    }))
   })
 
   describe("POST", () => {
@@ -64,7 +73,7 @@ describe("Bridge silo token route", () => {
 
       it("returns a 400 if the token is already deployed", async () => {
         const mockToken = createMockSiloBridgedToken({
-          bridge_deployment_status: "DEPLOYED",
+          is_deployment_pending: false,
         })
 
         mockSupabaseClient
@@ -88,63 +97,6 @@ describe("Bridge silo token route", () => {
         expect(res.body).toEqual({ message: "Token is already deployed" })
         expect(mockSupabaseClient.from("tokens").update).not.toHaveBeenCalled()
       })
-
-      it("updates a token that was not previously deployed", async () => {
-        const mockToken = createMockSiloBridgedToken({ id: 42 })
-        const selectQueries = createSelect(mockToken)
-        const updateQueries = createInsertOrUpdate(mockToken)
-
-        updateQueries.select.mockReturnValue(
-          createSelect({
-            ...mockToken,
-            bridge_deployment_status: "PENDING",
-          }),
-        )
-
-        mockSupabaseClient
-          .from("silos")
-          .select.mockImplementation(() => createSelect(createMockSilo()))
-
-        mockSupabaseClient
-          .from("tokens")
-          .select.mockImplementation(() => selectQueries)
-
-        mockSupabaseClient
-          .from("tokens")
-          .update.mockImplementation(() => updateQueries)
-
-        const res = await invokeApiHandler(
-          "POST",
-          "/api/silos/1/tokens/bridge",
-          POST,
-          { body: { tokenId: mockToken.id } },
-        )
-
-        expect(res).toSatisfyApiSpec()
-        expect(res.body).toEqual({
-          status: "PENDING",
-        })
-
-        expect(mockSupabaseClient.from("tokens").select).toHaveBeenCalledTimes(
-          1,
-        )
-        expect(mockSupabaseClient.from("tokens").select).toHaveBeenCalledWith(
-          "*",
-        )
-        expect(selectQueries.eq).toHaveBeenCalledTimes(2)
-        expect(selectQueries.eq).toHaveBeenCalledWith("id", mockToken.id)
-        expect(selectQueries.eq).toHaveBeenCalledWith("silo_id", 1)
-
-        expect(mockSupabaseClient.from("tokens").update).toHaveBeenCalledTimes(
-          1,
-        )
-        expect(mockSupabaseClient.from("tokens").update).toHaveBeenCalledWith({
-          bridge_deployment_status: "PENDING",
-        })
-
-        expect(updateQueries.eq).toHaveBeenCalledTimes(1)
-        expect(updateQueries.eq).toHaveBeenCalledWith("id", mockToken.id)
-      })
     })
 
     describe("updating by symbol and address", () => {
@@ -163,123 +115,59 @@ describe("Bridge silo token route", () => {
           .from("silos")
           .select.mockImplementation(() => createSelect(createMockSilo()))
 
-        mockSupabaseClient
-          .from("tokens")
-          .select.mockImplementation(() => createSelect())
-
-        mockSupabaseClient
-          .from("tokens")
-          .insert.mockImplementation(() => insertQueries)
-
         const res = await invokeApiHandler(
           "POST",
           "/api/silos/1/tokens/bridge",
           POST,
-          { body: { symbol: mockToken.symbol, address: mockToken.address } },
+          {
+            body: {
+              symbol: mockToken.symbol,
+              address: mockToken.aurora_address,
+            },
+          },
         )
 
         expect(res).toSatisfyApiSpec()
         expect(res.body).toEqual({
-          status: "PENDING",
+          isDeploymentPending: true,
+          isActive: false,
         })
 
-        expect(mockSupabaseClient.from("tokens").insert).toHaveBeenCalledTimes(
-          1,
-        )
+        expect(
+          mockSupabaseClient.from("bridged_token_requests").insert,
+        ).toHaveBeenCalledTimes(1)
 
-        expect(mockSupabaseClient.from("tokens").insert).toHaveBeenCalledWith({
+        expect(
+          mockSupabaseClient.from("bridged_token_requests").insert,
+        ).toHaveBeenCalledWith({
           address: "0x",
-          bridge_addresses: [],
-          bridge_deployment_status: "PENDING",
-          bridge_origin: null,
-          decimals: null,
-          deployment_status: "PENDING",
-          fast_bridge: false,
-          icon_url: null,
-          name: null,
           silo_id: 1,
           symbol: "TEST",
-          type: null,
         })
       })
 
-      it.each(["NOT_DEPLOYED", "PENDING"] as DeploymentStatus[])(
-        "updates a token that is %s",
-        async (status) => {
-          const mockToken = createMockSiloBridgedToken({ id: 42 })
-          const updateQueries = createInsertOrUpdate(mockToken)
-
-          updateQueries.select.mockReturnValue(
-            createSelect({
-              ...mockToken,
-              bridge_deployment_status: status,
-            }),
-          )
-
-          mockSupabaseClient
-            .from("silos")
-            .select.mockImplementation(() => createSelect(createMockSilo()))
-
-          mockSupabaseClient
-            .from("tokens")
-            .select.mockImplementation(() => createSelect(mockToken))
-
-          mockSupabaseClient
-            .from("tokens")
-            .update.mockImplementation(() => updateQueries)
-
-          updateQueries.select.mockReturnValue(
-            createSelect({
-              ...mockToken,
-              bridge_deployment_status: "PENDING",
-            }),
-          )
-
-          const res = await invokeApiHandler(
-            "POST",
-            "/api/silos/1/tokens/bridge",
-            POST,
-            { body: { symbol: mockToken.symbol, address: mockToken.address } },
-          )
-
-          expect(res).toSatisfyApiSpec()
-          expect(res.body).toEqual({
-            status: "PENDING",
-          })
-
-          expect(
-            mockSupabaseClient.from("tokens").update,
-          ).toHaveBeenCalledTimes(1)
-          expect(mockSupabaseClient.from("tokens").update).toHaveBeenCalledWith(
-            {
-              bridge_deployment_status: "PENDING",
-            },
-          )
-
-          expect(updateQueries.eq).toHaveBeenCalledTimes(1)
-          expect(updateQueries.eq).toHaveBeenCalledWith("id", mockToken.id)
-        },
-      )
-
       it("returns a 400 if the token is already deployed", async () => {
         const mockToken = createMockSiloBridgedToken({
-          bridge_deployment_status: "DEPLOYED",
+          is_deployment_pending: false,
         })
+
+        ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+          symbol: () => mockToken.symbol,
+        }))
 
         mockSupabaseClient
           .from("silos")
           .select.mockImplementation(() => createSelect(createMockSilo()))
-
-        mockSupabaseClient
-          .from("tokens")
-          .select.mockImplementation(() => createSelect(mockToken))
 
         const res = await invokeApiHandler(
           "POST",
           "/api/silos/1/tokens/bridge",
           POST,
           {
-            body: { symbol: mockToken.symbol, address: mockToken.address },
+            body: {
+              symbol: mockToken.symbol,
+              address: mockToken.aurora_address,
+            },
           },
         )
 
