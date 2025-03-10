@@ -7,6 +7,7 @@ import { Silo, Team } from "@/types/types"
 import { ForwarderWidgetOpenButton } from "@/components/ForwarderOpenButton"
 import { LinkButton } from "@/components/LinkButton"
 import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
+import { WidgetShareCard } from "@/components/WidgetShareCard"
 import { ForwarderAboutTab } from "./ForwarderAboutTab"
 import ForwarderConfigurationTab from "./ForwarderConfigurationTab"
 
@@ -42,6 +43,16 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
           />
         ),
       },
+      {
+        title: "Shareable URL",
+        content: (
+          <WidgetShareCard
+            siloId={silo.id}
+            teamKey={team.team_key}
+            widgetName="forwarder"
+          />
+        ),
+      },
     )
   }
 
@@ -71,12 +82,7 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
       >
         <div className="flex flex-row gap-4">
           {silo && (
-            <ForwarderWidgetOpenButton
-              silo={silo}
-              variant="border"
-              size="lg"
-              isExternal
-            />
+            <ForwarderWidgetOpenButton silo={silo} size="lg" isExternal />
           )}
           <LinkButton variant="border" href="/api" size="lg" isExternal>
             <div className="flex flex-row items-center gap-1">
