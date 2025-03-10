@@ -182,12 +182,19 @@ const EditSiloPermissionsModalContent = ({
               <div className="flex flex-col gap-2">
                 {addresses.map((address) => {
                   let addressStatus: AddressStatus = "normal"
+
                   if (address === addressToBeAdded) {
-                    if (isAddressAddingFailed) addressStatus = "failed"
-                    else if (isAddressAddingPending) addressStatus = "add"
+                    if (isAddressAddingFailed) {
+                      addressStatus = "failed"
+                    } else if (isAddressAddingPending) {
+                      addressStatus = "add"
+                    }
                   } else if (address === addressToBeRemoved) {
-                    if (isAddressRemovingFailed) addressStatus = "failed"
-                    else if (isAddressRemovingPending) addressStatus = "remove"
+                    if (isAddressRemovingFailed) {
+                      addressStatus = "failed"
+                    } else if (isAddressRemovingPending) {
+                      addressStatus = "remove"
+                    }
                   }
 
                   return (

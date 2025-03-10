@@ -18,8 +18,8 @@ import { abort } from "../../../../../utils/abort"
 import {
   toggleSiloPermissionUpdateMap,
   whitelistKindActionMap,
-  whitelistKindPurgeOperationMap,
   whitelistKindPopulateOperationMap,
+  whitelistKindPurgeOperationMap,
   whitelistKindToggleOperationMap,
 } from "./maps"
 
@@ -247,6 +247,7 @@ export const POST = createApiEndpoint(
             status: "PENDING" as const,
           }
         }
+
         return {
           action,
           address,
@@ -289,6 +290,7 @@ export const DELETE = createApiEndpoint(
 
     // 2. Find related tx and check it's status
     const existingTxId = whitelistedAddress?.remove_tx_id
+
     if (existingTxId) {
       transaction = await getSiloConfigTransactionById(
         silo.id,
