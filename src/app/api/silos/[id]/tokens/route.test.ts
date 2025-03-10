@@ -14,6 +14,7 @@ import {
   createMockSiloBridgedToken,
   createMockSiloBridgedTokens,
 } from "../../../../../../test-utils/factories/silo-bridged-token-factory"
+import { createMockBridgedToken } from "../../../../../../test-utils/factories/bridged-token-factory"
 
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
@@ -28,7 +29,11 @@ describe("Silo tokens route", () => {
       .select.mockImplementation(() => createSelect())
 
     mockSupabaseClient
-      .from("tokens")
+      .from("bridged_tokens")
+      .select.mockImplementation(() => createSelect())
+
+    mockSupabaseClient
+      .from("silo_bridged_tokens")
       .select.mockImplementation(() => createSelect())
   })
 
@@ -41,9 +46,20 @@ describe("Silo tokens route", () => {
     })
 
     it("returns the silo tokens", async () => {
+      const siloId = 1
       const mockTokens = [
-        createMockSiloBridgedToken({ is_deployment_pending: true }),
-        createMockSiloBridgedToken({ is_deployment_pending: false }),
+        {
+          ...createMockBridgedToken(),
+          silo_bridged_tokens: [
+            { silo_id: siloId, is_deployment_pending: true },
+          ],
+        },
+        {
+          ...createMockBridgedToken(),
+          silo_bridged_tokens: [
+            { silo_id: siloId, is_deployment_pending: false },
+          ],
+        },
       ]
 
       mockSupabaseClient
@@ -51,13 +67,18 @@ describe("Silo tokens route", () => {
         .select.mockImplementation(() => createSelect(createMockSilo()))
 
       mockSupabaseClient
-        .from("tokens")
+        .from("bridged_tokens")
+        .select.mockImplementation(() => createSelect(mockTokens))
+
+      mockSupabaseClient
+        .from("silo_bridged_tokens")
         .select.mockImplementation(() => createSelect(mockTokens))
 
       const res = await invokeApiHandler("GET", "/api/silos/1/tokens", GET)
 
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
+        total: 2,
         items: Array.from({ length: 2 }, (_, index) => ({
           id: mockTokens[index].id,
           createdAt: mockTokens[index].created_at,
@@ -67,7 +88,8 @@ describe("Silo tokens route", () => {
           aurora_address: mockTokens[index].aurora_address,
           near_address: mockTokens[index].near_address,
           ethereum_address: mockTokens[index].ethereum_address,
-          isDeployed: mockTokens[index].is_deployment_pending,
+          isDeploymentPending:
+            mockTokens[index].silo_bridged_tokens[0].is_deployment_pending,
           iconUrl: mockTokens[index].icon_url,
         })),
       })
@@ -87,6 +109,7 @@ describe("Silo tokens route", () => {
       expect(res).toSatisfyApiSpec()
       expect(res.body).toEqual({
         items: [],
+        total: 0,
       })
     })
   })
