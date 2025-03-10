@@ -9,17 +9,21 @@ import { AddOrEditPlanModal } from "./AddOrEditPlanModal"
 
 type AddPlanModalProps = {
   team: Team
+  siloId: number
 }
 
-const AddPlanModal = ({ team }: AddPlanModalProps) => {
+const AddPlanModal = ({ team, siloId }: AddPlanModalProps) => {
   const { activeModal } = useModals()
   const router = useRouter()
   const pathname = usePathname()
 
   const onSubmit = async (data: { name: string }) => {
     const newDeal = await createDeal({
-      team_id: team.id,
-      ...data,
+      deal: {
+        team_id: team.id,
+        ...data,
+      },
+      siloId,
     })
 
     // Append the deal ID to the current path to navigate to the new deal page.

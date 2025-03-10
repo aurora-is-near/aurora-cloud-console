@@ -24,7 +24,10 @@ export type TeamMember = {
   isPending: boolean
 }
 
-export type TeamSummary = Pick<Team, "id" | "name" | "team_key">
+export type TeamSummary = Pick<Team, "id" | "name" | "team_key"> & {
+  user_ids: number[]
+  silo_ids: number[]
+}
 
 export type TableName = keyof Database["public"]["Tables"]
 
