@@ -72,6 +72,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   silo_relayers: createTableClient(),
   bridged_tokens: createTableClient(),
   silo_bridged_tokens: createTableClient(),
+  bridged_token_requests: createTableClient(),
   _prisma_migrations: createTableClient(),
 }
 

@@ -116,6 +116,38 @@ export type Database = {
         }
         Relationships: []
       }
+      bridged_token_requests: {
+        Row: {
+          address: string
+          created_at: string
+          id: number
+          silo_id: number
+          symbol: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          id?: number
+          silo_id: number
+          symbol: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          id?: number
+          silo_id?: number
+          symbol?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bridged_token_requests_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bridged_tokens: {
         Row: {
           aurora_address: string
