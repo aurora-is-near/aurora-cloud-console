@@ -2,26 +2,31 @@
 
 import { useMutation } from "@tanstack/react-query"
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { CheckIcon, ClockIcon } from "@heroicons/react/20/solid"
 import toast from "react-hot-toast"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
 import { Tag } from "@/components/Tag"
 import { Checkbox } from "@/components/Checkbox"
-import { SiloBridgedTokenSchema } from "@/types/api-schemas"
+import {
+  SiloBridgedTokenRequestSchema,
+  SiloBridgedTokenSchema,
+} from "@/types/api-schemas"
 
 type Inputs = Partial<Record<string, boolean>>
 
 type DeployedTokensFormProps = {
   siloId: number
   bridgedSiloTokens: SiloBridgedTokenSchema[]
+  bridgedSiloTokenRequests: SiloBridgedTokenRequestSchema[]
   activeTokenIds: number[]
 }
 
 const DeployedTokensForm = ({
   siloId,
   bridgedSiloTokens,
+  bridgedSiloTokenRequests,
   activeTokenIds,
 }: DeployedTokensFormProps) => {
   const methods = useForm<Inputs>()
@@ -78,20 +83,44 @@ const DeployedTokensForm = ({
     return () => subscription.unsubscribe()
   }, [watch, submit])
 
+  // Merge the confirmed, bridgeable tokens with any requested custom tokens.
+  const tokens = useMemo((): {
+    id: number
+    symbol: string
+    isPending: boolean
+  }[] => {
+    const bridgedSiloTokenIds = bridgedSiloTokens.map((token) => token.id)
+
+    return [
+      ...bridgedSiloTokens.map((token) => ({
+        id: token.id,
+        symbol: token.symbol,
+        isPending: token.isDeploymentPending,
+      })),
+      ...bridgedSiloTokenRequests
+        .filter((token) => !bridgedSiloTokenIds.includes(token.id))
+        .map((token) => ({
+          id: token.id,
+          symbol: token.symbol,
+          isPending: true,
+        })),
+    ]
+  }, [bridgedSiloTokens, bridgedSiloTokenRequests])
+
   return (
     <FormProvider {...methods}>
       <div className="flex flex-col space-y-2">
-        {bridgedSiloTokens.map((token) => {
+        {tokens.map((token) => {
           return (
             <Checkbox
               key={token.id}
               label={token.symbol}
               id={String(token.id)}
               name={String(token.id)}
-              disabled={isPending || isSubmitting || token.isDeploymentPending}
+              disabled={isPending || isSubmitting || token.isPending}
               register={register}
               afterLabel={
-                !token.isDeploymentPending ? (
+                !token.isPending ? (
                   <Tag
                     size="sm"
                     color="green"

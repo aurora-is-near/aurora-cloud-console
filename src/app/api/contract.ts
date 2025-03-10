@@ -48,6 +48,13 @@ export const SiloBridgedTokenSchema = z.object({
   isDeploymentPending: z.boolean(),
 })
 
+export const SiloBridgedTokenRequestSchema = z.object({
+  id: z.number(),
+  createdAt: z.string(),
+  symbol: z.string(),
+  address: z.string().nullable(),
+})
+
 export const SiloSchema = z.object({
   id: z.number(),
   createdAt: z.string(),
@@ -287,6 +294,23 @@ export const contract = c.router({
       200: z.object({
         total: z.number(),
         items: z.array(SiloBridgedTokenSchema),
+      }),
+    },
+    metadata: {
+      scopes: ["silos:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  getSiloBridgedTokenRequests: {
+    summary: "Get the bridged tokens requested for a silo",
+    method: "GET",
+    path: "/api/silos/:id/tokens/requests",
+    responses: {
+      200: z.object({
+        total: z.number(),
+        items: z.array(SiloBridgedTokenRequestSchema),
       }),
     },
     metadata: {

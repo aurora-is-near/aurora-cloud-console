@@ -39,12 +39,17 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
     "getSiloBridgedTokens",
   )
 
+  const getSiloBridgedTokenRequestsUpdater = useOptimisticUpdater(
+    "getSiloBridgedTokenRequests",
+  )
+
   const { mutate: bridgeSiloToken, isPending: isBridgeSiloTokenPending } =
     useMutation({
       mutationFn: apiClient.bridgeSiloToken,
       onSettled: () => {
         getWidgetUpdater.invalidate()
         getSiloBridgedTokensUpdater.invalidate()
+        getSiloBridgedTokenRequestsUpdater.invalidate()
       },
       onSuccess: ({ isDeploymentPending }) => {
         toast.success(

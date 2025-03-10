@@ -9,6 +9,15 @@ export const useBridgedTokens = (siloId: number) => {
     }),
   )
 
+  const {
+    data: bridgedSiloTokenRequests,
+    isPending: isSiloTokenRequestsPending,
+  } = useQuery(
+    getQueryFnAndKey("getSiloBridgedTokenRequests", {
+      id: siloId,
+    }),
+  )
+
   const { data: supportedTokens = [], isPending: isSupportedTokensPending } =
     useQuery({
       queryKey: ["all-bridged-tokens"],
@@ -18,8 +27,12 @@ export const useBridgedTokens = (siloId: number) => {
     })
 
   return {
-    isPending: isSiloTokensPending || isSupportedTokensPending,
+    isPending:
+      isSiloTokensPending ||
+      isSiloTokenRequestsPending ||
+      isSupportedTokensPending,
     supportedTokens,
     bridgedSiloTokens: bridgedSiloTokens?.items ?? [],
+    bridgedSiloTokenRequests: bridgedSiloTokenRequests?.items ?? [],
   }
 }

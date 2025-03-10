@@ -6,6 +6,7 @@ import { getBridgedToken } from "@/actions/bridged-tokens/get-bridged-token"
 import { checkTokenByContractAddress } from "@/utils/check-token-contract"
 import { Silo } from "@/types/types"
 import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-silo-bridged-token"
+import { createSiloBridgedTokenRequest } from "@/actions/silo-bridged-tokens/create-silo-bridged-token-request"
 import { abort } from "../../../../../../utils/abort"
 
 const isTokenDeployed = async (silo: Silo, contractAddress: string) => {
@@ -51,8 +52,13 @@ const bridgeCustomToken = async (
     abort(400, "Token is already deployed")
   }
 
-  // TODO: Store a request for the token deployment and maybe send a Slack
-  // notification
+  await createSiloBridgedTokenRequest({
+    silo_id: silo.id,
+    symbol,
+    address,
+  })
+
+  // TODO: Send a Slack notification, once we know this is all working
   return {
     isDeploymentPending: true,
     isActive: false,

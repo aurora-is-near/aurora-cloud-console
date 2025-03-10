@@ -6,6 +6,7 @@ import {
   RuleSchema as Rule,
   SiloSchema as Silo,
   SiloBridgedTokenSchema as SiloBridgedToken,
+  SiloBridgedTokenRequestSchema as SiloBridgedTokenRequest,
   TransactionDataSchema as TransactionData,
   WalletDetailsSchema as WalletDetails,
   WidgetSchema as Widget,
@@ -15,6 +16,10 @@ export type DealSchema = z.infer<typeof Deal>
 export type RuleSchema = z.infer<typeof Rule>
 export type SiloSchema = z.infer<typeof Silo>
 export type SiloBridgedTokenSchema = z.infer<typeof SiloBridgedToken>
+export type SiloBridgedTokenRequestSchema = z.infer<
+  typeof SiloBridgedTokenRequest
+>
+
 export type WalletDetailsSchema = z.infer<typeof WalletDetails>
 export type TransactionDataSchema = z.infer<typeof TransactionData>
 export type ChartDataSchema = z.infer<typeof ChartData>

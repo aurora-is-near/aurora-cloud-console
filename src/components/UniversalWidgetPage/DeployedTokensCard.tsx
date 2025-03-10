@@ -14,7 +14,9 @@ type DeployedTokensCardProps = {
 }
 
 export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
-  const { bridgedSiloTokens, isPending } = useBridgedTokens(siloId)
+  const { bridgedSiloTokens, bridgedSiloTokenRequests, isPending } =
+    useBridgedTokens(siloId)
+
   const activeTokenIds = useWidgetTokens(siloId)
   const [isAddingNewAsset, setIsAddingNewAsset] = useState(false)
 
@@ -40,6 +42,7 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
             <DeployedTokensForm
               siloId={siloId}
               bridgedSiloTokens={bridgedSiloTokens}
+              bridgedSiloTokenRequests={bridgedSiloTokenRequests}
               activeTokenIds={activeTokenIds}
             />
 

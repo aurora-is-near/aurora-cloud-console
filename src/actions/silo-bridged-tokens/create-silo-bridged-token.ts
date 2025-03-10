@@ -13,16 +13,13 @@ export const createSiloBridgedToken = async (
   },
 ): Promise<void> => {
   const supabase = createAdminSupabaseClient()
-  const result = await supabase
-    .from("silo_bridged_tokens")
-    .insert([
-      {
-        silo_id: siloId,
-        bridged_token_id: bridgedTokenId,
-        is_deployment_pending: isDeploymentPending,
-      },
-    ])
-    .select()
+  const result = await supabase.from("silo_bridged_tokens").insert([
+    {
+      silo_id: siloId,
+      bridged_token_id: bridgedTokenId,
+      is_deployment_pending: isDeploymentPending,
+    },
+  ])
 
   assertValidSupabaseResult(result)
 }

@@ -43,6 +43,11 @@ export const apiClient = {
   }: ApiRequestParams<"getSiloBridgedTokens">) =>
     get<"getSiloBridgedTokens">(`/api/silos/${id}/tokens`),
 
+  getSiloBridgedTokenRequests: async ({
+    id,
+  }: ApiRequestParams<"getSiloBridgedTokenRequests">) =>
+    get<"getSiloBridgedTokenRequests">(`/api/silos/${id}/tokens/requests`),
+
   bridgeSiloToken: async ({
     id,
     ...data
