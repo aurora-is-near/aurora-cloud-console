@@ -5,6 +5,7 @@ import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-
 import { getSiloWhitelistAddress } from "@/actions/silo-whitelist/get-silo-whitelist-address"
 import { insertSiloWhitelistAddress } from "@/actions/silo-whitelist/insert-silo-whitelist-address"
 import { updateSiloWhitelistAddress } from "@/actions/silo-whitelist/update-silo-whitelist-address"
+import { deleteSiloWhitelistAddress } from "@/actions/silo-whitelist/delete-silo-whitelist-address"
 import { createSiloConfigTransaction } from "@/actions/silo-config-transactions/create-silo-config-transaction"
 import { getLastSiloConfigTransaction } from "@/actions/silo-config-transactions/get-last-silo-config-transaction"
 import { getSiloConfigTransactionById } from "@/actions/silo-config-transactions/get-silo-config-transaction-by-id"
@@ -17,6 +18,7 @@ import { abort } from "../../../../../utils/abort"
 import {
   toggleSiloPermissionUpdateMap,
   whitelistKindActionMap,
+  whitelistKindPurgeOperationMap,
   whitelistKindPopulateOperationMap,
   whitelistKindToggleOperationMap,
 } from "./maps"
@@ -112,7 +114,7 @@ export const PUT = createApiEndpoint(
       const txStatus = await checkPendingTransaction(previousTransaction, silo)
 
       if (txStatus === "FAILED") {
-        abort(500, "On-chain transaction failed. Try again.")
+        abort(503, "On-chain transaction failed. Try again.")
       }
 
       if (txStatus === "PENDING") {
@@ -164,7 +166,8 @@ export const POST = createApiEndpoint(
           address,
           list: action,
           silo_id: silo.id,
-          tx_id: null,
+          add_tx_id: null,
+          remove_tx_id: null,
         })
 
         return {
@@ -185,7 +188,8 @@ export const POST = createApiEndpoint(
         address,
         list: action,
         silo_id: silo.id,
-        tx_id: transaction.id,
+        add_tx_id: transaction.id,
+        remove_tx_id: null,
       })
 
       return {
@@ -205,7 +209,7 @@ export const POST = createApiEndpoint(
     }
 
     // 4. If whitelisted address has no tx_id means it was whitelisted above
-    if (!whitelistedAddress.tx_id) {
+    if (!whitelistedAddress.add_tx_id) {
       return {
         action,
         address,
@@ -217,7 +221,7 @@ export const POST = createApiEndpoint(
     const tx = await getSiloConfigTransactionById(
       silo.id,
       whitelistKindPopulateOperationMap[action],
-      whitelistedAddress.tx_id,
+      whitelistedAddress.add_tx_id,
     )
 
     // 6. If not txs (should not happen)
@@ -229,6 +233,27 @@ export const POST = createApiEndpoint(
 
     // 7. Handle actual tx status
     switch (transaction.status) {
+      case "PENDING": {
+        const txStatus = await checkPendingTransaction(transaction, silo)
+
+        if (txStatus === "FAILED") {
+          abort(503, "On-chain transaction failed. Try again.")
+        }
+
+        if (txStatus === "PENDING") {
+          return {
+            action,
+            address,
+            status: "PENDING" as const,
+          }
+        }
+        return {
+          action,
+          address,
+          status: "PENDING" as const,
+        }
+      }
+
       case "SUCCESSFUL":
         await updateSiloWhitelistAddress(whitelistedAddress.address, {
           is_applied: true,
@@ -239,15 +264,10 @@ export const POST = createApiEndpoint(
           address,
           status: "SUCCESSFUL" as const,
         }
-      case "PENDING":
-        return {
-          action,
-          address,
-          status: "PENDING" as const,
-        }
+
       case "FAILED":
       default:
-        abort(500, "Unexpected transaction status")
+        abort(503, "Unexpected transaction status")
     }
   },
 )
@@ -255,35 +275,91 @@ export const POST = createApiEndpoint(
 export const DELETE = createApiEndpoint(
   "removeAddressFromPermissionsWhitelist",
   async (_, ctx) => {
-    const { action, address } = ctx.body
-
-    if (!action) {
-      abort(
-        400,
-        "Missing action query parameter (MAKE_TRANSACTIONS or DEPLOY_CONTRACTS must be provided)",
-      )
-    }
-
-    if (!address) {
-      abort(
-        400,
-        "Missing address query parameter (the address to add must be provided)",
-      )
-    }
-
     const silo = await getSiloOrAbort(ctx.team.id, Number(ctx.params.id))
+    const { action, address } = getBodyParamsOrAbort(ctx, ["action", "address"])
 
-    // const { tx_hash } =
-    await contractChangerApiClient.removeAddressFromWhitelist({
-      siloEngineAccountId: silo.engine_account,
-      whitelistKind: whitelistKindActionMap[action],
-      addr: address,
+    let transaction: SiloConfigTransaction | undefined | null
+
+    // 1. Try to retrieve address from the list to get related tx hash
+    const whitelistedAddress = await getSiloWhitelistAddress(
+      silo.id,
+      action,
+      address,
+    )
+
+    // 2. Find related tx and check it's status
+    const existingTxId = whitelistedAddress?.remove_tx_id
+    if (existingTxId) {
+      transaction = await getSiloConfigTransactionById(
+        silo.id,
+        whitelistKindPurgeOperationMap[action],
+        existingTxId,
+      )
+    }
+
+    // 3. If tx is not found or failed, create a new one
+    if (!transaction || transaction.status === "FAILED") {
+      const { tx_hash } =
+        await contractChangerApiClient.removeAddressFromWhitelist({
+          siloEngineAccountId: silo.engine_account,
+          whitelistKind: whitelistKindActionMap[action],
+          addr: address,
+        })
+
+      // if no tx hash is returned - assume transaction was successful
+      if (!tx_hash) {
+        await deleteSiloWhitelistAddress({
+          address,
+          list: action,
+          silo_id: silo.id,
+        })
+
+        return {
+          action,
+          address,
+          status: "SUCCESSFUL" as const,
+        }
+      }
+
+      transaction = await createSiloConfigTransaction({
+        silo_id: silo.id,
+        transaction_hash: tx_hash,
+        operation: whitelistKindPurgeOperationMap[action],
+        status: "PENDING",
+      })
+
+      await updateSiloWhitelistAddress(address, {
+        remove_tx_id: transaction.id,
+      })
+
+      // 4. Poll for the actual on chain tx status
+    } else if (transaction.status === "PENDING") {
+      const txStatus = await checkPendingTransaction(transaction, silo)
+
+      if (txStatus === "FAILED") {
+        abort(503, "On-chain transaction failed. Try again.")
+      }
+
+      if (txStatus === "PENDING") {
+        return {
+          action,
+          address,
+          status: "PENDING" as const,
+        }
+      }
+    }
+
+    // 5. On-chain tx was successful
+    await deleteSiloWhitelistAddress({
+      address,
+      list: action,
+      silo_id: silo.id,
     })
 
     return {
-      status: "PENDING" as const,
-      address,
       action,
+      address,
+      status: "SUCCESSFUL" as const,
     }
   },
 )

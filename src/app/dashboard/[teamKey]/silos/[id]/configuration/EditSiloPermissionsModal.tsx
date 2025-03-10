@@ -18,7 +18,9 @@ import type {
   SiloWhitelistType,
 } from "@/types/types"
 
-import { useAddAddress, useToggleWhitelist } from "./hooks"
+import { useAddAddress, useRemoveAddress, useToggleWhitelist } from "./hooks"
+
+type AddressStatus = "add" | "remove" | "normal" | "failed"
 
 type Copies = {
   title: string
@@ -38,6 +40,14 @@ const copies: Record<SiloWhitelistType, Copies> = {
     restrictedRadioTooltip: "Restrict deploying contracts to selected wallets",
   },
 } as const
+
+const LoadingBadge = ({ label }: { label: string }) => (
+  <div className="flex items-center gap-2 ring-1 ring-slate-300 rounded-md px-3 h-[38px]">
+    <Typography variant="label" size={3} className="text-slate-400">
+      {label}
+    </Typography>
+  </div>
+)
 
 type Props = {
   silo: Silo
@@ -68,13 +78,29 @@ const EditSiloPermissionsModalContent = ({
     onSuccess: router.refresh,
   })
 
-  const { onAddAddress } = useAddAddress({
+  const {
+    address: addressToBeAdded,
+    isFailed: isAddressAddingFailed,
+    isPending: isAddressAddingPending,
+    onAddAddress,
+  } = useAddAddress({
     silo,
+    addresses,
     addressValue,
     whitelistType,
-    addresses,
     onSuccess: () => setAddressValue(""),
     onSubmit: (address) => setAddresses((p) => [...p, address]),
+  })
+
+  const {
+    address: addressToBeRemoved,
+    isFailed: isAddressRemovingFailed,
+    isPending: isAddressRemovingPending,
+    onRemoveAddress,
+  } = useRemoveAddress({
+    silo,
+    whitelistType,
+    onSuccess: (addr) => setAddresses((p) => p.filter((a) => a !== addr)),
   })
 
   useEffect(() => {
@@ -83,10 +109,18 @@ const EditSiloPermissionsModalContent = ({
     }
   }, [isToggleWhitelistFailed])
 
+  const isLoading =
+    isAddressAddingPending ||
+    isAddressRemovingPending ||
+    isToggleWhitelistPending
+
+  const isFailed =
+    isAddressAddingFailed || isAddressRemovingFailed || isToggleWhitelistFailed
+
   return (
     <div className="flex flex-col gap-8">
       <RadioGroup
-        isClickable={!isToggleWhitelistPending}
+        isClickable={!isLoading}
         defaultSelected={isPublic ? "public" : "restricted"}
         onSelect={onToggleWhitelist}
       >
@@ -119,11 +153,11 @@ const EditSiloPermissionsModalContent = ({
                 onChange={(e) => setAddressValue(e.target.value)}
                 placeholder="0x..."
                 className="flex-1"
-                disabled={isToggleWhitelistPending}
+                disabled={isLoading}
               />
               <Button
                 variant="border"
-                disabled={isToggleWhitelistPending}
+                disabled={isLoading}
                 onClick={onAddAddress}
               >
                 <PlusIcon className="w-5 h-5" />
@@ -146,19 +180,49 @@ const EditSiloPermissionsModalContent = ({
                 Whitelisted addresses
               </Typography>
               <div className="flex flex-col gap-2">
-                {addresses.map((address) => (
-                  <div key={address} className="flex items-center gap-2">
-                    <span className="text-sm flex flex-1 border border-slate-300 p-2 bg-slate-50 rounded-md text-ellipsis">
-                      {address}
-                    </span>
-                    <Button
-                      variant="border"
-                      className="text-gray-400 hover:text-gray-500"
-                    >
-                      <TrashIcon className="w-5 h-5" />
-                    </Button>
-                  </div>
-                ))}
+                {addresses.map((address) => {
+                  let addressStatus: AddressStatus = "normal"
+                  if (address === addressToBeAdded) {
+                    if (isAddressAddingFailed) addressStatus = "failed"
+                    else if (isAddressAddingPending) addressStatus = "add"
+                  } else if (address === addressToBeRemoved) {
+                    if (isAddressRemovingFailed) addressStatus = "failed"
+                    else if (isAddressRemovingPending) addressStatus = "remove"
+                  }
+
+                  return (
+                    <div key={address} className="flex items-center gap-2 p-1">
+                      <span className="text-sm flex flex-1 border border-slate-300 p-2 bg-slate-50 rounded-md text-ellipsis min-w-0 overflow-hidden">
+                        {address}
+                      </span>
+
+                      {(() => {
+                        switch (addressStatus) {
+                          case "add":
+                            return <LoadingBadge label="Adding..." />
+                          case "remove":
+                            return <LoadingBadge label="Removing..." />
+                          case "failed":
+                            return (
+                              <Button variant="destructive">Try again</Button>
+                            )
+                          case "normal":
+                          default:
+                            return (
+                              <Button
+                                variant="border"
+                                disabled={isLoading || isFailed}
+                                className="text-gray-400 hover:text-gray-500"
+                                onClick={() => onRemoveAddress(address)}
+                              >
+                                <TrashIcon className="w-5 h-5" />
+                              </Button>
+                            )
+                        }
+                      })()}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           )}

@@ -47,7 +47,7 @@ const request = async <T>(
   return resultData
 }
 
-export type WhitelistKind = "env-admin" | "address"
+export type WhitelistKind = "evm-admin" | "address"
 
 /**
  * @see https://github.com/aurora-is-near/silo-deployer
@@ -99,7 +99,7 @@ export const contractChangerApiClient = {
         method: "POST",
         data: {
           addr,
-          whitelistKind,
+          whitelist_kind: whitelistKind,
         },
       },
     ),

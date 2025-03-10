@@ -1,27 +1,23 @@
 "use server"
 
-import {
-  assertNonNullSupabaseResult,
-  assertValidSupabaseResult,
-} from "@/utils/supabase"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import type { SiloWhitelistAddress } from "@/types/types"
 
-export const insertSiloWhitelistAddress = async (
-  inputs: Pick<
-    SiloWhitelistAddress,
-    "address" | "list" | "silo_id" | "add_tx_id" | "remove_tx_id"
-  >,
+export const deleteSiloWhitelistAddress = async (
+  inputs: Pick<SiloWhitelistAddress, "address" | "list" | "silo_id">,
 ): Promise<SiloWhitelistAddress | null> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("silo_whitelist_addresses")
-    .insert(inputs)
+    .delete()
+    .eq("address", inputs.address)
+    .eq("silo_id", inputs.silo_id)
+    .eq("list", inputs.list)
     .select("*")
     .single()
 
   assertValidSupabaseResult(result)
-  assertNonNullSupabaseResult(result)
 
   return result.data
 }

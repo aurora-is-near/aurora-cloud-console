@@ -13,7 +13,7 @@ const whitelistTxsMock = {
   is_applied: true,
   list: "MAKE_TRANSACTION",
   silo_id: mockSilo.id,
-  tx_id: "some-tx-hash",
+  add_tx_id: "some-tx-hash",
 }
 
 const whitelistContractsMock = {
@@ -22,7 +22,7 @@ const whitelistContractsMock = {
   is_applied: true,
   list: "DEPLOY_CONTRACT",
   silo_id: mockSilo.id,
-  tx_id: "some-tx-hash",
+  add_tx_id: "some-tx-hash",
 }
 
 describe("getSiloAddressesWhitelist", () => {

@@ -1,6 +1,5 @@
 "use client"
 
-import z from "zod"
 import toast from "react-hot-toast"
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
@@ -11,20 +10,10 @@ import type { Silo, SiloWhitelistType } from "@/types/types"
 
 import { AddressError } from "./error"
 
-const addressSchema = z.object({
-  address: z
-    .string()
-    .min(1, "Address is required")
-    .regex(/^0x[a-fA-F0-9]{40}$/, "Invalid address format"),
-})
-
 type Args = {
   silo: Silo
-  addressValue: string
   whitelistType: SiloWhitelistType
-  addresses: string[]
   onSuccess: (address: string) => void
-  onSubmit: (address: string) => void
 }
 
 const assertNonEmptyAddress = (address: string) => {
@@ -33,38 +22,19 @@ const assertNonEmptyAddress = (address: string) => {
   }
 }
 
-const assertValidAddress = (address: string) => {
-  if (!addressSchema.safeParse({ address }).success) {
-    throw new AddressError("Invalid address format")
-  }
-}
-
-const assertPopulatedAddress = (address: string, addresses: string[]) => {
-  if (addresses.includes(address)) {
-    throw new AddressError("Address already exists")
-  }
-}
-
-export const useAddAddress = ({
-  silo,
-  addresses,
-  addressValue,
-  whitelistType,
-  onSuccess,
-  onSubmit,
-}: Args) => {
+export const useRemoveAddress = ({ silo, whitelistType, onSuccess }: Args) => {
   const [isFailed, setIsFailed] = useState<boolean>(false)
   const { retry } = useProgressiveRetry({
     maxRetries: 5,
     onRetriesComplete: () => setIsFailed(true),
   })
 
-  const addAddressToList = useMutation({
-    mutationFn: apiClient.addAddressToPermissionsWhitelist,
+  const removeAddressFromList = useMutation({
+    mutationFn: apiClient.removeAddressFromPermissionsWhitelist,
     onError: () => setIsFailed(true),
     onSuccess: async (data, variables) => {
       if (data.status === "PENDING") {
-        retry(() => addAddressToList.mutate(variables))
+        retry(() => removeAddressFromList.mutate(variables))
       } else if (data.status === "SUCCESSFUL") {
         setIsFailed(false)
         onSuccess(data.address)
@@ -74,11 +44,9 @@ export const useAddAddress = ({
     },
   })
 
-  const onAddAddress = () => {
+  const onRemoveAddress = (address: string) => {
     try {
-      assertNonEmptyAddress(addressValue)
-      assertValidAddress(addressValue)
-      assertPopulatedAddress(addressValue, addresses)
+      assertNonEmptyAddress(address)
     } catch (error: unknown) {
       if (error instanceof AddressError) {
         toast.error(error.message)
@@ -87,22 +55,21 @@ export const useAddAddress = ({
       }
     }
 
-    onSubmit(addressValue)
-
-    addAddressToList.mutate({
+    removeAddressFromList.mutate({
+      address,
       id: silo.id,
-      address: addressValue,
       action: whitelistType,
     })
   }
 
   const isPending =
-    addAddressToList.isPending || addAddressToList.data?.status === "PENDING"
+    removeAddressFromList.isPending ||
+    removeAddressFromList.data?.status === "PENDING"
 
   return {
     isFailed,
     isPending,
-    address: addressValue,
-    onAddAddress,
+    address: removeAddressFromList.variables?.address,
+    onRemoveAddress,
   }
 }

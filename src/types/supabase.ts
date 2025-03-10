@@ -116,6 +116,38 @@ export type Database = {
         }
         Relationships: []
       }
+      bridged_token_requests: {
+        Row: {
+          address: string
+          created_at: string
+          id: number
+          silo_id: number
+          symbol: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          id?: number
+          silo_id: number
+          symbol: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          id?: number
+          silo_id?: number
+          symbol?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bridged_token_requests_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bridged_tokens: {
         Row: {
           aurora_address: string
@@ -686,19 +718,16 @@ export type Database = {
       silo_bridged_tokens: {
         Row: {
           bridged_token_id: number
-          is_active: boolean
           is_deployment_pending: boolean
           silo_id: number
         }
         Insert: {
           bridged_token_id: number
-          is_active: boolean
           is_deployment_pending?: boolean
           silo_id?: number
         }
         Update: {
           bridged_token_id?: number
-          is_active?: boolean
           is_deployment_pending?: boolean
           silo_id?: number
         }
@@ -786,28 +815,31 @@ export type Database = {
       }
       silo_whitelist_addresses: {
         Row: {
+          add_tx_id: number | null
           address: string
           id: number
           is_applied: boolean
           list: Database["public"]["Enums"]["address_whitelist_type"]
+          remove_tx_id: number | null
           silo_id: number
-          tx_id: number | null
         }
         Insert: {
+          add_tx_id?: number | null
           address: string
           id?: number
           is_applied?: boolean
           list: Database["public"]["Enums"]["address_whitelist_type"]
+          remove_tx_id?: number | null
           silo_id: number
-          tx_id?: number | null
         }
         Update: {
+          add_tx_id?: number | null
           address?: string
           id?: number
           is_applied?: boolean
           list?: Database["public"]["Enums"]["address_whitelist_type"]
+          remove_tx_id?: number | null
           silo_id?: number
-          tx_id?: number | null
         }
         Relationships: [
           {
@@ -818,8 +850,15 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "silo_addresses_tx_id_fkey"
-            columns: ["tx_id"]
+            foreignKeyName: "silo_whitelist_addresses_add_tx_id_fkey"
+            columns: ["add_tx_id"]
+            isOneToOne: false
+            referencedRelation: "silo_config_transactions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_whitelist_addresses_remove_tx_id_fkey"
+            columns: ["remove_tx_id"]
             isOneToOne: false
             referencedRelation: "silo_config_transactions"
             referencedColumns: ["id"]
@@ -968,6 +1007,9 @@ export type Database = {
           created_at: string
           id: number
           name: string
+          onboarding_status:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           prepaid_transactions: number
           team_key: string
           updated_at: string
@@ -976,6 +1018,9 @@ export type Database = {
           created_at?: string
           id?: number
           name: string
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           prepaid_transactions?: number
           team_key: string
           updated_at?: string
@@ -984,6 +1029,9 @@ export type Database = {
           created_at?: string
           id?: number
           name?: string
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           prepaid_transactions?: number
           team_key?: string
           updated_at?: string
