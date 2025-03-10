@@ -31,7 +31,7 @@ describe("Bridge silo token route", () => {
       .select.mockImplementation(() => createSelect())
 
     mockSupabaseClient
-      .from("tokens")
+      .from("bridged_tokens")
       .select.mockImplementation(() => createSelect())
     ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
       symbol: () => {
@@ -52,7 +52,65 @@ describe("Bridge silo token route", () => {
       expect(res.body).toEqual({ message: "Not Found" })
     })
 
-    describe("updating by ID", () => {
+    describe("by ID", () => {
+      it("creates and activates a token if the contract is deployed", async () => {
+        const mockToken = createMockBridgedToken()
+
+        ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+          symbol: () => mockToken.symbol,
+        }))
+
+        mockSupabaseClient
+          .from("silos")
+          .select.mockImplementation(() => createSelect(createMockSilo()))
+
+        mockSupabaseClient
+          .from("bridged_tokens")
+          .select.mockImplementation(() => createSelect(mockToken))
+
+        const res = await invokeApiHandler(
+          "POST",
+          "/api/silos/1/tokens/bridge",
+          POST,
+          {
+            body: { tokenId: mockToken.id },
+          },
+        )
+
+        expect(res.status).toBe(200)
+        expect(res.body).toEqual({
+          isActive: true,
+          isDeploymentPending: false,
+        })
+      })
+
+      it("creates a token in the pending state if the contract is not deployed", async () => {
+        const mockToken = createMockBridgedToken()
+
+        mockSupabaseClient
+          .from("silos")
+          .select.mockImplementation(() => createSelect(createMockSilo()))
+
+        mockSupabaseClient
+          .from("bridged_tokens")
+          .select.mockImplementation(() => createSelect(mockToken))
+
+        const res = await invokeApiHandler(
+          "POST",
+          "/api/silos/1/tokens/bridge",
+          POST,
+          {
+            body: { tokenId: mockToken.id },
+          },
+        )
+
+        expect(res.status).toBe(200)
+        expect(res.body).toEqual({
+          isActive: false,
+          isDeploymentPending: true,
+        })
+      })
+
       it("returns a 404 for a non-existant token", async () => {
         mockSupabaseClient
           .from("silos")
@@ -72,17 +130,31 @@ describe("Bridge silo token route", () => {
       })
 
       it("returns a 400 if the token is already deployed", async () => {
+        const silo = createMockSilo()
         const mockToken = createMockSiloBridgedToken({
           is_deployment_pending: false,
         })
+
+        ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+          symbol: () => mockToken.symbol,
+        }))
 
         mockSupabaseClient
           .from("silos")
           .select.mockImplementation(() => createSelect(createMockSilo()))
 
         mockSupabaseClient
-          .from("tokens")
+          .from("bridged_tokens")
           .select.mockImplementation(() => createSelect(mockToken))
+
+        mockSupabaseClient
+          .from("silo_bridged_tokens")
+          .select.mockImplementation(() =>
+            createSelect({
+              bridged_token_id: mockToken.id,
+              silo: silo.id,
+            }),
+          )
 
         const res = await invokeApiHandler(
           "POST",
@@ -94,12 +166,12 @@ describe("Bridge silo token route", () => {
         )
 
         expect(res.status).toBe(400)
-        expect(res.body).toEqual({ message: "Token is already deployed" })
+        expect(res.body).toEqual({ message: "Token is already bridged" })
         expect(mockSupabaseClient.from("tokens").update).not.toHaveBeenCalled()
       })
     })
 
-    describe("updating by symbol and address", () => {
+    describe("by symbol and address", () => {
       it("creates a new token", async () => {
         const mockToken = createMockSiloBridgedToken({ id: 42 })
         const insertQueries = createInsertOrUpdate(mockToken)

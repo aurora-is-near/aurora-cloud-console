@@ -7,6 +7,10 @@ import { checkTokenByContractAddress } from "@/utils/check-token-contract"
 import { Silo } from "@/types/types"
 import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-silo-bridged-token"
 import { createSiloBridgedTokenRequest } from "@/actions/silo-bridged-tokens/create-silo-bridged-token-request"
+import {
+  getSiloBridgedToken,
+  isSiloBridgedToken,
+} from "@/actions/silo-bridged-tokens/is-silo-bridged-token"
 import { abort } from "../../../../../../utils/abort"
 
 const isTokenDeployed = async (silo: Silo, contractAddress: string) => {
@@ -23,22 +27,29 @@ const bridgeExistingToken = async (
   silo: Silo,
   tokenId: number,
 ): Promise<ApiResponseBody<"bridgeSiloToken">> => {
-  const token = await getBridgedToken(tokenId)
+  const [token, isAlreadyBridged] = await Promise.all([
+    getBridgedToken(tokenId),
+    isSiloBridgedToken(silo.id, tokenId),
+  ])
 
   if (!token) {
     abort(404)
   }
 
+  if (isAlreadyBridged) {
+    abort(400, "Token is already bridged")
+  }
+
   const isDeployed = await isTokenDeployed(silo, token.aurora_address)
 
-  const metadata = {
+  await createSiloBridgedToken(silo.id, token.id, {
+    isDeploymentPending: !isDeployed,
+  })
+
+  return {
     isDeploymentPending: !isDeployed,
     isActive: isDeployed,
   }
-
-  await createSiloBridgedToken(silo.id, token.id, metadata)
-
-  return metadata
 }
 
 const bridgeCustomToken = async (
