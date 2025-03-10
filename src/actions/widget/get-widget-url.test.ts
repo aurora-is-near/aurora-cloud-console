@@ -144,15 +144,13 @@ describe("getWidgetUrl", () => {
       ],
       customTokens: [
         {
-          "0x4e45415e.c.aurora": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          [silo.engine_account]: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           aurora: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           decimals: 18,
           ethereum: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           icon: "http://example.com/path/to/icon.png",
-          isFast: false,
           name: "Test Token",
           near: "aurora",
-          origin: "ethereum",
           symbol: "ETH",
         },
       ],
