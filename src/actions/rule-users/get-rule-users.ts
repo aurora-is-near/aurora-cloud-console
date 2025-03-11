@@ -8,7 +8,7 @@ import { PostgrestResponseSuccess } from "@/types/postgrest"
 export const getRuleUsers = async ({
   userlist_id,
 }: {
-  userlist_id: number | number[]
+  userlist_id: number
 }): Promise<PostgrestResponseSuccess<RuleUser[]>> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase

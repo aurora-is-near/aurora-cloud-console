@@ -26,22 +26,12 @@ export const BannerTopup = ({ team }: Props) => {
         </>
       }
       Icon={<IconCoins className="w-11 h-11 text-green-900" />}
-      link={
-        topupLink
-          ? {
-              isExternal: true,
-              isDisabled: false,
-              trackEventName: "top_up_click",
-              label: "Top up now",
-              url: topupLink,
-            }
-          : {
-              isExternal: true,
-              isDisabled: true,
-              trackEventName: "top_up_click",
-              label: "Top up now",
-            }
-      }
+      link={{
+        isExternal: true,
+        trackEventName: "top_up_click",
+        label: "Top up now",
+        url: topupLink,
+      }}
     />
   )
 }
