@@ -1,4 +1,3 @@
-import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { ForwarderPage } from "@/components/ForwarderPage/ForwarderPage"
 
 const Page = async ({
@@ -6,9 +5,7 @@ const Page = async ({
 }: {
   params: { teamKey: string }
 }) => {
-  const team = await getTeamByKey(teamKey)
-
-  return <ForwarderPage team={team} />
+  return <ForwarderPage teamKey={teamKey} />
 }
 
 export default Page

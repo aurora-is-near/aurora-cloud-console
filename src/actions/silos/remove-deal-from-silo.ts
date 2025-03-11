@@ -2,7 +2,7 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const applyDealToSilo = async (dealId: number, siloId: number) => {
+export const removeDealFromSilo = async (dealId: number, siloId: number) => {
   const supabase = createAdminSupabaseClient()
 
   const { data: silo } = await supabase
@@ -15,7 +15,7 @@ export const applyDealToSilo = async (dealId: number, siloId: number) => {
     throw new Error("Silo not found")
   }
 
-  const newAppliedDealIds = new Set([...silo.applied_deal_ids, dealId])
+  const newAppliedDealIds = silo.applied_deal_ids.filter((id) => id !== dealId)
 
   const result = await supabase
     .from("silos")
