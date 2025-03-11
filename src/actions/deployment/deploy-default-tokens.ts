@@ -10,6 +10,7 @@ import {
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import { checkToken } from "@/utils/check-token-contract"
 import { DefaultToken } from "@/types/default-tokens"
+import { DEFAULT_TOKENS } from "@/constants/default-tokens"
 
 const CONTRACT_CHANGER_SYMBOLS: Record<
   DefaultToken,
@@ -60,28 +61,15 @@ export const deployDefaultTokens = async (
 ): Promise<SiloConfigTransactionStatus> => {
   const provider = new JsonRpcProvider(silo.rpc_url)
 
-  const statuses = await Promise.all([
-    deployDefaultToken({
-      provider,
-      silo,
-      symbol: "NEAR",
-    }),
-    deployDefaultToken({
-      provider,
-      silo,
-      symbol: "AURORA",
-    }),
-    deployDefaultToken({
-      provider,
-      silo,
-      symbol: "USDt",
-    }),
-    deployDefaultToken({
-      provider,
-      silo,
-      symbol: "USDC",
-    }),
-  ])
+  const statuses = await Promise.all(
+    DEFAULT_TOKENS.map(async (symbol) =>
+      deployDefaultToken({
+        provider,
+        silo,
+        symbol,
+      }),
+    ),
+  )
 
   if (statuses.includes("PENDING")) {
     return "PENDING"
