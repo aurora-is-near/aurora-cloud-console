@@ -24,7 +24,7 @@ export const getTooltipConfig = <T extends "line" | "bar">(
   titleColor: theme.colors.tooltip.title,
   titleFont: {
     size: 12,
-    weight: "medium",
+    weight: "bold",
   },
   bodyFont: {
     size: 14,
