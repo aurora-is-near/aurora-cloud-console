@@ -5,6 +5,7 @@ import {
   CurrencyDollarIcon,
   DocumentTextIcon,
   FlagIcon,
+  LinkIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline"
 import { redirect } from "next/navigation"
@@ -42,6 +43,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
                 name: "Blockscout",
                 href: "/admin/blockscout",
                 icon: <CircleStackIcon />,
+              },
+              {
+                name: "Bridged tokens",
+                href: "/admin/bridged-tokens",
+                icon: <LinkIcon />,
               },
               {
                 name: "Oracle tokens",
