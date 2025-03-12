@@ -2,7 +2,6 @@ import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
 
 import Contact from "@/components/Contact"
-import CopyButton from "@/components/CopyButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { getRelayerAccount } from "@/utils/relayer"
