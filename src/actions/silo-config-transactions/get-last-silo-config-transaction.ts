@@ -5,31 +5,23 @@ import {
   SiloConfigTransaction,
   SiloConfigTransactionOperation,
 } from "@/types/types"
-import {
-  assertNonNullSupabaseResult,
-  assertValidSupabaseResult,
-} from "@/utils/supabase"
+import { assertValidSupabaseResult } from "@/utils/supabase"
 
-export const getSiloConfigTransactions = async (
+export const getLastSiloConfigTransaction = async (
   siloId: number,
   operation: SiloConfigTransactionOperation,
-): Promise<SiloConfigTransaction[]> => {
+): Promise<SiloConfigTransaction | null> => {
   const supabase = createAdminSupabaseClient()
-  const query = supabase
+  const result = await supabase
     .from("silo_config_transactions")
     .select("*")
-    .order("id", { ascending: true })
+    .order("id", { ascending: false })
     .eq("silo_id", siloId)
     .eq("operation", operation)
-
-  if (operation) {
-    void query.eq("operation", operation)
-  }
-
-  const result = await query
+    .limit(1)
+    .maybeSingle()
 
   assertValidSupabaseResult(result)
-  assertNonNullSupabaseResult(result)
 
   return result.data
 }

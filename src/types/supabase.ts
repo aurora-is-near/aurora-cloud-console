@@ -768,6 +768,8 @@ export type Database = {
           grafana_network_key: string | null
           id: number
           is_active: boolean
+          is_deploy_contracts_public: boolean
+          is_make_txs_public: boolean
           name: string
           network: string
           network_logo: string
@@ -800,6 +802,8 @@ export type Database = {
           grafana_network_key?: string | null
           id?: number
           is_active?: boolean
+          is_deploy_contracts_public?: boolean
+          is_make_txs_public?: boolean
           name: string
           network?: string
           network_logo?: string
@@ -832,6 +836,8 @@ export type Database = {
           grafana_network_key?: string | null
           id?: number
           is_active?: boolean
+          is_deploy_contracts_public?: boolean
+          is_make_txs_public?: boolean
           name?: string
           network?: string
           network_logo?: string
@@ -1162,6 +1168,7 @@ export type Database = {
     }
     Enums: {
       account_type: "contract" | "wallet"
+      address_whitelist_type: "DEPLOY_CONTRACT" | "MAKE_TRANSACTION"
       api_key_scopes:
         | "deals:read"
         | "deals:write"
@@ -1206,6 +1213,8 @@ export type Database = {
         | "DEPLOY_USDC"
         | "DEPLOY_NEAR"
         | "DEPLOY_ETH"
+        | "TOGGLE_MAKE_TXS_WHITELIST"
+        | "TOGGLE_DEPLOY_CONTRACT_WHITELIST"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:
