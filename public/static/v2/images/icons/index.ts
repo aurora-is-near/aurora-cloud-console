@@ -25,3 +25,4 @@ export { default as IntegrationBlockExplorerWidget } from "./integrations/block_
 export { default as IntegrationIntenseSupport } from "./integrations/intense_support.svg"
 export { default as IntegrationDex } from "./integrations/dex.svg"
 export { default as RainbowBridge } from "./rainbow_bridge_logo.svg"
+export { default as NearIntents } from "./near_intents.svg"

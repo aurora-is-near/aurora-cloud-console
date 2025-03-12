@@ -38,7 +38,7 @@ const Hero = ({
         <HeroContent>{description}</HeroContent>
         {!!actions && <div className="flex">{actions}</div>}
       </div>
-      <div className="hidden md:flex">{image}</div>
+      <div className="hidden md:flex self-start">{image}</div>
     </div>
   )
 }
