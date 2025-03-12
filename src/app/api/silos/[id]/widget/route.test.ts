@@ -76,16 +76,17 @@ describe("Widgets route", () => {
         toNetworks: ["ETHEREUM"],
         tokens: [1],
         widgetUrl:
-          "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud?toNetworks=%5B%22ethereum%22%5D&fromNetworks=%5B%22aurora%22%5D",
+          "https://aurora.plus/cloud?toNetworks=%5B%22ethereum%22%5D&fromNetworks=%5B%22aurora%22%5D",
       })
     })
   })
 
   describe("PUT", () => {
     it("returns a 404 for a non-existant silo", async () => {
-      await expect(async () =>
-        invokeApiHandler("PUT", "/api/silos/1/widget", PUT),
-      ).rejects.toThrow("Not Found")
+      const res = await invokeApiHandler("PUT", "/api/silos/1/widget", PUT)
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({ message: "Not Found" })
     })
 
     it("updates a widget", async () => {
@@ -136,7 +137,7 @@ describe("Widgets route", () => {
         toNetworks,
         tokens,
         widgetUrl:
-          "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud?toNetworks=%5B%22ethereum%22%5D&fromNetworks=%5B%22aurora%22%5D",
+          "https://aurora.plus/cloud?toNetworks=%5B%22ethereum%22%5D&fromNetworks=%5B%22aurora%22%5D",
       })
 
       expect(mockSupabaseClient.from("widgets").upsert).toHaveBeenCalledTimes(1)

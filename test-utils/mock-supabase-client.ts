@@ -8,6 +8,7 @@ export const createSelect = <T>(data?: T) => ({
   order: jest.fn().mockReturnThis(),
   gte: jest.fn().mockReturnThis(),
   lte: jest.fn().mockReturnThis(),
+  limit: jest.fn().mockReturnThis(),
   single: jest.fn(() => ({
     data,
     error: null,
@@ -47,7 +48,6 @@ const createTableClient = jest.fn(() => ({
 const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   teams: createTableClient(),
   deals: createTableClient(),
-  lists: createTableClient(),
   api_keys: createTableClient(),
   tokens: createTableClient(),
   silos: createTableClient(),
@@ -58,7 +58,20 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   onboarding_form: createTableClient(),
   blockscout_databases: createTableClient(),
   orders: createTableClient(),
+  limits: createTableClient(),
+  rules: createTableClient(),
+  rule_users: createTableClient(),
+  rule_user_deal_data: createTableClient(),
+  rule_users_userlists: createTableClient(),
+  userlists: createTableClient(),
+  rules_userlists: createTableClient(),
+  replenishments: createTableClient(),
   silos_teams: createTableClient(),
+  datadog_web3_monitors: createTableClient(),
+  silo_config_transactions: createTableClient(),
+  silo_relayers: createTableClient(),
+  bridged_tokens: createTableClient(),
+  _prisma_migrations: createTableClient(),
 }
 
 export const mockSupabaseClient = {
@@ -66,6 +79,13 @@ export const mockSupabaseClient = {
   auth: {
     getUser: jest.fn(() => ({
       data: { user: mockUser },
+    })),
+    getSession: jest.fn(() => ({
+      data: {
+        session: {
+          user: mockUser,
+        },
+      },
     })),
   },
 }

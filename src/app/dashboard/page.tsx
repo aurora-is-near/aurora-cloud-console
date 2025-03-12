@@ -1,35 +1,21 @@
 import { PlusIcon } from "@heroicons/react/24/outline"
-import Link from "next/link"
 import { redirect } from "next/navigation"
-import Image from "next/image"
-import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { isAdmin } from "@/actions/is-admin"
 import { NotAllowed } from "@/components/NotAllowed"
-import Card from "@/components/Card"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { DashboardPage } from "@/components/DashboardPage"
 import { FullScreenPage } from "@/components/FullScreenPage"
 import { LinkButton } from "@/components/LinkButton"
-import { getUserTeamKeys } from "@/utils/team"
 import { getTeamSummaries } from "@/actions/teams/get-team-summaries"
-import { getSilosTeams } from "@/actions/silos/get-silos-teams"
+import { TeamsList } from "@/app/dashboard/TeamsList"
 
 const Page = async () => {
-  const [currentUser, teamSummaries, silosTeams, isAdminUser] =
-    await Promise.all([
-      getCurrentUser(),
-      getTeamSummaries(),
-      getSilosTeams(),
-      isAdmin(),
-    ])
+  const [teamSummaries, isAdminUser] = await Promise.all([
+    getTeamSummaries(),
+    isAdmin(),
+  ])
 
-  const teamKeys = await getUserTeamKeys(currentUser.id)
-
-  const currentUserTeams = teamSummaries.filter(
-    (team) => teamKeys.includes(team.team_key) || isAdminUser,
-  )
-
-  if (!currentUserTeams.length) {
+  if (!teamSummaries.length) {
     return (
       <FullScreenPage>
         <NotAllowed
@@ -41,8 +27,8 @@ const Page = async () => {
     )
   }
 
-  if (currentUserTeams.length === 1 && !isAdminUser) {
-    return redirect(`/dashboard/${currentUserTeams[0].team_key}`)
+  if (teamSummaries.length === 1) {
+    return redirect(`/dashboard/${teamSummaries[0].team_key}`)
   }
 
   return (
@@ -60,37 +46,7 @@ const Page = async () => {
           )
         }
       >
-        <ul className="grid grid-cols-2 xl:grid-cols-3 gap-6">
-          {teamSummaries.map((team) => {
-            const siloId = silosTeams.find(
-              (silo) => silo.team_id === team.id,
-            )?.silo_id
-
-            const siloPrefix = siloId ? `/silos/${siloId}` : ""
-
-            return (
-              <li key={team.id} className="flex">
-                <Link
-                  href={`/dashboard/${team.team_key}${siloPrefix}`}
-                  className="flex w-full"
-                >
-                  <Card isClickable className="w-full">
-                    <Card.Header>
-                      <Image
-                        width={64}
-                        height={64}
-                        src="/static/v2/images/heroIcons/cloud.webp"
-                        alt="Aurora Cloud Console"
-                        className="mr-16 shadow-xl rounded-[2rem]"
-                      />
-                    </Card.Header>
-                    <Card.Title size="large">{team.name}</Card.Title>
-                  </Card>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+        <TeamsList teamSummaries={teamSummaries} />
       </DashboardPage>
     </DashboardLayout>
   )

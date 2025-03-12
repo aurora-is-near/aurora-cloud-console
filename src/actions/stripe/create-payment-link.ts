@@ -1,12 +1,11 @@
 "use server"
 
 import Stripe from "stripe"
-import { ProductType } from "@/types/products"
+import { ProductMetadata, ProductType } from "@/types/products"
+import { getStripeConfig } from "@/utils/stripe"
 
-const getProductId = (productType: ProductType) => {
-  const productIds: Record<ProductType, string | undefined> = {
-    initial_setup: process.env.STRIPE_INITIAL_SETUP_PRODUCT_ID,
-  }
+const getProductId = async (productType: ProductType) => {
+  const { productIds } = await getStripeConfig()
 
   return productIds[productType]
 }
@@ -22,19 +21,33 @@ const getPrice = async (
   return product.default_price
 }
 
+const getProductMetadata = <T extends ProductType>(
+  productType: T,
+): ProductMetadata[T] => {
+  const productMetadata = {
+    top_up: {
+      number_of_transactions: 15000,
+    },
+  }[productType]
+
+  return productMetadata
+}
+
 export const createPaymentLink = async (
   productType: ProductType,
   teamId: number,
   callbackUrl: string,
 ) => {
-  const stripeSecretKey = process.env.STRIPE_SECRET_KEY
+  const [{ secretKey }, productId] = await Promise.all([
+    getStripeConfig(),
+    getProductId(productType),
+  ])
 
-  if (!stripeSecretKey) {
+  if (!secretKey) {
     throw new Error("Stripe secret key is not set")
   }
 
-  const stripe = new Stripe(stripeSecretKey)
-  const productId = getProductId(productType)
+  const stripe = new Stripe(secretKey)
 
   if (!productId) {
     throw new Error(`Product ID not found for type: ${productType}`)
@@ -65,6 +78,7 @@ export const createPaymentLink = async (
     metadata: {
       team_id: teamId,
       product_type: productType,
+      ...getProductMetadata(productType),
     },
   })
 

@@ -9,7 +9,7 @@ import Card from "@/components/Card"
 import { Team } from "@/types/types"
 import { Button } from "@/components/Button"
 import { HorizontalInput } from "@/components/HorizontalInput"
-import { updateTeamForm } from "@/actions/teams/update-team"
+import { updateTeam } from "@/actions/teams/update-team"
 import { logger } from "@/logger"
 import { DashboardPage } from "@/components/DashboardPage"
 
@@ -33,14 +33,9 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
     formState: { isSubmitting },
   } = useForm<Inputs>()
 
-  const handleUpdateTeam: SubmitHandler<Inputs> = async ({
-    name = "",
-    email = "",
-    website = "",
-    onboarding_status = null,
-  }) => {
+  const handleUpdateTeam: SubmitHandler<Inputs> = async ({ name = "" }) => {
     try {
-      await updateTeamForm(team.id, { name, email, website, onboarding_status })
+      await updateTeam(team.id, { name })
       toast.success("Company information updated.")
       toggleForm()
       router.refresh()
@@ -92,28 +87,6 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
                 value: team.name ?? "",
               }}
             />
-
-            <HorizontalInput
-              id="website"
-              name="website"
-              label="Business website"
-              autoComplete="website"
-              register={register}
-              registerOptions={{
-                value: team.website ?? "",
-              }}
-            />
-
-            <HorizontalInput
-              id="email"
-              name="email"
-              label="Support email"
-              autoComplete="email"
-              register={register}
-              registerOptions={{
-                value: team.email ?? "",
-              }}
-            />
           </form>
         ) : (
           <dl className="space-y-10 py-2">
@@ -123,22 +96,6 @@ const CompanyForm = ({ team }: CompanyFormProps) => {
               </dt>
               <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
                 {team.name}
-              </dd>
-            </div>
-            <div className="sm:grid sm:grid-cols-2">
-              <dt className="text-sm font-medium leading-none text-gray-500">
-                Business website
-              </dt>
-              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-                {team.website}
-              </dd>
-            </div>
-            <div className="sm:grid sm:grid-cols-2">
-              <dt className="text-sm font-medium leading-none text-gray-500">
-                Support email
-              </dt>
-              <dd className="mt-2 text-sm leading-none text-gray-900 sm:mt-0">
-                {team.email}
               </dd>
             </div>
           </dl>

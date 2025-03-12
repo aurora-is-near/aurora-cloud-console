@@ -37,6 +37,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "createdAt": {
                             "type": "string",
                           },
+                          "deletedAt": {
+                            "nullable": true,
+                            "type": "string",
+                          },
                           "enabled": {
                             "type": "boolean",
                           },
@@ -47,27 +51,15 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "id": {
                             "type": "number",
                           },
-                          "lists": {
-                            "additionalProperties": {
-                              "nullable": true,
-                              "properties": {
-                                "id": {
-                                  "type": "number",
-                                },
-                                "name": {
-                                  "type": "string",
-                                },
-                              },
-                              "required": [
-                                "id",
-                                "name",
-                              ],
-                              "type": "object",
-                            },
-                            "type": "object",
-                          },
                           "name": {
                             "type": "string",
+                          },
+                          "open": {
+                            "type": "boolean",
+                          },
+                          "siloId": {
+                            "nullable": true,
+                            "type": "number",
                           },
                           "startTime": {
                             "nullable": true,
@@ -85,12 +77,14 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "id",
                           "createdAt",
                           "updatedAt",
+                          "deletedAt",
                           "name",
                           "teamId",
+                          "siloId",
                           "enabled",
+                          "open",
                           "startTime",
                           "endTime",
-                          "lists",
                         ],
                         "type": "object",
                       },
@@ -151,6 +145,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "createdAt": {
                       "type": "string",
                     },
+                    "deletedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                     "enabled": {
                       "type": "boolean",
                     },
@@ -161,27 +159,15 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id": {
                       "type": "number",
                     },
-                    "lists": {
-                      "additionalProperties": {
-                        "nullable": true,
-                        "properties": {
-                          "id": {
-                            "type": "number",
-                          },
-                          "name": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "id",
-                          "name",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "object",
-                    },
                     "name": {
                       "type": "string",
+                    },
+                    "open": {
+                      "type": "boolean",
+                    },
+                    "siloId": {
+                      "nullable": true,
+                      "type": "number",
                     },
                     "startTime": {
                       "nullable": true,
@@ -199,12 +185,14 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id",
                     "createdAt",
                     "updatedAt",
+                    "deletedAt",
                     "name",
                     "teamId",
+                    "siloId",
                     "enabled",
+                    "open",
                     "startTime",
                     "endTime",
-                    "lists",
                   ],
                   "type": "object",
                 },
@@ -221,153 +209,6 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Create a deal",
-        "tags": [
-          "deals",
-        ],
-      },
-    },
-    "/api/deals/priorities": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`deals:read\`",
-        "operationId": "getDealPriorities",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "items": {
-                      "items": {
-                        "properties": {
-                          "dealId": {
-                            "type": "number",
-                          },
-                          "name": {
-                            "type": "string",
-                          },
-                          "priority": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "dealId",
-                          "name",
-                          "priority",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "array",
-                    },
-                  },
-                  "required": [
-                    "items",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "deals:read",
-            ],
-          },
-        ],
-        "summary": "Get deal execution priorities",
-        "tags": [
-          "deals",
-        ],
-      },
-      "put": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`deals:write\`",
-        "operationId": "updateDealPriorities",
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "priorities": {
-                    "items": {
-                      "properties": {
-                        "dealId": {
-                          "type": "number",
-                        },
-                        "priority": {
-                          "type": "string",
-                        },
-                      },
-                      "required": [
-                        "dealId",
-                        "priority",
-                      ],
-                      "type": "object",
-                    },
-                    "type": "array",
-                  },
-                },
-                "required": [
-                  "priorities",
-                ],
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "items": {
-                      "items": {
-                        "properties": {
-                          "dealId": {
-                            "type": "number",
-                          },
-                          "name": {
-                            "type": "string",
-                          },
-                          "priority": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "dealId",
-                          "name",
-                          "priority",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "array",
-                    },
-                  },
-                  "required": [
-                    "items",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "deals:write",
-            ],
-          },
-        ],
-        "summary": "Update deal execution priorities",
         "tags": [
           "deals",
         ],
@@ -397,6 +238,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "createdAt": {
                       "type": "string",
                     },
+                    "deletedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                     "enabled": {
                       "type": "boolean",
                     },
@@ -407,27 +252,15 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id": {
                       "type": "number",
                     },
-                    "lists": {
-                      "additionalProperties": {
-                        "nullable": true,
-                        "properties": {
-                          "id": {
-                            "type": "number",
-                          },
-                          "name": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "id",
-                          "name",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "object",
-                    },
                     "name": {
                       "type": "string",
+                    },
+                    "open": {
+                      "type": "boolean",
+                    },
+                    "siloId": {
+                      "nullable": true,
+                      "type": "number",
                     },
                     "startTime": {
                       "nullable": true,
@@ -445,12 +278,14 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id",
                     "createdAt",
                     "updatedAt",
+                    "deletedAt",
                     "name",
                     "teamId",
+                    "siloId",
                     "enabled",
+                    "open",
                     "startTime",
                     "endTime",
-                    "lists",
                   ],
                   "type": "object",
                 },
@@ -490,14 +325,6 @@ exports[`OpenAPI Document should be valid 1`] = `
             "application/json": {
               "schema": {
                 "properties": {
-                  "chainFilterListId": {
-                    "nullable": true,
-                    "type": "number",
-                  },
-                  "contractFilterListId": {
-                    "nullable": true,
-                    "type": "number",
-                  },
                   "enabled": {
                     "type": "boolean",
                   },
@@ -505,13 +332,11 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "nullable": true,
                     "type": "string",
                   },
-                  "eoaBlacklistListId": {
-                    "nullable": true,
-                    "type": "number",
+                  "name": {
+                    "type": "string",
                   },
-                  "eoaFilterListId": {
-                    "nullable": true,
-                    "type": "number",
+                  "open": {
+                    "type": "boolean",
                   },
                   "startTime": {
                     "nullable": true,
@@ -533,6 +358,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "createdAt": {
                       "type": "string",
                     },
+                    "deletedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
                     "enabled": {
                       "type": "boolean",
                     },
@@ -543,27 +372,15 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id": {
                       "type": "number",
                     },
-                    "lists": {
-                      "additionalProperties": {
-                        "nullable": true,
-                        "properties": {
-                          "id": {
-                            "type": "number",
-                          },
-                          "name": {
-                            "type": "string",
-                          },
-                        },
-                        "required": [
-                          "id",
-                          "name",
-                        ],
-                        "type": "object",
-                      },
-                      "type": "object",
-                    },
                     "name": {
                       "type": "string",
+                    },
+                    "open": {
+                      "type": "boolean",
+                    },
+                    "siloId": {
+                      "nullable": true,
+                      "type": "number",
                     },
                     "startTime": {
                       "nullable": true,
@@ -581,12 +398,14 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id",
                     "createdAt",
                     "updatedAt",
+                    "deletedAt",
                     "name",
                     "teamId",
+                    "siloId",
                     "enabled",
+                    "open",
                     "startTime",
                     "endTime",
-                    "lists",
                   ],
                   "type": "object",
                 },
@@ -608,118 +427,21 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
-    "/api/forwarder": {
-      "post": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`forwarder:write\`",
-        "operationId": "createForwarderAddress",
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "address": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "address",
-                ],
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "forwarderAddress": {
-                      "nullable": true,
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "forwarderAddress",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "forwarder:write",
-            ],
-          },
-        ],
-        "summary": "Create a forwarder address for given target address",
-        "tags": [
-          "forwarder",
-        ],
-      },
-    },
-    "/api/forwarder/{address}": {
+    "/api/deals/{id}/rules": {
       "get": {
         "deprecated": undefined,
-        "description": "**Required scopes:** \`forwarder:read\`",
-        "operationId": "getForwarderAddress",
+        "description": "**Required scopes:** \`deals:read\`",
+        "operationId": "getRules",
         "parameters": [
           {
             "in": "path",
-            "name": "address",
+            "name": "id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
         ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "forwarderAddress": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "forwarderAddress",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "forwarder:read",
-            ],
-          },
-        ],
-        "summary": "Get the forwarder address for given target address",
-        "tags": [
-          "forwarder",
-        ],
-      },
-    },
-    "/api/lists": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`lists:read\`",
-        "operationId": "getLists",
-        "parameters": [],
         "responses": {
           "200": {
             "content": {
@@ -729,20 +451,52 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "items": {
                       "items": {
                         "properties": {
+                          "chains": {
+                            "items": {
+                              "type": "number",
+                            },
+                            "type": "array",
+                          },
+                          "contracts": {
+                            "items": {
+                              "type": "string",
+                            },
+                            "type": "array",
+                          },
                           "createdAt": {
                             "type": "string",
+                          },
+                          "dealId": {
+                            "type": "number",
+                          },
+                          "exceptChains": {
+                            "items": {
+                              "type": "number",
+                            },
+                            "type": "array",
+                          },
+                          "exceptContracts": {
+                            "items": {
+                              "type": "string",
+                            },
+                            "type": "array",
                           },
                           "id": {
                             "type": "number",
                           },
-                          "name": {
+                          "updatedAt": {
                             "type": "string",
                           },
                         },
                         "required": [
                           "id",
+                          "dealId",
+                          "chains",
+                          "contracts",
+                          "exceptChains",
+                          "exceptContracts",
                           "createdAt",
-                          "name",
+                          "updatedAt",
                         ],
                         "type": "object",
                       },
@@ -762,169 +516,19 @@ exports[`OpenAPI Document should be valid 1`] = `
         "security": [
           {
             "bearerAuth": [
-              "lists:read",
+              "deals:read",
             ],
           },
         ],
-        "summary": "Get all lists",
+        "summary": "Get all rules for a deal",
         "tags": [
-          "lists",
+          "deals",
         ],
       },
       "post": {
         "deprecated": undefined,
-        "description": "**Required scopes:** \`lists:write\`",
-        "operationId": "createList",
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "name": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "name",
-                ],
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "createdAt": {
-                      "type": "string",
-                    },
-                    "id": {
-                      "type": "number",
-                    },
-                    "name": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "id",
-                    "createdAt",
-                    "name",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "lists:write",
-            ],
-          },
-        ],
-        "summary": "Create a list",
-        "tags": [
-          "lists",
-        ],
-      },
-    },
-    "/api/lists/{id}": {
-      "delete": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`lists:write\`",
-        "operationId": "deleteList",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "responses": {
-          "204": {
-            "description": "204",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "lists:write",
-            ],
-          },
-        ],
-        "summary": "Delete a list",
-        "tags": [
-          "lists",
-        ],
-      },
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`lists:read\`",
-        "operationId": "getList",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "createdAt": {
-                      "type": "string",
-                    },
-                    "id": {
-                      "type": "number",
-                    },
-                    "name": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "id",
-                    "createdAt",
-                    "name",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "lists:read",
-            ],
-          },
-        ],
-        "summary": "Get a single list",
-        "tags": [
-          "lists",
-        ],
-      },
-      "put": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`lists:write\`",
-        "operationId": "updateList",
+        "description": "**Required scopes:** \`deals:write\`",
+        "operationId": "createRule",
         "parameters": [
           {
             "in": "path",
@@ -940,156 +544,172 @@ exports[`OpenAPI Document should be valid 1`] = `
             "application/json": {
               "schema": {
                 "properties": {
-                  "name": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "name",
-                ],
-                "type": "object",
-              },
-            },
-          },
-          "description": "Body",
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "createdAt": {
-                      "type": "string",
-                    },
-                    "id": {
-                      "type": "number",
-                    },
-                    "name": {
-                      "type": "string",
-                    },
-                  },
-                  "required": [
-                    "id",
-                    "createdAt",
-                    "name",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "lists:write",
-            ],
-          },
-        ],
-        "summary": "Update a list",
-        "tags": [
-          "lists",
-        ],
-      },
-    },
-    "/api/lists/{id}/items": {
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`lists:read\`",
-        "operationId": "getListItems",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "type": "number",
-            },
-          },
-          {
-            "in": "query",
-            "name": "cursor",
-            "schema": {
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
+                  "chains": {
                     "items": {
-                      "items": {
-                        "type": "string",
-                      },
-                      "type": "array",
-                    },
-                    "total": {
                       "type": "number",
                     },
+                    "type": "array",
                   },
-                  "required": [
-                    "total",
-                    "items",
-                  ],
-                  "type": "object",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "lists:read",
-            ],
-          },
-        ],
-        "summary": "Get the items in a list",
-        "tags": [
-          "lists",
-        ],
-      },
-      "post": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`lists:write\`",
-        "operationId": "createListItems",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "items": {
+                  "contracts": {
+                    "items": {
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "exceptChains": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "type": "array",
+                  },
+                  "exceptContracts": {
                     "items": {
                       "type": "string",
                     },
                     "type": "array",
                   },
                 },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "chains": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "contracts": {
+                      "items": {
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "dealId": {
+                      "type": "number",
+                    },
+                    "exceptChains": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "exceptContracts": {
+                      "items": {
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "dealId",
+                    "chains",
+                    "contracts",
+                    "exceptChains",
+                    "exceptContracts",
+                    "createdAt",
+                    "updatedAt",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:write",
+            ],
+          },
+        ],
+        "summary": "Create a rule for a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
+    "/api/deals/{id}/rules/{rule_id}": {
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:write\`",
+        "operationId": "updateRule",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
+            "name": "rule_id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "chains": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "nullable": true,
+                    "type": "array",
+                  },
+                  "contracts": {
+                    "items": {
+                      "type": "string",
+                    },
+                    "nullable": true,
+                    "type": "array",
+                  },
+                  "exceptChains": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "nullable": true,
+                    "type": "array",
+                  },
+                  "exceptContracts": {
+                    "items": {
+                      "type": "string",
+                    },
+                    "nullable": true,
+                    "type": "array",
+                  },
+                },
                 "required": [
-                  "items",
+                  "chains",
+                  "contracts",
+                  "exceptChains",
+                  "exceptContracts",
                 ],
                 "type": "object",
               },
@@ -1103,12 +723,52 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "count": {
+                    "chains": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "contracts": {
+                      "items": {
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "dealId": {
                       "type": "number",
+                    },
+                    "exceptChains": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "exceptContracts": {
+                      "items": {
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "updatedAt": {
+                      "type": "string",
                     },
                   },
                   "required": [
-                    "count",
+                    "id",
+                    "dealId",
+                    "chains",
+                    "contracts",
+                    "exceptChains",
+                    "exceptContracts",
+                    "createdAt",
+                    "updatedAt",
                   ],
                   "type": "object",
                 },
@@ -1120,100 +780,13 @@ exports[`OpenAPI Document should be valid 1`] = `
         "security": [
           {
             "bearerAuth": [
-              "lists:write",
+              "deals:write",
             ],
           },
         ],
-        "summary": "Add items to a list",
+        "summary": "Update a rule for a deal",
         "tags": [
-          "lists",
-        ],
-      },
-    },
-    "/api/lists/{id}/items/{item}": {
-      "delete": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`lists:write\`",
-        "operationId": "deleteListItem",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-          {
-            "in": "path",
-            "name": "item",
-            "required": true,
-            "schema": {
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "204": {
-            "description": "204",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "lists:write",
-            ],
-          },
-        ],
-        "summary": "Remove an item from a list",
-        "tags": [
-          "lists",
-        ],
-      },
-      "get": {
-        "deprecated": undefined,
-        "description": "**Required scopes:** \`lists:read\`",
-        "operationId": "getListItem",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "number",
-            },
-          },
-          {
-            "in": "path",
-            "name": "item",
-            "required": true,
-            "schema": {
-              "type": "string",
-            },
-          },
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                },
-              },
-            },
-            "description": "200",
-          },
-        },
-        "security": [
-          {
-            "bearerAuth": [
-              "lists:read",
-            ],
-          },
-        ],
-        "summary": "Get a single item from a list",
-        "tags": [
-          "lists",
+          "deals",
         ],
       },
     },
@@ -1233,7 +806,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "items": {
                         "properties": {
                           "chainId": {
-                            "type": "string",
+                            "type": "number",
                           },
                           "createdAt": {
                             "type": "string",
@@ -1347,7 +920,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                 "schema": {
                   "properties": {
                     "chainId": {
-                      "type": "string",
+                      "type": "number",
                     },
                     "createdAt": {
                       "type": "string",
@@ -1431,6 +1004,79 @@ exports[`OpenAPI Document should be valid 1`] = `
         ],
       },
     },
+    "/api/silos/{id}/assets": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`assets:write\`",
+        "operationId": "uploadSiloAsset",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "nullable": true,
+                    "type": "string",
+                  },
+                  "type": {
+                    "enum": [
+                      "network_logo",
+                      "network_logo_dark",
+                      "favicon",
+                    ],
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "url",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "assets:write",
+            ],
+          },
+        ],
+        "summary": "Upload an asset used in configuring the silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
     "/api/silos/{id}/failure-rate": {
       "get": {
         "deprecated": undefined,
@@ -1504,6 +1150,429 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Get the failure rate chart for a single silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/forwarder/contract": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "createForwarderAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "targetAddress": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "targetAddress",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "forwarderAddress": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "forwarderAddress",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Create a forwarder address for given target address",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/forwarder/contract/{targetAddress}": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:read\`",
+        "operationId": "getForwarderAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
+            "name": "targetAddress",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "forwarderAddress": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "forwarderAddress",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:read",
+            ],
+          },
+        ],
+        "summary": "Get the forwarder address for given target address",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/forwarder/tokens": {
+      "delete": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "removeForwarderTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "tokens": {
+                    "items": {
+                      "enum": [
+                        "NEAR",
+                        "wNEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "tokens",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Remove forwarder support for the given token(s)",
+        "tags": [
+          "silos",
+        ],
+      },
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:read\`",
+        "operationId": "getForwarderTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "contractDeployed": {
+                            "type": "boolean",
+                          },
+                          "decimals": {
+                            "type": "number",
+                          },
+                          "enabled": {
+                            "type": "boolean",
+                          },
+                          "symbol": {
+                            "enum": [
+                              "NEAR",
+                              "wNEAR",
+                              "USDt",
+                              "USDC",
+                              "AURORA",
+                            ],
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "symbol",
+                          "decimals",
+                          "contractDeployed",
+                          "enabled",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:read",
+            ],
+          },
+        ],
+        "summary": "Get the tokens supported by the forwarder",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "addForwarderTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "tokens": {
+                    "items": {
+                      "enum": [
+                        "NEAR",
+                        "wNEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "tokens",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Add forwarder support for the given token(s)",
+        "tags": [
+          "silos",
+        ],
+      },
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "updateForwarderTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "tokens": {
+                    "items": {
+                      "enum": [
+                        "NEAR",
+                        "wNEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "tokens",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Update forwarder support for the given token(s)",
         "tags": [
           "silos",
         ],
@@ -1643,6 +1712,83 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Get collected gas to the moment",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/healthcheck": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "healthcheck",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "defaultTokenContractsDeployed": {
+                      "properties": {
+                        "AURORA": {
+                          "type": "boolean",
+                        },
+                        "NEAR": {
+                          "type": "boolean",
+                        },
+                        "USDC": {
+                          "type": "boolean",
+                        },
+                        "USDt": {
+                          "type": "boolean",
+                        },
+                      },
+                      "required": [
+                        "NEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "object",
+                    },
+                    "networkStatus": {
+                      "enum": [
+                        "ok",
+                        "invalid-network",
+                        "stalled",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "networkStatus",
+                    "defaultTokenContractsDeployed",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Perform various checks on the silo and report the status",
         "tags": [
           "silos",
         ],
@@ -1861,6 +2007,96 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Create an oracle configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/permissions": {
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silo:write\`",
+        "operationId": "toggleSiloPermissions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "MAKE_TRANSACTION",
+                      "DEPLOY_CONTRACT",
+                    ],
+                    "type": "string",
+                  },
+                  "isEnabled": {
+                    "type": "boolean",
+                  },
+                },
+                "required": [
+                  "isEnabled",
+                  "action",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "MAKE_TRANSACTION",
+                        "DEPLOY_CONTRACT",
+                      ],
+                      "type": "string",
+                    },
+                    "isEnabled": {
+                      "type": "boolean",
+                    },
+                    "status": {
+                      "enum": [
+                        "PENDING",
+                        "SUCCESSFUL",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                    "isEnabled",
+                    "action",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silo:write",
+            ],
+          },
+        ],
+        "summary": "Enable disable whitelists to allow make transactions or deploy contracts publicly",
         "tags": [
           "silos",
         ],

@@ -13,6 +13,7 @@ export const getTeamDeal = async (
     .select("*, teams!inner(id)")
     .eq("id", dealId)
     .eq("teams.id", teamId)
+    .is("deleted_at", null)
     .maybeSingle()
 
   return deal

@@ -103,7 +103,7 @@ export const TokenForm = ({ siloId, token }: TokenFormProps) => {
           name: "decimals",
           label: "Decimals",
           type: "number",
-          defaultValue: token?.decimals ?? "",
+          defaultValue: token?.decimals ?? undefined,
           required: true,
         },
         {

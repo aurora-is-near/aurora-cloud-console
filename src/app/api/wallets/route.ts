@@ -3,18 +3,13 @@ import { getLimitAndOffset } from "@/utils/pagination"
 import { abort } from "@/utils/abort"
 import { getWalletDetails } from "@/utils/wallets"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
-import { getDealKeyFromSearchParams } from "@/utils/proxy-api/get-deal-key-from-search-params"
 import {
   queryWalletCount,
   queryWallets,
 } from "../../../utils/proxy-db/query-users"
 
 export const GET = createApiEndpoint("getWallets", async (req, ctx) => {
-  const { searchParams } = req.nextUrl
-  const [silo, dealKey] = await Promise.all([
-    getTeamSilo(ctx.team.id, Number(ctx.params.id)),
-    getDealKeyFromSearchParams(searchParams),
-  ])
+  const silo = await getTeamSilo(ctx.team.id, Number(ctx.params.id))
 
   if (!silo) {
     abort(404)
@@ -23,13 +18,10 @@ export const GET = createApiEndpoint("getWallets", async (req, ctx) => {
   const { limit, offset } = getLimitAndOffset(req)
 
   const results = await Promise.all([
-    queryWalletCount(silo.chain_id, {
-      dealKey,
-    }),
+    queryWalletCount(silo.chain_id),
     queryWallets(silo.chain_id, {
       limit: Number(limit),
       offset: Number(offset),
-      dealKey,
     }),
   ])
 

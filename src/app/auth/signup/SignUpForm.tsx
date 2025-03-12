@@ -15,6 +15,7 @@ import { AuthForm } from "@/components/AuthForm"
 import { EMAIL_QUERY_PARAM, SIGNUP_QUERY_PARAM } from "@/constants/auth"
 import { getUserByEmail } from "@/actions/user/get-user"
 import { Alert } from "@/components/Alert"
+import { useAnalytics } from "@/hooks/useAnalytics"
 
 type Inputs = {
   email: string
@@ -26,6 +27,7 @@ type Inputs = {
 export const SignUpForm = () => {
   const supabase = createClientComponentClient()
   const router = useRouter()
+  const mixPanel = useAnalytics()
   const [showExistingAccountError, setShowExistingAccountError] =
     useState(false)
 
@@ -78,6 +80,13 @@ export const SignUpForm = () => {
 
     searchParams.set(EMAIL_QUERY_PARAM, email)
     searchParams.set(SIGNUP_QUERY_PARAM, "1")
+
+    mixPanel?.track("signup", {
+      email,
+      name,
+      company,
+      marketing_consent,
+    })
 
     router.push(`${LINK_SENT_ROUTE}?${searchParams}`)
   }

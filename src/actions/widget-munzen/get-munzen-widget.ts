@@ -32,8 +32,7 @@ const generateSign = (rec: Record<string, string>, secret: string) => {
 }
 
 export const getMunzenWidgetUrl = async (silo: Silo): Promise<string> => {
-  const siloName =
-    silo.chain_id === "1313161554" ? "aurora" : silo.engine_account
+  const siloName = silo.chain_id === 1313161554 ? "aurora" : silo.engine_account
 
   const externalData = JSON.stringify({ silo: siloName })
   const toCurrency = "USDT-AURORA"

@@ -9,21 +9,24 @@ type MainMenuButtonProps = {
   className?: string
 } & (
   | {
-      onClick?: () => void
       href?: never
+      isExternal?: never
+      onClick: () => void
     }
   | {
       href: string
       onClick?: never
+      isExternal?: boolean
     }
 )
 
 export const MainMenuButton = ({
-  href,
-  onClick,
   name,
   icon,
   className,
+  href,
+  isExternal,
+  onClick,
 }: MainMenuButtonProps) => {
   icon = generateIcon(icon, "w-5 h-5 shrink-0")
 
@@ -42,7 +45,12 @@ export const MainMenuButton = ({
 
   if (href) {
     return (
-      <Link href={href} className={containerClassName}>
+      <Link
+        href={href}
+        className={containerClassName}
+        target={isExternal ? "_blank" : undefined}
+        rel={isExternal ? "noopener noreferrer" : undefined}
+      >
         {content}
       </Link>
     )

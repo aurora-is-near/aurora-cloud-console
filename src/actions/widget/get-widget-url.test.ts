@@ -38,9 +38,7 @@ describe("getWidgetUrl", () => {
       }),
     )
 
-    expect(url.href).toBe(
-      "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud",
-    )
+    expect(url.href).toBe("https://aurora.plus/cloud")
   })
 
   it("returns a URL with from and to networks", () => {
@@ -93,6 +91,8 @@ describe("getWidgetUrl", () => {
             name: "Test Silo Explorer",
             url: "https://explorer.testnet.aurora.dev",
           },
+          logo: "https://example.com/favicon.png",
+          siloToSiloBridge: silo.silo_to_silo_bridge_address,
         },
       ],
     })
@@ -142,6 +142,8 @@ describe("getWidgetUrl", () => {
             name: "Test Silo Explorer",
             url: "https://explorer.testnet.aurora.dev",
           },
+          logo: "https://example.com/favicon.png",
+          siloToSiloBridge: silo.silo_to_silo_bridge_address,
         },
       ],
       customTokens: [

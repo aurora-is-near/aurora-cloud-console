@@ -33,9 +33,14 @@ describe("Bridge silo token route", () => {
 
   describe("POST", () => {
     it("returns a 404 for a non-existant silo", async () => {
-      await expect(async () =>
-        invokeApiHandler("POST", "/api/silos/1/tokens/bridge", POST),
-      ).rejects.toThrow("Not Found")
+      const res = await invokeApiHandler(
+        "POST",
+        "/api/silos/1/tokens/bridge",
+        POST,
+      )
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({ message: "Not Found" })
     })
 
     describe("updating by ID", () => {
@@ -44,11 +49,17 @@ describe("Bridge silo token route", () => {
           .from("silos")
           .select.mockImplementation(() => createSelect(createMockSilo()))
 
-        await expect(async () =>
-          invokeApiHandler("POST", "/api/silos/1/tokens/bridge", POST, {
+        const res = await invokeApiHandler(
+          "POST",
+          "/api/silos/1/tokens/bridge",
+          POST,
+          {
             body: { tokenId: 1 },
-          }),
-        ).rejects.toThrow("Not Found")
+          },
+        )
+
+        expect(res.status).toBe(404)
+        expect(res.body).toEqual({ message: "Not Found" })
       })
 
       it("returns a 400 if the token is already deployed", async () => {
@@ -64,12 +75,17 @@ describe("Bridge silo token route", () => {
           .from("tokens")
           .select.mockImplementation(() => createSelect(mockToken))
 
-        await expect(async () =>
-          invokeApiHandler("POST", "/api/silos/1/tokens/bridge", POST, {
+        const res = await invokeApiHandler(
+          "POST",
+          "/api/silos/1/tokens/bridge",
+          POST,
+          {
             body: { tokenId: mockToken.id },
-          }),
-        ).rejects.toThrow("Token is already deployed")
+          },
+        )
 
+        expect(res.status).toBe(400)
+        expect(res.body).toEqual({ message: "Token is already deployed" })
         expect(mockSupabaseClient.from("tokens").update).not.toHaveBeenCalled()
       })
 
@@ -263,12 +279,17 @@ describe("Bridge silo token route", () => {
           .from("tokens")
           .select.mockImplementation(() => createSelect(mockToken))
 
-        await expect(async () =>
-          invokeApiHandler("POST", "/api/silos/1/tokens/bridge", POST, {
+        const res = await invokeApiHandler(
+          "POST",
+          "/api/silos/1/tokens/bridge",
+          POST,
+          {
             body: { symbol: mockToken.symbol, address: mockToken.address },
-          }),
-        ).rejects.toThrow("Token is already deployed")
+          },
+        )
 
+        expect(res.status).toBe(400)
+        expect(res.body).toEqual({ message: "Token is already deployed" })
         expect(mockSupabaseClient.from("tokens").update).not.toHaveBeenCalled()
       })
     })

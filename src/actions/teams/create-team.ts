@@ -2,7 +2,6 @@
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Team } from "@/types/types"
-import { createCustomer } from "@/utils/proxy-api/create-customer"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
@@ -16,8 +15,6 @@ export const createTeam = async (
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
-
-  await createCustomer(result.data.id)
 
   return result.data
 }

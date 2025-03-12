@@ -13,6 +13,7 @@ export const getTeamSilo = async (
     .select("*, silos_teams!inner(silo_id)")
     .eq("id", siloId)
     .eq("silos_teams.team_id", teamId)
+    .is("deleted_at", null)
     .maybeSingle()
 
   return silo

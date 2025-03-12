@@ -10,7 +10,7 @@ export type Network = {
   evm?: string
 }
 
-const AURORA_CHAIN_IDS = ["1313161554", "1313161555", "1313161556"]
+const AURORA_CHAIN_IDS = [1313161554, 1313161555, 1313161556]
 
 const DEFAULT_NETWORKS: Network[] = [
   {

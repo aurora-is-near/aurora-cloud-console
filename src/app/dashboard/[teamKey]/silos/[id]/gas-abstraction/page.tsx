@@ -41,7 +41,7 @@ const Page = async ({
     tabs.push(
       {
         title: "Gas consumed",
-        content: <GasAbstractionConsumedTab silo={silo} />,
+        content: <GasAbstractionConsumedTab silo={silo} team={team} />,
       },
       {
         title: "Gas collected",
@@ -71,7 +71,7 @@ const Page = async ({
       <GasAbstractionPage>
         <Tabs tabs={tabs} />
       </GasAbstractionPage>
-      <AddPlanModal team={team} />
+      <AddPlanModal siloId={silo.id} team={team} />
     </>
   )
 }

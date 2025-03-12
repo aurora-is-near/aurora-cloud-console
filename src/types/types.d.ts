@@ -24,6 +24,11 @@ export type TeamMember = {
   isPending: boolean
 }
 
+export type TeamSummary = Pick<Team, "id" | "name" | "team_key"> & {
+  user_ids: number[]
+  silo_ids: number[]
+}
+
 export type TableName = keyof Database["public"]["Tables"]
 
 export type Tables<T extends TableName> = Database["public"]["Tables"][T]["Row"]
@@ -39,11 +44,11 @@ export type TokenType = Enums<"token_type">
 
 export type DeploymentStatus = Enums<"deployment_status">
 
-export type OnboardingStatus = Enums<"team_onboarding_status">
-
 export type WidgetNetworkType = Enums<"widget_network_type">
 
 export type RequestStatus = Enums<"request_status">
+
+export type BaseTokenSymbol = Enums<"base_token_symbol">
 
 export type ApiScope = PublicApiScope | "admin"
 
@@ -63,15 +68,37 @@ export type Silo = Tables<"silos">
 
 export type SilosTeams = Tables<"silos_teams">
 
+export type SiloConfigTransaction = Tables<"silo_config_transactions">
+
+export type SiloConfigTransactionStatus =
+  Enums<"silo_config_transaction_status">
+
+export type SiloConfigTransactionOperation =
+  Enums<"silo_config_transaction_operation">
+
 export type List = Tables<"lists">
 
 export type Deal = Tables<"deals">
 
 export type Order = Tables<"orders">
 
+export type Rule = Tables<"rules">
+
+export type Userlist = Tables<"userlists">
+
+export type RuleUser = Tables<"rule_users">
+
+export type Filter = Tables<"filters">
+
+export type FilterEntry = Tables<"filter_entries">
+
+export type BridgedToken = Tables<"bridged_tokens">
+
 export type OnboardingForm = Tables<"onboarding_form">
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
+
+export type SiloWhitelistType = Enums<"address_whitelist_type">
 
 type ChartData = {
   label: string

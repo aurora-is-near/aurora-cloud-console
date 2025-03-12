@@ -3,7 +3,7 @@
 import { CalendarDaysIcon } from "@heroicons/react/20/solid"
 import { useEffect, useState } from "react"
 import DatePicker from "react-datepicker"
-import format from "date-fns/format"
+import { format } from "date-fns"
 import {
   Path,
   RegisterOptions,

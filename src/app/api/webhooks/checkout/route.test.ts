@@ -13,6 +13,7 @@ import {
 } from "../../../../../test-utils/mock-supabase-client"
 import { mockTeam } from "../../../../../test-utils/mock-team"
 import { createMockOrder } from "../../../../../test-utils/factories/order-factory"
+import { mockUser } from "../../../../../test-utils/mock-user"
 
 jest.mock("stripe")
 jest.mock("../../../../utils/send-slack-notification")
@@ -33,13 +34,9 @@ describe("Checkout webhook route", () => {
     process.env.STRIPE_SECRET_KEY = stripeSecretKey
     process.env.STRIPE_WEBHOOK_SECRET = stripeWebhookSecret
 
-    mockSupabaseClient
-      .from("orders")
-      .select.mockImplementation(() => createSelect([]))
-
-    mockSupabaseClient
-      .from("teams")
-      .select.mockImplementation(() => createSelect([]))
+    mockSupabaseClient.from("orders").select.mockReturnValue(createSelect([]))
+    mockSupabaseClient.from("teams").select.mockReturnValue(createSelect([]))
+    mockSupabaseClient.from("users").select.mockReturnValue(createSelect([]))
   })
 
   it("returns a 400 if no payload is provided", async () => {
@@ -142,7 +139,8 @@ describe("Checkout webhook route", () => {
       id: "session_id",
       metadata: {
         team_id: String(mockTeam.id),
-        product_type: "initial_setup",
+        product_type: "top_up",
+        number_of_transactions: 42,
       },
       payment_status: "paid",
       customer_details: {
@@ -183,6 +181,19 @@ describe("Checkout webhook route", () => {
       .from("orders")
       .update.mockImplementation(() => ordersInsertQueries)
 
+    mockSupabaseClient
+      .from("users")
+      .select.mockImplementationOnce(() => createSelect(mockUser))
+
+    mockSupabaseClient.from("users").select.mockImplementationOnce(() =>
+      createSelect([
+        {
+          ...mockUser,
+          users_teams: [],
+        },
+      ]),
+    )
+
     const res = await POST(req, { params: {} })
 
     expect(res.status).toBe(200)
@@ -194,15 +205,16 @@ describe("Checkout webhook route", () => {
 
     expect(mockSupabaseClient.from("orders").insert).toHaveBeenCalledTimes(1)
     expect(mockSupabaseClient.from("orders").insert).toHaveBeenCalledWith({
-      type: "initial_setup",
+      type: "top_up",
       payment_status: "paid",
       session_id: "session_id",
       team_id: mockTeam.id,
+      number_of_transactions: 42,
     })
 
     expect(mockSupabaseClient.from("teams").update).toHaveBeenCalledTimes(1)
     expect(mockSupabaseClient.from("teams").update).toHaveBeenCalledWith({
-      onboarding_status: "REQUEST_RECEIVED",
+      prepaid_transactions: 1042,
     })
 
     expect(teamUpdateQueries.eq).toHaveBeenCalledWith("id", mockTeam.id)
@@ -245,7 +257,8 @@ describe("Checkout webhook route", () => {
       id: "session_id",
       metadata: {
         team_id: String(teamId),
-        product_type: "initial_setup",
+        product_type: "top_up",
+        number_of_transactions: 42,
       },
     }
 
