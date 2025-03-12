@@ -1,1 +1,1 @@
-export const DEFAULT_TOKENS = ["NEAR", "USDt", "USDC", "AURORA"] as const
+export const DEFAULT_TOKENS = ["NEAR", "AURORA", "USDt", "USDC"] as const
