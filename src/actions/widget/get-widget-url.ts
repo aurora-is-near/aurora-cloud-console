@@ -46,20 +46,6 @@ const getNetworkEvms = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
     throw new Error(`Unknown network: ${network}`)
   })
 
-const setTokensParam = (
-  url: URL,
-  { activeTokens }: { activeTokens: SiloBridgedToken[] },
-) => {
-  if (!activeTokens.length) {
-    return
-  }
-
-  url.searchParams.set(
-    "tokens",
-    JSON.stringify(activeTokens.map(({ symbol }) => symbol)),
-  )
-}
-
 const setCustomTokensParam = (
   url: URL,
   {
@@ -174,7 +160,6 @@ export const getWidgetUrl = ({
     return !["NEAR", "AURORA", "ETH"].includes(symbol)
   })
 
-  setTokensParam(url, { activeTokens })
   setCustomTokensParam(url, { silo, activeCustomTokens })
 
   return url.href
