@@ -4,14 +4,15 @@ import { deleteDeal } from "@/actions/deals/delete-deal"
 
 type DeletePlanButtonProps = {
   dealId: number
+  siloId: number
 }
 
-export const DeletePlanButton = ({ dealId }: DeletePlanButtonProps) => {
+export const DeletePlanButton = ({ dealId, siloId }: DeletePlanButtonProps) => {
   const router = useRouter()
   const pathname = usePathname()
 
   const onConfirmClick = async () => {
-    await deleteDeal(dealId)
+    await deleteDeal(dealId, siloId)
 
     // Remove the plan ID from the current path to get the parent path
     const newPath = pathname.replace(/\/\d+$/, "")

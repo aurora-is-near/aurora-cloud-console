@@ -10,6 +10,7 @@ export const getTeamDealsByKey = async (teamKey: string): Promise<Deal[]> => {
     .select("*, teams!inner(team_key)")
     .order("id", { ascending: true })
     .eq("teams.team_key", teamKey)
+    .is("deleted_at", null)
 
   return deals ?? []
 }

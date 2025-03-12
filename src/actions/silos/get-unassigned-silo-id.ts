@@ -10,6 +10,7 @@ export const getUnassignedSiloId = async (): Promise<number | null> => {
     .from("silos")
     .select("id, teams(id)")
     .is("teams", null)
+    .is("deleted_at", null)
     .order("id", { ascending: true })
     .limit(1)
     .maybeSingle()
