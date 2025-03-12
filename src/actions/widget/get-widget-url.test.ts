@@ -156,4 +156,85 @@ describe("getWidgetUrl", () => {
       ],
     })
   })
+
+  it("builds a url using a custom token that only has an aurora address", () => {
+    const silo = createMockSilo()
+    const token = createMockSiloBridgedToken({
+      symbol: "MYTOKEN",
+      aurora_address: "0x1234567890",
+      ethereum_address: null,
+      near_address: null,
+    })
+
+    const url = new URL(
+      getWidgetUrl({
+        silo,
+        widget: createMockWidget({
+          to_networks: ["CUSTOM"],
+          from_networks: ["AURORA"],
+          tokens: [token.id],
+        }),
+        tokens: [token],
+      }),
+    )
+
+    expect(searchParamsToJson(url).customTokens).toEqual([
+      {
+        [silo.engine_account]: "0x1234567890",
+        aurora: "0x1234567890",
+        decimals: 18,
+        icon: "http://example.com/path/to/icon.png",
+        name: "Test Token",
+        symbol: "MYTOKEN",
+      },
+    ])
+  })
+
+  it("builds a url using multiple custom tokens", () => {
+    const silo = createMockSilo()
+    const tokenA = createMockSiloBridgedToken({
+      symbol: "TOKENA",
+      aurora_address: "0x123",
+      ethereum_address: null,
+      near_address: null,
+    })
+
+    const tokenB = createMockSiloBridgedToken({
+      symbol: "TOKENB",
+      aurora_address: "0x456",
+      ethereum_address: null,
+      near_address: null,
+    })
+
+    const url = new URL(
+      getWidgetUrl({
+        silo,
+        widget: createMockWidget({
+          to_networks: ["CUSTOM"],
+          from_networks: ["AURORA"],
+          tokens: [tokenA.id, tokenB.id],
+        }),
+        tokens: [tokenA, tokenB],
+      }),
+    )
+
+    expect(searchParamsToJson(url).customTokens).toEqual([
+      {
+        [silo.engine_account]: "0x123",
+        aurora: "0x123",
+        decimals: 18,
+        icon: "http://example.com/path/to/icon.png",
+        name: "Test Token",
+        symbol: "TOKENA",
+      },
+      {
+        [silo.engine_account]: "0x456",
+        aurora: "0x456",
+        decimals: 18,
+        icon: "http://example.com/path/to/icon.png",
+        name: "Test Token",
+        symbol: "TOKENB",
+      },
+    ])
+  })
 })
