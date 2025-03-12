@@ -1,7 +1,6 @@
 /**
  * @jest-environment node
  */
-import { DeploymentStatus } from "@/types/types"
 import { GET } from "./route"
 import {
   createSelect,
@@ -10,10 +9,6 @@ import {
 import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
-import {
-  createMockSiloBridgedToken,
-  createMockSiloBridgedTokens,
-} from "../../../../../../test-utils/factories/silo-bridged-token-factory"
 import { createMockBridgedToken } from "../../../../../../test-utils/factories/bridged-token-factory"
 
 jest.mock("../../../../../utils/api", () => ({
