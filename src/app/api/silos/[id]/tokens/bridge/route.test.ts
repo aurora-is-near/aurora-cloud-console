@@ -90,6 +90,41 @@ describe("Bridge silo token route", () => {
         })
       })
 
+      it("creates and activates a token if it is the base token", async () => {
+        const mockToken = createMockBridgedToken()
+        const mockSilo = createMockSilo({ base_token_symbol: mockToken.symbol })
+
+        mockSupabaseClient
+          .from("silos")
+          .select.mockImplementation(() => createSelect(mockSilo))
+
+        mockSupabaseClient
+          .from("bridged_tokens")
+          .select.mockImplementation(() =>
+            createSelect({
+              ...mockToken,
+              silo_bridged_tokens: [],
+            }),
+          )
+
+        const res = await invokeApiHandler(
+          "POST",
+          "/api/silos/1/tokens/bridge",
+          POST,
+          {
+            body: { tokenId: mockToken.id },
+          },
+        )
+
+        expect(res.status).toBe(200)
+        expect(res.body).toEqual({
+          isActive: true,
+          isDeploymentPending: false,
+        })
+
+        expect(ethers.Contract).not.toHaveBeenCalled()
+      })
+
       it("creates a token in the pending state if the contract is not deployed", async () => {
         const mockToken = createMockBridgedToken()
         const mockSilo = createMockSilo()

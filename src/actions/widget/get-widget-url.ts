@@ -25,6 +25,9 @@ type CustomChain = {
   logo: string | null
 }
 
+// This address is used to represent the base token
+const BASE_TOKEN_ADDRESS = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+
 const getNetworkKeys = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
   networks.map((network) => {
     if (network === "CUSTOM") {
@@ -76,7 +79,10 @@ const setCustomTokensParam = (
           ethereum: ethereum_address,
           aurora: aurora_address,
           near: near_address,
-          [silo.engine_account]: aurora_address,
+          [silo.engine_account]:
+            silo.base_token_symbol.toUpperCase() === symbol.toUpperCase()
+              ? BASE_TOKEN_ADDRESS
+              : aurora_address,
         })
 
         return data

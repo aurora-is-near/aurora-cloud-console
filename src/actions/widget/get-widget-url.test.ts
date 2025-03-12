@@ -241,4 +241,39 @@ describe("getWidgetUrl", () => {
       },
     ])
   })
+
+  it("returns a url where one of the bridged tokens is the base token", () => {
+    const symbol = "BASE"
+    const silo = createMockSilo({ base_token_symbol: symbol })
+    const tokenA = createMockSiloBridgedToken({
+      symbol,
+      ethereum_address: "0x123",
+      near_address: "near.base",
+      aurora_address: null,
+    })
+
+    const url = new URL(
+      getWidgetUrl({
+        silo,
+        widget: createMockWidget({
+          to_networks: ["CUSTOM"],
+          from_networks: ["AURORA"],
+          tokens: [tokenA.id],
+        }),
+        tokens: [tokenA],
+      }),
+    )
+
+    expect(searchParamsToJson(url).customTokens).toEqual([
+      {
+        [silo.engine_account]: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        ethereum: "0x123",
+        near: "near.base",
+        decimals: 18,
+        icon: "http://example.com/path/to/icon.png",
+        name: "Test Token",
+        symbol: "BASE",
+      },
+    ])
+  })
 })
