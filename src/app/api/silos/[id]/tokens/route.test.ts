@@ -101,7 +101,7 @@ describe("Silo tokens route", () => {
         .select.mockImplementation(() => createSelect(createMockSilo()))
 
       mockSupabaseClient
-        .from("tokens")
+        .from("bridged_tokens")
         .select.mockImplementation(() => createSelect())
 
       const res = await invokeApiHandler("GET", "/api/silos/1/tokens", GET)

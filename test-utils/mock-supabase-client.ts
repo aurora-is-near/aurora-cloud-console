@@ -49,7 +49,6 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   teams: createTableClient(),
   deals: createTableClient(),
   api_keys: createTableClient(),
-  tokens: createTableClient(),
   silos: createTableClient(),
   users: createTableClient(),
   users_teams: createTableClient(),

@@ -183,7 +183,9 @@ describe("Bridge silo token route", () => {
           message: `${mockToken.symbol} is already bridged for this silo`,
         })
 
-        expect(mockSupabaseClient.from("tokens").update).not.toHaveBeenCalled()
+        expect(
+          mockSupabaseClient.from("silo_bridged_tokens").insert,
+        ).not.toHaveBeenCalled()
       })
     })
 
@@ -261,7 +263,12 @@ describe("Bridge silo token route", () => {
 
         expect(res.status).toBe(400)
         expect(res.body).toEqual({ message: "Token is already deployed" })
-        expect(mockSupabaseClient.from("tokens").update).not.toHaveBeenCalled()
+        expect(
+          mockSupabaseClient.from("silo_bridged_tokens").insert,
+        ).not.toHaveBeenCalled()
+        expect(
+          mockSupabaseClient.from("bridged_token_requests").insert,
+        ).not.toHaveBeenCalled()
       })
     })
   })

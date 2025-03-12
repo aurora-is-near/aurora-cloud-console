@@ -983,65 +983,6 @@ export type Database = {
         }
         Relationships: []
       }
-      tokens: {
-        Row: {
-          address: string
-          bridge_addresses: string[] | null
-          bridge_deployment_status: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin: string | null
-          created_at: string
-          decimals: number | null
-          deployment_status: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge: boolean
-          icon_url: string | null
-          id: number
-          name: string | null
-          silo_id: number
-          symbol: string
-          type: Database["public"]["Enums"]["token_type"] | null
-        }
-        Insert: {
-          address: string
-          bridge_addresses?: string[] | null
-          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin?: string | null
-          created_at?: string
-          decimals?: number | null
-          deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge?: boolean
-          icon_url?: string | null
-          id?: number
-          name?: string | null
-          silo_id: number
-          symbol: string
-          type?: Database["public"]["Enums"]["token_type"] | null
-        }
-        Update: {
-          address?: string
-          bridge_addresses?: string[] | null
-          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin?: string | null
-          created_at?: string
-          decimals?: number | null
-          deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge?: boolean
-          icon_url?: string | null
-          id?: number
-          name?: string | null
-          silo_id?: number
-          symbol?: string
-          type?: Database["public"]["Enums"]["token_type"] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "tokens_silo_id_fkey"
-            columns: ["silo_id"]
-            isOneToOne: false
-            referencedRelation: "silos"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       userlists: {
         Row: {
           created_at: string
