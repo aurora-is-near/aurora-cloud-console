@@ -1,6 +1,7 @@
 import { createDebugger } from "@/debug"
+import { getRequiredEnvVar } from "@/utils/get-required-env-var"
 
-const API_BASE_URL = "https://contract-changer.aurora-cloud.dev"
+const API_BASE_URL = "https://silo-deployer.aurora-labs.net"
 
 const request = async <T>(
   endpoint: string,
@@ -27,11 +28,14 @@ const request = async <T>(
 
   debug("Contract Changer API request", href)
 
+  const username = getRequiredEnvVar("CONTRACT_CHANGER_API_USERNAME")
+  const password = getRequiredEnvVar("CONTRACT_CHANGER_API_PASSWORD")
+
   const res = await fetch(href, {
     method,
     body: data ? JSON.stringify(data) : undefined,
     headers: {
-      Authorization: `Basic ${btoa("test:justfortunnel")}`, // temp auth
+      Authorization: `Basic ${btoa(`${username}:${password}`)}`,
       "Content-Type": "application/json",
     },
   })

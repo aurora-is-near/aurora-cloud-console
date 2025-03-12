@@ -3,7 +3,7 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
-import { Silo, Team } from "@/types/types"
+import { Silo } from "@/types/types"
 import { ForwarderWidgetOpenButton } from "@/components/ForwarderOpenButton"
 import { LinkButton } from "@/components/LinkButton"
 import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
@@ -12,12 +12,12 @@ import { ForwarderAboutTab } from "./ForwarderAboutTab"
 import ForwarderConfigurationTab from "./ForwarderConfigurationTab"
 
 interface ForwarderPageProps {
-  team: Team
+  teamKey: string
   silo?: Silo | null
 }
 
 export const ForwarderPage: React.FC<ForwarderPageProps> = ({
-  team,
+  teamKey,
   silo = null,
 }) => {
   const tabs = [
@@ -38,7 +38,7 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
         content: (
           <WidgetEmbedCodeCard
             siloId={silo.id}
-            teamKey={team.team_key}
+            teamKey={teamKey}
             widgetName="forwarder"
           />
         ),
@@ -48,7 +48,7 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
         content: (
           <WidgetShareCard
             siloId={silo.id}
-            teamKey={team.team_key}
+            teamKey={teamKey}
             widgetName="forwarder"
           />
         ),

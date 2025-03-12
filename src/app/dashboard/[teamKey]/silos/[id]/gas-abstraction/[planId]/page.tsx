@@ -45,7 +45,7 @@ const Page = async ({
   }
 
   return (
-    <DealUpdatePage deal={deal}>
+    <DealUpdatePage deal={deal} siloId={siloId}>
       <RuleProvider team={team} initialRule={userlistRule}>
         <UsersConfigurationCard deal={deal} />
         <ContractsCard silo={silo} />

@@ -1,21 +1,18 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { BridgedToken } from "@/types/types"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
-export const getUnassignedSiloId = async (): Promise<number | null> => {
+export const updateBridgedToken = async (
+  tokenId: number,
+  inputs: Partial<Omit<BridgedToken, "id" | "created_at">>,
+): Promise<void> => {
   const supabase = createAdminSupabaseClient()
-
   const result = await supabase
-    .from("silos")
-    .select("id, teams(id)")
-    .is("teams", null)
-    .is("deleted_at", null)
-    .order("id", { ascending: true })
-    .limit(1)
-    .maybeSingle()
+    .from("bridged_tokens")
+    .update(inputs)
+    .eq("id", tokenId)
 
   assertValidSupabaseResult(result)
-
-  return result.data?.id ?? null
 }

@@ -90,6 +90,8 @@ export type Filter = Tables<"filters">
 
 export type FilterEntry = Tables<"filter_entries">
 
+export type BridgedToken = Tables<"bridged_tokens">
+
 export type OnboardingForm = Tables<"onboarding_form">
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
