@@ -25,7 +25,7 @@ type CustomChain = {
   logo: string | null
 }
 
-const getNetworkEvms = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
+const getNetworkKeys = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
   networks.map((network) => {
     if (network === "CUSTOM") {
       return silo.engine_account
@@ -128,19 +128,15 @@ export const getWidgetUrl = ({
 
   const url = new URL("https://aurora.plus/cloud")
 
-  if (widget.to_networks?.length) {
-    url.searchParams.set(
-      "toNetworks",
-      JSON.stringify(getNetworkEvms(silo, widget.to_networks)),
-    )
-  }
+  url.searchParams.set(
+    "toNetworks",
+    JSON.stringify(getNetworkKeys(silo, widget.to_networks ?? [])),
+  )
 
-  if (widget.from_networks?.length) {
-    url.searchParams.set(
-      "fromNetworks",
-      JSON.stringify(getNetworkEvms(silo, widget.from_networks)),
-    )
-  }
+  url.searchParams.set(
+    "fromNetworks",
+    JSON.stringify(getNetworkKeys(silo, widget.from_networks ?? [])),
+  )
 
   const hasCustomChain =
     !!widget.from_networks?.some((network) => network === "CUSTOM") ||

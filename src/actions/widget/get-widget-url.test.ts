@@ -38,7 +38,11 @@ describe("getWidgetUrl", () => {
       }),
     )
 
-    expect(url.href).toBe("https://aurora.plus/cloud")
+    expect(url.href.split("?")[0]).toBe("https://aurora.plus/cloud")
+    expect(searchParamsToJson(url)).toEqual({
+      fromNetworks: [],
+      toNetworks: [],
+    })
   })
 
   it("returns a URL with from and to networks", () => {
@@ -157,7 +161,7 @@ describe("getWidgetUrl", () => {
     })
   })
 
-  it("builds a url using a custom token that only has an aurora address", () => {
+  it("returns a url using a custom token that only has an aurora address", () => {
     const silo = createMockSilo()
     const token = createMockSiloBridgedToken({
       symbol: "MYTOKEN",
@@ -190,7 +194,7 @@ describe("getWidgetUrl", () => {
     ])
   })
 
-  it("builds a url using multiple custom tokens", () => {
+  it("returns a url using multiple custom tokens", () => {
     const silo = createMockSilo()
     const tokenA = createMockSiloBridgedToken({
       symbol: "TOKENA",
