@@ -51,6 +51,8 @@ const request = async <T>(
   return resultData
 }
 
+export type WhitelistKind = "env-admin" | "address"
+
 /**
  * @see https://github.com/aurora-is-near/silo-deployer
  */
@@ -70,5 +72,19 @@ export const contractChangerApiClient = {
           base_token_account_id: baseTokenAccountId,
         },
       },
+    ),
+
+  toggleWhitelist: async ({
+    siloEngineAccountId,
+    whitelistKind,
+    action,
+  }: {
+    siloEngineAccountId: string
+    whitelistKind: WhitelistKind
+    action: "enable" | "disable"
+  }) =>
+    request<{ tx_hash?: string }>(
+      `/api/v1/contract/${siloEngineAccountId}/whitelist/${whitelistKind}/${action}`,
+      { method: "POST" },
     ),
 }
