@@ -740,7 +740,6 @@ export const contract = c.router({
           USDt: z.boolean(),
           USDC: z.boolean(),
           AURORA: z.boolean(),
-          ETH: z.boolean(),
         }),
       }),
     },

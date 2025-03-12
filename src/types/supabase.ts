@@ -1206,8 +1206,13 @@ export type Database = {
         | "paid"
         | "unpaid"
         | "no_payment_required"
-      silo_config_transaction_operation:
+        silo_config_transaction_operation:
         | "SET_BASE_TOKEN"
+        | "DEPLOY_AURORA"
+        | "DEPLOY_USDT"
+        | "DEPLOY_USDC"
+        | "DEPLOY_NEAR"
+        | "DEPLOY_ETH"
         | "TOGGLE_MAKE_TXS_WHITELIST"
         | "TOGGLE_DEPLOY_CONTRACT_WHITELIST"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
