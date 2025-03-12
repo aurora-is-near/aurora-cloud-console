@@ -282,7 +282,6 @@ export const DELETE = createApiEndpoint(
     let transaction: SiloConfigTransaction | undefined | null
 
     // 1. Try to retrieve address from the list to get related tx hash
-    console.log("---1")
     const whitelistedAddress = await getSiloWhitelistAddress(
       silo.id,
       action,
@@ -290,11 +289,9 @@ export const DELETE = createApiEndpoint(
     )
 
     // 2. Find related tx and check it's status
-    console.log("---2")
     const existingTxId = whitelistedAddress?.remove_tx_id
 
     if (existingTxId) {
-      console.log("---3")
       transaction = await getSiloConfigTransactionById(
         silo.id,
         whitelistKindPurgeOperationMap[action],
@@ -304,7 +301,6 @@ export const DELETE = createApiEndpoint(
 
     // 3. If tx is not found or failed, create a new one
     if (!transaction || transaction.status === "FAILED") {
-      console.log("---4")
       const { tx_hash } =
         await contractChangerApiClient.removeAddressFromWhitelist({
           siloEngineAccountId: silo.engine_account,
@@ -314,7 +310,6 @@ export const DELETE = createApiEndpoint(
 
       // if no tx hash is returned - assume transaction was successful
       if (!tx_hash) {
-        console.log("---5")
         await deleteSiloWhitelistAddress({
           address,
           list: action,
@@ -328,7 +323,6 @@ export const DELETE = createApiEndpoint(
         }
       }
 
-      console.log("---6")
       transaction = await createSiloConfigTransaction({
         silo_id: silo.id,
         transaction_hash: tx_hash,
@@ -336,7 +330,6 @@ export const DELETE = createApiEndpoint(
         status: "PENDING",
       })
 
-      console.log("---7")
       await updateSiloWhitelistAddress(address, {
         remove_tx_id: transaction.id,
       })
@@ -345,16 +338,13 @@ export const DELETE = createApiEndpoint(
     }
 
     if (transaction.status === "PENDING") {
-      console.log("---8")
       const txStatus = await checkPendingTransaction(transaction, silo)
 
       if (txStatus === "FAILED") {
-        console.log("---9")
         abort(503, "On-chain transaction failed. Try again.")
       }
 
       if (txStatus === "PENDING") {
-        console.log("---10")
         return {
           action,
           address,
@@ -364,14 +354,12 @@ export const DELETE = createApiEndpoint(
     }
 
     // 5. On-chain tx was successful
-    console.log("---11")
     await deleteSiloWhitelistAddress({
       address,
       list: action,
       silo_id: silo.id,
     })
 
-    console.log("---12")
     return {
       action,
       address,
