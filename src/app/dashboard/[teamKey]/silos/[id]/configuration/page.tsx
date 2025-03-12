@@ -2,7 +2,6 @@ import { notFound } from "next/navigation"
 import { sentenceCase } from "change-case"
 
 import Contact from "@/components/Contact"
-import CopyButton from "@/components/CopyButton"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { getRelayerAccount } from "@/utils/relayer"
@@ -12,6 +11,7 @@ import {
   ConfigurationItemsCardProps,
 } from "./ConfigurationItemsCard"
 import { EditPermissions } from "./EditPermissions"
+import { CopyAction } from "./CopyAction"
 
 const Page = async ({
   params: { id, teamKey },
@@ -37,21 +37,18 @@ const Page = async ({
       description: String(silo.chain_id),
       tooltip:
         "EIP-155 standard field to protect against transaction replay attacks.",
-      Action: ({ description }) =>
-        description && <CopyButton hasBorder value={description} />,
+      Action: CopyAction,
     },
     {
       term: "Genesis",
       description: silo.genesis,
-      Action: ({ description }) =>
-        description && <CopyButton hasBorder value={description} />,
+      Action: CopyAction,
     },
     {
       term: "Engine account",
       description: silo.engine_account,
       tooltip: "EVM contract account on the Near blockchain.",
-      Action: ({ description }) =>
-        description && <CopyButton hasBorder value={description} />,
+      Action: CopyAction,
     },
     {
       term: "Engine version",
@@ -62,8 +59,7 @@ const Page = async ({
       term: "RPC URL",
       description: silo.rpc_url,
       tooltip: "Use this endpoint to access the network.",
-      Action: ({ description }) =>
-        description && <CopyButton hasBorder value={description} />,
+      Action: CopyAction,
     },
   ]
 
@@ -72,8 +68,7 @@ const Page = async ({
       term: "Explorer",
       description: silo.explorer_url,
       tooltip: "You can trace the activity on your chain here.",
-      Action: ({ description }) =>
-        description && <CopyButton hasBorder value={description} />,
+      Action: CopyAction,
     })
   }
 
@@ -94,16 +89,14 @@ const Page = async ({
             description: relayerAccount,
             tooltip:
               "This account is responsible for paying gas on the Near blockchain for your Aurora chain. It will also accumulate the transaction fees collected on your chain.",
-            Action: ({ description }) =>
-              description && <CopyButton hasBorder value={description} />,
+            Action: CopyAction,
           },
           {
             term: "Near explorer",
             description: `https://explorer.near.org/accounts/${relayerAccount}`,
             tooltip:
               "You can trace the activity of the relay account in the Near Explorer here.",
-            Action: ({ description }) =>
-              description && <CopyButton hasBorder value={description} />,
+            Action: CopyAction,
           },
         ]}
       />
