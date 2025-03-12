@@ -98,7 +98,10 @@ export const TokensCard = ({ siloId }: TokensCardProps) => {
     }
 
     setSelectedExistingToken(option)
-    methods.setValue("existing-token-address", selectedToken.aurora_address)
+    methods.setValue(
+      "existing-token-address",
+      selectedToken.aurora_address ?? "N/A",
+    )
   }
 
   const onRequestExistingTokenDeploymentClick = async () => {
