@@ -60,7 +60,6 @@ const bridgeKnownToken = async (
 
   return {
     isDeploymentPending: !isDeployed,
-    isActive: isDeployed,
   }
 }
 
@@ -84,7 +83,6 @@ const bridgeCustomToken = async (
   // TODO: Send a Slack notification, once we know this is all working
   return {
     isDeploymentPending: true,
-    isActive: false,
   }
 }
 

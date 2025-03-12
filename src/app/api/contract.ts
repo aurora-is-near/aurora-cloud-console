@@ -326,7 +326,6 @@ export const contract = c.router({
     path: "/api/silos/:id/tokens/bridge",
     responses: {
       200: z.object({
-        isActive: z.boolean(),
         isDeploymentPending: z.boolean(),
       }),
     },

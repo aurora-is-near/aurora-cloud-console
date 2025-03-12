@@ -85,7 +85,6 @@ describe("Bridge silo token route", () => {
 
         expect(res.status).toBe(200)
         expect(res.body).toEqual({
-          isActive: true,
           isDeploymentPending: false,
         })
       })
@@ -118,7 +117,6 @@ describe("Bridge silo token route", () => {
 
         expect(res.status).toBe(200)
         expect(res.body).toEqual({
-          isActive: true,
           isDeploymentPending: false,
         })
 
@@ -153,7 +151,6 @@ describe("Bridge silo token route", () => {
 
         expect(res.status).toBe(200)
         expect(res.body).toEqual({
-          isActive: false,
           isDeploymentPending: true,
         })
       })
@@ -255,7 +252,6 @@ describe("Bridge silo token route", () => {
         expect(res).toSatisfyApiSpec()
         expect(res.body).toEqual({
           isDeploymentPending: true,
-          isActive: false,
         })
 
         expect(

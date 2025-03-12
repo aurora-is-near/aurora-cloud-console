@@ -2325,15 +2325,11 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "isActive": {
-                      "type": "boolean",
-                    },
                     "isDeploymentPending": {
                       "type": "boolean",
                     },
                   },
                   "required": [
-                    "isActive",
                     "isDeploymentPending",
                   ],
                   "type": "object",
