@@ -20,7 +20,7 @@ const isTokenDeployed = async (silo: Silo, contractAddress: string) => {
   return isDeployed
 }
 
-const bridgeExistingToken = async (
+const bridgeKnownToken = async (
   silo: Silo,
   tokenId: number,
 ): Promise<ApiResponseBody<"bridgeSiloToken">> => {
@@ -34,7 +34,7 @@ const bridgeExistingToken = async (
   }
 
   if (isAlreadyBridged) {
-    abort(400, "Token is already bridged")
+    abort(400, `${token.symbol} is already bridged for this silo`)
   }
 
   const isDeployed = await isTokenDeployed(silo, token.aurora_address)
@@ -81,15 +81,11 @@ export const POST = createApiEndpoint("bridgeSiloToken", async (_req, ctx) => {
     abort(404)
   }
 
-  if (ctx.body.tokenId && (ctx.body.symbol ?? ctx.body.address)) {
-    abort(400, badRequestMessage)
-  }
-
   if (ctx.body.tokenId) {
-    return bridgeExistingToken(silo, ctx.body.tokenId)
+    return bridgeKnownToken(silo, ctx.body.tokenId)
   }
 
-  if (!ctx.body.symbol || !ctx.body.address) {
+  if (!(ctx.body.symbol && ctx.body.address)) {
     abort(400, badRequestMessage)
   }
 

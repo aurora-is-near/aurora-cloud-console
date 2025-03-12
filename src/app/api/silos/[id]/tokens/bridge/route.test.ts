@@ -166,7 +166,10 @@ describe("Bridge silo token route", () => {
         )
 
         expect(res.status).toBe(400)
-        expect(res.body).toEqual({ message: "Token is already bridged" })
+        expect(res.body).toEqual({
+          message: `${mockToken.symbol} is already bridged for this silo`,
+        })
+
         expect(mockSupabaseClient.from("tokens").update).not.toHaveBeenCalled()
       })
     })
