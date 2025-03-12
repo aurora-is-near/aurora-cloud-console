@@ -116,9 +116,41 @@ export type Database = {
         }
         Relationships: []
       }
+      bridged_token_requests: {
+        Row: {
+          address: string
+          created_at: string
+          id: number
+          silo_id: number
+          symbol: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          id?: number
+          silo_id: number
+          symbol: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          id?: number
+          silo_id?: number
+          symbol?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bridged_token_requests_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bridged_tokens: {
         Row: {
-          aurora_address: string | null
+          aurora_address: string
           created_at: string
           decimals: number
           ethereum_address: string | null
@@ -129,7 +161,7 @@ export type Database = {
           symbol: string
         }
         Insert: {
-          aurora_address?: string | null
+          aurora_address: string
           created_at?: string
           decimals: number
           ethereum_address?: string | null
@@ -140,7 +172,7 @@ export type Database = {
           symbol: string
         }
         Update: {
-          aurora_address?: string | null
+          aurora_address?: string
           created_at?: string
           decimals?: number
           ethereum_address?: string | null
@@ -679,6 +711,39 @@ export type Database = {
             columns: ["userlist_id"]
             isOneToOne: false
             referencedRelation: "userlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      silo_bridged_tokens: {
+        Row: {
+          bridged_token_id: number
+          is_deployment_pending: boolean
+          silo_id: number
+        }
+        Insert: {
+          bridged_token_id: number
+          is_deployment_pending?: boolean
+          silo_id?: number
+        }
+        Update: {
+          bridged_token_id?: number
+          is_deployment_pending?: boolean
+          silo_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_bridged_tokens_bridged_token_id_fkey"
+            columns: ["bridged_token_id"]
+            isOneToOne: false
+            referencedRelation: "bridged_tokens"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_bridged_tokens_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
             referencedColumns: ["id"]
           },
         ]
