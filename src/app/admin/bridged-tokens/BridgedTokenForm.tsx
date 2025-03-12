@@ -52,7 +52,7 @@ export const BridgedTokenForm = ({ token }: BridgedTokenFormProps) => {
       name: "decimals",
       label: "Decimals",
       type: "number",
-      defaultValue: token?.decimals ?? "",
+      defaultValue: token?.decimals ?? undefined,
       required: true,
     },
     {
