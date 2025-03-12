@@ -14,5 +14,7 @@ export const getSiloBridgedTokens = async (
     .eq("silo_bridged_tokens.silo_id", siloId)
     .order("id", { ascending: true })
 
-  return (data ?? []).map((token) => adaptSiloBridgedToken(siloId, token))
+  return (data ?? [])
+    .map((token) => adaptSiloBridgedToken(siloId, token))
+    .filter((item): item is SiloBridgedToken => item !== null)
 }
