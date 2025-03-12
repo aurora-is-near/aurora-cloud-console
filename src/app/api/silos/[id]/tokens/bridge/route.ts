@@ -7,10 +7,7 @@ import { checkTokenByContractAddress } from "@/utils/check-token-contract"
 import { Silo } from "@/types/types"
 import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-silo-bridged-token"
 import { createSiloBridgedTokenRequest } from "@/actions/silo-bridged-tokens/create-silo-bridged-token-request"
-import {
-  getSiloBridgedToken,
-  isSiloBridgedToken,
-} from "@/actions/silo-bridged-tokens/is-silo-bridged-token"
+import { isSiloBridgedToken } from "@/actions/silo-bridged-tokens/is-silo-bridged-token"
 import { abort } from "../../../../../../utils/abort"
 
 const isTokenDeployed = async (silo: Silo, contractAddress: string) => {
