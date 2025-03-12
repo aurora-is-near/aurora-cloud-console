@@ -146,21 +146,11 @@ export const getWidgetUrl = ({
     !!widget.from_networks?.some((network) => network === "CUSTOM") ||
     !!widget.to_networks?.some((network) => network === "CUSTOM")
 
-  // If a `customChain` is defined then all the tokens we want available on
-  // that custom chain should be overridden using `customTokens`, which will
-  // define the token's address on all the chains including the custom one.
   if (hasCustomChain) {
     setCustomChainsParam(url, { silo })
-    setCustomTokensParam(url, { silo, activeCustomTokens: activeTokens })
-
-    return url.href
   }
 
-  const activeCustomTokens = activeTokens.filter(({ symbol }) => {
-    return !["NEAR", "AURORA", "ETH"].includes(symbol)
-  })
-
-  setCustomTokensParam(url, { silo, activeCustomTokens })
+  setCustomTokensParam(url, { silo, activeCustomTokens: activeTokens })
 
   return url.href
 }
