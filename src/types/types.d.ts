@@ -45,6 +45,8 @@ export type WidgetNetworkType = Enums<"widget_network_type">
 
 export type BaseTokenSymbol = Enums<"base_token_symbol">
 
+export type RequestStatus = Enums<"request_status">
+
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
