@@ -90,6 +90,8 @@ export type FilterEntry = Tables<"filter_entries">
 
 export type BridgedToken = Tables<"bridged_tokens">
 
+export type SiloBridgedTokenMetadata = Tables<"silo_bridged_tokens">
+
 export type SiloBridgedToken = BridgedToken & {
   is_deployment_pending: boolean
 }

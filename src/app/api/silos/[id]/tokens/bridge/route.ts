@@ -7,7 +7,7 @@ import { checkTokenByContractAddress } from "@/utils/check-token-contract"
 import { Silo } from "@/types/types"
 import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-silo-bridged-token"
 import { createSiloBridgedTokenRequest } from "@/actions/silo-bridged-tokens/create-silo-bridged-token-request"
-import { isSiloBridgedToken } from "@/actions/silo-bridged-tokens/is-silo-bridged-token"
+import { getSiloBridgedToken } from "@/actions/silo-bridged-tokens/get-silo-bridged-token"
 import { abort } from "../../../../../../utils/abort"
 
 const isTokenDeployed = async (silo: Silo, contractAddress: string) => {
@@ -24,16 +24,16 @@ const bridgeKnownToken = async (
   silo: Silo,
   tokenId: number,
 ): Promise<ApiResponseBody<"bridgeSiloToken">> => {
-  const [token, isAlreadyBridged] = await Promise.all([
+  const [token, siloBridgedToken] = await Promise.all([
     getBridgedToken(tokenId),
-    isSiloBridgedToken(silo.id, tokenId),
+    getSiloBridgedToken(silo.id, tokenId),
   ])
 
   if (!token) {
     abort(404)
   }
 
-  if (isAlreadyBridged) {
+  if (siloBridgedToken) {
     abort(400, `${token.symbol} is already bridged for this silo`)
   }
 

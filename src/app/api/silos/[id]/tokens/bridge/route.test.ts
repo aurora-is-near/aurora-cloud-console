@@ -55,6 +55,7 @@ describe("Bridge silo token route", () => {
     describe("by ID", () => {
       it("creates and activates a token if the contract is deployed", async () => {
         const mockToken = createMockBridgedToken()
+        const mockSilo = createMockSilo()
 
         ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
           symbol: () => mockToken.symbol,
@@ -62,11 +63,16 @@ describe("Bridge silo token route", () => {
 
         mockSupabaseClient
           .from("silos")
-          .select.mockImplementation(() => createSelect(createMockSilo()))
+          .select.mockImplementation(() => createSelect(mockSilo))
 
         mockSupabaseClient
           .from("bridged_tokens")
-          .select.mockImplementation(() => createSelect(mockToken))
+          .select.mockImplementation(() =>
+            createSelect({
+              ...mockToken,
+              silo_bridged_tokens: [],
+            }),
+          )
 
         const res = await invokeApiHandler(
           "POST",
@@ -86,14 +92,20 @@ describe("Bridge silo token route", () => {
 
       it("creates a token in the pending state if the contract is not deployed", async () => {
         const mockToken = createMockBridgedToken()
+        const mockSilo = createMockSilo()
 
         mockSupabaseClient
           .from("silos")
-          .select.mockImplementation(() => createSelect(createMockSilo()))
+          .select.mockImplementation(() => createSelect(mockSilo))
 
         mockSupabaseClient
           .from("bridged_tokens")
-          .select.mockImplementation(() => createSelect(mockToken))
+          .select.mockImplementation(() =>
+            createSelect({
+              ...mockToken,
+              silo_bridged_tokens: [],
+            }),
+          )
 
         const res = await invokeApiHandler(
           "POST",
@@ -130,7 +142,7 @@ describe("Bridge silo token route", () => {
       })
 
       it("returns a 400 if the token is already deployed", async () => {
-        const silo = createMockSilo()
+        const mockSilo = createMockSilo()
         const mockToken = createMockSiloBridgedToken({
           is_deployment_pending: false,
         })
@@ -141,18 +153,19 @@ describe("Bridge silo token route", () => {
 
         mockSupabaseClient
           .from("silos")
-          .select.mockImplementation(() => createSelect(createMockSilo()))
+          .select.mockImplementation(() => createSelect(mockSilo))
 
         mockSupabaseClient
           .from("bridged_tokens")
-          .select.mockImplementation(() => createSelect(mockToken))
-
-        mockSupabaseClient
-          .from("silo_bridged_tokens")
           .select.mockImplementation(() =>
             createSelect({
-              bridged_token_id: mockToken.id,
-              silo: silo.id,
+              ...mockToken,
+              silo_bridged_tokens: [
+                {
+                  bridged_token_id: mockToken.id,
+                  silo_id: mockSilo.id,
+                },
+              ],
             }),
           )
 

@@ -6,7 +6,14 @@ import {
   SiloSchema,
 } from "@/types/api-schemas"
 import { AuroraOracle } from "@/types/oracle"
-import { Deal, Rule, Silo, SiloBridgedToken } from "@/types/types"
+import {
+  BridgedToken,
+  Deal,
+  Rule,
+  Silo,
+  SiloBridgedToken,
+  SiloBridgedTokenMetadata,
+} from "@/types/types"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
@@ -81,3 +88,24 @@ export const adaptOracle = (oracle: AuroraOracle): OracleSchema => ({
   updatedAt: oracle.updated_at,
   address: oracle.contract?.address ?? null,
 })
+
+export const adaptSiloBridgedToken = (
+  siloId: number,
+  token: BridgedToken & {
+    silo_bridged_tokens: SiloBridgedTokenMetadata[]
+  },
+): SiloBridgedToken | null => {
+  const bridgedTokenMeta = token.silo_bridged_tokens.find(
+    (siloBridgedToken) => siloBridgedToken.silo_id === siloId,
+  )
+
+  // The token is not bridged for this silo
+  if (!bridgedTokenMeta) {
+    return null
+  }
+
+  return {
+    ...token,
+    is_deployment_pending: bridgedTokenMeta.is_deployment_pending,
+  }
+}
