@@ -43,6 +43,8 @@ export type OnboardingStatus = Enums<"team_onboarding_status">
 
 export type WidgetNetworkType = Enums<"widget_network_type">
 
+export type RequestStatus = Enums<"request_status">
+
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
