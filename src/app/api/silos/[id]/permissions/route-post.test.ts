@@ -5,8 +5,8 @@ import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-
 import type { SiloWhitelistAddress } from "@/types/types"
 
 import {
-  createSelect,
   createInsertOrUpdate,
+  createSelect,
   mockSupabaseClient,
 } from "../../../../../../test-utils/mock-supabase-client"
 import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
@@ -79,6 +79,7 @@ describe("No silo", () => {
         body: { address: "0x00", action: "MAKE_TRANSACTION" },
       },
     )
+
     expect(res.status).toBe(404)
   })
 })
