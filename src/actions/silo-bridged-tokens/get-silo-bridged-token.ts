@@ -14,7 +14,7 @@ export const getSiloBridgedToken = async (
     .from("bridged_tokens")
     .select("*, silo_bridged_tokens!inner(*)")
     .eq("silo_bridged_tokens.silo_id", siloId)
-    .eq("bridged_token_id", tokenId)
+    .eq("silo_bridged_tokens.bridged_token_id", tokenId)
     .maybeSingle()
 
   assertValidSupabaseResult(result)
