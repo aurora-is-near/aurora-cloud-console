@@ -12,7 +12,7 @@ import {
 
 export const getSiloConfigTransactions = async (
   siloId: number,
-  operation?: SiloConfigTransactionOperation,
+  operation: SiloConfigTransactionOperation,
 ): Promise<SiloConfigTransaction[]> => {
   const supabase = createAdminSupabaseClient()
   const query = supabase
@@ -20,6 +20,13 @@ export const getSiloConfigTransactions = async (
     .select("*")
     .order("id", { ascending: true })
     .eq("silo_id", siloId)
+    .eq("operation", operation)
+
+  if (operation) {
+    void query.eq("operation", operation)
+  }
+
+  const result = await query
 
   if (operation) {
     void query.eq("operation", operation)

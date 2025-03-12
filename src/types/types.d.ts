@@ -102,6 +102,8 @@ export type OnboardingForm = Tables<"onboarding_form">
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
 
+export type SiloWhitelistType = Enums<"address_whitelist_type">
+
 type ChartData = {
   label: string
   chart: {
