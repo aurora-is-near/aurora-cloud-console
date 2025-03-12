@@ -28,12 +28,6 @@ export const getSiloConfigTransactions = async (
 
   const result = await query
 
-  if (operation) {
-    void query.eq("operation", operation)
-  }
-
-  const result = await query
-
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 
