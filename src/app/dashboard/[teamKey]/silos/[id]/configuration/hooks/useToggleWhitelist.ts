@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { backOff } from "exponential-backoff"
 import { useMutation } from "@tanstack/react-query"
 
 import { apiClient } from "@/utils/api/client"
+import { useProgressiveRetry } from "@/hooks/useProgressiveRetry"
 import type { Silo, SiloWhitelistType } from "@/types/types"
 
 type Args = {
@@ -25,6 +25,11 @@ export const useToggleWhitelist = ({
       : silo.is_deploy_contracts_public,
   )
 
+  const { retry } = useProgressiveRetry({
+    maxRetries: 5,
+    onRetriesComplete: () => setIsFailed(true),
+  })
+
   const toggleSiloWhitelist = useMutation({
     mutationFn: apiClient.toggleSiloPermissions,
     onError: () => {
@@ -33,7 +38,7 @@ export const useToggleWhitelist = ({
     },
     onSuccess: async (data, variables) => {
       if (data.status === "PENDING") {
-        await backOff(() => toggleSiloWhitelist.mutateAsync(variables))
+        retry(() => toggleSiloWhitelist.mutate(variables))
       } else if (data.status === "SUCCESSFUL") {
         setIsFailed(false)
         onSuccess()

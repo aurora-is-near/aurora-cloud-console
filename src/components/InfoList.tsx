@@ -17,7 +17,13 @@ const TextDescription = ({ children }: { children: string }) => {
 
   return (
     <span className="text-sm leading-5 text-slate-900 whitespace-nowrap text-ellipsis overflow-hidden">
-      {isLink ? <Link target="_blank" href={children} /> : children}
+      {isLink ? (
+        <Link target="_blank" href={children}>
+          {children}
+        </Link>
+      ) : (
+        children
+      )}
     </span>
   )
 }
@@ -42,7 +48,7 @@ export const InfoList = ({ items, className }: InfoListProps) => (
             {!!tooltip && <InfoTooltip>{tooltip}</InfoTooltip>}
           </div>
           <div className="col-span-3 flex flex-row items-center justify-between gap-x-2.5">
-            <dd className="w-full flex-shrink-1">
+            <dd className="w-full flex-shrink-1 overflow-hidden whitespace-nowrap text-ellipsis">
               {typeof description === "string" ? (
                 <TextDescription>{description}</TextDescription>
               ) : (
