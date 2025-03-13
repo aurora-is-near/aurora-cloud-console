@@ -78,6 +78,23 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
       },
     },
 
+    DEPLOYING_DEFAULT_TOKENS: {
+      title: "Deploying default tokens",
+      delayed: {
+        description: "Running a bit slow — come back shortly.",
+      },
+      failed: {
+        description:
+          "Please try again or contact us to resolve the server issue promptly.",
+        action: {
+          variant: "destructive",
+          title: "Try again",
+          onClick: () =>
+            onClick?.({ name: "DEPLOYING_DEFAULT_TOKENS", state: "failed" }),
+        },
+      },
+    },
+
     START_BLOCK_EXPLORER: {
       title: "Starting your Block Explorer",
     },

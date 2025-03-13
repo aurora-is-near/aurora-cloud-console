@@ -103,7 +103,12 @@ SELECT add_values_to_enum(
 SELECT add_values_to_enum(
   'silo_config_transaction_operation',
   ARRAY[
-    'SET_BASE_TOKEN'
+    'SET_BASE_TOKEN',
+    'DEPLOY_AURORA',
+    'DEPLOY_USDT',
+    'DEPLOY_USDC',
+    'DEPLOY_NEAR',
+    'DEPLOY_ETH'
   ]
 );
 

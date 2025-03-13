@@ -4,16 +4,20 @@ import { useState } from "react"
 import Card from "@/components/Card"
 import { TokensCard } from "@/components/UniversalWidgetPage/TokensCard"
 import { AddButton } from "@/components/AddButton"
-import { useWidgetTokens } from "@/hooks/useWidgetTokens"
+import { useBridgedTokens } from "@/hooks/useBridgedTokens"
 import DeployedTokensForm from "@/components/UniversalWidgetPage/DeployedTokensForm"
 import { Skeleton } from "@/uikit"
+import { useWidget } from "@/hooks/useWidget"
 
 type DeployedTokensCardProps = {
   siloId: number
 }
 
 export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
-  const { deployedTokens, activeTokens, isPending } = useWidgetTokens(siloId)
+  const { bridgedSiloTokens, bridgedSiloTokenRequests, isPending } =
+    useBridgedTokens(siloId)
+
+  const widget = useWidget(siloId)
   const [isAddingNewAsset, setIsAddingNewAsset] = useState(false)
 
   return (
@@ -37,8 +41,9 @@ export const DeployedTokensCard = ({ siloId }: DeployedTokensCardProps) => {
           <div className="flex flex-col gap-2">
             <DeployedTokensForm
               siloId={siloId}
-              deployedTokens={deployedTokens}
-              activeTokens={activeTokens}
+              bridgedSiloTokens={bridgedSiloTokens}
+              bridgedSiloTokenRequests={bridgedSiloTokenRequests}
+              activeTokenIds={widget?.tokens ?? []}
             />
 
             <AddButton

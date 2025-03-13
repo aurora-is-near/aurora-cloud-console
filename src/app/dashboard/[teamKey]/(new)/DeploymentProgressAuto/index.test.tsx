@@ -119,6 +119,10 @@ describe("DeploymentProgressAuto", () => {
           isSelected: false,
         },
         {
+          id: "DEPLOYING_DEFAULT_TOKENS",
+          isSelected: false,
+        },
+        {
           id: "START_BLOCK_EXPLORER",
           isSelected: false,
         },
@@ -159,7 +163,7 @@ describe("DeploymentProgressAuto", () => {
       expect(setBaseToken).toHaveBeenCalledWith(silo)
     })
 
-    it("starts the block explorer once the base token is set", async () => {
+    it("starts from the deploying tokens step if no previous relevant transactions", async () => {
       ;(setBaseToken as jest.Mock).mockResolvedValue("SUCCESSFUL")
 
       render(
@@ -173,7 +177,65 @@ describe("DeploymentProgressAuto", () => {
           onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
-          siloBaseTokenTransactionStatus="PENDING"
+          siloTransactionStatuses={{
+            SET_BASE_TOKEN: "SUCCESSFUL",
+          }}
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      await waitFor(() => {
+        expect(getCurrentStep()).toBe("DEPLOYING_DEFAULT_TOKENS")
+      })
+    })
+
+    it.each(["FAILED", "PENDING"] as const)(
+      "starts from the deploying tokens step if a previous transaction is in the %p state",
+      async (status) => {
+        render(
+          <DeploymentProgressAuto
+            hasUnassignedSilo
+            team={mockTeam}
+            silo={createMockSilo({
+              base_token_symbol: "AURORA",
+              base_token_name: "Aurora",
+            })}
+            onboardingForm={createMockOnboardingForm()}
+            isDeploymentComplete={false}
+            setIsDeploymentComplete={() => {}}
+            siloTransactionStatuses={{
+              SET_BASE_TOKEN: "SUCCESSFUL",
+              DEPLOY_AURORA: status,
+            }}
+          />,
+          { wrapper: createWrapper() },
+        )
+
+        await waitFor(() => {
+          expect(getCurrentStep()).toBe("DEPLOYING_DEFAULT_TOKENS")
+        })
+      },
+    )
+
+    it("starts the block explorer once all transaction-based steps are complete", async () => {
+      render(
+        <DeploymentProgressAuto
+          hasUnassignedSilo
+          team={mockTeam}
+          silo={createMockSilo({
+            base_token_symbol: "AURORA",
+            base_token_name: "Aurora",
+          })}
+          onboardingForm={createMockOnboardingForm()}
+          isDeploymentComplete={false}
+          setIsDeploymentComplete={() => {}}
+          siloTransactionStatuses={{
+            SET_BASE_TOKEN: "SUCCESSFUL",
+            DEPLOY_AURORA: "SUCCESSFUL",
+            DEPLOY_NEAR: "SUCCESSFUL",
+            DEPLOY_USDT: "SUCCESSFUL",
+            DEPLOY_USDC: "SUCCESSFUL",
+          }}
         />,
         { wrapper: createWrapper() },
       )
@@ -199,7 +261,13 @@ describe("DeploymentProgressAuto", () => {
           onboardingForm={createMockOnboardingForm()}
           isDeploymentComplete={false}
           setIsDeploymentComplete={setIsDeploymentComplete}
-          siloBaseTokenTransactionStatus="SUCCESSFUL"
+          siloTransactionStatuses={{
+            SET_BASE_TOKEN: "SUCCESSFUL",
+            DEPLOY_AURORA: "SUCCESSFUL",
+            DEPLOY_NEAR: "SUCCESSFUL",
+            DEPLOY_USDT: "SUCCESSFUL",
+            DEPLOY_USDC: "SUCCESSFUL",
+          }}
         />,
         { wrapper: createWrapper() },
       )

@@ -1,5 +1,4 @@
 import { Contract, JsonRpcProvider } from "ethers"
-import { logger } from "@/logger"
 
 const ABI = ["function symbol() view returns (string)"]
 
@@ -19,27 +18,29 @@ const AURORA_TOKEN_ADDRESSES = {
 /**
  * Check if the token contract address corresponds to the expected symbol.
  */
-export const checkToken = async (
+export const checkTokenByContractAddress = async (
   provider: JsonRpcProvider,
-  symbol: keyof typeof AURORA_TOKEN_ADDRESSES,
+  tokenContractAddress: string,
 ): Promise<boolean> => {
-  const tokenContractAddress = AURORA_TOKEN_ADDRESSES[symbol]
   const contract = new Contract(tokenContractAddress, ABI, provider)
-  let actualSymbol
 
   try {
-    actualSymbol = await contract.symbol()
+    await contract.symbol()
   } catch (error) {
     return false
   }
 
-  if (actualSymbol !== symbol) {
-    logger.error(
-      `Expected symbol ${symbol} for token contract ${tokenContractAddress}, got ${actualSymbol}`,
-    )
-
-    return false
-  }
-
   return true
+}
+
+/**
+ * Check if the token contract address corresponds to the expected symbol.
+ */
+export const checkTokenBySymbol = async (
+  provider: JsonRpcProvider,
+  symbol: keyof typeof AURORA_TOKEN_ADDRESSES,
+): Promise<boolean> => {
+  const tokenContractAddress = AURORA_TOKEN_ADDRESSES[symbol]
+
+  return checkTokenByContractAddress(provider, tokenContractAddress)
 }

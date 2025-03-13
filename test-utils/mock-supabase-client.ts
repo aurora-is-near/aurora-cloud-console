@@ -49,7 +49,6 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   teams: createTableClient(),
   deals: createTableClient(),
   api_keys: createTableClient(),
-  tokens: createTableClient(),
   silos: createTableClient(),
   users: createTableClient(),
   users_teams: createTableClient(),
@@ -73,6 +72,8 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   silo_relayers: createTableClient(),
   silo_bridged_tokens: createTableClient(),
   bridged_tokens: createTableClient(),
+  silo_bridged_tokens: createTableClient(),
+  bridged_token_requests: createTableClient(),
   _prisma_migrations: createTableClient(),
 }
 

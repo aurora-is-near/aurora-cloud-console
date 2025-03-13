@@ -5,15 +5,11 @@ import { useState } from "react"
 
 import { Typography } from "@/uikit"
 import Hero from "@/components/Hero/Hero"
-import {
-  OnboardingForm,
-  Silo,
-  SiloConfigTransactionStatus,
-  Team,
-} from "@/types/types"
+import { OnboardingForm, Silo, Team } from "@/types/types"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { DashboardPage } from "@/components/DashboardPage"
+import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
 import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
 import { HeroImage } from "./HeroImage"
@@ -22,7 +18,7 @@ type DashboardHomePageProps = {
   team: Team
   silo?: Silo | null
   onboardingForm: OnboardingForm | null
-  siloBaseTokenTransactionStatus?: SiloConfigTransactionStatus
+  siloTransactionStatuses?: SiloConfigTransactionStatuses
   hasUnassignedSilo?: boolean
 }
 
@@ -30,7 +26,7 @@ export const DashboardHomePage = ({
   team,
   silo = null,
   onboardingForm,
-  siloBaseTokenTransactionStatus,
+  siloTransactionStatuses,
   hasUnassignedSilo,
 }: DashboardHomePageProps) => {
   const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
@@ -72,7 +68,7 @@ export const DashboardHomePage = ({
           isDeploymentComplete={isDeploymentComplete}
           setIsDeploymentComplete={setIsDeploymentComplete}
           onboardingForm={onboardingForm}
-          siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
+          siloTransactionStatuses={siloTransactionStatuses}
           hasUnassignedSilo={hasUnassignedSilo}
         />
       </Hero>

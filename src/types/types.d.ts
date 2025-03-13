@@ -52,8 +52,6 @@ export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
 
-export type Token = Tables<"tokens">
-
 export type Oracle = Tables<"oracles">
 
 export type BlockscoutDatabase = Tables<"blockscout_databases">
@@ -93,6 +91,14 @@ export type Filter = Tables<"filters">
 export type FilterEntry = Tables<"filter_entries">
 
 export type BridgedToken = Tables<"bridged_tokens">
+
+export type SiloBridgedTokenMetadata = Tables<"silo_bridged_tokens">
+
+export type SiloBridgedToken = BridgedToken & {
+  is_deployment_pending: boolean
+}
+
+export type SiloBridgedTokenRequest = Tables<"bridged_token_requests">
 
 export type OnboardingForm = Tables<"onboarding_form">
 
