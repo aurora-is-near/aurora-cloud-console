@@ -1,26 +1,16 @@
 "use server"
 
-import { createSiloConfigTransaction } from "@/actions/silo-config-transactions/create-silo-config-transaction"
-import { getSiloConfigTransactions } from "@/actions/silo-config-transactions/get-silo-config-transactions"
+import { performSiloConfigTransaction } from "@/actions/deployment/perform-silo-config-transaction"
 import { BASE_TOKENS } from "@/constants/base-token"
 import {
   BaseTokenSymbol,
   Silo,
-  SiloConfigTransaction,
   SiloConfigTransactionStatus,
 } from "@/types/types"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
-import { checkPendingTransaction } from "@/utils/check-pending-silo-config-transaction"
 
 const isValidBaseToken = (baseToken: string): baseToken is BaseTokenSymbol => {
   return Object.keys(BASE_TOKENS).includes(baseToken)
-}
-
-const findTransactionWithStatus = (
-  transactions: SiloConfigTransaction[],
-  status: SiloConfigTransactionStatus,
-): SiloConfigTransaction | undefined => {
-  return transactions.find((transaction) => transaction.status === status)
 }
 
 export const setBaseToken = async (
@@ -37,28 +27,6 @@ export const setBaseToken = async (
     return "SUCCESSFUL"
   }
 
-  const previousTransactions = await getSiloConfigTransactions(
-    silo.id,
-    "SET_BASE_TOKEN",
-  )
-
-  // If there has already been a successful transaction for setting the base
-  // token we don't need to trigger another one.
-  if (findTransactionWithStatus(previousTransactions, "SUCCESSFUL")) {
-    return "SUCCESSFUL"
-  }
-
-  const pendingBaseTokenTransaction = findTransactionWithStatus(
-    previousTransactions,
-    "PENDING",
-  )
-
-  // If there is already a pending transaction we can check its status and
-  // return the result.
-  if (pendingBaseTokenTransaction) {
-    return checkPendingTransaction(pendingBaseTokenTransaction, silo)
-  }
-
   const baseTokenConfig = BASE_TOKENS[silo.base_token_symbol]
 
   if (!baseTokenConfig) {
@@ -67,24 +35,10 @@ export const setBaseToken = async (
     )
   }
 
-  const { tx_hash } = await contractChangerApiClient.setBaseToken({
-    siloEngineAccountId: silo.engine_account,
-    baseTokenAccountId: baseTokenConfig.nearAccountId,
+  return performSiloConfigTransaction(silo, "SET_BASE_TOKEN", async () => {
+    return contractChangerApiClient.setBaseToken({
+      siloEngineAccountId: silo.engine_account,
+      baseTokenAccountId: baseTokenConfig.nearAccountId,
+    })
   })
-
-  // If no hash was returned we assume the transaction was successful.
-  if (!tx_hash) {
-    return "SUCCESSFUL"
-  }
-
-  // Otherwise, we store the transaction details in the database so we can later
-  // check its status.
-  await createSiloConfigTransaction({
-    silo_id: silo.id,
-    transaction_hash: tx_hash,
-    operation: "SET_BASE_TOKEN",
-    status: "PENDING",
-  })
-
-  return "PENDING"
 }

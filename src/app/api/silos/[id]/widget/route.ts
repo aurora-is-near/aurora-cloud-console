@@ -1,12 +1,17 @@
 import { createApiEndpoint } from "@/utils/api"
 import { getSilo } from "@/actions/silos/get-silo"
-import { Silo, Token, Widget, WidgetNetworkType } from "@/types/types"
+import {
+  Silo,
+  SiloBridgedToken,
+  Widget,
+  WidgetNetworkType,
+} from "@/types/types"
 import { WidgetSchema } from "@/types/api-schemas"
 import { isValidNetwork } from "@/utils/widget"
-import { getTokens } from "@/actions/tokens/get-tokens"
 import { getWidgetUrl } from "@/actions/widget/get-widget-url"
 import { upsertWidget } from "@/actions/widget/upsert-widget"
 import { getWidget } from "@/actions/widget/get-widget"
+import { getSiloBridgedTokens } from "@/actions/silo-bridged-tokens/get-silo-bridged-tokens"
 import { abort } from "../../../../../utils/abort"
 
 const getValidNetworks = (networks: string[]): WidgetNetworkType[] => {
@@ -23,7 +28,7 @@ const getValidNetworks = (networks: string[]): WidgetNetworkType[] => {
 const getWidgetSchema = (data: {
   silo: Silo
   widget: Widget
-  tokens: Token[]
+  tokens: SiloBridgedToken[]
 }): WidgetSchema => {
   const { widget } = data ?? {}
 
@@ -49,10 +54,11 @@ const getDisabledWidgetSchema = (): WidgetSchema => ({
 })
 
 export const GET = createApiEndpoint("getWidget", async (_req, ctx) => {
+  const siloId = Number(ctx.params.id)
   const [widget, silo, tokens] = await Promise.all([
-    getWidget(Number(ctx.params.id)),
-    getSilo(Number(ctx.params.id)),
-    getTokens(),
+    getWidget(siloId),
+    getSilo(siloId),
+    getSiloBridgedTokens(siloId),
   ])
 
   if (!silo) {
@@ -69,8 +75,8 @@ export const GET = createApiEndpoint("getWidget", async (_req, ctx) => {
 export const PUT = createApiEndpoint("updateWidget", async (_req, ctx) => {
   const siloId = Number(ctx.params.id)
   const [silo, tokens] = await Promise.all([
-    getSilo(Number(ctx.params.id)),
-    getTokens(),
+    getSilo(siloId),
+    getSiloBridgedTokens(siloId),
   ])
 
   if (!silo) {

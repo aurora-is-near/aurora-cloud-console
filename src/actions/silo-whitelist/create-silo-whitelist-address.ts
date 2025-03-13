@@ -7,7 +7,7 @@ import {
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import type { SiloWhitelistAddress } from "@/types/types"
 
-export const insertSiloWhitelistAddress = async (
+export const createSiloWhitelistAddress = async (
   inputs: Pick<
     SiloWhitelistAddress,
     "address" | "list" | "silo_id" | "add_tx_id" | "remove_tx_id"

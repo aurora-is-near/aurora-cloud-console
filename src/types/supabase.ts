@@ -116,6 +116,38 @@ export type Database = {
         }
         Relationships: []
       }
+      bridged_token_requests: {
+        Row: {
+          address: string
+          created_at: string
+          id: number
+          silo_id: number
+          symbol: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          id?: number
+          silo_id: number
+          symbol: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          id?: number
+          silo_id?: number
+          symbol?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bridged_token_requests_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bridged_tokens: {
         Row: {
           aurora_address: string | null
@@ -1006,65 +1038,6 @@ export type Database = {
         }
         Relationships: []
       }
-      tokens: {
-        Row: {
-          address: string
-          bridge_addresses: string[] | null
-          bridge_deployment_status: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin: string | null
-          created_at: string
-          decimals: number | null
-          deployment_status: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge: boolean
-          icon_url: string | null
-          id: number
-          name: string | null
-          silo_id: number
-          symbol: string
-          type: Database["public"]["Enums"]["token_type"] | null
-        }
-        Insert: {
-          address: string
-          bridge_addresses?: string[] | null
-          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin?: string | null
-          created_at?: string
-          decimals?: number | null
-          deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge?: boolean
-          icon_url?: string | null
-          id?: number
-          name?: string | null
-          silo_id: number
-          symbol: string
-          type?: Database["public"]["Enums"]["token_type"] | null
-        }
-        Update: {
-          address?: string
-          bridge_addresses?: string[] | null
-          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin?: string | null
-          created_at?: string
-          decimals?: number | null
-          deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge?: boolean
-          icon_url?: string | null
-          id?: number
-          name?: string | null
-          silo_id?: number
-          symbol?: string
-          type?: Database["public"]["Enums"]["token_type"] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "tokens_silo_id_fkey"
-            columns: ["silo_id"]
-            isOneToOne: false
-            referencedRelation: "silos"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       userlists: {
         Row: {
           created_at: string
@@ -1294,8 +1267,13 @@ export type Database = {
         | "paid"
         | "unpaid"
         | "no_payment_required"
-      silo_config_transaction_operation:
+        silo_config_transaction_operation:
         | "SET_BASE_TOKEN"
+        | "DEPLOY_AURORA"
+        | "DEPLOY_USDT"
+        | "DEPLOY_USDC"
+        | "DEPLOY_NEAR"
+        | "DEPLOY_ETH"
         | "TOGGLE_MAKE_TXS_WHITELIST"
         | "TOGGLE_DEPLOY_CONTRACT_WHITELIST"
         | "POPULATE_MAKE_TXS_WHITELIST"

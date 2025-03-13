@@ -3,7 +3,6 @@
  */
 import nock from "nock"
 import * as ethers from "ethers"
-import { symbol } from "zod"
 import { DELETE, GET, POST, PUT } from "./route"
 import { setupJestOpenApi } from "../../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../../test-utils/invoke-api-handler"
