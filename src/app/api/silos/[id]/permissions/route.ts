@@ -3,7 +3,7 @@ import { updateSilo } from "@/actions/silos/update-silo"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import { getSiloWhitelistAddress } from "@/actions/silo-whitelist/get-silo-whitelist-address"
-import { insertSiloWhitelistAddress } from "@/actions/silo-whitelist/insert-silo-whitelist-address"
+import { createSiloWhitelistAddress } from "@/actions/silo-whitelist/create-silo-whitelist-address"
 import { updateSiloWhitelistAddress } from "@/actions/silo-whitelist/update-silo-whitelist-address"
 import { deleteSiloWhitelistAddress } from "@/actions/silo-whitelist/delete-silo-whitelist-address"
 import { createSiloConfigTransaction } from "@/actions/silo-config-transactions/create-silo-config-transaction"
@@ -162,7 +162,7 @@ export const POST = createApiEndpoint(
 
       // if no tx hash is returned - assume transaction was successful
       if (!tx_hash) {
-        await insertSiloWhitelistAddress({
+        await createSiloWhitelistAddress({
           address,
           list: action,
           silo_id: silo.id,
@@ -184,7 +184,7 @@ export const POST = createApiEndpoint(
         status: "PENDING",
       })
 
-      await insertSiloWhitelistAddress({
+      await createSiloWhitelistAddress({
         address,
         list: action,
         silo_id: silo.id,
