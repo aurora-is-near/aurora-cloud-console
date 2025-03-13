@@ -61,13 +61,9 @@ export const ResolveButton = ({
         }}
       >
         <p className="text-sm leading-5 text-gray-500 mt-4">
-          Once the request is resolved, if you have added the bridged token it
-          will be made available to the team that submitted the request and
-          their cloud bridge configuration updated accordingly.
-        </p>
-        <p className="text-sm leading-5 text-gray-500 mt-4">
-          If you chose not to add the bridge token the request will be
-          dismissed.
+          By resolving this request you are confirming that you have addressed
+          the issue. For example, by deploying a contract or service, or by
+          deciding not to take any action.
         </p>
         <p className="text-sm leading-5 text-gray-500 mt-4">
           Are you sure you want to mark this request as resolved?
