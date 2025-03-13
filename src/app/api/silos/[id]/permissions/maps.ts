@@ -8,7 +8,7 @@ import type {
 export const whitelistKindActionMap: Record<SiloWhitelistType, WhitelistKind> =
   {
     MAKE_TRANSACTION: "address",
-    DEPLOY_CONTRACT: "env-admin",
+    DEPLOY_CONTRACT: "evm-admin",
   }
 
 export const whitelistKindToggleOperationMap: Record<
@@ -21,6 +21,22 @@ export const whitelistKindToggleOperationMap: Record<
     isEnabled
       ? "ENABLE_DEPLOY_CONTRACT_WHITELIST"
       : "DISABLE_DEPLOY_CONTRACT_WHITELIST",
+}
+
+export const whitelistKindPopulateOperationMap: Record<
+  SiloWhitelistType,
+  SiloConfigTransactionOperation
+> = {
+  MAKE_TRANSACTION: "POPULATE_MAKE_TXS_WHITELIST",
+  DEPLOY_CONTRACT: "POPULATE_DEPLOY_CONTRACT_WHITELIST",
+}
+
+export const whitelistKindPurgeOperationMap: Record<
+  SiloWhitelistType,
+  SiloConfigTransactionOperation
+> = {
+  MAKE_TRANSACTION: "PURGE_MAKE_TXS_WHITELIST",
+  DEPLOY_CONTRACT: "PURGE_DEPLOY_CONTRACT_WHITELIST",
 }
 
 export const toggleSiloPermissionUpdateMap: Record<
