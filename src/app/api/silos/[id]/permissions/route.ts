@@ -143,7 +143,7 @@ export const POST = createApiEndpoint(
     const silo = await getSiloOrAbort(ctx.team.id, Number(ctx.params.id))
     const { action, address } = getBodyParamsOrAbort(ctx, ["action", "address"])
 
-    let transaction: SiloConfigTransaction | undefined
+    let transaction: SiloConfigTransaction | null | undefined
 
     // 1. Try to retrieve address from the list to get related tx hash
     const whitelistedAddress = await getSiloWhitelistAddress(
@@ -217,18 +217,18 @@ export const POST = createApiEndpoint(
       }
     }
 
-    // 5. Check status of a transaction (is is_applied is false)
-    const tx = await getSiloConfigTransactionById(
-      silo.id,
-      whitelistKindPopulateOperationMap[action],
-      whitelistedAddress.add_tx_id,
-    )
+    // 5. Check status of a transaction
+    if (!transaction) {
+      transaction = await getSiloConfigTransactionById(
+        silo.id,
+        whitelistKindPopulateOperationMap[action],
+        whitelistedAddress.add_tx_id,
+      )
+    }
 
     // 6. If not txs (should not happen)
-    if (!transaction && !tx) {
+    if (!transaction) {
       abort(404, "Transaction not found")
-    } else {
-      transaction = transaction ?? tx!
     }
 
     // 7. Handle actual tx status
