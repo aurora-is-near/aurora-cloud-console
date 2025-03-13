@@ -249,7 +249,7 @@ describe("getWidgetUrl", () => {
       symbol,
       ethereum_address: "0x123",
       near_address: "near.base",
-      aurora_address: null,
+      aurora_address: undefined,
     })
 
     const url = new URL(
