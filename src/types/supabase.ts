@@ -752,7 +752,9 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          operation: Database["public"]["Enums"]["silo_config_transaction_operation"]
+          operation:
+            | Database["public"]["Enums"]["silo_config_transaction_operation"]
+            | null
           silo_id: number
           status: Database["public"]["Enums"]["silo_config_transaction_status"]
           transaction_hash: string
@@ -760,7 +762,9 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: number
-          operation: Database["public"]["Enums"]["silo_config_transaction_operation"]
+          operation?:
+            | Database["public"]["Enums"]["silo_config_transaction_operation"]
+            | null
           silo_id: number
           status?: Database["public"]["Enums"]["silo_config_transaction_status"]
           transaction_hash: string
@@ -768,7 +772,9 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
-          operation?: Database["public"]["Enums"]["silo_config_transaction_operation"]
+          operation?:
+            | Database["public"]["Enums"]["silo_config_transaction_operation"]
+            | null
           silo_id?: number
           status?: Database["public"]["Enums"]["silo_config_transaction_status"]
           transaction_hash?: string
@@ -1267,15 +1273,12 @@ export type Database = {
         | "paid"
         | "unpaid"
         | "no_payment_required"
-        silo_config_transaction_operation:
+      silo_config_transaction_operation:
         | "SET_BASE_TOKEN"
-        | "DEPLOY_AURORA"
-        | "DEPLOY_USDT"
-        | "DEPLOY_USDC"
-        | "DEPLOY_NEAR"
-        | "DEPLOY_ETH"
-        | "TOGGLE_MAKE_TXS_WHITELIST"
-        | "TOGGLE_DEPLOY_CONTRACT_WHITELIST"
+        | "ENABLE_MAKE_TXS_WHITELIST"
+        | "DISABLE_MAKE_TXS_WHITELIST"
+        | "ENABLE_DEPLOY_CONTRACT_WHITELIST"
+        | "DISABLE_DEPLOY_CONTRACT_WHITELIST"
         | "POPULATE_MAKE_TXS_WHITELIST"
         | "POPULATE_DEPLOY_CONTRACT_WHITELIST"
         | "PURGE_MAKE_TXS_WHITELIST"
