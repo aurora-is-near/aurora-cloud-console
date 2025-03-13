@@ -74,7 +74,22 @@ export const contractChangerApiClient = {
         },
       },
     ),
-
+  mirrorErc20Token: async ({
+    siloEngineAccountId,
+    token,
+  }: {
+    siloEngineAccountId: string
+    token: "Near" | "Aurora" | "Usdt" | "Usdc"
+  }) =>
+    request<{ tx_hash?: string }>(
+      `/api/v1/contract/${siloEngineAccountId}/erc20`,
+      {
+        method: "POST",
+        data: {
+          token,
+        },
+      },
+    ),
   toggleWhitelist: async ({
     siloEngineAccountId,
     whitelistKind,

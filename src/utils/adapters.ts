@@ -2,11 +2,18 @@ import {
   DealSchema,
   OracleSchema,
   RuleSchema,
+  SiloBridgedTokenSchema,
   SiloSchema,
-  TokenSchema,
 } from "@/types/api-schemas"
 import { AuroraOracle } from "@/types/oracle"
-import { Deal, Rule, Silo, Token } from "@/types/types"
+import {
+  BridgedToken,
+  Deal,
+  Rule,
+  Silo,
+  SiloBridgedToken,
+  SiloBridgedTokenMetadata,
+} from "@/types/types"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
@@ -43,32 +50,19 @@ export const adaptRule = (rule: Rule): RuleSchema => ({
   exceptContracts: rule.except_contracts,
 })
 
-export const adaptToken = (token: Token): TokenSchema => ({
+export const adaptToken = (
+  token: SiloBridgedToken,
+): SiloBridgedTokenSchema => ({
   id: token.id,
-  address: token.address,
   createdAt: token.created_at,
-  symbol: token.symbol,
   name: token.name,
+  symbol: token.symbol,
   decimals: token.decimals,
-  deploymentStatus: token.deployment_status,
+  aurora_address: token.aurora_address,
+  ethereum_address: token.ethereum_address,
+  near_address: token.near_address,
   iconUrl: token.icon_url,
-  type: token.type,
-  bridge:
-    token.bridge_deployment_status === "NOT_DEPLOYED"
-      ? null
-      : {
-          deploymentStatus: token.bridge_deployment_status,
-          isFast: token.fast_bridge,
-          addresses: (token.bridge_addresses ?? []).map((bridgeAddress) => {
-            const [network, address] = bridgeAddress.split(":")
-
-            return {
-              network,
-              address,
-            }
-          }),
-          origin: token.bridge_origin,
-        },
+  isDeploymentPending: token.is_deployment_pending,
 })
 
 export const adaptSilo = (silo: Silo): SiloSchema => ({
@@ -94,3 +88,24 @@ export const adaptOracle = (oracle: AuroraOracle): OracleSchema => ({
   updatedAt: oracle.updated_at,
   address: oracle.contract?.address ?? null,
 })
+
+export const adaptSiloBridgedToken = (
+  siloId: number,
+  token: BridgedToken & {
+    silo_bridged_tokens: SiloBridgedTokenMetadata[]
+  },
+): SiloBridgedToken | null => {
+  const bridgedTokenMeta = token.silo_bridged_tokens.find(
+    (siloBridgedToken) => siloBridgedToken.silo_id === siloId,
+  )
+
+  // The token is not bridged for this silo
+  if (!bridgedTokenMeta) {
+    return null
+  }
+
+  return {
+    ...token,
+    is_deployment_pending: bridgedTokenMeta.is_deployment_pending,
+  }
+}

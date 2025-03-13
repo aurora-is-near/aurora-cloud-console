@@ -15,12 +15,18 @@ export const getSiloConfigTransactions = async (
   operation: SiloConfigTransactionOperation,
 ): Promise<SiloConfigTransaction[]> => {
   const supabase = createAdminSupabaseClient()
-  const result = await supabase
+  const query = supabase
     .from("silo_config_transactions")
     .select("*")
     .order("id", { ascending: true })
     .eq("silo_id", siloId)
     .eq("operation", operation)
+
+  if (operation) {
+    void query.eq("operation", operation)
+  }
+
+  const result = await query
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)

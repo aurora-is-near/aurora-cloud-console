@@ -3,8 +3,8 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { useCallback } from "react"
 import { Button } from "@/components/Button"
-import { useWidgetUrl } from "@/hooks/useWidgetUrl"
 import { ButtonSize, ButtonVariant } from "@/types/buttons"
+import { useWidget } from "@/hooks/useWidget"
 
 type UniversalWidgetOpenButtonProps = {
   siloId: number
@@ -21,7 +21,8 @@ export const UniversalWidgetOpenButton = ({
   variant,
   isExternal,
 }: UniversalWidgetOpenButtonProps) => {
-  const widgetUrl = useWidgetUrl(siloId)
+  const widget = useWidget(siloId)
+  const { widgetUrl } = widget ?? {}
 
   const onClick = useCallback(() => {
     if (!widgetUrl) {
