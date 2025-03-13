@@ -13,9 +13,15 @@ const STALLED_THRESHOLD = 60
 /**
  * Check that all of the expected default tokens were deployed.
  */
-const checkDefaultTokens = async (provider: JsonRpcProvider) => {
+const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
   const supportedTokens = await Promise.all(
-    DEFAULT_TOKENS.map(async (symbol) => checkTokenBySymbol(provider, symbol)),
+    DEFAULT_TOKENS.map(async (symbol) => {
+      if (silo.base_token_symbol === symbol) {
+        return true
+      }
+
+      return checkTokenBySymbol(provider, symbol)
+    }),
   )
 
   return DEFAULT_TOKENS.reduce<Record<DefaultToken, boolean>>(
@@ -105,7 +111,7 @@ export const healthcheck = async (silo: Silo) => {
 
   const [defaultTokensDeployed, bridgedTokensDeployed, latestBlock, network] =
     await Promise.all([
-      checkDefaultTokens(provider),
+      checkDefaultTokens(provider, silo),
       checkBridgedTokens(provider, silo),
       provider.getBlock("latest"),
       provider.getNetwork(),
