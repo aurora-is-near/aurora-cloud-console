@@ -150,7 +150,7 @@ export type Database = {
       }
       bridged_tokens: {
         Row: {
-          aurora_address: string
+          aurora_address: string | null
           created_at: string
           decimals: number
           ethereum_address: string | null
@@ -161,7 +161,7 @@ export type Database = {
           symbol: string
         }
         Insert: {
-          aurora_address: string
+          aurora_address?: string | null
           created_at?: string
           decimals: number
           ethereum_address?: string | null
@@ -172,7 +172,7 @@ export type Database = {
           symbol: string
         }
         Update: {
-          aurora_address?: string
+          aurora_address?: string | null
           created_at?: string
           decimals?: number
           ethereum_address?: string | null
@@ -1279,10 +1279,7 @@ export type Database = {
         | "DEPLOY_USDC"
         | "DEPLOY_NEAR"
         | "DEPLOY_ETH"
-        | "TOGGLE_MAKE_TXS_WHITELIST"
-        | "TOGGLE_DEPLOY_CONTRACT_WHITELIST"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
-      token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:
         | "onramp"
         | "oracle"
