@@ -59,7 +59,7 @@ export const PUT = createApiEndpoint(
     // 1. Get last transaction that tried to toggle a whitelist
     let previousTransaction = await getLastSiloConfigTransaction(
       silo.id,
-      whitelistKindToggleOperationMap[action],
+      whitelistKindToggleOperationMap[action](isEnabled),
     )
 
     // 2. If it has expired or was successful - consider current request as new
@@ -68,6 +68,11 @@ export const PUT = createApiEndpoint(
       previousTransaction.status === "FAILED" ||
       previousTransaction.status === "SUCCESSFUL"
     ) {
+      console.log('---1', {
+        siloEngineAccountId: silo.engine_account,
+        action: isEnabled ? "enable" : "disable",
+        whitelistKind: whitelistKindActionMap[action],
+      })
       const { tx_hash } = await contractChangerApiClient.toggleWhitelist({
         siloEngineAccountId: silo.engine_account,
         action: isEnabled ? "enable" : "disable",
@@ -91,7 +96,7 @@ export const PUT = createApiEndpoint(
       previousTransaction = await createSiloConfigTransaction({
         silo_id: silo.id,
         transaction_hash: tx_hash,
-        operation: whitelistKindToggleOperationMap[action],
+        operation: whitelistKindToggleOperationMap[action](isEnabled),
         status: "PENDING",
       })
 

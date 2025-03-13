@@ -13,10 +13,14 @@ export const whitelistKindActionMap: Record<SiloWhitelistType, WhitelistKind> =
 
 export const whitelistKindToggleOperationMap: Record<
   SiloWhitelistType,
-  SiloConfigTransactionOperation
+  (isEnabled: boolean) => Partial<SiloConfigTransactionOperation>
 > = {
-  MAKE_TRANSACTION: "TOGGLE_MAKE_TXS_WHITELIST",
-  DEPLOY_CONTRACT: "TOGGLE_DEPLOY_CONTRACT_WHITELIST",
+  MAKE_TRANSACTION: (isEnabled) =>
+    isEnabled ? "ENABLE_MAKE_TXS_WHITELIST" : "DISABLE_MAKE_TXS_WHITELIST",
+  DEPLOY_CONTRACT: (isEnabled) =>
+    isEnabled
+      ? "ENABLE_DEPLOY_CONTRACT_WHITELIST"
+      : "DISABLE_DEPLOY_CONTRACT_WHITELIST",
 }
 
 export const toggleSiloPermissionUpdateMap: Record<

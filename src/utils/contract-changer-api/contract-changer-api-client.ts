@@ -41,6 +41,7 @@ const request = async <T>(
   })
 
   if (!res.ok) {
+    console.log(res)
     throw new Error(`Contract Changer API call failed: ${res.status}`)
   }
 
