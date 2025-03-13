@@ -335,7 +335,9 @@ export const DELETE = createApiEndpoint(
       })
 
       // 4. Poll for the actual on chain tx status
-    } else if (transaction.status === "PENDING") {
+    }
+
+    if (transaction.status === "PENDING") {
       const txStatus = await checkPendingTransaction(transaction, silo)
 
       if (txStatus === "FAILED") {

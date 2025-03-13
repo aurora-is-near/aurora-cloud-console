@@ -35,7 +35,10 @@ export const createInsertOrUpdate = <T>(data?: T) => ({
   select: jest.fn(() => createSelect(data)),
 })
 
-export const createDelete = () => getBaseQueryFunctions()
+export const createDelete = <T>(data?: T) => ({
+  ...getBaseQueryFunctions(),
+  select: jest.fn(() => createSelect(data)),
+})
 
 const createTableClient = jest.fn(() => ({
   select: jest.fn(() => createSelect()),
