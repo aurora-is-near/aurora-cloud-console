@@ -55,8 +55,6 @@ export const SiloForm = ({
 }: SiloFormProps) => {
   const pathname = usePathname()
 
-  console.log('---1', teams, silosTeams)
-
   const submitHandler: SubmitHandler<Inputs> = async ({
     silos_teams,
     ...inputs

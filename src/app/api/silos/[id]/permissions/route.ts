@@ -68,11 +68,6 @@ export const PUT = createApiEndpoint(
       previousTransaction.status === "FAILED" ||
       previousTransaction.status === "SUCCESSFUL"
     ) {
-      console.log('---1', {
-        siloEngineAccountId: silo.engine_account,
-        action: isEnabled ? "enable" : "disable",
-        whitelistKind: whitelistKindActionMap[action],
-      })
       const { tx_hash } = await contractChangerApiClient.toggleWhitelist({
         siloEngineAccountId: silo.engine_account,
         action: isEnabled ? "enable" : "disable",
