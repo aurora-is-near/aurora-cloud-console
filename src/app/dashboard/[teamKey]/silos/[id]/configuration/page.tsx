@@ -4,6 +4,7 @@ import { sentenceCase } from "change-case"
 import Contact from "@/components/Contact"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
+import { getSiloWhitelist } from "@/actions/silo-whitelist/get-silo-whitelist"
 import { getRelayerAccount } from "@/utils/relayer"
 
 import {
@@ -23,6 +24,9 @@ const Page = async ({
   if (!silo) {
     notFound()
   }
+
+  const makeTxsWhitelist = await getSiloWhitelist(silo.id, "MAKE_TRANSACTION")
+  const deployTxsWhitelist = await getSiloWhitelist(silo.id, "DEPLOY_CONTRACT")
 
   const relayerAccount = getRelayerAccount(silo)
 
@@ -120,7 +124,13 @@ const Page = async ({
         ]}
       />
 
-      <EditPermissions silo={silo} />
+      <EditPermissions
+        silo={silo}
+        whitelists={{
+          MAKE_TRANSACTION: makeTxsWhitelist,
+          DEPLOY_CONTRACT: deployTxsWhitelist,
+        }}
+      />
 
       <div>
         <Contact text="Need help configuring your chain?" className="!mt-12" />

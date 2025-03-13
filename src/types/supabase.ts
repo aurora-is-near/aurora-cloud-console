@@ -813,6 +813,58 @@ export type Database = {
         }
         Relationships: []
       }
+      silo_whitelist_addresses: {
+        Row: {
+          add_tx_id: number | null
+          address: string
+          id: number
+          is_applied: boolean
+          list: Database["public"]["Enums"]["address_whitelist_type"]
+          remove_tx_id: number | null
+          silo_id: number
+        }
+        Insert: {
+          add_tx_id?: number | null
+          address: string
+          id?: number
+          is_applied?: boolean
+          list: Database["public"]["Enums"]["address_whitelist_type"]
+          remove_tx_id?: number | null
+          silo_id: number
+        }
+        Update: {
+          add_tx_id?: number | null
+          address?: string
+          id?: number
+          is_applied?: boolean
+          list?: Database["public"]["Enums"]["address_whitelist_type"]
+          remove_tx_id?: number | null
+          silo_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_addresses_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_whitelist_addresses_add_tx_id_fkey"
+            columns: ["add_tx_id"]
+            isOneToOne: false
+            referencedRelation: "silo_config_transactions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_whitelist_addresses_remove_tx_id_fkey"
+            columns: ["remove_tx_id"]
+            isOneToOne: false
+            referencedRelation: "silo_config_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       silos: {
         Row: {
           applied_deal_ids: number[]
@@ -845,8 +897,6 @@ export type Database = {
           silo_to_silo_bridge_address: string | null
           type: string
           updated_at: string
-          white_list_deploy_contract: string[]
-          whitelist_create_txs: string[] | null
         }
         Insert: {
           applied_deal_ids: number[]
@@ -879,8 +929,6 @@ export type Database = {
           silo_to_silo_bridge_address?: string | null
           type?: string
           updated_at?: string
-          white_list_deploy_contract?: string[]
-          whitelist_create_txs?: string[] | null
         }
         Update: {
           applied_deal_ids?: number[]
@@ -913,8 +961,6 @@ export type Database = {
           silo_to_silo_bridge_address?: string | null
           type?: string
           updated_at?: string
-          white_list_deploy_contract?: string[]
-          whitelist_create_txs?: string[] | null
         }
         Relationships: [
           {
@@ -961,6 +1007,9 @@ export type Database = {
           created_at: string
           id: number
           name: string
+          onboarding_status:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           prepaid_transactions: number
           team_key: string
           updated_at: string
@@ -969,6 +1018,9 @@ export type Database = {
           created_at?: string
           id?: number
           name: string
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           prepaid_transactions?: number
           team_key: string
           updated_at?: string
@@ -977,6 +1029,9 @@ export type Database = {
           created_at?: string
           id?: number
           name?: string
+          onboarding_status?:
+            | Database["public"]["Enums"]["team_onboarding_status"]
+            | null
           prepaid_transactions?: number
           team_key?: string
           updated_at?: string
@@ -1221,7 +1276,20 @@ export type Database = {
         | "DEPLOY_ETH"
         | "TOGGLE_MAKE_TXS_WHITELIST"
         | "TOGGLE_DEPLOY_CONTRACT_WHITELIST"
+        | "POPULATE_MAKE_TXS_WHITELIST"
+        | "POPULATE_DEPLOY_CONTRACT_WHITELIST"
+        | "PURGE_MAKE_TXS_WHITELIST"
+        | "PURGE_DEPLOY_CONTRACT_WHITELIST"
+        | "DEPLOY_AURORA"
+        | "DEPLOY_USDT"
+        | "DEPLOY_USDC"
+        | "DEPLOY_NEAR"
+        | "DEPLOY_ETH"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
+      team_onboarding_status:
+        | "REQUEST_RECEIVED"
+        | "DEPLOYMENT_IN_PROGRESS"
+        | "DEPLOYMENT_DONE"
       token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:
         | "onramp"

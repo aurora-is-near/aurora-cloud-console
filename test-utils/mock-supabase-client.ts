@@ -68,9 +68,10 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   silos_teams: createTableClient(),
   datadog_web3_monitors: createTableClient(),
   silo_config_transactions: createTableClient(),
+  silo_whitelist_addresses: createTableClient(),
   silo_relayers: createTableClient(),
-  bridged_tokens: createTableClient(),
   silo_bridged_tokens: createTableClient(),
+  bridged_tokens: createTableClient(),
   bridged_token_requests: createTableClient(),
   _prisma_migrations: createTableClient(),
 }

@@ -7,16 +7,25 @@ import { Button } from "@/uikit"
 import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
 import { useFeatureFlags } from "@/hooks/useFeatureFlags"
-import type { Silo, SiloWhitelistType } from "@/types/types"
+import type {
+  Silo,
+  SiloWhitelistAddress,
+  SiloWhitelistType,
+} from "@/types/types"
 
 import { ConfigurationItemsCard } from "./ConfigurationItemsCard"
 import { EditSiloPermissionsModal } from "./EditSiloPermissionsModal"
 
 type Props = {
   silo: Silo
+  whitelists: Record<SiloWhitelistType, SiloWhitelistAddress[]>
 }
 
-const useDisplayValue = (silo: Silo, whitelistType: SiloWhitelistType) => {
+const useDisplayValue = (
+  silo: Silo,
+  whitelistType: SiloWhitelistType,
+  whitelist: SiloWhitelistAddress[],
+) => {
   if (
     (whitelistType === "MAKE_TRANSACTION" && silo.is_make_txs_public) ||
     (whitelistType === "DEPLOY_CONTRACT" && silo.is_deploy_contracts_public)
@@ -24,10 +33,14 @@ const useDisplayValue = (silo: Silo, whitelistType: SiloWhitelistType) => {
     return "Allow everyone"
   }
 
-  return "Forbid everyone"
+  if (whitelist.length === 0) {
+    return "Forbid everyone"
+  }
+
+  return `${whitelist.length} whitelisted addresses`
 }
 
-export const EditPermissions = ({ silo }: Props) => {
+export const EditPermissions = ({ silo, whitelists }: Props) => {
   const { openModal } = useModals()
   const [currentModal, setCurrentModal] = useState<SiloWhitelistType | null>(
     null,
@@ -36,12 +49,25 @@ export const EditPermissions = ({ silo }: Props) => {
   const { flags } = useFeatureFlags()
   const isWhitelistsEditingEnabled = flags.silo_whitelist_permissions
 
-  const displayTxsWhitelistLabel = useDisplayValue(silo, "MAKE_TRANSACTION")
-  const displayDeployWhitelistLabel = useDisplayValue(silo, "DEPLOY_CONTRACT")
+  const displayTxsWhitelistLabel = useDisplayValue(
+    silo,
+    "MAKE_TRANSACTION",
+    whitelists.MAKE_TRANSACTION,
+  )
+
+  const displayDeployWhitelistLabel = useDisplayValue(
+    silo,
+    "DEPLOY_CONTRACT",
+    whitelists.DEPLOY_CONTRACT,
+  )
 
   return (
     <>
-      <EditSiloPermissionsModal silo={silo} whitelistType={currentModal} />
+      <EditSiloPermissionsModal
+        silo={silo}
+        whitelistType={currentModal}
+        addresses={currentModal ? whitelists[currentModal] : []}
+      />
 
       <ConfigurationItemsCard
         title="Permissions"
