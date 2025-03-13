@@ -139,6 +139,11 @@ const TransactionDataIntervalQueryParamSchema = z.string().optional().openapi({
 
 const ForwarderToken = z.string().openapi({ enum: [...FORWARDER_TOKENS] })
 
+const SiloWhitelistActionSchema = z.union([
+  z.literal("MAKE_TRANSACTION"),
+  z.literal("DEPLOY_CONTRACT"),
+])
+
 export const contract = c.router({
   getDeals: {
     summary: "Get all deals",
@@ -496,18 +501,58 @@ export const contract = c.router({
       200: z.object({
         status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
         isEnabled: z.boolean(),
-        action: z.union([
-          z.literal("MAKE_TRANSACTION"),
-          z.literal("DEPLOY_CONTRACT"),
-        ]),
+        action: SiloWhitelistActionSchema,
       }),
     },
     body: z.object({
       isEnabled: z.boolean(),
-      action: z.union([
-        z.literal("MAKE_TRANSACTION"),
-        z.literal("DEPLOY_CONTRACT"),
-      ]),
+      action: SiloWhitelistActionSchema,
+    }),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silo:write"],
+    },
+  },
+  addAddressToPermissionsWhitelist: {
+    summary:
+      "Add wallet address to whitelist to allow make transactions or deploy contracts",
+    method: "POST",
+    path: "/api/silos/:id/permissions",
+    responses: {
+      200: z.object({
+        status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
+        address: z.string(),
+        action: SiloWhitelistActionSchema,
+      }),
+    },
+    body: z.object({
+      address: z.string(),
+      action: SiloWhitelistActionSchema,
+    }),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silo:write"],
+    },
+  },
+  removeAddressFromPermissionsWhitelist: {
+    summary:
+      "Remove wallet address from whitelist to forbid make transactions or deploy contracts",
+    method: "DELETE",
+    path: "/api/silos/:id/permissions",
+    responses: {
+      200: z.object({
+        status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
+        address: z.string(),
+        action: SiloWhitelistActionSchema,
+      }),
+    },
+    body: z.object({
+      address: z.string(),
+      action: SiloWhitelistActionSchema,
     }),
     pathParams: z.object({
       id: z.number(),

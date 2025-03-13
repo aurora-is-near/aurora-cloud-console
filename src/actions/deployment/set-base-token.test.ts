@@ -1,4 +1,3 @@
-import { FinalExecutionOutcome } from "near-api-js/lib/providers"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { createMockSilo } from "../../../test-utils/factories/silo-factory"

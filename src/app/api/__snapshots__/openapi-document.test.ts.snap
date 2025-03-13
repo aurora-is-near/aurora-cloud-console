@@ -2018,6 +2018,182 @@ exports[`OpenAPI Document should be valid 1`] = `
       },
     },
     "/api/silos/{id}/permissions": {
+      "delete": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silo:write\`",
+        "operationId": "removeAddressFromPermissionsWhitelist",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "MAKE_TRANSACTION",
+                      "DEPLOY_CONTRACT",
+                    ],
+                    "type": "string",
+                  },
+                  "address": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "address",
+                  "action",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "MAKE_TRANSACTION",
+                        "DEPLOY_CONTRACT",
+                      ],
+                      "type": "string",
+                    },
+                    "address": {
+                      "type": "string",
+                    },
+                    "status": {
+                      "enum": [
+                        "PENDING",
+                        "SUCCESSFUL",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                    "address",
+                    "action",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silo:write",
+            ],
+          },
+        ],
+        "summary": "Remove wallet address from whitelist to forbid make transactions or deploy contracts",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silo:write\`",
+        "operationId": "addAddressToPermissionsWhitelist",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "MAKE_TRANSACTION",
+                      "DEPLOY_CONTRACT",
+                    ],
+                    "type": "string",
+                  },
+                  "address": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "address",
+                  "action",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "MAKE_TRANSACTION",
+                        "DEPLOY_CONTRACT",
+                      ],
+                      "type": "string",
+                    },
+                    "address": {
+                      "type": "string",
+                    },
+                    "status": {
+                      "enum": [
+                        "PENDING",
+                        "SUCCESSFUL",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                    "address",
+                    "action",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silo:write",
+            ],
+          },
+        ],
+        "summary": "Add wallet address to whitelist to allow make transactions or deploy contracts",
+        "tags": [
+          "silos",
+        ],
+      },
       "put": {
         "deprecated": undefined,
         "description": "**Required scopes:** \`silo:write\`",
