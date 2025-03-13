@@ -12,6 +12,7 @@ import {
 } from "../../../../../../test-utils/mock-supabase-client"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
 import { cleanUpNock } from "../../../../../../test-utils/cleanUpNock"
+import { createMockBridgedToken } from "../../../../../../test-utils/factories/bridged-token-factory"
 
 jest.mock("ethers")
 jest.mock("../../../../../utils/api", () => ({
@@ -29,13 +30,16 @@ describe("Healthcheck route", () => {
     mockSupabaseClient
       .from("silos")
       .select.mockImplementation(() => createSelect(mockSilo))
-
-    // Mock ethers provider
     ;(ethers.JsonRpcProvider as jest.Mock).mockImplementation(() => ({
       getBlock: jest
         .fn()
         .mockResolvedValue({ timestamp: Math.floor(Date.now() / 1000) }), // Current time
       getNetwork: jest.fn().mockResolvedValue({ chainId: mockSilo.chain_id }),
+    }))
+    ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+      symbol: () => {
+        throw new Error("Not implemented")
+      },
     }))
   })
 
@@ -48,7 +52,13 @@ describe("Healthcheck route", () => {
     expect(res.status).toBe(200)
     expect(res.body).toEqual({
       networkStatus: "ok",
-      defaultTokenContractsDeployed: expect.any(Object),
+      bridgedTokensDeployed: {},
+      defaultTokensDeployed: {
+        AURORA: false,
+        NEAR: false,
+        USDt: false,
+        USDC: false,
+      },
     })
   })
 
@@ -87,5 +97,97 @@ describe("Healthcheck route", () => {
     const res = await invokeApiHandler("GET", `/api/silos/1/healthcheck`, GET)
 
     expect(res.body).toMatchObject({ networkStatus: "invalid-network" })
+  })
+
+  it("checks for bridged token contracts", async () => {
+    const baseTokenSymbol = "PENDING_AND_SET_AS_BASE"
+    const silo = createMockSilo({
+      base_token_symbol: baseTokenSymbol,
+    })
+
+    const mockTokens = [
+      {
+        ...createMockBridgedToken({
+          symbol: "PENDING_AND_DEPLOYED",
+          aurora_address: "0x1",
+        }),
+        silo_bridged_tokens: [
+          { silo_id: silo.id, is_deployment_pending: true },
+        ],
+      },
+      {
+        ...createMockBridgedToken({
+          symbol: "PENDING_AND_NOT_DEPLOYED",
+          aurora_address: "0x2",
+        }),
+        silo_bridged_tokens: [
+          { silo_id: silo.id, is_deployment_pending: true },
+        ],
+      },
+      {
+        ...createMockBridgedToken({
+          symbol: baseTokenSymbol,
+          aurora_address: "0x3",
+        }),
+        silo_bridged_tokens: [
+          { silo_id: silo.id, is_deployment_pending: true },
+        ],
+      },
+      {
+        ...createMockBridgedToken({
+          symbol: "PENDING_AND_NOT_BASE_AND_NO_ADDRESS",
+          aurora_address: null,
+        }),
+        silo_bridged_tokens: [
+          { silo_id: silo.id, is_deployment_pending: true },
+        ],
+      },
+      {
+        ...createMockBridgedToken({
+          symbol: "NOT_PENDING",
+          aurora_address: null,
+        }),
+        silo_bridged_tokens: [
+          { silo_id: silo.id, is_deployment_pending: false },
+        ],
+      },
+    ]
+
+    mockSupabaseClient
+      .from("silos")
+      .select.mockImplementation(() => createSelect(silo))
+    ;(ethers.Contract as jest.Mock).mockImplementation(
+      (tokenContractAddress) => ({
+        symbol: () => {
+          if (tokenContractAddress === mockTokens[0].aurora_address) {
+            return mockTokens[0].symbol
+          }
+
+          throw new Error("Not implemented")
+        },
+      }),
+    )
+
+    mockSupabaseClient
+      .from("bridged_tokens")
+      .select.mockImplementation(() => createSelect(mockTokens))
+
+    const res = await invokeApiHandler(
+      "GET",
+      `/api/silos/${silo.id}/healthcheck`,
+      GET,
+    )
+
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        bridgedTokensDeployed: {
+          PENDING_AND_DEPLOYED: true,
+          PENDING_AND_NOT_DEPLOYED: false,
+          PENDING_AND_SET_AS_BASE: true,
+          PENDING_AND_NOT_BASE_AND_NO_ADDRESS: false,
+          NOT_PENDING: true,
+        },
+      }),
+    )
   })
 })
