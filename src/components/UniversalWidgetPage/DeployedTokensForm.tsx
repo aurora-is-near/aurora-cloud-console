@@ -89,7 +89,9 @@ const DeployedTokensForm = ({
     symbol: string
     isPending: boolean
   }[] => {
-    const bridgedSiloTokenIds = bridgedSiloTokens.map((token) => token.id)
+    const bridgedSiloTokenSymbols = bridgedSiloTokens.map(
+      (token) => token.symbol,
+    )
 
     return [
       ...bridgedSiloTokens.map((token) => ({
@@ -98,7 +100,7 @@ const DeployedTokensForm = ({
         isPending: token.isDeploymentPending,
       })),
       ...bridgedSiloTokenRequests
-        .filter((token) => !bridgedSiloTokenIds.includes(token.id))
+        .filter((token) => !bridgedSiloTokenSymbols.includes(token.symbol))
         .map((token) => ({
           id: token.id,
           symbol: token.symbol,

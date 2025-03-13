@@ -11,6 +11,7 @@ export const getBridgedTokenRequests = async (): Promise<
   const { data } = await supabase
     .from("bridged_token_requests")
     .select("*")
+    .is("resolved_at", null)
     .order("id", { ascending: true })
 
   return data ?? []

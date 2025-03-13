@@ -121,6 +121,7 @@ export type Database = {
           address: string
           created_at: string
           id: number
+          resolved_at: string | null
           silo_id: number
           symbol: string
         }
@@ -128,6 +129,7 @@ export type Database = {
           address: string
           created_at?: string
           id?: number
+          resolved_at?: string | null
           silo_id: number
           symbol: string
         }
@@ -135,6 +137,7 @@ export type Database = {
           address?: string
           created_at?: string
           id?: number
+          resolved_at?: string | null
           silo_id?: number
           symbol?: string
         }

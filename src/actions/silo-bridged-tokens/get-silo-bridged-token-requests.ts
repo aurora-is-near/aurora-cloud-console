@@ -11,6 +11,7 @@ export const getSiloBridgedTokenRequests = async (
     .from("bridged_token_requests")
     .select()
     .eq("silo_id", siloId)
+    .is("resolved_at", null)
     .order("id", { ascending: true })
 
   return data ?? []
