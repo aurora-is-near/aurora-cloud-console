@@ -13,7 +13,10 @@ const STALLED_THRESHOLD = 60
 /**
  * Check that all of the expected default tokens were deployed.
  */
-const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
+export const checkDefaultTokens = async (
+  provider: JsonRpcProvider,
+  silo: Silo,
+) => {
   const supportedTokens = await Promise.all(
     DEFAULT_TOKENS.map(async (symbol) => {
       if (silo.base_token_symbol === symbol) {

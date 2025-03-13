@@ -1,7 +1,8 @@
 import { NextRequest } from "next/server"
+import { JsonRpcProvider } from "ethers"
 import { createPrivateApiEndpoint } from "@/utils/api"
 import { getSilo } from "@/actions/silos/get-silo"
-import { healthcheck } from "@/utils/healthcheck"
+import { checkDefaultTokens } from "@/utils/healthcheck"
 import { deployDefaultTokens } from "@/actions/deployment/deploy-default-tokens"
 import { getAssignedSiloIds } from "@/actions/silos/get-assigned-silo-ids"
 
@@ -17,7 +18,8 @@ export const POST = createPrivateApiEndpoint(async (_req: NextRequest) => {
         throw new Error(`Silo with id ${siloId} not found`)
       }
 
-      const { defaultTokensDeployed } = await healthcheck(silo)
+      const provider = new JsonRpcProvider(silo.rpc_url)
+      const defaultTokensDeployed = await checkDefaultTokens(provider, silo)
 
       const needsDefaultTokensDeployed = Object.values(
         defaultTokensDeployed,
