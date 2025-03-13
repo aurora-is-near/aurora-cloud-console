@@ -3,7 +3,7 @@ import { formatDate } from "@/utils/helpers"
 import Table from "@/components/Table"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getBridgedTokenRequests } from "@/actions/bridged-tokens/get-bridged-token-requests"
-import { ResolveButton } from "@/app/admin/requests/ResolveButton"
+import { ResolveButton } from "@/app/admin/notifications/ResolveButton"
 import { resolveBridgedTokenRequest } from "@/actions/bridged-tokens/resolve-bridged-token-request"
 import TableButton from "@/components/TableButton"
 
@@ -11,7 +11,7 @@ const Page = async () => {
   const bridgedTokenRequests = await getBridgedTokenRequests()
 
   return (
-    <DashboardPage heading="Requests">
+    <DashboardPage heading="Notifications">
       <section>
         <Table>
           <Table.TH>ID</Table.TH>

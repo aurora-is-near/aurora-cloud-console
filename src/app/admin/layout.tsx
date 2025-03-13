@@ -1,10 +1,10 @@
 import { ReactNode } from "react"
 import {
+  BellAlertIcon,
   CircleStackIcon,
   CubeIcon,
   CurrencyDollarIcon,
   DocumentTextIcon,
-  ExclamationCircleIcon,
   FlagIcon,
   LinkIcon,
   UserGroupIcon,
@@ -71,9 +71,9 @@ const Layout = async ({ children }: { children: ReactNode }) => {
                 icon: <DocumentTextIcon />,
               },
               {
-                name: "Requests",
-                href: "/admin/requests",
-                icon: <ExclamationCircleIcon />,
+                name: "Notifications",
+                href: "/admin/notifications",
+                icon: <BellAlertIcon />,
               },
             ],
           },

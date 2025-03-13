@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getBridgedTokenRequest } from "@/actions/bridged-tokens/get-bridged-token-request"
 import { ConfigurationItemsCard } from "@/app/dashboard/[teamKey]/silos/[id]/configuration/ConfigurationItemsCard"
-import { ResolveButton } from "@/app/admin/requests/ResolveButton"
+import { ResolveButton } from "@/app/admin/notifications/ResolveButton"
 import { resolveBridgedTokenRequest } from "@/actions/bridged-tokens/resolve-bridged-token-request"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {
@@ -14,7 +14,7 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
 
   return (
     <DashboardPage
-      heading={["Requests", "Bridged tokens", String(id)]}
+      heading={["Notifications", "Bridged tokens", String(id)]}
       actions={
         <ResolveButton
           id={request.id}
