@@ -127,7 +127,7 @@ describe("Silo whitelist permissions", () => {
         mockSupabaseClient.from("silo_config_transactions").insert,
       ).toHaveBeenCalledWith({
         silo_id: mockSilo.id,
-        operation: "TOGGLE_MAKE_TXS_WHITELIST",
+        operation: "ENABLE_MAKE_TXS_WHITELIST",
         status: "PENDING",
         transaction_hash: "mock_tx_hash",
       })
@@ -173,7 +173,7 @@ describe("Silo whitelist permissions", () => {
         mockSupabaseClient.from("silo_config_transactions").insert,
       ).toHaveBeenCalledWith({
         silo_id: mockSilo.id,
-        operation: "TOGGLE_MAKE_TXS_WHITELIST",
+        operation: "ENABLE_MAKE_TXS_WHITELIST",
         status: "PENDING",
         transaction_hash: "mock_tx_hash",
       })
@@ -219,7 +219,7 @@ describe("Silo whitelist permissions", () => {
         mockSupabaseClient.from("silo_config_transactions").insert,
       ).toHaveBeenCalledWith({
         silo_id: mockSilo.id,
-        operation: "TOGGLE_MAKE_TXS_WHITELIST",
+        operation: "ENABLE_MAKE_TXS_WHITELIST",
         status: "PENDING",
         transaction_hash: "mock_tx_hash",
       })
