@@ -36,15 +36,17 @@ describe("Oracles route", () => {
 
   describe("GET", () => {
     it("returns a 404 for a non-existant silo", async () => {
-      await expect(async () =>
-        invokeApiHandler("GET", "/api/silos/1/oracle", GET),
-      ).rejects.toThrow("Not Found")
+      const res = await invokeApiHandler("GET", "/api/silos/1/oracle", GET)
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({ message: "Not Found" })
     })
 
     it("returns a 404 for a non-existant oracle", async () => {
-      await expect(async () =>
-        invokeApiHandler("GET", "/api/silos/1/oracle", GET),
-      ).rejects.toThrow("Not Found")
+      const res = await invokeApiHandler("GET", "/api/silos/1/oracle", GET)
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({ message: "Not Found" })
     })
 
     it("returns an enabled oracle", async () => {
@@ -105,9 +107,10 @@ describe("Oracles route", () => {
 
   describe("POST", () => {
     it("returns a 404 for a non-existant silo", async () => {
-      await expect(async () =>
-        invokeApiHandler("POST", "/api/silos/1/oracle", POST),
-      ).rejects.toThrow("Not Found")
+      const res = await invokeApiHandler("POST", "/api/silos/1/oracle", POST)
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({ message: "Not Found" })
     })
 
     it("returns a 400 if the oracle already exists", async () => {
@@ -121,13 +124,10 @@ describe("Oracles route", () => {
 
       let error
 
-      try {
-        await invokeApiHandler("POST", "/api/silos/1/oracle", POST)
-      } catch (e) {
-        error = e
-      }
+      const res = await invokeApiHandler("POST", "/api/silos/1/oracle", POST)
 
-      expect(error).toBeDefined()
+      expect(res.status).toBe(400)
+      expect(res.body).toEqual({ message: "Oracle already exists" })
     })
 
     it("creates an oracle", async () => {

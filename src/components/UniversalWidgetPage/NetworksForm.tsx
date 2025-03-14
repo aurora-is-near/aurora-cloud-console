@@ -1,13 +1,15 @@
-import { SubmitHandler, useForm } from "react-hook-form"
+"use client"
+
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
 import { useCallback, useEffect } from "react"
 import { useMutation } from "@tanstack/react-query"
 import toast from "react-hot-toast"
-import clsx from "clsx"
 import { apiClient } from "@/utils/api/client"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { Network } from "@/hooks/useWidgetNetworks"
 import { WidgetNetworkType } from "@/types/types"
 import { isValidNetwork } from "@/utils/widget"
+import { Checkbox } from "@/components/Checkbox"
 
 type Inputs = Partial<Record<WidgetNetworkType, boolean>>
 
@@ -24,13 +26,13 @@ const NetworksForm = ({
   networks,
   availableNetworks,
 }: NetworksFormProps) => {
+  const methods = useForm<Inputs>()
   const {
     register,
     setValue,
-    getValues,
     formState: { isSubmitting },
     watch,
-  } = useForm<Inputs>()
+  } = methods
 
   const getWidgetUpdater = useOptimisticUpdater("getWidget")
 
@@ -91,51 +93,20 @@ const NetworksForm = ({
   }, [watch, submit])
 
   return (
-    <form>
-      <div>
-        <div className="flex flex-col space-y-2">
-          {availableNetworks.map((network) => (
-            <div
-              key={network.key}
-              className={clsx(
-                "rounded-md ring-1",
-                getValues(network.key)
-                  ? "ring-green-600 bg-green-50"
-                  : "ring-slate-200",
-              )}
-            >
-              <label
-                htmlFor={`${type}-${network.key}`}
-                className="flex items-start w-full cursor-pointer p-3"
-              >
-                <div className="flex items-center h-6">
-                  <input
-                    disabled={isPending || isSubmitting}
-                    id={`${type}-${network.key}`}
-                    type="checkbox"
-                    className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600"
-                    {...register(network.key)}
-                  />
-                </div>
-                <span className="ml-3 text-sm leading-6 text-gray-900">
-                  {network.label}
-                </span>
-              </label>
-            </div>
-          ))}
-          {/* DESIGN NOT YET COMPLETED
-          <Button
-            variant="border"
-            className="!p-6 !bg-slate-50 !border-slate-200"
-          >
-            <div className="flex flex-row gap-2">
-              <PlusIcon className="w-4 h-4" />
-              <span>Add network</span>
-            </div>
-          </Button> */}
-        </div>
+    <FormProvider {...methods}>
+      <div className="flex flex-col space-y-2">
+        {availableNetworks.map((network) => (
+          <Checkbox
+            key={network.key}
+            id={`${type}-${network.key}`}
+            name={network.key}
+            label={network.label}
+            register={register}
+            disabled={isPending || isSubmitting}
+          />
+        ))}
       </div>
-    </form>
+    </FormProvider>
   )
 }
 

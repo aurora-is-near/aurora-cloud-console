@@ -9,6 +9,39 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      _prisma_migrations: {
+        Row: {
+          applied_steps_count: number
+          checksum: string
+          finished_at: string | null
+          id: string
+          logs: string | null
+          migration_name: string
+          rolled_back_at: string | null
+          started_at: string
+        }
+        Insert: {
+          applied_steps_count?: number
+          checksum: string
+          finished_at?: string | null
+          id: string
+          logs?: string | null
+          migration_name: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+        Update: {
+          applied_steps_count?: number
+          checksum?: string
+          finished_at?: string | null
+          id?: string
+          logs?: string | null
+          migration_name?: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+        Relationships: []
+      }
       api_keys: {
         Row: {
           created_at: string
@@ -80,6 +113,128 @@ export type Database = {
           port?: number
           updated_at?: string
           user?: string
+        }
+        Relationships: []
+      }
+      bridged_token_requests: {
+        Row: {
+          address: string
+          created_at: string
+          id: number
+          resolved_at: string | null
+          silo_id: number
+          symbol: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          id?: number
+          resolved_at?: string | null
+          silo_id: number
+          symbol: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          id?: number
+          resolved_at?: string | null
+          silo_id?: number
+          symbol?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bridged_token_requests_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bridged_tokens: {
+        Row: {
+          aurora_address: string | null
+          created_at: string
+          decimals: number
+          ethereum_address: string | null
+          icon_url: string | null
+          id: number
+          name: string
+          near_address: string | null
+          symbol: string
+        }
+        Insert: {
+          aurora_address?: string | null
+          created_at?: string
+          decimals: number
+          ethereum_address?: string | null
+          icon_url?: string | null
+          id?: number
+          name: string
+          near_address?: string | null
+          symbol: string
+        }
+        Update: {
+          aurora_address?: string | null
+          created_at?: string
+          decimals?: number
+          ethereum_address?: string | null
+          icon_url?: string | null
+          id?: number
+          name?: string
+          near_address?: string | null
+          symbol?: string
+        }
+        Relationships: []
+      }
+      datadog_web3_monitors: {
+        Row: {
+          created_at: string | null
+          datadog_id: number | null
+          engine_account: string | null
+          id: number
+          key: string
+          name: string
+          need_remove: boolean | null
+          need_update: boolean | null
+          removed: boolean | null
+          silo_chain_id: number | null
+          silo_name: string | null
+          silo_rpc_url: string | null
+          template_key: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          datadog_id?: number | null
+          engine_account?: string | null
+          id?: number
+          key: string
+          name: string
+          need_remove?: boolean | null
+          need_update?: boolean | null
+          removed?: boolean | null
+          silo_chain_id?: number | null
+          silo_name?: string | null
+          silo_rpc_url?: string | null
+          template_key: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          datadog_id?: number | null
+          engine_account?: string | null
+          id?: number
+          key?: string
+          name?: string
+          need_remove?: boolean | null
+          need_update?: boolean | null
+          removed?: boolean | null
+          silo_chain_id?: number | null
+          silo_name?: string | null
+          silo_rpc_url?: string | null
+          template_key?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -183,77 +338,58 @@ export type Database = {
           },
         ]
       }
-      lists: {
-        Row: {
-          created_at: string
-          id: number
-          name: string
-          team_id: number
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          name: string
-          team_id: number
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          name?: string
-          team_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "lists_team_id_fkey"
-            columns: ["team_id"]
-            isOneToOne: false
-            referencedRelation: "teams"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       onboarding_form: {
         Row: {
-          baseToken: string | null
-          chainId: string | null
+          baseToken: Database["public"]["Enums"]["base_token_symbol"]
           chainName: string | null
-          chainPermission: string | null
+          chainPermission:
+            | Database["public"]["Enums"]["chain_permission"]
+            | null
           comments: string | null
           created_at: string
           customTokenDetails: string | null
-          gasMechanics: string | null
+          gasMechanics: Database["public"]["Enums"]["gas_mechanics"] | null
           id: number
-          integrations: string[] | null
-          networkType: string | null
+          integrations: Database["public"]["Enums"]["user_integration"][] | null
+          networkType: Database["public"]["Enums"]["network_type"] | null
           team_id: number | null
+          telegramHandle: string | null
         }
         Insert: {
-          baseToken?: string | null
-          chainId?: string | null
+          baseToken: Database["public"]["Enums"]["base_token_symbol"]
           chainName?: string | null
-          chainPermission?: string | null
+          chainPermission?:
+            | Database["public"]["Enums"]["chain_permission"]
+            | null
           comments?: string | null
           created_at?: string
           customTokenDetails?: string | null
-          gasMechanics?: string | null
+          gasMechanics?: Database["public"]["Enums"]["gas_mechanics"] | null
           id?: number
-          integrations?: string[] | null
-          networkType?: string | null
+          integrations?:
+            | Database["public"]["Enums"]["user_integration"][]
+            | null
+          networkType?: Database["public"]["Enums"]["network_type"] | null
           team_id?: number | null
+          telegramHandle?: string | null
         }
         Update: {
-          baseToken?: string | null
-          chainId?: string | null
+          baseToken?: Database["public"]["Enums"]["base_token_symbol"]
           chainName?: string | null
-          chainPermission?: string | null
+          chainPermission?:
+            | Database["public"]["Enums"]["chain_permission"]
+            | null
           comments?: string | null
           created_at?: string
           customTokenDetails?: string | null
-          gasMechanics?: string | null
+          gasMechanics?: Database["public"]["Enums"]["gas_mechanics"] | null
           id?: number
-          integrations?: string[] | null
-          networkType?: string | null
+          integrations?:
+            | Database["public"]["Enums"]["user_integration"][]
+            | null
+          networkType?: Database["public"]["Enums"]["network_type"] | null
           team_id?: number | null
+          telegramHandle?: string | null
         }
         Relationships: [
           {
@@ -492,29 +628,38 @@ export type Database = {
       }
       rules: {
         Row: {
+          chains: number[]
+          contracts: string[]
           created_at: string
           deal_id: number
           deleted_at: string | null
+          except_chains: number[]
+          except_contracts: string[]
           id: number
-          resource_definition: Json
           ui_enabled: boolean
           updated_at: string
         }
         Insert: {
+          chains: number[]
+          contracts: string[]
           created_at?: string
           deal_id: number
           deleted_at?: string | null
+          except_chains: number[]
+          except_contracts: string[]
           id?: number
-          resource_definition: Json
           ui_enabled?: boolean
           updated_at?: string
         }
         Update: {
+          chains?: number[]
+          contracts?: string[]
           created_at?: string
           deal_id?: number
           deleted_at?: string | null
+          except_chains?: number[]
+          except_contracts?: string[]
           id?: number
-          resource_definition?: Json
           ui_enabled?: boolean
           updated_at?: string
         }
@@ -573,22 +718,185 @@ export type Database = {
           },
         ]
       }
+      silo_bridged_tokens: {
+        Row: {
+          bridged_token_id: number
+          is_deployment_pending: boolean
+          silo_id: number
+        }
+        Insert: {
+          bridged_token_id: number
+          is_deployment_pending?: boolean
+          silo_id?: number
+        }
+        Update: {
+          bridged_token_id?: number
+          is_deployment_pending?: boolean
+          silo_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_bridged_tokens_bridged_token_id_fkey"
+            columns: ["bridged_token_id"]
+            isOneToOne: false
+            referencedRelation: "bridged_tokens"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_bridged_tokens_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      silo_config_transactions: {
+        Row: {
+          created_at: string
+          id: number
+          operation:
+            | Database["public"]["Enums"]["silo_config_transaction_operation"]
+            | null
+          silo_id: number
+          status: Database["public"]["Enums"]["silo_config_transaction_status"]
+          transaction_hash: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          operation?:
+            | Database["public"]["Enums"]["silo_config_transaction_operation"]
+            | null
+          silo_id: number
+          status?: Database["public"]["Enums"]["silo_config_transaction_status"]
+          transaction_hash: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          operation?:
+            | Database["public"]["Enums"]["silo_config_transaction_operation"]
+            | null
+          silo_id?: number
+          status?: Database["public"]["Enums"]["silo_config_transaction_status"]
+          transaction_hash?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_config_transactions_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      silo_relayers: {
+        Row: {
+          account_id: string
+          id: number
+          inserted_at: string
+          replenish_amount: number
+          replenish_threshold: number
+          type: Database["public"]["Enums"]["account_type"]
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          id?: number
+          inserted_at?: string
+          replenish_amount: number
+          replenish_threshold: number
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          id?: number
+          inserted_at?: string
+          replenish_amount?: number
+          replenish_threshold?: number
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      silo_whitelist_addresses: {
+        Row: {
+          add_tx_id: number | null
+          address: string
+          id: number
+          is_applied: boolean
+          list: Database["public"]["Enums"]["address_whitelist_type"]
+          remove_tx_id: number | null
+          silo_id: number
+        }
+        Insert: {
+          add_tx_id?: number | null
+          address: string
+          id?: number
+          is_applied?: boolean
+          list: Database["public"]["Enums"]["address_whitelist_type"]
+          remove_tx_id?: number | null
+          silo_id: number
+        }
+        Update: {
+          add_tx_id?: number | null
+          address?: string
+          id?: number
+          is_applied?: boolean
+          list?: Database["public"]["Enums"]["address_whitelist_type"]
+          remove_tx_id?: number | null
+          silo_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_addresses_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_whitelist_addresses_add_tx_id_fkey"
+            columns: ["add_tx_id"]
+            isOneToOne: false
+            referencedRelation: "silo_config_transactions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "silo_whitelist_addresses_remove_tx_id_fkey"
+            columns: ["remove_tx_id"]
+            isOneToOne: false
+            referencedRelation: "silo_config_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       silos: {
         Row: {
+          applied_deal_ids: number[]
+          base_token_decimals: number
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id: number | null
-          chain_id: string
+          chain_id: number
           created_at: string
+          deleted_at: string | null
           engine_account: string
           engine_version: string
           explorer_url: string | null
           favicon: string
           gas_collection_address: string | null
-          gas_price: number | null
+          gas_price: number
           genesis: string
           grafana_network_key: string | null
           id: number
+          intents_integration_status: Database["public"]["Enums"]["request_status"]
+          is_active: boolean
+          is_deploy_contracts_public: boolean
+          is_make_txs_public: boolean
           name: string
           network: string
           network_logo: string
@@ -596,24 +904,32 @@ export type Database = {
           replenish_amount: number
           replenish_threshold: number
           rpc_url: string
+          silo_to_silo_bridge_address: string | null
           type: string
           updated_at: string
         }
         Insert: {
+          applied_deal_ids: number[]
+          base_token_decimals?: number
           base_token_name: string
           base_token_symbol: string
           blockscout_database_id?: number | null
-          chain_id: string
+          chain_id: number
           created_at?: string
+          deleted_at?: string | null
           engine_account: string
           engine_version: string
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: number | null
+          gas_price?: number
           genesis: string
           grafana_network_key?: string | null
           id?: number
+          intents_integration_status?: Database["public"]["Enums"]["request_status"]
+          is_active?: boolean
+          is_deploy_contracts_public?: boolean
+          is_make_txs_public?: boolean
           name: string
           network?: string
           network_logo?: string
@@ -621,24 +937,32 @@ export type Database = {
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
+          silo_to_silo_bridge_address?: string | null
           type?: string
           updated_at?: string
         }
         Update: {
+          applied_deal_ids?: number[]
+          base_token_decimals?: number
           base_token_name?: string
           base_token_symbol?: string
           blockscout_database_id?: number | null
-          chain_id?: string
+          chain_id?: number
           created_at?: string
+          deleted_at?: string | null
           engine_account?: string
           engine_version?: string
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: number | null
+          gas_price?: number
           genesis?: string
           grafana_network_key?: string | null
           id?: number
+          intents_integration_status?: Database["public"]["Enums"]["request_status"]
+          is_active?: boolean
+          is_deploy_contracts_public?: boolean
+          is_make_txs_public?: boolean
           name?: string
           network?: string
           network_logo?: string
@@ -646,6 +970,7 @@ export type Database = {
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
+          silo_to_silo_bridge_address?: string | null
           type?: string
           updated_at?: string
         }
@@ -692,103 +1017,29 @@ export type Database = {
       teams: {
         Row: {
           created_at: string
-          email: string | null
           id: number
           name: string
-          onboarding_status:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions: number
           team_key: string
           updated_at: string
-          website: string | null
         }
         Insert: {
           created_at?: string
-          email?: string | null
           id?: number
           name: string
-          onboarding_status?:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions?: number
           team_key: string
           updated_at?: string
-          website?: string | null
         }
         Update: {
           created_at?: string
-          email?: string | null
           id?: number
           name?: string
-          onboarding_status?:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions?: number
           team_key?: string
           updated_at?: string
-          website?: string | null
         }
         Relationships: []
-      }
-      tokens: {
-        Row: {
-          address: string
-          bridge_addresses: string[] | null
-          bridge_deployment_status: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin: string | null
-          created_at: string
-          decimals: number | null
-          deployment_status: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge: boolean
-          icon_url: string | null
-          id: number
-          name: string | null
-          silo_id: number
-          symbol: string
-          type: Database["public"]["Enums"]["token_type"] | null
-        }
-        Insert: {
-          address: string
-          bridge_addresses?: string[] | null
-          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin?: string | null
-          created_at?: string
-          decimals?: number | null
-          deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge?: boolean
-          icon_url?: string | null
-          id?: number
-          name?: string | null
-          silo_id: number
-          symbol: string
-          type?: Database["public"]["Enums"]["token_type"] | null
-        }
-        Update: {
-          address?: string
-          bridge_addresses?: string[] | null
-          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin?: string | null
-          created_at?: string
-          decimals?: number | null
-          deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge?: boolean
-          icon_url?: string | null
-          id?: number
-          name?: string | null
-          silo_id?: number
-          symbol?: string
-          type?: Database["public"]["Enums"]["token_type"] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "tokens_silo_id_fkey"
-            columns: ["silo_id"]
-            isOneToOne: false
-            referencedRelation: "silos"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       userlists: {
         Row: {
@@ -980,6 +1231,8 @@ export type Database = {
       }
     }
     Enums: {
+      account_type: "contract" | "wallet"
+      address_whitelist_type: "DEPLOY_CONTRACT" | "MAKE_TRANSACTION"
       api_key_scopes:
         | "deals:read"
         | "deals:write"
@@ -994,10 +1247,21 @@ export type Database = {
         | "payments:read"
         | "payments:write"
         | "assets:write"
+      base_token_symbol:
+        | "AURORA"
+        | "BTC"
+        | "ETH"
+        | "USDC"
+        | "USDT"
+        | "WNEAR"
+        | "CUSTOM"
+      chain_permission: "public" | "public_permissioned" | "private"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
+      gas_mechanics: "usage" | "free" | "custom"
       limit_scope: "USER" | "GLOBAL"
       limit_type: "CYCLIC" | "RATELIMIT"
+      network_type: "devnet" | "mainnet"
       order_type: "initial_setup" | "top_up"
       payment_status:
         | "PAID"
@@ -1006,11 +1270,37 @@ export type Database = {
         | "paid"
         | "unpaid"
         | "no_payment_required"
-      team_onboarding_status:
-        | "REQUEST_RECEIVED"
-        | "DEPLOYMENT_IN_PROGRESS"
-        | "DEPLOYMENT_DONE"
-      token_type: "ERC20" | "ERC721" | "ERC1155"
+      request_status:
+        | "INITIAL"
+        | "REQUESTED"
+        | "COMPLETED"
+        | "PENDING"
+        | "APPROVED"
+        | "REJECTED"
+      silo_config_transaction_operation:
+        | "SET_BASE_TOKEN"
+        | "ENABLE_MAKE_TXS_WHITELIST"
+        | "DISABLE_MAKE_TXS_WHITELIST"
+        | "ENABLE_DEPLOY_CONTRACT_WHITELIST"
+        | "DISABLE_DEPLOY_CONTRACT_WHITELIST"
+        | "POPULATE_MAKE_TXS_WHITELIST"
+        | "POPULATE_DEPLOY_CONTRACT_WHITELIST"
+        | "PURGE_MAKE_TXS_WHITELIST"
+        | "PURGE_DEPLOY_CONTRACT_WHITELIST"
+        | "DEPLOY_AURORA"
+        | "DEPLOY_USDT"
+        | "DEPLOY_USDC"
+        | "DEPLOY_NEAR"
+        | "DEPLOY_ETH"
+      silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
+      user_integration:
+        | "onramp"
+        | "oracle"
+        | "bridge_widget"
+        | "cex_withdrawals_widget"
+        | "block_explorer"
+        | "intense_support"
+        | "dex"
       user_type: "customer" | "admin"
       widget_network_type: "AURORA" | "NEAR" | "ETHEREUM" | "CUSTOM"
     }

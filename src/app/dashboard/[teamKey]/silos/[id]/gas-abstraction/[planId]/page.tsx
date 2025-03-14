@@ -2,14 +2,13 @@ import { notFound } from "next/navigation"
 import Contact from "@/components/Contact"
 import { getTeamDealByKey } from "@/actions/team-deals/get-team-deal-by-key"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
-import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
 import { getRules } from "@/actions/rules/get-rules"
 import { createRule } from "@/actions/rules/create-rule"
 import { RuleProvider } from "@/providers/RuleProvider"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { RuleResourceDefinition } from "@/types/types"
 import { getUiLimits } from "@/actions/limits/get-ui-limits"
 import { createDefaultLimits } from "@/actions/limits/create-default-limits"
+import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
 import { DealUpdatePage } from "./DealUpdatePage"
@@ -33,18 +32,16 @@ const Page = async ({
     notFound()
   }
 
-  const userlistRuleDefinition: RuleResourceDefinition = {
-    chains: silo.chain_id,
-    contracts: [],
-  }
-
   let userlistRule = rules?.data.find((r) => r.ui_enabled)
 
   if (!userlistRule) {
     userlistRule = await createRule({
       rule: {
         deal_id: dealId,
-        resource_definition: userlistRuleDefinition,
+        chains: [silo.chain_id],
+        except_chains: [],
+        contracts: [],
+        except_contracts: [],
       },
       team_id: team.id,
     })
@@ -66,13 +63,13 @@ const Page = async ({
   }
 
   return (
-    <DealUpdatePage deal={deal}>
+    <DealUpdatePage deal={deal} siloId={siloId}>
       <RuleProvider team={team} initialRule={userlistRule}>
         <UsersConfigurationCard deal={deal} />
         <ContractsCard silo={silo} />
       </RuleProvider>
       <RulesCard deal={deal} />
-      <Contact teamKey={teamKey} />
+      <Contact />
     </DealUpdatePage>
   )
 }

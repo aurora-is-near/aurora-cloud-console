@@ -10,9 +10,14 @@ import { DeletePlanButton } from "./DeletePlanButton"
 type DealUpdatePageProps = {
   children: ReactNode
   deal: Deal
+  siloId: number
 }
 
-export const DealUpdatePage = ({ children, deal }: DealUpdatePageProps) => {
+export const DealUpdatePage = ({
+  children,
+  deal,
+  siloId,
+}: DealUpdatePageProps) => {
   return (
     <DashboardPage
       isForm
@@ -23,7 +28,7 @@ export const DealUpdatePage = ({ children, deal }: DealUpdatePageProps) => {
             View API
             <ArrowTopRightOnSquareIcon className="w-4 h-4" />
           </LinkButton>
-          <DeletePlanButton dealId={deal.id} />
+          <DeletePlanButton dealId={deal.id} siloId={siloId} />
         </div>
       }
     >

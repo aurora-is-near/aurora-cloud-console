@@ -168,7 +168,7 @@ invite other users to the team.
 
 The `DEBUG` environment variable can be used to enable various namespaced debug
 logs. For example, to view logs of all Proxy API requests and responses you can
-add `DEBUG=proxy-api` to your local environment variables.
+add `DEBUG=coingecko` to your local environment variables.
 
 This functionality is enabled via the [debug](https://www.npmjs.com/package/debug)
 package. At the time of writing the available namespaces can be found in the
@@ -240,13 +240,3 @@ Trigger events with the CLI:
 ```text
 stripe trigger checkout.session.completed
 ```
-
-## Emails
-
-Certain emails are sent to users from [Postmark](https://postmarkapp.com/), such
-as those received when a new chain is paid for. To make the HTML email templates
-easier to develop they can be previewed by visiting:
-
-- <http://localhost:3000/emails/requestReceived>
-- <http://localhost:3000/emails/deploymentInProgress>
-- <http://localhost:3000/emails/deploymentDone>

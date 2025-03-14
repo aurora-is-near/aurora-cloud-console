@@ -14,10 +14,10 @@ type Props = {
   title: string
   Icon: JSX.Element
   description: string | JSX.Element
-  link?: PassedLinkProps & { label: string } & (
-      | { isDisabled: true; url?: string | null }
-      | { isDisabled?: false; url: string }
-    )
+  link?: PassedLinkProps & {
+    label: string
+    url?: string | null
+  }
 }
 
 export const Banner = ({ variant, Icon, title, description, link }: Props) => (
@@ -41,9 +41,9 @@ export const Banner = ({ variant, Icon, title, description, link }: Props) => (
     </div>
     {link && (
       <LinkButton
-        size="lg"
+        size="md"
         variant={variant === "cta" ? "primary" : "border"}
-        href={link.isDisabled ? (link.url ?? "") : link.url}
+        href={link.url ?? "#"}
         {...link}
       >
         {link.label}

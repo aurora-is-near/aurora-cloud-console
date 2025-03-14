@@ -9,6 +9,7 @@ import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
 import { NotAvailableBadge } from "@/components/NotAvailableBadge"
 
+import { BlockExplorerConfigurationTab } from "./BlockExplorerConfigurationTab"
 import { Blockscout } from "../../../public/static/v2/images/icons"
 
 type BlockExplorerPageProps = {
@@ -16,19 +17,61 @@ type BlockExplorerPageProps = {
 }
 
 export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
+  const tabs = [
+    {
+      title: "About",
+      content: (
+        <TabCard
+          attribution={{
+            icon: <Blockscout />,
+            text: "Powered by Blockscout",
+          }}
+        >
+          <div className="flex flex-col gap-2 text-slate-500">
+            <p>
+              Each Virtual Chain is equipped with its own dedicated Block
+              Explorer, providing users with a transparent view of all on-chain
+              activity. The Block Explorer allows users to search for
+              transactions, view wallet addresses, track token transfers, and
+              monitor smart contracts, ensuring full visibility into the
+              blockchain’s operations.
+            </p>
+            <p>
+              Powered by Blockscout, a trusted and open-source solution, the
+              Block Explorer offers a user-friendly interface, detailed
+              analytics, and real-time updates. This tool enhances the
+              accessibility and transparency of your Virtual Chain, making it
+              easier for developers and users to interact with the network and
+              verify transactions.
+            </p>
+          </div>
+        </TabCard>
+      ),
+    },
+  ]
+
+  if (silo) {
+    tabs.push({
+      title: "Configuration",
+      content: <BlockExplorerConfigurationTab silo={silo} />,
+    })
+  }
+
   return (
     <DashboardPage>
       <Hero
-        title="Block Explorer"
-        description="Access a dedicated blockchain explorer for real-time transaction and contract tracking on your chain."
-        titlePrefix={
-          <Image
-            width="48"
-            height="48"
-            src="/static/v2/images/icons/marketplace/block_explorer.svg"
-            alt="Block Explorer Logo"
-          />
+        title={
+          <>
+            <Image
+              width="48"
+              height="48"
+              src="/static/v2/images/icons/marketplace/block_explorer.svg"
+              alt="Block Explorer Logo"
+            />
+            Block Explorer
+          </>
         }
+        description="Access a dedicated blockchain explorer for real-time transaction and contract tracking on your chain."
         image={
           <Image
             width="400"
@@ -37,63 +80,27 @@ export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
             alt="Block Explorer Preview"
           />
         }
-        actions={
-          <>
-            {!silo && (
-              <NotAvailableBadge>
-                Available with your Virtual Chain
-              </NotAvailableBadge>
-            )}
+      >
+        {!silo && (
+          <NotAvailableBadge>
+            Available with your Virtual Chain
+          </NotAvailableBadge>
+        )}
 
-            {!!silo?.explorer_url && (
-              <LinkButton
-                isExternal
-                variant="border"
-                href={silo.explorer_url}
-                size="lg"
-              >
-                <span>Open the explorer</span>
-                <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-              </LinkButton>
-            )}
-          </>
-        }
-      />
+        {!!silo?.explorer_url && (
+          <LinkButton
+            isExternal
+            variant="border"
+            href={silo.explorer_url}
+            size="lg"
+          >
+            <span>Open the explorer</span>
+            <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+          </LinkButton>
+        )}
+      </Hero>
 
-      <Tabs
-        tabs={[
-          {
-            title: "About",
-            content: (
-              <TabCard
-                attribution={{
-                  icon: <Blockscout />,
-                  text: "Powered by Blockscout",
-                }}
-              >
-                <div className="flex flex-col gap-2 text-slate-500">
-                  <p>
-                    Each Virtual Chain is equipped with its own dedicated Block
-                    Explorer, providing users with a transparent view of all
-                    on-chain activity. The Block Explorer allows users to search
-                    for transactions, view wallet addresses, track token
-                    transfers, and monitor smart contracts, ensuring full
-                    visibility into the blockchain’s operations.
-                  </p>
-                  <p>
-                    Powered by Blockscout, a trusted and open-source solution,
-                    the Block Explorer offers a user-friendly interface,
-                    detailed analytics, and real-time updates. This tool
-                    enhances the accessibility and transparency of your Virtual
-                    Chain, making it easier for developers and users to interact
-                    with the network and verify transactions.
-                  </p>
-                </div>
-              </TabCard>
-            ),
-          },
-        ]}
-      />
+      <Tabs tabs={tabs} />
     </DashboardPage>
   )
 }

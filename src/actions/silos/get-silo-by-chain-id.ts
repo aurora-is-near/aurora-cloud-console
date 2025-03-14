@@ -4,7 +4,7 @@ import { Silo } from "@/types/types"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
 export const getSiloByChainId = async (
-  chainId: string,
+  chainId: number,
 ): Promise<Silo | null> => {
   const supabase = createAdminSupabaseClient()
 
@@ -12,6 +12,7 @@ export const getSiloByChainId = async (
     .from("silos")
     .select("*")
     .eq("chain_id", chainId)
+    .is("deleted_at", null)
     .maybeSingle()
 
   return silo

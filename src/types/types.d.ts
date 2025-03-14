@@ -24,6 +24,11 @@ export type TeamMember = {
   isPending: boolean
 }
 
+export type TeamSummary = Pick<Team, "id" | "name" | "team_key"> & {
+  user_ids: number[]
+  silo_ids: number[]
+}
+
 export type TableName = keyof Database["public"]["Tables"]
 
 export type Tables<T extends TableName> = Database["public"]["Tables"][T]["Row"]
@@ -39,15 +44,13 @@ export type TokenType = Enums<"token_type">
 
 export type DeploymentStatus = Enums<"deployment_status">
 
-export type OnboardingStatus = Enums<"team_onboarding_status">
-
 export type WidgetNetworkType = Enums<"widget_network_type">
+
+export type BaseTokenSymbol = Enums<"base_token_symbol">
 
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
-
-export type Token = Tables<"tokens">
 
 export type Oracle = Tables<"oracles">
 
@@ -60,6 +63,16 @@ export type Team = Tables<"teams">
 export type Silo = Tables<"silos">
 
 export type SilosTeams = Tables<"silos_teams">
+
+export type SiloConfigTransaction = Tables<"silo_config_transactions">
+
+export type SiloConfigTransactionStatus =
+  Enums<"silo_config_transaction_status">
+
+export type SiloConfigTransactionOperation =
+  Enums<"silo_config_transaction_operation">
+
+export type SiloWhitelistAddress = Tables<"silo_whitelist_addresses">
 
 export type List = Tables<"lists">
 
@@ -79,15 +92,23 @@ export type LimitScope = Enums<"limit_scope">
 
 export type LimitType = Enums<"limit_type">
 
+export type FilterEntry = Tables<"filter_entries">
+
+export type BridgedToken = Tables<"bridged_tokens">
+
+export type SiloBridgedTokenMetadata = Tables<"silo_bridged_tokens">
+
+export type SiloBridgedToken = BridgedToken & {
+  is_deployment_pending: boolean
+}
+
+export type SiloBridgedTokenRequest = Tables<"bridged_token_requests">
+
 export type OnboardingForm = Tables<"onboarding_form">
 
 export type ChartColor = (typeof CHART_COLOURS)[number]
 
-export type RuleResourceDefinition = {
-  chains: string
-  contracts: string[]
-  blacklist?: boolean
-}
+export type SiloWhitelistType = Enums<"address_whitelist_type">
 
 type ChartData = {
   label: string

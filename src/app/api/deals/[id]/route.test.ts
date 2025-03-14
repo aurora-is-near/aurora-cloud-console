@@ -1,7 +1,6 @@
 /**
  * @jest-environment node
  */
-import { proxyApiClient } from "@/utils/proxy-api/client"
 import { GET, PUT } from "./route"
 import {
   createInsertOrUpdate,
@@ -17,20 +16,15 @@ jest.mock("../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
 
-jest.mock("../../../../utils/proxy-api/client")
-
 describe("Deal route", () => {
   beforeAll(setupJestOpenApi)
 
-  beforeEach(() => {
-    ;(proxyApiClient.view as jest.Mock).mockResolvedValue({ responses: [] })
-  })
-
   describe("GET", () => {
     it("throws a not found error if no matching deal", async () => {
-      await expect(async () =>
-        invokeApiHandler("GET", "/api/deals/1", GET),
-      ).rejects.toThrow("Not Found")
+      const res = await invokeApiHandler("GET", "/api/deals/1", GET)
+
+      expect(res.status).toBe(404)
+      expect(res.body).toEqual({ message: "Not Found" })
     })
 
     it("returns a deal", async () => {

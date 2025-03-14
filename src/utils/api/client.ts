@@ -32,9 +32,13 @@ const put = async <T extends ApiOperation>(
     body: JSON.stringify(data),
   })
 
-const del = async <T extends ApiOperation>(url: string) =>
+const del = async <T extends ApiOperation>(
+  url: string,
+  data: ApiRequestBody<T>,
+) =>
   request<ApiResponseBody<T>>(url, {
     method: "DELETE",
+    body: JSON.stringify(data),
   })
 
 export const apiClient = {
@@ -43,8 +47,15 @@ export const apiClient = {
 
   getSilos: async () => get<"getSilos">("/api/silos"),
 
-  getSiloTokens: async ({ id }: ApiRequestParams<"getSiloTokens">) =>
-    get<"getSiloTokens">(`/api/silos/${id}/tokens`),
+  getSiloBridgedTokens: async ({
+    id,
+  }: ApiRequestParams<"getSiloBridgedTokens">) =>
+    get<"getSiloBridgedTokens">(`/api/silos/${id}/tokens`),
+
+  getSiloBridgedTokenRequests: async ({
+    id,
+  }: ApiRequestParams<"getSiloBridgedTokenRequests">) =>
+    get<"getSiloBridgedTokenRequests">(`/api/silos/${id}/tokens/requests`),
 
   bridgeSiloToken: async ({
     id,
@@ -100,50 +111,6 @@ export const apiClient = {
   }: ApiRequestParams<"getSiloCollectedGasTotal">) =>
     get<"getSiloCollectedGasTotal">(`/api/silos/${id}/gas-collected-total`),
 
-  getDealPriorities: async () =>
-    get<"getDealPriorities">(`/api/deals/priorities`),
-
-  updateDealPriorities: async (data: ApiRequestBody<"updateDealPriorities">) =>
-    put<"updateDealPriorities">(`/api/deals/priorities`, data),
-
-  getLists: async () => get<"getLists">("/api/lists"),
-
-  createList: async (data: ApiRequestBody<"createList">) =>
-    request<ApiResponseBody<"createList">>("/api/lists", {
-      method: "POST",
-      body: JSON.stringify(data),
-    }),
-
-  getList: async ({ id }: ApiRequestParams<"getList">) =>
-    get<"getList">(`/api/lists/${id}`),
-
-  updateList: async ({
-    id,
-    ...data
-  }: ApiRequestParams<"updateList"> & ApiRequestBody<"updateList">) =>
-    put<"updateList">(`/api/lists/${id}`, data),
-
-  deleteList: async ({ id }: ApiRequestParams<"deleteList">) =>
-    del<"deleteList">(`/api/lists/${id}`),
-
-  getListItems: async ({
-    id,
-    ...query
-  }: ApiRequestParams<"getListItems"> & ApiRequestQuery<"getListItems">) =>
-    get<"getListItems">(`/api/lists/${id}/items`, query),
-
-  createListItems: async ({
-    id,
-    ...data
-  }: ApiRequestParams<"createListItems"> & ApiRequestBody<"createListItems">) =>
-    post<"createListItems">(`/api/lists/${id}/items`, data),
-
-  getListItem: async ({ id, item }: ApiRequestParams<"getListItem">) =>
-    get<"getListItem">(`/api/lists/${id}/items/${encodeURIComponent(item)}`),
-
-  deleteListItem: async ({ id, item }: ApiRequestParams<"deleteListItem">) =>
-    del<"deleteListItem">(`/api/lists/${id}/items/${encodeURIComponent(item)}`),
-
   getWallet: async ({ address }: ApiRequestParams<"getWallet">) =>
     request<ApiResponseBody<"getWallet">>(`/api/wallets/${address}`),
 
@@ -158,6 +125,43 @@ export const apiClient = {
 
   getSiloFailureRate: async ({ id }: ApiRequestParams<"getSiloFailureRate">) =>
     get<"getSiloFailureRate">(`/api/silos/${id}/failure-rate`),
+
+  toggleSiloPermissions: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"toggleSiloPermissions"> &
+    ApiRequestBody<"toggleSiloPermissions">) =>
+    put<"toggleSiloPermissions">(`/api/silos/${id}/permissions`, data),
+
+  addAddressToPermissionsWhitelist: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"addAddressToPermissionsWhitelist"> &
+    ApiRequestBody<"addAddressToPermissionsWhitelist">) =>
+    post<"addAddressToPermissionsWhitelist">(
+      `/api/silos/${id}/permissions`,
+      data,
+    ),
+
+  removeAddressFromPermissionsWhitelist: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"removeAddressFromPermissionsWhitelist"> &
+    ApiRequestBody<"removeAddressFromPermissionsWhitelist">) =>
+    del<"removeAddressFromPermissionsWhitelist">(
+      `/api/silos/${id}/permissions`,
+      data,
+    ),
+
+  getForwarderTokens: async ({ id }: ApiRequestParams<"getForwarderTokens">) =>
+    get<"getForwarderTokens">(`/api/silos/${id}/forwarder/tokens`),
+
+  updateForwarderTokens: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"updateForwarderTokens"> &
+    ApiRequestBody<"updateForwarderTokens">) =>
+    put<"updateForwarderTokens">(`/api/silos/${id}/forwarder/tokens`, data),
 }
 
 export type ApiClient = typeof apiClient

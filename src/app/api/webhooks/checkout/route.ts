@@ -10,8 +10,6 @@ import { assertValidSupabaseResult } from "@/utils/supabase"
 import { sendSlackMessage } from "@/utils/send-slack-notification"
 import { getTeam } from "@/actions/teams/get-team"
 import { Team } from "@/types/types"
-import { sendEmail } from "@/utils/email"
-import { getRequestReceivedEmail } from "@/email-templates/get-request-received-email"
 import { getStripeConfig } from "@/utils/stripe"
 import { trackEvent } from "@/components/Mixpanel/ServerTracker"
 
@@ -59,25 +57,6 @@ const sendSlackNotification = async (
       },
     ],
   })
-}
-
-const sendEmails = async (
-  session: Stripe.Checkout.Session,
-  team?: Team | null,
-) => {
-  const emailAddresses = [team?.email, session.customer_details?.email].filter(
-    (email): email is string => !!email,
-  )
-
-  return Promise.all(
-    emailAddresses.map(async (email) =>
-      sendEmail({
-        To: email,
-        Subject: "Your request was received",
-        HtmlBody: getRequestReceivedEmail(),
-      }),
-    ),
-  )
 }
 
 const getTeamFromId = async (teamId: number) => {
@@ -142,7 +121,6 @@ const fulfillOrder = async <T extends ProductType>(
     supabase
       .from("teams")
       .update({
-        onboarding_status: "REQUEST_RECEIVED",
         prepaid_transactions:
           team.prepaid_transactions +
           (productMetadata.number_of_transactions ?? 0),
@@ -151,7 +129,6 @@ const fulfillOrder = async <T extends ProductType>(
       .select()
       .single(),
     sendSlackNotification(session, teamId, team),
-    sendEmails(session, team),
     trackEvent("payment_received"),
   ])
 

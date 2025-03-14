@@ -37,7 +37,8 @@ SELECT add_values_to_enum(
     'forwarder:read',
     'forwarder:write',
     'payments:read',
-    'payments:write'
+    'payments:write',
+    'assets:write',
   ]
 );
 
@@ -83,6 +84,40 @@ SELECT add_values_to_enum(
   ARRAY[
     'initial_setup',
     'top_up',
+  ]
+);
+
+SELECT add_values_to_enum(
+  'base_token_symbol',
+  ARRAY[
+    'AURORA',
+    'BTC',
+    'ETH',
+    'USDC',
+    'USDT',
+    'NEAR',
+    'CUSTOM'
+  ]
+);
+
+SELECT add_values_to_enum(
+  'silo_config_transaction_operation',
+  ARRAY[
+    'SET_BASE_TOKEN',
+    'DEPLOY_AURORA',
+    'DEPLOY_USDT',
+    'DEPLOY_USDC',
+    'DEPLOY_NEAR',
+    'DEPLOY_ETH'
+  ]
+);
+
+SELECT add_values_to_enum(
+  'silo_config_transaction_status',
+  ARRAY[
+    'PENDING',
+    'SUCCESSFUL',
+    'FAILED'
   ]
 );
 ```

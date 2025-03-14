@@ -4,6 +4,7 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { Silo } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
+  assertUniqueChainIdNotViolated,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
@@ -13,6 +14,7 @@ export const createSilo = async (
   const supabase = createAdminSupabaseClient()
   const result = await supabase.from("silos").insert(inputs).select().single()
 
+  assertUniqueChainIdNotViolated(result)
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 

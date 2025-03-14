@@ -3,7 +3,9 @@ import {
   CircleStackIcon,
   CubeIcon,
   CurrencyDollarIcon,
+  DocumentTextIcon,
   FlagIcon,
+  LinkIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline"
 import { redirect } from "next/navigation"
@@ -43,6 +45,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
                 icon: <CircleStackIcon />,
               },
               {
+                name: "Bridged tokens",
+                href: "/admin/bridged-tokens",
+                icon: <LinkIcon />,
+              },
+              {
                 name: "Oracle tokens",
                 href: "/admin/oracle/tokens",
                 icon: <Oracle />,
@@ -56,6 +63,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
                 name: "Feature flags",
                 href: "/admin/feature-flags",
                 icon: <FlagIcon />,
+              },
+              {
+                name: "Reports",
+                href: "/admin/reports",
+                icon: <DocumentTextIcon />,
               },
             ],
           },

@@ -8,6 +8,7 @@ export const createSelect = <T>(data?: T) => ({
   order: jest.fn().mockReturnThis(),
   gte: jest.fn().mockReturnThis(),
   lte: jest.fn().mockReturnThis(),
+  limit: jest.fn().mockReturnThis(),
   single: jest.fn(() => ({
     data,
     error: null,
@@ -34,7 +35,10 @@ export const createInsertOrUpdate = <T>(data?: T) => ({
   select: jest.fn(() => createSelect(data)),
 })
 
-export const createDelete = () => getBaseQueryFunctions()
+export const createDelete = <T>(data?: T) => ({
+  ...getBaseQueryFunctions(),
+  select: jest.fn(() => createSelect(data)),
+})
 
 const createTableClient = jest.fn(() => ({
   select: jest.fn(() => createSelect()),
@@ -47,9 +51,7 @@ const createTableClient = jest.fn(() => ({
 const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   teams: createTableClient(),
   deals: createTableClient(),
-  lists: createTableClient(),
   api_keys: createTableClient(),
-  tokens: createTableClient(),
   silos: createTableClient(),
   users: createTableClient(),
   users_teams: createTableClient(),
@@ -67,6 +69,14 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   rules_userlists: createTableClient(),
   replenishments: createTableClient(),
   silos_teams: createTableClient(),
+  datadog_web3_monitors: createTableClient(),
+  silo_config_transactions: createTableClient(),
+  silo_whitelist_addresses: createTableClient(),
+  silo_relayers: createTableClient(),
+  silo_bridged_tokens: createTableClient(),
+  bridged_tokens: createTableClient(),
+  bridged_token_requests: createTableClient(),
+  _prisma_migrations: createTableClient(),
 }
 
 export const mockSupabaseClient = {

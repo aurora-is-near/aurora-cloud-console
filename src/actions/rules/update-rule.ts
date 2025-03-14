@@ -10,7 +10,9 @@ import {
 export const updateRule = async (
   id: number,
   deal_id: number,
-  inputs: Pick<Rule, "resource_definition">,
+  inputs: Partial<
+    Pick<Rule, "chains" | "contracts" | "except_chains" | "except_contracts">
+  >,
 ): Promise<Rule> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase

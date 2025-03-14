@@ -1,5 +1,10 @@
-import { BASE_TOKEN_DECIMALS } from "@/constants/base-token"
-import { Silo, Token, Widget, WidgetNetworkType } from "@/types/types"
+import cleanDeep from "clean-deep"
+import {
+  Silo,
+  SiloBridgedToken,
+  Widget,
+  WidgetNetworkType,
+} from "@/types/types"
 
 type CustomChain = {
   id: string
@@ -16,9 +21,14 @@ type CustomChain = {
     name: string
     url: string
   }
+  siloToSiloBridge: string | null
+  logo: string | null
 }
 
-const getNetworkEvms = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
+// This address is used to represent the base token
+const BASE_TOKEN_ADDRESS = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+
+const getNetworkKeys = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
   networks.map((network) => {
     if (network === "CUSTOM") {
       return silo.engine_account
@@ -39,23 +49,12 @@ const getNetworkEvms = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
     throw new Error(`Unknown network: ${network}`)
   })
 
-const setTokensParam = (
-  url: URL,
-  { activeTokens }: { activeTokens: Token[] },
-) => {
-  if (!activeTokens.length) {
-    return
-  }
-
-  url.searchParams.set(
-    "tokens",
-    JSON.stringify(activeTokens.map(({ symbol }) => symbol)),
-  )
-}
-
 const setCustomTokensParam = (
   url: URL,
-  { activeCustomTokens }: { activeCustomTokens: Token[] },
+  {
+    silo,
+    activeCustomTokens,
+  }: { silo: Silo; activeCustomTokens: SiloBridgedToken[] },
 ) => {
   if (!activeCustomTokens.length) {
     return
@@ -68,26 +67,23 @@ const setCustomTokensParam = (
         name,
         decimals,
         icon_url,
-        bridge_origin,
-        fast_bridge,
-        bridge_addresses,
+        ethereum_address,
+        aurora_address,
+        near_address,
       }) => {
-        const data = {
+        const data = cleanDeep({
           symbol,
           name,
           decimals,
-          origin: bridge_origin,
-          isFast: fast_bridge,
           icon: icon_url,
-          ...bridge_addresses?.reduce((acc, bridgeAddress) => {
-            const [network, address] = bridgeAddress.split(":")
-
-            return {
-              ...acc,
-              [network]: address,
-            }
-          }, {}),
-        }
+          ethereum: ethereum_address,
+          aurora: aurora_address,
+          near: near_address,
+          [silo.engine_account]:
+            silo.base_token_symbol.toUpperCase() === symbol.toUpperCase()
+              ? BASE_TOKEN_ADDRESS
+              : aurora_address,
+        })
 
         return data
       },
@@ -99,16 +95,18 @@ const setCustomTokensParam = (
 
 const setCustomChainsParam = (url: URL, { silo }: { silo: Silo }) => {
   const customChain: CustomChain = {
-    id: silo.chain_id,
+    id: String(silo.chain_id),
     name: silo.name,
     network: silo.name,
     nativeCurrency: {
-      decimals: BASE_TOKEN_DECIMALS,
+      decimals: silo.base_token_decimals,
       name: silo.base_token_name,
       symbol: silo.base_token_symbol,
     },
+    siloToSiloBridge: silo.silo_to_silo_bridge_address,
     rpcUrl: silo.rpc_url,
     auroraEvmAccount: silo.engine_account,
+    logo: silo.favicon,
   }
 
   if (silo.explorer_url) {
@@ -128,52 +126,33 @@ export const getWidgetUrl = ({
 }: {
   silo: Silo
   widget: Widget
-  tokens: Token[]
+  tokens: SiloBridgedToken[]
 }): string => {
-  const activeTokens = tokens.filter(
-    (token) =>
-      token.silo_id === silo.id &&
-      token.bridge_deployment_status === "DEPLOYED",
+  const activeTokens = tokens.filter((token) =>
+    widget.tokens.includes(token.id),
   )
 
-  const url = new URL(
-    "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud",
+  const url = new URL("https://aurora.plus/cloud")
+
+  url.searchParams.set(
+    "toNetworks",
+    JSON.stringify(getNetworkKeys(silo, widget.to_networks ?? [])),
   )
 
-  if (widget.to_networks?.length) {
-    url.searchParams.set(
-      "toNetworks",
-      JSON.stringify(getNetworkEvms(silo, widget.to_networks)),
-    )
-  }
-
-  if (widget.from_networks?.length) {
-    url.searchParams.set(
-      "fromNetworks",
-      JSON.stringify(getNetworkEvms(silo, widget.from_networks)),
-    )
-  }
+  url.searchParams.set(
+    "fromNetworks",
+    JSON.stringify(getNetworkKeys(silo, widget.from_networks ?? [])),
+  )
 
   const hasCustomChain =
     !!widget.from_networks?.some((network) => network === "CUSTOM") ||
     !!widget.to_networks?.some((network) => network === "CUSTOM")
 
-  // If a `customChain` is defined then all the tokens we want available on
-  // that custom chain should be overridden using `customTokens`, which will
-  // define the token's address on all the chains including the custom one.
   if (hasCustomChain) {
     setCustomChainsParam(url, { silo })
-    setCustomTokensParam(url, { activeCustomTokens: activeTokens })
-
-    return url.href
   }
 
-  const activeCustomTokens = activeTokens.filter(({ symbol }) => {
-    return !["NEAR", "AURORA", "ETH"].includes(symbol)
-  })
-
-  setTokensParam(url, { activeTokens })
-  setCustomTokensParam(url, { activeCustomTokens })
+  setCustomTokensParam(url, { silo, activeCustomTokens: activeTokens })
 
   return url.href
 }

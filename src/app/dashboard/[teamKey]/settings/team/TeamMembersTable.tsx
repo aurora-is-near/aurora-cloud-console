@@ -106,13 +106,15 @@ export const TeamMembersTable = ({
               ) : (
                 <div className="w-5 h-5" />
               )}
-              <TableDeleteButton
-                title="Remove team member"
-                description={`Remove ${teamMember.name ?? "user"}`}
-                onDelete={async () => {
-                  await onDeleteTeamMemberClick(teamMember)
-                }}
-              />
+              {!isCurrentUser && (
+                <TableDeleteButton
+                  title="Remove team member"
+                  description={`Remove ${teamMember.name ?? "user"}`}
+                  onDelete={async () => {
+                    await onDeleteTeamMemberClick(teamMember)
+                  }}
+                />
+              )}
             </Table.TD>
           </Table.TR>
         )

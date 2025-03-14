@@ -1,6 +1,6 @@
 import { BridgePage } from "@/components/BridgePage/BridgePage"
 
-const Page = async ({
+const Page = ({
   params: { id, teamKey },
 }: {
   params: { id: string; teamKey: string }

@@ -1,14 +1,19 @@
 import {
   DealSchema,
-  ListSchema,
   OracleSchema,
   RuleSchema,
+  SiloBridgedTokenSchema,
   SiloSchema,
-  TokenSchema,
 } from "@/types/api-schemas"
 import { AuroraOracle } from "@/types/oracle"
-import { Deal, List, Rule, Silo, Token } from "@/types/types"
-import { BASE_TOKEN_DECIMALS } from "@/constants/base-token"
+import {
+  BridgedToken,
+  Deal,
+  Rule,
+  Silo,
+  SiloBridgedToken,
+  SiloBridgedTokenMetadata,
+} from "@/types/types"
 
 const getIsoString = (date: number | null) => {
   return date ? new Date(date).toISOString() : null
@@ -39,35 +44,25 @@ export const adaptRule = (rule: Rule): RuleSchema => ({
   createdAt: rule.created_at,
   updatedAt: rule.updated_at,
   dealId: rule.deal_id,
-  resourceDefinition: rule.resource_definition,
+  chains: rule.chains,
+  contracts: rule.contracts,
+  exceptChains: rule.except_chains,
+  exceptContracts: rule.except_contracts,
 })
 
-export const adaptToken = (token: Token): TokenSchema => ({
+export const adaptToken = (
+  token: SiloBridgedToken,
+): SiloBridgedTokenSchema => ({
   id: token.id,
-  address: token.address,
   createdAt: token.created_at,
-  symbol: token.symbol,
   name: token.name,
+  symbol: token.symbol,
   decimals: token.decimals,
-  deploymentStatus: token.deployment_status,
+  aurora_address: token.aurora_address,
+  ethereum_address: token.ethereum_address,
+  near_address: token.near_address,
   iconUrl: token.icon_url,
-  type: token.type,
-  bridge:
-    token.bridge_deployment_status === "NOT_DEPLOYED"
-      ? null
-      : {
-          deploymentStatus: token.bridge_deployment_status,
-          isFast: token.fast_bridge,
-          addresses: (token.bridge_addresses ?? []).map((bridgeAddress) => {
-            const [network, address] = bridgeAddress.split(":")
-
-            return {
-              network,
-              address,
-            }
-          }),
-          origin: token.bridge_origin,
-        },
+  isDeploymentPending: token.is_deployment_pending,
 })
 
 export const adaptSilo = (silo: Silo): SiloSchema => ({
@@ -84,14 +79,8 @@ export const adaptSilo = (silo: Silo): SiloSchema => ({
   nativeToken: {
     name: silo.base_token_name,
     symbol: silo.base_token_symbol,
-    decimals: BASE_TOKEN_DECIMALS,
+    decimals: silo.base_token_decimals,
   },
-})
-
-export const adaptList = (list: List): ListSchema => ({
-  id: list.id,
-  createdAt: list.created_at,
-  name: list.name,
 })
 
 export const adaptOracle = (oracle: AuroraOracle): OracleSchema => ({
@@ -99,3 +88,24 @@ export const adaptOracle = (oracle: AuroraOracle): OracleSchema => ({
   updatedAt: oracle.updated_at,
   address: oracle.contract?.address ?? null,
 })
+
+export const adaptSiloBridgedToken = (
+  siloId: number,
+  token: BridgedToken & {
+    silo_bridged_tokens: SiloBridgedTokenMetadata[]
+  },
+): SiloBridgedToken | null => {
+  const bridgedTokenMeta = token.silo_bridged_tokens.find(
+    (siloBridgedToken) => siloBridgedToken.silo_id === siloId,
+  )
+
+  // The token is not bridged for this silo
+  if (!bridgedTokenMeta) {
+    return null
+  }
+
+  return {
+    ...token,
+    is_deployment_pending: bridgedTokenMeta.is_deployment_pending,
+  }
+}

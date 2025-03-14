@@ -41,6 +41,7 @@ const TD = ({
   isFirst = false,
   isLast = false,
   isLink = false,
+  colSpan = 1,
 }: {
   children: React.ReactNode
   dark?: boolean
@@ -49,6 +50,7 @@ const TD = ({
   isFirst?: boolean
   isLast?: boolean
   isLink?: boolean
+  colSpan?: number
 }) => (
   // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
   <td
@@ -63,6 +65,7 @@ const TD = ({
         "px-3": !isFirst && !isLast,
       },
     )}
+    colSpan={colSpan}
   >
     <div
       className={clsx("flex items-center gap-x-2.5 min-h-[30px]", {
@@ -81,8 +84,10 @@ TD.displayName = "TD"
 const TR = ({
   children,
   onClick,
+  className,
 }: {
   children: React.ReactNode
+  className?: string
   onClick?: MouseEventHandler<HTMLTableRowElement>
 }) => {
   const tds = findChildren(children, "TD")
@@ -90,7 +95,7 @@ const TR = ({
   return (
     <tr
       onClick={onClick}
-      className={clsx("group", onClick && "cursor-pointer")}
+      className={clsx("group", onClick && "cursor-pointer", className)}
     >
       {tds?.map((td, i) => {
         const isFirst = i === 0

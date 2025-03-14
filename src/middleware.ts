@@ -2,11 +2,13 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { isAdminUser } from "@/utils/admin"
 import { createMiddlewareClient } from "@/supabase/create-middleware-client"
+import { isTeamWidgetUrl } from "@/utils/widgets"
 import {
   AUTH_ACCEPT_ROUTE,
   AUTH_CALLBACK_ROUTE,
   EMAIL_PREVIEW_ROUTE,
   HOME_ROUTE,
+  IMAGES_ROUTE,
   LINK_SENT_ROUTE,
   LOGIN_ROUTE,
   LOGOUT_ROUTE,
@@ -61,6 +63,11 @@ export async function middleware(req: NextRequest) {
     return res
   }
 
+  // Allow requests for images services via our image resizer
+  if (pathname.startsWith(IMAGES_ROUTE)) {
+    return res
+  }
+
   // Do nothing for email preview routes
   if (pathname.startsWith(EMAIL_PREVIEW_ROUTE)) {
     return res
@@ -68,6 +75,11 @@ export async function middleware(req: NextRequest) {
 
   // Do nothing for API requests (which are authenticated separately)
   if (pathname.startsWith("/api")) {
+    return res
+  }
+
+  // Do nothing for widget requests (which do not require authentication)
+  if (teamKey && isTeamWidgetUrl(teamKey, pathname)) {
     return res
   }
 

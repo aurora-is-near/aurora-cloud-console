@@ -5,6 +5,7 @@ import { useCallback } from "react"
 import { Button } from "@/components/Button"
 import { ButtonSize, ButtonVariant } from "@/types/buttons"
 import { Silo } from "@/types/types"
+import { getForwarderWidgetUrl } from "@/utils/forwarder"
 
 type ForwarderWidgetOpenButtonProps = {
   silo: Silo
@@ -22,19 +23,7 @@ export const ForwarderWidgetOpenButton = ({
   isExternal,
 }: ForwarderWidgetOpenButtonProps) => {
   const onClick = useCallback(() => {
-    const widgetUrl = new URL(
-      "https://aurora-plus-git-forwarder-widget-auroraisnear.vercel.app/forwarder",
-    )
-
-    widgetUrl.searchParams.append("customSiloName", silo.name)
-    widgetUrl.searchParams.append("customSiloId", silo.engine_account)
-
-    if (silo.explorer_url) {
-      widgetUrl.searchParams.append(
-        "customSiloExplorer",
-        silo.explorer_url?.split("://")[1].split("/")[0],
-      )
-    }
+    const widgetUrl = getForwarderWidgetUrl(silo)
 
     window.open(
       widgetUrl,

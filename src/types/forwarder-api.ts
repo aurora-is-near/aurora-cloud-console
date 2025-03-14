@@ -11,3 +11,15 @@ export type ForwarderApiGetContractResponse = {
     account_created: boolean
   }
 }
+
+export type ForwarderApiGetSupportedTokensResponse = {
+  result: {
+    tokens:
+      | {
+          address: string
+          decimals: number
+          symbol: string
+        }[]
+      | null
+  }
+}

@@ -7,14 +7,10 @@ import { TabCard } from "@/components/TabCard/TabCard"
 import CopyButton from "@/components/CopyButton"
 
 type OracleDeploymentTabProps = {
-  teamKey: string
   oracle: AuroraOracle
 }
 
-export const OracleDeploymentTab = ({
-  teamKey,
-  oracle,
-}: OracleDeploymentTabProps) => {
+export const OracleDeploymentTab = ({ oracle }: OracleDeploymentTabProps) => {
   const { address } = oracle.contract ?? {}
 
   if (!address) {
@@ -27,7 +23,7 @@ export const OracleDeploymentTab = ({
           Icon={RocketLaunchIcon}
           className="mx-auto max-w-[320px] py-6"
         >
-          <ContactButton teamKey={teamKey} />
+          <ContactButton />
         </NoDataCta>
       </TabCard>
     )

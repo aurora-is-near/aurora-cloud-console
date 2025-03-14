@@ -1,6 +1,4 @@
 import { createApiEndpoint } from "@/utils/api"
-import { getDealKey } from "@/utils/proxy-api/get-deal-key"
-import { getTeamDeals } from "@/actions/team-deals/get-team-deals"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { queryTransactions } from "../../../../../utils/proxy-db/query-transactions"
 import { abort } from "../../../../../utils/abort"
@@ -11,29 +9,23 @@ export const GET = createApiEndpoint(
   async (req, ctx) => {
     const interval = req.nextUrl.searchParams.get("interval")
 
-    const [silo, deals] = await Promise.all([
-      getTeamSilo(ctx.team.id, Number(ctx.params.id)),
-      getTeamDeals(ctx.team.id),
-    ])
+    const silo = await getTeamSilo(ctx.team.id, Number(ctx.params.id))
 
     if (!silo) {
       abort(404)
     }
 
-    const results = await Promise.all(
-      deals.map(async (deal) =>
-        queryTransactions(silo.chain_id, {
-          interval,
-          dealId: await getDealKey(deal.id),
-        }),
-      ),
-    )
+    const results = await queryTransactions(silo.chain_id, {
+      interval,
+    })
 
     return {
-      items: deals.map((deal, dealIndex) => ({
-        siloId: silo.id,
-        data: getTransactionData(deal.name, results[dealIndex]),
-      })),
+      items: [
+        {
+          siloId: silo.id,
+          data: getTransactionData(silo.name, results),
+        },
+      ],
     }
   },
   {

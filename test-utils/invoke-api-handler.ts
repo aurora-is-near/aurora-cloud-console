@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server"
 import { ApiRequestContext, ApiRequestHandler } from "@/types/api"
 import { Team } from "@/types/types"
+import { isAbortError } from "@/utils/abort"
 import { mockTeam } from "./mock-team"
 
 type CreateMockApiContextOptions<TRequestBody> = {
@@ -24,10 +25,30 @@ export const invokeApiHandler = async <TResponseBody, TRequestBody>(
   path: string,
   handler: ApiRequestHandler<TResponseBody, TRequestBody>,
   ctxOptions?: CreateMockApiContextOptions<TRequestBody>,
+  shouldAbort?: boolean, // Temp setting to avoid defer all tests
 ) => {
   const req = new NextRequest(new URL(path, "http://test.com"))
   const ctx = createMockApiContext(ctxOptions)
-  const resultBody = await handler(req, ctx)
+  let resultBody
+
+  try {
+    resultBody = await handler(req, ctx)
+  } catch (error) {
+    if (isAbortError(error)) {
+      return {
+        req: {
+          method,
+          path,
+        },
+        status: error.statusCode,
+        body: {
+          message: error.message,
+        },
+      }
+    }
+
+    throw error
+  }
 
   return {
     req: {

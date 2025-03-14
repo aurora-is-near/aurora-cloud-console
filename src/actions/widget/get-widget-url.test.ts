@@ -2,9 +2,9 @@ import { getWidgetUrl } from "@/actions/widget/get-widget-url"
 import { createMockSilo } from "../../../test-utils/factories/silo-factory"
 import { createMockWidget } from "../../../test-utils/factories/widget-factory"
 import {
-  createMockToken,
-  createMockTokens,
-} from "../../../test-utils/factories/token-factory"
+  createMockSiloBridgedToken,
+  createMockSiloBridgedTokens,
+} from "../../../test-utils/factories/silo-bridged-token-factory"
 
 const parseMaybeJson = (str: string) => {
   try {
@@ -38,9 +38,11 @@ describe("getWidgetUrl", () => {
       }),
     )
 
-    expect(url.href).toBe(
-      "https://aurora-plus-git-cloud-bridge-auroraisnear.vercel.app/cloud",
-    )
+    expect(url.href.split("?")[0]).toBe("https://aurora.plus/cloud")
+    expect(searchParamsToJson(url)).toEqual({
+      fromNetworks: [],
+      toNetworks: [],
+    })
   })
 
   it("returns a URL with from and to networks", () => {
@@ -51,7 +53,7 @@ describe("getWidgetUrl", () => {
           to_networks: ["AURORA"],
           from_networks: ["NEAR", "ETHEREUM"],
         }),
-        tokens: createMockTokens(1),
+        tokens: createMockSiloBridgedTokens(1),
       }),
     )
 
@@ -70,7 +72,7 @@ describe("getWidgetUrl", () => {
           to_networks: ["CUSTOM"],
           from_networks: ["ETHEREUM"],
         }),
-        tokens: createMockTokens(1),
+        tokens: createMockSiloBridgedTokens(1),
       }),
     )
 
@@ -93,6 +95,8 @@ describe("getWidgetUrl", () => {
             name: "Test Silo Explorer",
             url: "https://explorer.testnet.aurora.dev",
           },
+          logo: "https://example.com/favicon.png",
+          siloToSiloBridge: silo.silo_to_silo_bridge_address,
         },
       ],
     })
@@ -100,15 +104,11 @@ describe("getWidgetUrl", () => {
 
   it("returns a URL with a custom chain and custom tokens", () => {
     const silo = createMockSilo()
-    const token = createMockToken({
+    const token = createMockSiloBridgedToken({
       symbol: "ETH",
-      bridge_addresses: [
-        "aurora:0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-        "ethereum:0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-        "near:aurora",
-        "0x4e45415e.c.aurora:0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-      ],
-      bridge_deployment_status: "DEPLOYED",
+      aurora_address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      ethereum_address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      near_address: "aurora",
     })
 
     const url = new URL(
@@ -142,22 +142,138 @@ describe("getWidgetUrl", () => {
             name: "Test Silo Explorer",
             url: "https://explorer.testnet.aurora.dev",
           },
+          logo: "https://example.com/favicon.png",
+          siloToSiloBridge: silo.silo_to_silo_bridge_address,
         },
       ],
       customTokens: [
         {
-          "0x4e45415e.c.aurora": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          [silo.engine_account]: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           aurora: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           decimals: 18,
           ethereum: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           icon: "http://example.com/path/to/icon.png",
-          isFast: false,
           name: "Test Token",
           near: "aurora",
-          origin: "ethereum",
           symbol: "ETH",
         },
       ],
     })
+  })
+
+  it("returns a url using a custom token that only has an aurora address", () => {
+    const silo = createMockSilo()
+    const token = createMockSiloBridgedToken({
+      symbol: "MYTOKEN",
+      aurora_address: "0x1234567890",
+      ethereum_address: null,
+      near_address: null,
+    })
+
+    const url = new URL(
+      getWidgetUrl({
+        silo,
+        widget: createMockWidget({
+          to_networks: ["CUSTOM"],
+          from_networks: ["AURORA"],
+          tokens: [token.id],
+        }),
+        tokens: [token],
+      }),
+    )
+
+    expect(searchParamsToJson(url).customTokens).toEqual([
+      {
+        [silo.engine_account]: "0x1234567890",
+        aurora: "0x1234567890",
+        decimals: 18,
+        icon: "http://example.com/path/to/icon.png",
+        name: "Test Token",
+        symbol: "MYTOKEN",
+      },
+    ])
+  })
+
+  it("returns a url using multiple custom tokens", () => {
+    const silo = createMockSilo()
+    const tokenA = createMockSiloBridgedToken({
+      symbol: "TOKENA",
+      aurora_address: "0x123",
+      ethereum_address: null,
+      near_address: null,
+    })
+
+    const tokenB = createMockSiloBridgedToken({
+      symbol: "TOKENB",
+      aurora_address: "0x456",
+      ethereum_address: null,
+      near_address: null,
+    })
+
+    const url = new URL(
+      getWidgetUrl({
+        silo,
+        widget: createMockWidget({
+          to_networks: ["CUSTOM"],
+          from_networks: ["AURORA"],
+          tokens: [tokenA.id, tokenB.id],
+        }),
+        tokens: [tokenA, tokenB],
+      }),
+    )
+
+    expect(searchParamsToJson(url).customTokens).toEqual([
+      {
+        [silo.engine_account]: "0x123",
+        aurora: "0x123",
+        decimals: 18,
+        icon: "http://example.com/path/to/icon.png",
+        name: "Test Token",
+        symbol: "TOKENA",
+      },
+      {
+        [silo.engine_account]: "0x456",
+        aurora: "0x456",
+        decimals: 18,
+        icon: "http://example.com/path/to/icon.png",
+        name: "Test Token",
+        symbol: "TOKENB",
+      },
+    ])
+  })
+
+  it("returns a url where one of the bridged tokens is the base token", () => {
+    const symbol = "BASE"
+    const silo = createMockSilo({ base_token_symbol: symbol })
+    const tokenA = createMockSiloBridgedToken({
+      symbol,
+      ethereum_address: "0x123",
+      near_address: "near.base",
+      aurora_address: null,
+    })
+
+    const url = new URL(
+      getWidgetUrl({
+        silo,
+        widget: createMockWidget({
+          to_networks: ["CUSTOM"],
+          from_networks: ["AURORA"],
+          tokens: [tokenA.id],
+        }),
+        tokens: [tokenA],
+      }),
+    )
+
+    expect(searchParamsToJson(url).customTokens).toEqual([
+      {
+        [silo.engine_account]: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        ethereum: "0x123",
+        near: "near.base",
+        decimals: 18,
+        icon: "http://example.com/path/to/icon.png",
+        name: "Test Token",
+        symbol: "BASE",
+      },
+    ])
   })
 })

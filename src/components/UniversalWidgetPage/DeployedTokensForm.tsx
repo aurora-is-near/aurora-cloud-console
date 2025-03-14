@@ -1,35 +1,41 @@
 "use client"
 
 import { useMutation } from "@tanstack/react-query"
-import { SubmitHandler, useForm } from "react-hook-form"
-import { useCallback, useEffect } from "react"
-import clsx from "clsx"
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
+import { useCallback, useEffect, useMemo } from "react"
 import { CheckIcon, ClockIcon } from "@heroicons/react/20/solid"
 import toast from "react-hot-toast"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
-import { TokenSchema } from "@/types/api-schemas"
 import { Tag } from "@/components/Tag"
+import { Checkbox } from "@/components/Checkbox"
+import {
+  SiloBridgedTokenRequestSchema,
+  SiloBridgedTokenSchema,
+} from "@/types/api-schemas"
 
 type Inputs = Partial<Record<string, boolean>>
 
 type DeployedTokensFormProps = {
   siloId: number
-  deployedTokens: TokenSchema[]
-  activeTokens: TokenSchema[]
+  bridgedSiloTokens: SiloBridgedTokenSchema[]
+  bridgedSiloTokenRequests: SiloBridgedTokenRequestSchema[]
+  activeTokenIds: number[]
 }
 
 const DeployedTokensForm = ({
   siloId,
-  deployedTokens,
-  activeTokens,
+  bridgedSiloTokens,
+  bridgedSiloTokenRequests,
+  activeTokenIds,
 }: DeployedTokensFormProps) => {
+  const methods = useForm<Inputs>()
   const {
     register,
     setValue,
     watch,
     formState: { isSubmitting },
-  } = useForm<Inputs>()
+  } = methods
 
   const getWidgetUpdater = useOptimisticUpdater("getWidget")
 
@@ -38,10 +44,10 @@ const DeployedTokensForm = ({
     onMutate: getWidgetUpdater.update,
     onSettled: getWidgetUpdater.invalidate,
     onSuccess: () => {
-      toast.success("Widget tokens updated")
+      toast.success("Active tokens updated")
     },
     onError: () => {
-      toast.error("Failed to update bridge tokens")
+      toast.error("Failed to update active tokens")
     },
   })
 
@@ -62,10 +68,10 @@ const DeployedTokensForm = ({
   )
 
   useEffect(() => {
-    activeTokens.forEach((token) => {
-      setValue(String(token.id), true)
+    activeTokenIds.forEach((tokenId) => {
+      setValue(String(tokenId), true)
     })
-  }, [setValue, activeTokens])
+  }, [setValue, activeTokenIds])
 
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
@@ -77,57 +83,64 @@ const DeployedTokensForm = ({
     return () => subscription.unsubscribe()
   }, [watch, submit])
 
-  return (
-    <form>
-      <div>
-        {deployedTokens.map((token) => {
-          const isDeployed = token.bridge?.deploymentStatus === "DEPLOYED"
-          const isChecked = watch(`${token.id}`)
+  // Merge the confirmed, bridgeable tokens with any requested custom tokens.
+  const tokens = useMemo((): {
+    id: number
+    symbol: string
+    isPending: boolean
+  }[] => {
+    const bridgedSiloTokenIds = bridgedSiloTokens.map((token) => token.id)
 
+    return [
+      ...bridgedSiloTokens.map((token) => ({
+        id: token.id,
+        symbol: token.symbol,
+        isPending: token.isDeploymentPending,
+      })),
+      ...bridgedSiloTokenRequests
+        .filter((token) => !bridgedSiloTokenIds.includes(token.id))
+        .map((token) => ({
+          id: token.id,
+          symbol: token.symbol,
+          isPending: true,
+        })),
+    ]
+  }, [bridgedSiloTokens, bridgedSiloTokenRequests])
+
+  return (
+    <FormProvider {...methods}>
+      <div className="flex flex-col space-y-2">
+        {tokens.map((token) => {
           return (
-            <div
+            <Checkbox
               key={token.id}
-              className={clsx(
-                "rounded-md ring-1 p-3",
-                isChecked ? "ring-green-600 bg-green-50" : "ring-slate-200",
-              )}
-            >
-              <div className="flex flex-row justify-between">
-                <div className="flex flex-row justify-start items-cented gap-2">
-                  <div className="flex items-center h-6">
-                    <input
-                      disabled={!isDeployed || isPending || isSubmitting}
-                      id={`${token.id}`}
-                      type="checkbox"
-                      className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600"
-                      {...register(`${token.id}`)}
-                    />
-                  </div>
-                  <span className="text-sm font-medium">{token.symbol}</span>
-                </div>
-                <span className="flex justify-end">
-                  {isDeployed ? (
-                    <Tag
-                      size="sm"
-                      color="green"
-                      text="Deployed"
-                      Icon={CheckIcon}
-                    />
-                  ) : (
-                    <Tag
-                      size="sm"
-                      color="orange"
-                      text="Pending"
-                      Icon={ClockIcon}
-                    />
-                  )}
-                </span>
-              </div>
-            </div>
+              label={token.symbol}
+              id={String(token.id)}
+              name={String(token.id)}
+              disabled={isPending || isSubmitting || token.isPending}
+              register={register}
+              afterLabel={
+                !token.isPending ? (
+                  <Tag
+                    size="sm"
+                    color="green"
+                    text="Deployed"
+                    Icon={CheckIcon}
+                  />
+                ) : (
+                  <Tag
+                    size="sm"
+                    color="orange"
+                    text="Pending"
+                    Icon={ClockIcon}
+                  />
+                )
+              }
+            />
           )
         })}
       </div>
-    </form>
+    </FormProvider>
   )
 }
 
