@@ -121,6 +121,7 @@ export type Database = {
           address: string
           created_at: string
           id: number
+          resolved_at: string | null
           silo_id: number
           symbol: string
         }
@@ -128,6 +129,7 @@ export type Database = {
           address: string
           created_at?: string
           id?: number
+          resolved_at?: string | null
           silo_id: number
           symbol: string
         }
@@ -135,6 +137,7 @@ export type Database = {
           address?: string
           created_at?: string
           id?: number
+          resolved_at?: string | null
           silo_id?: number
           symbol?: string
         }
@@ -150,7 +153,7 @@ export type Database = {
       }
       bridged_tokens: {
         Row: {
-          aurora_address: string
+          aurora_address: string | null
           created_at: string
           decimals: number
           ethereum_address: string | null
@@ -161,7 +164,7 @@ export type Database = {
           symbol: string
         }
         Insert: {
-          aurora_address: string
+          aurora_address?: string | null
           created_at?: string
           decimals: number
           ethereum_address?: string | null
@@ -172,7 +175,7 @@ export type Database = {
           symbol: string
         }
         Update: {
-          aurora_address?: string
+          aurora_address?: string | null
           created_at?: string
           decimals?: number
           ethereum_address?: string | null
@@ -1016,9 +1019,6 @@ export type Database = {
           created_at: string
           id: number
           name: string
-          onboarding_status:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions: number
           team_key: string
           updated_at: string
@@ -1027,9 +1027,6 @@ export type Database = {
           created_at?: string
           id?: number
           name: string
-          onboarding_status?:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions?: number
           team_key: string
           updated_at?: string
@@ -1038,73 +1035,11 @@ export type Database = {
           created_at?: string
           id?: number
           name?: string
-          onboarding_status?:
-            | Database["public"]["Enums"]["team_onboarding_status"]
-            | null
           prepaid_transactions?: number
           team_key?: string
           updated_at?: string
         }
         Relationships: []
-      }
-      tokens: {
-        Row: {
-          address: string
-          bridge_addresses: string[] | null
-          bridge_deployment_status: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin: string | null
-          created_at: string
-          decimals: number | null
-          deployment_status: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge: boolean
-          icon_url: string | null
-          id: number
-          name: string | null
-          silo_id: number
-          symbol: string
-          type: Database["public"]["Enums"]["token_type"] | null
-        }
-        Insert: {
-          address: string
-          bridge_addresses?: string[] | null
-          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin?: string | null
-          created_at?: string
-          decimals?: number | null
-          deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge?: boolean
-          icon_url?: string | null
-          id?: number
-          name?: string | null
-          silo_id: number
-          symbol: string
-          type?: Database["public"]["Enums"]["token_type"] | null
-        }
-        Update: {
-          address?: string
-          bridge_addresses?: string[] | null
-          bridge_deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          bridge_origin?: string | null
-          created_at?: string
-          decimals?: number | null
-          deployment_status?: Database["public"]["Enums"]["deployment_status"]
-          fast_bridge?: boolean
-          icon_url?: string | null
-          id?: number
-          name?: string | null
-          silo_id?: number
-          symbol?: string
-          type?: Database["public"]["Enums"]["token_type"] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "tokens_silo_id_fkey"
-            columns: ["silo_id"]
-            isOneToOne: false
-            referencedRelation: "silos"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       userlists: {
         Row: {
@@ -1335,7 +1270,13 @@ export type Database = {
         | "paid"
         | "unpaid"
         | "no_payment_required"
-      request_status: "INITIAL" | "REQUESTED" | "COMPLETED"
+      request_status:
+        | "INITIAL"
+        | "REQUESTED"
+        | "COMPLETED"
+        | "PENDING"
+        | "APPROVED"
+        | "REJECTED"
       silo_config_transaction_operation:
         | "SET_BASE_TOKEN"
         | "ENABLE_MAKE_TXS_WHITELIST"
@@ -1352,11 +1293,6 @@ export type Database = {
         | "DEPLOY_NEAR"
         | "DEPLOY_ETH"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
-      team_onboarding_status:
-        | "REQUEST_RECEIVED"
-        | "DEPLOYMENT_IN_PROGRESS"
-        | "DEPLOYMENT_DONE"
-      token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:
         | "onramp"
         | "oracle"
