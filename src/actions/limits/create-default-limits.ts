@@ -2,7 +2,7 @@ import { createLimit } from "@/actions/limits/create-limit"
 import { getLimits } from "@/actions/limits/get-limits"
 import { Limit } from "@/types/types"
 
-export const defaultLimits: Pick<
+const defaultLimits: Pick<
   Limit,
   "limit_type" | "limit_scope" | "limit_value" | "duration" | "ui_enabled"
 >[] = [
