@@ -16,7 +16,7 @@ export const defaultLimits: Pick<
   {
     limit_type: "CYCLIC",
     limit_scope: "USER",
-    limit_value: 1000,
+    limit_value: 100,
     duration: "P30D",
     ui_enabled: true,
   },

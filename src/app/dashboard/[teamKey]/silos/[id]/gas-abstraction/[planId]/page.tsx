@@ -68,7 +68,9 @@ const Page = async ({
         <UsersConfigurationCard deal={deal} />
         <ContractsCard silo={silo} />
       </RuleProvider>
-      <RulesCard deal={deal} />
+      {!!globalLimit && !!userLimit && (
+        <RulesCard limits={[globalLimit, userLimit]} deal={deal} />
+      )}
       <Contact />
     </DealUpdatePage>
   )
