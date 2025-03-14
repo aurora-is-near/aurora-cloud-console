@@ -137,7 +137,6 @@ export const RuleProvider = ({
           setUserlist(undefined)
         })
     } else {
-      console.log("No userlist")
       setUserlist(undefined)
     }
   }, [rule?.id, team.id])

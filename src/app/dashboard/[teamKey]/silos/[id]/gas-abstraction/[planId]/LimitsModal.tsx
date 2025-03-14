@@ -62,6 +62,9 @@ export const LimitsModal = ({ deal, limit }: { deal: Deal; limit: Limit }) => {
               register={methods.register}
               defaultValue={limit?.limit_value}
             />
+            <p className="text-xs text-gray-500">
+              Set to 0 (zero) for unlimited.
+            </p>
           </InputWrapper>
         </div>
         <SlideOver.Actions>

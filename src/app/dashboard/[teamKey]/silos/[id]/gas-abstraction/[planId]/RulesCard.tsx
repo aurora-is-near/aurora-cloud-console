@@ -27,8 +27,6 @@ export const RulesCard = ({
     openModal(Modals.EditPlanLimitsModal)
   }
 
-  console.log("limits", limits)
-
   return (
     <>
       <ConfigurationCard
@@ -39,7 +37,11 @@ export const RulesCard = ({
           <DealDurationSetting deal={deal} />
           <RuleSetting
             title="Total transactions limit"
-            description={limits[0].limit_value.toString()}
+            description={
+              limits[0].limit_value === 0
+                ? "No limit"
+                : limits[0].limit_value.toString()
+            }
           >
             <Button
               variant="border"
@@ -50,7 +52,11 @@ export const RulesCard = ({
           </RuleSetting>
           <RuleSetting
             title="Monthly limit, per user"
-            description={limits[1].limit_value.toString()}
+            description={
+              limits[1].limit_value === 0
+                ? "No limit"
+                : limits[1].limit_value.toString()
+            }
           >
             <Button
               variant="border"
