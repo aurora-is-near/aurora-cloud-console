@@ -17,9 +17,22 @@ export const checkDefaultTokens = async (
   provider: JsonRpcProvider,
   silo: Silo,
 ) => {
+  const bridgedTokens = await getSiloBridgedTokens(silo.id)
+  const tokensById = bridgedTokens.reduce<Record<string, boolean>>(
+    (acc, token) => ({
+      ...acc,
+      [token.symbol]: !token.is_deployment_pending,
+    }),
+    {},
+  )
+
   const supportedTokens = await Promise.all(
     DEFAULT_TOKENS.map(async (symbol) => {
       if (silo.base_token_symbol === symbol) {
+        return true
+      }
+
+      if (tokensById[symbol]) {
         return true
       }
 
