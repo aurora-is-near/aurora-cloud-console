@@ -3,7 +3,6 @@
  */
 import { NextRequest } from "next/server"
 import { ethers } from "ethers"
-import nock from "nock"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import { POST } from "./route"
 import {
@@ -29,8 +28,6 @@ jest.mock("@/utils/contract-changer-api/contract-changer-api-client", () => ({
     })),
   },
 }))
-
-nock.disableNetConnect()
 
 describe("Silos repair route", () => {
   beforeEach(() => {
