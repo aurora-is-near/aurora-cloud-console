@@ -1,6 +1,7 @@
 import { createDebugger } from "@/debug"
+import { getRequiredEnvVar } from "@/utils/get-required-env-var"
 
-const API_BASE_URL = "https://contract-changer.aurora-cloud.dev"
+const API_BASE_URL = "https://silo-deployer.aurora-labs.net"
 
 const request = async <T>(
   endpoint: string,
@@ -27,11 +28,14 @@ const request = async <T>(
 
   debug("Contract Changer API request", href)
 
+  const username = getRequiredEnvVar("CONTRACT_CHANGER_API_USERNAME")
+  const password = getRequiredEnvVar("CONTRACT_CHANGER_API_PASSWORD")
+
   const res = await fetch(href, {
     method,
     body: data ? JSON.stringify(data) : undefined,
     headers: {
-      Authorization: `Basic ${btoa("test:justfortunnel")}`, // temp auth
+      Authorization: `Basic ${btoa(`${username}:${password}`)}`,
       "Content-Type": "application/json",
     },
   })
@@ -46,6 +50,8 @@ const request = async <T>(
 
   return resultData
 }
+
+export type WhitelistKind = "evm-admin" | "address"
 
 /**
  * @see https://github.com/aurora-is-near/silo-deployer
@@ -66,5 +72,68 @@ export const contractChangerApiClient = {
           base_token_account_id: baseTokenAccountId,
         },
       },
+    ),
+  mirrorErc20Token: async ({
+    siloEngineAccountId,
+    token,
+  }: {
+    siloEngineAccountId: string
+    token: "Near" | "Aurora" | "Usdt" | "Usdc"
+  }) =>
+    request<{ tx_hash?: string }>(
+      `/api/v1/contract/${siloEngineAccountId}/erc20`,
+      {
+        method: "POST",
+        data: {
+          token,
+        },
+      },
+    ),
+  toggleWhitelist: async ({
+    siloEngineAccountId,
+    whitelistKind,
+    action,
+  }: {
+    siloEngineAccountId: string
+    whitelistKind: WhitelistKind
+    action: "enable" | "disable"
+  }) =>
+    request<{ tx_hash?: string }>(
+      `/api/v1/contract/${siloEngineAccountId}/whitelist/${whitelistKind}/${action}`,
+      { method: "POST" },
+    ),
+
+  addAddressToWhitelist: async ({
+    siloEngineAccountId,
+    whitelistKind,
+    addr,
+  }: {
+    siloEngineAccountId: string
+    whitelistKind: WhitelistKind
+    addr: string
+  }) =>
+    request<{ tx_hash?: string }>(
+      `/api/v1/contract/${siloEngineAccountId}/whitelist`,
+      {
+        method: "POST",
+        data: {
+          addr,
+          whitelist_kind: whitelistKind,
+        },
+      },
+    ),
+
+  removeAddressFromWhitelist: async ({
+    siloEngineAccountId,
+    whitelistKind,
+    addr,
+  }: {
+    siloEngineAccountId: string
+    whitelistKind: WhitelistKind
+    addr: string
+  }) =>
+    request<{ tx_hash?: string }>(
+      `/api/v1/contract/${siloEngineAccountId}/whitelist/${whitelistKind}/${addr}`,
+      { method: "DELETE" },
     ),
 }

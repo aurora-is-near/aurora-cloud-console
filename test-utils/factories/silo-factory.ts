@@ -29,8 +29,8 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   is_active: true,
   applied_deal_ids: [],
   deleted_at: null,
-  white_list_deploy_contract: [],
-  whitelist_create_txs: [],
+  is_make_txs_public: false,
+  is_deploy_contracts_public: false,
   ...data,
 })
 

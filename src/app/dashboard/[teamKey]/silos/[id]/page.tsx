@@ -4,6 +4,7 @@ import { DashboardHomePage } from "@/app/dashboard/[teamKey]/(new)/Dashboard"
 import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { getSiloConfigTransactions } from "@/actions/silo-config-transactions/get-silo-config-transactions"
 import { getTeamOnboardingFormByKey } from "@/actions/onboarding/get-team-onboarding-form-by-key"
+import { DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES } from "@/constants/silo-config-transactions"
 
 const Page = async ({
   params: { id, teamKey },
@@ -14,13 +15,22 @@ const Page = async ({
     await Promise.all([
       getTeamByKey(teamKey),
       getTeamSiloByKey(teamKey, Number(id)),
-      getSiloConfigTransactions(Number(id)),
+      getSiloConfigTransactions(Number(id), "SET_BASE_TOKEN"),
       getTeamOnboardingFormByKey(teamKey),
     ])
 
-  const siloBaseTokenTransactionStatus = siloConfigTransactions.find(
-    (transaction) => transaction.operation === "SET_BASE_TOKEN",
-  )?.status
+  const siloTransactionStatuses = Object.keys(
+    DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES,
+  ).reduce(
+    (acc, operation) => ({
+      ...acc,
+      [operation]:
+        siloConfigTransactions.find(
+          (transaction) => transaction.operation === operation,
+        )?.status ?? null,
+    }),
+    DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES,
+  )
 
   if (!silo) {
     notFound()
@@ -31,7 +41,7 @@ const Page = async ({
       team={team}
       silo={silo}
       onboardingForm={onboardingForm}
-      siloBaseTokenTransactionStatus={siloBaseTokenTransactionStatus}
+      siloTransactionStatuses={siloTransactionStatuses}
     />
   )
 }

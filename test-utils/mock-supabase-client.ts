@@ -35,7 +35,10 @@ export const createInsertOrUpdate = <T>(data?: T) => ({
   select: jest.fn(() => createSelect(data)),
 })
 
-export const createDelete = () => getBaseQueryFunctions()
+export const createDelete = <T>(data?: T) => ({
+  ...getBaseQueryFunctions(),
+  select: jest.fn(() => createSelect(data)),
+})
 
 const createTableClient = jest.fn(() => ({
   select: jest.fn(() => createSelect()),
@@ -49,7 +52,6 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   teams: createTableClient(),
   deals: createTableClient(),
   api_keys: createTableClient(),
-  tokens: createTableClient(),
   silos: createTableClient(),
   users: createTableClient(),
   users_teams: createTableClient(),
@@ -69,7 +71,11 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   silos_teams: createTableClient(),
   datadog_web3_monitors: createTableClient(),
   silo_config_transactions: createTableClient(),
+  silo_whitelist_addresses: createTableClient(),
   silo_relayers: createTableClient(),
+  silo_bridged_tokens: createTableClient(),
+  bridged_tokens: createTableClient(),
+  bridged_token_requests: createTableClient(),
   _prisma_migrations: createTableClient(),
 }
 

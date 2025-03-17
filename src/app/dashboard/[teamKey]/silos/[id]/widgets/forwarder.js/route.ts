@@ -1,17 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getSilo } from "@/actions/silos/get-silo"
-import { getForwarderWidgetUrl } from "@/utils/forwarder"
+import { buildForwarderWidgetUrl } from "@/utils/widgets/build-forwarder-widget-url"
 
 export async function GET(req: NextRequest) {
-  const siloId = Number(req.nextUrl.pathname.match(/\/silos\/(\d+)/)?.[1])
+  const url = await buildForwarderWidgetUrl(req)
 
-  if (Number.isNaN(siloId)) {
-    return new NextResponse(null, { status: 404 })
-  }
-
-  const silo = await getSilo(siloId)
-
-  if (!silo) {
+  if (!url) {
     return new NextResponse(null, { status: 404 })
   }
 
@@ -21,7 +14,7 @@ export async function GET(req: NextRequest) {
 
     window.acc.forwarderWidget = {
       open: () => {
-        window.open('${getForwarderWidgetUrl(silo)}',"newwindow",\`width=600,height=1000,left=\${window.screen.width / 2 - 300},top=\${window.screen.height / 2 - 400}\`);
+        window.open('${url}',"newwindow",\`width=600,height=1000,left=\${window.screen.width / 2 - 300},top=\${window.screen.height / 2 - 400}\`);
       }
     };`,
   )

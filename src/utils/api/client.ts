@@ -32,14 +32,30 @@ const put = async <T extends ApiOperation>(
     body: JSON.stringify(data),
   })
 
+const del = async <T extends ApiOperation>(
+  url: string,
+  data: ApiRequestBody<T>,
+) =>
+  request<ApiResponseBody<T>>(url, {
+    method: "DELETE",
+    body: JSON.stringify(data),
+  })
+
 export const apiClient = {
   getSilo: async ({ id }: ApiRequestParams<"getSilo">) =>
     get<"getSilo">(`/api/silos/${id}`),
 
   getSilos: async () => get<"getSilos">("/api/silos"),
 
-  getSiloTokens: async ({ id }: ApiRequestParams<"getSiloTokens">) =>
-    get<"getSiloTokens">(`/api/silos/${id}/tokens`),
+  getSiloBridgedTokens: async ({
+    id,
+  }: ApiRequestParams<"getSiloBridgedTokens">) =>
+    get<"getSiloBridgedTokens">(`/api/silos/${id}/tokens`),
+
+  getSiloBridgedTokenRequests: async ({
+    id,
+  }: ApiRequestParams<"getSiloBridgedTokenRequests">) =>
+    get<"getSiloBridgedTokenRequests">(`/api/silos/${id}/tokens/requests`),
 
   bridgeSiloToken: async ({
     id,
@@ -109,6 +125,33 @@ export const apiClient = {
 
   getSiloFailureRate: async ({ id }: ApiRequestParams<"getSiloFailureRate">) =>
     get<"getSiloFailureRate">(`/api/silos/${id}/failure-rate`),
+
+  toggleSiloPermissions: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"toggleSiloPermissions"> &
+    ApiRequestBody<"toggleSiloPermissions">) =>
+    put<"toggleSiloPermissions">(`/api/silos/${id}/permissions`, data),
+
+  addAddressToPermissionsWhitelist: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"addAddressToPermissionsWhitelist"> &
+    ApiRequestBody<"addAddressToPermissionsWhitelist">) =>
+    post<"addAddressToPermissionsWhitelist">(
+      `/api/silos/${id}/permissions`,
+      data,
+    ),
+
+  removeAddressFromPermissionsWhitelist: async ({
+    id,
+    ...data
+  }: ApiRequestParams<"removeAddressFromPermissionsWhitelist"> &
+    ApiRequestBody<"removeAddressFromPermissionsWhitelist">) =>
+    del<"removeAddressFromPermissionsWhitelist">(
+      `/api/silos/${id}/permissions`,
+      data,
+    ),
 
   getForwarderTokens: async ({ id }: ApiRequestParams<"getForwarderTokens">) =>
     get<"getForwarderTokens">(`/api/silos/${id}/forwarder/tokens`),

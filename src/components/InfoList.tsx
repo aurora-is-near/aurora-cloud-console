@@ -1,24 +1,38 @@
 import clsx from "clsx"
 import Link from "next/link"
-import CopyButton from "@/components/CopyButton"
 import { InfoTooltip } from "@/uikit"
 
 export type InfoListProps = {
   className?: string
   items: {
     term: string
+    description: React.ReactNode
+    Action?: React.FC<{ term: string; description?: string }>
     tooltip?: string
-    description: string
-    showCopyButton?: boolean
   }[]
+}
+
+const TextDescription = ({ children }: { children: string }) => {
+  const isLink = children.startsWith("http")
+
+  return (
+    <span className="text-sm leading-5 text-slate-900 whitespace-nowrap text-ellipsis overflow-hidden">
+      {isLink ? (
+        <Link target="_blank" href={children}>
+          {children}
+        </Link>
+      ) : (
+        children
+      )}
+    </span>
+  )
 }
 
 export const InfoList = ({ items, className }: InfoListProps) => (
   <dl className={clsx("divide-y divide-slate-200 flex-1", className)}>
-    {items.map(({ term, tooltip, description, showCopyButton }, index) => {
+    {items.map(({ term, tooltip, description, Action }, index) => {
       const isFirst = index === 0
       const isLast = index === items.length - 1
-      const isLink = description.startsWith("http")
 
       return (
         <div
@@ -34,19 +48,20 @@ export const InfoList = ({ items, className }: InfoListProps) => (
             {!!tooltip && <InfoTooltip>{tooltip}</InfoTooltip>}
           </div>
           <div className="col-span-3 flex flex-row items-center justify-between gap-x-2.5">
-            <dd className="text-sm leading-5 text-slate-900 flex-shrink-1 whitespace-nowrap text-ellipsis overflow-hidden">
-              {isLink ? (
-                <Link target="_blank" href={description}>
-                  {description}
-                </Link>
+            <dd className="w-full flex-shrink-1 overflow-hidden whitespace-nowrap text-ellipsis">
+              {typeof description === "string" ? (
+                <TextDescription>{description}</TextDescription>
               ) : (
                 description
               )}
             </dd>
-            {showCopyButton ? (
-              <CopyButton hasBorder value={description} size="sm" />
-            ) : (
-              <div className="h-10" />
+            {Action && (
+              <Action
+                term={term}
+                description={
+                  typeof description === "string" ? description : undefined
+                }
+              />
             )}
           </div>
         </div>

@@ -3,20 +3,21 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
-import { Silo, Team } from "@/types/types"
+import { Silo } from "@/types/types"
 import { ForwarderWidgetOpenButton } from "@/components/ForwarderOpenButton"
 import { LinkButton } from "@/components/LinkButton"
 import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
+import { WidgetShareCard } from "@/components/WidgetShareCard"
 import { ForwarderAboutTab } from "./ForwarderAboutTab"
 import ForwarderConfigurationTab from "./ForwarderConfigurationTab"
 
 interface ForwarderPageProps {
-  team: Team
+  teamKey: string
   silo?: Silo | null
 }
 
 export const ForwarderPage: React.FC<ForwarderPageProps> = ({
-  team,
+  teamKey,
   silo = null,
 }) => {
   const tabs = [
@@ -37,7 +38,17 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
         content: (
           <WidgetEmbedCodeCard
             siloId={silo.id}
-            teamKey={team.team_key}
+            teamKey={teamKey}
+            widgetName="forwarder"
+          />
+        ),
+      },
+      {
+        title: "Shareable URL",
+        content: (
+          <WidgetShareCard
+            siloId={silo.id}
+            teamKey={teamKey}
             widgetName="forwarder"
           />
         ),
@@ -71,12 +82,7 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
       >
         <div className="flex flex-row gap-4">
           {silo && (
-            <ForwarderWidgetOpenButton
-              silo={silo}
-              variant="border"
-              size="lg"
-              isExternal
-            />
+            <ForwarderWidgetOpenButton silo={silo} size="lg" isExternal />
           )}
           <LinkButton variant="border" href="/api" size="lg" isExternal>
             <div className="flex flex-row items-center gap-1">

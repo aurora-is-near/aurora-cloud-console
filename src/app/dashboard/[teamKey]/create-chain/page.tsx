@@ -2,16 +2,18 @@ import Link from "next/link"
 import { XMarkIcon } from "@heroicons/react/20/solid"
 import OnboardingForm from "@/app/dashboard/[teamKey]/create-chain/OnboardingForm"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { getTeamOnboardingForm } from "@/actions/onboarding/get-onboarding-form"
 import { trackEvent } from "@/components/Mixpanel/ServerTracker"
+import { getTeamOnboardingFormByKey } from "@/actions/onboarding/get-team-onboarding-form-by-key"
 
 const Page = async ({
   params: { teamKey },
 }: {
   params: { teamKey: string }
 }) => {
-  const team = await getTeamByKey(teamKey)
-  const onboardingFormData = await getTeamOnboardingForm(team.id)
+  const [team, onboardingFormData] = await Promise.all([
+    getTeamByKey(teamKey),
+    getTeamOnboardingFormByKey(teamKey),
+  ])
 
   if (!onboardingFormData) {
     await trackEvent("onboarding_started", {
