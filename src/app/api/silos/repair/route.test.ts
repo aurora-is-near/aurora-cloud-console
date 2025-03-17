@@ -39,6 +39,9 @@ describe("Silos repair route", () => {
   beforeEach(() => {
     mockSupabaseClient.from("silos").select.mockReturnValue(createSelect([]))
     mockSupabaseClient
+      .from("silos")
+      .update.mockReturnValue(createInsertOrUpdate({}))
+    mockSupabaseClient
       .from("silo_config_transactions")
       .select.mockReturnValue(createSelect([]))
     mockSupabaseClient
@@ -70,9 +73,6 @@ describe("Silos repair route", () => {
     mockSupabaseClient
       .from("silos")
       .select.mockReturnValue(createSelect(mockSilos))
-    mockSupabaseClient
-      .from("silos")
-      .update.mockReturnValue(createInsertOrUpdate({}))
     ;(ethers.Contract as jest.Mock).mockImplementation(
       (tokenContractAddress) => ({
         symbol: () => {
@@ -356,5 +356,82 @@ describe("Silos repair route", () => {
         silo_id: mockSilo.id,
       },
     ])
+  })
+
+  it("resolves pending bridged tokens", async () => {
+    const mockSilo = createMockSilo({
+      is_active: true,
+      base_token_symbol: "AURORA",
+      inspected_at: new Date(
+        currentTime.getTime() - 60 * 60 * 1000,
+      ).toISOString(),
+    })
+
+    const mockBridgedTokens = [
+      {
+        ...createMockBridgedToken({ symbol: "TESTa", aurora_address: "0x123" }),
+        silo_bridged_tokens: [
+          { silo_id: mockSilo.id, is_deployment_pending: true },
+        ],
+      },
+      {
+        ...createMockBridgedToken({ symbol: "TESTb", aurora_address: "0x456" }),
+        silo_bridged_tokens: [
+          { silo_id: mockSilo.id, is_deployment_pending: true },
+        ],
+      },
+    ]
+
+    const silosBridgedTokensUpdateQueries = createInsertOrUpdate({})
+
+    mockSupabaseClient
+      .from("silos")
+      .select.mockReturnValue(createSelect([mockSilo]))
+    mockSupabaseClient
+      .from("bridged_token_requests")
+      .select.mockReturnValue(createSelect([]))
+    mockSupabaseClient
+      .from("bridged_tokens")
+      .select.mockReturnValue(createSelect(mockBridgedTokens))
+    mockSupabaseClient
+      .from("silo_bridged_tokens")
+      .update.mockReturnValue(silosBridgedTokensUpdateQueries)
+    ;(ethers.Contract as jest.Mock).mockImplementation(
+      (tokenContractAddress) => ({
+        symbol: () => {
+          if (tokenContractAddress !== mockBridgedTokens[0].aurora_address) {
+            throw new Error("Not implemented")
+          }
+        },
+      }),
+    )
+
+    const req = new NextRequest("https://example.com", { method: "POST" })
+    const res = await POST(req, { params: {} })
+
+    expect(res.status).toBe(200)
+    expect(await res.json()).toEqual({
+      status: 200,
+      body: {
+        message: "ok",
+      },
+    })
+
+    expect(
+      mockSupabaseClient.from("silo_bridged_tokens").update,
+    ).toHaveBeenCalledTimes(1)
+    expect(silosBridgedTokensUpdateQueries.eq).toHaveBeenCalledWith(
+      "silo_id",
+      mockSilo.id,
+    )
+    expect(silosBridgedTokensUpdateQueries.eq).toHaveBeenCalledWith(
+      "bridged_token_id",
+      mockBridgedTokens[0].id,
+    )
+    expect(
+      mockSupabaseClient.from("silo_bridged_tokens").update,
+    ).toHaveBeenCalledWith({
+      is_deployment_pending: false,
+    })
   })
 })

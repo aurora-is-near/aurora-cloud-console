@@ -12,6 +12,7 @@ import { resolveBridgedTokenRequest } from "@/actions/silo-bridged-tokens/resolv
 import { getBridgedTokens } from "@/actions/bridged-tokens/get-bridged-tokens"
 import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-silo-bridged-token"
 import { isBridgedTokenDeployed } from "@/utils/is-bridged-token-deployed"
+import { updateSiloBridgedToken } from "@/actions/silo-bridged-tokens/update-silo-bridged-token"
 
 type PreviouslyInspectedSilo = Omit<Silo, "inspected_at"> & {
   inspected_at: string
@@ -24,18 +25,18 @@ const isPreviouslyInspectedSilo = (
 ): silo is PreviouslyInspectedSilo => !!silo.inspected_at
 
 /**
- * Check if any pending bridged token requests can be resolved.
- *
- * If we have configured a bridged token with the same symbol as a pending
- * request, mark the request as resolved and create a silo bridged token.
+ * Check if any pending bridged tokens can be resolved.
  */
-const resolvePendingBridgedTokenRequests = async (silo: Silo) => {
+const resolvePendingBridgedTokens = async (silo: Silo) => {
   const [requests, siloBridgedTokens, bridgedTokens] = await Promise.all([
     getSiloBridgedTokenRequests(silo.id),
     getSiloBridgedTokens(silo.id),
     getBridgedTokens(),
   ])
 
+  // Check if any requests for custom tokens can be resolved. If we have
+  // subsequently configured a token with the same symbol as a request we can
+  // resolve that request and assign the bridged token to the silo.
   await Promise.all(
     requests.map(async (request) => {
       if (siloBridgedTokens.some((token) => token.symbol === request.symbol)) {
@@ -59,6 +60,20 @@ const resolvePendingBridgedTokenRequests = async (silo: Silo) => {
 
       await resolveBridgedTokenRequest(request.id)
     }),
+  )
+
+  // Check if any bridge tokens previously marked as pending have been deployed,
+  // mark them as deployed if so.
+  await Promise.all(
+    siloBridgedTokens
+      .filter((bridgedToken) => bridgedToken.is_deployment_pending)
+      .map(async (bridgedToken) => {
+        if (await isBridgedTokenDeployed(silo, bridgedToken)) {
+          await updateSiloBridgedToken(silo.id, bridgedToken.id, {
+            isDeploymentPending: false,
+          })
+        }
+      }),
   )
 }
 
@@ -105,7 +120,7 @@ const repairSilo = async (silo: Silo) => {
   }
 
   await initialiseSilo(silo)
-  await resolvePendingBridgedTokenRequests(silo)
+  await resolvePendingBridgedTokens(silo)
 }
 
 export const POST = createPrivateApiEndpoint(async (_req: NextRequest) => {
