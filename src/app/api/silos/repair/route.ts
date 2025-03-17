@@ -29,6 +29,6 @@ export const POST = createPrivateApiEndpoint(async (_req: NextRequest) => {
 
   return {
     status: 200,
-    body: { message: "Repair complete" },
+    body: { message: "ok" },
   }
 })
