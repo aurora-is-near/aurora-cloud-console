@@ -83,7 +83,7 @@
     "@types/debug": "^4.1.12",
     "@types/eases": "^1.0.4",
     "@types/human-date": "^1.4.5",
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.14",
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/mixpanel-browser": "^2.51.0",
     "@types/node": "20.5.4",
