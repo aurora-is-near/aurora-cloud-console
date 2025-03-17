@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { adaptDeal } from "@/utils/adapters"
 import { GET, PUT } from "./route"
 import {
   createInsertOrUpdate,
@@ -8,7 +9,6 @@ import {
   mockSupabaseClient,
 } from "../../../../../test-utils/mock-supabase-client"
 import { createMockDeal } from "../../../../../test-utils/factories/deal-factory"
-import { mockTeam } from "../../../../../test-utils/mock-team"
 import { setupJestOpenApi } from "../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../test-utils/invoke-api-handler"
 
@@ -40,19 +40,7 @@ describe("Deal route", () => {
       })
 
       expect(res).toSatisfyApiSpec()
-      expect(res.body).toEqual({
-        id: mockDeal.id,
-        siloId: mockDeal.silo_id,
-        teamId: mockDeal.team_id,
-        name: mockDeal.name,
-        open: mockDeal.open,
-        enabled: mockDeal.enabled,
-        endTime: mockDeal.end_time,
-        startTime: mockDeal.start_time,
-        createdAt: mockDeal.created_at,
-        updatedAt: mockDeal.updated_at,
-        deletedAt: mockDeal.deleted_at,
-      })
+      expect(res.body).toEqual(adaptDeal(mockDeal))
 
       expect(dealSelectQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
     })

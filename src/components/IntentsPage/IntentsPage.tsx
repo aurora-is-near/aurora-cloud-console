@@ -1,19 +1,52 @@
+"use client"
+
 import Image from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
+import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { CheckIcon } from "@heroicons/react/24/solid"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
-import { Silo } from "@/types/types"
+import { Silo, Team } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
+import { Button } from "@/components/Button"
+import { requestIntentsIntegration } from "@/actions/silos/request-intents-integration"
+import { RequestReceivedPopup } from "@/components/IntentsPage/RequestReceivedPopup"
 import { NearIntents } from "../../../public/static/v2/images/icons"
 
 type IntentsPageProps = {
   silo?: Silo | null
+  team: Team
 }
 
-export const IntentsPage = ({ silo = null }: IntentsPageProps) => {
-  console.log("silo", silo)
+export const IntentsPage = ({ silo = null, team }: IntentsPageProps) => {
+  const [isRequestingIntegration, setIsRequestingIntegration] = useState(false)
+  const [isIntegrationRequested, setIsIntegrationRequested] = useState(false)
+  const router = useRouter()
+
+  const onRequestIntegration = async () => {
+    if (!silo) {
+      return
+    }
+
+    setIsRequestingIntegration(true)
+    const updatedSilo = await requestIntentsIntegration(team, silo)
+
+    if (updatedSilo.intents_integration_status !== "REQUESTED") {
+      toast.error("Failed to request integration")
+      setIsRequestingIntegration(false)
+
+      return
+    }
+
+    setIsRequestingIntegration(false)
+    setIsIntegrationRequested(true)
+    router.refresh()
+  }
+
   const tabs = [
     {
       title: "About",
@@ -72,15 +105,46 @@ export const IntentsPage = ({ silo = null }: IntentsPageProps) => {
           />
         }
       >
-        <LinkButton
-          isExternal
-          variant="border"
-          href="https://neear-intents.org/"
-          size="lg"
-        >
-          <span>Open Near Intents</span>
-          <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-        </LinkButton>
+        {isIntegrationRequested ||
+          (true && (
+            <RequestReceivedPopup
+              link={`/dashboard/${team.team_key}/silos/${silo?.id}/block-explorer?tab=configuration`}
+              close={() => setIsIntegrationRequested(false)}
+            />
+          ))}
+        <div className="flex justify-start gap-2">
+          {silo?.intents_integration_status === "INITIAL" && (
+            <Button
+              onClick={onRequestIntegration}
+              disabled={isRequestingIntegration}
+              size="lg"
+            >
+              {isRequestingIntegration
+                ? "Requesting activation..."
+                : "Activate integration"}
+            </Button>
+          )}
+          {silo?.intents_integration_status === "REQUESTED" && (
+            <Button variant="secondary" size="lg" disabled>
+              <CheckIcon className="w-4 h-4" />
+              Integration requested
+            </Button>
+          )}
+          {silo?.intents_integration_status === "COMPLETED" && (
+            <Button size="lg" disabled>
+              Active
+            </Button>
+          )}
+          <LinkButton
+            isExternal
+            variant="border"
+            href="https://neear-intents.org/"
+            size="lg"
+          >
+            <span>Open Near Intents</span>
+            <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+          </LinkButton>
+        </div>
       </Hero>
 
       <Tabs tabs={tabs} />

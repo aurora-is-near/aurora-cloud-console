@@ -50,8 +50,6 @@ export type RequestStatus = Enums<"request_status">
 
 export type BaseTokenSymbol = Enums<"base_token_symbol">
 
-export type RequestStatus = Enums<"request_status">
-
 export type ApiScope = PublicApiScope | "admin"
 
 export type ApiKey = Tables<"api_keys">
@@ -65,6 +63,8 @@ export type Widget = Tables<"widgets">
 export type Team = Tables<"teams">
 
 export type Silo = Tables<"silos">
+
+export type TeamSilo = Tables<"teams_silos">
 
 export type SilosTeams = Tables<"silos_teams">
 

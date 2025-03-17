@@ -66,6 +66,7 @@ export const SiloSchema = z.object({
   name: z.string(),
   network: z.string(),
   rpcUrl: z.string(),
+  intentsIntegrationStatus: z.string(),
   nativeToken: z.object({
     symbol: z.string(),
     name: z.string().nullable(),
@@ -342,6 +343,24 @@ export const contract = c.router({
       symbol: z.string().optional(),
       address: z.string().optional(),
     }),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  requestIntentsIntegration: {
+    summary: "Request intents integration for a silo",
+    method: "POST",
+    path: "/api/silos/:id/intents",
+    body: z.object({}),
+    responses: {
+      200: SiloSchema,
+      404: z.object({
+        message: z.string(),
+      }),
+    },
+    metadata: {
+      scopes: ["silos:write"],
+    },
     pathParams: z.object({
       id: z.number(),
     }),
