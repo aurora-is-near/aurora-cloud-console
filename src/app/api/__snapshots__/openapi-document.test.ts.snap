@@ -2013,6 +2013,182 @@ exports[`OpenAPI Document should be valid 1`] = `
       },
     },
     "/api/silos/{id}/permissions": {
+      "delete": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silo:write\`",
+        "operationId": "removeAddressFromPermissionsWhitelist",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "MAKE_TRANSACTION",
+                      "DEPLOY_CONTRACT",
+                    ],
+                    "type": "string",
+                  },
+                  "address": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "address",
+                  "action",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "MAKE_TRANSACTION",
+                        "DEPLOY_CONTRACT",
+                      ],
+                      "type": "string",
+                    },
+                    "address": {
+                      "type": "string",
+                    },
+                    "status": {
+                      "enum": [
+                        "PENDING",
+                        "SUCCESSFUL",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                    "address",
+                    "action",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silo:write",
+            ],
+          },
+        ],
+        "summary": "Remove wallet address from whitelist to forbid make transactions or deploy contracts",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silo:write\`",
+        "operationId": "addAddressToPermissionsWhitelist",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "MAKE_TRANSACTION",
+                      "DEPLOY_CONTRACT",
+                    ],
+                    "type": "string",
+                  },
+                  "address": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "address",
+                  "action",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "MAKE_TRANSACTION",
+                        "DEPLOY_CONTRACT",
+                      ],
+                      "type": "string",
+                    },
+                    "address": {
+                      "type": "string",
+                    },
+                    "status": {
+                      "enum": [
+                        "PENDING",
+                        "SUCCESSFUL",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                    "address",
+                    "action",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silo:write",
+            ],
+          },
+        ],
+        "summary": "Add wallet address to whitelist to allow make transactions or deploy contracts",
+        "tags": [
+          "silos",
+        ],
+      },
       "put": {
         "deprecated": undefined,
         "description": "**Required scopes:** \`silo:write\`",
@@ -2184,7 +2360,7 @@ exports[`OpenAPI Document should be valid 1`] = `
       "get": {
         "deprecated": undefined,
         "description": "**Required scopes:** \`silos:read\`",
-        "operationId": "getSiloTokens",
+        "operationId": "getSiloBridgedTokens",
         "parameters": [
           {
             "in": "path",
@@ -2204,67 +2380,18 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "items": {
                       "items": {
                         "properties": {
-                          "address": {
-                            "type": "string",
-                          },
-                          "bridge": {
+                          "aurora_address": {
                             "nullable": true,
-                            "properties": {
-                              "addresses": {
-                                "items": {
-                                  "properties": {
-                                    "address": {
-                                      "type": "string",
-                                    },
-                                    "network": {
-                                      "type": "string",
-                                    },
-                                  },
-                                  "required": [
-                                    "network",
-                                    "address",
-                                  ],
-                                  "type": "object",
-                                },
-                                "type": "array",
-                              },
-                              "deploymentStatus": {
-                                "enum": [
-                                  "NOT_DEPLOYED",
-                                  "PENDING",
-                                  "DEPLOYED",
-                                ],
-                                "type": "string",
-                              },
-                              "isFast": {
-                                "type": "boolean",
-                              },
-                              "origin": {
-                                "nullable": true,
-                                "type": "string",
-                              },
-                            },
-                            "required": [
-                              "deploymentStatus",
-                              "isFast",
-                              "addresses",
-                              "origin",
-                            ],
-                            "type": "object",
+                            "type": "string",
                           },
                           "createdAt": {
                             "type": "string",
                           },
                           "decimals": {
-                            "nullable": true,
                             "type": "number",
                           },
-                          "deploymentStatus": {
-                            "enum": [
-                              "NOT_DEPLOYED",
-                              "PENDING",
-                              "DEPLOYED",
-                            ],
+                          "ethereum_address": {
+                            "nullable": true,
                             "type": "string",
                           },
                           "iconUrl": {
@@ -2274,36 +2401,42 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "id": {
                             "type": "number",
                           },
+                          "isDeploymentPending": {
+                            "type": "boolean",
+                          },
                           "name": {
+                            "type": "string",
+                          },
+                          "near_address": {
                             "nullable": true,
                             "type": "string",
                           },
                           "symbol": {
                             "type": "string",
                           },
-                          "type": {
-                            "nullable": true,
-                            "type": "string",
-                          },
                         },
                         "required": [
-                          "address",
-                          "createdAt",
                           "id",
-                          "symbol",
+                          "createdAt",
                           "name",
+                          "symbol",
                           "decimals",
+                          "aurora_address",
+                          "near_address",
+                          "ethereum_address",
                           "iconUrl",
-                          "type",
-                          "deploymentStatus",
-                          "bridge",
+                          "isDeploymentPending",
                         ],
                         "type": "object",
                       },
                       "type": "array",
                     },
+                    "total": {
+                      "type": "number",
+                    },
                   },
                   "required": [
+                    "total",
                     "items",
                   ],
                   "type": "object",
@@ -2320,7 +2453,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             ],
           },
         ],
-        "summary": "Get the tokens associated with a silo",
+        "summary": "Get the bridged tokens associated with a silo",
         "tags": [
           "silos",
         ],
@@ -2368,17 +2501,12 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "status": {
-                      "enum": [
-                        "NOT_DEPLOYED",
-                        "PENDING",
-                        "DEPLOYED",
-                      ],
-                      "type": "string",
+                    "isDeploymentPending": {
+                      "type": "boolean",
                     },
                   },
                   "required": [
-                    "status",
+                    "isDeploymentPending",
                   ],
                   "type": "object",
                 },
@@ -2395,6 +2523,82 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Request bridging of a token for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/tokens/requests": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloBridgedTokenRequests",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "address": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "createdAt": {
+                            "type": "string",
+                          },
+                          "id": {
+                            "type": "number",
+                          },
+                          "symbol": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "createdAt",
+                          "symbol",
+                          "address",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                    "total": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "total",
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the bridged tokens requested for a silo",
         "tags": [
           "silos",
         ],

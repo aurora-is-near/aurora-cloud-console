@@ -1,68 +1,89 @@
+import { JsonRpcProvider } from "ethers"
 import { createApiEndpoint } from "@/utils/api"
 import { getSilo } from "@/actions/silos/get-silo"
-import { getSiloToken } from "@/actions/silo-tokens/get-silo-token"
-import { updateToken } from "@/actions/tokens/update-token"
 import { ApiResponseBody } from "@/types/api"
-import { getSiloTokenByAddress } from "@/actions/silo-tokens/get-silo-token-by-address"
-import { createToken } from "@/actions/tokens/create-token"
+import { getBridgedToken } from "@/actions/bridged-tokens/get-bridged-token"
+import { checkTokenByContractAddress } from "@/utils/check-token-contract"
+import { BridgedToken, Silo } from "@/types/types"
+import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-silo-bridged-token"
+import { createSiloBridgedTokenRequest } from "@/actions/silo-bridged-tokens/create-silo-bridged-token-request"
+import { getSiloBridgedToken } from "@/actions/silo-bridged-tokens/get-silo-bridged-token"
 import { abort } from "../../../../../../utils/abort"
 
-const bridgeToken = async (tokenId: number) => {
-  const updatedToken = await updateToken(tokenId, {
-    bridge_deployment_status: "PENDING",
-  })
+const isTokenContractDeployed = async (silo: Silo, contractAddress: string) => {
+  const provider = new JsonRpcProvider(silo.rpc_url)
+  const isDeployed = await checkTokenByContractAddress(
+    provider,
+    contractAddress,
+  )
 
-  return { status: updatedToken.bridge_deployment_status }
+  return isDeployed
 }
 
-const bridgeExistingToken = async (
-  siloId: number,
+const isTokenDeployed = async (silo: Silo, token: BridgedToken) => {
+  const isBaseToken =
+    silo.base_token_symbol.toUpperCase() === token.symbol.toUpperCase()
+
+  if (isBaseToken) {
+    return true
+  }
+
+  if (!token.aurora_address) {
+    return false
+  }
+
+  return isTokenContractDeployed(silo, token.aurora_address)
+}
+
+const bridgeKnownToken = async (
+  silo: Silo,
   tokenId: number,
 ): Promise<ApiResponseBody<"bridgeSiloToken">> => {
-  const token = await getSiloToken(siloId, tokenId)
+  const [token, siloBridgedToken] = await Promise.all([
+    getBridgedToken(tokenId),
+    getSiloBridgedToken(silo.id, tokenId),
+  ])
 
   if (!token) {
     abort(404)
   }
 
-  if (token.bridge_deployment_status === "DEPLOYED") {
-    abort(400, "Token is already deployed")
+  if (siloBridgedToken) {
+    abort(400, `${token.symbol} is already bridged for this silo`)
   }
 
-  return bridgeToken(token.id)
+  const isDeployed = await isTokenDeployed(silo, token)
+
+  await createSiloBridgedToken(silo.id, token.id, {
+    isDeploymentPending: !isDeployed,
+  })
+
+  return {
+    isDeploymentPending: !isDeployed,
+  }
 }
 
 const bridgeCustomToken = async (
-  siloId: number,
+  silo: Silo,
   symbol: string,
   address: string,
 ): Promise<ApiResponseBody<"bridgeSiloToken">> => {
-  const token = await getSiloTokenByAddress(siloId, address)
+  const isDeployed = await isTokenContractDeployed(silo, address)
 
-  if (token?.bridge_deployment_status === "DEPLOYED") {
+  if (isDeployed) {
     abort(400, "Token is already deployed")
   }
 
-  if (token) {
-    return bridgeToken(token.id)
-  }
-
-  const newToken = await createToken({
+  await createSiloBridgedTokenRequest({
+    silo_id: silo.id,
     symbol,
     address,
-    deployment_status: "PENDING",
-    bridge_deployment_status: "PENDING",
-    silo_id: siloId,
-    type: null,
-    name: null,
-    decimals: null,
-    bridge_addresses: [],
-    fast_bridge: false,
-    bridge_origin: null,
-    icon_url: null,
   })
 
-  return { status: newToken.bridge_deployment_status }
+  // TODO: Send a Slack notification, once we know this is all working
+  return {
+    isDeploymentPending: true,
+  }
 }
 
 export const POST = createApiEndpoint("bridgeSiloToken", async (_req, ctx) => {
@@ -73,17 +94,13 @@ export const POST = createApiEndpoint("bridgeSiloToken", async (_req, ctx) => {
     abort(404)
   }
 
-  if (ctx.body.tokenId && (ctx.body.symbol ?? ctx.body.address)) {
-    abort(400, badRequestMessage)
-  }
-
   if (ctx.body.tokenId) {
-    return bridgeExistingToken(silo.id, ctx.body.tokenId)
+    return bridgeKnownToken(silo, ctx.body.tokenId)
   }
 
-  if (!ctx.body.symbol || !ctx.body.address) {
+  if (!(ctx.body.symbol && ctx.body.address)) {
     abort(400, badRequestMessage)
   }
 
-  return bridgeCustomToken(silo.id, ctx.body.symbol, ctx.body.address)
+  return bridgeCustomToken(silo, ctx.body.symbol, ctx.body.address)
 })

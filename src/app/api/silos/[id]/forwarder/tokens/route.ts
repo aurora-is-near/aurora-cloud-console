@@ -5,7 +5,7 @@ import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { forwarderApiClient } from "@/utils/forwarder-api/client"
 import { Silo } from "@/types/types"
 import { ForwarderTokenSymbol } from "@/types/forwarder-tokens"
-import { checkToken } from "@/utils/check-token-contract"
+import { checkTokenBySymbol } from "@/utils/check-token-contract"
 
 type Token = {
   address: string
@@ -56,7 +56,7 @@ const checkTokenContracts = async (silo: Silo, tokens: string[]) => {
         abort(400, `Unknown token: ${symbol}`)
       }
 
-      if (!(await checkToken(provider, symbol))) {
+      if (!(await checkTokenBySymbol(provider, symbol))) {
         abort(400, `Token contract not deployed: ${symbol}`)
       }
     }),
@@ -124,7 +124,7 @@ export const GET = createApiEndpoint(
         KNOWN_TOKENS.map(async ({ symbol, decimals }) => ({
           symbol,
           decimals,
-          contractDeployed: await checkToken(provider, symbol),
+          contractDeployed: await checkTokenBySymbol(provider, symbol),
           enabled: (supportedTokens ?? []).some(
             (token) => token.symbol === symbol,
           ),

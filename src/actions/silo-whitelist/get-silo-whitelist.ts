@@ -1,23 +1,23 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { Token } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
+import type { SiloWhitelistAddress, SiloWhitelistType } from "@/types/types"
 
-export const updateToken = async (
-  tokenId: number,
-  inputs: Partial<Omit<Token, "id" | "created_at">>,
-): Promise<Token> => {
+export const getSiloWhitelist = async (
+  siloId: number,
+  whitelistKind: SiloWhitelistType,
+): Promise<SiloWhitelistAddress[]> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
-    .from("tokens")
-    .update(inputs)
-    .eq("id", tokenId)
-    .select()
-    .single()
+    .from("silo_whitelist_addresses")
+    .select("*")
+    .order("id", { ascending: true })
+    .eq("silo_id", siloId)
+    .eq("list", whitelistKind)
 
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)

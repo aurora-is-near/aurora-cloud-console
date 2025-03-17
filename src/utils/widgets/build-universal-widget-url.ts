@@ -1,8 +1,8 @@
 import { NextRequest } from "next/server"
 import { getSilo } from "@/actions/silos/get-silo"
-import { getTokens } from "@/actions/tokens/get-tokens"
 import { getWidget } from "@/actions/widget/get-widget"
 import { getWidgetUrl } from "@/actions/widget/get-widget-url"
+import { getSiloBridgedTokens } from "@/actions/silo-bridged-tokens/get-silo-bridged-tokens"
 
 export const buildUniversalWidgetUrl = async (
   req: NextRequest,
@@ -16,7 +16,7 @@ export const buildUniversalWidgetUrl = async (
   const [widget, silo, tokens] = await Promise.all([
     getWidget(siloId),
     getSilo(siloId),
-    getTokens(),
+    getSiloBridgedTokens(siloId),
   ])
 
   if (!silo || !widget) {

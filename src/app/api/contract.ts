@@ -3,17 +3,12 @@ import { z } from "zod"
 import { extendZodWithOpenApi } from "@anatine/zod-openapi"
 import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 import { WIDGET_NETWORKS } from "@/constants/bridge"
-import { DEPLOYMENT_STATUSES } from "@/constants/deployment"
 import { SILO_ASSETS } from "@/constants/assets"
 import { FORWARDER_TOKENS } from "@/constants/forwarder-tokens"
 
 extendZodWithOpenApi(z)
 
 const c = initContract()
-
-const DeploymentStatus = z.string().openapi({
-  enum: DEPLOYMENT_STATUSES,
-})
 
 export const DealSchema = z.object({
   id: z.number(),
@@ -40,29 +35,24 @@ export const RuleSchema = z.object({
   updatedAt: z.string(),
 })
 
-export const TokenSchema = z.object({
-  address: z.string(),
-  createdAt: z.string(),
+export const SiloBridgedTokenSchema = z.object({
   id: z.number(),
+  createdAt: z.string(),
+  name: z.string(),
   symbol: z.string(),
-  name: z.string().nullable(),
-  decimals: z.number().nullable(),
+  decimals: z.number(),
+  aurora_address: z.string().nullable(),
+  near_address: z.string().nullable(),
+  ethereum_address: z.string().nullable(),
   iconUrl: z.string().nullable(),
-  type: z.string().nullable(),
-  deploymentStatus: DeploymentStatus,
-  bridge: z
-    .object({
-      deploymentStatus: DeploymentStatus,
-      isFast: z.boolean(),
-      addresses: z.array(
-        z.object({
-          network: z.string(),
-          address: z.string(),
-        }),
-      ),
-      origin: z.string().nullable(),
-    })
-    .nullable(),
+  isDeploymentPending: z.boolean(),
+})
+
+export const SiloBridgedTokenRequestSchema = z.object({
+  id: z.number(),
+  createdAt: z.string(),
+  symbol: z.string(),
+  address: z.string().nullable(),
 })
 
 export const SiloSchema = z.object({
@@ -148,6 +138,11 @@ const TransactionDataIntervalQueryParamSchema = z.string().optional().openapi({
 })
 
 const ForwarderToken = z.string().openapi({ enum: [...FORWARDER_TOKENS] })
+
+const SiloWhitelistActionSchema = z.union([
+  z.literal("MAKE_TRANSACTION"),
+  z.literal("DEPLOY_CONTRACT"),
+])
 
 export const contract = c.router({
   getDeals: {
@@ -296,13 +291,31 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
-  getSiloTokens: {
-    summary: "Get the tokens associated with a silo",
+  getSiloBridgedTokens: {
+    summary: "Get the bridged tokens associated with a silo",
     method: "GET",
     path: "/api/silos/:id/tokens",
     responses: {
       200: z.object({
-        items: z.array(TokenSchema),
+        total: z.number(),
+        items: z.array(SiloBridgedTokenSchema),
+      }),
+    },
+    metadata: {
+      scopes: ["silos:read"],
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+  },
+  getSiloBridgedTokenRequests: {
+    summary: "Get the bridged tokens requested for a silo",
+    method: "GET",
+    path: "/api/silos/:id/tokens/requests",
+    responses: {
+      200: z.object({
+        total: z.number(),
+        items: z.array(SiloBridgedTokenRequestSchema),
       }),
     },
     metadata: {
@@ -318,7 +331,7 @@ export const contract = c.router({
     path: "/api/silos/:id/tokens/bridge",
     responses: {
       200: z.object({
-        status: DeploymentStatus,
+        isDeploymentPending: z.boolean(),
       }),
     },
     metadata: {
@@ -488,18 +501,58 @@ export const contract = c.router({
       200: z.object({
         status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
         isEnabled: z.boolean(),
-        action: z.union([
-          z.literal("MAKE_TRANSACTION"),
-          z.literal("DEPLOY_CONTRACT"),
-        ]),
+        action: SiloWhitelistActionSchema,
       }),
     },
     body: z.object({
       isEnabled: z.boolean(),
-      action: z.union([
-        z.literal("MAKE_TRANSACTION"),
-        z.literal("DEPLOY_CONTRACT"),
-      ]),
+      action: SiloWhitelistActionSchema,
+    }),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silo:write"],
+    },
+  },
+  addAddressToPermissionsWhitelist: {
+    summary:
+      "Add wallet address to whitelist to allow make transactions or deploy contracts",
+    method: "POST",
+    path: "/api/silos/:id/permissions",
+    responses: {
+      200: z.object({
+        status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
+        address: z.string(),
+        action: SiloWhitelistActionSchema,
+      }),
+    },
+    body: z.object({
+      address: z.string(),
+      action: SiloWhitelistActionSchema,
+    }),
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silo:write"],
+    },
+  },
+  removeAddressFromPermissionsWhitelist: {
+    summary:
+      "Remove wallet address from whitelist to forbid make transactions or deploy contracts",
+    method: "DELETE",
+    path: "/api/silos/:id/permissions",
+    responses: {
+      200: z.object({
+        status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
+        address: z.string(),
+        action: SiloWhitelistActionSchema,
+      }),
+    },
+    body: z.object({
+      address: z.string(),
+      action: SiloWhitelistActionSchema,
     }),
     pathParams: z.object({
       id: z.number(),

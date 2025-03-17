@@ -1,19 +1,23 @@
 import { createApiEndpoint } from "@/utils/api"
 import { getSilo } from "@/actions/silos/get-silo"
-import { getSiloTokens } from "@/actions/silo-tokens/get-silo-tokens"
+import { getSiloBridgedTokens } from "@/actions/silo-bridged-tokens/get-silo-bridged-tokens"
 import { adaptToken } from "@/utils/adapters"
 import { abort } from "../../../../../utils/abort"
 
-export const GET = createApiEndpoint("getSiloTokens", async (_req, ctx) => {
-  const silo = await getSilo(Number(ctx.params.id))
+export const GET = createApiEndpoint(
+  "getSiloBridgedTokens",
+  async (_req, ctx) => {
+    const silo = await getSilo(Number(ctx.params.id))
 
-  if (!silo) {
-    abort(404)
-  }
+    if (!silo) {
+      abort(404)
+    }
 
-  const tokens = await getSiloTokens(silo.id)
+    const tokens = await getSiloBridgedTokens(silo.id)
 
-  return {
-    items: tokens.map(adaptToken),
-  }
-})
+    return {
+      total: tokens.length,
+      items: tokens.map(adaptToken),
+    }
+  },
+)

@@ -26,11 +26,13 @@ export const Checkbox = <Inputs extends Record<string, unknown>>({
   registerOptions,
   className,
   afterLabel,
+  disabled,
   ...restProps
 }: CheckboxProps<Inputs>) => {
   const registerProps = register?.(name, registerOptions)
   const formContext = useFormContext()
   const isChecked = formContext?.watch(name)
+  const cursorClassName = disabled ? "cursor-not-allowed" : "cursor-pointer"
 
   return (
     <div
@@ -42,18 +44,29 @@ export const Checkbox = <Inputs extends Record<string, unknown>>({
     >
       <label
         htmlFor={id}
-        className="flex items-start w-full cursor-pointer p-3"
+        className={clsx("flex items-start w-full p-3", cursorClassName)}
       >
         <div className="flex items-center h-6">
           <input
             id={id}
             type="checkbox"
-            className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600 cursor-pointer"
+            className={clsx(
+              "w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-600",
+              cursorClassName,
+            )}
+            disabled={disabled}
             {...restProps}
             {...registerProps}
           />
         </div>
-        <span className="ml-3 text-sm leading-6 text-gray-900">{label}</span>
+        <span
+          className={clsx(
+            "ml-3 text-sm leading-6",
+            disabled ? "text-slate-400" : "text-slate-900",
+          )}
+        >
+          {label}
+        </span>
       </label>
       {!!afterLabel && (
         <div className="flex items-center p-3">{afterLabel}</div>

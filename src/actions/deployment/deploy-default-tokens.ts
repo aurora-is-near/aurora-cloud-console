@@ -8,7 +8,7 @@ import {
   SiloConfigTransactionStatus,
 } from "@/types/types"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
-import { checkToken } from "@/utils/check-token-contract"
+import { checkTokenBySymbol } from "@/utils/check-token-contract"
 import { DefaultToken } from "@/types/default-tokens"
 import { DEFAULT_TOKENS } from "@/constants/default-tokens"
 
@@ -41,7 +41,7 @@ const deployDefaultToken = async ({
   silo: Silo
   symbol: DefaultToken
 }): Promise<SiloConfigTransactionStatus> => {
-  if (await checkToken(provider, symbol)) {
+  if (await checkTokenBySymbol(provider, symbol)) {
     return "SUCCESSFUL"
   }
 
@@ -62,12 +62,13 @@ export const deployDefaultTokens = async (
   const provider = new JsonRpcProvider(silo.rpc_url)
 
   const statuses = await Promise.all(
-    DEFAULT_TOKENS.map(async (symbol) =>
-      deployDefaultToken({
-        provider,
-        silo,
-        symbol,
-      }),
+    DEFAULT_TOKENS.filter((token) => token !== silo.base_token_symbol).map(
+      async (symbol) =>
+        deployDefaultToken({
+          provider,
+          silo,
+          symbol,
+        }),
     ),
   )
 
