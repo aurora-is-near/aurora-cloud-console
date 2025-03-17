@@ -1,6 +1,5 @@
 "use server"
 
-import { JsonRpcProvider } from "ethers"
 import { performSiloConfigTransaction } from "@/actions/deployment/perform-silo-config-transaction"
 import {
   Silo,
@@ -8,9 +7,7 @@ import {
   SiloConfigTransactionStatus,
 } from "@/types/types"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
-import { checkTokenBySymbol } from "@/utils/check-token-contract"
 import { DefaultToken } from "@/types/default-tokens"
-import { DEFAULT_TOKENS } from "@/constants/default-tokens"
 
 const CONTRACT_CHANGER_SYMBOLS: Record<
   DefaultToken,
@@ -32,24 +29,20 @@ const SILO_CONFIG_TRANSACTION_OPERATIONS: Record<
   USDC: "DEPLOY_USDC",
 }
 
-const deployDefaultToken = async ({
-  provider,
+export const performDeployTokenTransaction = async ({
   silo,
   symbol,
   skipIfFailed,
 }: {
-  provider: JsonRpcProvider
   silo: Silo
   symbol: DefaultToken
   skipIfFailed?: boolean
 }): Promise<SiloConfigTransactionStatus> => {
-  if (await checkTokenBySymbol(provider, symbol)) {
-    return "SUCCESSFUL"
-  }
+  const operation = SILO_CONFIG_TRANSACTION_OPERATIONS[symbol]
 
   return performSiloConfigTransaction(
     silo,
-    SILO_CONFIG_TRANSACTION_OPERATIONS[symbol],
+    operation,
     async () =>
       contractChangerApiClient.mirrorErc20Token({
         siloEngineAccountId: silo.engine_account,
@@ -57,32 +50,4 @@ const deployDefaultToken = async ({
       }),
     { skipIfFailed },
   )
-}
-
-export const deployDefaultTokens = async (
-  silo: Silo,
-  { skipIfFailed }: { skipIfFailed?: boolean } = {},
-): Promise<SiloConfigTransactionStatus> => {
-  const provider = new JsonRpcProvider(silo.rpc_url)
-
-  const statuses = await Promise.all(
-    DEFAULT_TOKENS.map(async (symbol) =>
-      deployDefaultToken({
-        provider,
-        silo,
-        symbol,
-        skipIfFailed,
-      }),
-    ),
-  )
-
-  if (statuses.includes("PENDING")) {
-    return "PENDING"
-  }
-
-  if (statuses.includes("FAILED")) {
-    return "FAILED"
-  }
-
-  return "SUCCESSFUL"
 }
