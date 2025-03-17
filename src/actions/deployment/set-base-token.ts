@@ -1,5 +1,6 @@
 "use server"
 
+import { boolean } from "zod"
 import { performSiloConfigTransaction } from "@/actions/deployment/perform-silo-config-transaction"
 import { BASE_TOKENS } from "@/constants/base-token"
 import {
@@ -15,6 +16,7 @@ const isValidBaseToken = (baseToken: string): baseToken is BaseTokenSymbol => {
 
 export const setBaseToken = async (
   silo: Silo,
+  { skipIfFailed }: { skipIfFailed?: boolean } = {},
 ): Promise<SiloConfigTransactionStatus> => {
   if (!isValidBaseToken(silo.base_token_symbol)) {
     throw new Error(`Invalid base token symbol: ${silo.base_token_symbol}`)
@@ -35,10 +37,15 @@ export const setBaseToken = async (
     )
   }
 
-  return performSiloConfigTransaction(silo, "SET_BASE_TOKEN", async () => {
-    return contractChangerApiClient.setBaseToken({
-      siloEngineAccountId: silo.engine_account,
-      baseTokenAccountId: baseTokenConfig.nearAccountId,
-    })
-  })
+  return performSiloConfigTransaction(
+    silo,
+    "SET_BASE_TOKEN",
+    async () => {
+      return contractChangerApiClient.setBaseToken({
+        siloEngineAccountId: silo.engine_account,
+        baseTokenAccountId: baseTokenConfig.nearAccountId,
+      })
+    },
+    { skipIfFailed },
+  )
 }
