@@ -9476,10 +9476,10 @@ mixpanel-browser@^2.58.0:
   dependencies:
     rrweb "2.0.0-alpha.13"
 
-mixpanel@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/mixpanel/-/mixpanel-0.18.0.tgz#f010f2622902d0d4b434de238446ec8e5966ee32"
-  integrity sha512-VyUoiLB/S/7abYYHGD5x0LijeuJCUabG8Hb+FvYU3Y99xHf1Qh+s4/pH9lt50fRitAHncWbU1FE01EknUfVVjQ==
+mixpanel@^0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/mixpanel/-/mixpanel-0.18.1.tgz#beefdce6c260165f4e2059c8cdd34c5c557162f7"
+  integrity sha512-YD1xfn6WP6ZLQ6Pmgh0KgdXhueJEsrodThMTsHzHMH0VbWa9ck8s+ynDtM83OSgt+yQ61W/SQNrH8Y4wIwocGg==
   dependencies:
     https-proxy-agent "5.0.0"
 

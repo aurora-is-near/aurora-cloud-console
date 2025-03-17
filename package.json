@@ -45,7 +45,7 @@
     "http-status": "^1.7.3",
     "human-date": "^1.4.0",
     "lottie-react": "^2.4.1",
-    "mixpanel": "^0.18.0",
+    "mixpanel": "^0.18.1",
     "mixpanel-browser": "^2.58.0",
     "near-api-js": "^5.0.1",
     "next": "^14.2.24",
