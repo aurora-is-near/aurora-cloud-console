@@ -13,10 +13,7 @@ const STALLED_THRESHOLD = 60
 /**
  * Check that all of the expected default tokens were deployed.
  */
-export const checkDefaultTokens = async (
-  provider: JsonRpcProvider,
-  silo: Silo,
-) => {
+const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
   const bridgedTokens = await getSiloBridgedTokens(silo.id)
   const tokensById = bridgedTokens.reduce<Record<string, boolean>>(
     (acc, token) => ({
