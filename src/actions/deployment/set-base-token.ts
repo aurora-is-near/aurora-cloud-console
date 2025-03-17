@@ -1,6 +1,5 @@
 "use server"
 
-import { boolean } from "zod"
 import { performSiloConfigTransaction } from "@/actions/deployment/perform-silo-config-transaction"
 import { BASE_TOKENS } from "@/constants/base-token"
 import {
