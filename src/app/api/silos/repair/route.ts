@@ -20,6 +20,7 @@ const repairSilo = async (silo: Silo) => {
     Date.now() - new Date(silo.inspected_at).getTime() < 24 * 60 * 60 * 1000
 
   await deployDefaultTokens(silo, { skipIfFailed: isWithin24Hours })
+  await updateSilo(silo.id, { inspected_at: new Date().toISOString() })
 }
 
 export const POST = createPrivateApiEndpoint(async (_req: NextRequest) => {
