@@ -105,13 +105,12 @@ export const IntentsPage = ({ silo = null, team }: IntentsPageProps) => {
           />
         }
       >
-        {isIntegrationRequested ||
-          (true && (
-            <RequestReceivedPopup
-              link={`/dashboard/${team.team_key}/silos/${silo?.id}/block-explorer?tab=configuration`}
-              close={() => setIsIntegrationRequested(false)}
-            />
-          ))}
+        {isIntegrationRequested && (
+          <RequestReceivedPopup
+            link={`/dashboard/${team.team_key}/silos/${silo?.id}/block-explorer`}
+            close={() => setIsIntegrationRequested(false)}
+          />
+        )}
         <div className="flex justify-start gap-2">
           {silo?.intents_integration_status === "INITIAL" && (
             <Button
