@@ -1,11 +1,9 @@
 /**
  * @jest-environment node
  */
-import Stripe from "stripe"
 import { NextRequest } from "next/server"
 import { ethers } from "ethers"
 import nock from "nock"
-import { logger } from "@/logger"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import { POST } from "./route"
 import {
