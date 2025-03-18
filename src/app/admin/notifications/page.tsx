@@ -30,7 +30,7 @@ const Page = async () => {
                   <TableButton
                     Icon={EyeIcon}
                     srOnlyText="View request"
-                    href={`/admin/requests/bridged-tokens/${request.id}`}
+                    href={`/admin/notifications/bridged-tokens/${request.id}`}
                   />
                   <ResolveButton
                     isTableButton
