@@ -7,6 +7,7 @@ export type MenuItem = {
   items?: Omit<MenuItem, "items" | "icon">[]
   variant?: "primary" | "secondary"
   isExternal?: boolean
+  getNotificationCount?: () => number | Promise<number>
 }
 
 export type MenuSection = {

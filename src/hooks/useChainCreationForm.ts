@@ -164,8 +164,12 @@ export const useChainCreationForm = ({
   }, [])
 
   const handleSubmit = useCallback(async () => {
+    let hasErrors = false
+
     if (!form.chainName) {
       setFieldErrors((p) => ({ ...p, chainName: "Please enter a chain name" }))
+
+      hasErrors = true
     }
 
     if (!form.baseToken) {
@@ -174,6 +178,8 @@ export const useChainCreationForm = ({
         ...fieldErrors,
         baseToken: "Please select a base token",
       }))
+
+      hasErrors = true
     }
 
     if (!form.gasMechanics) {
@@ -182,9 +188,11 @@ export const useChainCreationForm = ({
         ...fieldErrors,
         gasMechanics: "Please select a gas mechanics",
       }))
+
+      hasErrors = true
     }
 
-    if (fieldErrors && Object.values(fieldErrors).find((v) => !!v)) {
+    if (hasErrors) {
       return
     }
 
