@@ -41,6 +41,7 @@
     "date-fns": "^4.1.0",
     "debug": "^4.4.0",
     "eases": "^1.0.8",
+    "p-queue": "^6.6.2",
     "ethers": "6.13.5",
     "http-status": "^1.7.3",
     "human-date": "^1.4.0",
