@@ -13,7 +13,10 @@ type IntentsPageProps = {
 }
 
 export const IntentsPage = ({ silo = null }: IntentsPageProps) => {
-  console.log("silo", silo)
+  if (!silo) {
+    return null
+  }
+
   const tabs = [
     {
       title: "About",
