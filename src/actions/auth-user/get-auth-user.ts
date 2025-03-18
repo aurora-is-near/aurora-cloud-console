@@ -3,7 +3,7 @@
 import { User } from "@supabase/supabase-js"
 import { createServerComponentClient } from "@/supabase/create-server-component-client"
 
-export const getAuthSession = async (): Promise<User | null> => {
+export const getAuthUser = async (): Promise<User | null> => {
   const supabase = createServerComponentClient()
   const {
     data: { user },
