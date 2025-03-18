@@ -2,10 +2,14 @@ import { Block, JsonRpcProvider, Network } from "ethers"
 import { createApiEndpoint } from "@/utils/api"
 import { getSilo } from "@/actions/silos/get-silo"
 import { abort } from "@/utils/abort"
-import { checkTokenBySymbol } from "@/utils/check-token-contract"
+import {
+  checkTokenByContractAddress,
+  checkTokenBySymbol,
+} from "@/utils/check-token-contract"
 import { Silo } from "@/types/types"
 import { DEFAULT_TOKENS } from "@/constants/default-tokens"
 import { DefaultToken } from "@/types/default-tokens"
+import { getSiloBridgedTokens } from "@/actions/silo-bridged-tokens/get-silo-bridged-tokens"
 
 const STALLED_THRESHOLD = 60
 
@@ -29,6 +33,42 @@ const checkDefaultTokens = async (provider: JsonRpcProvider) => {
       AURORA: false,
     },
   )
+}
+
+const checkBridgedTokens = async (provider: JsonRpcProvider, silo: Silo) => {
+  const bridgedTokens = await getSiloBridgedTokens(silo.id)
+  const result: Record<string, boolean> = {}
+
+  await Promise.all(
+    bridgedTokens.map(async (token) => {
+      if (!token.is_deployment_pending) {
+        result[token.symbol] = true
+
+        return
+      }
+
+      // If the token has been set as the base token then no contract deployment
+      // is required.
+      if (silo.base_token_symbol === token.symbol) {
+        result[token.symbol] = true
+
+        return
+      }
+
+      if (!token.aurora_address) {
+        result[token.symbol] = false
+
+        return
+      }
+
+      result[token.symbol] = await checkTokenByContractAddress(
+        provider,
+        token.aurora_address,
+      )
+    }, {}),
+  )
+
+  return result
 }
 
 /**
@@ -72,15 +112,17 @@ export const GET = createApiEndpoint("healthcheck", async (_req, ctx) => {
 
   const provider = new JsonRpcProvider(silo.rpc_url)
 
-  const [defaultTokenContractsDeployed, latestBlock, network] =
+  const [defaultTokensDeployed, bridgedTokensDeployed, latestBlock, network] =
     await Promise.all([
       checkDefaultTokens(provider),
+      checkBridgedTokens(provider, silo),
       provider.getBlock("latest"),
       provider.getNetwork(),
     ])
 
   return {
     networkStatus: getStatus({ silo, network, latestBlock }),
-    defaultTokenContractsDeployed,
+    defaultTokensDeployed,
+    bridgedTokensDeployed,
   }
 })
