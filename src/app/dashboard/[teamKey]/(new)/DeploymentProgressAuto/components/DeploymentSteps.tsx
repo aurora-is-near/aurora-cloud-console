@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useMutation } from "@tanstack/react-query"
 import {
   Silo,
   SiloConfigTransactionOperation,
@@ -7,6 +8,7 @@ import {
 } from "@/types/types"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { logger } from "@/logger"
+import { apiClient } from "@/utils/api/client"
 import { updateSilo } from "@/actions/silos/update-silo"
 import { ListProgressState } from "@/uikit"
 import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
@@ -20,6 +22,7 @@ type DeploymentStepsProps = {
   team: Team
   silo: Silo
   siloTransactionStatuses?: SiloConfigTransactionStatuses
+  isPublicChain: boolean
   onDeploymentComplete: () => void
 }
 
@@ -47,9 +50,15 @@ export const DeploymentSteps = ({
   team,
   silo,
   siloTransactionStatuses,
+  isPublicChain,
   onDeploymentComplete,
 }: DeploymentStepsProps) => {
   const wasConfigurationStarted = useRef(false)
+
+  const toggleSiloWhitelist = useMutation({
+    mutationFn: apiClient.toggleSiloPermissions,
+    onError: logger.error,
+  })
 
   // The initial state accounts for the case where the user started a
   // transaction to set the base token then navigated away from the page. In
@@ -205,6 +214,16 @@ export const DeploymentSteps = ({
       if (status === "failed") {
         return
       }
+    }
+
+    // Apply default chain permission (allow failure - can be changed later)
+    // Restricted by default so call only if public is selected
+    if (isPublicChain) {
+      toggleSiloWhitelist.mutate({
+        id: silo.id,
+        isEnabled: false,
+        action: "MAKE_TRANSACTION",
+      })
     }
 
     // Deploy the default token contracts
