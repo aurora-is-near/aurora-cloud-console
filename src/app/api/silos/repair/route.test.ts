@@ -83,7 +83,7 @@ describe("Silos repair route", () => {
       },
     })
 
-    expect(ethers.Contract).toHaveBeenCalledTimes(8)
+    expect(ethers.Contract).toHaveBeenCalledTimes(7)
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledTimes(3)
