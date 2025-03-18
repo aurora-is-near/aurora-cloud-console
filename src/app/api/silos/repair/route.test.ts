@@ -4,7 +4,8 @@
 import { NextRequest } from "next/server"
 import { ethers } from "ethers"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
-import { POST } from "./route"
+import { logger } from "@/logger"
+import { GET } from "./route"
 import {
   createInsertOrUpdate,
   createSelect,
@@ -83,8 +84,14 @@ describe("Silos repair route", () => {
       }),
     )
 
-    const req = new NextRequest("https://example.com", { method: "POST" })
-    const res = await POST(req, { params: {} })
+    const req = new NextRequest("https://example.com", {
+      method: "GET",
+      headers: {
+        "user-agent": "vercel-cron/1.0",
+      },
+    })
+
+    const res = await GET(req, { params: {} })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
@@ -170,8 +177,14 @@ describe("Silos repair route", () => {
       .select.mockReturnValue(createSelect([mockSilo]))
     mockSupabaseClient.from("silos").update.mockReturnValue(silosUpdateQueries)
 
-    const req = new NextRequest("https://example.com", { method: "POST" })
-    const res = await POST(req, { params: {} })
+    const req = new NextRequest("https://example.com", {
+      method: "GET",
+      headers: {
+        "user-agent": "vercel-cron/1.0",
+      },
+    })
+
+    const res = await GET(req, { params: {} })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
@@ -214,8 +227,14 @@ describe("Silos repair route", () => {
       .from("silo_config_transactions")
       .select.mockReturnValue(createSelect([{ status: "FAILED" }]))
 
-    const req = new NextRequest("https://example.com", { method: "POST" })
-    const res = await POST(req, { params: {} })
+    const req = new NextRequest("https://example.com", {
+      method: "GET",
+      headers: {
+        "user-agent": "vercel-cron/1.0",
+      },
+    })
+
+    const res = await GET(req, { params: {} })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
@@ -257,8 +276,14 @@ describe("Silos repair route", () => {
       .from("silo_config_transactions")
       .select.mockReturnValue(createSelect([{ status: "SUCCESSFUL" }]))
 
-    const req = new NextRequest("https://example.com", { method: "POST" })
-    const res = await POST(req, { params: {} })
+    const req = new NextRequest("https://example.com", {
+      method: "GET",
+      headers: {
+        "user-agent": "vercel-cron/1.0",
+      },
+    })
+
+    const res = await GET(req, { params: {} })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
@@ -321,8 +346,14 @@ describe("Silos repair route", () => {
       }),
     )
 
-    const req = new NextRequest("https://example.com", { method: "POST" })
-    const res = await POST(req, { params: {} })
+    const req = new NextRequest("https://example.com", {
+      method: "GET",
+      headers: {
+        "user-agent": "vercel-cron/1.0",
+      },
+    })
+
+    const res = await GET(req, { params: {} })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
@@ -403,8 +434,14 @@ describe("Silos repair route", () => {
       }),
     )
 
-    const req = new NextRequest("https://example.com", { method: "POST" })
-    const res = await POST(req, { params: {} })
+    const req = new NextRequest("https://example.com", {
+      method: "GET",
+      headers: {
+        "user-agent": "vercel-cron/1.0",
+      },
+    })
+
+    const res = await GET(req, { params: {} })
 
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
@@ -430,5 +467,33 @@ describe("Silos repair route", () => {
     ).toHaveBeenCalledWith({
       is_deployment_pending: false,
     })
+  })
+
+  it("resolves pending bridged tokens", async () => {
+    logger.error = jest.fn()
+
+    const req = new NextRequest("https://example.com", {
+      method: "GET",
+    })
+
+    const res = await GET(req, { params: {} })
+
+    expect(res.status).toBe(403)
+    expect(await res.json()).toEqual({
+      statusCode: 403,
+      message: "Forbidden",
+      type: "/probs/forbidden",
+    })
+
+    expect(contractChangerApiClient.mirrorErc20Token).not.toHaveBeenCalled()
+    expect(contractChangerApiClient.setBaseToken).not.toHaveBeenCalled()
+    expect(mockSupabaseClient.from("silos").update).not.toHaveBeenCalled()
+    expect(ethers.Contract).not.toHaveBeenCalled()
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).not.toHaveBeenCalled()
+
+    expect(logger.error).toHaveBeenCalledTimes(1)
+    expect(logger.error).toHaveBeenCalledWith(new Error("Forbidden"))
   })
 })
