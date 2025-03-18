@@ -15,7 +15,7 @@ import {
   createMockSilos,
 } from "../../../../../test-utils/factories/silo-factory"
 import { createMockBridgedToken } from "../../../../../test-utils/factories/bridged-token-factory"
-import { createMockSiloBridgedTokenRequest } from "../../../../../test-utils/factories/silo-bridged-token-request-factory"
+import { createMockBridgedTokenRequest } from "../../../../../test-utils/factories/silo-bridged-token-request-factory"
 
 const currentTime = new Date("2025-03-17T09:00:00Z")
 
@@ -286,9 +286,9 @@ describe("Silos repair route", () => {
     })
 
     const mockBridgedTokenReqeusts = [
-      createMockSiloBridgedTokenRequest({ symbol: "TESTa" }),
-      createMockSiloBridgedTokenRequest({ symbol: "TESTb" }),
-      createMockSiloBridgedTokenRequest({ symbol: "TESTc" }),
+      createMockBridgedTokenRequest({ symbol: "TESTa" }),
+      createMockBridgedTokenRequest({ symbol: "TESTb" }),
+      createMockBridgedTokenRequest({ symbol: "TESTc" }),
     ]
 
     const mockBridgedTokens = [
