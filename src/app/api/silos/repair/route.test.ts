@@ -14,10 +14,7 @@ import {
   createMockSilo,
   createMockSilos,
 } from "../../../../../test-utils/factories/silo-factory"
-import {
-  createMockBridgedToken,
-  createMockBridgedTokens,
-} from "../../../../../test-utils/factories/bridged-token-factory"
+import { createMockBridgedToken } from "../../../../../test-utils/factories/bridged-token-factory"
 import { createMockSiloBridgedTokenRequest } from "../../../../../test-utils/factories/silo-bridged-token-request-factory"
 
 const currentTime = new Date("2025-03-17T09:00:00Z")
@@ -97,7 +94,7 @@ describe("Silos repair route", () => {
       },
     })
 
-    expect(ethers.Contract).toHaveBeenCalledTimes(8)
+    expect(ethers.Contract).toHaveBeenCalledTimes(7)
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledTimes(3)

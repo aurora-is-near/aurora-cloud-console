@@ -66,13 +66,14 @@ export const deployDefaultTokens = async (
   const provider = new JsonRpcProvider(silo.rpc_url)
 
   const statuses = await Promise.all(
-    DEFAULT_TOKENS.map(async (symbol) =>
-      deployDefaultToken({
-        provider,
-        silo,
-        symbol,
-        skipIfFailed,
-      }),
+    DEFAULT_TOKENS.filter((token) => token !== silo.base_token_symbol).map(
+      async (symbol) =>
+        deployDefaultToken({
+          provider,
+          silo,
+          symbol,
+          skipIfFailed,
+        }),
     ),
   )
 
