@@ -36,7 +36,7 @@ export const ResolveButton = ({
       return
     }
 
-    window.location.reload()
+    window.location.href = "/admin/notifications"
     setIsPending(false)
   }
 
