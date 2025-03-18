@@ -43,11 +43,9 @@ export async function middleware(req: NextRequest) {
   const isDashboardRoute = pathParts[1] === "dashboard"
   const teamKey = isDashboardRoute ? pathParts[2] : null
 
-  const [
-    {
-      data: { user },
-    },
-  ] = await Promise.all([supabase.auth.getUser()])
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   // Do nothing if an auth callback or logout is in progress
   if (
