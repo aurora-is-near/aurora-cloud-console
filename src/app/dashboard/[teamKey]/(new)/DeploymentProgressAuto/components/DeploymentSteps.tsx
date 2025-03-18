@@ -259,7 +259,13 @@ export const DeploymentSteps = ({
       name: "CHAIN_DEPLOYED",
       state: "completed",
     })
-  }, [currentStep.name, runTransactionStep, silo])
+  }, [
+    currentStep.name,
+    runTransactionStep,
+    silo,
+    isPublicChain,
+    toggleSiloWhitelist,
+  ])
 
   // Start the configuration on mount.
   useEffect(() => {
