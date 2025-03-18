@@ -94,6 +94,7 @@ export const DeploymentProgressAuto = ({
       <DeploymentSteps
         silo={silo}
         siloTransactionStatuses={siloTransactionStatuses}
+        isPublicChain={onboardingForm?.chainPermission === "public"}
         team={team}
         onDeploymentComplete={() => {
           setIsDeploymentComplete(true)
