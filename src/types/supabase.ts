@@ -121,6 +121,7 @@ export type Database = {
           address: string
           created_at: string
           id: number
+          resolved_at: string | null
           silo_id: number
           symbol: string
         }
@@ -128,6 +129,7 @@ export type Database = {
           address: string
           created_at?: string
           id?: number
+          resolved_at?: string | null
           silo_id: number
           symbol: string
         }
@@ -135,6 +137,7 @@ export type Database = {
           address?: string
           created_at?: string
           id?: number
+          resolved_at?: string | null
           silo_id?: number
           symbol?: string
         }
@@ -890,6 +893,7 @@ export type Database = {
           genesis: string
           grafana_network_key: string | null
           id: number
+          inspected_at: string | null
           is_active: boolean
           is_deploy_contracts_public: boolean
           is_make_txs_public: boolean
@@ -922,6 +926,7 @@ export type Database = {
           genesis: string
           grafana_network_key?: string | null
           id?: number
+          inspected_at?: string | null
           is_active?: boolean
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
@@ -954,6 +959,7 @@ export type Database = {
           genesis?: string
           grafana_network_key?: string | null
           id?: number
+          inspected_at?: string | null
           is_active?: boolean
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
