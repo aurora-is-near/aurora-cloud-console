@@ -1,16 +1,16 @@
 "use server"
 
-import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { BridgedTokenRequest } from "@/types/types"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 
-export const getSiloBridgedTokenRequests = async (
-  siloId: number,
-): Promise<BridgedTokenRequest[]> => {
+export const getBridgedTokenRequests = async (): Promise<
+  BridgedTokenRequest[]
+> => {
   const supabase = createAdminSupabaseClient()
+
   const { data } = await supabase
     .from("bridged_token_requests")
-    .select()
-    .eq("silo_id", siloId)
+    .select("*")
     .is("resolved_at", null)
     .order("id", { ascending: true })
 

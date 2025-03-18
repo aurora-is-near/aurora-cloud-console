@@ -10,6 +10,7 @@ import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import Helpscout from "@/components/Helpscout"
 import { setUser } from "@/components/Mixpanel/ServerTracker"
 
+import { getAdminNotificationCount } from "@/actions/get-admin-notification-count"
 import IconDiscord from "../../public/static/icons/discord-logo.svg"
 import IconTelegram from "../../public/static/icons/telegram-logo.svg"
 
@@ -57,6 +58,7 @@ export const DashboardLayout = async ({
         name: "Admin",
         href: "/admin",
         icon: <AdjustmentsHorizontalIcon />,
+        getNotificationCount: getAdminNotificationCount,
       })
     }
 
