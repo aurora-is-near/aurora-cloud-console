@@ -6,7 +6,7 @@ import { TeamSummary } from "@/types/types"
 import { isAdminUser } from "@/utils/admin"
 
 export const getTeamSummaries = async (): Promise<TeamSummary[]> => {
-  const { user } = (await getAuthSession()) ?? {}
+  const user = await getAuthSession()
 
   if (!user) {
     return []

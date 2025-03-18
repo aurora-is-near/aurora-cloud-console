@@ -45,9 +45,9 @@ export async function middleware(req: NextRequest) {
 
   const [
     {
-      data: { session },
+      data: { user },
     },
-  ] = await Promise.all([supabase.auth.getSession()])
+  ] = await Promise.all([supabase.auth.getUser()])
 
   // Do nothing if an auth callback or logout is in progress
   if (
@@ -84,7 +84,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // Redirect to the login page if the user is not logged in
-  if (!session) {
+  if (!user) {
     return loginRedirect(req, res)
   }
 
@@ -97,17 +97,14 @@ export async function middleware(req: NextRequest) {
   // no team key, or the user is not authorised to access that team.
   if (
     isDashboardRoute &&
-    !(
-      session.user.user_metadata.teams?.includes(teamKey) ||
-      isAdminUser(session.user.email)
-    )
+    !(user.user_metadata.teams?.includes(teamKey) || isAdminUser(user.email))
   ) {
     return unauthorisedRedirect(req, res)
   }
 
   // Finally, redirect to the home page if the user is logged in and on any
   // of the login pages, or the base path
-  if (session && ["/", LOGIN_ROUTE].includes(pathname)) {
+  if (user && ["/", LOGIN_ROUTE].includes(pathname)) {
     return homeRedirect(req, res)
   }
 

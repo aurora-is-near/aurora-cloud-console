@@ -1,13 +1,13 @@
 "use server"
 
-import { Session } from "@supabase/supabase-js"
+import { User } from "@supabase/supabase-js"
 import { createServerComponentClient } from "@/supabase/create-server-component-client"
 
-export const getAuthSession = async (): Promise<Session | null> => {
+export const getAuthSession = async (): Promise<User | null> => {
   const supabase = createServerComponentClient()
   const {
-    data: { session },
-  } = await supabase.auth.getSession()
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  return session
+  return user
 }
