@@ -1,39 +1,14 @@
-import { JsonRpcProvider } from "ethers"
 import { createApiEndpoint } from "@/utils/api"
 import { getSilo } from "@/actions/silos/get-silo"
 import { ApiResponseBody } from "@/types/api"
 import { getBridgedToken } from "@/actions/bridged-tokens/get-bridged-token"
-import { checkTokenByContractAddress } from "@/utils/check-token-contract"
-import { BridgedToken, Silo } from "@/types/types"
+import { Silo } from "@/types/types"
 import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-silo-bridged-token"
 import { createSiloBridgedTokenRequest } from "@/actions/silo-bridged-tokens/create-silo-bridged-token-request"
 import { getSiloBridgedToken } from "@/actions/silo-bridged-tokens/get-silo-bridged-token"
+import { isBridgedTokenDeployed } from "@/utils/is-bridged-token-deployed"
+import { isTokenContractDeployed } from "@/utils/is-token-contract-deployed"
 import { abort } from "../../../../../../utils/abort"
-
-const isTokenContractDeployed = async (silo: Silo, contractAddress: string) => {
-  const provider = new JsonRpcProvider(silo.rpc_url)
-  const isDeployed = await checkTokenByContractAddress(
-    provider,
-    contractAddress,
-  )
-
-  return isDeployed
-}
-
-const isTokenDeployed = async (silo: Silo, token: BridgedToken) => {
-  const isBaseToken =
-    silo.base_token_symbol.toUpperCase() === token.symbol.toUpperCase()
-
-  if (isBaseToken) {
-    return true
-  }
-
-  if (!token.aurora_address) {
-    return false
-  }
-
-  return isTokenContractDeployed(silo, token.aurora_address)
-}
 
 const bridgeKnownToken = async (
   silo: Silo,
@@ -52,7 +27,7 @@ const bridgeKnownToken = async (
     abort(400, `${token.symbol} is already bridged for this silo`)
   }
 
-  const isDeployed = await isTokenDeployed(silo, token)
+  const isDeployed = await isBridgedTokenDeployed(silo, token)
 
   await createSiloBridgedToken(silo.id, token.id, {
     isDeploymentPending: !isDeployed,
