@@ -5,6 +5,7 @@ import { deployDefaultTokens } from "@/actions/deployment/deploy-default-tokens"
 import { getSilosToInspect } from "@/actions/silos/get-silos-to-inspect"
 import { Silo } from "@/types/types"
 import { updateSilo } from "@/actions/silos/update-silo"
+import { setBaseToken } from "@/actions/deployment/set-base-token"
 
 const queue = new PQueue({ concurrency: 3 })
 
@@ -22,8 +23,21 @@ const repairSilo = async (silo: Silo) => {
   const isWithin24Hours =
     Date.now() - new Date(silo.inspected_at).getTime() < 24 * 60 * 60 * 1000
 
-  await deployDefaultTokens(silo, { skipIfFailed: isWithin24Hours })
-  await updateSilo(silo.id, { inspected_at: new Date().toISOString() })
+  const results = await Promise.all([
+    deployDefaultTokens(silo, { skipIfFailed: isWithin24Hours }),
+    setBaseToken(silo, { skipIfFailed: isWithin24Hours }),
+  ])
+
+  const siloUpdateProperties: Partial<Silo> = {
+    inspected_at: new Date().toISOString(),
+  }
+
+  // If the silo has never been marked as active, mark it as such.
+  if (!silo.is_active && results.every((result) => result === "SUCCESSFUL")) {
+    siloUpdateProperties.is_active = true
+  }
+
+  await updateSilo(silo.id, siloUpdateProperties)
 }
 
 export const POST = createPrivateApiEndpoint(async (_req: NextRequest) => {
