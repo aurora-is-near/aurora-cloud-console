@@ -1746,7 +1746,11 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "defaultTokenContractsDeployed": {
+                    "bridgedTokensDeployed": {
+                      "additionalProperties": {},
+                      "nullable": true,
+                    },
+                    "defaultTokensDeployed": {
                       "properties": {
                         "AURORA": {
                           "type": "boolean",
@@ -1780,7 +1784,8 @@ exports[`OpenAPI Document should be valid 1`] = `
                   },
                   "required": [
                     "networkStatus",
-                    "defaultTokenContractsDeployed",
+                    "defaultTokensDeployed",
+                    "bridgedTokensDeployed",
                   ],
                   "type": "object",
                 },

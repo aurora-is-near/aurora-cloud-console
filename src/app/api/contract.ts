@@ -807,11 +807,15 @@ export const contract = c.router({
           z.literal("invalid-network"),
           z.literal("stalled"),
         ]),
-        defaultTokenContractsDeployed: z.object({
+        defaultTokensDeployed: z.object({
           NEAR: z.boolean(),
           USDt: z.boolean(),
           USDC: z.boolean(),
           AURORA: z.boolean(),
+        }),
+        // https://swagger.io/docs/specification/v3_0/data-models/data-types/#free-form-object
+        bridgedTokensDeployed: z.instanceof(Object).openapi({
+          additionalProperties: {},
         }),
       }),
     },
