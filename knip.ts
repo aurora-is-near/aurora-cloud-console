@@ -6,7 +6,6 @@ const config: KnipConfig = {
     "jest.*",
     "test-utils/**",
     "jest-puppeteer.config.js",
-    "src/actions/silos/request-intents-integration.ts",
   ],
 }
 
