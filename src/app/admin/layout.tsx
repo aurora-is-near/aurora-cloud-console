@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
 import {
+  BellAlertIcon,
   CircleStackIcon,
   CubeIcon,
   CurrencyDollarIcon,
@@ -68,6 +69,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
                 name: "Reports",
                 href: "/admin/reports",
                 icon: <DocumentTextIcon />,
+              },
+              {
+                name: "Notifications",
+                href: "/admin/notifications",
+                icon: <BellAlertIcon />,
               },
             ],
           },

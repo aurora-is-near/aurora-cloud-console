@@ -32,6 +32,9 @@ jest.mock("near-api-js", () => ({
 
 const mockSilo = createMockSilo({ base_token_symbol: "AURORA" })
 const contractChangerTokens = ["Near", "Aurora", "Usdt", "Usdc"]
+const nonBaseTokens = contractChangerTokens.filter(
+  (token) => token !== "Aurora",
+)
 
 describe("deployDefaultTokens", () => {
   beforeEach(() => {
@@ -49,10 +52,10 @@ describe("deployDefaultTokens", () => {
     const result = await deployDefaultTokens(mockSilo)
 
     expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledTimes(
-      contractChangerTokens.length,
+      nonBaseTokens.length,
     )
 
-    contractChangerTokens.forEach((token) => {
+    nonBaseTokens.forEach((token) => {
       expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledWith({
         siloEngineAccountId: mockSilo.engine_account,
         token,
@@ -61,9 +64,9 @@ describe("deployDefaultTokens", () => {
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
-    ).toHaveBeenCalledTimes(4)
+    ).toHaveBeenCalledTimes(3)
 
-    contractChangerTokens.forEach((token) => {
+    nonBaseTokens.forEach((token) => {
       expect(
         mockSupabaseClient.from("silo_config_transactions").insert,
       ).toHaveBeenCalledWith({
@@ -104,14 +107,14 @@ describe("deployDefaultTokens", () => {
     const result = await deployDefaultTokens(mockSilo)
 
     expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledTimes(
-      contractChangerTokens.length - 1,
+      nonBaseTokens.length - 1,
     )
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
-    ).toHaveBeenCalledTimes(contractChangerTokens.length - 1)
+    ).toHaveBeenCalledTimes(nonBaseTokens.length - 1)
 
-    contractChangerTokens.slice(1).forEach((token, i) => {
+    nonBaseTokens.slice(1).forEach((token, i) => {
       expect(
         mockSupabaseClient.from("silo_config_transactions").insert,
       ).toHaveBeenNthCalledWith(i + 1, {
@@ -136,13 +139,6 @@ describe("deployDefaultTokens", () => {
         symbol: () => {
           if (
             tokenContractAddress ===
-            "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d"
-          ) {
-            return "NEAR"
-          }
-
-          if (
-            tokenContractAddress ===
             "0x80Da25Da4D783E57d2FCdA0436873A193a4BEccF"
           ) {
             return "USDt"
@@ -158,7 +154,7 @@ describe("deployDefaultTokens", () => {
     expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledTimes(2)
     expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledWith({
       siloEngineAccountId: mockSilo.engine_account,
-      token: "Aurora",
+      token: "Near",
     })
 
     expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledWith({
@@ -173,10 +169,10 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      operation: "DEPLOY_AURORA",
+      operation: "DEPLOY_NEAR",
       silo_id: 1,
       status: "PENDING",
-      transaction_hash: "mock_tx_hash_Aurora",
+      transaction_hash: "mock_tx_hash_Near",
     })
 
     expect(
@@ -204,14 +200,14 @@ describe("deployDefaultTokens", () => {
     const result = await deployDefaultTokens(mockSilo)
 
     expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledTimes(
-      contractChangerTokens.length,
+      nonBaseTokens.length,
     )
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
-    ).toHaveBeenCalledTimes(contractChangerTokens.length)
+    ).toHaveBeenCalledTimes(nonBaseTokens.length)
 
-    contractChangerTokens.forEach((token) => {
+    nonBaseTokens.forEach((token) => {
       expect(
         mockSupabaseClient.from("silo_config_transactions").insert,
       ).toHaveBeenCalledWith({
@@ -255,9 +251,9 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).not.toHaveBeenCalled()
 
-    expect(mockTxStatus).toHaveBeenCalledTimes(contractChangerTokens.length)
+    expect(mockTxStatus).toHaveBeenCalledTimes(nonBaseTokens.length)
 
-    Array.from({ length: contractChangerTokens.length }).forEach((_, i) => {
+    Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(mockTxStatus).toHaveBeenNthCalledWith(
         i + 1,
         `mock_tx_hash_${i + 1}`,
@@ -298,9 +294,9 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).not.toHaveBeenCalled()
 
-    expect(mockTxStatus).toHaveBeenCalledTimes(contractChangerTokens.length)
+    expect(mockTxStatus).toHaveBeenCalledTimes(nonBaseTokens.length)
 
-    Array.from({ length: contractChangerTokens.length }).forEach((_, i) => {
+    Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(mockTxStatus).toHaveBeenNthCalledWith(
         i + 1,
         `mock_tx_hash_${i + 1}`,
@@ -311,9 +307,9 @@ describe("deployDefaultTokens", () => {
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").update,
-    ).toHaveBeenCalledTimes(contractChangerTokens.length)
+    ).toHaveBeenCalledTimes(nonBaseTokens.length)
 
-    Array.from({ length: contractChangerTokens.length }).forEach((_, i) => {
+    Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(
         mockSupabaseClient.from("silo_config_transactions").update,
       ).toHaveBeenNthCalledWith(i + 1, { status: "SUCCESSFUL" })
@@ -347,9 +343,9 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).not.toHaveBeenCalled()
 
-    expect(mockTxStatus).toHaveBeenCalledTimes(contractChangerTokens.length)
+    expect(mockTxStatus).toHaveBeenCalledTimes(nonBaseTokens.length)
 
-    Array.from({ length: contractChangerTokens.length }).forEach((_, i) => {
+    Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(mockTxStatus).toHaveBeenNthCalledWith(
         i + 1,
         `mock_tx_hash_${i + 1}`,
@@ -360,9 +356,9 @@ describe("deployDefaultTokens", () => {
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").update,
-    ).toHaveBeenCalledTimes(contractChangerTokens.length)
+    ).toHaveBeenCalledTimes(nonBaseTokens.length)
 
-    Array.from({ length: contractChangerTokens.length }).forEach((_, i) => {
+    Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(
         mockSupabaseClient.from("silo_config_transactions").update,
       ).toHaveBeenNthCalledWith(i + 1, { status: "FAILED" })
