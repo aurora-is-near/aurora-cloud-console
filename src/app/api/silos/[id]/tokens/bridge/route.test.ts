@@ -264,6 +264,7 @@ describe("Bridge silo token route", () => {
           address: "0x",
           silo_id: 1,
           symbol: "TEST",
+          resolved_at: null,
         })
       })
 
