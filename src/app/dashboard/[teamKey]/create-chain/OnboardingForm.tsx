@@ -146,7 +146,6 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
                 selected={form.chainPermission === "public"}
               />
               <ChainPermissionBox
-                disabled
                 permission="public_permissioned"
                 onClick={() =>
                   handleChainPermissionSelect("public_permissioned")

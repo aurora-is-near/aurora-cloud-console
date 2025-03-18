@@ -100,7 +100,7 @@ export type SiloBridgedToken = BridgedToken & {
   is_deployment_pending: boolean
 }
 
-export type SiloBridgedTokenRequest = Tables<"bridged_token_requests">
+export type BridgedTokenRequest = Tables<"bridged_token_requests">
 
 export type OnboardingForm = Tables<"onboarding_form">
 
