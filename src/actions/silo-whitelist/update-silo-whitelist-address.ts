@@ -5,7 +5,7 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import type { SiloWhitelistAddress, SiloWhitelistType } from "@/types/types"
+import type { SiloWhitelistAddress } from "@/types/types"
 
 export const updateSiloWhitelistAddress = async (
   address: string,
