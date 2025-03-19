@@ -13,6 +13,7 @@ import { getBridgedTokens } from "@/actions/bridged-tokens/get-bridged-tokens"
 import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-silo-bridged-token"
 import { isBridgedTokenDeployed } from "@/utils/is-bridged-token-deployed"
 import { updateSiloBridgedToken } from "@/actions/silo-bridged-tokens/update-silo-bridged-token"
+import { abort } from "@/utils/abort"
 
 type PreviouslyInspectedSilo = Omit<Silo, "inspected_at"> & {
   inspected_at: string
@@ -123,7 +124,14 @@ const repairSilo = async (silo: Silo) => {
   await resolvePendingBridgedTokens(silo)
 }
 
-export const POST = createPrivateApiEndpoint(async (_req: NextRequest) => {
+// This endpoint is intended to be called by a Vercel cron job, which only works
+// with GET requests.
+// https://vercel.com/docs/cron-jobs
+export const GET = createPrivateApiEndpoint(async (req: NextRequest) => {
+  if (req.headers.get("user-agent") !== "vercel-cron/1.0") {
+    abort(403, "Forbidden")
+  }
+
   const silos = await getSilosToInspect()
 
   await Promise.all(

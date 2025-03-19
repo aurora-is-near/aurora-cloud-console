@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation"
 import { DashboardPage } from "@/components/DashboardPage"
-import { getBridgedTokenRequest } from "@/actions/bridged-tokens/get-bridged-token-request"
 import { ConfigurationItemsCard } from "@/app/dashboard/[teamKey]/silos/[id]/configuration/ConfigurationItemsCard"
 import { ResolveButton } from "@/app/admin/notifications/ResolveButton"
 import { resolveBridgedTokenRequest } from "@/actions/bridged-tokens/resolve-bridged-token-request"
+import { getBridgedTokenRequestWithSilo } from "@/actions/bridged-tokens/get-bridged-token-request-with-metadata"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {
-  const [request] = await Promise.all([getBridgedTokenRequest(Number(id))])
+  const request = await getBridgedTokenRequestWithSilo(Number(id))
 
   if (!request) {
     notFound()
@@ -33,6 +33,10 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
           {
             term: "Address",
             description: request.address,
+          },
+          {
+            term: "Silo",
+            description: request.silo.name,
           },
         ]}
       />
