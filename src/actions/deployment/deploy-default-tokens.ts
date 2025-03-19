@@ -36,10 +36,12 @@ const deployDefaultToken = async ({
   provider,
   silo,
   symbol,
+  skipIfFailed,
 }: {
   provider: JsonRpcProvider
   silo: Silo
   symbol: DefaultToken
+  skipIfFailed?: boolean
 }): Promise<SiloConfigTransactionStatus> => {
   if (await checkTokenBySymbol(provider, symbol)) {
     return "SUCCESSFUL"
@@ -53,11 +55,13 @@ const deployDefaultToken = async ({
         siloEngineAccountId: silo.engine_account,
         token: CONTRACT_CHANGER_SYMBOLS[symbol],
       }),
+    { skipIfFailed },
   )
 }
 
 export const deployDefaultTokens = async (
   silo: Silo,
+  { skipIfFailed }: { skipIfFailed?: boolean } = {},
 ): Promise<SiloConfigTransactionStatus> => {
   const provider = new JsonRpcProvider(silo.rpc_url)
 
@@ -68,6 +72,7 @@ export const deployDefaultTokens = async (
           provider,
           silo,
           symbol,
+          skipIfFailed,
         }),
     ),
   )
