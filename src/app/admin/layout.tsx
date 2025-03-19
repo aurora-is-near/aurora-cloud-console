@@ -11,20 +11,21 @@ import {
 } from "@heroicons/react/24/outline"
 import { redirect } from "next/navigation"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { isAdmin } from "@/actions/is-admin"
 import { UNAUTHORISED_ROUTE } from "@/constants/routes"
+import { getAuthUser } from "@/actions/auth-user/get-auth-user"
+import { isAdminUser } from "@/utils/admin"
 import { Oracle } from "../../../public/static/v2/images/menuIcons"
 
 const Layout = async ({ children }: { children: ReactNode }) => {
-  const isAdminUser = await isAdmin()
+  const authUser = await getAuthUser()
 
-  if (!isAdminUser) {
+  if (!isAdminUser(authUser?.email)) {
     return redirect(UNAUTHORISED_ROUTE)
   }
 
   return (
     <DashboardLayout
-      showAdminMenu={isAdminUser}
+      authUser={authUser}
       sidebarMenu={{
         heading: "Admin",
         sections: [

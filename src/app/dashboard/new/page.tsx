@@ -1,13 +1,13 @@
 import { DashboardPage } from "@/components/DashboardPage"
 import { TeamDetailsCard } from "@/components/admin/TeamDetailsCard"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { isAdmin } from "@/actions/is-admin"
+import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 
 const Page = async () => {
-  const isAdminUser = await isAdmin()
+  const authUser = await getAuthUser()
 
   return (
-    <DashboardLayout showAdminMenu={isAdminUser}>
+    <DashboardLayout authUser={authUser}>
       <DashboardPage heading="Create a team">
         <TeamDetailsCard />
       </DashboardPage>

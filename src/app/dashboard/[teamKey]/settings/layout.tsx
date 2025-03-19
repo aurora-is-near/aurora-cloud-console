@@ -7,8 +7,8 @@ import {
   UsersIcon,
 } from "@heroicons/react/20/solid"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { isAdmin } from "@/actions/is-admin"
 import { LinkButton } from "@/components/LinkButton"
+import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 
 const Layout = async ({
   children,
@@ -17,12 +17,12 @@ const Layout = async ({
   children: ReactNode
   params: { teamKey: string }
 }) => {
-  const showAdminMenu = await isAdmin()
+  const authUser = await getAuthUser()
 
   return (
     <DashboardLayout
       teamKey={teamKey}
-      showAdminMenu={showAdminMenu}
+      authUser={authUser}
       sidebarMenu={{
         heading: "Settings",
         action: (
