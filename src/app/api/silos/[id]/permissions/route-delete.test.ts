@@ -330,6 +330,7 @@ describe("Silo whitelist permissions", () => {
         mockSupabaseClient.from("silo_whitelist_addresses").update,
       ).toHaveBeenCalledWith({
         is_applied: true,
+        list: "MAKE_TRANSACTION",
       })
 
       expect(res.body).toEqual({

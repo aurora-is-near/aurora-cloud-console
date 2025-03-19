@@ -32,7 +32,7 @@ const Hero = ({
           {description}
         </Typography>
       </div>
-      <div className="hidden md:flex h-0 self-start">{image}</div>
+      <div className="hidden md:flex self-start">{image}</div>
     </div>
     <div className="md:max-w-[66%]">{children}</div>
   </div>
