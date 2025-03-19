@@ -469,7 +469,7 @@ describe("Silos repair route", () => {
     })
   })
 
-  it("resolves pending bridged tokens", async () => {
+  it("returns a 403 if no valid user agent given", async () => {
     logger.error = jest.fn()
 
     const req = new NextRequest("https://example.com", {
