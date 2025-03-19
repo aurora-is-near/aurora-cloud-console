@@ -32,11 +32,7 @@ const Layout = async ({
       silo={silo}
       deals={deals}
       authUser={authUser}
-      sidebarAction={
-        silos.length > 1 ? (
-          <SiloSelect defaultValue={Number(id)} silos={silos} />
-        ) : undefined
-      }
+      sidebarAction={<SiloSelect teamKey={teamKey} defaultValue={Number(id)} />}
     >
       {children}
     </MainDashboardLayout>
