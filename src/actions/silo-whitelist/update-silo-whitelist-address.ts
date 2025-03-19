@@ -9,10 +9,9 @@ import type { SiloWhitelistAddress, SiloWhitelistType } from "@/types/types"
 
 export const updateSiloWhitelistAddress = async (
   address: string,
-  inputs: { list: SiloWhitelistType } & (
-    | Pick<SiloWhitelistAddress, "is_applied">
-    | Pick<SiloWhitelistAddress, "remove_tx_id">
-  ),
+  inputs:
+    | Pick<SiloWhitelistAddress, "is_applied" | "list">
+    | Pick<SiloWhitelistAddress, "remove_tx_id" | "list">,
 ): Promise<SiloWhitelistAddress | null> => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
