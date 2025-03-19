@@ -894,6 +894,7 @@ export type Database = {
           grafana_network_key: string | null
           id: number
           inspected_at: string | null
+          intents_integration_status: Database["public"]["Enums"]["request_status"]
           is_active: boolean
           is_deploy_contracts_public: boolean
           is_make_txs_public: boolean
@@ -927,6 +928,7 @@ export type Database = {
           grafana_network_key?: string | null
           id?: number
           inspected_at?: string | null
+          intents_integration_status?: Database["public"]["Enums"]["request_status"]
           is_active?: boolean
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
@@ -960,6 +962,7 @@ export type Database = {
           grafana_network_key?: string | null
           id?: number
           inspected_at?: string | null
+          intents_integration_status?: Database["public"]["Enums"]["request_status"]
           is_active?: boolean
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
