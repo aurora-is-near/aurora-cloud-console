@@ -15,9 +15,16 @@ const isValidBaseToken = (baseToken: string): baseToken is BaseTokenSymbol => {
 
 export const setBaseToken = async (
   silo: Silo,
-  { skipIfFailed }: { skipIfFailed?: boolean } = {},
+  {
+    skipIfFailed,
+    skipUnknownToken,
+  }: { skipIfFailed?: boolean; skipUnknownToken?: boolean } = {},
 ): Promise<SiloConfigTransactionStatus> => {
   if (!isValidBaseToken(silo.base_token_symbol)) {
+    if (skipUnknownToken) {
+      return "PENDING"
+    }
+
     throw new Error(`Invalid base token symbol: ${silo.base_token_symbol}`)
   }
 
