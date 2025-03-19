@@ -258,6 +258,7 @@ export const POST = createApiEndpoint(
       case "SUCCESSFUL":
         await updateSiloWhitelistAddress(whitelistedAddress.address, {
           is_applied: true,
+          list: action,
         })
 
         return {
@@ -331,12 +332,12 @@ export const DELETE = createApiEndpoint(
       })
 
       await updateSiloWhitelistAddress(address, {
+        list: action,
         remove_tx_id: transaction.id,
       })
-
-      // 4. Poll for the actual on chain tx status
     }
 
+    // 4. Poll for the actual on chain tx status
     if (transaction.status === "PENDING") {
       const txStatus = await checkPendingTransaction(transaction, silo)
 
