@@ -5,34 +5,62 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { TeamSummary } from "@/types/types"
 import { isAdminUser } from "@/utils/admin"
 
-export const getTeamSummaries = async (): Promise<TeamSummary[]> => {
+type GetTeamSummariesOptions = {
+  page?: number
+  limit?: number
+  searchQuery?: string
+}
+
+export const getTeamSummaries = async ({
+  page = 1,
+  limit = 100,
+  searchQuery,
+}: GetTeamSummariesOptions = {}): Promise<{
+  teams: TeamSummary[]
+  total: number
+  nextPage?: GetTeamSummariesOptions
+}> => {
   const user = await getAuthUser()
 
   if (!user) {
-    return []
+    return { teams: [], total: 0 }
   }
 
   const supabase = createAdminSupabaseClient()
-  const query = supabase
+
+  const from = (page - 1) * limit
+  const to = from + limit - 1
+
+  let query = supabase
     .from("teams")
     .select(
-      "id, name, team_key, users_teams!inner(user_id), silos_teams(silo_id), users!inner(user_id)",
+      "id, name, team_key, users_teams(user_id), silos_teams(silo_id), users(user_id)",
+      { count: "exact" },
     )
     .order("id", { ascending: true })
+    .range(from, to)
 
   if (!isAdminUser(user.email)) {
-    void query.eq("users.user_id", user.id)
+    query = query.eq("users.user_id", user.id)
   }
 
-  const { data } = await query
+  if (searchQuery?.trim()) {
+    query = query.ilike("name", `%${searchQuery}%`)
+  }
+
+  const { data, count } = await query
 
   const items = data ?? []
 
-  return items.map((item) => ({
-    id: item.id,
-    name: item.name,
-    team_key: item.team_key,
-    user_ids: item.users_teams.map(({ user_id }) => user_id),
-    silo_ids: item.silos_teams.map(({ silo_id }) => silo_id),
-  }))
+  return {
+    teams: items.map((item) => ({
+      id: item.id,
+      name: item.name,
+      team_key: item.team_key,
+      user_ids: item.users_teams.map(({ user_id }) => user_id),
+      silo_ids: item.silos_teams.map(({ silo_id }) => silo_id),
+    })),
+    total: count ?? 0,
+    nextPage: to < (count ?? 0) ? { page: page + 1, limit } : undefined,
+  }
 }

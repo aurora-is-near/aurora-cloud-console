@@ -6,16 +6,18 @@ import { DashboardLayout } from "@/components/DashboardLayout"
 import { DashboardPage } from "@/components/DashboardPage"
 import { FullScreenPage } from "@/components/FullScreenPage"
 import { LinkButton } from "@/components/LinkButton"
-import { getTeamSummaries } from "@/actions/teams/get-team-summaries"
 import { TeamsList } from "@/app/dashboard/TeamsList"
+import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 
 const Page = async () => {
-  const [teamSummaries, isAdminUser] = await Promise.all([
-    getTeamSummaries(),
-    isAdmin(),
-  ])
+  const [isAdminUser, authUser] = await Promise.all([isAdmin(), getAuthUser()])
 
-  if (!teamSummaries.length) {
+  // Team keys are added to the user metadata via database triggers
+  // (see manage-user-teams.md). This means we can access data about the user's
+  // teams here without requiring an additional database query.
+  const userTeams: string[] = authUser?.user_metadata.teams || []
+
+  if (userTeams.length === 0 && !isAdminUser) {
     return (
       <FullScreenPage>
         <NotAllowed
@@ -27,8 +29,8 @@ const Page = async () => {
     )
   }
 
-  if (teamSummaries.length === 1) {
-    return redirect(`/dashboard/${teamSummaries[0].team_key}`)
+  if (userTeams.length === 1 && !isAdminUser) {
+    return redirect(`/dashboard/${userTeams[0]}`)
   }
 
   return (
@@ -46,7 +48,7 @@ const Page = async () => {
           )
         }
       >
-        <TeamsList teamSummaries={teamSummaries} />
+        <TeamsList />
       </DashboardPage>
     </DashboardLayout>
   )
