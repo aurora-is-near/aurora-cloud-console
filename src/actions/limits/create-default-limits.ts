@@ -9,14 +9,14 @@ const defaultLimits: Pick<
   {
     limit_type: "CYCLIC",
     limit_scope: "GLOBAL",
-    limit_value: 1000,
+    limit_value: 0,
     duration: "P30D",
     ui_enabled: true,
   },
   {
     limit_type: "CYCLIC",
     limit_scope: "USER",
-    limit_value: 100,
+    limit_value: 0,
     duration: "P30D",
     ui_enabled: true,
   },
