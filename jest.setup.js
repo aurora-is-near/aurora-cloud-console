@@ -59,3 +59,27 @@ jest.mock("cryptr", () => ({
     decrypt: jest.fn(() => "decrypted-text"),
   })),
 }))
+
+jest.mock("lottie-react", () => jest.fn())
+
+jest.mock("stripe", () =>
+  jest.fn(() => ({
+    products: {
+      retrieve: jest.fn(() => ({
+        id: "test_product_id",
+        default_price: "test_price_id",
+        number_of_transactions: 15000,
+      })),
+    },
+    prices: {
+      retrieve: jest.fn(() => ({ id: "test_price_id" })),
+    },
+    checkout: {
+      sessions: {
+        create: jest.fn(() => ({
+          url: "https://payment.link/session",
+        })),
+      },
+    },
+  })),
+)
