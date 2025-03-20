@@ -496,4 +496,51 @@ describe("Silos repair route", () => {
     expect(logger.error).toHaveBeenCalledTimes(1)
     expect(logger.error).toHaveBeenCalledWith(new Error("Forbidden"))
   })
+
+  it("does not perform a transaction or set the silo to active for a custom base token", async () => {
+    const oneHourAgo = new Date(currentTime.getTime() - 60 * 60 * 1000)
+
+    const mockSilo = createMockSilo({
+      base_token_symbol: "ART",
+      base_token_name: "Arium",
+      is_active: false,
+      inspected_at: oneHourAgo.toISOString(),
+    })
+
+    mockSupabaseClient
+      .from("silos")
+      .select.mockReturnValue(createSelect([mockSilo]))
+    ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+      symbol: () => {},
+    }))
+
+    const req = new NextRequest("https://example.com", {
+      method: "GET",
+      headers: {
+        "user-agent": "vercel-cron/1.0",
+      },
+    })
+
+    const res = await GET(req, { params: {} })
+
+    expect(res.status).toBe(200)
+    expect(await res.json()).toEqual({
+      status: 200,
+      body: {
+        message: "ok",
+      },
+    })
+
+    expect(ethers.Contract).toHaveBeenCalledTimes(4)
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).not.toHaveBeenCalled()
+
+    expect(contractChangerApiClient.setBaseToken).not.toHaveBeenCalled()
+
+    expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledTimes(1)
+    expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledWith({
+      inspected_at: currentTime.toISOString(),
+    })
+  })
 })
