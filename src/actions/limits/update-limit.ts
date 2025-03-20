@@ -13,13 +13,6 @@ export const updateLimit = async (
   limitValue: number | null,
 ): Promise<Limit> => {
   const supabase = createAdminSupabaseClient()
-
-  console.log(
-    "limitValue",
-    typeof limitValue,
-    `Limit:${limitValue}:`,
-    Number(limitValue),
-  )
   const result = await supabase
     .from("limits")
     .update({
