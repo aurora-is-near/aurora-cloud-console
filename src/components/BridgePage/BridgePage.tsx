@@ -1,27 +1,29 @@
-import React from "react"
+"use client"
+
 import Image from "next/image"
+import { useContext } from "react"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import BridgePageConfigurationTab from "@/components/BridgePage/BridgePageConfigurationTab"
 import { BridgePageAboutTab } from "@/components/BridgePage/BridgePageAboutTab"
 import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
+import { SiloContext } from "@/providers/SiloProvider"
 
-interface BridgePageProps {
-  teamKey: string
-  siloId?: number
-}
-
-export const BridgePage: React.FC<BridgePageProps> = ({ teamKey, siloId }) => {
+export const BridgePage = () => {
+  const { team } = useRequiredContext(TeamContext)
+  const { silo } = useContext(SiloContext) ?? {}
   const tabs = [{ title: "About", content: <BridgePageAboutTab /> }]
 
-  if (siloId) {
+  if (silo) {
     tabs.push({
       title: "Configuration",
       content: (
         <BridgePageConfigurationTab
-          siloId={siloId}
-          linkPrefix={`/dashboard/${teamKey}/silos/${siloId}/onramp`}
+          siloId={silo.id}
+          linkPrefix={`/dashboard/${team.team_key}/silos/${silo.id}/onramp`}
         />
       ),
     })
@@ -51,9 +53,9 @@ export const BridgePage: React.FC<BridgePageProps> = ({ teamKey, siloId }) => {
           />
         }
       >
-        {!!siloId && (
+        {!!silo && (
           <UniversalWidgetOpenButton
-            siloId={siloId}
+            siloId={silo.id}
             variant="border"
             size="lg"
             isExternal
