@@ -1,6 +1,7 @@
 "use server"
 
 import mixpanel from "mixpanel"
+import { User } from "@supabase/supabase-js"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
 
 const mpNoop = { track: () => {}, people: { set_once: () => {} } }
@@ -11,11 +12,9 @@ const mp = process.env.MIXPANEL_SERVER_TOKEN
     })
   : mpNoop
 
-export async function setUser() {
-  const user = await getCurrentUser()
-
-  mp.people.set_once(user.id.toString(), {
-    email: user.email,
+export async function setUser(authUser: User) {
+  mp.people.set_once(authUser.id.toString(), {
+    email: authUser.email,
   })
 }
 

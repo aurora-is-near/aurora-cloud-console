@@ -1,129 +1,84 @@
 "use client"
 
-import { useState } from "react"
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
-
-import type { OnboardingForm, Silo, Team } from "@/types/types"
-
-import { LinkButton } from "@/components/LinkButton"
-import { AUTOMATED_BASE_TOKENS } from "@/constants/base-token"
-import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
-import { DeploymentSteps, ModalConfirmDeployment, Steps } from "./components"
-import { useSteps } from "./hooks"
+import { useMemo } from "react"
+import { useQueries } from "@tanstack/react-query"
+import type { Silo, Team } from "@/types/types"
+import { DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES } from "@/constants/silo-config-transactions"
+import { getSiloConfigTransactions } from "@/actions/silo-config-transactions/get-silo-config-transactions"
+import { getTeamOnboardingFormByKey } from "@/actions/onboarding/get-team-onboarding-form-by-key"
+import { getUnassignedSiloId } from "@/actions/silos/get-unassigned-silo-id"
+import { DeploymentProgressContent } from "./DeploymentProgressContent"
 
 type Props = {
   team: Team
   silo: Silo | null
-  onboardingForm: OnboardingForm | null
   isDeploymentComplete: boolean
   setIsDeploymentComplete: (isDeploymentComplete: boolean) => void
-  siloTransactionStatuses?: SiloConfigTransactionStatuses
-  hasUnassignedSilo?: boolean
 }
 
 export const DeploymentProgressAuto = ({
   team,
   silo,
-  onboardingForm,
   isDeploymentComplete,
   setIsDeploymentComplete,
-  siloTransactionStatuses,
-  hasUnassignedSilo,
 }: Props) => {
-  const [isConfirmDeploymentModalOpen, setIsConfirmDeploymentModalOpen] =
-    useState(false)
-
-  const canBeAutomated =
-    hasUnassignedSilo &&
-    onboardingForm?.baseToken &&
-    AUTOMATED_BASE_TOKENS.includes(onboardingForm.baseToken)
-
-  const allSteps = useSteps({
-    team,
-    onClick: ({ name }) => {
-      if (name === "START_DEPLOYMENT") {
-        setIsConfirmDeploymentModalOpen(true)
-      }
+  const [
+    {
+      data: siloConfigTransactions,
+      isPending: isSiloConfigTransactionsPending,
     },
+    { data: onboardingForm = null, isPending: isOnboardingFormPending },
+    { data: unassignedSiloId, isPending: isUnassignedSiloIdPending },
+  ] = useQueries({
+    queries: [
+      {
+        queryKey: ["silo-config-transactions", silo?.id, "SET_BASE_TOKEN"],
+        queryFn: () =>
+          silo ? getSiloConfigTransactions(silo.id, "SET_BASE_TOKEN") : [],
+      },
+      {
+        queryKey: ["teamOnboardingForm", team.team_key],
+        queryFn: () => getTeamOnboardingFormByKey(team.team_key),
+      },
+      {
+        queryKey: ["unassgined-silo"],
+        queryFn: () => (silo ? getUnassignedSiloId() : null),
+      },
+    ],
   })
 
-  // Welcome
-  if (!silo && !onboardingForm) {
-    return (
-      <Steps
-        allSteps={allSteps}
-        steps={[
-          { name: "CONFIGURE_CHAIN", state: "current" },
-          { name: "START_DEPLOYMENT", state: "upcoming" },
-        ]}
-      />
-    )
+  const siloTransactionStatuses = useMemo(
+    () =>
+      Object.keys(DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES).reduce(
+        (acc, operation) => ({
+          ...acc,
+          [operation]:
+            siloConfigTransactions?.find(
+              (transaction) => transaction.operation === operation,
+            )?.status ?? null,
+        }),
+        DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES,
+      ),
+    [siloConfigTransactions],
+  )
+
+  if (
+    isSiloConfigTransactionsPending ||
+    isOnboardingFormPending ||
+    isUnassignedSiloIdPending
+  ) {
+    return null
   }
 
-  // Onboarding passed
-  if (!silo) {
-    return canBeAutomated ? (
-      <>
-        <Steps
-          allSteps={allSteps}
-          steps={[
-            { name: "CONFIGURE_CHAIN", state: "completed" },
-            { name: "START_DEPLOYMENT", state: "current" },
-          ]}
-        />
-        <ModalConfirmDeployment
-          team={team}
-          isOpen={isConfirmDeploymentModalOpen}
-          onClose={() => setIsConfirmDeploymentModalOpen(false)}
-        />
-      </>
-    ) : (
-      <Steps
-        allSteps={allSteps}
-        steps={[
-          { name: "CONFIGURE_CHAIN", state: "completed" },
-          { name: "MANUAL_DEPLOYMENT", state: "current" },
-        ]}
-      />
-    )
-  }
-
-  // Automatic deployment in progress
-  if (!isDeploymentComplete) {
-    return (
-      <DeploymentSteps
-        silo={silo}
-        siloTransactionStatuses={siloTransactionStatuses}
-        isPublicChain={onboardingForm?.chainPermission === "public"}
-        team={team}
-        onDeploymentComplete={() => {
-          setIsDeploymentComplete(true)
-        }}
-      />
-    )
-  }
-
-  // Deployment done
   return (
-    <div className="flex gap-3">
-      {!!silo.explorer_url && (
-        <LinkButton
-          isExternal
-          size="lg"
-          variant="primary"
-          href={silo.explorer_url}
-        >
-          Open Block Explorer
-          <ArrowTopRightOnSquareIcon className="w-5 h-5" />
-        </LinkButton>
-      )}
-      <LinkButton
-        size="lg"
-        variant="border"
-        href={`/dashboard/${team.team_key}/silos/${silo.id}/block-explorer`}
-      >
-        Customize Block Explorer
-      </LinkButton>
-    </div>
+    <DeploymentProgressContent
+      team={team}
+      silo={silo}
+      isDeploymentComplete={isDeploymentComplete}
+      setIsDeploymentComplete={setIsDeploymentComplete}
+      onboardingForm={onboardingForm}
+      siloTransactionStatuses={siloTransactionStatuses}
+      hasUnassignedSilo={!!unassignedSiloId}
+    />
   )
 }

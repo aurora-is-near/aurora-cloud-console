@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { updateSilo } from "@/actions/silos/update-silo"
-import { DeploymentProgressAuto } from "./index"
+import { DeploymentProgressContent } from "./DeploymentProgressContent"
 import { mockTeam } from "../../../../../../test-utils/mock-team"
 import { createWrapper } from "../../../../../../test-utils/create-wrapper"
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
@@ -28,7 +28,7 @@ const getCurrentStep = () => {
   return steps.find((step) => step.isSelected)?.id
 }
 
-describe("DeploymentProgressAuto", () => {
+describe("DeploymentProgressContent", () => {
   beforeEach(() => {
     ;(setBaseToken as jest.Mock).mockResolvedValue("PENDING")
   })
@@ -40,7 +40,7 @@ describe("DeploymentProgressAuto", () => {
   describe("welcome", () => {
     it("shows the expected steps", async () => {
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo
           team={mockTeam}
           silo={null}
@@ -67,7 +67,7 @@ describe("DeploymentProgressAuto", () => {
   describe("onboarding", () => {
     it("shows the expected steps", async () => {
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo
           team={mockTeam}
           silo={null}
@@ -94,7 +94,7 @@ describe("DeploymentProgressAuto", () => {
   describe("deployment in progress", () => {
     it("shows the expected steps on mount", async () => {
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo
           team={mockTeam}
           silo={createMockSilo()}
@@ -140,7 +140,7 @@ describe("DeploymentProgressAuto", () => {
       })
 
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo
           team={mockTeam}
           silo={silo}
@@ -167,7 +167,7 @@ describe("DeploymentProgressAuto", () => {
       ;(setBaseToken as jest.Mock).mockResolvedValue("SUCCESSFUL")
 
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo
           team={mockTeam}
           silo={createMockSilo({
@@ -193,7 +193,7 @@ describe("DeploymentProgressAuto", () => {
       "starts from the deploying tokens step if a previous transaction is in the %p state",
       async (status) => {
         render(
-          <DeploymentProgressAuto
+          <DeploymentProgressContent
             hasUnassignedSilo
             team={mockTeam}
             silo={createMockSilo({
@@ -219,7 +219,7 @@ describe("DeploymentProgressAuto", () => {
 
     it("starts the block explorer once all transaction-based steps are complete", async () => {
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo
           team={mockTeam}
           silo={createMockSilo({
@@ -254,7 +254,7 @@ describe("DeploymentProgressAuto", () => {
       })
 
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo
           team={mockTeam}
           silo={silo}
@@ -294,7 +294,7 @@ describe("DeploymentProgressAuto", () => {
       ;(setBaseToken as jest.Mock).mockResolvedValue("FAILED")
 
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo
           team={mockTeam}
           silo={createMockSilo({
@@ -329,7 +329,7 @@ describe("DeploymentProgressAuto", () => {
   describe("deployment complete", () => {
     it("shows the expected content", async () => {
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo
           team={mockTeam}
           silo={createMockSilo({ is_active: true })}
@@ -348,7 +348,7 @@ describe("DeploymentProgressAuto", () => {
   describe("manual deployment", () => {
     it("shows the expected content when the base token cannot be automated", async () => {
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo
           team={mockTeam}
           silo={null}
@@ -373,7 +373,7 @@ describe("DeploymentProgressAuto", () => {
 
     it("shows the expected content when the base token can be automated but there are no more silos", async () => {
       render(
-        <DeploymentProgressAuto
+        <DeploymentProgressContent
           hasUnassignedSilo={false}
           team={mockTeam}
           silo={null}

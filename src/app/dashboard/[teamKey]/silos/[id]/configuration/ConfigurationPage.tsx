@@ -15,7 +15,7 @@ import {
 import { EditPermissions } from "./EditPermissions"
 import { CopyAction } from "./CopyAction"
 
-const Page = () => {
+export const ConfigurationPage = () => {
   const { silo } = useRequiredContext(SiloContext)
 
   const relayerAccount = getRelayerAccount(silo)
@@ -122,5 +122,3 @@ const Page = () => {
     </DashboardPage>
   )
 }
-
-export default Page

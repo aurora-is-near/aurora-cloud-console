@@ -1,34 +1,23 @@
 "use client"
 
 import { CheckIcon } from "@heroicons/react/24/outline"
-import { useState } from "react"
+import { useContext, useState } from "react"
 
 import { Typography } from "@/uikit"
 import Hero from "@/components/Hero/Hero"
-import { OnboardingForm, Silo, Team } from "@/types/types"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { DashboardPage } from "@/components/DashboardPage"
-import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
+import { SiloContext } from "@/providers/SiloProvider"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
 import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
 import { HeroImage } from "./HeroImage"
 
-type DashboardHomePageProps = {
-  team: Team
-  silo?: Silo | null
-  onboardingForm: OnboardingForm | null
-  siloTransactionStatuses?: SiloConfigTransactionStatuses
-  hasUnassignedSilo?: boolean
-}
-
-export const DashboardHomePage = ({
-  team,
-  silo = null,
-  onboardingForm,
-  siloTransactionStatuses,
-  hasUnassignedSilo,
-}: DashboardHomePageProps) => {
+export const DashboardHomePage = () => {
+  const { silo = null } = useContext(SiloContext) ?? {}
+  const { team } = useRequiredContext(TeamContext)
   const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
     !!silo?.is_active,
   )
@@ -67,9 +56,6 @@ export const DashboardHomePage = ({
           silo={silo}
           isDeploymentComplete={isDeploymentComplete}
           setIsDeploymentComplete={setIsDeploymentComplete}
-          onboardingForm={onboardingForm}
-          siloTransactionStatuses={siloTransactionStatuses}
-          hasUnassignedSilo={hasUnassignedSilo}
         />
       </Hero>
 
