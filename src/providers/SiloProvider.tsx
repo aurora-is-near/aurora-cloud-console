@@ -2,13 +2,11 @@
 
 import { createContext, PropsWithChildren, ReactNode, useMemo } from "react"
 import { notFound } from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
 import { Silo } from "@/types/types"
 import { Spinner } from "@/components/Spinner"
-import { getTeamSiloByKey } from "@/actions/team-silos/get-team-silo-by-key"
 import { useTeamSilo } from "@/hooks/useTeamSilo"
 
-type SiloContextType = {
+export type SiloContextType = {
   silo: Silo
 }
 

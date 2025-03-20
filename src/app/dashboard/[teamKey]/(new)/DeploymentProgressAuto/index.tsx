@@ -12,14 +12,12 @@ import { DeploymentProgressContent } from "./DeploymentProgressContent"
 type Props = {
   team: Team
   silo: Silo | null
-  isDeploymentComplete: boolean
   setIsDeploymentComplete: (isDeploymentComplete: boolean) => void
 }
 
 export const DeploymentProgressAuto = ({
   team,
   silo,
-  isDeploymentComplete,
   setIsDeploymentComplete,
 }: Props) => {
   const [
@@ -74,7 +72,6 @@ export const DeploymentProgressAuto = ({
     <DeploymentProgressContent
       team={team}
       silo={silo}
-      isDeploymentComplete={isDeploymentComplete}
       setIsDeploymentComplete={setIsDeploymentComplete}
       onboardingForm={onboardingForm}
       siloTransactionStatuses={siloTransactionStatuses}

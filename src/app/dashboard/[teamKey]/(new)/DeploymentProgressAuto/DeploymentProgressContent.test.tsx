@@ -45,7 +45,6 @@ describe("DeploymentProgressContent", () => {
           team={mockTeam}
           silo={null}
           onboardingForm={null}
-          isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
         { wrapper: createWrapper() },
@@ -72,7 +71,6 @@ describe("DeploymentProgressContent", () => {
           team={mockTeam}
           silo={null}
           onboardingForm={createMockOnboardingForm()}
-          isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
         { wrapper: createWrapper() },
@@ -99,7 +97,6 @@ describe("DeploymentProgressContent", () => {
           team={mockTeam}
           silo={createMockSilo()}
           onboardingForm={createMockOnboardingForm()}
-          isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
         { wrapper: createWrapper() },
@@ -145,7 +142,6 @@ describe("DeploymentProgressContent", () => {
           team={mockTeam}
           silo={silo}
           onboardingForm={createMockOnboardingForm()}
-          isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
         { wrapper: createWrapper() },
@@ -175,7 +171,6 @@ describe("DeploymentProgressContent", () => {
             base_token_name: "Aurora",
           })}
           onboardingForm={createMockOnboardingForm()}
-          isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
           siloTransactionStatuses={{
             SET_BASE_TOKEN: "SUCCESSFUL",
@@ -201,7 +196,6 @@ describe("DeploymentProgressContent", () => {
               base_token_name: "Aurora",
             })}
             onboardingForm={createMockOnboardingForm()}
-            isDeploymentComplete={false}
             setIsDeploymentComplete={() => {}}
             siloTransactionStatuses={{
               SET_BASE_TOKEN: "SUCCESSFUL",
@@ -227,7 +221,6 @@ describe("DeploymentProgressContent", () => {
             base_token_name: "Aurora",
           })}
           onboardingForm={createMockOnboardingForm()}
-          isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
           siloTransactionStatuses={{
             SET_BASE_TOKEN: "SUCCESSFUL",
@@ -259,7 +252,6 @@ describe("DeploymentProgressContent", () => {
           team={mockTeam}
           silo={silo}
           onboardingForm={createMockOnboardingForm()}
-          isDeploymentComplete={false}
           setIsDeploymentComplete={setIsDeploymentComplete}
           siloTransactionStatuses={{
             SET_BASE_TOKEN: "SUCCESSFUL",
@@ -302,7 +294,6 @@ describe("DeploymentProgressContent", () => {
             base_token_name: "Aurora",
           })}
           onboardingForm={createMockOnboardingForm()}
-          isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
         { wrapper: createWrapper() },
@@ -326,25 +317,6 @@ describe("DeploymentProgressContent", () => {
     })
   })
 
-  describe("deployment complete", () => {
-    it("shows the expected content", async () => {
-      render(
-        <DeploymentProgressContent
-          hasUnassignedSilo
-          team={mockTeam}
-          silo={createMockSilo({ is_active: true })}
-          onboardingForm={createMockOnboardingForm()}
-          isDeploymentComplete
-          setIsDeploymentComplete={() => {}}
-        />,
-        { wrapper: createWrapper() },
-      )
-
-      expect(screen.queryByTestId("deployment-steps")).toBeNull()
-      expect(screen.getByText(/Open Block Explorer/i)).not.toBeNull()
-    })
-  })
-
   describe("manual deployment", () => {
     it("shows the expected content when the base token cannot be automated", async () => {
       render(
@@ -353,7 +325,6 @@ describe("DeploymentProgressContent", () => {
           team={mockTeam}
           silo={null}
           onboardingForm={createMockOnboardingForm({ baseToken: "BTC" })}
-          isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
         { wrapper: createWrapper() },
@@ -378,7 +349,6 @@ describe("DeploymentProgressContent", () => {
           team={mockTeam}
           silo={null}
           onboardingForm={createMockOnboardingForm({ baseToken: "AURORA" })}
-          isDeploymentComplete={false}
           setIsDeploymentComplete={() => {}}
         />,
         { wrapper: createWrapper() },

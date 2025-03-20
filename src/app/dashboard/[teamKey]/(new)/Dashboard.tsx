@@ -11,6 +11,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { SiloContext } from "@/providers/SiloProvider"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
+import { DeploymentProgressComplete } from "@/app/dashboard/[teamKey]/(new)/DeploymentComplete"
 import { DeploymentProgressAuto } from "./DeploymentProgressAuto"
 import { WhatsNext } from "./WhatsNext"
 import { HeroImage } from "./HeroImage"
@@ -51,12 +52,15 @@ export const DashboardHomePage = () => {
         }
         image={<HeroImage isDeploymentComplete={isDeploymentComplete} />}
       >
-        <DeploymentProgressAuto
-          team={team}
-          silo={silo}
-          isDeploymentComplete={isDeploymentComplete}
-          setIsDeploymentComplete={setIsDeploymentComplete}
-        />
+        {isDeploymentComplete ? (
+          <DeploymentProgressComplete />
+        ) : (
+          <DeploymentProgressAuto
+            team={team}
+            silo={silo}
+            setIsDeploymentComplete={setIsDeploymentComplete}
+          />
+        )}
       </Hero>
 
       <section className="flex flex-col pt-4 gap-14">

@@ -1,11 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid"
-
 import type { OnboardingForm, Silo, Team } from "@/types/types"
-
-import { LinkButton } from "@/components/LinkButton"
 import { AUTOMATED_BASE_TOKENS } from "@/constants/base-token"
 import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
 import { DeploymentSteps, ModalConfirmDeployment, Steps } from "./components"
@@ -15,7 +11,6 @@ type Props = {
   team: Team
   silo: Silo | null
   onboardingForm: OnboardingForm | null
-  isDeploymentComplete: boolean
   setIsDeploymentComplete: (isDeploymentComplete: boolean) => void
   siloTransactionStatuses?: SiloConfigTransactionStatuses
   hasUnassignedSilo?: boolean
@@ -25,7 +20,6 @@ export const DeploymentProgressContent = ({
   team,
   silo,
   onboardingForm,
-  isDeploymentComplete,
   setIsDeploymentComplete,
   siloTransactionStatuses,
   hasUnassignedSilo,
@@ -89,41 +83,15 @@ export const DeploymentProgressContent = ({
   }
 
   // Automatic deployment in progress
-  if (!isDeploymentComplete) {
-    return (
-      <DeploymentSteps
-        silo={silo}
-        siloTransactionStatuses={siloTransactionStatuses}
-        isPublicChain={onboardingForm?.chainPermission === "public"}
-        team={team}
-        onDeploymentComplete={() => {
-          setIsDeploymentComplete(true)
-        }}
-      />
-    )
-  }
-
-  // Deployment done
   return (
-    <div className="flex gap-3">
-      {!!silo.explorer_url && (
-        <LinkButton
-          isExternal
-          size="lg"
-          variant="primary"
-          href={silo.explorer_url}
-        >
-          Open Block Explorer
-          <ArrowTopRightOnSquareIcon className="w-5 h-5" />
-        </LinkButton>
-      )}
-      <LinkButton
-        size="lg"
-        variant="border"
-        href={`/dashboard/${team.team_key}/silos/${silo.id}/block-explorer`}
-      >
-        Customize Block Explorer
-      </LinkButton>
-    </div>
+    <DeploymentSteps
+      silo={silo}
+      siloTransactionStatuses={siloTransactionStatuses}
+      isPublicChain={onboardingForm?.chainPermission === "public"}
+      team={team}
+      onDeploymentComplete={() => {
+        setIsDeploymentComplete(true)
+      }}
+    />
   )
 }

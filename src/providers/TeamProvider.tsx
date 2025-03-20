@@ -6,7 +6,7 @@ import { Team } from "@/types/types"
 import { Spinner } from "@/components/Spinner"
 import { useTeam } from "@/hooks/useTeam"
 
-type TeamContextType = {
+export type TeamContextType = {
   team: Team
 }
 
