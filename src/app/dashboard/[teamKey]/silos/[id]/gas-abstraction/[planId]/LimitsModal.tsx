@@ -5,6 +5,7 @@ import { CheckIcon } from "@heroicons/react/24/outline"
 import { FormProvider, useForm } from "react-hook-form"
 import { useParams } from "next/navigation"
 import toast from "react-hot-toast"
+import { XCircleIcon } from "@heroicons/react/24/solid"
 import { Button } from "@/components/Button"
 import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
@@ -16,7 +17,7 @@ import { Input } from "@/components/Input"
 import { updateLimit } from "@/actions/limits/update-limit"
 
 type Inputs = {
-  limit_value: number
+  limit_value: number | null
 }
 
 export const LimitsModal = ({ deal, limit }: { deal: Deal; limit: Limit }) => {
@@ -24,8 +25,8 @@ export const LimitsModal = ({ deal, limit }: { deal: Deal; limit: Limit }) => {
   const { teamKey, planId } = useParams()
   const methods = useForm<Inputs>({
     defaultValues: {
-      limit_value: limit?.limit_value ?? null,
-    },
+      limit_value: limit?.limit_value,
+    } as Inputs,
   })
 
   const TITLE = {
@@ -43,9 +44,13 @@ export const LimitsModal = ({ deal, limit }: { deal: Deal; limit: Limit }) => {
     closeModal()
   }
 
+  const onClear = () => {
+    methods.setValue("limit_value", null)
+  }
+
   useEffect(() => {
     methods.reset({
-      limit_value: limit?.limit_value ?? null,
+      limit_value: limit?.limit_value,
     })
   }, [limit, methods])
 
@@ -60,14 +65,15 @@ export const LimitsModal = ({ deal, limit }: { deal: Deal; limit: Limit }) => {
               id="limit_value"
               name="limit_value"
               register={methods.register}
-              defaultValue={limit?.limit_value}
             />
-            <p className="text-xs text-gray-500">
-              Set to 0 (zero) for unlimited.
-            </p>
+            <p className="text-xs text-gray-500">Leave empty for unlimited.</p>
           </InputWrapper>
         </div>
         <SlideOver.Actions>
+          <Button variant="secondary" onClick={onClear}>
+            <XCircleIcon className="w-5 h-5 text-gray-900" />
+            Clear values
+          </Button>
           <div className="flex items-center flex-1 justify-between">
             <Button variant="secondary" onClick={closeModal}>
               Cancel

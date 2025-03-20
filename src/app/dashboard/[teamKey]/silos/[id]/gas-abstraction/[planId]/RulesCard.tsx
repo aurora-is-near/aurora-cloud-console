@@ -38,7 +38,7 @@ export const RulesCard = ({
           <RuleSetting
             title="Total transactions limit"
             description={
-              limits[0].limit_value === 0
+              limits[0].limit_value === null
                 ? "No limit"
                 : limits[0].limit_value.toString()
             }
@@ -53,7 +53,7 @@ export const RulesCard = ({
           <RuleSetting
             title="Monthly limit, per user"
             description={
-              limits[1].limit_value === 0
+              limits[1].limit_value === null
                 ? "No limit"
                 : limits[1].limit_value.toString()
             }
