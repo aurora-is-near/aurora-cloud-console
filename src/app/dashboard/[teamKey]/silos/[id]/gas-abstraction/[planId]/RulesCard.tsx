@@ -3,8 +3,11 @@
 import { useState } from "react"
 import { PencilSquareIcon } from "@heroicons/react/24/solid"
 import { ConfigurationCard } from "@/components/ConfigurationCard"
-import { Deal, Limit } from "@/types/types"
-import { LimitsModal } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/LimitsModal"
+import { Deal, Limit, LimitScope } from "@/types/types"
+import {
+  defaultLimits,
+  LimitsModal,
+} from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/[planId]/LimitsModal"
 import { Button } from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
@@ -14,18 +17,31 @@ import { RuleSetting } from "./RuleSetting"
 
 export const RulesCard = ({
   deal,
+  limitScopes,
   limits,
 }: {
   deal: Deal
+  limitScopes: LimitScope[]
   limits: Limit[]
 }) => {
-  const [selectedLimit, setSelectedLimit] = useState<Limit>(limits[0])
+  const [selectedLimitScope, setSelectedLimitScope] = useState<LimitScope>(
+    limitScopes[0],
+  )
+
   const { openModal } = useModals()
 
-  const openLimitEditModal = (limit: Limit) => {
-    setSelectedLimit(limit)
+  const openLimitEditModal = (limitScope: LimitScope) => {
+    setSelectedLimitScope(limitScope)
     openModal(Modals.EditPlanLimitsModal)
   }
+
+  const globalLimit =
+    limits.find((l) => l.limit_scope === limitScopes[0]) ??
+    defaultLimits[limitScopes[0]]
+
+  const userLimit =
+    limits.find((l) => l.limit_scope === limitScopes[1]) ??
+    defaultLimits[limitScopes[1]]
 
   return (
     <>
@@ -38,14 +54,14 @@ export const RulesCard = ({
           <RuleSetting
             title="Total transactions limit"
             description={
-              limits[0].limit_value === null
+              globalLimit.limit_value === null
                 ? "No limit"
-                : limits[0].limit_value.toString()
+                : globalLimit.limit_value.toString()
             }
           >
             <Button
               variant="border"
-              onClick={() => openLimitEditModal(limits[0])}
+              onClick={() => openLimitEditModal(limitScopes[0])}
             >
               <PencilSquareIcon className="w-4 h-4" />
             </Button>
@@ -53,21 +69,25 @@ export const RulesCard = ({
           <RuleSetting
             title="Monthly limit, per user"
             description={
-              limits[1].limit_value === null
+              userLimit.limit_value === null
                 ? "No limit"
-                : limits[1].limit_value.toString()
+                : userLimit.limit_value.toString()
             }
           >
             <Button
               variant="border"
-              onClick={() => openLimitEditModal(limits[1])}
+              onClick={() => openLimitEditModal(limitScopes[1])}
             >
               <PencilSquareIcon className="w-4 h-4" />
             </Button>
           </RuleSetting>
         </div>
       </ConfigurationCard>
-      <LimitsModal deal={deal} limit={selectedLimit} />
+      <LimitsModal
+        deal={deal}
+        limitScope={selectedLimitScope}
+        limits={limits}
+      />
       <DealDurationModal deal={deal} />
     </>
   )

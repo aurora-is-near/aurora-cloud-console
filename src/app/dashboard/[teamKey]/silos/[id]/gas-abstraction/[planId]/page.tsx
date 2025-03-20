@@ -7,7 +7,6 @@ import { createRule } from "@/actions/rules/create-rule"
 import { RuleProvider } from "@/providers/RuleProvider"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
 import { getUiLimits } from "@/actions/limits/get-ui-limits"
-import { createDefaultLimits } from "@/actions/limits/create-default-limits"
 import UsersConfigurationCard from "@/components/GasAbstraction/UsersConfigurationCard"
 import { ContractsCard } from "./ContractsCard"
 import { RulesCard } from "./RulesCard"
@@ -47,30 +46,13 @@ const Page = async ({
     })
   }
 
-  let globalLimit = limits?.find((l) => l.limit_scope === "GLOBAL")
-  let userLimit = limits?.find((l) => l.limit_scope === "USER")
-
-  if (!globalLimit || !userLimit) {
-    const createdLimits = await createDefaultLimits(dealId)
-
-    if (!globalLimit) {
-      globalLimit = createdLimits?.find((l) => l.limit_scope === "GLOBAL")
-    }
-
-    if (!userLimit) {
-      userLimit = createdLimits?.find((l) => l.limit_scope === "USER")
-    }
-  }
-
   return (
     <DealUpdatePage deal={deal} siloId={siloId}>
       <RuleProvider team={team} initialRule={userlistRule}>
         <UsersConfigurationCard deal={deal} />
         <ContractsCard silo={silo} />
       </RuleProvider>
-      {!!globalLimit && !!userLimit && (
-        <RulesCard limits={[globalLimit, userLimit]} deal={deal} />
-      )}
+      <RulesCard limitScopes={["GLOBAL", "USER"]} limits={limits} deal={deal} />
       <Contact />
     </DealUpdatePage>
   )
