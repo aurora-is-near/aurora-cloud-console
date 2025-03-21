@@ -211,7 +211,12 @@ const EditSiloPermissionsModalContent = ({
                             return <LoadingBadge label="Removing..." />
                           case "failed":
                             return (
-                              <Button variant="destructive">Try again</Button>
+                              <Button
+                                variant="destructive"
+                                onClick={() => onRemoveAddress(address)}
+                              >
+                                Try again
+                              </Button>
                             )
                           case "normal":
                           default:

@@ -10,6 +10,7 @@ import {
   GasAbstraction,
   Integrations,
   Monitoring,
+  NearIntents,
   Onramp,
   Oracle,
 } from "../../public/static/v2/images/menuIcons"
@@ -116,6 +117,12 @@ export const MainDashboardLayout = async ({
                 name: "Block explorer",
                 href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
                 icon: <BlockExplorer />,
+              },
+              {
+                variant: "secondary",
+                name: "Near Intents",
+                href: `/dashboard/${teamKey}${siloPrefix}/intents`,
+                icon: <NearIntents />,
               },
             ],
           },

@@ -87,7 +87,10 @@ const initialiseSilo = async (silo: PreviouslyInspectedSilo) => {
 
   const transactionResults: SiloConfigTransactionStatus[] = await Promise.all([
     deployDefaultTokens(silo, { skipIfFailed: isWithin24Hours }),
-    setBaseToken(silo, { skipIfFailed: isWithin24Hours }),
+    setBaseToken(silo, {
+      skipIfFailed: isWithin24Hours,
+      skipUnknownToken: true,
+    }),
   ])
 
   const siloUpdateProperties: Partial<Silo> = {
