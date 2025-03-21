@@ -2,6 +2,8 @@
 
 import mixpanelBrowser, { Mixpanel } from "mixpanel-browser"
 import { createContext, ReactNode, useEffect, useMemo, useState } from "react"
+import * as analytics from "@/actions/analytics"
+import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 
 type AnalyticsContextType = {
   mixPanel: Mixpanel | null
@@ -26,6 +28,16 @@ export const AnalyticsProvider = ({ children }: { children: ReactNode }) => {
     })
 
     setMixPanel(mixpanelBrowser)
+  }, [])
+
+  useEffect(() => {
+    void (async () => {
+      const user = await getAuthUser()
+
+      if (user) {
+        analytics.setUser(user)
+      }
+    })()
   }, [])
 
   const ctx = useMemo(
