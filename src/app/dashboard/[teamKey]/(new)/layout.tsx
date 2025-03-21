@@ -1,7 +1,6 @@
 import { ReactNode } from "react"
-
-import { isAdmin } from "@/actions/is-admin"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
+import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 
 const Layout = async ({
   children,
@@ -10,10 +9,10 @@ const Layout = async ({
   children: ReactNode
   params: { teamKey: string }
 }) => {
-  const isAdminUser = await isAdmin()
+  const authUser = await getAuthUser()
 
   return (
-    <MainDashboardLayout teamKey={teamKey} showAdminMenu={isAdminUser}>
+    <MainDashboardLayout teamKey={teamKey} authUser={authUser}>
       {children}
     </MainDashboardLayout>
   )

@@ -4,6 +4,7 @@ import {
   BookOpenIcon,
   Cog6ToothIcon,
 } from "@heroicons/react/24/outline"
+import { User } from "@supabase/supabase-js"
 import { MainMenu } from "@/components/menu/MainMenu"
 import { MenuItem, MenuSection } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
@@ -11,12 +12,13 @@ import Helpscout from "@/components/Helpscout"
 import { setUser } from "@/components/Mixpanel/ServerTracker"
 
 import { getAdminNotificationCount } from "@/actions/get-admin-notification-count"
+import { isAdminUser } from "@/utils/admin"
 import IconDiscord from "../../public/static/icons/discord-logo.svg"
 import IconTelegram from "../../public/static/icons/telegram-logo.svg"
 
 type DashboardLayoutProps = {
   teamKey?: string
-  showAdminMenu: boolean
+  authUser: User | null
   children: ReactNode
   sidebarMenu?: {
     heading: string
@@ -27,10 +29,11 @@ type DashboardLayoutProps = {
 
 export const DashboardLayout = async ({
   teamKey,
-  showAdminMenu,
+  authUser,
   children,
   sidebarMenu,
 }: DashboardLayoutProps) => {
+  const showAdminMenu = isAdminUser(authUser?.email)
   const mainMenuItems = useMemo(() => {
     const items: MenuItem[] = [
       {
@@ -77,7 +80,7 @@ export const DashboardLayout = async ({
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
-      <MainMenu menuItems={mainMenuItems} />
+      <MainMenu authUser={authUser} menuItems={mainMenuItems} />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
         {!!sidebarMenu?.sections.length && (
           <SidebarMenu

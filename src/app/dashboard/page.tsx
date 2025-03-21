@@ -1,21 +1,24 @@
 import { PlusIcon } from "@heroicons/react/24/outline"
 import { redirect } from "next/navigation"
-import { isAdmin } from "@/actions/is-admin"
 import { NotAllowed } from "@/components/NotAllowed"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { DashboardPage } from "@/components/DashboardPage"
 import { FullScreenPage } from "@/components/FullScreenPage"
 import { LinkButton } from "@/components/LinkButton"
-import { getTeamSummaries } from "@/actions/teams/get-team-summaries"
 import { TeamsList } from "@/app/dashboard/TeamsList"
+import { getAuthUser } from "@/actions/auth-user/get-auth-user"
+import { isAdminUser } from "@/utils/admin"
 
 const Page = async () => {
-  const [teamSummaries, isAdminUser] = await Promise.all([
-    getTeamSummaries(),
-    isAdmin(),
-  ])
+  const authUser = await getAuthUser()
+  const isAdmin = isAdminUser(authUser?.email)
 
-  if (!teamSummaries.length) {
+  // Team keys are added to the user metadata via database triggers
+  // (see manage-user-teams.md). This means we can access data about the user's
+  // teams here without requiring an additional database query.
+  const userTeams: string[] = authUser?.user_metadata.teams || []
+
+  if (userTeams.length === 0 && !isAdmin) {
     return (
       <FullScreenPage>
         <NotAllowed
@@ -27,18 +30,18 @@ const Page = async () => {
     )
   }
 
-  if (teamSummaries.length === 1) {
-    return redirect(`/dashboard/${teamSummaries[0].team_key}`)
+  if (userTeams.length === 1 && !isAdmin) {
+    return redirect(`/dashboard/${userTeams[0]}`)
   }
 
   return (
-    <DashboardLayout showAdminMenu={isAdminUser}>
+    <DashboardLayout authUser={authUser}>
       <DashboardPage
         heading="Your teams"
         headingSize="lg"
         className="pt-12"
         actions={
-          isAdminUser && (
+          isAdmin && (
             <LinkButton href="/dashboard/new">
               <PlusIcon className="w-5 h-5" />
               <span>New team</span>
@@ -46,7 +49,7 @@ const Page = async () => {
           )
         }
       >
-        <TeamsList teamSummaries={teamSummaries} />
+        <TeamsList />
       </DashboardPage>
     </DashboardLayout>
   )

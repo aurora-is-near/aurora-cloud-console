@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
 import { HomeIcon } from "@heroicons/react/20/solid"
+import { User } from "@supabase/supabase-js"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { Deal, Silo } from "@/types/types"
 
@@ -18,7 +19,7 @@ type MainDashboardLayoutProps = {
   teamKey: string
   silo?: Silo
   deals?: Deal[]
-  showAdminMenu: boolean
+  authUser: User | null
   children: ReactNode
   sidebarAction?: JSX.Element
 }
@@ -27,7 +28,7 @@ export const MainDashboardLayout = async ({
   teamKey,
   silo,
   deals = [],
-  showAdminMenu,
+  authUser,
   children,
   sidebarAction,
 }: MainDashboardLayoutProps) => {
@@ -36,7 +37,7 @@ export const MainDashboardLayout = async ({
   return (
     <DashboardLayout
       teamKey={teamKey}
-      showAdminMenu={showAdminMenu}
+      authUser={authUser}
       sidebarMenu={{
         heading: silo?.name ?? "Explore Aurora",
         action: sidebarAction,
