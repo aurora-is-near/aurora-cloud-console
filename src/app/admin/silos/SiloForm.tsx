@@ -195,6 +195,18 @@ export const SiloForm = ({
       required: true,
     },
     {
+      name: "intents_integration_status",
+      label: "Intents integration status",
+      defaultValue: silo?.intents_integration_status ?? "INITIAL",
+      required: true,
+      getValue: (option?: SelectInputOption) => option?.value,
+      options: [
+        { label: "--", value: "INITIAL" },
+        { label: "Requested", value: "REQUESTED" },
+        { label: "Completed", value: "COMPLETED" },
+      ],
+    },
+    {
       name: "silos_teams",
       label: "Teams",
       isMulti: true,

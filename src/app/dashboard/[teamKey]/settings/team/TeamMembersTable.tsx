@@ -81,17 +81,19 @@ export const TeamMembersTable = ({
             <Table.TD dark>{teamMember.name ?? "N/A"}</Table.TD>
             <Table.TD>{teamMember.email}</Table.TD>
             <Table.TD>
-              {teamMember.isPending ? (
-                <Pill variant="pending">
-                  <ClockIcon className="w-4 h-4" />
-                  Pending
-                </Pill>
-              ) : (
-                <Pill variant="active">
-                  <CheckIcon className="w-4 h-4" />
-                  Active
-                </Pill>
-              )}
+              <div className="flex">
+                {teamMember.isPending ? (
+                  <Pill variant="pending">
+                    <ClockIcon className="w-4 h-4" />
+                    Pending
+                  </Pill>
+                ) : (
+                  <Pill variant="active">
+                    <CheckIcon className="w-4 h-4" />
+                    Active
+                  </Pill>
+                )}
+              </div>
             </Table.TD>
             <Table.TD align="right">
               {teamMember.isPending && !isCurrentUser ? (

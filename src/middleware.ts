@@ -3,7 +3,6 @@ import type { NextRequest } from "next/server"
 import { isAdminUser } from "@/utils/admin"
 import { createMiddlewareClient } from "@/supabase/create-middleware-client"
 import { isTeamWidgetUrl } from "@/utils/widgets"
-import * as analytics from "@/actions/analytics"
 import {
   AUTH_ACCEPT_ROUTE,
   AUTH_CALLBACK_ROUTE,
@@ -47,10 +46,6 @@ export async function middleware(req: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-
-  if (user) {
-    void analytics.setUser(user)
-  }
 
   // Do nothing if an auth callback or logout is in progress
   if (
