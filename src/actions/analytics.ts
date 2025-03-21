@@ -1,10 +1,16 @@
 "use server"
 
 import mixpanel from "mixpanel"
-import { User } from "@supabase/supabase-js"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
+import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 
-const mpNoop = { track: () => {}, people: { set_once: () => {} } }
+const mpNoop = {
+  track: () => {},
+  people: {
+    set_once: () => {},
+    unset: () => {},
+  },
+}
 
 const mp = process.env.MIXPANEL_SERVER_TOKEN
   ? mixpanel.init(process.env.MIXPANEL_SERVER_TOKEN, {
@@ -12,10 +18,22 @@ const mp = process.env.MIXPANEL_SERVER_TOKEN
     })
   : mpNoop
 
-export function setUser(authUser: User) {
-  mp.people.set_once(authUser.id.toString(), {
-    email: authUser.email,
-  })
+export async function setUser() {
+  const user = await getAuthUser()
+
+  if (user) {
+    mp.people.set_once(user.id.toString(), {
+      email: user.email,
+    })
+  }
+}
+
+export async function clearUser() {
+  const user = await getAuthUser()
+
+  if (user) {
+    mp.people.unset(user.id.toString(), "email")
+  }
 }
 
 export async function trackEvent(

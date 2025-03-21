@@ -16,13 +16,8 @@ export async function GET(request: NextRequest) {
     if (code) {
       const supabase = createRouteHandlerClient()
 
-      const {
-        data: { user },
-      } = await supabase.auth.exchangeCodeForSession(code)
-
-      if (user) {
-        analytics.setUser(user)
-      }
+      await supabase.auth.exchangeCodeForSession(code)
+      await analytics.setUser()
     }
 
     return NextResponse.redirect(new URL(HOME_ROUTE, request.url))
