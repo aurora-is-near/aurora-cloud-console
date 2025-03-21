@@ -46,9 +46,6 @@ export const EditPermissions = () => {
     null,
   )
 
-  // const makeTxsWhitelist = await getSiloWhitelist(silo.id, "MAKE_TRANSACTION")
-  //   const deployTxsWhitelist = await getSiloWhitelist(silo.id, "DEPLOY_CONTRACT")
-
   const [{ data: makeTxsWhitelist = [] }, { data: deployTxsWhitelist = [] }] =
     useQueries({
       queries: [
