@@ -126,9 +126,6 @@ export const apiClient = {
   getSiloFailureRate: async ({ id }: ApiRequestParams<"getSiloFailureRate">) =>
     get<"getSiloFailureRate">(`/api/silos/${id}/failure-rate`),
 
-  getSiloPermissions: async ({ id }: ApiRequestParams<"getSiloPermissions">) =>
-    get<"getSiloPermissions">(`/api/silos/${id}/permissions`),
-
   toggleSiloPermissions: async ({
     id,
     ...data

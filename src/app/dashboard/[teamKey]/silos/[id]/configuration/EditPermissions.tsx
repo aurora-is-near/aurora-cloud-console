@@ -3,38 +3,40 @@
 import { useState } from "react"
 import { PencilSquareIcon } from "@heroicons/react/24/solid"
 
-import { useQuery } from "@tanstack/react-query"
+import { useQueries } from "@tanstack/react-query"
 import { Button } from "@/uikit"
 import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
 import { useFeatureFlags } from "@/hooks/useFeatureFlags"
-import type { SiloWhitelistType } from "@/types/types"
+import type {
+  Silo,
+  SiloWhitelistAddress,
+  SiloWhitelistType,
+} from "@/types/types"
 
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { SiloContext } from "@/providers/SiloProvider"
-import { getQueryFnAndKey } from "@/utils/api/queries"
+import { getSiloWhitelist } from "@/actions/silo-whitelist/get-silo-whitelist"
 import { ConfigurationItemsCard } from "./ConfigurationItemsCard"
 import { EditSiloPermissionsModal } from "./EditSiloPermissionsModal"
 
-const useDisplayValue = (data?: {
-  isEnabled: boolean
-  addresses: string[]
-}) => {
-  if (!data) {
-    return "Loading..."
-  }
-
-  const { isEnabled, addresses } = data
-
-  if (!isEnabled) {
+const useDisplayValue = (
+  silo: Silo,
+  whitelistType: SiloWhitelistType,
+  whitelist: SiloWhitelistAddress[],
+) => {
+  if (
+    (whitelistType === "MAKE_TRANSACTION" && silo.is_make_txs_public) ||
+    (whitelistType === "DEPLOY_CONTRACT" && silo.is_deploy_contracts_public)
+  ) {
     return "Allow everyone"
   }
 
-  if (addresses.length === 0) {
+  if (whitelist.length === 0) {
     return "Forbid everyone"
   }
 
-  return `${addresses.length} whitelisted addresses`
+  return `${whitelist.length} whitelisted addresses`
 }
 
 export const EditPermissions = () => {
@@ -44,25 +46,34 @@ export const EditPermissions = () => {
     null,
   )
 
-  const { data } = useQuery(
-    getQueryFnAndKey("getSiloPermissions", {
-      id: silo.id,
-    }),
-  )
-
-  const makeTxsWhitelist = data?.items.find(
-    (item) => item.type === "MAKE_TRANSACTION",
-  )
-
-  const deployTxsWhitelist = data?.items.find(
-    (item) => item.type === "DEPLOY_CONTRACT",
-  )
+  const [{ data: makeTxsWhitelist = [] }, { data: deployTxsWhitelist = [] }] =
+    useQueries({
+      queries: [
+        {
+          queryKey: ["silo-whitelist", silo.id, "MAKE_TRANSACTION"],
+          queryFn: () => getSiloWhitelist(silo.id, "MAKE_TRANSACTION"),
+        },
+        {
+          queryKey: ["silo-whitelist", silo.id, "DEPLOY_CONTRACT"],
+          queryFn: () => getSiloWhitelist(silo.id, "DEPLOY_CONTRACT"),
+        },
+      ],
+    })
 
   const { flags } = useFeatureFlags()
   const isWhitelistsEditingEnabled = flags.silo_whitelist_permissions
 
-  const displayTxsWhitelistLabel = useDisplayValue(makeTxsWhitelist)
-  const displayDeployWhitelistLabel = useDisplayValue(deployTxsWhitelist)
+  const displayTxsWhitelistLabel = useDisplayValue(
+    silo,
+    "MAKE_TRANSACTION",
+    makeTxsWhitelist,
+  )
+
+  const displayDeployWhitelistLabel = useDisplayValue(
+    silo,
+    "DEPLOY_CONTRACT",
+    deployTxsWhitelist,
+  )
 
   return (
     <>
@@ -72,8 +83,8 @@ export const EditPermissions = () => {
         addresses={
           currentModal
             ? {
-                MAKE_TRANSACTION: makeTxsWhitelist?.addresses ?? [],
-                DEPLOY_CONTRACT: deployTxsWhitelist?.addresses ?? [],
+                MAKE_TRANSACTION: makeTxsWhitelist,
+                DEPLOY_CONTRACT: deployTxsWhitelist,
               }[currentModal]
             : []
         }

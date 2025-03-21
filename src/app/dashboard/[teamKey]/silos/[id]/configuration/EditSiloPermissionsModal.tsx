@@ -12,7 +12,11 @@ import { Input } from "@/components/Input"
 import { Button } from "@/components/Button"
 import { useModals } from "@/hooks/useModals"
 import { InputWrapper } from "@/components/InputWrapper"
-import type { Silo, SiloWhitelistType } from "@/types/types"
+import type {
+  Silo,
+  SiloWhitelistAddress,
+  SiloWhitelistType,
+} from "@/types/types"
 
 import { useAddAddress, useRemoveAddress, useToggleWhitelist } from "./hooks"
 
@@ -48,7 +52,7 @@ const LoadingBadge = ({ label }: { label: string }) => (
 type Props = {
   silo: Silo
   whitelistType: SiloWhitelistType
-  addresses: string[]
+  addresses: SiloWhitelistAddress[]
 }
 
 const EditSiloPermissionsModalContent = ({
@@ -59,7 +63,9 @@ const EditSiloPermissionsModalContent = ({
   const router = useRouter()
 
   const [addressValue, setAddressValue] = useState<string>("")
-  const [addresses, setAddresses] = useState<string[]>(existingAddresses)
+  const [addresses, setAddresses] = useState(
+    existingAddresses.map((item) => item.address),
+  )
 
   const {
     isPublic,

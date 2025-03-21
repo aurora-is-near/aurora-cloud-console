@@ -12,7 +12,6 @@ import { getSiloConfigTransactionById } from "@/actions/silo-config-transactions
 import { checkPendingTransaction } from "@/utils/check-pending-silo-config-transaction"
 import type { ApiRequestContext } from "@/types/api"
 import type { Silo, SiloConfigTransaction } from "@/types/types"
-import { getSiloWhitelist } from "@/actions/silo-whitelist/get-silo-whitelist"
 
 import { abort } from "../../../../../utils/abort"
 
@@ -368,27 +367,3 @@ export const DELETE = createApiEndpoint(
     }
   },
 )
-
-export const GET = createApiEndpoint("getSiloPermissions", async (_, ctx) => {
-  const silo = await getSiloOrAbort(ctx.team.id, Number(ctx.params.id))
-
-  const [makeTxsWhitelist, deployTxsWhitelist] = await Promise.all([
-    getSiloWhitelist(silo.id, "MAKE_TRANSACTION"),
-    getSiloWhitelist(silo.id, "DEPLOY_CONTRACT"),
-  ])
-
-  return {
-    items: [
-      {
-        type: "MAKE_TRANSACTION" as const,
-        addresses: makeTxsWhitelist.map((address) => address.address),
-        isEnabled: !silo.is_make_txs_public,
-      },
-      {
-        type: "DEPLOY_CONTRACT" as const,
-        addresses: deployTxsWhitelist.map((address) => address.address),
-        isEnabled: !silo.is_deploy_contracts_public,
-      },
-    ],
-  }
-})
