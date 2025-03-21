@@ -300,7 +300,7 @@ export type Database = {
           id: number
           limit_scope: Database["public"]["Enums"]["limit_scope"]
           limit_type: Database["public"]["Enums"]["limit_type"]
-          limit_value: number
+          limit_value: number | null
           ui_enabled: boolean
           updated_at: string
         }
@@ -312,7 +312,7 @@ export type Database = {
           id?: number
           limit_scope: Database["public"]["Enums"]["limit_scope"]
           limit_type: Database["public"]["Enums"]["limit_type"]
-          limit_value?: number
+          limit_value?: number | null
           ui_enabled?: boolean
           updated_at?: string
         }
@@ -324,7 +324,7 @@ export type Database = {
           id?: number
           limit_scope?: Database["public"]["Enums"]["limit_scope"]
           limit_type?: Database["public"]["Enums"]["limit_type"]
-          limit_value?: number
+          limit_value?: number | null
           ui_enabled?: boolean
           updated_at?: string
         }

@@ -88,7 +88,11 @@ export type Userlist = Tables<"userlists">
 
 export type RuleUser = Tables<"rule_users">
 
-export type Filter = Tables<"filters">
+export type Limit = Tables<"limits">
+
+export type LimitScope = Enums<"limit_scope">
+
+export type LimitType = Enums<"limit_type">
 
 export type FilterEntry = Tables<"filter_entries">
 
