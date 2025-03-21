@@ -12,7 +12,7 @@ const mp = process.env.MIXPANEL_SERVER_TOKEN
     })
   : mpNoop
 
-export async function setUser(authUser: User) {
+export function setUser(authUser: User) {
   mp.people.set_once(authUser.id.toString(), {
     email: authUser.email,
   })
