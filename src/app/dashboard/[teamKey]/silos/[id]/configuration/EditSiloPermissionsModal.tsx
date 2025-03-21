@@ -88,7 +88,10 @@ const EditSiloPermissionsModalContent = ({
     addresses,
     addressValue,
     whitelistType,
-    onSuccess: () => setAddressValue(""),
+    onSuccess: () => {
+      setAddressValue("")
+      router.refresh()
+    },
     onSubmit: (address) => setAddresses((p) => [...p, address]),
   })
 
@@ -100,7 +103,10 @@ const EditSiloPermissionsModalContent = ({
   } = useRemoveAddress({
     silo,
     whitelistType,
-    onSuccess: (addr) => setAddresses((p) => p.filter((a) => a !== addr)),
+    onSuccess: (addr) => {
+      setAddresses((p) => p.filter((a) => a !== addr))
+      router.refresh()
+    },
   })
 
   useEffect(() => {
@@ -211,7 +217,12 @@ const EditSiloPermissionsModalContent = ({
                             return <LoadingBadge label="Removing..." />
                           case "failed":
                             return (
-                              <Button variant="destructive">Try again</Button>
+                              <Button
+                                variant="destructive"
+                                onClick={() => onRemoveAddress(address)}
+                              >
+                                Try again
+                              </Button>
                             )
                           case "normal":
                           default:

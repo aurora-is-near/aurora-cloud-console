@@ -2,6 +2,7 @@ import { PublicApiScope } from "@/types/types"
 
 // A map to define all scopes defined by the types.
 const API_KEY_SCOPES_MAP: Record<PublicApiScope, boolean> = {
+  "assets:write": true,
   "deals:read": true,
   "deals:write": true,
   "silos:read": true,
@@ -14,7 +15,6 @@ const API_KEY_SCOPES_MAP: Record<PublicApiScope, boolean> = {
   "forwarder:write": true,
   "payments:read": true,
   "payments:write": true,
-  "assets:write": true,
 }
 
 export const API_KEY_SCOPES = Object.keys(
