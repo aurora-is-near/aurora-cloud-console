@@ -139,7 +139,7 @@ const TransactionDataIntervalQueryParamSchema = z.string().optional().openapi({
 
 const ForwarderToken = z.string().openapi({ enum: [...FORWARDER_TOKENS] })
 
-const SiloWhitelistActionSchema = z.union([
+const SiloWhitelistType = z.union([
   z.literal("MAKE_TRANSACTION"),
   z.literal("DEPLOY_CONTRACT"),
 ])
@@ -492,21 +492,44 @@ export const contract = c.router({
       interval: TransactionDataIntervalQueryParamSchema,
     }),
   },
+  getSiloPermissions: {
+    summary:
+      "Get the whitelists for making transactions and deploying contracts",
+    method: "GET",
+    path: "/api/silos/:id/permissions",
+    responses: {
+      200: z.object({
+        items: z.array(
+          z.object({
+            type: SiloWhitelistType,
+            addresses: z.array(z.string()),
+            isEnabled: z.boolean(),
+          }),
+        ),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silo:read"],
+    },
+  },
   toggleSiloPermissions: {
     summary:
-      "Enable disable whitelists to allow make transactions or deploy contracts publicly",
+      "Enable or disable silo permission whitelists for making transactions or deploying contracts",
     method: "PUT",
     path: "/api/silos/:id/permissions",
     responses: {
       200: z.object({
         status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
         isEnabled: z.boolean(),
-        action: SiloWhitelistActionSchema,
+        action: SiloWhitelistType,
       }),
     },
     body: z.object({
       isEnabled: z.boolean(),
-      action: SiloWhitelistActionSchema,
+      action: SiloWhitelistType,
     }),
     pathParams: z.object({
       id: z.number(),
@@ -517,19 +540,19 @@ export const contract = c.router({
   },
   addAddressToPermissionsWhitelist: {
     summary:
-      "Add wallet address to whitelist to allow make transactions or deploy contracts",
+      "Whitelist an address for making transactions or deploying contracts",
     method: "POST",
     path: "/api/silos/:id/permissions",
     responses: {
       200: z.object({
         status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
         address: z.string(),
-        action: SiloWhitelistActionSchema,
+        action: SiloWhitelistType,
       }),
     },
     body: z.object({
       address: z.string(),
-      action: SiloWhitelistActionSchema,
+      action: SiloWhitelistType,
     }),
     pathParams: z.object({
       id: z.number(),
@@ -540,19 +563,19 @@ export const contract = c.router({
   },
   removeAddressFromPermissionsWhitelist: {
     summary:
-      "Remove wallet address from whitelist to forbid make transactions or deploy contracts",
+      "Remove an address from the whitelist for making transactions or deploying contracts",
     method: "DELETE",
     path: "/api/silos/:id/permissions",
     responses: {
       200: z.object({
         status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
         address: z.string(),
-        action: SiloWhitelistActionSchema,
+        action: SiloWhitelistType,
       }),
     },
     body: z.object({
       address: z.string(),
-      action: SiloWhitelistActionSchema,
+      action: SiloWhitelistType,
     }),
     pathParams: z.object({
       id: z.number(),

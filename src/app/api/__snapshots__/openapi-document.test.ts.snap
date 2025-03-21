@@ -2101,7 +2101,79 @@ exports[`OpenAPI Document should be valid 1`] = `
             ],
           },
         ],
-        "summary": "Remove wallet address from whitelist to forbid make transactions or deploy contracts",
+        "summary": "Remove an address from the whitelist for making transactions or deploying contracts",
+        "tags": [
+          "silos",
+        ],
+      },
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silo:read\`",
+        "operationId": "getSiloPermissions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "addresses": {
+                            "items": {
+                              "type": "string",
+                            },
+                            "type": "array",
+                          },
+                          "isEnabled": {
+                            "type": "boolean",
+                          },
+                          "type": {
+                            "enum": [
+                              "MAKE_TRANSACTION",
+                              "DEPLOY_CONTRACT",
+                            ],
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "type",
+                          "addresses",
+                          "isEnabled",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silo:read",
+            ],
+          },
+        ],
+        "summary": "Get the whitelists for making transactions and deploying contracts",
         "tags": [
           "silos",
         ],
@@ -2189,7 +2261,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             ],
           },
         ],
-        "summary": "Add wallet address to whitelist to allow make transactions or deploy contracts",
+        "summary": "Whitelist an address for making transactions or deploying contracts",
         "tags": [
           "silos",
         ],
@@ -2277,7 +2349,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             ],
           },
         ],
-        "summary": "Enable disable whitelists to allow make transactions or deploy contracts publicly",
+        "summary": "Enable or disable silo permission whitelists for making transactions or deploying contracts",
         "tags": [
           "silos",
         ],
