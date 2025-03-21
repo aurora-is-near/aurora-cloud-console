@@ -19,7 +19,9 @@ import { HeroImage } from "./HeroImage"
 export const DashboardHomePage = () => {
   const { silo = null } = useContext(SiloContext) ?? {}
   const { team } = useRequiredContext(TeamContext)
-  const [isDeploymentComplete] = useState<boolean>(!!silo?.is_active)
+  const [isDeploymentComplete, setIsDeploymentComplete] = useState<boolean>(
+    !!silo?.is_active,
+  )
 
   return (
     <DashboardPage>
@@ -53,7 +55,11 @@ export const DashboardHomePage = () => {
         {isDeploymentComplete ? (
           <DeploymentProgressComplete />
         ) : (
-          <DeploymentProgressAuto />
+          <DeploymentProgressAuto
+            team={team}
+            silo={silo}
+            setIsDeploymentComplete={setIsDeploymentComplete}
+          />
         )}
       </Hero>
 
