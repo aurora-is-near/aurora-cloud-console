@@ -3,7 +3,11 @@ import PQueue from "p-queue"
 import { createPrivateApiEndpoint } from "@/utils/api"
 import { deployDefaultTokens } from "@/actions/deployment/deploy-default-tokens"
 import { getSilosToInspect } from "@/actions/silos/get-silos-to-inspect"
-import { Silo, SiloConfigTransactionStatus } from "@/types/types"
+import {
+  BaseTokenSymbol,
+  Silo,
+  SiloConfigTransactionStatus,
+} from "@/types/types"
 import { updateSilo } from "@/actions/silos/update-silo"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { getSiloBridgedTokenRequests } from "@/actions/silo-bridged-tokens/get-silo-bridged-token-requests"
@@ -14,6 +18,7 @@ import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-sil
 import { isBridgedTokenDeployed } from "@/utils/is-bridged-token-deployed"
 import { updateSiloBridgedToken } from "@/actions/silo-bridged-tokens/update-silo-bridged-token"
 import { abort } from "@/utils/abort"
+import { AUTOMATED_BASE_TOKENS } from "@/constants/base-token"
 
 type PreviouslyInspectedSilo = Omit<Silo, "inspected_at"> & {
   inspected_at: string
@@ -78,6 +83,9 @@ const resolvePendingBridgedTokens = async (silo: Silo) => {
   )
 }
 
+const isAutomatableBaseToken = (baseToken?: string) =>
+  AUTOMATED_BASE_TOKENS.includes(baseToken as BaseTokenSymbol)
+
 /**
  * Perform various essential transactions to initialise a silo.
  */
@@ -87,10 +95,9 @@ const initialiseSilo = async (silo: PreviouslyInspectedSilo) => {
 
   const transactionResults: SiloConfigTransactionStatus[] = await Promise.all([
     deployDefaultTokens(silo, { skipIfFailed: isWithin24Hours }),
-    setBaseToken(silo, {
-      skipIfFailed: isWithin24Hours,
-      skipUnknownToken: true,
-    }),
+    isAutomatableBaseToken(silo.base_token_symbol)
+      ? setBaseToken(silo, { skipIfFailed: isWithin24Hours })
+      : "PENDING",
   ])
 
   const siloUpdateProperties: Partial<Silo> = {
