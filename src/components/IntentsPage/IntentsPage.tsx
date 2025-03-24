@@ -78,7 +78,7 @@ export const IntentsPage = ({ silo = null }: IntentsPageProps) => {
         <LinkButton
           isExternal
           variant="border"
-          href="https://neear-intents.org/"
+          href="https://near-intents.org/"
           size="lg"
         >
           <span>Open Near Intents</span>
