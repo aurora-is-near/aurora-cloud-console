@@ -82,6 +82,7 @@ export const useAddAddress = ({
     } catch (error: unknown) {
       if (error instanceof AddressError) {
         toast.error(error.message)
+        return
       } else {
         throw error
       }
