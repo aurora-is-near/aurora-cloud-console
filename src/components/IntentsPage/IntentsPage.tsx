@@ -33,18 +33,24 @@ export const IntentsPage = ({ silo = null, team }: IntentsPageProps) => {
     }
 
     setIsRequestingIntegration(true)
-    const updatedSilo = await requestIntentsIntegration(team, silo)
 
-    if (updatedSilo.intents_integration_status !== "REQUESTED") {
+    try {
+      const updatedSilo = await requestIntentsIntegration(team, silo)
+
+      if (updatedSilo.intents_integration_status !== "REQUESTED") {
+        toast.error("Failed to request integration")
+        setIsRequestingIntegration(false)
+
+        return
+      }
+
+      setIsRequestingIntegration(false)
+      setIsIntegrationRequested(true)
+      router.refresh()
+    } catch (error) {
       toast.error("Failed to request integration")
       setIsRequestingIntegration(false)
-
-      return
     }
-
-    setIsRequestingIntegration(false)
-    setIsIntegrationRequested(true)
-    router.refresh()
   }
 
   const tabs = [
