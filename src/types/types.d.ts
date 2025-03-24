@@ -64,8 +64,6 @@ export type Team = Tables<"teams">
 
 export type Silo = Tables<"silos">
 
-export type TeamSilo = Tables<"teams_silos">
-
 export type SilosTeams = Tables<"silos_teams">
 
 export type SiloConfigTransaction = Tables<"silo_config_transactions">
