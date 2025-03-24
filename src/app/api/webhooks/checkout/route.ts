@@ -142,7 +142,8 @@ const isSupportedEvent = (
 ): event is
   | Stripe.CheckoutSessionCompletedEvent
   | Stripe.CheckoutSessionAsyncPaymentFailedEvent
-  | Stripe.CheckoutSessionAsyncPaymentSucceededEvent => {
+  | Stripe.CheckoutSessionAsyncPaymentSucceededEvent
+  | Stripe.CheckoutSessionExpiredEvent => {
   return event.type.startsWith("checkout.session.")
 }
 
@@ -268,6 +269,13 @@ export const POST = createPrivateApiEndpoint<WebhookResponse>(
 
     // TODO: Email the customer about the failed payment
     if (event.type === "checkout.session.async_payment_failed") {
+      return {
+        teamId,
+        fulfilled: false,
+      }
+    }
+
+    if (event.type === "checkout.session.expired") {
       return {
         teamId,
         fulfilled: false,

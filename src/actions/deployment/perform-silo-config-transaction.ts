@@ -13,6 +13,7 @@ export const performSiloConfigTransaction = async (
   silo: Silo,
   operation: SiloConfigTransactionOperation,
   performTransaction: () => Promise<{ tx_hash?: string }>,
+  { skipIfFailed = false }: { skipIfFailed?: boolean } = {},
 ): Promise<SiloConfigTransactionStatus> => {
   const previousTransactions = await getSiloConfigTransactions(
     silo.id,
@@ -25,15 +26,28 @@ export const performSiloConfigTransaction = async (
     return "SUCCESSFUL"
   }
 
-  const pendingBaseTokenTransaction = findTransactionWithStatus(
+  const pendingTransaction = findTransactionWithStatus(
     previousTransactions,
     "PENDING",
   )
 
   // If there is already a pending transaction we can check its status and
   // return the result.
-  if (pendingBaseTokenTransaction) {
-    return checkPendingTransaction(pendingBaseTokenTransaction, silo)
+  if (pendingTransaction) {
+    return checkPendingTransaction(pendingTransaction, silo)
+  }
+
+  const failedTransaction = findTransactionWithStatus(
+    previousTransactions,
+    "FAILED",
+  )
+
+  // In some cases we may want to skip the transaction if it has previously
+  // failed. If something needs to be fixed before the transaction has a chance
+  // of succeeding there is no point in some of our automated processes spamming
+  // the network with transactions that we know will still fail.
+  if (failedTransaction && skipIfFailed) {
+    return "FAILED"
   }
 
   let tx_hash: string | undefined

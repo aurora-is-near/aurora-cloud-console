@@ -1,10 +1,10 @@
 import { ReactNode } from "react"
 import { notFound } from "next/navigation"
-import { isAdmin } from "@/actions/is-admin"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
 import { SiloSelect } from "@/components/SiloSelect"
 import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
 import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
+import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 
 const Layout = async ({
   children,
@@ -13,8 +13,8 @@ const Layout = async ({
   children: ReactNode
   params: { id: string; teamKey: string }
 }) => {
-  const [isAdminUser, silos, deals] = await Promise.all([
-    isAdmin(),
+  const [authUser, silos, deals] = await Promise.all([
+    getAuthUser(),
     getTeamSilosByKey(teamKey),
     getTeamDealsByKey(teamKey),
   ])
@@ -31,7 +31,7 @@ const Layout = async ({
       teamKey={teamKey}
       silo={silo}
       deals={deals}
-      showAdminMenu={isAdminUser}
+      authUser={authUser}
       sidebarAction={
         silos.length > 1 ? (
           <SiloSelect defaultValue={Number(id)} silos={silos} />
