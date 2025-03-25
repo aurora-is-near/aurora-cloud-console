@@ -13,11 +13,18 @@ export const performSiloConfigTransaction = async (
   silo: Silo,
   operation: SiloConfigTransactionOperation,
   performTransaction: () => Promise<{ tx_hash?: string }>,
-  { skipIfFailed = false }: { skipIfFailed?: boolean } = {},
+  {
+    skipIfFailed = false,
+    nearAccountId,
+  }: {
+    skipIfFailed?: boolean
+    nearAccountId?: string | null
+  } = {},
 ): Promise<SiloConfigTransactionStatus> => {
   const previousTransactions = await getSiloConfigTransactions(
     silo.id,
     operation,
+    nearAccountId,
   )
 
   // If there has already been a successful transaction for this operation
@@ -72,6 +79,7 @@ export const performSiloConfigTransaction = async (
     transaction_hash: tx_hash,
     operation,
     status: "PENDING",
+    near_account_id: nearAccountId ?? null,
   })
 
   return "PENDING"

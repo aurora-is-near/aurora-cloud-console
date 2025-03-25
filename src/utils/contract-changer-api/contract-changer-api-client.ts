@@ -136,4 +136,21 @@ export const contractChangerApiClient = {
       `/api/v1/contract/${siloEngineAccountId}/whitelist/${whitelistKind}/${addr}`,
       { method: "DELETE" },
     ),
+  makeStorageDeposit: async ({
+    siloEngineAccountId,
+    amount,
+    token,
+  }: {
+    siloEngineAccountId: string
+    amount: string
+    token: string
+  }) =>
+    request<{ tx_hash?: string }>("/api/v1/storage/deposit", {
+      method: "POST",
+      data: {
+        account_id: siloEngineAccountId,
+        amount,
+        token,
+      },
+    }),
 }

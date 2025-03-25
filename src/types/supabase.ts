@@ -755,6 +755,7 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          near_account_id: string | null
           operation:
             | Database["public"]["Enums"]["silo_config_transaction_operation"]
             | null
@@ -765,6 +766,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: number
+          near_account_id?: string | null
           operation?:
             | Database["public"]["Enums"]["silo_config_transaction_operation"]
             | null
@@ -775,6 +777,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
+          near_account_id?: string | null
           operation?:
             | Database["public"]["Enums"]["silo_config_transaction_operation"]
             | null
@@ -1240,7 +1243,6 @@ export type Database = {
         | "deals:read"
         | "deals:write"
         | "silos:read"
-        | "silos:write"
         | "users:read"
         | "transactions:read"
         | "users:write"
@@ -1251,6 +1253,7 @@ export type Database = {
         | "payments:read"
         | "payments:write"
         | "assets:write"
+        | "silos:write"
       base_token_symbol:
         | "AURORA"
         | "BTC"
@@ -1296,6 +1299,7 @@ export type Database = {
         | "DEPLOY_USDC"
         | "DEPLOY_NEAR"
         | "DEPLOY_ETH"
+        | "STORAGE_DEPOSIT"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       user_integration:
         | "onramp"
