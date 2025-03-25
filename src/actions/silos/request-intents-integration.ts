@@ -5,7 +5,6 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { Silo, Team } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
-  assertUniqueChainIdNotViolated,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
@@ -21,7 +20,6 @@ export const requestIntentsIntegration = async (
     .select()
     .single()
 
-  assertUniqueChainIdNotViolated(result)
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 

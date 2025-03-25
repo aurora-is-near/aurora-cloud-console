@@ -53,7 +53,6 @@ const bridgeCustomToken = async (
     silo_id: silo.id,
     symbol,
     address,
-    resolved_at: null,
   })
 
   // TODO: Send a Slack notification, once we know this is all working
