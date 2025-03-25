@@ -23,23 +23,18 @@ type TokenContractMetadata = {
  * Check that all of the expected default tokens were deployed.
  */
 const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
-  const bridgedTokens = await getSiloBridgedTokens(silo.id)
-  const tokensById = bridgedTokens.reduce<Record<string, boolean>>(
-    (acc, token) => ({
-      ...acc,
-      [token.symbol]: !token.is_deployment_pending,
-    }),
-    {},
-  )
-
   const supportedTokens = await Promise.all(
-    DEFAULT_TOKENS.map(async (symbol) => {
-      if (silo.base_token_symbol === symbol) {
-        return true
-      }
+    DEFAULT_TOKENS.map(async (symbol): Promise<TokenContractMetadata> => {
+      const isBaseToken = silo.base_token_symbol === symbol
 
-      if (tokensById[symbol]) {
-        return true
+      if (isBaseToken) {
+        return {
+          isContractDeployed: true,
+          storageBalance: await getStorageBalanceBySymbol(
+            silo.engine_account,
+            symbol,
+          ),
+        }
       }
 
       const [isContractDeployed, storageBalance] = await Promise.all([
