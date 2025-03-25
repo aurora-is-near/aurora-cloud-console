@@ -1745,16 +1745,116 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "defaultTokensDeployed": {
                       "properties": {
                         "AURORA": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageDeposit": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "title": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "title",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageDeposit",
+                          ],
+                          "type": "object",
                         },
                         "NEAR": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageDeposit": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "title": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "title",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageDeposit",
+                          ],
+                          "type": "object",
                         },
                         "USDC": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageDeposit": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "title": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "title",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageDeposit",
+                          ],
+                          "type": "object",
                         },
                         "USDt": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageDeposit": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "title": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "title",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageDeposit",
+                          ],
+                          "type": "object",
                         },
                       },
                       "required": [
