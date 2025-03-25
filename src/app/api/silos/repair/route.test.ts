@@ -33,6 +33,28 @@ jest.mock("@/utils/contract-changer-api/contract-changer-api-client", () => ({
   },
 }))
 
+jest.mock("near-api-js", () => ({
+  ...jest.requireActual("near-api-js"),
+  Account: jest.fn(() => ({
+    getAccountBalance: jest.fn(() => ({
+      total: "33137693971864085399999999",
+      available: "18370803971864085399999999",
+      staked: "0",
+    })),
+    viewFunction: jest.fn(() => ({
+      total: "12345678901234567890",
+      available: "42",
+    })),
+  })),
+  connect: jest.fn(() => ({
+    connection: {
+      provider: {
+        txStatus: jest.fn(() => ({ status: { SuccessValue: "" } })),
+      },
+    },
+  })),
+}))
+
 describe("Silos repair route", () => {
   beforeEach(() => {
     mockSupabaseClient.from("silos").select.mockReturnValue(createSelect([]))
@@ -42,6 +64,9 @@ describe("Silos repair route", () => {
     mockSupabaseClient
       .from("silo_config_transactions")
       .select.mockReturnValue(createSelect([]))
+    mockSupabaseClient
+      .from("silo_config_transactions")
+      .update.mockReturnValue(createInsertOrUpdate([]))
     mockSupabaseClient
       .from("bridged_token_requests")
       .select.mockReturnValue(createSelect([]))
