@@ -7,6 +7,7 @@ import { Silo } from "@/types/types"
 import { DEFAULT_TOKENS } from "@/constants/default-tokens"
 import { DefaultToken } from "@/types/default-tokens"
 import { getSiloBridgedTokens } from "@/actions/silo-bridged-tokens/get-silo-bridged-tokens"
+import { getTokenStorageDepositBySymbol } from "@/utils/check-token-storage-deposit"
 
 const STALLED_THRESHOLD = 60
 
@@ -33,20 +34,41 @@ const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
         return true
       }
 
-      return checkTokenBySymbol(provider, symbol)
+      const [isContractDeployed, storageDeposit] = await Promise.all([
+        checkTokenBySymbol(provider, symbol),
+        getTokenStorageDepositBySymbol(silo.engine_account, symbol),
+      ])
+
+      return {
+        isContractDeployed,
+        storageDeposit,
+      }
     }),
   )
 
-  return DEFAULT_TOKENS.reduce<Record<DefaultToken, boolean>>(
+  const defaultValue = {
+    isContractDeployed: false,
+    storageDeposit: null,
+  }
+
+  return DEFAULT_TOKENS.reduce<
+    Record<
+      DefaultToken,
+      {
+        isContractDeployed: boolean
+        storageDeposit: { total: string; available: string } | null
+      }
+    >
+  >(
     (acc, symbol, index) => ({
       ...acc,
       [symbol]: supportedTokens[index],
     }),
     {
-      NEAR: false,
-      USDt: false,
-      USDC: false,
-      AURORA: false,
+      NEAR: defaultValue,
+      USDt: defaultValue,
+      USDC: defaultValue,
+      AURORA: defaultValue,
     },
   )
 }
