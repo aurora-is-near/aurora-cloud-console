@@ -24,7 +24,7 @@ const getAccountBalance = async (siloEngineAccountId: string) => {
   return { total, available }
 }
 
-export const getStorageBalanceByAddress = async (
+const getStorageBalanceByAddress = async (
   siloEngineAccountId: string,
   contractId: string,
 ): Promise<StorageBalanceOfResult> => {
