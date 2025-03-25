@@ -36,3 +36,6 @@ export const AUTOMATED_BASE_TOKENS: BaseTokenSymbol[] = Object.keys(
   (baseToken): baseToken is BaseTokenSymbol =>
     !!BASE_TOKENS[baseToken as BaseTokenSymbol],
 )
+
+export const BASE_TOKEN_PLACEHOLDER_ADDRESS =
+  "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"

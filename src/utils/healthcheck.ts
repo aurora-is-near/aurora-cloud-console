@@ -3,11 +3,14 @@ import {
   checkTokenByContractAddress,
   checkTokenBySymbol,
 } from "@/utils/check-token-contract"
-import { Silo } from "@/types/types"
+import { Silo, SiloBridgedToken } from "@/types/types"
 import { DEFAULT_TOKENS } from "@/constants/default-tokens"
 import { DefaultToken } from "@/types/default-tokens"
 import { getSiloBridgedTokens } from "@/actions/silo-bridged-tokens/get-silo-bridged-tokens"
-import { getStorageBalanceBySymbol } from "@/utils/near-storage"
+import {
+  getStorageBalanceByAddress,
+  getStorageBalanceBySymbol,
+} from "@/utils/near-storage"
 
 const STALLED_THRESHOLD = 60
 
@@ -68,36 +71,43 @@ const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
   )
 }
 
+const checkBridgedTokenContract = async (
+  silo: Silo,
+  token: SiloBridgedToken,
+  provider: JsonRpcProvider,
+): Promise<boolean> => {
+  if (!token.is_deployment_pending) {
+    return true
+  }
+
+  if (silo.base_token_symbol === token.symbol) {
+    return true
+  }
+
+  if (!token.aurora_address) {
+    return false
+  }
+
+  return checkTokenByContractAddress(provider, token.aurora_address)
+}
+
 const checkBridgedTokens = async (provider: JsonRpcProvider, silo: Silo) => {
   const bridgedTokens = await getSiloBridgedTokens(silo.id)
-  const result: Record<string, boolean> = {}
+  const result: Record<string, TokenContractMetadata> = {}
 
   await Promise.all(
     bridgedTokens.map(async (token) => {
-      if (!token.is_deployment_pending) {
-        result[token.symbol] = true
+      const [isContractDeployed, storageBalance] = await Promise.all([
+        checkBridgedTokenContract(silo, token, provider),
+        token.near_address
+          ? getStorageBalanceByAddress(silo.engine_account, token.near_address)
+          : null,
+      ])
 
-        return
+      result[token.symbol] = {
+        isContractDeployed,
+        storageBalance,
       }
-
-      // If the token has been set as the base token then no contract deployment
-      // is required.
-      if (silo.base_token_symbol === token.symbol) {
-        result[token.symbol] = true
-
-        return
-      }
-
-      if (!token.aurora_address) {
-        result[token.symbol] = false
-
-        return
-      }
-
-      result[token.symbol] = await checkTokenByContractAddress(
-        provider,
-        token.aurora_address,
-      )
     }, {}),
   )
 
