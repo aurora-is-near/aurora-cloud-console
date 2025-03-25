@@ -817,4 +817,22 @@ export const contract = c.router({
       scopes: ["silos:read"],
     },
   },
+  repair: {
+    summary:
+      "Perform various checks and, if necessary, transactions to repair a silo",
+    method: "POST",
+    body: z.object({}),
+    path: "/api/silos/:id/repair",
+    responses: {
+      200: z.object({
+        status: z.string(),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silos:write"],
+    },
+  },
 })

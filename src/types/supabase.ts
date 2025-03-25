@@ -1240,6 +1240,7 @@ export type Database = {
         | "deals:read"
         | "deals:write"
         | "silos:read"
+        | "silos:write"
         | "users:read"
         | "transactions:read"
         | "users:write"
