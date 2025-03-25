@@ -3,6 +3,7 @@
  */
 import nock from "nock"
 import * as ethers from "ethers"
+import { Account } from "near-api-js"
 import { GET } from "./route"
 import { setupJestOpenApi } from "../../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handler"
@@ -21,17 +22,7 @@ jest.mock("../../../../../utils/api", () => ({
 
 jest.mock("near-api-js", () => ({
   ...jest.requireActual("near-api-js"),
-  Account: jest.fn(() => ({
-    getAccountBalance: () => ({
-      total: "12345678901234567890",
-      available: "42",
-      staked: "0",
-    }),
-    viewFunction: jest.fn(() => ({
-      total: "12345678901234567890",
-      available: "42",
-    })),
-  })),
+  Account: jest.fn(),
   connect: jest.fn(() => ({
     connection: { provider: {} },
   })),
@@ -39,11 +30,31 @@ jest.mock("near-api-js", () => ({
 
 const mockSilo = createMockSilo()
 
+const mockNearAccount = {
+  getAccountBalance: jest.fn(() => ({
+    total: "33137693971864085399999999",
+    available: "18370803971864085399999999",
+    staked: "0",
+  })),
+  viewFunction: jest.fn(() => ({
+    total: "12345678901234567890",
+    available: "42",
+  })),
+}
+
 const defaultTokenMetadata = {
   isContractDeployed: false,
   storageBalance: {
     available: "42",
     total: "12345678901234567890",
+  },
+}
+
+const nearTokenMetadata = {
+  isContractDeployed: false,
+  storageBalance: {
+    total: "33137693971864085399999999",
+    available: "18370803971864085399999999",
   },
 }
 
@@ -67,6 +78,7 @@ describe("Healthcheck route", () => {
         throw new Error("Not implemented")
       },
     }))
+    ;(Account as jest.Mock).mockImplementation(() => mockNearAccount)
   })
 
   afterAll(cleanUpNock)
@@ -81,9 +93,9 @@ describe("Healthcheck route", () => {
       bridgedTokens: {},
       defaultTokens: {
         AURORA: defaultTokenMetadata,
-        NEAR: defaultTokenMetadata,
         USDt: defaultTokenMetadata,
         USDC: defaultTokenMetadata,
+        NEAR: nearTokenMetadata,
       },
     })
   })
@@ -204,16 +216,167 @@ describe("Healthcheck route", () => {
       GET,
     )
 
-    expect(res.body).toEqual(
-      expect.objectContaining({
-        bridgedTokens: {
-          PENDING_AND_DEPLOYED: true,
-          PENDING_AND_NOT_DEPLOYED: false,
-          PENDING_AND_SET_AS_BASE: true,
-          PENDING_AND_NOT_BASE_AND_NO_ADDRESS: false,
-          NOT_PENDING: true,
+    expect(res.body).toEqual({
+      networkStatus: "ok",
+      defaultTokens: {
+        AURORA: defaultTokenMetadata,
+        USDt: defaultTokenMetadata,
+        USDC: defaultTokenMetadata,
+        NEAR: nearTokenMetadata,
+      },
+      bridgedTokens: {
+        PENDING_AND_DEPLOYED: {
+          isContractDeployed: true,
+          storageBalance: defaultTokenMetadata.storageBalance,
         },
-      }),
+        PENDING_AND_NOT_DEPLOYED: {
+          isContractDeployed: false,
+          storageBalance: defaultTokenMetadata.storageBalance,
+        },
+        PENDING_AND_SET_AS_BASE: {
+          isContractDeployed: true,
+          storageBalance: defaultTokenMetadata.storageBalance,
+        },
+        PENDING_AND_NOT_BASE_AND_NO_ADDRESS: {
+          isContractDeployed: false,
+          storageBalance: defaultTokenMetadata.storageBalance,
+        },
+        NOT_PENDING: {
+          isContractDeployed: true,
+          storageBalance: defaultTokenMetadata.storageBalance,
+        },
+      },
+    })
+  })
+
+  it("performs the expected near account checks for the default tokens", async () => {
+    mockSupabaseClient
+      .from("bridged_tokens")
+      .select.mockImplementation(() => createSelect([]))
+
+    const res = await invokeApiHandler("GET", "/api/silos/1/healthcheck", GET)
+
+    expect(res.status).toBe(200)
+    expect(mockNearAccount.getAccountBalance).toHaveBeenCalledTimes(1)
+    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(3)
+    expect(mockNearAccount.viewFunction).toHaveBeenCalledWith({
+      args: { account_id: mockSilo.engine_account },
+      contractId:
+        "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
+      methodName: "storage_balance_of",
+    })
+
+    expect(mockNearAccount.viewFunction).toHaveBeenCalledWith({
+      args: { account_id: mockSilo.engine_account },
+      contractId: "usdt.tether-token.near",
+      methodName: "storage_balance_of",
+    })
+
+    expect(mockNearAccount.viewFunction).toHaveBeenCalledWith({
+      args: { account_id: mockSilo.engine_account },
+      contractId:
+        "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+      methodName: "storage_balance_of",
+    })
+  })
+
+  it("performs additional near account checks when we have a bridged token with a near address", async () => {
+    const silo = createMockSilo()
+
+    mockSupabaseClient
+      .from("silos")
+      .select.mockImplementation(() => createSelect(silo))
+
+    mockSupabaseClient.from("bridged_tokens").select.mockImplementation(() =>
+      createSelect([
+        {
+          ...createMockBridgedToken({
+            symbol: "MYTOKEN",
+            near_address: "0x1",
+          }),
+          silo_bridged_tokens: [
+            { silo_id: silo.id, is_deployment_pending: true },
+          ],
+        },
+      ]),
     )
+
+    const res = await invokeApiHandler(
+      "GET",
+      `/api/silos/${silo.id}/healthcheck`,
+      GET,
+    )
+
+    expect(res.status).toBe(200)
+    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(4)
+    expect(mockNearAccount.viewFunction).toHaveBeenLastCalledWith({
+      args: { account_id: silo.engine_account },
+      contractId: "0x1",
+      methodName: "storage_balance_of",
+    })
+  })
+
+  it("does not perform additional near account checks when a bridged token has no near address", async () => {
+    const silo = createMockSilo()
+
+    mockSupabaseClient
+      .from("silos")
+      .select.mockImplementation(() => createSelect(silo))
+
+    mockSupabaseClient.from("bridged_tokens").select.mockImplementation(() =>
+      createSelect([
+        {
+          ...createMockBridgedToken({
+            symbol: "MYTOKEN",
+            aurora_address: "0x1",
+            near_address: null,
+          }),
+          silo_bridged_tokens: [
+            { silo_id: silo.id, is_deployment_pending: true },
+          ],
+        },
+      ]),
+    )
+
+    const res = await invokeApiHandler(
+      "GET",
+      `/api/silos/${silo.id}/healthcheck`,
+      GET,
+    )
+
+    expect(res.status).toBe(200)
+    expect(mockNearAccount.getAccountBalance).toHaveBeenCalledTimes(1)
+    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(3)
+  })
+
+  it("checks the account balance twice if near is bridged", async () => {
+    const silo = createMockSilo()
+
+    mockSupabaseClient
+      .from("silos")
+      .select.mockImplementation(() => createSelect(silo))
+
+    mockSupabaseClient.from("bridged_tokens").select.mockImplementation(() =>
+      createSelect([
+        {
+          ...createMockBridgedToken({
+            symbol: "NEAR",
+            near_address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          }),
+          silo_bridged_tokens: [
+            { silo_id: silo.id, is_deployment_pending: true },
+          ],
+        },
+      ]),
+    )
+
+    const res = await invokeApiHandler(
+      "GET",
+      `/api/silos/${silo.id}/healthcheck`,
+      GET,
+    )
+
+    expect(res.status).toBe(200)
+    expect(mockNearAccount.getAccountBalance).toHaveBeenCalledTimes(2)
   })
 })

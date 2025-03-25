@@ -5,6 +5,7 @@ import {
   Widget,
   WidgetNetworkType,
 } from "@/types/types"
+import { BASE_TOKEN_PLACEHOLDER_ADDRESS } from "@/constants/base-token"
 
 type CustomChain = {
   id: string
@@ -24,9 +25,6 @@ type CustomChain = {
   siloToSiloBridge: string | null
   logo: string | null
 }
-
-// This address is used to represent the base token
-const BASE_TOKEN_ADDRESS = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
 
 const getNetworkKeys = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
   networks.map((network) => {
@@ -81,7 +79,7 @@ const setCustomTokensParam = (
           near: near_address,
           [silo.engine_account]:
             silo.base_token_symbol.toUpperCase() === symbol.toUpperCase()
-              ? BASE_TOKEN_ADDRESS
+              ? BASE_TOKEN_PLACEHOLDER_ADDRESS
               : aurora_address,
         })
 
