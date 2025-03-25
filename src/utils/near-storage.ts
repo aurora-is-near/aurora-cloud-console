@@ -9,7 +9,7 @@ const NEAR_TOKEN_ADDRESSES = {
   ETH: "aurora",
 } as const
 
-type StorageBalanceOfResult = { total: string; available: string } | null
+type StorageBalanceResult = { total: string; available: string } | null
 
 const getNearAccount = async (siloEngineAccountId: string) => {
   const nearConnection = await getNearApiConnection()
@@ -17,7 +17,9 @@ const getNearAccount = async (siloEngineAccountId: string) => {
   return new Account(nearConnection.connection, siloEngineAccountId)
 }
 
-const getAccountBalance = async (siloEngineAccountId: string) => {
+const getAccountBalance = async (
+  siloEngineAccountId: string,
+): Promise<StorageBalanceResult> => {
   const acc = await getNearAccount(siloEngineAccountId)
   const { total, available } = await acc.getAccountBalance()
 
@@ -27,10 +29,10 @@ const getAccountBalance = async (siloEngineAccountId: string) => {
 const getStorageBalanceByAddress = async (
   siloEngineAccountId: string,
   contractId: string,
-): Promise<StorageBalanceOfResult> => {
+): Promise<StorageBalanceResult> => {
   const acc = await getNearAccount(siloEngineAccountId)
 
-  let result: StorageBalanceOfResult
+  let result: StorageBalanceResult
 
   try {
     result = await acc.viewFunction({
@@ -50,7 +52,7 @@ const getStorageBalanceByAddress = async (
 export const getStorageBalanceBySymbol = async (
   siloEngineAccountId: string,
   symbol: keyof typeof NEAR_TOKEN_ADDRESSES | "NEAR",
-): Promise<StorageBalanceOfResult> => {
+): Promise<StorageBalanceResult> => {
   if (symbol === "NEAR") {
     return getAccountBalance(siloEngineAccountId)
   }
