@@ -24,7 +24,7 @@ const getAccountBalance = async (siloEngineAccountId: string) => {
   return { total, available }
 }
 
-export const getTokenStorageDepositByAddress = async (
+export const getStorageBalanceByAddress = async (
   siloEngineAccountId: string,
   contractId: string,
 ): Promise<StorageBalanceOfResult> => {
@@ -47,7 +47,7 @@ export const getTokenStorageDepositByAddress = async (
   return result
 }
 
-export const getTokenStorageDepositBySymbol = async (
+export const getStorageBalanceBySymbol = async (
   siloEngineAccountId: string,
   symbol: keyof typeof NEAR_TOKEN_ADDRESSES | "NEAR",
 ): Promise<StorageBalanceOfResult> => {
@@ -61,8 +61,5 @@ export const getTokenStorageDepositBySymbol = async (
     throw new Error(`Near token address not found for symbol: ${symbol}`)
   }
 
-  return getTokenStorageDepositByAddress(
-    siloEngineAccountId,
-    tokenContractAddress,
-  )
+  return getStorageBalanceByAddress(siloEngineAccountId, tokenContractAddress)
 }

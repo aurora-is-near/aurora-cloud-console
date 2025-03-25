@@ -146,9 +146,9 @@ const SiloWhitelistActionSchema = z.union([
 
 const TokenHealthcheckSchema = z.object({
   isContractDeployed: z.boolean(),
-  storageDeposit: z
+  storageBalance: z
     .object({
-      title: z.string(),
+      total: z.string(),
       available: z.string(),
     })
     .nullable(),
@@ -798,14 +798,14 @@ export const contract = c.router({
           z.literal("invalid-network"),
           z.literal("stalled"),
         ]),
-        defaultTokensDeployed: z.object({
+        defaultTokens: z.object({
           NEAR: TokenHealthcheckSchema,
           USDt: TokenHealthcheckSchema,
           USDC: TokenHealthcheckSchema,
           AURORA: TokenHealthcheckSchema,
         }),
         // https://swagger.io/docs/specification/v3_0/data-models/data-types/#free-form-object
-        bridgedTokensDeployed: z.instanceof(Object).openapi({
+        bridgedTokens: z.instanceof(Object).openapi({
           additionalProperties: {},
         }),
       }),

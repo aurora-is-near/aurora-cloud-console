@@ -7,7 +7,7 @@ import { Silo } from "@/types/types"
 import { DEFAULT_TOKENS } from "@/constants/default-tokens"
 import { DefaultToken } from "@/types/default-tokens"
 import { getSiloBridgedTokens } from "@/actions/silo-bridged-tokens/get-silo-bridged-tokens"
-import { getTokenStorageDepositBySymbol } from "@/utils/check-token-storage-deposit"
+import { getStorageBalanceBySymbol } from "@/utils/near-storage"
 
 const STALLED_THRESHOLD = 60
 
@@ -34,21 +34,21 @@ const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
         return true
       }
 
-      const [isContractDeployed, storageDeposit] = await Promise.all([
+      const [isContractDeployed, storageBalance] = await Promise.all([
         checkTokenBySymbol(provider, symbol),
-        getTokenStorageDepositBySymbol(silo.engine_account, symbol),
+        getStorageBalanceBySymbol(silo.engine_account, symbol),
       ])
 
       return {
         isContractDeployed,
-        storageDeposit,
+        storageBalance,
       }
     }),
   )
 
   const defaultValue = {
     isContractDeployed: false,
-    storageDeposit: null,
+    storageBalance: null,
   }
 
   return DEFAULT_TOKENS.reduce<
@@ -56,7 +56,10 @@ const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
       DefaultToken,
       {
         isContractDeployed: boolean
-        storageDeposit: { total: string; available: string } | null
+        storageBalance: {
+          total: string
+          available: string
+        } | null
       }
     >
   >(
@@ -144,7 +147,7 @@ const getStatus = ({
 export const healthcheck = async (silo: Silo) => {
   const provider = new JsonRpcProvider(silo.rpc_url)
 
-  const [defaultTokensDeployed, bridgedTokensDeployed, latestBlock, network] =
+  const [defaultTokens, bridgedTokens, latestBlock, network] =
     await Promise.all([
       checkDefaultTokens(provider, silo),
       checkBridgedTokens(provider, silo),
@@ -154,7 +157,7 @@ export const healthcheck = async (silo: Silo) => {
 
   return {
     networkStatus: getStatus({ silo, network, latestBlock }),
-    defaultTokensDeployed,
-    bridgedTokensDeployed,
+    defaultTokens,
+    bridgedTokens,
   }
 }

@@ -19,7 +19,33 @@ jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
 
+jest.mock("near-api-js", () => ({
+  ...jest.requireActual("near-api-js"),
+  Account: jest.fn(() => ({
+    getAccountBalance: () => ({
+      total: "12345678901234567890",
+      available: "42",
+      staked: "0",
+    }),
+    viewFunction: jest.fn(() => ({
+      total: "12345678901234567890",
+      available: "42",
+    })),
+  })),
+  connect: jest.fn(() => ({
+    connection: { provider: {} },
+  })),
+}))
+
 const mockSilo = createMockSilo()
+
+const defaultTokenMetadata = {
+  isContractDeployed: false,
+  storageBalance: {
+    available: "42",
+    total: "12345678901234567890",
+  },
+}
 
 nock.disableNetConnect()
 
@@ -52,12 +78,12 @@ describe("Healthcheck route", () => {
     expect(res.status).toBe(200)
     expect(res.body).toEqual({
       networkStatus: "ok",
-      bridgedTokensDeployed: {},
-      defaultTokensDeployed: {
-        AURORA: false,
-        NEAR: false,
-        USDt: false,
-        USDC: false,
+      bridgedTokens: {},
+      defaultTokens: {
+        AURORA: defaultTokenMetadata,
+        NEAR: defaultTokenMetadata,
+        USDt: defaultTokenMetadata,
+        USDC: defaultTokenMetadata,
       },
     })
   })
@@ -180,7 +206,7 @@ describe("Healthcheck route", () => {
 
     expect(res.body).toEqual(
       expect.objectContaining({
-        bridgedTokensDeployed: {
+        bridgedTokens: {
           PENDING_AND_DEPLOYED: true,
           PENDING_AND_NOT_DEPLOYED: false,
           PENDING_AND_SET_AS_BASE: true,

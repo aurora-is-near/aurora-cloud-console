@@ -1738,29 +1738,29 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "bridgedTokensDeployed": {
+                    "bridgedTokens": {
                       "additionalProperties": {},
                       "nullable": true,
                     },
-                    "defaultTokensDeployed": {
+                    "defaultTokens": {
                       "properties": {
                         "AURORA": {
                           "properties": {
                             "isContractDeployed": {
                               "type": "boolean",
                             },
-                            "storageDeposit": {
+                            "storageBalance": {
                               "nullable": true,
                               "properties": {
                                 "available": {
                                   "type": "string",
                                 },
-                                "title": {
+                                "total": {
                                   "type": "string",
                                 },
                               },
                               "required": [
-                                "title",
+                                "total",
                                 "available",
                               ],
                               "type": "object",
@@ -1768,7 +1768,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           },
                           "required": [
                             "isContractDeployed",
-                            "storageDeposit",
+                            "storageBalance",
                           ],
                           "type": "object",
                         },
@@ -1777,18 +1777,18 @@ exports[`OpenAPI Document should be valid 1`] = `
                             "isContractDeployed": {
                               "type": "boolean",
                             },
-                            "storageDeposit": {
+                            "storageBalance": {
                               "nullable": true,
                               "properties": {
                                 "available": {
                                   "type": "string",
                                 },
-                                "title": {
+                                "total": {
                                   "type": "string",
                                 },
                               },
                               "required": [
-                                "title",
+                                "total",
                                 "available",
                               ],
                               "type": "object",
@@ -1796,7 +1796,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           },
                           "required": [
                             "isContractDeployed",
-                            "storageDeposit",
+                            "storageBalance",
                           ],
                           "type": "object",
                         },
@@ -1805,18 +1805,18 @@ exports[`OpenAPI Document should be valid 1`] = `
                             "isContractDeployed": {
                               "type": "boolean",
                             },
-                            "storageDeposit": {
+                            "storageBalance": {
                               "nullable": true,
                               "properties": {
                                 "available": {
                                   "type": "string",
                                 },
-                                "title": {
+                                "total": {
                                   "type": "string",
                                 },
                               },
                               "required": [
-                                "title",
+                                "total",
                                 "available",
                               ],
                               "type": "object",
@@ -1824,7 +1824,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           },
                           "required": [
                             "isContractDeployed",
-                            "storageDeposit",
+                            "storageBalance",
                           ],
                           "type": "object",
                         },
@@ -1833,18 +1833,18 @@ exports[`OpenAPI Document should be valid 1`] = `
                             "isContractDeployed": {
                               "type": "boolean",
                             },
-                            "storageDeposit": {
+                            "storageBalance": {
                               "nullable": true,
                               "properties": {
                                 "available": {
                                   "type": "string",
                                 },
-                                "title": {
+                                "total": {
                                   "type": "string",
                                 },
                               },
                               "required": [
-                                "title",
+                                "total",
                                 "available",
                               ],
                               "type": "object",
@@ -1852,7 +1852,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           },
                           "required": [
                             "isContractDeployed",
-                            "storageDeposit",
+                            "storageBalance",
                           ],
                           "type": "object",
                         },
@@ -1876,8 +1876,8 @@ exports[`OpenAPI Document should be valid 1`] = `
                   },
                   "required": [
                     "networkStatus",
-                    "defaultTokensDeployed",
-                    "bridgedTokensDeployed",
+                    "defaultTokens",
+                    "bridgedTokens",
                   ],
                   "type": "object",
                 },
