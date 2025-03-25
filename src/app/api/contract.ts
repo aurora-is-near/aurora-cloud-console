@@ -347,24 +347,6 @@ export const contract = c.router({
       id: z.number(),
     }),
   },
-  requestIntentsIntegration: {
-    summary: "Request intents integration for a silo",
-    method: "POST",
-    path: "/api/silos/:id/intents",
-    body: z.object({}),
-    responses: {
-      200: SiloSchema,
-      404: z.object({
-        message: z.string(),
-      }),
-    },
-    metadata: {
-      scopes: ["silos:write"],
-    },
-    pathParams: z.object({
-      id: z.number(),
-    }),
-  },
   getSiloOracle: {
     summary: "Get the oracle configuration for a silo",
     method: "GET",
