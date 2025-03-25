@@ -14,6 +14,8 @@ import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-sil
 import { isBridgedTokenDeployed } from "@/utils/is-bridged-token-deployed"
 import { updateSiloBridgedToken } from "@/actions/silo-bridged-tokens/update-silo-bridged-token"
 import { AUTOMATED_BASE_TOKENS } from "@/constants/base-token"
+import { checkPendingTransaction } from "@/utils/check-pending-silo-config-transaction"
+import { getPendingSiloConfigTransactions } from "@/actions/silo-config-transactions/get-pending-silo-config-transactions"
 
 type PreviouslyInspectedSilo = Omit<Silo, "inspected_at"> & {
   inspected_at: string
@@ -108,6 +110,16 @@ const initialiseSilo = async (silo: PreviouslyInspectedSilo) => {
   await updateSilo(silo.id, siloUpdateProperties)
 }
 
+const resolvePendingTransactions = async (silo: Silo) => {
+  const pendingTransactions = await getPendingSiloConfigTransactions(silo.id)
+
+  await Promise.all(
+    pendingTransactions.map(async (transaction) =>
+      checkPendingTransaction(transaction, silo),
+    ),
+  )
+}
+
 /**
  * Perform various checks and, if necessary, transactions to repair a silo.
  *
@@ -124,5 +136,9 @@ export const repairSilo = async (silo: Silo) => {
   }
 
   await initialiseSilo(silo)
-  await resolvePendingBridgedTokens(silo)
+
+  await Promise.all([
+    resolvePendingBridgedTokens(silo),
+    resolvePendingTransactions(silo),
+  ])
 }
