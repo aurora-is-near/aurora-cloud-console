@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation"
-import { sentenceCase } from "change-case"
 
 import Contact from "@/components/Contact"
 import { DashboardPage } from "@/components/DashboardPage"
@@ -33,7 +32,7 @@ const Page = async ({
   const items: ConfigurationItemsCardProps["items"] = [
     {
       term: "Network",
-      description: sentenceCase(silo.network),
+      description: silo.is_make_txs_public ? "Public" : "Private",
       tooltip: "Aurora Chains can be either public, permissioned, or private.",
     },
     {
