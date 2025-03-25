@@ -11,6 +11,14 @@ import { getStorageBalanceBySymbol } from "@/utils/near-storage"
 
 const STALLED_THRESHOLD = 60
 
+type TokenContractMetadata = {
+  isContractDeployed: boolean
+  storageBalance: {
+    total: string
+    available: string
+  } | null
+}
+
 /**
  * Check that all of the expected default tokens were deployed.
  */
@@ -46,23 +54,12 @@ const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
     }),
   )
 
-  const defaultValue = {
+  const defaultValue: TokenContractMetadata = {
     isContractDeployed: false,
     storageBalance: null,
   }
 
-  return DEFAULT_TOKENS.reduce<
-    Record<
-      DefaultToken,
-      {
-        isContractDeployed: boolean
-        storageBalance: {
-          total: string
-          available: string
-        } | null
-      }
-    >
-  >(
+  return DEFAULT_TOKENS.reduce<Record<DefaultToken, TokenContractMetadata>>(
     (acc, symbol, index) => ({
       ...acc,
       [symbol]: supportedTokens[index],
