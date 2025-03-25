@@ -20,7 +20,7 @@ import AddPlanModal from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/A
 export const GasAbstractionPage = () => {
   const { team } = useRequiredContext(TeamContext)
   const { silo } = useContext(SiloContext) ?? {}
-  const { data: deals } = useTeamDeals(team.team_key)
+  const { data: deals = [] } = useTeamDeals(team.team_key)
 
   const tabs = [
     {
@@ -44,7 +44,7 @@ export const GasAbstractionPage = () => {
     )
   }
 
-  if (silo && deals) {
+  if (silo) {
     tabs.push({
       title: "Gas plans",
       content: (
