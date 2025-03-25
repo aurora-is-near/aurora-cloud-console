@@ -1738,23 +1738,123 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "bridgedTokensDeployed": {
+                    "bridgedTokens": {
                       "additionalProperties": {},
                       "nullable": true,
                     },
-                    "defaultTokensDeployed": {
+                    "defaultTokens": {
                       "properties": {
                         "AURORA": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
                         },
                         "NEAR": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
                         },
                         "USDC": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
                         },
                         "USDt": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
                         },
                       },
                       "required": [
@@ -1776,8 +1876,8 @@ exports[`OpenAPI Document should be valid 1`] = `
                   },
                   "required": [
                     "networkStatus",
-                    "defaultTokensDeployed",
-                    "bridgedTokensDeployed",
+                    "defaultTokens",
+                    "bridgedTokens",
                   ],
                   "type": "object",
                 },
