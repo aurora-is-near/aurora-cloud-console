@@ -91,10 +91,7 @@ const checkBridgedTokenContract = async (
   return checkTokenByContractAddress(provider, token.aurora_address)
 }
 
-export const checkBridgedTokens = async (
-  provider: JsonRpcProvider,
-  silo: Silo,
-) => {
+const checkBridgedTokens = async (provider: JsonRpcProvider, silo: Silo) => {
   const bridgedTokens = await getSiloBridgedTokens(silo.id)
   const result: Record<string, TokenContractMetadata> = {}
 
