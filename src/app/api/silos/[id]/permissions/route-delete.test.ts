@@ -179,6 +179,7 @@ describe("Silo whitelist permissions", () => {
         operation: "PURGE_MAKE_TXS_WHITELIST",
         status: "PENDING",
         transaction_hash: "mock_tx_hash",
+        near_account_id: mockSilo.engine_account,
       })
 
       expect(res.body).toEqual({
