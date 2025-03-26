@@ -69,7 +69,7 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id: null,
+      target: null,
       silo_id: mockSilo.id,
       operation: "DEPLOY_NEAR",
       status: "PENDING",
@@ -79,7 +79,7 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id: "usdt.tether-token.near",
+      target: "usdt.tether-token.near",
       silo_id: mockSilo.id,
       operation: "DEPLOY_USDT",
       status: "PENDING",
@@ -89,7 +89,7 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id:
+      target:
         "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
       silo_id: mockSilo.id,
       operation: "DEPLOY_USDC",
@@ -138,7 +138,7 @@ describe("deployDefaultTokens", () => {
       expect(
         mockSupabaseClient.from("silo_config_transactions").insert,
       ).toHaveBeenNthCalledWith(i + 1, {
-        near_account_id: expect.any(String),
+        target: expect.any(String),
         silo_id: mockSilo.id,
         operation: `DEPLOY_${token.toUpperCase()}`,
         status: "PENDING",
@@ -190,7 +190,7 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id: null,
+      target: null,
       operation: "DEPLOY_NEAR",
       silo_id: 1,
       status: "PENDING",
@@ -200,7 +200,7 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id:
+      target:
         "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
       operation: "DEPLOY_USDC",
       silo_id: 1,
@@ -234,7 +234,7 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id: null,
+      target: null,
       silo_id: mockSilo.id,
       operation: "DEPLOY_NEAR",
       status: "PENDING",
@@ -244,7 +244,7 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id: "usdt.tether-token.near",
+      target: "usdt.tether-token.near",
       silo_id: mockSilo.id,
       operation: "DEPLOY_USDT",
       status: "PENDING",
@@ -254,7 +254,7 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id:
+      target:
         "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
       silo_id: mockSilo.id,
       operation: "DEPLOY_USDC",

@@ -755,34 +755,34 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          near_account_id: string | null
           operation:
             | Database["public"]["Enums"]["silo_config_transaction_operation"]
             | null
           silo_id: number
           status: Database["public"]["Enums"]["silo_config_transaction_status"]
+          target: string | null
           transaction_hash: string
         }
         Insert: {
           created_at?: string
           id?: number
-          near_account_id?: string | null
           operation?:
             | Database["public"]["Enums"]["silo_config_transaction_operation"]
             | null
           silo_id: number
           status?: Database["public"]["Enums"]["silo_config_transaction_status"]
+          target?: string | null
           transaction_hash: string
         }
         Update: {
           created_at?: string
           id?: number
-          near_account_id?: string | null
           operation?:
             | Database["public"]["Enums"]["silo_config_transaction_operation"]
             | null
           silo_id?: number
           status?: Database["public"]["Enums"]["silo_config_transaction_status"]
+          target?: string | null
           transaction_hash?: string
         }
         Relationships: [

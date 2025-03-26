@@ -100,7 +100,7 @@ export const PUT = createApiEndpoint(
         transaction_hash: tx_hash,
         operation: whitelistKindToggleOperationMap[action](isEnabled),
         status: "PENDING",
-        near_account_id: silo.engine_account,
+        target: silo.engine_account,
       })
 
       return {
@@ -183,7 +183,7 @@ export const POST = createApiEndpoint(
         transaction_hash: tx_hash,
         operation: whitelistKindPopulateOperationMap[action],
         status: "PENDING",
-        near_account_id: silo.engine_account,
+        target: silo.engine_account,
       })
 
       await createSiloWhitelistAddress({
@@ -331,7 +331,7 @@ export const DELETE = createApiEndpoint(
         transaction_hash: tx_hash,
         operation: whitelistKindPurgeOperationMap[action],
         status: "PENDING",
-        near_account_id: silo.engine_account,
+        target: silo.engine_account,
       })
 
       await updateSiloWhitelistAddress(address, {

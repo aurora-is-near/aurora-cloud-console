@@ -52,7 +52,7 @@ describe("setBaseToken", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id: baseTokenAccountId,
+      target: baseTokenAccountId,
       silo_id: mockSilo.id,
       operation: "SET_BASE_TOKEN",
       status: "PENDING",

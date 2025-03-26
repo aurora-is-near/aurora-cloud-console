@@ -134,7 +134,7 @@ describe("Silos repair route", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id: null,
+      target: null,
       operation: "DEPLOY_NEAR",
       silo_id: mockSilos[0].id,
       status: "PENDING",
@@ -144,7 +144,7 @@ describe("Silos repair route", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id: null,
+      target: null,
       operation: "DEPLOY_NEAR",
       silo_id: mockSilos[1].id,
       status: "PENDING",
@@ -154,8 +154,7 @@ describe("Silos repair route", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
-      near_account_id:
-        "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
+      target: "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
       operation: "SET_BASE_TOKEN",
       silo_id: mockSilos[0].id,
       status: "PENDING",

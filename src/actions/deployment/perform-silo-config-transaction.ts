@@ -90,7 +90,7 @@ export const performSiloConfigTransaction = async (
     transaction_hash: tx_hash,
     operation,
     status: "PENDING",
-    near_account_id: nearAccountId ?? null,
+    target: nearAccountId ?? null,
   })
 
   return "PENDING"

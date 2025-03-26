@@ -28,7 +28,7 @@ export const getSiloConfigTransactions = async (
   }
 
   if (nearAccountId) {
-    void query.eq("near_account_id", nearAccountId)
+    void query.eq("target", nearAccountId)
   }
 
   const result = await query

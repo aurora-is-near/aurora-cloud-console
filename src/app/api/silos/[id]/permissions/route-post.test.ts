@@ -209,7 +209,7 @@ describe("Silo whitelist permissions", () => {
         operation: "POPULATE_MAKE_TXS_WHITELIST",
         status: "PENDING",
         transaction_hash: "mock_tx_hash",
-        near_account_id: mockSilo.engine_account,
+        target: mockSilo.engine_account,
       })
 
       expect(res.body).toEqual({
@@ -260,7 +260,7 @@ describe("Silo whitelist permissions", () => {
         operation: "POPULATE_MAKE_TXS_WHITELIST",
         status: "PENDING",
         transaction_hash: "mock_tx_hash",
-        near_account_id: mockSilo.engine_account,
+        target: mockSilo.engine_account,
       })
 
       expect(res.body).toEqual({
@@ -311,7 +311,7 @@ describe("Silo whitelist permissions", () => {
         operation: "POPULATE_MAKE_TXS_WHITELIST",
         status: "PENDING",
         transaction_hash: "mock_tx_hash",
-        near_account_id: mockSilo.engine_account,
+        target: mockSilo.engine_account,
       })
 
       expect(res.body).toEqual({
