@@ -10,9 +10,5 @@ export const POST = createApiEndpoint("repair", async (_req, ctx) => {
     abort(404)
   }
 
-  await repairSilo(silo)
-
-  return {
-    status: "ok",
-  }
+  return repairSilo(silo)
 })

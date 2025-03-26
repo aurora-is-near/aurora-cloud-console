@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Silo repair route repairs a silo 1`] = `
+{
+  "initialisation": {
+    "baseTokenSet": "PENDING",
+    "defaultTokensDeployed": "PENDING",
+    "isSiloActive": false,
+  },
+  "pendingBridgedTokens": {
+    "numberOfPendingDeployments": 0,
+    "numberOfPendingDeploymentsResolved": 0,
+    "numberOfRequests": 0,
+    "numberOfRequestsResolved": 0,
+  },
+  "pendingTransactions": {
+    "numberOfPendingTransactions": 0,
+    "numberOfPendingTransactionsResolved": 0,
+  },
+  "status": "ok",
+}
+`;

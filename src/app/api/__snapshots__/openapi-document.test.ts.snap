@@ -2178,6 +2178,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "enum": [
                         "PENDING",
                         "SUCCESSFUL",
+                        "FAILED",
                       ],
                       "type": "string",
                     },
@@ -2266,6 +2267,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "enum": [
                         "PENDING",
                         "SUCCESSFUL",
+                        "FAILED",
                       ],
                       "type": "string",
                     },
@@ -2354,6 +2356,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "enum": [
                         "PENDING",
                         "SUCCESSFUL",
+                        "FAILED",
                       ],
                       "type": "string",
                     },
@@ -2415,12 +2418,89 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
+                    "initialisation": {
+                      "nullable": true,
+                      "properties": {
+                        "baseTokenSet": {
+                          "enum": [
+                            "PENDING",
+                            "SUCCESSFUL",
+                            "FAILED",
+                          ],
+                          "type": "string",
+                        },
+                        "defaultTokensDeployed": {
+                          "enum": [
+                            "PENDING",
+                            "SUCCESSFUL",
+                            "FAILED",
+                          ],
+                          "type": "string",
+                        },
+                        "isSiloActive": {
+                          "type": "boolean",
+                        },
+                      },
+                      "required": [
+                        "defaultTokensDeployed",
+                        "baseTokenSet",
+                        "isSiloActive",
+                      ],
+                      "type": "object",
+                    },
+                    "pendingBridgedTokens": {
+                      "nullable": true,
+                      "properties": {
+                        "numberOfPendingDeployments": {
+                          "type": "number",
+                        },
+                        "numberOfPendingDeploymentsResolved": {
+                          "type": "number",
+                        },
+                        "numberOfRequests": {
+                          "type": "number",
+                        },
+                        "numberOfRequestsResolved": {
+                          "type": "number",
+                        },
+                      },
+                      "required": [
+                        "numberOfRequests",
+                        "numberOfRequestsResolved",
+                        "numberOfPendingDeployments",
+                        "numberOfPendingDeploymentsResolved",
+                      ],
+                      "type": "object",
+                    },
+                    "pendingTransactions": {
+                      "nullable": true,
+                      "properties": {
+                        "numberOfPendingTransactions": {
+                          "type": "number",
+                        },
+                        "numberOfPendingTransactionsResolved": {
+                          "type": "number",
+                        },
+                      },
+                      "required": [
+                        "numberOfPendingTransactions",
+                        "numberOfPendingTransactionsResolved",
+                      ],
+                      "type": "object",
+                    },
                     "status": {
+                      "enum": [
+                        "ok",
+                        "skipped",
+                      ],
                       "type": "string",
                     },
                   },
                   "required": [
                     "status",
+                    "initialisation",
+                    "pendingTransactions",
+                    "pendingBridgedTokens",
                   ],
                   "type": "object",
                 },

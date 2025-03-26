@@ -144,6 +144,12 @@ const SiloWhitelistActionSchema = z.union([
   z.literal("DEPLOY_CONTRACT"),
 ])
 
+const SiloConfigTransactionStatus = z.union([
+  z.literal("PENDING"),
+  z.literal("SUCCESSFUL"),
+  z.literal("FAILED"),
+])
+
 const TokenHealthcheckSchema = z.object({
   isContractDeployed: z.boolean(),
   storageBalance: z
@@ -509,7 +515,7 @@ export const contract = c.router({
     path: "/api/silos/:id/permissions",
     responses: {
       200: z.object({
-        status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
+        status: SiloConfigTransactionStatus,
         isEnabled: z.boolean(),
         action: SiloWhitelistActionSchema,
       }),
@@ -532,7 +538,7 @@ export const contract = c.router({
     path: "/api/silos/:id/permissions",
     responses: {
       200: z.object({
-        status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
+        status: SiloConfigTransactionStatus,
         address: z.string(),
         action: SiloWhitelistActionSchema,
       }),
@@ -555,7 +561,7 @@ export const contract = c.router({
     path: "/api/silos/:id/permissions",
     responses: {
       200: z.object({
-        status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
+        status: SiloConfigTransactionStatus,
         address: z.string(),
         action: SiloWhitelistActionSchema,
       }),
@@ -825,7 +831,28 @@ export const contract = c.router({
     path: "/api/silos/:id/repair",
     responses: {
       200: z.object({
-        status: z.string(),
+        status: z.union([z.literal("ok"), z.literal("skipped")]),
+        initialisation: z
+          .object({
+            defaultTokensDeployed: SiloConfigTransactionStatus,
+            baseTokenSet: SiloConfigTransactionStatus,
+            isSiloActive: z.boolean(),
+          })
+          .nullable(),
+        pendingTransactions: z
+          .object({
+            numberOfPendingTransactions: z.number(),
+            numberOfPendingTransactionsResolved: z.number(),
+          })
+          .nullable(),
+        pendingBridgedTokens: z
+          .object({
+            numberOfRequests: z.number(),
+            numberOfRequestsResolved: z.number(),
+            numberOfPendingDeployments: z.number(),
+            numberOfPendingDeploymentsResolved: z.number(),
+          })
+          .nullable(),
       }),
     },
     pathParams: z.object({

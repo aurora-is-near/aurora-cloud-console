@@ -21,6 +21,25 @@ type PreviouslyInspectedSilo = Omit<Silo, "inspected_at"> & {
   inspected_at: string
 }
 
+type RepairSiloResult = {
+  status: "ok" | "skipped"
+  initialisation: {
+    defaultTokensDeployed: SiloConfigTransactionStatus
+    baseTokenSet: SiloConfigTransactionStatus
+    isSiloActive: boolean
+  } | null
+  pendingTransactions: {
+    numberOfPendingTransactions: number
+    numberOfPendingTransactionsResolved: number
+  } | null
+  pendingBridgedTokens: {
+    numberOfRequests: number
+    numberOfRequestsResolved: number
+    numberOfPendingDeployments: number
+    numberOfPendingDeploymentsResolved: number
+  } | null
+}
+
 const isPreviouslyInspectedSilo = (
   silo: Silo | PreviouslyInspectedSilo,
 ): silo is PreviouslyInspectedSilo => !!silo.inspected_at
@@ -28,12 +47,16 @@ const isPreviouslyInspectedSilo = (
 /**
  * Check if any pending bridged tokens can be resolved.
  */
-const resolvePendingBridgedTokens = async (silo: Silo) => {
+const resolvePendingBridgedTokens = async (
+  silo: Silo,
+): Promise<RepairSiloResult["pendingBridgedTokens"]> => {
   const [requests, siloBridgedTokens, bridgedTokens] = await Promise.all([
     getSiloBridgedTokenRequests(silo.id),
     getSiloBridgedTokens(silo.id),
     getBridgedTokens(),
   ])
+
+  let numberOfRequestsResolved = 0
 
   // Check if any requests for custom tokens can be resolved. If we have
   // subsequently configured a token with the same symbol as a request we can
@@ -60,22 +83,36 @@ const resolvePendingBridgedTokens = async (silo: Silo) => {
       })
 
       await resolveBridgedTokenRequest(request.id)
+      numberOfRequestsResolved += 1
     }),
   )
+
+  const pendingSiloBridgedTokens = siloBridgedTokens.filter(
+    (bridgedToken) => bridgedToken.is_deployment_pending,
+  )
+
+  let numberOfPendingDeploymentsResolved = 0
 
   // Check if any bridge tokens previously marked as pending have been deployed,
   // mark them as deployed if so.
   await Promise.all(
-    siloBridgedTokens
-      .filter((bridgedToken) => bridgedToken.is_deployment_pending)
-      .map(async (bridgedToken) => {
-        if (await isBridgedTokenDeployed(silo, bridgedToken)) {
-          await updateSiloBridgedToken(silo.id, bridgedToken.id, {
-            isDeploymentPending: false,
-          })
-        }
-      }),
+    pendingSiloBridgedTokens.map(async (bridgedToken) => {
+      if (await isBridgedTokenDeployed(silo, bridgedToken)) {
+        await updateSiloBridgedToken(silo.id, bridgedToken.id, {
+          isDeploymentPending: false,
+        })
+
+        numberOfPendingDeploymentsResolved += 1
+      }
+    }),
   )
+
+  return {
+    numberOfRequests: requests.length,
+    numberOfRequestsResolved,
+    numberOfPendingDeployments: pendingSiloBridgedTokens.length,
+    numberOfPendingDeploymentsResolved,
+  }
 }
 
 const isAutomatableBaseToken = (baseToken?: string) =>
@@ -84,7 +121,9 @@ const isAutomatableBaseToken = (baseToken?: string) =>
 /**
  * Perform various essential transactions to initialise a silo.
  */
-const initialiseSilo = async (silo: PreviouslyInspectedSilo) => {
+const initialiseSilo = async (
+  silo: PreviouslyInspectedSilo,
+): Promise<RepairSiloResult["initialisation"]> => {
   const isWithin24Hours =
     Date.now() - new Date(silo.inspected_at).getTime() < 24 * 60 * 60 * 1000
 
@@ -108,16 +147,31 @@ const initialiseSilo = async (silo: PreviouslyInspectedSilo) => {
   }
 
   await updateSilo(silo.id, siloUpdateProperties)
+
+  return {
+    defaultTokensDeployed: transactionResults[0],
+    baseTokenSet: transactionResults[1],
+    isSiloActive: silo.is_active ?? siloUpdateProperties.is_active ?? false,
+  }
 }
 
-const resolvePendingTransactions = async (silo: Silo) => {
+const resolvePendingTransactions = async (
+  silo: Silo,
+): Promise<RepairSiloResult["pendingTransactions"]> => {
   const pendingTransactions = await getPendingSiloConfigTransactions(silo.id)
 
-  await Promise.all(
+  const results = await Promise.all(
     pendingTransactions.map(async (transaction) =>
       checkPendingTransaction(transaction, silo),
     ),
   )
+
+  return {
+    numberOfPendingTransactions: pendingTransactions.length,
+    numberOfPendingTransactionsResolved: results.filter(
+      (result) => result !== "PENDING",
+    ).length,
+  }
 }
 
 /**
@@ -128,17 +182,29 @@ const resolvePendingTransactions = async (silo: Silo) => {
  * through the onboarding process without this check interrupting and taking
  * over before they have a chance to do so.
  */
-export const repairSilo = async (silo: Silo) => {
+export const repairSilo = async (silo: Silo): Promise<RepairSiloResult> => {
   if (!isPreviouslyInspectedSilo(silo)) {
     await updateSilo(silo.id, { inspected_at: new Date().toISOString() })
 
-    return
+    return {
+      status: "skipped",
+      initialisation: null,
+      pendingTransactions: null,
+      pendingBridgedTokens: null,
+    }
   }
 
-  await initialiseSilo(silo)
+  const initialisation = await initialiseSilo(silo)
 
-  await Promise.all([
+  const [pendingBridgedTokens, pendingTransactions] = await Promise.all([
     resolvePendingBridgedTokens(silo),
     resolvePendingTransactions(silo),
   ])
+
+  return {
+    status: "ok",
+    initialisation,
+    pendingTransactions,
+    pendingBridgedTokens,
+  }
 }
