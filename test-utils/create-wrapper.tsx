@@ -3,14 +3,24 @@ import { ModalsContext } from "@/providers/ModalsProvider"
 import { MenuContext } from "@/providers/MenuProvider"
 import { AnalyticsContext } from "@/providers/AnalyticsProvider"
 import { QueryProvider } from "@/providers/QueryProvider"
+import { SiloContext, SiloContextType } from "@/providers/SiloProvider"
+import { TeamContext, TeamContextType } from "@/providers/TeamProvider"
 
 type WrapperProps = {
   children: ReactNode
 }
 
-export const createWrapper = () =>
+type CreateWrapperProps = {
+  siloContext?: SiloContextType
+  teamContext?: TeamContextType
+}
+
+export const createWrapper = ({
+  siloContext,
+  teamContext,
+}: CreateWrapperProps = {}) =>
   function wrapper({ children }: WrapperProps) {
-    return (
+    let jsx = (
       <QueryProvider>
         <AnalyticsContext.Provider
           value={{
@@ -37,4 +47,18 @@ export const createWrapper = () =>
         </AnalyticsContext.Provider>
       </QueryProvider>
     )
+
+    if (siloContext) {
+      jsx = (
+        <SiloContext.Provider value={siloContext}>{jsx}</SiloContext.Provider>
+      )
+    }
+
+    if (teamContext) {
+      jsx = (
+        <TeamContext.Provider value={teamContext}>{jsx}</TeamContext.Provider>
+      )
+    }
+
+    return jsx
   }

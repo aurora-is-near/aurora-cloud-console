@@ -145,6 +145,22 @@ const SiloWhitelistActionSchema = z.union([
   z.literal("DEPLOY_CONTRACT"),
 ])
 
+const SiloConfigTransactionStatus = z.union([
+  z.literal("PENDING"),
+  z.literal("SUCCESSFUL"),
+  z.literal("FAILED"),
+])
+
+const TokenHealthcheckSchema = z.object({
+  isContractDeployed: z.boolean(),
+  storageBalance: z
+    .object({
+      total: z.string(),
+      available: z.string(),
+    })
+    .nullable(),
+})
+
 export const contract = c.router({
   getDeals: {
     summary: "Get all deals",
@@ -500,7 +516,7 @@ export const contract = c.router({
     path: "/api/silos/:id/permissions",
     responses: {
       200: z.object({
-        status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
+        status: SiloConfigTransactionStatus,
         isEnabled: z.boolean(),
         action: SiloWhitelistActionSchema,
       }),
@@ -523,7 +539,7 @@ export const contract = c.router({
     path: "/api/silos/:id/permissions",
     responses: {
       200: z.object({
-        status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
+        status: SiloConfigTransactionStatus,
         address: z.string(),
         action: SiloWhitelistActionSchema,
       }),
@@ -546,7 +562,7 @@ export const contract = c.router({
     path: "/api/silos/:id/permissions",
     responses: {
       200: z.object({
-        status: z.union([z.literal("PENDING"), z.literal("SUCCESSFUL")]),
+        status: SiloConfigTransactionStatus,
         address: z.string(),
         action: SiloWhitelistActionSchema,
       }),
@@ -789,14 +805,14 @@ export const contract = c.router({
           z.literal("invalid-network"),
           z.literal("stalled"),
         ]),
-        defaultTokensDeployed: z.object({
-          NEAR: z.boolean(),
-          USDt: z.boolean(),
-          USDC: z.boolean(),
-          AURORA: z.boolean(),
+        defaultTokens: z.object({
+          NEAR: TokenHealthcheckSchema,
+          USDt: TokenHealthcheckSchema,
+          USDC: TokenHealthcheckSchema,
+          AURORA: TokenHealthcheckSchema,
         }),
         // https://swagger.io/docs/specification/v3_0/data-models/data-types/#free-form-object
-        bridgedTokensDeployed: z.instanceof(Object).openapi({
+        bridgedTokens: z.instanceof(Object).openapi({
           additionalProperties: {},
         }),
       }),
@@ -806,6 +822,51 @@ export const contract = c.router({
     }),
     metadata: {
       scopes: ["silos:read"],
+    },
+  },
+  repair: {
+    summary:
+      "Perform various checks and, if necessary, transactions to repair a silo",
+    method: "POST",
+    body: z.object({}),
+    path: "/api/silos/:id/repair",
+    responses: {
+      200: z.object({
+        status: z.union([z.literal("ok"), z.literal("skipped")]),
+        initialisation: z
+          .object({
+            defaultTokensDeployed: SiloConfigTransactionStatus,
+            baseTokenSet: SiloConfigTransactionStatus,
+            isSiloActive: z.boolean(),
+          })
+          .nullable(),
+        pendingTransactions: z
+          .object({
+            numberOfPendingTransactions: z.number(),
+            numberOfPendingTransactionsResolved: z.number(),
+          })
+          .nullable(),
+        pendingBridgedTokens: z
+          .object({
+            numberOfRequests: z.number(),
+            numberOfRequestsResolved: z.number(),
+            numberOfPendingDeployments: z.number(),
+            numberOfPendingDeploymentsResolved: z.number(),
+            tokens: z.array(
+              z.object({
+                symbol: z.string(),
+                status: SiloConfigTransactionStatus,
+              }),
+            ),
+          })
+          .nullable(),
+      }),
+    },
+    pathParams: z.object({
+      id: z.number(),
+    }),
+    metadata: {
+      scopes: ["silos:write"],
     },
   },
 })

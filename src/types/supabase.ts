@@ -760,6 +760,7 @@ export type Database = {
             | null
           silo_id: number
           status: Database["public"]["Enums"]["silo_config_transaction_status"]
+          target: string | null
           transaction_hash: string
         }
         Insert: {
@@ -770,6 +771,7 @@ export type Database = {
             | null
           silo_id: number
           status?: Database["public"]["Enums"]["silo_config_transaction_status"]
+          target?: string | null
           transaction_hash: string
         }
         Update: {
@@ -780,6 +782,7 @@ export type Database = {
             | null
           silo_id?: number
           status?: Database["public"]["Enums"]["silo_config_transaction_status"]
+          target?: string | null
           transaction_hash?: string
         }
         Relationships: [
@@ -1250,6 +1253,7 @@ export type Database = {
         | "payments:read"
         | "payments:write"
         | "assets:write"
+        | "silos:write"
       base_token_symbol:
         | "AURORA"
         | "BTC"
@@ -1295,6 +1299,8 @@ export type Database = {
         | "DEPLOY_USDC"
         | "DEPLOY_NEAR"
         | "DEPLOY_ETH"
+        | "STORAGE_DEPOSIT"
+        | "DEPLOY_TOKEN"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       user_integration:
         | "onramp"

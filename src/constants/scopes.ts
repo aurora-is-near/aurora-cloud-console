@@ -6,6 +6,7 @@ const API_KEY_SCOPES_MAP: Record<PublicApiScope, boolean> = {
   "deals:read": true,
   "deals:write": true,
   "silos:read": true,
+  "silos:write": true,
   "users:read": true,
   "users:write": true,
   "transactions:read": true,

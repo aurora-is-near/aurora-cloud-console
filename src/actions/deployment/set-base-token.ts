@@ -45,6 +45,6 @@ export const setBaseToken = async (
         baseTokenAccountId: baseTokenConfig.nearAccountId,
       })
     },
-    { skipIfFailed },
+    { skipIfFailed, nearAccountId: baseTokenConfig.nearAccountId },
   )
 }

@@ -11,6 +11,8 @@ import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-
 import { checkTokenBySymbol } from "@/utils/check-token-contract"
 import { DefaultToken } from "@/types/default-tokens"
 import { DEFAULT_TOKENS } from "@/constants/default-tokens"
+import { getStorageBalanceBySymbol } from "@/utils/near-storage"
+import { NEAR_TOKEN_ADDRESSES } from "@/constants/near-token"
 
 const CONTRACT_CHANGER_SYMBOLS: Record<
   DefaultToken,
@@ -32,7 +34,7 @@ const SILO_CONFIG_TRANSACTION_OPERATIONS: Record<
   USDC: "DEPLOY_USDC",
 }
 
-const deployDefaultToken = async ({
+const checkContract = async ({
   provider,
   silo,
   symbol,
@@ -42,8 +44,11 @@ const deployDefaultToken = async ({
   silo: Silo
   symbol: DefaultToken
   skipIfFailed?: boolean
-}): Promise<SiloConfigTransactionStatus> => {
-  if (await checkTokenBySymbol(provider, symbol)) {
+}) => {
+  const isContractDeployed = await checkTokenBySymbol(provider, symbol)
+  const nearAccountId = symbol === "NEAR" ? null : NEAR_TOKEN_ADDRESSES[symbol]
+
+  if (isContractDeployed) {
     return "SUCCESSFUL"
   }
 
@@ -55,8 +60,62 @@ const deployDefaultToken = async ({
         siloEngineAccountId: silo.engine_account,
         token: CONTRACT_CHANGER_SYMBOLS[symbol],
       }),
-    { skipIfFailed },
+    { skipIfFailed, nearAccountId },
   )
+}
+
+const checkStorageBalance = async ({
+  silo,
+  symbol,
+  skipIfFailed,
+}: {
+  silo: Silo
+  symbol: DefaultToken
+  skipIfFailed?: boolean
+}) => {
+  if (symbol === "NEAR") {
+    return "SUCCESSFUL"
+  }
+
+  const storageBalance = await getStorageBalanceBySymbol(
+    silo.engine_account,
+    symbol,
+  )
+
+  if (storageBalance?.total) {
+    return "SUCCESSFUL"
+  }
+
+  const nearAccountId = NEAR_TOKEN_ADDRESSES[symbol]
+
+  return performSiloConfigTransaction(
+    silo,
+    "STORAGE_DEPOSIT",
+    async () =>
+      contractChangerApiClient.makeStorageDeposit({
+        siloEngineAccountId: silo.engine_account,
+        amount: "0.00125 near",
+        token: nearAccountId,
+      }),
+    { skipIfFailed, nearAccountId },
+  )
+}
+
+const deployDefaultToken = async ({
+  provider,
+  silo,
+  symbol,
+  skipIfFailed,
+}: {
+  provider: JsonRpcProvider
+  silo: Silo
+  symbol: DefaultToken
+  skipIfFailed?: boolean
+}): Promise<SiloConfigTransactionStatus[]> => {
+  return Promise.all([
+    checkContract({ provider, silo, symbol, skipIfFailed }),
+    checkStorageBalance({ silo, symbol, skipIfFailed }),
+  ])
 }
 
 export const deployDefaultTokens = async (
@@ -65,17 +124,19 @@ export const deployDefaultTokens = async (
 ): Promise<SiloConfigTransactionStatus> => {
   const provider = new JsonRpcProvider(silo.rpc_url)
 
-  const statuses = await Promise.all(
-    DEFAULT_TOKENS.filter((token) => token !== silo.base_token_symbol).map(
-      async (symbol) =>
-        deployDefaultToken({
-          provider,
-          silo,
-          symbol,
-          skipIfFailed,
-        }),
-    ),
-  )
+  const statuses = (
+    await Promise.all(
+      DEFAULT_TOKENS.filter((token) => token !== silo.base_token_symbol).map(
+        async (symbol) =>
+          deployDefaultToken({
+            provider,
+            silo,
+            symbol,
+            skipIfFailed,
+          }),
+      ),
+    )
+  ).flat()
 
   if (statuses.includes("PENDING")) {
     return "PENDING"
