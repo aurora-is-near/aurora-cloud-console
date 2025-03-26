@@ -24,6 +24,9 @@ jest.mock("@/utils/contract-changer-api/contract-changer-api-client", () => ({
       tx_hash: `mock_tx_hash_${token}`,
     })),
     setBaseToken: jest.fn(() => ({ tx_hash: "mock_set_base_token_tx_hash" })),
+    makeStorageDeposit: jest.fn(() => ({
+      tx_hash: "mock_storage_deposit_tx_hash",
+    })),
   },
 }))
 

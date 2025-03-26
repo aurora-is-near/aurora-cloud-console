@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
+import { deployDefaultTokens } from "@/actions/deployment/deploy-default-tokens"
 import { updateSilo } from "@/actions/silos/update-silo"
 import { DeploymentProgressContent } from "./DeploymentProgressContent"
 import { mockTeam } from "../../../../../../test-utils/mock-team"
@@ -9,6 +10,7 @@ import { createMockOnboardingForm } from "../../../../../../test-utils/factories
 
 jest.useFakeTimers()
 jest.mock("../../../../../actions/deployment/set-base-token")
+jest.mock("../../../../../actions/deployment/deploy-default-tokens")
 jest.mock("../../../../../actions/silos/update-silo")
 
 const getSteps = () => {
@@ -31,6 +33,7 @@ const getCurrentStep = () => {
 describe("DeploymentProgressContent", () => {
   beforeEach(() => {
     ;(setBaseToken as jest.Mock).mockResolvedValue("PENDING")
+    ;(deployDefaultTokens as jest.Mock).mockResolvedValue("PENDING")
   })
 
   afterEach(() => {
