@@ -17,4 +17,5 @@ export const queryKeys = {
   ],
   getTeamDealsByKey: (teamKey: string) => ["team-deals-by-key", teamKey],
   getTeamByKey: (teamKey: string) => ["team-by-key", teamKey],
+  getSiloOracle: (siloId: number | null) => ["silo-oracle", siloId],
 } as const

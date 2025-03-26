@@ -18,7 +18,7 @@ import { getGenericLineChartData } from "@/utils/charts"
 import Chart from "./Chart"
 
 type FailureRateChartProps = {
-  id: string
+  id: number
 }
 
 ChartJS.register(
@@ -34,7 +34,7 @@ ChartJS.register(
 export const FailureRateChart = ({ id }: FailureRateChartProps) => {
   const { data, isLoading } = useQuery(
     getQueryFnAndKey("getSiloFailureRate", {
-      id: Number(id),
+      id,
     }),
   )
 

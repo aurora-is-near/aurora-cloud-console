@@ -1,34 +1,50 @@
-import Image from "next/image"
+"use client"
 
+import Image from "next/image"
+import { useContext } from "react"
+import { useQueries } from "@tanstack/react-query"
 import Hero from "@/components/Hero/Hero"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { DashboardPage } from "@/components/DashboardPage"
-import { AuroraOracle } from "@/types/oracle"
-import { AuroraOracleToken } from "@/types/aurora-oracle-api"
 import { NotAvailableBadge } from "@/components/NotAvailableBadge"
-
-import { Silo, Team } from "@/types/types"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
+import { SiloContext } from "@/providers/SiloProvider"
+import { auroraOracleApiClient } from "@/utils/aurora-oracle-api/client"
+import { getSiloOracle } from "@/actions/silo-oracle/get-silo-oracle"
+import { queryKeys } from "@/actions/query-keys"
 import { OracleConfigurationTab } from "./OracleConfigurationTab"
 import { OracleRequestDeploymentButton } from "./OracleRequestDeploymentButton"
 import { OracleDeploymentTab } from "./OracleDeploymentTab"
 import { OracleAboutTab } from "./OracleAboutTab"
 
-type OraclePageProps = {
-  team: Team
-  silo?: Silo | null
-  oracle?: AuroraOracle | null
-  tokens?: AuroraOracleToken[]
-}
-
-const OraclePage = ({ team, silo, oracle, tokens }: OraclePageProps) => {
+const OraclePage = () => {
+  const { team } = useRequiredContext(TeamContext)
+  const { silo } = useContext(SiloContext) ?? {}
   const tabs = [{ title: "About", content: <OracleAboutTab /> }]
+
+  const [{ data: oracle }, { data: tokens }] = useQueries({
+    queries: [
+      {
+        queryKey: queryKeys.getSiloOracle(silo?.id ?? null),
+        queryFn: () => (silo ? getSiloOracle(silo.id) : null),
+      },
+      {
+        queryKey: ["oracle-tokens"],
+        queryFn: () => auroraOracleApiClient.getTokens(),
+      },
+    ],
+  })
 
   if (oracle) {
     tabs.push(
       {
         title: "Configuration",
         content: (
-          <OracleConfigurationTab teamKey={team.team_key} tokens={tokens} />
+          <OracleConfigurationTab
+            teamKey={team.team_key}
+            tokens={tokens?.items}
+          />
         ),
       },
       {

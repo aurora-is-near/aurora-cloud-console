@@ -1,21 +1,21 @@
+"use client"
+
 import Image from "next/image"
+import { useContext } from "react"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { MunzenWidgetOpenButton } from "@/components/MunzenWidgetOpenButton"
-import { Silo } from "@/types/types"
-import FiatOnrampConfigurationTab from "./FiatOnrampConfigurationTab"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
+import { SiloContext } from "@/providers/SiloProvider"
 import { FiatOnrampAboutTab } from "./FiatOnrampAboutTab"
+import FiatOnrampConfigurationTab from "./FiatOnrampConfigurationTab"
 
-interface FiatOnrampPageProps {
-  teamKey: string
-  silo?: Silo | null
-}
+export const FiatOnrampPage = () => {
+  const { team } = useRequiredContext(TeamContext)
+  const { silo } = useContext(SiloContext) ?? {}
 
-export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
-  teamKey,
-  silo = null,
-}) => {
   const tabs = [
     {
       title: "About",
@@ -29,7 +29,7 @@ export const FiatOnrampPage: React.FC<FiatOnrampPageProps> = ({
       content: (
         <FiatOnrampConfigurationTab
           siloId={silo.id}
-          linkPrefix={`/dashboard/${teamKey}/silos/${silo.id}/onramp`}
+          linkPrefix={`/dashboard/${team.team_key}/silos/${silo.id}/onramp`}
         />
       ),
     })

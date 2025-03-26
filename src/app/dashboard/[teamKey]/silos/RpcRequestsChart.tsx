@@ -18,7 +18,7 @@ import { getGenericLineChartData } from "@/utils/charts"
 import Chart from "./Chart"
 
 type RpcRequestsChartProps = {
-  id: string
+  id: number
 }
 
 ChartJS.register(
@@ -34,7 +34,7 @@ ChartJS.register(
 export const RpcRequestsChart = ({ id }: RpcRequestsChartProps) => {
   const { data, isLoading } = useQuery(
     getQueryFnAndKey("getSiloRpcRequests", {
-      id: Number(id),
+      id,
     }),
   )
 
