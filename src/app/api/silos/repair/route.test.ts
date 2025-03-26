@@ -33,6 +33,28 @@ jest.mock("@/utils/contract-changer-api/contract-changer-api-client", () => ({
   },
 }))
 
+jest.mock("near-api-js", () => ({
+  ...jest.requireActual("near-api-js"),
+  Account: jest.fn(() => ({
+    getAccountBalance: jest.fn(() => ({
+      total: "33137693971864085399999999",
+      available: "18370803971864085399999999",
+      staked: "0",
+    })),
+    viewFunction: jest.fn(() => ({
+      total: "12345678901234567890",
+      available: "42",
+    })),
+  })),
+  connect: jest.fn(() => ({
+    connection: {
+      provider: {
+        txStatus: jest.fn(() => ({ status: { SuccessValue: "" } })),
+      },
+    },
+  })),
+}))
+
 describe("Silos repair route", () => {
   beforeEach(() => {
     mockSupabaseClient.from("silos").select.mockReturnValue(createSelect([]))
@@ -42,6 +64,9 @@ describe("Silos repair route", () => {
     mockSupabaseClient
       .from("silo_config_transactions")
       .select.mockReturnValue(createSelect([]))
+    mockSupabaseClient
+      .from("silo_config_transactions")
+      .update.mockReturnValue(createInsertOrUpdate([]))
     mockSupabaseClient
       .from("bridged_token_requests")
       .select.mockReturnValue(createSelect([]))
@@ -109,6 +134,7 @@ describe("Silos repair route", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
+      target: null,
       operation: "DEPLOY_NEAR",
       silo_id: mockSilos[0].id,
       status: "PENDING",
@@ -118,6 +144,7 @@ describe("Silos repair route", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
+      target: null,
       operation: "DEPLOY_NEAR",
       silo_id: mockSilos[1].id,
       status: "PENDING",
@@ -127,6 +154,7 @@ describe("Silos repair route", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
+      target: "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
       operation: "SET_BASE_TOKEN",
       silo_id: mockSilos[0].id,
       status: "PENDING",
@@ -497,50 +525,52 @@ describe("Silos repair route", () => {
     expect(logger.error).toHaveBeenCalledWith(new Error("Forbidden"))
   })
 
-  it("does not perform a transaction or set the silo to active for a custom base token", async () => {
-    const oneHourAgo = new Date(currentTime.getTime() - 60 * 60 * 1000)
+  it.each(["CUSTOM", "ART", "USDT"])(
+    "does not perform a transaction or set the silo to active for base token %p",
+    async (symbol) => {
+      const oneHourAgo = new Date(currentTime.getTime() - 60 * 60 * 1000)
 
-    const mockSilo = createMockSilo({
-      base_token_symbol: "ART",
-      base_token_name: "Arium",
-      is_active: false,
-      inspected_at: oneHourAgo.toISOString(),
-    })
+      const mockSilo = createMockSilo({
+        base_token_symbol: symbol,
+        is_active: false,
+        inspected_at: oneHourAgo.toISOString(),
+      })
 
-    mockSupabaseClient
-      .from("silos")
-      .select.mockReturnValue(createSelect([mockSilo]))
-    ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
-      symbol: () => {},
-    }))
+      mockSupabaseClient
+        .from("silos")
+        .select.mockReturnValue(createSelect([mockSilo]))
+      ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+        symbol: () => {},
+      }))
 
-    const req = new NextRequest("https://example.com", {
-      method: "GET",
-      headers: {
-        "user-agent": "vercel-cron/1.0",
-      },
-    })
+      const req = new NextRequest("https://example.com", {
+        method: "GET",
+        headers: {
+          "user-agent": "vercel-cron/1.0",
+        },
+      })
 
-    const res = await GET(req, { params: {} })
+      const res = await GET(req, { params: {} })
 
-    expect(res.status).toBe(200)
-    expect(await res.json()).toEqual({
-      status: 200,
-      body: {
-        message: "ok",
-      },
-    })
+      expect(res.status).toBe(200)
+      expect(await res.json()).toEqual({
+        status: 200,
+        body: {
+          message: "ok",
+        },
+      })
 
-    expect(ethers.Contract).toHaveBeenCalledTimes(4)
-    expect(
-      mockSupabaseClient.from("silo_config_transactions").insert,
-    ).not.toHaveBeenCalled()
+      expect(ethers.Contract).toHaveBeenCalledTimes(4)
+      expect(
+        mockSupabaseClient.from("silo_config_transactions").insert,
+      ).not.toHaveBeenCalled()
 
-    expect(contractChangerApiClient.setBaseToken).not.toHaveBeenCalled()
+      expect(contractChangerApiClient.setBaseToken).not.toHaveBeenCalled()
 
-    expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledTimes(1)
-    expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledWith({
-      inspected_at: currentTime.toISOString(),
-    })
-  })
+      expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledTimes(1)
+      expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledWith({
+        inspected_at: currentTime.toISOString(),
+      })
+    },
+  )
 })
