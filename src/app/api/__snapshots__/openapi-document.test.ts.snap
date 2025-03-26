@@ -2463,12 +2463,36 @@ exports[`OpenAPI Document should be valid 1`] = `
                         "numberOfRequestsResolved": {
                           "type": "number",
                         },
+                        "tokens": {
+                          "items": {
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "PENDING",
+                                  "SUCCESSFUL",
+                                  "FAILED",
+                                ],
+                                "type": "string",
+                              },
+                              "symbol": {
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "symbol",
+                              "status",
+                            ],
+                            "type": "object",
+                          },
+                          "type": "array",
+                        },
                       },
                       "required": [
                         "numberOfRequests",
                         "numberOfRequestsResolved",
                         "numberOfPendingDeployments",
                         "numberOfPendingDeploymentsResolved",
+                        "tokens",
                       ],
                       "type": "object",
                     },

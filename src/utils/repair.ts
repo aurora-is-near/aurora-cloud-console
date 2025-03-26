@@ -16,6 +16,7 @@ import { updateSiloBridgedToken } from "@/actions/silo-bridged-tokens/update-sil
 import { AUTOMATED_BASE_TOKENS } from "@/constants/base-token"
 import { checkPendingTransaction } from "@/utils/check-pending-silo-config-transaction"
 import { getPendingSiloConfigTransactions } from "@/actions/silo-config-transactions/get-pending-silo-config-transactions"
+import { deployBridgedToken } from "@/actions/deployment/deploy-bridged-token"
 
 type PreviouslyInspectedSilo = Omit<Silo, "inspected_at"> & {
   inspected_at: string
@@ -37,6 +38,10 @@ type RepairSiloResult = {
     numberOfRequestsResolved: number
     numberOfPendingDeployments: number
     numberOfPendingDeploymentsResolved: number
+    tokens: {
+      symbol: string
+      status: SiloConfigTransactionStatus
+    }[]
   } | null
 }
 
@@ -49,6 +54,7 @@ const isPreviouslyInspectedSilo = (
  */
 const resolvePendingBridgedTokens = async (
   silo: Silo,
+  skipIfFailed: boolean,
 ): Promise<RepairSiloResult["pendingBridgedTokens"]> => {
   const [requests, siloBridgedTokens, bridgedTokens] = await Promise.all([
     getSiloBridgedTokenRequests(silo.id),
@@ -107,11 +113,30 @@ const resolvePendingBridgedTokens = async (
     }),
   )
 
+  const tokens: {
+    symbol: string
+    status: SiloConfigTransactionStatus
+  }[] = []
+
+  await Promise.all(
+    siloBridgedTokens.map(async (bridgedToken) => {
+      tokens.push({
+        symbol: bridgedToken.symbol,
+        status: await deployBridgedToken({
+          silo,
+          bridgedToken,
+          skipIfFailed,
+        }),
+      })
+    }),
+  )
+
   return {
     numberOfRequests: requests.length,
     numberOfRequestsResolved,
     numberOfPendingDeployments: pendingSiloBridgedTokens.length,
     numberOfPendingDeploymentsResolved,
+    tokens,
   }
 }
 
@@ -123,14 +148,12 @@ const isAutomatableBaseToken = (baseToken?: string) =>
  */
 const initialiseSilo = async (
   silo: PreviouslyInspectedSilo,
+  skipIfFailed: boolean,
 ): Promise<RepairSiloResult["initialisation"]> => {
-  const isWithin24Hours =
-    Date.now() - new Date(silo.inspected_at).getTime() < 24 * 60 * 60 * 1000
-
   const transactionResults: SiloConfigTransactionStatus[] = await Promise.all([
-    deployDefaultTokens(silo, { skipIfFailed: isWithin24Hours }),
+    deployDefaultTokens(silo, { skipIfFailed }),
     isAutomatableBaseToken(silo.base_token_symbol)
-      ? setBaseToken(silo, { skipIfFailed: isWithin24Hours })
+      ? setBaseToken(silo, { skipIfFailed })
       : "PENDING",
   ])
 
@@ -194,10 +217,13 @@ export const repairSilo = async (silo: Silo): Promise<RepairSiloResult> => {
     }
   }
 
-  const initialisation = await initialiseSilo(silo)
+  const skipIfFailed =
+    Date.now() - new Date(silo.inspected_at).getTime() < 24 * 60 * 60 * 1000
+
+  const initialisation = await initialiseSilo(silo, skipIfFailed)
 
   const [pendingBridgedTokens, pendingTransactions] = await Promise.all([
-    resolvePendingBridgedTokens(silo),
+    resolvePendingBridgedTokens(silo, skipIfFailed),
     resolvePendingTransactions(silo),
   ])
 

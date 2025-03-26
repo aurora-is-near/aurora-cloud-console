@@ -1300,6 +1300,7 @@ export type Database = {
         | "DEPLOY_NEAR"
         | "DEPLOY_ETH"
         | "STORAGE_DEPOSIT"
+        | "DEPLOY_TOKEN"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       user_integration:
         | "onramp"

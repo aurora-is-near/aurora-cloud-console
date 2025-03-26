@@ -78,7 +78,15 @@ export const contractChangerApiClient = {
     token,
   }: {
     siloEngineAccountId: string
-    token: "Near" | "Aurora" | "Usdt" | "Usdc"
+    token:
+      | "Near"
+      | "Aurora"
+      | "Usdt"
+      | "Usdc"
+      | {
+          erc20: string
+          nep141: string
+        }
   }) =>
     request<{ tx_hash?: string }>(
       `/api/v1/contract/${siloEngineAccountId}/erc20`,

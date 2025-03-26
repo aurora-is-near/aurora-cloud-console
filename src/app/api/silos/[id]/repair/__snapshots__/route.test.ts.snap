@@ -12,6 +12,7 @@ exports[`Silo repair route repairs a silo 1`] = `
     "numberOfPendingDeploymentsResolved": 0,
     "numberOfRequests": 0,
     "numberOfRequestsResolved": 0,
+    "tokens": [],
   },
   "pendingTransactions": {
     "numberOfPendingTransactions": 0,

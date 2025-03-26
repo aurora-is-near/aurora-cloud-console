@@ -851,6 +851,12 @@ export const contract = c.router({
             numberOfRequestsResolved: z.number(),
             numberOfPendingDeployments: z.number(),
             numberOfPendingDeploymentsResolved: z.number(),
+            tokens: z.array(
+              z.object({
+                symbol: z.string(),
+                status: SiloConfigTransactionStatus,
+              }),
+            ),
           })
           .nullable(),
       }),
