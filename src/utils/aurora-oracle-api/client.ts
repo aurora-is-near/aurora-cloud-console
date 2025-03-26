@@ -30,7 +30,7 @@ const request = async <T>(endpoint: string, init?: RequestInit): Promise<T> => {
   const data = (await res.json()) as T
 
   if (!res.ok) {
-    throw new Error(`Aurora Oracle API call failed: ${res.status}`)
+    throw new Error(`Aurora Oracle API call failed[${res.status}]: ${endpoint}`)
   }
 
   debug("Aurora Oracle API response", href, JSON.stringify(data, null, 2))

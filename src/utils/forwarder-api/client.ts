@@ -49,7 +49,7 @@ const request = async <T>(
   const resultData = (await res.json()) as T
 
   if (!res.ok) {
-    throw new Error(`Forwarder API call failed: ${res.status}`)
+    throw new Error(`Forwarder API call failed[${res.status}]: ${endpoint}`)
   }
 
   debug("Forwarder API response", href, JSON.stringify(data, null, 2))
