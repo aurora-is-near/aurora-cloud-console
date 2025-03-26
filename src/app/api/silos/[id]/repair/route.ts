@@ -1,14 +1,14 @@
 import { createApiEndpoint } from "@/utils/api"
 import { abort } from "@/utils/abort"
-import { healthcheck } from "@/utils/healthcheck"
+import { repairSilo } from "@/utils/repair"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 
-export const GET = createApiEndpoint("healthcheck", async (_req, ctx) => {
+export const POST = createApiEndpoint("repair", async (_req, ctx) => {
   const silo = await getTeamSilo(ctx.team.id, Number(ctx.params.id))
 
   if (!silo) {
     abort(404)
   }
 
-  return healthcheck(silo)
+  return repairSilo(silo)
 })

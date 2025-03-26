@@ -10,4 +10,11 @@ export const queryKeys = {
     "team-summaries",
     options,
   ],
+  getTeamSiloByKey: (teamKey: string, siloId: number | null) => [
+    "team-silo-by-key",
+    teamKey,
+    siloId,
+  ],
+  getTeamDealsByKey: (teamKey: string) => ["team-deals-by-key", teamKey],
+  getTeamByKey: (teamKey: string) => ["team-by-key", teamKey],
 } as const

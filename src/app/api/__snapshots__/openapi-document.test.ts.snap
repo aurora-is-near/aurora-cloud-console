@@ -1746,23 +1746,123 @@ exports[`OpenAPI Document should be valid 1`] = `
               "application/json": {
                 "schema": {
                   "properties": {
-                    "bridgedTokensDeployed": {
+                    "bridgedTokens": {
                       "additionalProperties": {},
                       "nullable": true,
                     },
-                    "defaultTokensDeployed": {
+                    "defaultTokens": {
                       "properties": {
                         "AURORA": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
                         },
                         "NEAR": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
                         },
                         "USDC": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
                         },
                         "USDt": {
-                          "type": "boolean",
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
                         },
                       },
                       "required": [
@@ -1784,8 +1884,8 @@ exports[`OpenAPI Document should be valid 1`] = `
                   },
                   "required": [
                     "networkStatus",
-                    "defaultTokensDeployed",
-                    "bridgedTokensDeployed",
+                    "defaultTokens",
+                    "bridgedTokens",
                   ],
                   "type": "object",
                 },
@@ -2086,6 +2186,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "enum": [
                         "PENDING",
                         "SUCCESSFUL",
+                        "FAILED",
                       ],
                       "type": "string",
                     },
@@ -2174,6 +2275,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "enum": [
                         "PENDING",
                         "SUCCESSFUL",
+                        "FAILED",
                       ],
                       "type": "string",
                     },
@@ -2262,6 +2364,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                       "enum": [
                         "PENDING",
                         "SUCCESSFUL",
+                        "FAILED",
                       ],
                       "type": "string",
                     },
@@ -2286,6 +2389,166 @@ exports[`OpenAPI Document should be valid 1`] = `
           },
         ],
         "summary": "Enable disable whitelists to allow make transactions or deploy contracts publicly",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/repair": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "repair",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {},
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "initialisation": {
+                      "nullable": true,
+                      "properties": {
+                        "baseTokenSet": {
+                          "enum": [
+                            "PENDING",
+                            "SUCCESSFUL",
+                            "FAILED",
+                          ],
+                          "type": "string",
+                        },
+                        "defaultTokensDeployed": {
+                          "enum": [
+                            "PENDING",
+                            "SUCCESSFUL",
+                            "FAILED",
+                          ],
+                          "type": "string",
+                        },
+                        "isSiloActive": {
+                          "type": "boolean",
+                        },
+                      },
+                      "required": [
+                        "defaultTokensDeployed",
+                        "baseTokenSet",
+                        "isSiloActive",
+                      ],
+                      "type": "object",
+                    },
+                    "pendingBridgedTokens": {
+                      "nullable": true,
+                      "properties": {
+                        "numberOfPendingDeployments": {
+                          "type": "number",
+                        },
+                        "numberOfPendingDeploymentsResolved": {
+                          "type": "number",
+                        },
+                        "numberOfRequests": {
+                          "type": "number",
+                        },
+                        "numberOfRequestsResolved": {
+                          "type": "number",
+                        },
+                        "tokens": {
+                          "items": {
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "PENDING",
+                                  "SUCCESSFUL",
+                                  "FAILED",
+                                ],
+                                "type": "string",
+                              },
+                              "symbol": {
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "symbol",
+                              "status",
+                            ],
+                            "type": "object",
+                          },
+                          "type": "array",
+                        },
+                      },
+                      "required": [
+                        "numberOfRequests",
+                        "numberOfRequestsResolved",
+                        "numberOfPendingDeployments",
+                        "numberOfPendingDeploymentsResolved",
+                        "tokens",
+                      ],
+                      "type": "object",
+                    },
+                    "pendingTransactions": {
+                      "nullable": true,
+                      "properties": {
+                        "numberOfPendingTransactions": {
+                          "type": "number",
+                        },
+                        "numberOfPendingTransactionsResolved": {
+                          "type": "number",
+                        },
+                      },
+                      "required": [
+                        "numberOfPendingTransactions",
+                        "numberOfPendingTransactionsResolved",
+                      ],
+                      "type": "object",
+                    },
+                    "status": {
+                      "enum": [
+                        "ok",
+                        "skipped",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                    "initialisation",
+                    "pendingTransactions",
+                    "pendingBridgedTokens",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Perform various checks and, if necessary, transactions to repair a silo",
         "tags": [
           "silos",
         ],

@@ -66,15 +66,35 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledTimes(3)
 
-    nonBaseTokens.forEach((token) => {
-      expect(
-        mockSupabaseClient.from("silo_config_transactions").insert,
-      ).toHaveBeenCalledWith({
-        silo_id: mockSilo.id,
-        operation: `DEPLOY_${token.toUpperCase()}`,
-        status: "PENDING",
-        transaction_hash: `mock_tx_hash_${token}`,
-      })
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).toHaveBeenCalledWith({
+      target: null,
+      silo_id: mockSilo.id,
+      operation: "DEPLOY_NEAR",
+      status: "PENDING",
+      transaction_hash: "mock_tx_hash_Near",
+    })
+
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).toHaveBeenCalledWith({
+      target: "usdt.tether-token.near",
+      silo_id: mockSilo.id,
+      operation: "DEPLOY_USDT",
+      status: "PENDING",
+      transaction_hash: "mock_tx_hash_Usdt",
+    })
+
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).toHaveBeenCalledWith({
+      target:
+        "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+      silo_id: mockSilo.id,
+      operation: "DEPLOY_USDC",
+      status: "PENDING",
+      transaction_hash: "mock_tx_hash_Usdc",
     })
 
     expect(result).toBe("PENDING")
@@ -118,6 +138,7 @@ describe("deployDefaultTokens", () => {
       expect(
         mockSupabaseClient.from("silo_config_transactions").insert,
       ).toHaveBeenNthCalledWith(i + 1, {
+        target: expect.any(String),
         silo_id: mockSilo.id,
         operation: `DEPLOY_${token.toUpperCase()}`,
         status: "PENDING",
@@ -169,6 +190,7 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
+      target: null,
       operation: "DEPLOY_NEAR",
       silo_id: 1,
       status: "PENDING",
@@ -178,6 +200,8 @@ describe("deployDefaultTokens", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
+      target:
+        "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
       operation: "DEPLOY_USDC",
       silo_id: 1,
       status: "PENDING",
@@ -205,17 +229,37 @@ describe("deployDefaultTokens", () => {
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
-    ).toHaveBeenCalledTimes(nonBaseTokens.length)
+    ).toHaveBeenCalledTimes(3)
 
-    nonBaseTokens.forEach((token) => {
-      expect(
-        mockSupabaseClient.from("silo_config_transactions").insert,
-      ).toHaveBeenCalledWith({
-        silo_id: mockSilo.id,
-        operation: `DEPLOY_${token.toUpperCase()}`,
-        status: "PENDING",
-        transaction_hash: `mock_tx_hash_${token}`,
-      })
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).toHaveBeenCalledWith({
+      target: null,
+      silo_id: mockSilo.id,
+      operation: "DEPLOY_NEAR",
+      status: "PENDING",
+      transaction_hash: "mock_tx_hash_Near",
+    })
+
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).toHaveBeenCalledWith({
+      target: "usdt.tether-token.near",
+      silo_id: mockSilo.id,
+      operation: "DEPLOY_USDT",
+      status: "PENDING",
+      transaction_hash: "mock_tx_hash_Usdt",
+    })
+
+    expect(
+      mockSupabaseClient.from("silo_config_transactions").insert,
+    ).toHaveBeenCalledWith({
+      target:
+        "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+      silo_id: mockSilo.id,
+      operation: "DEPLOY_USDC",
+      status: "PENDING",
+      transaction_hash: "mock_tx_hash_Usdc",
     })
 
     expect(mockTxStatus).not.toHaveBeenCalled()
@@ -251,7 +295,7 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).not.toHaveBeenCalled()
 
-    expect(mockTxStatus).toHaveBeenCalledTimes(nonBaseTokens.length)
+    expect(mockTxStatus).toHaveBeenCalledTimes(5)
 
     Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(mockTxStatus).toHaveBeenNthCalledWith(
@@ -294,7 +338,7 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).not.toHaveBeenCalled()
 
-    expect(mockTxStatus).toHaveBeenCalledTimes(nonBaseTokens.length)
+    expect(mockTxStatus).toHaveBeenCalledTimes(5)
 
     Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(mockTxStatus).toHaveBeenNthCalledWith(
@@ -307,7 +351,7 @@ describe("deployDefaultTokens", () => {
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").update,
-    ).toHaveBeenCalledTimes(nonBaseTokens.length)
+    ).toHaveBeenCalledTimes(5)
 
     Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(
@@ -343,7 +387,7 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).not.toHaveBeenCalled()
 
-    expect(mockTxStatus).toHaveBeenCalledTimes(nonBaseTokens.length)
+    expect(mockTxStatus).toHaveBeenCalledTimes(5)
 
     Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(mockTxStatus).toHaveBeenNthCalledWith(
@@ -356,7 +400,7 @@ describe("deployDefaultTokens", () => {
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").update,
-    ).toHaveBeenCalledTimes(nonBaseTokens.length)
+    ).toHaveBeenCalledTimes(5)
 
     Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(

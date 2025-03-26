@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { PencilSquareIcon } from "@heroicons/react/24/solid"
 
+import { useQueries } from "@tanstack/react-query"
 import { Button } from "@/uikit"
 import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
@@ -13,13 +14,11 @@ import type {
   SiloWhitelistType,
 } from "@/types/types"
 
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { SiloContext } from "@/providers/SiloProvider"
+import { getSiloWhitelist } from "@/actions/silo-whitelist/get-silo-whitelist"
 import { ConfigurationItemsCard } from "./ConfigurationItemsCard"
 import { EditSiloPermissionsModal } from "./EditSiloPermissionsModal"
-
-type Props = {
-  silo: Silo
-  whitelists: Record<SiloWhitelistType, SiloWhitelistAddress[]>
-}
 
 const useDisplayValue = (
   silo: Silo,
@@ -40,11 +39,26 @@ const useDisplayValue = (
   return `${whitelist.length} whitelisted addresses`
 }
 
-export const EditPermissions = ({ silo, whitelists }: Props) => {
+export const EditPermissions = () => {
   const { openModal } = useModals()
+  const { silo } = useRequiredContext(SiloContext)
   const [currentModal, setCurrentModal] = useState<SiloWhitelistType | null>(
     null,
   )
+
+  const [{ data: makeTxsWhitelist = [] }, { data: deployTxsWhitelist = [] }] =
+    useQueries({
+      queries: [
+        {
+          queryKey: ["silo-whitelist", silo.id, "MAKE_TRANSACTION"],
+          queryFn: () => getSiloWhitelist(silo.id, "MAKE_TRANSACTION"),
+        },
+        {
+          queryKey: ["silo-whitelist", silo.id, "DEPLOY_CONTRACT"],
+          queryFn: () => getSiloWhitelist(silo.id, "DEPLOY_CONTRACT"),
+        },
+      ],
+    })
 
   const { flags } = useFeatureFlags()
   const isWhitelistsEditingEnabled = flags.silo_whitelist_permissions
@@ -52,13 +66,13 @@ export const EditPermissions = ({ silo, whitelists }: Props) => {
   const displayTxsWhitelistLabel = useDisplayValue(
     silo,
     "MAKE_TRANSACTION",
-    whitelists.MAKE_TRANSACTION,
+    makeTxsWhitelist,
   )
 
   const displayDeployWhitelistLabel = useDisplayValue(
     silo,
     "DEPLOY_CONTRACT",
-    whitelists.DEPLOY_CONTRACT,
+    deployTxsWhitelist,
   )
 
   return (
@@ -66,7 +80,14 @@ export const EditPermissions = ({ silo, whitelists }: Props) => {
       <EditSiloPermissionsModal
         silo={silo}
         whitelistType={currentModal}
-        addresses={currentModal ? whitelists[currentModal] : []}
+        addresses={
+          currentModal
+            ? {
+                MAKE_TRANSACTION: makeTxsWhitelist,
+                DEPLOY_CONTRACT: deployTxsWhitelist,
+              }[currentModal]
+            : []
+        }
       />
 
       <ConfigurationItemsCard

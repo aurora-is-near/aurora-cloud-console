@@ -1,10 +1,8 @@
 import { ReactNode } from "react"
-import { notFound } from "next/navigation"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
 import { SiloSelect } from "@/components/SiloSelect"
-import { getTeamDealsByKey } from "@/actions/team-deals/get-team-deals-by-key"
-import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
 import { getAuthUser } from "@/actions/auth-user/get-auth-user"
+import { SiloProvider } from "@/providers/SiloProvider"
 
 const Layout = async ({
   children,
@@ -13,32 +11,19 @@ const Layout = async ({
   children: ReactNode
   params: { id: string; teamKey: string }
 }) => {
-  const [authUser, silos, deals] = await Promise.all([
-    getAuthUser(),
-    getTeamSilosByKey(teamKey),
-    getTeamDealsByKey(teamKey),
-  ])
-
-  const silo = silos.find((siloPredicate) => siloPredicate.id === Number(id))
-
-  // Protect against unauthorized access to another team's silo
-  if (!silo) {
-    notFound()
-  }
+  const siloId = Number(id)
+  const authUser = await getAuthUser()
 
   return (
     <MainDashboardLayout
       teamKey={teamKey}
-      silo={silo}
-      deals={deals}
+      siloId={siloId}
       authUser={authUser}
-      sidebarAction={
-        silos.length > 1 ? (
-          <SiloSelect defaultValue={Number(id)} silos={silos} />
-        ) : undefined
-      }
+      sidebarAction={<SiloSelect teamKey={teamKey} defaultValue={Number(id)} />}
     >
-      {children}
+      <SiloProvider teamKey={teamKey} siloId={siloId}>
+        {children}
+      </SiloProvider>
     </MainDashboardLayout>
   )
 }
