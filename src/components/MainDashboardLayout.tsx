@@ -12,6 +12,7 @@ import {
   GasAbstraction,
   Integrations,
   Monitoring,
+  Trisolaris,
   Onramp,
   Oracle,
 } from "../../public/static/v2/images/menuIcons"
@@ -118,6 +119,12 @@ export const MainDashboardLayout = ({
                 name: "Block explorer",
                 href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
                 icon: <BlockExplorer />,
+              },
+              {
+                variant: "secondary",
+                name: "Trisolaris",
+                href: `/dashboard/${teamKey}${siloPrefix}/trisolaris`,
+                icon: <Trisolaris />,
               },
             ],
           },
