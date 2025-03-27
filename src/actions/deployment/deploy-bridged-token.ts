@@ -2,16 +2,10 @@
 
 import { JsonRpcProvider } from "ethers"
 import { performSiloConfigTransaction } from "@/actions/deployment/perform-silo-config-transaction"
-import {
-  BridgedToken,
-  Silo,
-  SiloBridgedToken,
-  SiloConfigTransactionStatus,
-} from "@/types/types"
+import { BridgedToken, Silo, SiloConfigTransactionStatus } from "@/types/types"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import { checkTokenByContractAddress } from "@/utils/check-token-contract"
 import { getStorageBalanceByAddress } from "@/utils/near-storage"
-import { updateSiloBridgedToken } from "@/actions/silo-bridged-tokens/update-silo-bridged-token"
 import { BASE_TOKEN_PLACEHOLDER_ADDRESS } from "@/constants/base-token"
 
 const checkContract = async ({
@@ -24,7 +18,7 @@ const checkContract = async ({
   silo: Silo
   bridgedToken: BridgedToken
   skipIfFailed?: boolean
-}) => {
+}): Promise<SiloConfigTransactionStatus> => {
   const nearAccountId = bridgedToken.near_address
   const auroraAddress = bridgedToken.aurora_address
 
@@ -32,7 +26,7 @@ const checkContract = async ({
   if (
     silo.base_token_symbol.toUpperCase() === bridgedToken.symbol.toUpperCase()
   ) {
-    return true
+    return "SUCCESSFUL"
   }
 
   // If there is no Aurora address we can't mirror the token, or check if the
@@ -78,9 +72,9 @@ const checkStorageBalance = async ({
   skipIfFailed,
 }: {
   silo: Silo
-  bridgedToken: SiloBridgedToken
+  bridgedToken: BridgedToken
   skipIfFailed?: boolean
-}) => {
+}): Promise<SiloConfigTransactionStatus> => {
   const nearAccountId = bridgedToken.near_address
 
   // Covers the case where we are checking the base token (i.e. NEAR).
@@ -122,7 +116,7 @@ export const deployBridgedToken = async ({
   skipIfFailed,
 }: {
   silo: Silo
-  bridgedToken: SiloBridgedToken
+  bridgedToken: BridgedToken
   skipIfFailed?: boolean
 }): Promise<SiloConfigTransactionStatus> => {
   const provider = new JsonRpcProvider(silo.rpc_url)
@@ -143,14 +137,6 @@ export const deployBridgedToken = async ({
 
   if (statuses.includes("FAILED")) {
     return "FAILED"
-  }
-
-  // If the token was not already marked as deployed and the transactions to
-  // deploy it have now been successful, mark it as deployed.
-  if (!bridgedToken.is_deployment_pending) {
-    await updateSiloBridgedToken(silo.id, bridgedToken.id, {
-      isDeploymentPending: false,
-    })
   }
 
   return "SUCCESSFUL"

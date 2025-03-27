@@ -120,13 +120,23 @@ const resolvePendingBridgedTokens = async (
 
   await Promise.all(
     siloBridgedTokens.map(async (bridgedToken) => {
+      const status = await deployBridgedToken({
+        silo,
+        bridgedToken,
+        skipIfFailed,
+      })
+
+      // If the token was not already marked as deployed and the transactions to
+      // deploy it have now been successful, mark it as deployed.
+      if (status === "SUCCESSFUL" && bridgedToken.is_deployment_pending) {
+        await updateSiloBridgedToken(silo.id, bridgedToken.id, {
+          isDeploymentPending: false,
+        })
+      }
+
       tokens.push({
         symbol: bridgedToken.symbol,
-        status: await deployBridgedToken({
-          silo,
-          bridgedToken,
-          skipIfFailed,
-        }),
+        status,
       })
     }),
   )
