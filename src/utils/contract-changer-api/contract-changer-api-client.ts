@@ -86,7 +86,7 @@ export const contractChangerApiClient = {
       | "Usdt"
       | "Usdc"
       | {
-          erc20: string
+          source_contract_id: string
           nep141: string
         }
   }) =>
