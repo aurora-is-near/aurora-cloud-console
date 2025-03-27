@@ -8,7 +8,7 @@ import {
 import { BASE_TOKEN_PLACEHOLDER_ADDRESS } from "@/constants/base-token"
 
 type CustomChain = {
-  id: string
+  id: number
   name: string
   network: string
   nativeCurrency: {
@@ -93,7 +93,7 @@ const setCustomTokensParam = (
 
 const setCustomChainsParam = (url: URL, { silo }: { silo: Silo }) => {
   const customChain: CustomChain = {
-    id: String(silo.chain_id),
+    id: silo.chain_id,
     name: silo.name,
     network: silo.name,
     nativeCurrency: {
