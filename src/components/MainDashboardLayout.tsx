@@ -1,12 +1,11 @@
 "use client"
 
-import { ReactNode } from "react"
+import { ReactNode, useContext } from "react"
 import { HomeIcon } from "@heroicons/react/20/solid"
 import { User } from "@supabase/supabase-js"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { useTeamDeals } from "@/hooks/useTeamDeals"
-import { TeamProvider } from "@/providers/TeamProvider"
-import { useTeamSilo } from "@/hooks/useTeamSilo"
+import { SiloContext } from "@/providers/SiloProvider"
 import {
   BlockExplorer,
   Configuration,
@@ -34,14 +33,14 @@ export const MainDashboardLayout = ({
 }: MainDashboardLayoutProps) => {
   const siloPrefix = siloId ? `/silos/${siloId}` : ""
   const { data: deals } = useTeamDeals(teamKey)
-  const { data: silo, isPending: isSiloPending } = useTeamSilo(teamKey, siloId)
+  const { silo } = useContext(SiloContext) ?? {}
 
   return (
     <DashboardLayout
       teamKey={teamKey}
       authUser={authUser}
       sidebarMenu={{
-        heading: isSiloPending ? <>&nbsp;</> : (silo?.name ?? "Explore Aurora"),
+        heading: silo?.name ?? "Explore Aurora",
         action: sidebarAction,
         sections: [
           {
@@ -125,7 +124,7 @@ export const MainDashboardLayout = ({
         ],
       }}
     >
-      <TeamProvider teamKey={teamKey}>{children}</TeamProvider>
+      {children}
     </DashboardLayout>
   )
 }
