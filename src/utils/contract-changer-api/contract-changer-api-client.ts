@@ -41,7 +41,9 @@ const request = async <T>(
   })
 
   if (!res.ok) {
-    throw new Error(`Contract Changer API call failed: ${res.status}`)
+    throw new Error(
+      `Contract Changer API call failed [${res.status}]: ${endpoint}`,
+    )
   }
 
   const resultData = (await res.json()) as T

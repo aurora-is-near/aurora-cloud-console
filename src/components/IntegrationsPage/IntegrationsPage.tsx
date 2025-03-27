@@ -1,9 +1,17 @@
+"use client"
+
 import Image from "next/image"
+import { useQueries } from "@tanstack/react-query"
+import { useContext } from "react"
 import Hero from "@/components/Hero/Hero"
 import { SubTitle } from "@/components/Subtitle/Subtitle"
 import { FeatureCard } from "@/components/FeatureCard/FeatureCard"
 import { DashboardPage } from "@/components/DashboardPage"
-import { AuroraOracle } from "@/types/oracle"
+import { queryKeys } from "@/actions/query-keys"
+import { SiloContext } from "@/providers/SiloProvider"
+import { getSiloOracle } from "@/actions/silo-oracle/get-silo-oracle"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
 import {
   BlockExplorer,
   CexWithdrawals,
@@ -24,15 +32,18 @@ type Integration = {
 
 const INTEGRATIONS_CONTAINER_CLASSNAME = "grid md:grid-cols-3 gap-4 mt-5"
 
-export const IntegrationsPage = ({
-  teamKey,
-  siloId,
-  oracle,
-}: {
-  teamKey: string
-  siloId?: number
-  oracle?: AuroraOracle
-}) => {
+export const IntegrationsPage = () => {
+  const { team } = useRequiredContext(TeamContext)
+  const { silo } = useContext(SiloContext) ?? {}
+  const [{ data: oracle }] = useQueries({
+    queries: [
+      {
+        queryKey: queryKeys.getSiloOracle(silo?.id ?? null),
+        queryFn: () => (silo ? getSiloOracle(silo.id) : null),
+      },
+    ],
+  })
+
   const { address: oracleAddress } = oracle?.contract ?? {}
 
   const nativeIntegrations: Integration[] = [
@@ -117,11 +128,8 @@ export const IntegrationsPage = ({
                 checked={checked}
                 icon={icon}
                 link={link
-                  ?.replace("[teamKey]", teamKey)
-                  .replace(
-                    "/silos/[id]",
-                    siloId ? `/silos/${siloId?.toString()}` : "",
-                  )}
+                  ?.replace("[teamKey]", team.team_key)
+                  .replace("/silos/[id]", silo?.id ? `/silos/${silo.id}` : "")}
               />
             ),
           )}

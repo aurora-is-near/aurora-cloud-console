@@ -43,7 +43,7 @@ const IntegrationBox: React.FC<IntegrationBoxProps> = ({
     bridge_widget:
       "Bridge assets between Ethereum, Near, Aurora and your chain. Configure your bridge widget and embed it.",
     cex_withdrawals_widget:
-      "Access reliable data from over 95 top publishers and integrate precise pricing data.",
+      "Allow your users to deposit assets directly from centralized exchanges to your chain.",
     block_explorer: "Enjoy a blockchain explorer dedicated to your chain.",
     intense_support:
       "Get your chain listed on Intents, the first cross chain DEX leveraging chain abstraction and connect to Near, Solana, Base, Ethereum and all the virtual chains.",

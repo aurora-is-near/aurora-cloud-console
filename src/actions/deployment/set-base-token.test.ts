@@ -9,6 +9,9 @@ import {
 jest.mock("@/utils/contract-changer-api/contract-changer-api-client", () => ({
   contractChangerApiClient: {
     setBaseToken: jest.fn(() => ({ tx_hash: "mock_tx_hash" })),
+    makeStorageDeposit: jest.fn(() => ({
+      tx_hash: "mock_storage_deposit_tx_hash",
+    })),
   },
 }))
 
