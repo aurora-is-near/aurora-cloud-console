@@ -481,15 +481,23 @@ describe("Silos repair route", () => {
 
     expect(
       mockSupabaseClient.from("silo_bridged_tokens").update,
-    ).toHaveBeenCalledTimes(1)
+    ).toHaveBeenCalledTimes(2)
+
     expect(silosBridgedTokensUpdateQueries.eq).toHaveBeenCalledWith(
       "silo_id",
       mockSilo.id,
     )
+
     expect(silosBridgedTokensUpdateQueries.eq).toHaveBeenCalledWith(
       "bridged_token_id",
       mockBridgedTokens[0].id,
     )
+
+    expect(silosBridgedTokensUpdateQueries.eq).toHaveBeenCalledWith(
+      "bridged_token_id",
+      mockBridgedTokens[1].id,
+    )
+
     expect(
       mockSupabaseClient.from("silo_bridged_tokens").update,
     ).toHaveBeenCalledWith({

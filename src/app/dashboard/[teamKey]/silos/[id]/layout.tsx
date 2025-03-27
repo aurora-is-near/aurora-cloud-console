@@ -15,16 +15,18 @@ const Layout = async ({
   const authUser = await getAuthUser()
 
   return (
-    <MainDashboardLayout
-      teamKey={teamKey}
-      siloId={siloId}
-      authUser={authUser}
-      sidebarAction={<SiloSelect teamKey={teamKey} defaultValue={Number(id)} />}
-    >
-      <SiloProvider teamKey={teamKey} siloId={siloId}>
+    <SiloProvider teamKey={teamKey} siloId={siloId}>
+      <MainDashboardLayout
+        teamKey={teamKey}
+        siloId={siloId}
+        authUser={authUser}
+        sidebarAction={
+          <SiloSelect teamKey={teamKey} defaultValue={Number(id)} />
+        }
+      >
         {children}
-      </SiloProvider>
-    </MainDashboardLayout>
+      </MainDashboardLayout>
+    </SiloProvider>
   )
 }
 
