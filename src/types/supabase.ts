@@ -899,7 +899,6 @@ export type Database = {
           is_deploy_contracts_public: boolean
           is_make_txs_public: boolean
           name: string
-          network: string
           network_logo: string
           network_logo_dark: string
           replenish_amount: number
@@ -933,7 +932,6 @@ export type Database = {
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
           name: string
-          network?: string
           network_logo?: string
           network_logo_dark?: string
           replenish_amount?: number
@@ -967,7 +965,6 @@ export type Database = {
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
           name?: string
-          network?: string
           network_logo?: string
           network_logo_dark?: string
           replenish_amount?: number

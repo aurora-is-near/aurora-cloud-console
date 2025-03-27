@@ -15,7 +15,6 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   genesis: "1695870567776",
   rpc_url: "testnet.aurora.dev",
   engine_version: "2.0.22",
-  network: "public",
   grafana_network_key: "testnet",
   gas_collection_address: null,
   gas_price: 0,
