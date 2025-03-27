@@ -1,5 +1,3 @@
-import { notFound } from "next/navigation"
-
 import Contact from "@/components/Contact"
 import { DashboardPage } from "@/components/DashboardPage"
 import { getRelayerAccount } from "@/utils/relayer"
