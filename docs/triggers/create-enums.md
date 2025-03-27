@@ -29,6 +29,7 @@ SELECT add_values_to_enum(
     'deals:read',
     'deals:write',
     'silos:read',
+    'silos:write',
     'users:read',
     'users:write',
     'lists:read',

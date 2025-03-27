@@ -13,7 +13,7 @@ type MainMenuProps = {
   authUser: User | null
 }
 
-export const MainMenu = async ({ menuItems, authUser }: MainMenuProps) => {
+export const MainMenu = ({ menuItems, authUser }: MainMenuProps) => {
   const userTeams: string[] = authUser?.user_metadata.teams || []
   const homeRoute =
     authUser && userTeams.length === 1 && !isAdminUser(authUser?.email)

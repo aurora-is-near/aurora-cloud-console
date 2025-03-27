@@ -9,6 +9,9 @@ import {
 jest.mock("@/utils/contract-changer-api/contract-changer-api-client", () => ({
   contractChangerApiClient: {
     setBaseToken: jest.fn(() => ({ tx_hash: "mock_tx_hash" })),
+    makeStorageDeposit: jest.fn(() => ({
+      tx_hash: "mock_storage_deposit_tx_hash",
+    })),
   },
 }))
 
@@ -36,12 +39,13 @@ describe("setBaseToken", () => {
 
   it("performs the transaction to set a base token", async () => {
     const result = await setBaseToken(mockSilo)
+    const baseTokenAccountId =
+      "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near"
 
     expect(contractChangerApiClient.setBaseToken).toHaveBeenCalledTimes(1)
     expect(contractChangerApiClient.setBaseToken).toHaveBeenCalledWith({
       siloEngineAccountId: mockSilo.engine_account,
-      baseTokenAccountId:
-        "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
+      baseTokenAccountId,
     })
 
     expect(
@@ -51,6 +55,7 @@ describe("setBaseToken", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
+      target: baseTokenAccountId,
       silo_id: mockSilo.id,
       operation: "SET_BASE_TOKEN",
       status: "PENDING",

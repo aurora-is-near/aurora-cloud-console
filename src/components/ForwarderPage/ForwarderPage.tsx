@@ -1,25 +1,25 @@
+"use client"
+
 import Image from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
+import { useContext } from "react"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
-import { Silo } from "@/types/types"
 import { ForwarderWidgetOpenButton } from "@/components/ForwarderOpenButton"
 import { LinkButton } from "@/components/LinkButton"
 import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
 import { WidgetShareCard } from "@/components/WidgetShareCard"
-import { ForwarderAboutTab } from "./ForwarderAboutTab"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
+import { SiloContext } from "@/providers/SiloProvider"
 import ForwarderConfigurationTab from "./ForwarderConfigurationTab"
+import { ForwarderAboutTab } from "./ForwarderAboutTab"
 
-interface ForwarderPageProps {
-  teamKey: string
-  silo?: Silo | null
-}
+export const ForwarderPage = () => {
+  const { team } = useRequiredContext(TeamContext)
+  const { silo } = useContext(SiloContext) ?? {}
 
-export const ForwarderPage: React.FC<ForwarderPageProps> = ({
-  teamKey,
-  silo = null,
-}) => {
   const tabs = [
     {
       title: "About",
@@ -38,7 +38,7 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
         content: (
           <WidgetEmbedCodeCard
             siloId={silo.id}
-            teamKey={teamKey}
+            teamKey={team.team_key}
             widgetName="forwarder"
           />
         ),
@@ -48,7 +48,7 @@ export const ForwarderPage: React.FC<ForwarderPageProps> = ({
         content: (
           <WidgetShareCard
             siloId={silo.id}
-            teamKey={teamKey}
+            teamKey={team.team_key}
             widgetName="forwarder"
           />
         ),

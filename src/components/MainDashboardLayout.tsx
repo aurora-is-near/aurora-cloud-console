@@ -1,9 +1,11 @@
-import { ReactNode } from "react"
+"use client"
+
+import { ReactNode, useContext } from "react"
 import { HomeIcon } from "@heroicons/react/20/solid"
 import { User } from "@supabase/supabase-js"
 import { DashboardLayout } from "@/components/DashboardLayout"
-import { Deal, Silo } from "@/types/types"
-
+import { useTeamDeals } from "@/hooks/useTeamDeals"
+import { SiloContext } from "@/providers/SiloProvider"
 import {
   BlockExplorer,
   Configuration,
@@ -16,22 +18,22 @@ import {
 
 type MainDashboardLayoutProps = {
   teamKey: string
-  silo?: Silo
-  deals?: Deal[]
+  siloId?: number | null
   authUser: User | null
   children: ReactNode
   sidebarAction?: JSX.Element
 }
 
-export const MainDashboardLayout = async ({
+export const MainDashboardLayout = ({
   teamKey,
-  silo,
-  deals = [],
+  siloId = null,
   authUser,
   children,
   sidebarAction,
 }: MainDashboardLayoutProps) => {
-  const siloPrefix = silo ? `/silos/${silo.id}` : ""
+  const siloPrefix = siloId ? `/silos/${siloId}` : ""
+  const { data: deals } = useTeamDeals(teamKey)
+  const { silo } = useContext(SiloContext) ?? {}
 
   return (
     <DashboardLayout
@@ -48,7 +50,7 @@ export const MainDashboardLayout = async ({
                 href: `/dashboard/${teamKey}${siloPrefix}`,
                 icon: <HomeIcon />,
               },
-              ...(silo
+              ...(siloId
                 ? [
                     {
                       name: "Monitoring",
@@ -66,7 +68,7 @@ export const MainDashboardLayout = async ({
                 name: "Gas abstraction",
                 href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction`,
                 icon: <GasAbstraction />,
-                items: deals.map((deal) => ({
+                items: deals?.map((deal) => ({
                   name: deal.name,
                   href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction/${deal.id}`,
                 })),

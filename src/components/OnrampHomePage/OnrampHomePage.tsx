@@ -1,17 +1,20 @@
+"use client"
+
+import { useContext } from "react"
 import { FeatureCTAList } from "@/components/FeatureCTAList"
 import { FeatureCTA } from "@/components/FeatureCTA"
 import { DashboardPage } from "@/components/DashboardPage"
-import { Silo } from "@/types/types"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
+import { SiloContext } from "@/providers/SiloProvider"
 import { OnrampHomePageHero } from "./OnrampHomePageHero"
 
-type OnrampHomePageProps = {
-  teamKey: string
-  silo?: Silo | null
-}
+export const OnrampHomePage = () => {
+  const { team } = useRequiredContext(TeamContext)
+  const { silo } = useContext(SiloContext) ?? {}
 
-export const OnrampHomePage = ({ teamKey, silo }: OnrampHomePageProps) => {
   const siloPrefix = silo ? `/silos/${silo.id}` : ""
-  const linkPrefix = `/dashboard/${teamKey}${siloPrefix}/onramp`
+  const linkPrefix = `/dashboard/${team.team_key}${siloPrefix}/onramp`
 
   return (
     <DashboardPage>

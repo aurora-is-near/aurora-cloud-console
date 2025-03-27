@@ -12,7 +12,7 @@ const Page = async ({
     return redirect(`/dashboard/${teamKey}`)
   }
 
-  return redirect(`/dashboard/${teamKey}/silos/${firstSilo.id}/monitoring`)
+  return redirect(`/dashboard/${teamKey}/silos/${firstSilo.id}`)
 }
 
 export default Page

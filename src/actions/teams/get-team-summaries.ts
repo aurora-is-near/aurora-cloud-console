@@ -1,5 +1,6 @@
 "use server"
 
+import { User } from "@supabase/supabase-js"
 import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { TeamSummary } from "@/types/types"
@@ -9,6 +10,33 @@ type GetTeamSummariesOptions = {
   page?: number
   limit?: number
   searchQuery?: string
+}
+
+const getBaseQuery = (user: User, from: number, to: number) => {
+  const supabase = createAdminSupabaseClient()
+
+  // For admin users we do not filter on user ID
+  if (isAdminUser(user.email)) {
+    return supabase
+      .from("teams")
+      .select(
+        `id, name, team_key, users_teams(user_id), silos_teams(silo_id)`,
+        { count: "exact" },
+      )
+      .order("id", { ascending: true })
+      .range(from, to)
+  }
+
+  // For non-admin users we do filter on user ID
+  return supabase
+    .from("teams")
+    .select(
+      `id, name, team_key, users_teams(user_id), silos_teams(silo_id), users!inner(user_id)`,
+      { count: "exact" },
+    )
+    .order("id", { ascending: true })
+    .eq("users.user_id", user.id)
+    .range(from, to)
 }
 
 export const getTeamSummaries = async ({
@@ -26,23 +54,10 @@ export const getTeamSummaries = async ({
     return { teams: [], total: 0 }
   }
 
-  const supabase = createAdminSupabaseClient()
-
   const from = (page - 1) * limit
   const to = from + limit - 1
 
-  let query = supabase
-    .from("teams")
-    .select(
-      "id, name, team_key, users_teams(user_id), silos_teams(silo_id), users(user_id)",
-      { count: "exact" },
-    )
-    .order("id", { ascending: true })
-    .range(from, to)
-
-  if (!isAdminUser(user.email)) {
-    query = query.eq("users.user_id", user.id)
-  }
+  let query = getBaseQuery(user, from, to)
 
   if (searchQuery?.trim()) {
     query = query.ilike("name", `%${searchQuery}%`)

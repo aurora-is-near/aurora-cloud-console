@@ -8,7 +8,7 @@ import { SidebarMenuItem } from "@/components/menu/SidebarMenuItem"
 import Heading from "../Heading"
 
 export type SidebarMenuProps = {
-  heading?: string
+  heading?: string | JSX.Element
   action?: JSX.Element
   sections: MenuSection[]
 }

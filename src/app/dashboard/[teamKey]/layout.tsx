@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
 import ContactModal from "@/components/ContactModal"
+import { TeamProvider } from "@/providers/TeamProvider"
 
 const Layout = ({
   children,
@@ -9,10 +10,10 @@ const Layout = ({
   params: { teamKey: string }
 }) => {
   return (
-    <>
+    <TeamProvider teamKey={teamKey}>
       {children}
       <ContactModal teamKey={teamKey} />
-    </>
+    </TeamProvider>
   )
 }
 
