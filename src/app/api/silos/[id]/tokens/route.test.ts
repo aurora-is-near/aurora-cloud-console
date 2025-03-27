@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { ethers } from "ethers"
 import { GET } from "./route"
 import {
   createSelect,
@@ -11,6 +12,7 @@ import { invokeApiHandler } from "../../../../../../test-utils/invoke-api-handle
 import { createMockSilo } from "../../../../../../test-utils/factories/silo-factory"
 import { createMockBridgedToken } from "../../../../../../test-utils/factories/bridged-token-factory"
 
+jest.mock("ethers")
 jest.mock("../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
@@ -30,6 +32,11 @@ describe("Silo tokens route", () => {
     mockSupabaseClient
       .from("silo_bridged_tokens")
       .select.mockImplementation(() => createSelect())
+    ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+      symbol: () => {
+        throw new Error("Not implemented")
+      },
+    }))
   })
 
   describe("GET", () => {
@@ -106,6 +113,51 @@ describe("Silo tokens route", () => {
         items: [],
         total: 0,
       })
+    })
+  })
+
+  it("checks if any tokens still marked as pending have subsequently been deployed", async () => {
+    const siloId = 1
+    const mockToken = {
+      ...createMockBridgedToken(),
+      silo_bridged_tokens: [{ silo_id: siloId, is_deployment_pending: true }],
+    }
+
+    mockSupabaseClient
+      .from("silos")
+      .select.mockImplementation(() => createSelect(createMockSilo()))
+
+    mockSupabaseClient
+      .from("bridged_tokens")
+      .select.mockImplementation(() => createSelect([mockToken]))
+
+    mockSupabaseClient
+      .from("silo_bridged_tokens")
+      .select.mockImplementation(() => createSelect([mockToken]))
+    ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+      symbol: () => mockToken.symbol,
+    }))
+
+    const res = await invokeApiHandler("GET", "/api/silos/1/tokens", GET)
+
+    expect(res).toSatisfyApiSpec()
+    expect(res.body).toEqual({
+      total: 1,
+      items: [
+        expect.objectContaining({
+          isDeploymentPending: false,
+        }),
+      ],
+    })
+
+    expect(
+      mockSupabaseClient.from("silo_bridged_tokens").update,
+    ).toHaveBeenCalledTimes(1)
+
+    expect(
+      mockSupabaseClient.from("silo_bridged_tokens").update,
+    ).toHaveBeenCalledWith({
+      is_deployment_pending: false,
     })
   })
 })
