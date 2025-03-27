@@ -12,9 +12,9 @@ import {
   GasAbstraction,
   Integrations,
   Monitoring,
-  Trisolaris,
   Onramp,
   Oracle,
+  Trisolaris,
 } from "../../public/static/v2/images/menuIcons"
 
 type MainDashboardLayoutProps = {
