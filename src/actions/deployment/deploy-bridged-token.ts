@@ -58,7 +58,7 @@ const checkContract = async ({
       contractChangerApiClient.mirrorErc20Token({
         siloEngineAccountId: silo.engine_account,
         token: {
-          erc20: auroraAddress,
+          source_contract_id: "aurora",
           nep141: nearAccountId,
         },
       }),

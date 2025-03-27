@@ -67,7 +67,7 @@ describe("deployDefaultTokens", () => {
     expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledWith({
       siloEngineAccountId: mockSilo.engine_account,
       token: {
-        erc20: bridgedToken.aurora_address,
+        source_contract_id: "aurora",
         nep141: bridgedToken.near_address,
       },
     })
