@@ -6,6 +6,7 @@ import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { useContext, useState } from "react"
 import { CheckIcon } from "@heroicons/react/24/solid"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
@@ -17,40 +18,49 @@ import { RequestReceivedPopup } from "@/components/IntentsPage/RequestReceivedPo
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 import { SiloContext } from "@/providers/SiloProvider"
+import { queryKeys } from "@/actions/query-keys"
 import { NearIntents } from "../../../public/static/v2/images/icons"
 
 export const IntentsPage = () => {
   const { team } = useRequiredContext(TeamContext)
   const { silo } = useContext(SiloContext) ?? {}
-  const [isRequestingIntegration, setIsRequestingIntegration] = useState(false)
-  const [isIntegrationRequested, setIsIntegrationRequested] = useState(false)
   const router = useRouter()
+  const queryClient = useQueryClient()
+  const [showPopup, setShowPopup] = useState(false)
 
-  const onRequestIntegration = async () => {
-    if (!silo) {
-      return
-    }
+  const { data: integrationStatus } = useQuery({
+    queryKey: queryKeys.getIntentsIntegrationStatus(silo?.id ?? null),
+    queryFn: async () => silo?.intents_integration_status ?? null,
+    enabled: !!silo,
+  })
 
-    setIsRequestingIntegration(true)
+  const { mutate: requestIntegration, isPending: isRequestingIntegration } =
+    useMutation({
+      mutationFn: async () => {
+        if (!silo) {
+          return null
+        }
 
-    try {
-      const updatedSilo = await requestIntentsIntegration(team, silo)
+        return requestIntentsIntegration(team, silo)
+      },
+      onSuccess: (updatedSilo) => {
+        if (updatedSilo?.intents_integration_status !== "REQUESTED") {
+          toast.error("Failed to request integration")
 
-      if (updatedSilo.intents_integration_status !== "REQUESTED") {
+          return
+        }
+
+        queryClient.setQueryData(
+          queryKeys.getIntentsIntegrationStatus(silo?.id ?? null),
+          "REQUESTED",
+        )
+        router.refresh()
+        setShowPopup(true)
+      },
+      onError: () => {
         toast.error("Failed to request integration")
-        setIsRequestingIntegration(false)
-
-        return
-      }
-
-      setIsRequestingIntegration(false)
-      setIsIntegrationRequested(true)
-      router.refresh()
-    } catch (error) {
-      toast.error("Failed to request integration")
-      setIsRequestingIntegration(false)
-    }
-  }
+      },
+    })
 
   const tabs = [
     {
@@ -110,16 +120,16 @@ export const IntentsPage = () => {
           />
         }
       >
-        {isIntegrationRequested && (
+        {showPopup && (
           <RequestReceivedPopup
             link={`/dashboard/${team.team_key}/silos/${silo?.id}/block-explorer`}
-            close={() => setIsIntegrationRequested(false)}
+            close={() => setShowPopup(false)}
           />
         )}
         <div className="flex justify-start gap-2">
-          {silo?.intents_integration_status === "INITIAL" && (
+          {integrationStatus === "INITIAL" && (
             <Button
-              onClick={onRequestIntegration}
+              onClick={() => requestIntegration()}
               disabled={isRequestingIntegration}
               size="lg"
             >
@@ -128,13 +138,13 @@ export const IntentsPage = () => {
                 : "Activate integration"}
             </Button>
           )}
-          {silo?.intents_integration_status === "REQUESTED" && (
+          {integrationStatus === "REQUESTED" && (
             <Button variant="secondary" size="lg" disabled>
               <CheckIcon className="w-4 h-4" />
               Integration requested
             </Button>
           )}
-          {silo?.intents_integration_status === "COMPLETED" && (
+          {integrationStatus === "COMPLETED" && (
             <Button size="lg" disabled>
               Active
             </Button>
