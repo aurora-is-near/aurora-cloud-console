@@ -1,21 +1,66 @@
+"use client"
+
 import Image from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
+import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
+import { useContext, useState } from "react"
+import { CheckIcon } from "@heroicons/react/24/solid"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
-import { Silo } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
+import { Button } from "@/components/Button"
+import { requestIntentsIntegration } from "@/actions/silos/request-intents-integration"
+import { RequestReceivedPopup } from "@/components/IntentsPage/RequestReceivedPopup"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
+import { SiloContext } from "@/providers/SiloProvider"
+import { queryKeys } from "@/actions/query-keys"
 import { NearIntents } from "../../../public/static/v2/images/icons"
 
-type IntentsPageProps = {
-  silo?: Silo | null
-}
+export const IntentsPage = () => {
+  const { team } = useRequiredContext(TeamContext)
+  const { silo } = useContext(SiloContext) ?? {}
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  const [showPopup, setShowPopup] = useState(false)
 
-export const IntentsPage = ({ silo = null }: IntentsPageProps) => {
-  if (!silo) {
-    return null
-  }
+  const { data: integrationStatus } = useQuery({
+    queryKey: queryKeys.getIntentsIntegrationStatus(silo?.id ?? null),
+    queryFn: async () => silo?.intents_integration_status ?? null,
+    enabled: !!silo,
+  })
+
+  const { mutate: requestIntegration, isPending: isRequestingIntegration } =
+    useMutation({
+      mutationFn: async () => {
+        if (!silo) {
+          return null
+        }
+
+        return requestIntentsIntegration(team, silo)
+      },
+      onSuccess: (updatedSilo) => {
+        if (updatedSilo?.intents_integration_status !== "REQUESTED") {
+          toast.error("Failed to request integration")
+
+          return
+        }
+
+        queryClient.setQueryData(
+          queryKeys.getIntentsIntegrationStatus(silo?.id ?? null),
+          "REQUESTED",
+        )
+        router.refresh()
+        setShowPopup(true)
+      },
+      onError: () => {
+        toast.error("Failed to request integration")
+      },
+    })
 
   const tabs = [
     {
@@ -75,15 +120,45 @@ export const IntentsPage = ({ silo = null }: IntentsPageProps) => {
           />
         }
       >
-        <LinkButton
-          isExternal
-          variant="border"
-          href="https://near-intents.org/"
-          size="lg"
-        >
-          <span>Open Near Intents</span>
-          <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-        </LinkButton>
+        {showPopup && (
+          <RequestReceivedPopup
+            link={`/dashboard/${team.team_key}/silos/${silo?.id}/block-explorer`}
+            close={() => setShowPopup(false)}
+          />
+        )}
+        <div className="flex justify-start gap-2">
+          {integrationStatus === "INITIAL" && (
+            <Button
+              onClick={() => requestIntegration()}
+              disabled={isRequestingIntegration}
+              size="lg"
+            >
+              {isRequestingIntegration
+                ? "Requesting activation..."
+                : "Activate integration"}
+            </Button>
+          )}
+          {integrationStatus === "REQUESTED" && (
+            <Button variant="secondary" size="lg" disabled>
+              <CheckIcon className="w-4 h-4" />
+              Integration requested
+            </Button>
+          )}
+          {integrationStatus === "COMPLETED" && (
+            <Button size="lg" disabled>
+              Active
+            </Button>
+          )}
+          <LinkButton
+            isExternal
+            variant="border"
+            href="https://near-intents.org/"
+            size="lg"
+          >
+            <span>Open Near Intents</span>
+            <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+          </LinkButton>
+        </div>
       </Hero>
 
       <Tabs tabs={tabs} />

@@ -12,6 +12,7 @@ import {
   GasAbstraction,
   Integrations,
   Monitoring,
+  NearIntents,
   Onramp,
   Oracle,
   Trisolaris,
@@ -119,6 +120,12 @@ export const MainDashboardLayout = ({
                 name: "Block explorer",
                 href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
                 icon: <BlockExplorer />,
+              },
+              {
+                variant: "secondary",
+                name: "Intents",
+                href: `/dashboard/${teamKey}${siloPrefix}/intents`,
+                icon: <NearIntents />,
               },
               {
                 variant: "secondary",
