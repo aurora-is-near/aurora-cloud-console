@@ -40,7 +40,19 @@ describe("Deal route", () => {
       })
 
       expect(res).toSatisfyApiSpec()
-      expect(res.body).toEqual(adaptDeal(mockDeal))
+      expect(res.body).toEqual({
+        id: mockDeal.id,
+        siloId: mockDeal.silo_id,
+        teamId: mockDeal.team_id,
+        name: mockDeal.name,
+        open: mockDeal.open,
+        enabled: mockDeal.enabled,
+        endTime: mockDeal.end_time,
+        startTime: mockDeal.start_time,
+        createdAt: mockDeal.created_at,
+        updatedAt: mockDeal.updated_at,
+        deletedAt: mockDeal.deleted_at,
+      })
 
       expect(dealSelectQueries.eq).toHaveBeenCalledWith("id", mockDeal.id)
     })
