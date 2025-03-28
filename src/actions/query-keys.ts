@@ -22,4 +22,8 @@ export const queryKeys = {
     "intents-integration-status",
     siloId,
   ],
+  getTrisolarisIntegrationStatus: (siloId: number | null) => [
+    "trisolaris-integration-status",
+    siloId,
+  ],
 } as const

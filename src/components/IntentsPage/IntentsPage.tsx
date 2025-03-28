@@ -13,8 +13,8 @@ import { Tabs } from "@/components/Tabs/Tabs"
 import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
 import { Button } from "@/components/Button"
-import { requestIntentsIntegration } from "@/actions/silos/request-intents-integration"
-import { RequestReceivedPopup } from "@/components/IntentsPage/RequestReceivedPopup"
+import { requestIntegration } from "@/actions/silos/request-integration"
+import { RequestReceivedPopup } from "@/components/RequestReceivedPopup"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 import { SiloContext } from "@/providers/SiloProvider"
@@ -34,33 +34,35 @@ export const IntentsPage = () => {
     enabled: !!silo,
   })
 
-  const { mutate: requestIntegration, isPending: isRequestingIntegration } =
-    useMutation({
-      mutationFn: async () => {
-        if (!silo) {
-          return null
-        }
+  const {
+    mutate: mutateIntegrationRequest,
+    isPending: isRequestingIntegration,
+  } = useMutation({
+    mutationFn: async () => {
+      if (!silo) {
+        return null
+      }
 
-        return requestIntentsIntegration(team, silo)
-      },
-      onSuccess: (updatedSilo) => {
-        if (updatedSilo?.intents_integration_status !== "REQUESTED") {
-          toast.error("Failed to request integration")
-
-          return
-        }
-
-        queryClient.setQueryData(
-          queryKeys.getIntentsIntegrationStatus(silo?.id ?? null),
-          "REQUESTED",
-        )
-        router.refresh()
-        setShowPopup(true)
-      },
-      onError: () => {
+      return requestIntegration(team, silo, "intents")
+    },
+    onSuccess: (updatedSilo) => {
+      if (updatedSilo?.intents_integration_status !== "REQUESTED") {
         toast.error("Failed to request integration")
-      },
-    })
+
+        return
+      }
+
+      queryClient.setQueryData(
+        queryKeys.getIntentsIntegrationStatus(silo?.id ?? null),
+        "REQUESTED",
+      )
+      router.refresh()
+      setShowPopup(true)
+    },
+    onError: () => {
+      toast.error("Failed to request integration")
+    },
+  })
 
   const tabs = [
     {
@@ -129,7 +131,7 @@ export const IntentsPage = () => {
         <div className="flex justify-start gap-2">
           {integrationStatus === "INITIAL" && (
             <Button
-              onClick={() => requestIntegration()}
+              onClick={() => mutateIntegrationRequest()}
               disabled={isRequestingIntegration}
               size="lg"
             >

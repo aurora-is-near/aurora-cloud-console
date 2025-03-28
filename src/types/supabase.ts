@@ -909,6 +909,7 @@ export type Database = {
           replenish_threshold: number
           rpc_url: string
           silo_to_silo_bridge_address: string | null
+          trisolaris_integration_status: Database["public"]["Enums"]["request_status"]
           type: string
           updated_at: string
         }
@@ -943,6 +944,7 @@ export type Database = {
           replenish_threshold?: number
           rpc_url?: string
           silo_to_silo_bridge_address?: string | null
+          trisolaris_integration_status?: Database["public"]["Enums"]["request_status"]
           type?: string
           updated_at?: string
         }
@@ -977,6 +979,7 @@ export type Database = {
           replenish_threshold?: number
           rpc_url?: string
           silo_to_silo_bridge_address?: string | null
+          trisolaris_integration_status?: Database["public"]["Enums"]["request_status"]
           type?: string
           updated_at?: string
         }
