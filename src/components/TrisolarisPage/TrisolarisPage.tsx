@@ -27,6 +27,44 @@ import type { RequestStatus } from "@/types/types"
 
 import { Trisolaris } from "../../../public/static/v2/images/icons"
 
+const RequestButton = ({
+  isLoading,
+  integrationStatus,
+  onClick,
+}: {
+  isLoading: boolean
+  integrationStatus: RequestStatus
+  onClick: () => void
+}) => {
+  switch (integrationStatus) {
+    case "INITIAL":
+      return (
+        <Button onClick={onClick} disabled={isLoading} size="lg">
+          {isLoading ? "Requesting activation..." : "Activate integration"}
+        </Button>
+      )
+    case "REQUESTED":
+      return (
+        <Button variant="secondary" size="lg" disabled>
+          <CheckIcon className="w-4 h-4" />
+          Integration requested
+        </Button>
+      )
+    case "COMPLETED":
+      return (
+        <Button size="lg" disabled>
+          Active
+        </Button>
+      )
+    case "REJECTED":
+    case "APPROVED":
+    case "PENDING":
+      return null
+    default:
+      notReachable(integrationStatus)
+  }
+}
+
 export const TrisolarisPage = () => {
   const { team } = useRequiredContext(TeamContext)
   const { silo } = useContext(SiloContext) ?? {}
@@ -145,42 +183,4 @@ export const TrisolarisPage = () => {
       <Tabs tabs={tabs} />
     </DashboardPage>
   )
-}
-
-const RequestButton = ({
-  isLoading,
-  integrationStatus,
-  onClick,
-}: {
-  isLoading: boolean
-  integrationStatus: RequestStatus
-  onClick: () => void
-}) => {
-  switch (integrationStatus) {
-    case "INITIAL":
-      return (
-        <Button onClick={onClick} disabled={isLoading} size="lg">
-          {isLoading ? "Requesting activation..." : "Activate integration"}
-        </Button>
-      )
-    case "REQUESTED":
-      return (
-        <Button variant="secondary" size="lg" disabled>
-          <CheckIcon className="w-4 h-4" />
-          Integration requested
-        </Button>
-      )
-    case "COMPLETED":
-      return (
-        <Button size="lg" disabled>
-          Active
-        </Button>
-      )
-    case "REJECTED":
-    case "APPROVED":
-    case "PENDING":
-      return null
-    default:
-      notReachable(integrationStatus)
-  }
 }
