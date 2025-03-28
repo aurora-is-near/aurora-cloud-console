@@ -76,6 +76,7 @@ export const adaptSilo = (silo: Silo): SiloSchema => ({
   genesis: silo.genesis,
   network: silo.network,
   rpcUrl: silo.rpc_url,
+  intentsIntegrationStatus: silo.intents_integration_status,
   nativeToken: {
     name: silo.base_token_name,
     symbol: silo.base_token_symbol,

@@ -823,6 +823,9 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "id": {
                             "type": "number",
                           },
+                          "intentsIntegrationStatus": {
+                            "type": "string",
+                          },
                           "name": {
                             "type": "string",
                           },
@@ -868,6 +871,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "name",
                           "network",
                           "rpcUrl",
+                          "intentsIntegrationStatus",
                           "nativeToken",
                         ],
                         "type": "object",
@@ -937,6 +941,9 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id": {
                       "type": "number",
                     },
+                    "intentsIntegrationStatus": {
+                      "type": "string",
+                    },
                     "name": {
                       "type": "string",
                     },
@@ -982,6 +989,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "name",
                     "network",
                     "rpcUrl",
+                    "intentsIntegrationStatus",
                     "nativeToken",
                   ],
                   "type": "object",
