@@ -224,6 +224,12 @@ export const DeploymentSteps = ({
         isEnabled: false,
         action: "MAKE_TRANSACTION",
       })
+
+      toggleSiloWhitelist.mutate({
+        id: silo.id,
+        isEnabled: false,
+        action: "DEPLOY_CONTRACT",
+      })
     }
 
     // Deploy the default token contracts

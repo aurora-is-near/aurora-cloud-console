@@ -19,7 +19,10 @@ const Page = () => {
   const items: ConfigurationItemsCardProps["items"] = [
     {
       term: "Network",
-      description: silo.is_make_txs_public ? "Public" : "Private",
+      description:
+        silo.is_make_txs_public && silo.is_deploy_contracts_public
+          ? "Public"
+          : "Private",
       tooltip: "Aurora Chains can be either public, permissioned, or private.",
     },
     {
