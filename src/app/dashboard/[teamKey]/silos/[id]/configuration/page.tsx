@@ -103,9 +103,9 @@ const Page = () => {
           },
           {
             term: "Mechanics",
-            description: "per transaction fee",
+            description: "Variable amount",
             tooltip:
-              "Gas mechanics can either be based on usage or fixed (defined when creating your Aurora chain).",
+              "Gas is collected as a variable amount based on the transaction complexity.",
           },
         ]}
       />

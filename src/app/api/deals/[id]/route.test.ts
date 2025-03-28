@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { adaptDeal } from "@/utils/adapters"
 import { GET, PUT } from "./route"
 import {
   createInsertOrUpdate,
@@ -8,7 +9,6 @@ import {
   mockSupabaseClient,
 } from "../../../../../test-utils/mock-supabase-client"
 import { createMockDeal } from "../../../../../test-utils/factories/deal-factory"
-import { mockTeam } from "../../../../../test-utils/mock-team"
 import { setupJestOpenApi } from "../../../../../test-utils/setup-jest-openapi"
 import { invokeApiHandler } from "../../../../../test-utils/invoke-api-handler"
 
