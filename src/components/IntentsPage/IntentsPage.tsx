@@ -4,25 +4,24 @@ import Image from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { CheckIcon } from "@heroicons/react/24/solid"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
-import { Silo, Team } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
 import { Button } from "@/components/Button"
 import { requestIntentsIntegration } from "@/actions/silos/request-intents-integration"
 import { RequestReceivedPopup } from "@/components/IntentsPage/RequestReceivedPopup"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
+import { SiloContext } from "@/providers/SiloProvider"
 import { NearIntents } from "../../../public/static/v2/images/icons"
 
-type IntentsPageProps = {
-  silo?: Silo | null
-  team: Team
-}
-
-export const IntentsPage = ({ silo = null, team }: IntentsPageProps) => {
+export const IntentsPage = () => {
+  const { team } = useRequiredContext(TeamContext)
+  const { silo } = useContext(SiloContext) ?? {}
   const [isRequestingIntegration, setIsRequestingIntegration] = useState(false)
   const [isIntegrationRequested, setIsIntegrationRequested] = useState(false)
   const router = useRouter()
