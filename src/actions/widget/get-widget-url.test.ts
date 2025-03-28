@@ -81,7 +81,7 @@ describe("getWidgetUrl", () => {
       fromNetworks: ["ethereum"],
       customChains: [
         {
-          id: "1313161555",
+          id: 1313161555,
           name: "Test Silo",
           network: "Test Silo",
           nativeCurrency: {
@@ -128,7 +128,7 @@ describe("getWidgetUrl", () => {
       fromNetworks: ["ethereum"],
       customChains: [
         {
-          id: "1313161555",
+          id: 1313161555,
           name: "Test Silo",
           network: "Test Silo",
           nativeCurrency: {

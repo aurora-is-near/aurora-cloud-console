@@ -20,7 +20,7 @@ import { LATENCY_PERCENTILES } from "@/constants/latency"
 import Chart from "./Chart"
 
 type LatencyChartProps = {
-  id: string
+  id: number
 }
 
 type LatencyChartInterval = {
@@ -53,7 +53,7 @@ export const LatencyChart = ({ id }: LatencyChartProps) => {
   const [interval, setInterval] = useState<LatencyChartIntervalKey>("h24")
   const { data, isLoading } = useQuery(
     getQueryFnAndKey("getSiloLatency", {
-      id: Number(id),
+      id,
       interval: INTERVALS[interval].interval,
     }),
   )

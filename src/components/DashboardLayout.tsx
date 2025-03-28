@@ -9,7 +9,6 @@ import { MainMenu } from "@/components/menu/MainMenu"
 import { MenuItem, MenuSection } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import Helpscout from "@/components/Helpscout"
-import { setUser } from "@/components/Mixpanel/ServerTracker"
 
 import { getAdminNotificationCount } from "@/actions/get-admin-notification-count"
 import { isAdminUser } from "@/utils/admin"
@@ -21,13 +20,13 @@ type DashboardLayoutProps = {
   authUser: User | null
   children: ReactNode
   sidebarMenu?: {
-    heading: string
+    heading: string | JSX.Element
     action?: JSX.Element
     sections: MenuSection[]
   }
 }
 
-export const DashboardLayout = async ({
+export const DashboardLayout = ({
   teamKey,
   authUser,
   children,
@@ -75,8 +74,6 @@ export const DashboardLayout = async ({
 
     return items
   }, [teamKey, showAdminMenu])
-
-  await setUser()
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">

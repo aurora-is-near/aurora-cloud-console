@@ -6,35 +6,36 @@ import { Silo } from "@/types/types"
 import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-silo-bridged-token"
 import { createSiloBridgedTokenRequest } from "@/actions/silo-bridged-tokens/create-silo-bridged-token-request"
 import { getSiloBridgedToken } from "@/actions/silo-bridged-tokens/get-silo-bridged-token"
-import { isBridgedTokenDeployed } from "@/utils/is-bridged-token-deployed"
 import { isTokenContractDeployed } from "@/utils/is-token-contract-deployed"
+import { deployBridgedToken } from "@/actions/deployment/deploy-bridged-token"
 import { abort } from "../../../../../../utils/abort"
 
 const bridgeKnownToken = async (
   silo: Silo,
   tokenId: number,
 ): Promise<ApiResponseBody<"bridgeSiloToken">> => {
-  const [token, siloBridgedToken] = await Promise.all([
+  const [bridgedToken, siloBridgedToken] = await Promise.all([
     getBridgedToken(tokenId),
     getSiloBridgedToken(silo.id, tokenId),
   ])
 
-  if (!token) {
+  if (!bridgedToken) {
     abort(404)
   }
 
   if (siloBridgedToken) {
-    abort(400, `${token.symbol} is already bridged for this silo`)
+    abort(400, `${bridgedToken.symbol} is already bridged for this silo`)
   }
 
-  const isDeployed = await isBridgedTokenDeployed(silo, token)
+  const transactionStatus = await deployBridgedToken({ silo, bridgedToken })
+  const isDeploymentPending = transactionStatus !== "SUCCESSFUL"
 
-  await createSiloBridgedToken(silo.id, token.id, {
-    isDeploymentPending: !isDeployed,
+  await createSiloBridgedToken(silo.id, bridgedToken.id, {
+    isDeploymentPending,
   })
 
   return {
-    isDeploymentPending: !isDeployed,
+    isDeploymentPending,
   }
 }
 

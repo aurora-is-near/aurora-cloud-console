@@ -22,6 +22,39 @@ jest.mock("../../../../../../utils/api", () => ({
   createApiEndpoint: jest.fn((_name, handler) => handler),
 }))
 
+jest.mock("near-api-js", () => ({
+  ...jest.requireActual("near-api-js"),
+  Account: jest.fn(() => ({
+    getAccountBalance: jest.fn(() => ({
+      total: "33137693971864085399999999",
+      available: "18370803971864085399999999",
+      staked: "0",
+    })),
+    viewFunction: jest.fn(() => ({
+      total: "12345678901234567890",
+      available: "42",
+    })),
+  })),
+  connect: jest.fn(() => ({
+    connection: {
+      provider: {
+        txStatus: jest.fn(() => ({ status: { SuccessValue: "" } })),
+      },
+    },
+  })),
+}))
+
+jest.mock("@/utils/contract-changer-api/contract-changer-api-client", () => ({
+  contractChangerApiClient: {
+    mirrorErc20Token: jest.fn(({ token }) => ({
+      tx_hash: `mock_tx_hash_${token}`,
+    })),
+    makeStorageDeposit: jest.fn(() => ({
+      tx_hash: "mock_storage_deposit_tx_hash",
+    })),
+  },
+}))
+
 describe("Bridge silo token route", () => {
   beforeAll(setupJestOpenApi)
 
@@ -29,7 +62,9 @@ describe("Bridge silo token route", () => {
     mockSupabaseClient
       .from("silos")
       .select.mockImplementation(() => createSelect())
-
+    mockSupabaseClient
+      .from("silo_config_transactions")
+      .select.mockReturnValue(createSelect([]))
     mockSupabaseClient
       .from("bridged_tokens")
       .select.mockImplementation(() => createSelect())

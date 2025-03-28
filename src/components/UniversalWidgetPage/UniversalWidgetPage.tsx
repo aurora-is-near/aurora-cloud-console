@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { useContext } from "react"
 import { Tabs } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
@@ -6,17 +9,15 @@ import UniversalWidgetConfigurationTab from "@/components/UniversalWidgetPage/Un
 import { UniversalWidgetOpenButton } from "@/components/UniversalWidgetOpenButton"
 import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
 import { WidgetShareCard } from "@/components/WidgetShareCard"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
+import { SiloContext } from "@/providers/SiloProvider"
 import { UniversalWidgetAboutTab } from "./UniversalWidgetAboutTab"
 
-interface UniversalWidgetPageProps {
-  teamKey: string
-  siloId?: number | null
-}
+export const UniversalWidgetPage = () => {
+  const { team } = useRequiredContext(TeamContext)
+  const { silo } = useContext(SiloContext) ?? {}
 
-export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
-  teamKey,
-  siloId = null,
-}: UniversalWidgetPageProps) => {
   const tabs = [
     {
       title: "About",
@@ -24,18 +25,18 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
     },
   ]
 
-  if (siloId) {
+  if (silo) {
     tabs.push(
       {
         title: "Configuration",
-        content: <UniversalWidgetConfigurationTab siloId={siloId} />,
+        content: <UniversalWidgetConfigurationTab siloId={silo.id} />,
       },
       {
         title: "Embed Code",
         content: (
           <WidgetEmbedCodeCard
-            siloId={siloId}
-            teamKey={teamKey}
+            siloId={silo.id}
+            teamKey={team.team_key}
             widgetName="universal"
           />
         ),
@@ -44,8 +45,8 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
         title: "Shareable URL",
         content: (
           <WidgetShareCard
-            siloId={siloId}
-            teamKey={teamKey}
+            siloId={silo.id}
+            teamKey={team.team_key}
             widgetName="universal"
           />
         ),
@@ -77,9 +78,9 @@ export const UniversalWidgetPage: React.FC<UniversalWidgetPageProps> = ({
           />
         }
       >
-        {!!siloId && (
+        {!!silo && (
           <UniversalWidgetOpenButton
-            siloId={siloId}
+            siloId={silo.id}
             variant="border"
             size="lg"
             isExternal

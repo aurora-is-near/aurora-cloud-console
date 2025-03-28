@@ -11,7 +11,7 @@ import { sendSlackMessage } from "@/utils/send-slack-notification"
 import { getTeam } from "@/actions/teams/get-team"
 import { Team } from "@/types/types"
 import { getStripeConfig } from "@/utils/stripe"
-import { trackEvent } from "@/components/Mixpanel/ServerTracker"
+import { trackEvent } from "@/actions/analytics"
 
 type WebhookResponse = {
   fulfilled: boolean

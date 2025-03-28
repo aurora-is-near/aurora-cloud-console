@@ -1,22 +1,23 @@
+"use client"
+
 import Image from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 
+import { useContext } from "react"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
-import { Silo } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
 import { NotAvailableBadge } from "@/components/NotAvailableBadge"
 
+import { SiloContext } from "@/providers/SiloProvider"
 import { BlockExplorerConfigurationTab } from "./BlockExplorerConfigurationTab"
 import { Blockscout } from "../../../public/static/v2/images/icons"
 
-type BlockExplorerPageProps = {
-  silo?: Silo | null
-}
+export const BlockExplorerPage = () => {
+  const { silo } = useContext(SiloContext) ?? {}
 
-export const BlockExplorerPage = ({ silo = null }: BlockExplorerPageProps) => {
   const tabs = [
     {
       title: "About",

@@ -13,28 +13,46 @@ export const performSiloConfigTransaction = async (
   silo: Silo,
   operation: SiloConfigTransactionOperation,
   performTransaction: () => Promise<{ tx_hash?: string }>,
-  { skipIfFailed = false }: { skipIfFailed?: boolean } = {},
+  {
+    skipIfFailed = false,
+    nearAccountId,
+  }: {
+    skipIfFailed?: boolean
+    nearAccountId?: string | null
+  } = {},
 ): Promise<SiloConfigTransactionStatus> => {
   const previousTransactions = await getSiloConfigTransactions(
     silo.id,
     operation,
+    nearAccountId,
   )
 
-  // If there has already been a successful transaction for this operation
+  const pendingTransactions = previousTransactions.filter(
+    (transaction) => transaction.status === "PENDING",
+  )
+
+  // Update the status of all transactions that are still pending.
+  const updatedStatuses = await Promise.all(
+    pendingTransactions.map(async (transaction) =>
+      checkPendingTransaction(transaction, silo),
+    ),
+  )
+
+  // If there was already a successful transaction for this operation
   // we don't need to trigger another one.
   if (findTransactionWithStatus(previousTransactions, "SUCCESSFUL")) {
     return "SUCCESSFUL"
   }
 
-  const pendingTransaction = findTransactionWithStatus(
-    previousTransactions,
-    "PENDING",
-  )
+  // If a pending transaction was subsequently successful we can return
+  // that status.
+  if (updatedStatuses.includes("SUCCESSFUL")) {
+    return "SUCCESSFUL"
+  }
 
-  // If there is already a pending transaction we can check its status and
-  // return the result.
-  if (pendingTransaction) {
-    return checkPendingTransaction(pendingTransaction, silo)
+  // Return the result of the first transaction that was previously pending.
+  if (updatedStatuses.length) {
+    return updatedStatuses[0]
   }
 
   const failedTransaction = findTransactionWithStatus(
@@ -72,6 +90,7 @@ export const performSiloConfigTransaction = async (
     transaction_hash: tx_hash,
     operation,
     status: "PENDING",
+    target: nearAccountId ?? null,
   })
 
   return "PENDING"

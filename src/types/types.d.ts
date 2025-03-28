@@ -40,8 +40,6 @@ export type User = Tables<"users">
 
 export type PublicApiScope = Enums<"api_key_scopes">
 
-export type TokenType = Enums<"token_type">
-
 export type DeploymentStatus = Enums<"deployment_status">
 
 export type WidgetNetworkType = Enums<"widget_network_type">

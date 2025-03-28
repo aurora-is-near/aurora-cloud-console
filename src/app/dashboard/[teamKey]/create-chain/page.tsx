@@ -2,7 +2,7 @@ import Link from "next/link"
 import { XMarkIcon } from "@heroicons/react/20/solid"
 import OnboardingForm from "@/app/dashboard/[teamKey]/create-chain/OnboardingForm"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
-import { trackEvent } from "@/components/Mixpanel/ServerTracker"
+import { trackEvent } from "@/actions/analytics"
 import { getTeamOnboardingFormByKey } from "@/actions/onboarding/get-team-onboarding-form-by-key"
 
 const Page = async ({

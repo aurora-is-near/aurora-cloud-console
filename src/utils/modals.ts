@@ -20,4 +20,5 @@ export enum Modals {
   AddRuleContract = "addRuleContract",
   EditPlanLimitsModal = "editPlanLimitsModal",
   EditSiloAddressPermissions = "editSiloAddressPermissions",
+  BridgedTokens = "bridgedTokens",
 }

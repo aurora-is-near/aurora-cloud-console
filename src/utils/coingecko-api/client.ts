@@ -22,7 +22,7 @@ const request = async <T>(endpoint: string, init?: RequestInit): Promise<T> => {
   const data = (await res.json()) as T
 
   if (!res.ok) {
-    throw new Error(`CoinGecko API call failed: ${res.status}`)
+    throw new Error(`CoinGecko API call failed [${res.status}]: ${endpoint}`)
   }
 
   debug("CoinGecko API response", href, JSON.stringify(data, null, 2))

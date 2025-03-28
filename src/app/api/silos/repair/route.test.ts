@@ -33,6 +33,28 @@ jest.mock("@/utils/contract-changer-api/contract-changer-api-client", () => ({
   },
 }))
 
+jest.mock("near-api-js", () => ({
+  ...jest.requireActual("near-api-js"),
+  Account: jest.fn(() => ({
+    getAccountBalance: jest.fn(() => ({
+      total: "33137693971864085399999999",
+      available: "18370803971864085399999999",
+      staked: "0",
+    })),
+    viewFunction: jest.fn(() => ({
+      total: "12345678901234567890",
+      available: "42",
+    })),
+  })),
+  connect: jest.fn(() => ({
+    connection: {
+      provider: {
+        txStatus: jest.fn(() => ({ status: { SuccessValue: "" } })),
+      },
+    },
+  })),
+}))
+
 describe("Silos repair route", () => {
   beforeEach(() => {
     mockSupabaseClient.from("silos").select.mockReturnValue(createSelect([]))
@@ -42,6 +64,9 @@ describe("Silos repair route", () => {
     mockSupabaseClient
       .from("silo_config_transactions")
       .select.mockReturnValue(createSelect([]))
+    mockSupabaseClient
+      .from("silo_config_transactions")
+      .update.mockReturnValue(createInsertOrUpdate([]))
     mockSupabaseClient
       .from("bridged_token_requests")
       .select.mockReturnValue(createSelect([]))
@@ -109,6 +134,7 @@ describe("Silos repair route", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
+      target: null,
       operation: "DEPLOY_NEAR",
       silo_id: mockSilos[0].id,
       status: "PENDING",
@@ -118,6 +144,7 @@ describe("Silos repair route", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
+      target: null,
       operation: "DEPLOY_NEAR",
       silo_id: mockSilos[1].id,
       status: "PENDING",
@@ -127,6 +154,7 @@ describe("Silos repair route", () => {
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).toHaveBeenCalledWith({
+      target: "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
       operation: "SET_BASE_TOKEN",
       silo_id: mockSilos[0].id,
       status: "PENDING",
@@ -453,15 +481,23 @@ describe("Silos repair route", () => {
 
     expect(
       mockSupabaseClient.from("silo_bridged_tokens").update,
-    ).toHaveBeenCalledTimes(1)
+    ).toHaveBeenCalledTimes(2)
+
     expect(silosBridgedTokensUpdateQueries.eq).toHaveBeenCalledWith(
       "silo_id",
       mockSilo.id,
     )
+
     expect(silosBridgedTokensUpdateQueries.eq).toHaveBeenCalledWith(
       "bridged_token_id",
       mockBridgedTokens[0].id,
     )
+
+    expect(silosBridgedTokensUpdateQueries.eq).toHaveBeenCalledWith(
+      "bridged_token_id",
+      mockBridgedTokens[1].id,
+    )
+
     expect(
       mockSupabaseClient.from("silo_bridged_tokens").update,
     ).toHaveBeenCalledWith({
