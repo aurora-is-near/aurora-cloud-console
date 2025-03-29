@@ -5,7 +5,9 @@ import { getSilosToInspect } from "@/actions/silos/get-silos-to-inspect"
 import { abort } from "@/utils/abort"
 import { repairSilo } from "@/utils/repair"
 
-const queue = new PQueue({ concurrency: 3 })
+// A promise queue is used to avoid overwhelming the server with too many
+// requests at once, which at the time of writing doesn't seem difficult.
+const queue = new PQueue({ concurrency: 1 })
 
 // This endpoint is intended to be called by a Vercel cron job, which only works
 // with GET requests.
