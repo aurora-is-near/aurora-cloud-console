@@ -2,7 +2,7 @@ import path from "path"
 import dotenv from "dotenv"
 import { defineConfig, devices } from "@playwright/test"
 
-export const PLAYWRIGHT_BASE_URL = "http://localhost:3001"
+export const PLAYWRIGHT_BASE_URL = "http://localhost:3000"
 
 if (!process.env.CI) {
   dotenv.config({ path: path.resolve(__dirname, ".env.local") })
@@ -38,7 +38,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     url: PLAYWRIGHT_BASE_URL,
-    command: "PORT=3001 yarn run start",
+    command: process.env.CI ? "yarn run start" : "yarn dev",
     reuseExistingServer: !process.env.CI,
   },
 })

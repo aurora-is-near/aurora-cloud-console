@@ -43,8 +43,8 @@ async function authSetup(config: FullConfig) {
         // @ts-expect-error
         "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
       )
-      const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
+      const supabase = createClient(supabaseUrl, supabaseAnonKey)
       await supabase.auth.setSession({
         access_token,
         refresh_token,
@@ -53,30 +53,6 @@ async function authSetup(config: FullConfig) {
     [SUPABASE_URL, SUPABASE_KEY, access_token, refresh_token],
   )
 
-  const sessionCookies: Cookie[] = [
-    {
-      name: `sb-${getSupabaseProjectId()}-auth-token.0`,
-      value: access_token,
-      domain: "localhost",
-      path: "/",
-      httpOnly: true,
-      secure: false,
-      sameSite: "Strict" as const,
-      expires: Math.floor((Date.now() + 3600 * 1000) / 1000),
-    },
-    {
-      name: `sb-${getSupabaseProjectId()}-auth-token.1`,
-      value: refresh_token,
-      domain: "localhost",
-      path: "/",
-      httpOnly: true,
-      secure: false,
-      sameSite: "Strict" as const,
-      expires: Math.floor((Date.now() + 3600 * 1000) / 1000),
-    },
-  ]
-
-  await await page.context().addCookies(sessionCookies)
   await context.storageState({ path: "e2e/storage-state.json" })
   await browser.close()
 }
