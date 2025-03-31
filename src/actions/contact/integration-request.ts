@@ -1,7 +1,7 @@
 import { Silo, Team } from "@/types/types"
 import { sendSlackMessage } from "@/utils/send-slack-notification"
 
-type IntegrationRequest = "Oracle" | "Intents"
+type IntegrationRequest = "Oracle" | "Intents" | "Trisolaris"
 
 export const notifyIntegrationRequest = async (
   team: Team,
