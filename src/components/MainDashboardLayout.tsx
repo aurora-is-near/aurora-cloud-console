@@ -59,7 +59,7 @@ export const MainDashboardLayout = ({
                       icon: <Monitoring />,
                     },
                     {
-                      name: "Configuration",
+                      name: "Chain settings",
                       href: `/dashboard/${teamKey}${siloPrefix}/configuration`,
                       icon: <Configuration />,
                     },
