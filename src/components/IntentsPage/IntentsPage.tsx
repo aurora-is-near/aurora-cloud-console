@@ -3,18 +3,17 @@
 import Image from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import toast from "react-hot-toast"
-import { useRouter } from "next/navigation"
 import { useContext, useState } from "react"
 import { CheckIcon } from "@heroicons/react/24/solid"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
 import { Button } from "@/components/Button"
-import { requestIntentsIntegration } from "@/actions/silos/request-intents-integration"
-import { RequestReceivedPopup } from "@/components/IntentsPage/RequestReceivedPopup"
+import { requestIntegration } from "@/actions/silos/request-integration"
+import { RequestReceivedPopup } from "@/components/RequestReceivedPopup"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 import { SiloContext } from "@/providers/SiloProvider"
@@ -24,43 +23,34 @@ import { NearIntents } from "../../../public/static/v2/images/icons"
 export const IntentsPage = () => {
   const { team } = useRequiredContext(TeamContext)
   const { silo } = useContext(SiloContext) ?? {}
-  const router = useRouter()
   const queryClient = useQueryClient()
   const [showPopup, setShowPopup] = useState(false)
 
-  const { data: integrationStatus } = useQuery({
-    queryKey: queryKeys.getIntentsIntegrationStatus(silo?.id ?? null),
-    queryFn: async () => silo?.intents_integration_status ?? null,
-    enabled: !!silo,
-  })
+  const {
+    mutate: mutateIntegrationRequest,
+    isPending: isRequestingIntegration,
+  } = useMutation({
+    mutationFn: async () => {
+      if (!silo) {
+        return null
+      }
 
-  const { mutate: requestIntegration, isPending: isRequestingIntegration } =
-    useMutation({
-      mutationFn: async () => {
-        if (!silo) {
-          return null
-        }
+      return requestIntegration(team, silo, "intents")
+    },
+    onSuccess: (updatedSilo) => {
+      setShowPopup(true)
 
-        return requestIntentsIntegration(team, silo)
-      },
-      onSuccess: (updatedSilo) => {
-        if (updatedSilo?.intents_integration_status !== "REQUESTED") {
-          toast.error("Failed to request integration")
-
-          return
-        }
-
+      if (updatedSilo) {
         queryClient.setQueryData(
-          queryKeys.getIntentsIntegrationStatus(silo?.id ?? null),
-          "REQUESTED",
+          queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
+          updatedSilo.intents_integration_status,
         )
-        router.refresh()
-        setShowPopup(true)
-      },
-      onError: () => {
-        toast.error("Failed to request integration")
-      },
-    })
+      }
+    },
+    onError: () => {
+      toast.error("Failed to request integration")
+    },
+  })
 
   const tabs = [
     {
@@ -127,9 +117,9 @@ export const IntentsPage = () => {
           />
         )}
         <div className="flex justify-start gap-2">
-          {integrationStatus === "INITIAL" && (
+          {silo?.intents_integration_status === "INITIAL" && (
             <Button
-              onClick={() => requestIntegration()}
+              onClick={() => mutateIntegrationRequest()}
               disabled={isRequestingIntegration}
               size="lg"
             >
@@ -138,13 +128,13 @@ export const IntentsPage = () => {
                 : "Activate integration"}
             </Button>
           )}
-          {integrationStatus === "REQUESTED" && (
+          {silo?.intents_integration_status === "REQUESTED" && (
             <Button variant="secondary" size="lg" disabled>
               <CheckIcon className="w-4 h-4" />
               Integration requested
             </Button>
           )}
-          {integrationStatus === "COMPLETED" && (
+          {silo?.intents_integration_status === "COMPLETED" && (
             <Button size="lg" disabled>
               Active
             </Button>

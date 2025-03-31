@@ -87,7 +87,7 @@ export const DashboardHomePage = () => {
               title="Join our Telegram"
               description="Get technical support and interact with other developers."
               icon="/static/v2/images/examples/join-telegram.png"
-              link="https://t.me/aurorasupportteam"
+              link="https://t.me/auroraisnear"
             />
           </FeatureCTAList>
         </div>
