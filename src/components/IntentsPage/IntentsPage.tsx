@@ -3,10 +3,9 @@
 import Image from "next/image"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import toast from "react-hot-toast"
-import { useRouter } from "next/navigation"
 import { useContext, useState } from "react"
 import { CheckIcon } from "@heroicons/react/24/solid"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
@@ -24,15 +23,8 @@ import { NearIntents } from "../../../public/static/v2/images/icons"
 export const IntentsPage = () => {
   const { team } = useRequiredContext(TeamContext)
   const { silo } = useContext(SiloContext) ?? {}
-  const router = useRouter()
   const queryClient = useQueryClient()
   const [showPopup, setShowPopup] = useState(false)
-
-  const { data: integrationStatus } = useQuery({
-    queryKey: queryKeys.getIntentsIntegrationStatus(silo?.id ?? null),
-    queryFn: async () => silo?.intents_integration_status ?? null,
-    enabled: !!silo,
-  })
 
   const {
     mutate: mutateIntegrationRequest,
@@ -46,18 +38,14 @@ export const IntentsPage = () => {
       return requestIntegration(team, silo, "intents")
     },
     onSuccess: (updatedSilo) => {
-      if (updatedSilo?.intents_integration_status !== "REQUESTED") {
-        toast.error("Failed to request integration")
-
-        return
-      }
-
-      queryClient.setQueryData(
-        queryKeys.getIntentsIntegrationStatus(silo?.id ?? null),
-        "REQUESTED",
-      )
-      router.refresh()
       setShowPopup(true)
+
+      if (updatedSilo) {
+        queryClient.setQueryData(
+          queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
+          updatedSilo.intents_integration_status,
+        )
+      }
     },
     onError: () => {
       toast.error("Failed to request integration")
@@ -129,7 +117,7 @@ export const IntentsPage = () => {
           />
         )}
         <div className="flex justify-start gap-2">
-          {integrationStatus === "INITIAL" && (
+          {silo?.intents_integration_status === "INITIAL" && (
             <Button
               onClick={() => mutateIntegrationRequest()}
               disabled={isRequestingIntegration}
@@ -140,13 +128,13 @@ export const IntentsPage = () => {
                 : "Activate integration"}
             </Button>
           )}
-          {integrationStatus === "REQUESTED" && (
+          {silo?.intents_integration_status === "REQUESTED" && (
             <Button variant="secondary" size="lg" disabled>
               <CheckIcon className="w-4 h-4" />
               Integration requested
             </Button>
           )}
-          {integrationStatus === "COMPLETED" && (
+          {silo?.intents_integration_status === "COMPLETED" && (
             <Button size="lg" disabled>
               Active
             </Button>

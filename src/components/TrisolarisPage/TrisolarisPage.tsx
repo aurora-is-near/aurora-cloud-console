@@ -5,7 +5,7 @@ import toast from "react-hot-toast"
 import { useContext, useState } from "react"
 import { CheckIcon } from "@heroicons/react/24/solid"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { queryKeys } from "@/actions/query-keys"
 import { requestIntegration } from "@/actions/silos/request-integration"
@@ -72,12 +72,6 @@ export const TrisolarisPage = () => {
   const queryClient = useQueryClient()
   const [showPopup, setShowPopup] = useState(false)
 
-  const { data: integrationStatus } = useQuery({
-    queryKey: queryKeys.getTrisolarisIntegrationStatus(silo?.id ?? null),
-    queryFn: async () => silo?.trisolaris_integration_status ?? null,
-    enabled: !!silo,
-  })
-
   const {
     mutate: mutateIntegrationRequest,
     isPending: isRequestingIntegration,
@@ -89,12 +83,15 @@ export const TrisolarisPage = () => {
 
       return requestIntegration(team, silo, "trisolaris")
     },
-    onSuccess: () => {
+    onSuccess: (updatedSilo) => {
       setShowPopup(true)
-      queryClient.setQueryData(
-        queryKeys.getTrisolarisIntegrationStatus(silo?.id ?? null),
-        "REQUESTED",
-      )
+
+      if (updatedSilo) {
+        queryClient.setQueryData(
+          queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
+          updatedSilo.intents_integration_status,
+        )
+      }
     },
     onError: () => {
       toast.error("Failed to request integration")
@@ -165,7 +162,7 @@ export const TrisolarisPage = () => {
         <div className="flex justify-start gap-2">
           <RequestButton
             isLoading={isRequestingIntegration}
-            integrationStatus={integrationStatus ?? "INITIAL"}
+            integrationStatus={silo?.intents_integration_status ?? "INITIAL"}
             onClick={mutateIntegrationRequest}
           />
           <LinkButton
