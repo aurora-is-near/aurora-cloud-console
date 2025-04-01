@@ -71,7 +71,7 @@ export const contractChangerApiClient = {
       {
         method: "POST",
         data: {
-          base_token_account_id: baseTokenAccountId,
+          base_token: baseTokenAccountId,
         },
       },
     ),

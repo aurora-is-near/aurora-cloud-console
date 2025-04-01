@@ -3,13 +3,16 @@ const nodeModulesToTransform = [
   "data-uri-to-buffer",
   "fetch-blob",
   "formdata-polyfill",
+  "eventemitter3",
+  "p-queue",
+  "p-timeout",
 ].join("|")
 
 module.exports = {
   clearMocks: true,
   setupFiles: ["./jest.setup.js"],
   reporters: ["default", "github-actions"],
-  setupFilesAfterEnv: ["./jest.setup.after-env.js"],
+  setupFilesAfterEnv: ["./jest.setup.after-env.ts"],
   testEnvironment: "jsdom",
   testMatch: [
     "**/?(*.)+(spec|test).(js|ts|tsx)",

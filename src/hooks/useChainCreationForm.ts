@@ -53,6 +53,7 @@ export interface ChainCreationForm {
   comments: string
   customTokenDetails: string
   telegramHandle: string
+  phoneNumber: string
 }
 
 const initialFormDevNet: ChainCreationForm = {
@@ -65,6 +66,7 @@ const initialFormDevNet: ChainCreationForm = {
   comments: "",
   customTokenDetails: "",
   telegramHandle: "",
+  phoneNumber: "",
 }
 
 const getInitialFormMainNet = (
@@ -79,6 +81,7 @@ const getInitialFormMainNet = (
   comments: data?.comments ?? "",
   customTokenDetails: data?.customTokenDetails ?? "",
   telegramHandle: data?.telegramHandle ?? "",
+  phoneNumber: data?.phoneNumber ?? "",
 })
 
 type ErrorName =
@@ -187,6 +190,17 @@ export const useChainCreationForm = ({
         ...p,
         ...fieldErrors,
         gasMechanics: "Please select a gas mechanics",
+      }))
+
+      hasErrors = true
+    }
+
+    if (!form.telegramHandle && !form.phoneNumber) {
+      setFieldErrors((p) => ({
+        ...p,
+        ...fieldErrors,
+        telegramHandle: "Please provide a telegram handle...",
+        phoneNumber: "...or/and a phone number",
       }))
 
       hasErrors = true

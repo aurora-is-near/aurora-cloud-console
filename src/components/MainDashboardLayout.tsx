@@ -15,6 +15,7 @@ import {
   NearIntents,
   Onramp,
   Oracle,
+  Trisolaris,
 } from "../../public/static/v2/images/menuIcons"
 
 type MainDashboardLayoutProps = {
@@ -59,7 +60,7 @@ export const MainDashboardLayout = ({
                       icon: <Monitoring />,
                     },
                     {
-                      name: "Configuration",
+                      name: "Chain settings",
                       href: `/dashboard/${teamKey}${siloPrefix}/configuration`,
                       icon: <Configuration />,
                     },
@@ -125,6 +126,12 @@ export const MainDashboardLayout = ({
                 name: "Intents",
                 href: `/dashboard/${teamKey}${siloPrefix}/intents`,
                 icon: <NearIntents />,
+              },
+              {
+                variant: "secondary",
+                name: "Trisolaris",
+                href: `/dashboard/${teamKey}${siloPrefix}/trisolaris`,
+                icon: <Trisolaris />,
               },
             ],
           },

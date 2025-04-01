@@ -352,6 +352,7 @@ export type Database = {
           id: number
           integrations: Database["public"]["Enums"]["user_integration"][] | null
           networkType: Database["public"]["Enums"]["network_type"] | null
+          phoneNumber: string | null
           team_id: number | null
           telegramHandle: string | null
         }
@@ -370,6 +371,7 @@ export type Database = {
             | Database["public"]["Enums"]["user_integration"][]
             | null
           networkType?: Database["public"]["Enums"]["network_type"] | null
+          phoneNumber?: string | null
           team_id?: number | null
           telegramHandle?: string | null
         }
@@ -388,6 +390,7 @@ export type Database = {
             | Database["public"]["Enums"]["user_integration"][]
             | null
           networkType?: Database["public"]["Enums"]["network_type"] | null
+          phoneNumber?: string | null
           team_id?: number | null
           telegramHandle?: string | null
         }
@@ -908,6 +911,7 @@ export type Database = {
           replenish_threshold: number
           rpc_url: string
           silo_to_silo_bridge_address: string | null
+          trisolaris_integration_status: Database["public"]["Enums"]["request_status"]
           type: string
           updated_at: string
         }
@@ -941,6 +945,7 @@ export type Database = {
           replenish_threshold?: number
           rpc_url?: string
           silo_to_silo_bridge_address?: string | null
+          trisolaris_integration_status?: Database["public"]["Enums"]["request_status"]
           type?: string
           updated_at?: string
         }
@@ -974,6 +979,7 @@ export type Database = {
           replenish_threshold?: number
           rpc_url?: string
           silo_to_silo_bridge_address?: string | null
+          trisolaris_integration_status?: Database["public"]["Enums"]["request_status"]
           type?: string
           updated_at?: string
         }

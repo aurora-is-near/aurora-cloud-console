@@ -2,8 +2,8 @@ import { getWidgetUrl, isTeamWidgetUrl } from "@/utils/widgets"
 
 describe("Widget utils", () => {
   beforeEach(() => {
-    process.env.VERCEL_ENV = "production"
-    delete process.env.VERCEL_URL
+    process.env.NEXT_PUBLIC_VERCEL_ENV = "production"
+    delete process.env.NEXT_PUBLIC_VERCEL_URL
   })
 
   describe("getWidgetUrl", () => {
@@ -14,8 +14,8 @@ describe("Widget utils", () => {
     })
 
     it("generates the expected widget URL in a Vercel preview environment", () => {
-      process.env.VERCEL_ENV = "preview"
-      process.env.VERCEL_URL = "example.vercel.app"
+      process.env.NEXT_PUBLIC_VERCEL_ENV = "preview"
+      process.env.NEXT_PUBLIC_VERCEL_URL = "example.vercel.app"
 
       expect(getWidgetUrl("team-key", 123, "universal")).toBe(
         "https://example.vercel.app/dashboard/team-key/silos/123/widgets/universal.js",
@@ -23,8 +23,8 @@ describe("Widget utils", () => {
     })
 
     it("generates the expected widget URL in a non-Vercel environment", () => {
-      delete process.env.VERCEL_ENV
-      delete process.env.VERCEL_URL
+      delete process.env.NEXT_PUBLIC_VERCEL_ENV
+      delete process.env.NEXT_PUBLIC_VERCEL_URL
 
       expect(getWidgetUrl("team-key", 123, "universal")).toBe(
         "http://localhost:3000/dashboard/team-key/silos/123/widgets/universal.js",

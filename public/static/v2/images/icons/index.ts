@@ -27,3 +27,4 @@ export { default as IntegrationIntenseSupport } from "./integrations/intense_sup
 export { default as IntegrationDex } from "./integrations/dex.svg"
 export { default as RainbowBridge } from "./rainbow_bridge_logo.svg"
 export { default as NearIntents } from "./near_intents.svg"
+export { default as Trisolaris } from "./trisolaris.svg"

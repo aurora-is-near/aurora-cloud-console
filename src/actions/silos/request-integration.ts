@@ -8,14 +8,30 @@ import {
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
-export const requestIntentsIntegration = async (
+type Integration = "intents" | "trisolaris"
+
+export const requestIntegration = async (
   team: Team,
   silo: Silo,
+  integration: Integration,
 ): Promise<Silo> => {
   const supabase = createAdminSupabaseClient()
+
+  const values: Partial<
+    Pick<Silo, "intents_integration_status" | "trisolaris_integration_status">
+  > = {}
+
+  if (integration === "intents") {
+    values.intents_integration_status = "REQUESTED"
+  } else if (integration === "trisolaris") {
+    values.trisolaris_integration_status = "REQUESTED"
+  } else {
+    throw new Error(`Invalid integration request: ${integration}`)
+  }
+
   const result = await supabase
     .from("silos")
-    .update({ intents_integration_status: "REQUESTED" })
+    .update(values)
     .eq("id", silo.id)
     .select()
     .single()
