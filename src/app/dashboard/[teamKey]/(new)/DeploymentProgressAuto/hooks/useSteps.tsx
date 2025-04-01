@@ -57,8 +57,8 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
       },
     },
 
-    INIT_AURORA_ENGINE: {
-      title: "Initializing the Aurora engine",
+    SET_CHAIN_PERMISSIONS: {
+      title: "Setting up chain permissions",
     },
 
     SETTING_BASE_TOKEN: {

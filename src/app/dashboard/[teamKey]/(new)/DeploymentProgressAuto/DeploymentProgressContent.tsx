@@ -87,7 +87,7 @@ export const DeploymentProgressContent = ({
     <DeploymentSteps
       silo={silo}
       siloTransactionStatuses={siloTransactionStatuses}
-      isPublicChain={onboardingForm?.chainPermission === "public"}
+      chainPermission={onboardingForm?.chainPermission ?? "private"}
       team={team}
       onDeploymentComplete={() => {
         setIsDeploymentComplete(true)

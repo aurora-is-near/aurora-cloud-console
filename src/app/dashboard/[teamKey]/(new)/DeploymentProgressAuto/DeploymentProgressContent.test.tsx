@@ -111,7 +111,7 @@ describe("DeploymentProgressContent", () => {
           isSelected: false,
         },
         {
-          id: "INIT_AURORA_ENGINE",
+          id: "SET_CHAIN_PERMISSIONS",
           isSelected: true,
         },
         {

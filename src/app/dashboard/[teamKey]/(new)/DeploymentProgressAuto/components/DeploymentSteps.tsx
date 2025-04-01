@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useMutation } from "@tanstack/react-query"
-import {
-  Silo,
-  SiloConfigTransactionOperation,
-  SiloConfigTransactionStatus,
-  Team,
-} from "@/types/types"
+
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { logger } from "@/logger"
 import { apiClient } from "@/utils/api/client"
@@ -14,21 +9,30 @@ import { ListProgressState } from "@/uikit"
 import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
 import { deployDefaultTokens } from "@/actions/deployment/deploy-default-tokens"
 import { DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES } from "@/constants/silo-config-transactions"
+import type {
+  OnboardingForm,
+  Silo,
+  SiloConfigTransactionOperation,
+  SiloConfigTransactionStatus,
+  Team,
+} from "@/types/types"
+
 import { useSteps } from "../hooks"
+import type { Step, StepName } from "../types"
+
 import { Steps } from "./Steps"
-import { Step, StepName } from "../types"
 
 type DeploymentStepsProps = {
+  chainPermission: OnboardingForm["chainPermission"]
   team: Team
   silo: Silo
   siloTransactionStatuses?: SiloConfigTransactionStatuses
-  isPublicChain: boolean
   onDeploymentComplete: () => void
 }
 
 const STEPS: StepName[] = [
   "CONFIGURED_CHAIN",
-  "INIT_AURORA_ENGINE",
+  "SET_CHAIN_PERMISSIONS",
   "SETTING_BASE_TOKEN",
   "DEPLOYING_DEFAULT_TOKENS",
   "START_BLOCK_EXPLORER",
@@ -47,10 +51,10 @@ const isStepCompleted = (step: StepName, currentStep: StepName) =>
   currentStep === "CHAIN_DEPLOYED"
 
 export const DeploymentSteps = ({
+  chainPermission,
   team,
   silo,
   siloTransactionStatuses,
-  isPublicChain,
   onDeploymentComplete,
 }: DeploymentStepsProps) => {
   const wasConfigurationStarted = useRef(false)
@@ -70,6 +74,10 @@ export const DeploymentSteps = ({
     const transactionStatuses = {
       ...DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES,
       ...siloTransactionStatuses,
+      ENABLE_MAKE_TXS_WHITELIST:
+        chainPermission === "private" ? "SUCCESSFUL" : null,
+      ENABLE_DEPLOY_CONTRACT_WHITELIST:
+        chainPermission !== "public" ? "SUCCESSFUL" : null,
     }
 
     const noTransactions = Object.values(siloTransactionStatuses ?? {}).every(
@@ -78,7 +86,10 @@ export const DeploymentSteps = ({
 
     // If there have been no transactions we start from the beginning.
     if (noTransactions) {
-      return { name: "INIT_AURORA_ENGINE", state: CURRENT_STEP_DEFAULT_STATE }
+      return {
+        name: "SET_CHAIN_PERMISSIONS",
+        state: CURRENT_STEP_DEFAULT_STATE,
+      }
     }
 
     const tokenDeploymentTransactionStatuses = Object.keys(transactionStatuses)
@@ -103,6 +114,20 @@ export const DeploymentSteps = ({
 
     if (siloTransactionStatuses?.SET_BASE_TOKEN === "PENDING") {
       return { name: "SETTING_BASE_TOKEN", state: "pending" }
+    }
+
+    if (
+      siloTransactionStatuses?.ENABLE_MAKE_TXS_WHITELIST === "FAILED" ||
+      siloTransactionStatuses?.ENABLE_DEPLOY_CONTRACT_WHITELIST === "FAILED"
+    ) {
+      return { name: "SET_CHAIN_PERMISSIONS", state: "failed" }
+    }
+
+    if (
+      siloTransactionStatuses?.ENABLE_MAKE_TXS_WHITELIST === "PENDING" ||
+      siloTransactionStatuses?.ENABLE_DEPLOY_CONTRACT_WHITELIST === "PENDING"
+    ) {
+      return { name: "SET_CHAIN_PERMISSIONS", state: "pending" }
     }
 
     if (
@@ -194,9 +219,55 @@ export const DeploymentSteps = ({
   )
 
   const startConfiguration = useCallback(async () => {
-    // Start with a little delay while pretending to initialize the Aurora engine.
-    if (!isStepCompleted("INIT_AURORA_ENGINE", currentStep.name)) {
-      await sleep(2500)
+    // Set the chain permissions
+    if (!isStepCompleted("SET_CHAIN_PERMISSIONS", currentStep.name)) {
+      const status = await runTransactionStep("SET_CHAIN_PERMISSIONS", () =>
+        Promise.all([
+          // by default it's set to restricted so run only it's needed to
+          // be changed to public - otherwise return success by default
+          chainPermission === "private"
+            ? Promise.resolve({ status: "SUCCESSFUL" })
+            : toggleSiloWhitelist
+                .mutateAsync({
+                  id: silo.id,
+                  isEnabled: false,
+                  action: "MAKE_TRANSACTION",
+                })
+                .then(({ status }) => status),
+          chainPermission !== "public"
+            ? Promise.resolve({ status: "SUCCESSFUL" })
+            : toggleSiloWhitelist
+                .mutateAsync({
+                  id: silo.id,
+                  isEnabled: false,
+                  action: "DEPLOY_CONTRACT",
+                })
+                .then(({ status }) => status),
+        ]).then(([makeTxsStatus, deployContractStatus]) => {
+          if (makeTxsStatus === "FAILED" || deployContractStatus === "FAILED") {
+            return "FAILED"
+          }
+
+          if (
+            makeTxsStatus === "PENDING" ||
+            deployContractStatus === "PENDING"
+          ) {
+            return "PENDING"
+          }
+
+          return "SUCCESSFUL"
+        }),
+      )
+
+      if (status === "delayed") {
+        await startConfiguration()
+
+        return
+      }
+
+      if (status === "failed") {
+        return
+      }
     }
 
     // Set the base token
@@ -214,22 +285,6 @@ export const DeploymentSteps = ({
       if (status === "failed") {
         return
       }
-    }
-
-    // Apply default chain permission (allow failure - can be changed later)
-    // Restricted by default so call only if public is selected
-    if (isPublicChain) {
-      toggleSiloWhitelist.mutate({
-        id: silo.id,
-        isEnabled: false,
-        action: "MAKE_TRANSACTION",
-      })
-
-      toggleSiloWhitelist.mutate({
-        id: silo.id,
-        isEnabled: false,
-        action: "DEPLOY_CONTRACT",
-      })
     }
 
     // Deploy the default token contracts
@@ -269,7 +324,7 @@ export const DeploymentSteps = ({
     currentStep.name,
     runTransactionStep,
     silo,
-    isPublicChain,
+    chainPermission,
     toggleSiloWhitelist,
   ])
 
@@ -296,6 +351,15 @@ export const DeploymentSteps = ({
       if (step.name === "SETTING_BASE_TOKEN" && step.state === "failed") {
         setCurrentStep({
           name: "SETTING_BASE_TOKEN",
+          state: "pending",
+        })
+
+        await startConfiguration()
+      }
+
+      if (step.name === "SET_CHAIN_PERMISSIONS" && step.state === "failed") {
+        setCurrentStep({
+          name: "SET_CHAIN_PERMISSIONS",
           state: "pending",
         })
 
