@@ -7,7 +7,6 @@ import { CheckIcon } from "@heroicons/react/24/solid"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { logger } from "@/logger"
 import { queryKeys } from "@/actions/query-keys"
 import { requestIntegration } from "@/actions/silos/request-integration"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
