@@ -1,12 +1,19 @@
 import { WidgetName } from "@/types/widgets"
 
 const getOrigin = () => {
-  if (process.env.VERCEL_ENV === "production") {
+  if (
+    process.env.VERCEL_ENV === "production" ||
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+  ) {
     return "https://app.auroracloud.dev"
   }
 
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`
+  }
+
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   }
 
   return "http://localhost:3000"
