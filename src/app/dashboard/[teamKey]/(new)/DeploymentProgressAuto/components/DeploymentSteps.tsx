@@ -233,7 +233,7 @@ export const DeploymentSteps = ({
                   isEnabled: false,
                   action: "MAKE_TRANSACTION",
                 })
-                .then(({ status }) => status),
+                .then(({ status: txStatus }) => txStatus),
           chainPermission !== "public"
             ? Promise.resolve({ status: "SUCCESSFUL" })
             : toggleSiloWhitelist
@@ -242,7 +242,7 @@ export const DeploymentSteps = ({
                   isEnabled: false,
                   action: "DEPLOY_CONTRACT",
                 })
-                .then(({ status }) => status),
+                .then(({ status: txStatus }) => txStatus),
         ]).then(([makeTxsStatus, deployContractStatus]) => {
           if (makeTxsStatus === "FAILED" || deployContractStatus === "FAILED") {
             return "FAILED"

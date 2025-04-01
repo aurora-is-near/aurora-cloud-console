@@ -1,6 +1,5 @@
 "use client"
 
-import { sentenceCase } from "change-case"
 import { getRelayerAccount } from "@/utils/relayer"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { SiloContext } from "@/providers/SiloProvider"
