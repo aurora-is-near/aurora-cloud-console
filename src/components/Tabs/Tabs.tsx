@@ -1,18 +1,28 @@
 "use client"
 
+import { paramCase } from "change-case"
+import { useSearchParams } from "next/navigation"
 import { ReactNode, useState } from "react"
 
-interface TabProps {
+interface Tab {
   title: string
   content: ReactNode
 }
 
 interface TabsProps {
-  tabs: TabProps[]
+  tabs: Tab[]
 }
 
 export const Tabs = ({ tabs }: TabsProps) => {
-  const [activeTab, setActiveTab] = useState<TabProps | undefined>(tabs[0])
+  const searchParams = useSearchParams()
+  const [activeTab, setActiveTab] = useState<Tab | undefined>(() => {
+    const tabParam = searchParams.get("tab")
+    const tabKeys = tabs.map(({ title }) => paramCase(title))
+
+    const matchingTabIndex = tabKeys.findIndex((tabKey) => tabKey === tabParam)
+
+    return tabs[matchingTabIndex] ?? tabs[0]
+  })
 
   return (
     <div className="flex w-full flex-col gap-5">
