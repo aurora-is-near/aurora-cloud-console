@@ -17,7 +17,7 @@ export const WidgetEmbedCodeCard = ({
     <TabCard className="space-y-2">
       <p className="text-sm">
         Copy and paste the following code into your website, immediately after
-        the opening <pre className="font-mono inline-block">&lt;body&gt;</pre>{" "}
+        the opening <span className="font-mono inline-block">&lt;body&gt;</span>{" "}
         tag.
       </p>
       <pre className="text-sm font-mono bg-slate-100 p-4 rounded-md whitespace-pre-wrap">
