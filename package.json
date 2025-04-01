@@ -72,7 +72,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@aurora-is-near/eslint-config": "^1.4.1",
+    "@aurora-is-near/eslint-config": "^1.5.0",
     "@jest/globals": "^29.7.0",
     "@slack/types": "^2.14.0",
     "@svgr/webpack": "^8.1.0",
