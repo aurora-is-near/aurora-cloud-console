@@ -8,6 +8,7 @@ import { MainDashboardLayout } from "@/components/MainDashboardLayout"
 import { SiloSelect } from "@/components/SiloSelect"
 import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 import { SiloProvider } from "@/providers/SiloProvider"
+import { queryKeys } from "@/actions/query-keys"
 
 const Layout = ({
   children,
@@ -19,12 +20,12 @@ const Layout = ({
   const siloId = Number(id)
 
   const { data: authUser = null } = useQuery({
-    queryKey: ["auth-user"],
+    queryKey: queryKeys.getAuthUser(),
     queryFn: getAuthUser,
   })
 
   const { data: silos = [] } = useQuery({
-    queryKey: ["team-silos-by-key", teamKey],
+    queryKey: queryKeys.getSilos(teamKey),
     queryFn: async () => getTeamSilosByKey(teamKey),
   })
 

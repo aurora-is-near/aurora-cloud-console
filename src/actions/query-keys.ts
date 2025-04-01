@@ -6,6 +6,7 @@
  * @see https://tanstack.com/query/latest/docs/framework/react/guides/query-keys
  */
 export const queryKeys = {
+  getAuthUser: () => ["auth-user"],
   getTeamSummaries: (options: { searchQuery?: string } = {}) => [
     "team-summaries",
     options,
@@ -18,4 +19,5 @@ export const queryKeys = {
   getTeamDealsByKey: (teamKey: string) => ["team-deals-by-key", teamKey],
   getTeamByKey: (teamKey: string) => ["team-by-key", teamKey],
   getSiloOracle: (siloId: number | null) => ["silo-oracle", siloId],
+  getSilos: (teamKey: string) => ["team-silos-by-key", teamKey],
 } as const
