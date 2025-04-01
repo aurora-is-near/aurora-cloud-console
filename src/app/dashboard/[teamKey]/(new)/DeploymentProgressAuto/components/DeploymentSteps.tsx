@@ -74,6 +74,8 @@ export const DeploymentSteps = ({
     const transactionStatuses = {
       ...DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES,
       ...siloTransactionStatuses,
+      // don't need to perform these transactions for these cases
+      // because it's a chain's default state
       ENABLE_MAKE_TXS_WHITELIST:
         chainPermission === "private" ? "SUCCESSFUL" : null,
       ENABLE_DEPLOY_CONTRACT_WHITELIST:
