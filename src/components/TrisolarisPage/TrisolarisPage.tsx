@@ -62,6 +62,7 @@ const RequestButton = ({
       return null
     default:
       notReachable(integrationStatus, { throwError: false })
+
       return null
   }
 }

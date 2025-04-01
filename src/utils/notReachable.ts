@@ -12,6 +12,7 @@ export function notReachable(
   options: Options = { throwError: true },
 ) {
   const message = `Should not be reached ${_ as unknown as string}`
+
   if (options.throwError) {
     throw new Error(message)
   }
