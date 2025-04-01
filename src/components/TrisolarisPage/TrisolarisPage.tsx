@@ -61,7 +61,9 @@ const RequestButton = ({
     case "PENDING":
       return null
     default:
-      return notReachable(integrationStatus)
+      notReachable(integrationStatus, { throwError: false })
+
+      return null
   }
 }
 

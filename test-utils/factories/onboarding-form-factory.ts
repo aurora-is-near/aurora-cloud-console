@@ -1,4 +1,4 @@
-import { OnboardingForm, Silo } from "@/types/types"
+import type { OnboardingForm } from "@/types/types"
 
 export const createMockOnboardingForm = (
   data?: Partial<OnboardingForm>,
@@ -15,5 +15,6 @@ export const createMockOnboardingForm = (
   networkType: "mainnet",
   team_id: 1,
   telegramHandle: "@me",
+  phoneNumber: "+4917612345678",
   ...data,
 })
