@@ -21,7 +21,11 @@ const Layout = async ({
         siloId={siloId}
         authUser={authUser}
         sidebarAction={
-          <SiloSelect teamKey={teamKey} defaultValue={Number(id)} />
+          <SiloSelect
+            teamKey={teamKey}
+            defaultValue={Number(id)}
+            className="mt-6"
+          />
         }
       >
         {children}
