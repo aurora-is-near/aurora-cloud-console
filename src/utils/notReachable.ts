@@ -4,8 +4,8 @@ type Options = {
   throwError?: boolean
 }
 
-export function notReachable(_: never, options: { throwError?: true }): never
-export function notReachable(_: never, options: { throwError: false }): void
+export function notReachable(_: never, options?: { throwError?: true }): never
+export function notReachable(_: never, options?: { throwError: false }): void
 
 export function notReachable(
   _: never,
