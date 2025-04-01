@@ -53,10 +53,7 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
             complexity.
           </InfoList.Item>
 
-          <InfoList.Item
-            label="Gas value"
-            labelTooltip="The price of gas on your chain, which defines how much gas is charged per transaction. Refer to the table to have an estimate of price per transaction."
-          >
+          <InfoList.Item label="Gas price">
             <div className="flex items-center justify-between gap-2">
               <Typography variant="paragraph" size={4}>
                 {`${gasPriceDisplayed} ${silo.base_token_symbol} per gas`}
