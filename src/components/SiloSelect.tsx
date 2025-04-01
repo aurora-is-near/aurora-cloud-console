@@ -1,5 +1,6 @@
 "use client"
 
+import clsx from "clsx"
 import { usePathname, useRouter } from "next/navigation"
 import {
   Listbox,
@@ -8,27 +9,17 @@ import {
   ListboxOptions,
 } from "@headlessui/react"
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid"
-import clsx from "clsx"
-import { useQuery } from "@tanstack/react-query"
-import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
+
+import type { Silo } from "@/types/types"
 
 type SiloSelectProps = {
-  teamKey: string
+  silos: Silo[]
   defaultValue: number
 }
 
-export const SiloSelect = ({ teamKey, defaultValue }: SiloSelectProps) => {
+export const SiloSelect = ({ silos, defaultValue }: SiloSelectProps) => {
   const router = useRouter()
   const pathname = usePathname()
-
-  const { data: silos } = useQuery({
-    queryKey: ["team-silos-by-key", teamKey],
-    queryFn: async () => getTeamSilosByKey(teamKey),
-  })
-
-  if (!silos || silos.length === 1) {
-    return null
-  }
 
   return (
     <div>

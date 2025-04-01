@@ -1,10 +1,15 @@
+"use client"
+
 import { ReactNode } from "react"
+import { useQuery } from "@tanstack/react-query"
+
+import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
 import { MainDashboardLayout } from "@/components/MainDashboardLayout"
 import { SiloSelect } from "@/components/SiloSelect"
 import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 import { SiloProvider } from "@/providers/SiloProvider"
 
-const Layout = async ({
+const Layout = ({
   children,
   params: { id, teamKey },
 }: {
@@ -12,7 +17,16 @@ const Layout = async ({
   params: { id: string; teamKey: string }
 }) => {
   const siloId = Number(id)
-  const authUser = await getAuthUser()
+
+  const { data: authUser = null } = useQuery({
+    queryKey: ["auth-user"],
+    queryFn: getAuthUser,
+  })
+
+  const { data: silos = [] } = useQuery({
+    queryKey: ["team-silos-by-key", teamKey],
+    queryFn: async () => getTeamSilosByKey(teamKey),
+  })
 
   return (
     <SiloProvider teamKey={teamKey} siloId={siloId}>
@@ -21,7 +35,9 @@ const Layout = async ({
         siloId={siloId}
         authUser={authUser}
         sidebarAction={
-          <SiloSelect teamKey={teamKey} defaultValue={Number(id)} />
+          silos.length > 1 ? (
+            <SiloSelect silos={silos} defaultValue={Number(id)} />
+          ) : undefined
         }
       >
         {children}
