@@ -344,7 +344,7 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
                       htmlFor="telegramHandle"
                       className="block font-medium text-md"
                     >
-                      Your Telegram @handle
+                      Your Telegram handle
                     </label>
                     <p className="text-sm text-slate-500">
                       You will be contacted by{" "}
@@ -369,6 +369,39 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
                     {!!fieldErrors?.telegramHandle && (
                       <p className="mt-2 text-sm text-rose-600">
                         {fieldErrors.telegramHandle}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="telegramHandle"
+                      className="block font-medium text-md"
+                    >
+                      Your phone number
+                    </label>
+                    <p className="text-sm text-slate-500">
+                      Provide an alternative contact method, additional to your
+                      Telegram handle.
+                    </p>
+                    <input
+                      type="text"
+                      id="phoneNumber"
+                      value={form.phoneNumber}
+                      onChange={(e) => {
+                        clearErrors()
+                        updateForm("phoneNumber", e.target.value)
+                      }}
+                      className={clsx(
+                        "w-full mt-2 p-2 border rounded",
+                        fieldErrors?.phoneNumber
+                          ? "border-rose-300 bg-rose-50"
+                          : "border-slate-300",
+                      )}
+                    />
+                    {!!fieldErrors?.phoneNumber && (
+                      <p className="mt-2 text-sm text-rose-600">
+                        {fieldErrors.phoneNumber}
                       </p>
                     )}
                   </div>

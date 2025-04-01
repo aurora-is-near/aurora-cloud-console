@@ -352,6 +352,7 @@ export type Database = {
           id: number
           integrations: Database["public"]["Enums"]["user_integration"][] | null
           networkType: Database["public"]["Enums"]["network_type"] | null
+          phoneNumber: string | null
           team_id: number | null
           telegramHandle: string | null
         }
@@ -370,6 +371,7 @@ export type Database = {
             | Database["public"]["Enums"]["user_integration"][]
             | null
           networkType?: Database["public"]["Enums"]["network_type"] | null
+          phoneNumber?: string | null
           team_id?: number | null
           telegramHandle?: string | null
         }
@@ -388,6 +390,7 @@ export type Database = {
             | Database["public"]["Enums"]["user_integration"][]
             | null
           networkType?: Database["public"]["Enums"]["network_type"] | null
+          phoneNumber?: string | null
           team_id?: number | null
           telegramHandle?: string | null
         }
