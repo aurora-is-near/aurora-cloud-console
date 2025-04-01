@@ -27,16 +27,17 @@ const ChainPermissionBox: React.FC<ChainPermissionBoxProps> = ({
 }) => {
   const TITLES: Record<ChainPermission, string> = {
     public: "Public",
-    public_permissioned: "Public Permissioned",
+    public_permissioned: "Permissioned",
     private: "Private",
   }
 
   const DESCRIPTIONS: Record<ChainPermission, string> = {
-    public: "Anyone can freely interact and deploy contracts on your chain.",
+    public:
+      "Full access for everyone; all users can interact and deploy contracts.",
     public_permissioned: isDevnet
       ? "On devnet, permissions are set to public permissioned by default."
-      : "You decide who can interact and deploy contracts on your chain.",
-    private: "A permissionned chain with fully private data.",
+      : "Anyone can interact, but only selected users can deploy contracts.",
+    private: "Only selected users can interact with or deploy contracts.",
   }
 
   const ICONS: Record<
