@@ -1,4 +1,4 @@
-import { OnboardingForm, Silo } from "@/types/types"
+import type { OnboardingForm } from "@/types/types"
 
 export const createMockOnboardingForm = (
   data?: Partial<OnboardingForm>,
