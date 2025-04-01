@@ -31,7 +31,7 @@ export const SiloSelect = ({ teamKey, defaultValue }: SiloSelectProps) => {
   }
 
   return (
-    <div>
+    <div className="mt-6">
       <label htmlFor="silo" className="sr-only">
         Selected silo
       </label>
