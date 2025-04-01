@@ -3,6 +3,9 @@ const nodeModulesToTransform = [
   "data-uri-to-buffer",
   "fetch-blob",
   "formdata-polyfill",
+  "eventemitter3",
+  "p-queue",
+  "p-timeout",
 ].join("|")
 
 module.exports = {
