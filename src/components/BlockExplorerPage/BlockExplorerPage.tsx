@@ -12,7 +12,6 @@ import { TabCard } from "@/components/TabCard/TabCard"
 import { NotAvailableBadge } from "@/components/NotAvailableBadge"
 
 import { SiloContext } from "@/providers/SiloProvider"
-import { BlockExplorerConfigurationTab } from "./BlockExplorerConfigurationTab"
 import { Blockscout } from "../../../public/static/v2/images/icons"
 
 export const BlockExplorerPage = () => {
@@ -50,13 +49,6 @@ export const BlockExplorerPage = () => {
       ),
     },
   ]
-
-  if (silo) {
-    tabs.push({
-      title: "Configuration",
-      content: <BlockExplorerConfigurationTab silo={silo} />,
-    })
-  }
 
   return (
     <DashboardPage>

@@ -112,7 +112,7 @@ export const IntentsPage = () => {
       >
         {showPopup && (
           <RequestReceivedPopup
-            link={`/dashboard/${team.team_key}/silos/${silo?.id}/block-explorer`}
+            link={`/dashboard/${team.team_key}/silos/${silo?.id}/configuration?tab=brand-assets`}
             close={() => setShowPopup(false)}
           />
         )}
