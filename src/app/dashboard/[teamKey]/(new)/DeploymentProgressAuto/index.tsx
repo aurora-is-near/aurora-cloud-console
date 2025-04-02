@@ -2,7 +2,7 @@
 
 import { useMemo } from "react"
 import { useQueries } from "@tanstack/react-query"
-import type { Silo, Team } from "@/types/types"
+import type { Silo, SiloConfigTransactionOperation, Team } from "@/types/types"
 import { DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES } from "@/constants/silo-config-transactions"
 import { getSiloConfigTransactions } from "@/actions/silo-config-transactions/get-silo-config-transactions"
 import { getTeamOnboardingFormByKey } from "@/actions/onboarding/get-team-onboarding-form-by-key"
@@ -30,9 +30,20 @@ export const DeploymentProgressAuto = ({
   ] = useQueries({
     queries: [
       {
-        queryKey: ["silo-config-transactions", silo?.id, "SET_BASE_TOKEN"],
+        queryKey: [
+          "silo-config-transactions",
+          silo?.id,
+          Object.keys(DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES),
+        ],
         queryFn: () =>
-          silo ? getSiloConfigTransactions(silo.id, "SET_BASE_TOKEN") : [],
+          silo
+            ? getSiloConfigTransactions(
+                silo.id,
+                Object.keys(
+                  DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES,
+                ) as SiloConfigTransactionOperation[],
+              )
+            : [],
       },
       {
         queryKey: ["teamOnboardingForm", team.team_key],
