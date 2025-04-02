@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { deployDefaultTokens } from "@/actions/deployment/deploy-default-tokens"
 import { updateSilo } from "@/actions/silos/update-silo"
+import { initialiseSiloWhitelists } from "@/actions/deployment/initialise-silo-whitelists"
 import { DeploymentProgressContent } from "./DeploymentProgressContent"
 import { mockTeam } from "../../../../../../test-utils/mock-team"
 import { createWrapper } from "../../../../../../test-utils/create-wrapper"
@@ -11,6 +12,7 @@ import { createMockOnboardingForm } from "../../../../../../test-utils/factories
 jest.useFakeTimers()
 jest.mock("../../../../../actions/deployment/set-base-token")
 jest.mock("../../../../../actions/deployment/deploy-default-tokens")
+jest.mock("../../../../../actions/deployment/initialise-silo-whitelists")
 jest.mock("../../../../../actions/silos/update-silo")
 
 const getSteps = () => {
@@ -34,6 +36,7 @@ describe("DeploymentProgressContent", () => {
   beforeEach(() => {
     ;(setBaseToken as jest.Mock).mockResolvedValue("PENDING")
     ;(deployDefaultTokens as jest.Mock).mockResolvedValue("PENDING")
+    ;(initialiseSiloWhitelists as jest.Mock).mockResolvedValue("PENDING")
   })
 
   afterEach(() => {
@@ -133,7 +136,7 @@ describe("DeploymentProgressContent", () => {
       ])
     })
 
-    it("moves on to setting the base token after a short delay", async () => {
+    it("starts by initialising the silo whitelists", async () => {
       const silo = createMockSilo({
         base_token_symbol: "AURORA",
         base_token_name: "Aurora",
@@ -150,12 +153,38 @@ describe("DeploymentProgressContent", () => {
         { wrapper: createWrapper() },
       )
 
-      act(() => {
-        jest.advanceTimersByTime(2500)
+      await waitFor(() => {
+        expect(getCurrentStep()).toBe("INIT_AURORA_ENGINE")
       })
 
+      expect(initialiseSiloWhitelists).toHaveBeenCalledTimes(1)
+      expect(initialiseSiloWhitelists).toHaveBeenCalledWith(silo)
+
+      expect(setBaseToken).not.toHaveBeenCalled()
+      expect(deployDefaultTokens).not.toHaveBeenCalled()
+    })
+
+    it("sets the base token once the silo whitelists have been initialised", async () => {
+      ;(initialiseSiloWhitelists as jest.Mock).mockResolvedValue("SUCCESSFUL")
+
+      const silo = createMockSilo({
+        base_token_symbol: "AURORA",
+        base_token_name: "Aurora",
+      })
+
+      render(
+        <DeploymentProgressContent
+          hasUnassignedSilo
+          team={mockTeam}
+          silo={silo}
+          onboardingForm={createMockOnboardingForm()}
+          setIsDeploymentComplete={() => {}}
+        />,
+        { wrapper: createWrapper() },
+      )
+
       await waitFor(() => {
-        expect(getCurrentStep()).toBe("SETTING_BASE_TOKEN")
+        expect(getCurrentStep()).toBe("INIT_AURORA_ENGINE")
       })
 
       expect(setBaseToken).toHaveBeenCalledTimes(1)
@@ -163,6 +192,7 @@ describe("DeploymentProgressContent", () => {
     })
 
     it("starts from the deploying tokens step if no previous relevant transactions", async () => {
+      ;(initialiseSiloWhitelists as jest.Mock).mockResolvedValue("SUCCESSFUL")
       ;(setBaseToken as jest.Mock).mockResolvedValue("SUCCESSFUL")
 
       render(
@@ -201,6 +231,8 @@ describe("DeploymentProgressContent", () => {
             onboardingForm={createMockOnboardingForm()}
             setIsDeploymentComplete={() => {}}
             siloTransactionStatuses={{
+              ENABLE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
+              ENABLE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
               SET_BASE_TOKEN: "SUCCESSFUL",
               DEPLOY_AURORA: status,
             }}
@@ -226,6 +258,8 @@ describe("DeploymentProgressContent", () => {
           onboardingForm={createMockOnboardingForm()}
           setIsDeploymentComplete={() => {}}
           siloTransactionStatuses={{
+            ENABLE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
+            ENABLE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
             SET_BASE_TOKEN: "SUCCESSFUL",
             DEPLOY_AURORA: "SUCCESSFUL",
             DEPLOY_NEAR: "SUCCESSFUL",
@@ -257,6 +291,8 @@ describe("DeploymentProgressContent", () => {
           onboardingForm={createMockOnboardingForm()}
           setIsDeploymentComplete={setIsDeploymentComplete}
           siloTransactionStatuses={{
+            ENABLE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
+            ENABLE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
             SET_BASE_TOKEN: "SUCCESSFUL",
             DEPLOY_AURORA: "SUCCESSFUL",
             DEPLOY_NEAR: "SUCCESSFUL",
@@ -286,6 +322,7 @@ describe("DeploymentProgressContent", () => {
     })
 
     it("retrys when the try again button is clicked when setting the base token fails", async () => {
+      ;(initialiseSiloWhitelists as jest.Mock).mockResolvedValue("SUCCESSFUL")
       ;(setBaseToken as jest.Mock).mockResolvedValue("FAILED")
 
       render(
