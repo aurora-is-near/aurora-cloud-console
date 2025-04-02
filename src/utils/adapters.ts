@@ -74,7 +74,6 @@ export const adaptSilo = (silo: Silo): SiloSchema => ({
   engineAccount: silo.engine_account,
   engineVersion: silo.engine_version,
   genesis: silo.genesis,
-  network: silo.network,
   rpcUrl: silo.rpc_url,
   intentsIntegrationStatus: silo.intents_integration_status,
   trisolarisIntegrationStatus: silo.trisolaris_integration_status,

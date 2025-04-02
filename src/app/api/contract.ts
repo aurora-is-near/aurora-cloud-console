@@ -64,7 +64,6 @@ export const SiloSchema = z.object({
   engineVersion: z.string(),
   genesis: z.string(),
   name: z.string(),
-  network: z.string(),
   rpcUrl: z.string(),
   intentsIntegrationStatus: z.string(),
   trisolarisIntegrationStatus: z.string(),

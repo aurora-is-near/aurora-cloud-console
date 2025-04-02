@@ -1,6 +1,5 @@
 "use client"
 
-import { sentenceCase } from "change-case"
 import { getRelayerAccount } from "@/utils/relayer"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { SiloContext } from "@/providers/SiloProvider"
@@ -17,11 +16,6 @@ export const ConfigurationTab = () => {
   const relayerAccount = getRelayerAccount(silo)
 
   const items: ConfigurationItemsCardProps["items"] = [
-    {
-      term: "Network",
-      description: sentenceCase(silo.network),
-      tooltip: "Aurora Chains can be either public, permissioned, or private.",
-    },
     {
       term: "Chain ID",
       description: String(silo.chain_id),

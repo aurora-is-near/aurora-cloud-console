@@ -850,9 +850,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                             ],
                             "type": "object",
                           },
-                          "network": {
-                            "type": "string",
-                          },
                           "rpcUrl": {
                             "type": "string",
                           },
@@ -872,7 +869,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "engineVersion",
                           "genesis",
                           "name",
-                          "network",
                           "rpcUrl",
                           "intentsIntegrationStatus",
                           "trisolarisIntegrationStatus",
@@ -972,9 +968,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                       ],
                       "type": "object",
                     },
-                    "network": {
-                      "type": "string",
-                    },
                     "rpcUrl": {
                       "type": "string",
                     },
@@ -994,7 +987,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "engineVersion",
                     "genesis",
                     "name",
-                    "network",
                     "rpcUrl",
                     "intentsIntegrationStatus",
                     "trisolarisIntegrationStatus",
