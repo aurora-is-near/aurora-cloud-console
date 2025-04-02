@@ -22,6 +22,10 @@ const CONTRACT_CHANGER_SYMBOLS: Record<
   AURORA: "Aurora",
   USDt: "Usdt",
   USDC: "Usdc",
+  ETH: {
+    source_contract_id: "aurora",
+    nep141: "0x5a524251df27A25AC6b9964a93E1c23AD692688D",
+  },
 }
 
 const SILO_CONFIG_TRANSACTION_OPERATIONS: Record<
@@ -32,6 +36,7 @@ const SILO_CONFIG_TRANSACTION_OPERATIONS: Record<
   AURORA: "DEPLOY_AURORA",
   USDt: "DEPLOY_USDT",
   USDC: "DEPLOY_USDC",
+  ETH: "DEPLOY_ETH",
 }
 
 const checkContract = async ({
