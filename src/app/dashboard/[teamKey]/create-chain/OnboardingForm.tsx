@@ -142,15 +142,15 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
             <div className="grid md:grid-cols-3 w-full gap-4">
               <ChainPermissionBox
                 permission="public"
-                onClick={() => handleChainPermissionSelect("public")}
                 selected={form.chainPermission === "public"}
+                onClick={() => handleChainPermissionSelect("public")}
               />
               <ChainPermissionBox
                 permission="public_permissioned"
+                selected={form.chainPermission === "public_permissioned"}
                 onClick={() =>
                   handleChainPermissionSelect("public_permissioned")
                 }
-                selected={form.chainPermission === "public_permissioned"}
               />
               <ChainPermissionBox
                 disabled
