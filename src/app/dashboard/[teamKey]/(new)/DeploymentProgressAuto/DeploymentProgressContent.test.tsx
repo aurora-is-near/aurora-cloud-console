@@ -227,6 +227,14 @@ describe("DeploymentProgressContent", () => {
         expect(getCurrentStep()).toBe("INIT_AURORA_ENGINE")
       })
 
+      act(() => {
+        jest.advanceTimersByTime(2500)
+      })
+
+      await waitFor(() => {
+        expect(getCurrentStep()).toBe("SETTING_BASE_TOKEN")
+      })
+
       expect(setBaseToken).toHaveBeenCalledTimes(1)
       expect(setBaseToken).toHaveBeenCalledWith(silo)
     })
@@ -260,9 +268,6 @@ describe("DeploymentProgressContent", () => {
     })
 
     it("starts from the deploying tokens step if no previous relevant transactions", async () => {
-      ;(initialiseSiloWhitelists as jest.Mock).mockResolvedValue("SUCCESSFUL")
-      ;(setBaseToken as jest.Mock).mockResolvedValue("SUCCESSFUL")
-
       render(
         <DeploymentProgressContent
           hasUnassignedSilo
@@ -274,6 +279,8 @@ describe("DeploymentProgressContent", () => {
           onboardingForm={createMockOnboardingForm()}
           setIsDeploymentComplete={() => {}}
           siloTransactionStatuses={{
+            INITIALISE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
+            INITIALISE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
             SET_BASE_TOKEN: "SUCCESSFUL",
           }}
         />,

@@ -92,6 +92,17 @@ export const DeploymentSteps = ({
       return { name: "INIT_AURORA_ENGINE", state: "pending" }
     }
 
+    // If either of the transactions to set the permissions are required but
+    // have not been performed yet we start from the beginning.
+    if (
+      (!silo.is_make_txs_public &&
+        !siloTransactionStatuses?.INITIALISE_MAKE_TXS_WHITELIST) ||
+      (!silo.is_deploy_contracts_public &&
+        !siloTransactionStatuses?.INITIALISE_DEPLOY_CONTRACT_WHITELIST)
+    ) {
+      return { name: "INIT_AURORA_ENGINE", state: "pending" }
+    }
+
     const tokenDeploymentTransactionStatuses = Object.keys(transactionStatuses)
       .filter((key): key is SiloConfigTransactionOperation =>
         key.startsWith("DEPLOY_"),
@@ -108,6 +119,10 @@ export const DeploymentSteps = ({
       return { name: "START_BLOCK_EXPLORER", state: "pending" }
     }
 
+    if (!siloTransactionStatuses?.SET_BASE_TOKEN) {
+      return { name: "SETTING_BASE_TOKEN", state: "pending" }
+    }
+
     if (siloTransactionStatuses?.SET_BASE_TOKEN === "FAILED") {
       return { name: "SETTING_BASE_TOKEN", state: "failed" }
     }
@@ -120,7 +135,7 @@ export const DeploymentSteps = ({
       !tokenDeploymentTransactionStatuses.length ||
       tokenDeploymentTransactionStatuses.every((status) => !status)
     ) {
-      return { name: "SETTING_BASE_TOKEN", state: "completed" }
+      return { name: "DEPLOYING_DEFAULT_TOKENS", state: "pending" }
     }
 
     if (tokenDeploymentTransactionStatuses.includes("FAILED")) {
@@ -156,6 +171,8 @@ export const DeploymentSteps = ({
       name: StepName,
       performTransaction: () => Promise<SiloConfigTransactionStatus>,
     ): Promise<ListProgressState> => {
+      const currentTime = Date.now()
+
       setCurrentStep({
         name,
         state: "pending",
@@ -197,6 +214,16 @@ export const DeploymentSteps = ({
         })
 
         return "delayed"
+      }
+
+      const totalTime = Date.now() - currentTime
+      const delay = 2500 - totalTime
+
+      // If the step was flagged as successful very quickly we add a short delay
+      // before setting the step to completed, to make it look like something is
+      // actually happening.
+      if (delay > 0) {
+        await sleep(delay)
       }
 
       return "completed"
