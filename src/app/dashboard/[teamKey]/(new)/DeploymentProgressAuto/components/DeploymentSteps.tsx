@@ -224,15 +224,15 @@ export const DeploymentSteps = ({
         // be changed to public - otherwise return success by default
         if (chainPermission !== "public") {
           return sleep(2500).then(() => "SUCCESSFUL")
-        } else {
-          return toggleSiloWhitelist
-            .mutateAsync({
-              id: silo.id,
-              isEnabled: false,
-              action: "DEPLOY_CONTRACT",
-            })
-            .then(({ status: chainPermissionStatus }) => chainPermissionStatus)
         }
+
+        return toggleSiloWhitelist
+          .mutateAsync({
+            id: silo.id,
+            isEnabled: false,
+            action: "DEPLOY_CONTRACT",
+          })
+          .then(({ status: chainPermissionStatus }) => chainPermissionStatus)
       })
 
       if (status === "delayed") {
