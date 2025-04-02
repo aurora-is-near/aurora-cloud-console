@@ -32,10 +32,7 @@ import { authorise } from "./auth"
  * @example /probs/token-expired
  * @example /probs/bad-request
  */
-const getErrorType = (
-  error: unknown,
-  statusCode: keyof typeof httpStatus,
-): string => {
+const getErrorType = (error: unknown, statusCode: number): string => {
   return isAbortError(error) && error.type
     ? error.type
     : `/probs/${paramCase(String(httpStatus[statusCode]))}`
@@ -51,7 +48,7 @@ const getErrorResponse = (error: unknown): NextResponse<ApiErrorResponse> => {
 
   const response = NextResponse.json(
     {
-      type: getErrorType(error, statusCode as keyof typeof httpStatus),
+      type: getErrorType(error, statusCode),
       statusCode,
       message: toError(error).message,
       details: isAbortError(error) ? error.detail : undefined,

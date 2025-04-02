@@ -1,5 +1,7 @@
 import httpStatus from "http-status"
 
+type HttpStatusCode = keyof typeof httpStatus
+
 type AbortOptions = {
   type?: string
   detail?: string
@@ -33,7 +35,7 @@ export const isAbortError = (error: unknown): error is AbortError =>
  * The error is intended to be picked up by the error handling middleware.
  */
 export function abort(
-  statusCode: keyof typeof httpStatus,
+  statusCode: HttpStatusCode,
   message?: string,
   abortOptions?: AbortOptions,
 ): never {

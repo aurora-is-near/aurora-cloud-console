@@ -1,6 +1,5 @@
 "use server"
 
-import httpStatus from "http-status"
 import { abort } from "@/utils/abort"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
@@ -97,9 +96,6 @@ export const submitContactForm = async (
 
   // https://legacydocs.hubspot.com/docs/faq/api-error-responses
   if (res.status >= 400 && res.status < 600) {
-    abort(
-      res.status as keyof typeof httpStatus,
-      data.message ?? "Unknown error",
-    )
+    abort(res.status, data.message ?? "Unknown error")
   }
 }
