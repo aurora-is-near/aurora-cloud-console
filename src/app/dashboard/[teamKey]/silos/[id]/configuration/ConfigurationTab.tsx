@@ -18,11 +18,6 @@ export const ConfigurationTab = () => {
 
   const items: ConfigurationItemsCardProps["items"] = [
     {
-      term: "Network",
-      description: sentenceCase(silo.network),
-      tooltip: "Aurora Chains can be either public, permissioned, or private.",
-    },
-    {
       term: "Chain ID",
       description: String(silo.chain_id),
       tooltip:
