@@ -52,10 +52,6 @@ const getNetworkAddress = (
   symbol: string,
   nativeCurrencySymbol: string,
 ) => {
-  if (!address) {
-    return null
-  }
-
   if (symbol.toUpperCase() === nativeCurrencySymbol.toUpperCase()) {
     return BASE_TOKEN_PLACEHOLDER_ADDRESS
   }
