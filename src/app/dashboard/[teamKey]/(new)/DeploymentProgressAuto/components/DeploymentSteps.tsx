@@ -219,19 +219,21 @@ export const DeploymentSteps = ({
   const startConfiguration = useCallback(async () => {
     // Set the chain permissions
     if (!isStepCompleted("SET_CHAIN_PERMISSIONS", currentStep.name)) {
-      const status = await runTransactionStep("SET_CHAIN_PERMISSIONS", () =>
+      const status = await runTransactionStep("SET_CHAIN_PERMISSIONS", () => {
         // by default it's set to restricted so run only it's needed to
         // be changed to public - otherwise return success by default
-        chainPermission !== "public"
-          ? Promise.resolve("SUCCESSFUL")
-          : toggleSiloWhitelist
-              .mutateAsync({
-                id: silo.id,
-                isEnabled: false,
-                action: "DEPLOY_CONTRACT",
-              })
-              .then(({ status }) => status),
-      )
+        if (chainPermission !== "public") {
+          return sleep(2500).then(() => "SUCCESSFUL")
+        } else {
+          return toggleSiloWhitelist
+            .mutateAsync({
+              id: silo.id,
+              isEnabled: false,
+              action: "DEPLOY_CONTRACT",
+            })
+            .then(({ status: chainPermissionStatus }) => chainPermissionStatus)
+        }
+      })
 
       if (status === "delayed") {
         await startConfiguration()

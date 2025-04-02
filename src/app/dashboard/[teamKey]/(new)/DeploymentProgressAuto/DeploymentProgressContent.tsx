@@ -28,7 +28,7 @@ export const DeploymentProgressContent = ({
     useState(false)
 
   const canBeAutomated =
-    (silo || hasUnassignedSilo) &&
+    (silo ?? hasUnassignedSilo) &&
     onboardingForm?.baseToken &&
     AUTOMATED_BASE_TOKENS.includes(onboardingForm.baseToken)
 
