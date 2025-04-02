@@ -167,7 +167,7 @@ describe("getWidgetUrl", () => {
       symbol: "MYTOKEN",
       aurora_address: "0x1234567890",
       ethereum_address: null,
-      near_address: null,
+      near_address: "test.near",
     })
 
     const url = new URL(
@@ -186,6 +186,7 @@ describe("getWidgetUrl", () => {
       {
         [silo.engine_account]: "0x1234567890",
         aurora: "0x1234567890",
+        near: "test.near",
         decimals: 18,
         icon: "http://example.com/path/to/icon.png",
         name: "Test Token",
@@ -200,14 +201,14 @@ describe("getWidgetUrl", () => {
       symbol: "TOKENA",
       aurora_address: "0x123",
       ethereum_address: null,
-      near_address: null,
+      near_address: "test.near",
     })
 
     const tokenB = createMockSiloBridgedToken({
       symbol: "TOKENB",
       aurora_address: "0x456",
       ethereum_address: null,
-      near_address: null,
+      near_address: "test.near2",
     })
 
     const url = new URL(
@@ -226,6 +227,7 @@ describe("getWidgetUrl", () => {
       {
         [silo.engine_account]: "0x123",
         aurora: "0x123",
+        near: "test.near",
         decimals: 18,
         icon: "http://example.com/path/to/icon.png",
         name: "Test Token",
@@ -234,6 +236,7 @@ describe("getWidgetUrl", () => {
       {
         [silo.engine_account]: "0x456",
         aurora: "0x456",
+        near: "test.near2",
         decimals: 18,
         icon: "http://example.com/path/to/icon.png",
         name: "Test Token",
