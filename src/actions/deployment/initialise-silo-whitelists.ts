@@ -8,15 +8,13 @@ export const initialiseSiloWhitelists = async (
   silo: Silo,
   {
     skipIfFailed,
-    enableOnly,
   }: {
     skipIfFailed?: boolean
-    enableOnly?: boolean
   } = {},
 ): Promise<SiloConfigTransactionStatus> => {
   const promises = []
 
-  if (!enableOnly || silo.is_make_txs_public) {
+  if (!silo.is_make_txs_public) {
     promises.push(
       performSiloConfigTransaction(
         silo,
@@ -24,7 +22,7 @@ export const initialiseSiloWhitelists = async (
         async () => {
           return contractChangerApiClient.toggleWhitelist({
             siloEngineAccountId: silo.engine_account,
-            action: silo.is_make_txs_public ? "enable" : "disable",
+            action: "disable",
             whitelistKind: "address",
           })
         },
@@ -33,7 +31,7 @@ export const initialiseSiloWhitelists = async (
     )
   }
 
-  if (!enableOnly || silo.is_deploy_contracts_public) {
+  if (!silo.is_deploy_contracts_public) {
     promises.push(
       performSiloConfigTransaction(
         silo,
@@ -41,7 +39,7 @@ export const initialiseSiloWhitelists = async (
         async () => {
           return contractChangerApiClient.toggleWhitelist({
             siloEngineAccountId: silo.engine_account,
-            action: silo.is_deploy_contracts_public ? "enable" : "disable",
+            action: "disable",
             whitelistKind: "evm-admin",
           })
         },

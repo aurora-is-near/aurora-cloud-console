@@ -206,7 +206,7 @@ export const DeploymentSteps = ({
   const startConfiguration = useCallback(async () => {
     if (!isStepCompleted("INIT_AURORA_ENGINE", currentStep.name)) {
       const status = await runTransactionStep("INIT_AURORA_ENGINE", () =>
-        initialiseSiloWhitelists(silo, { enableOnly: true }),
+        initialiseSiloWhitelists(silo),
       )
 
       if (status === "delayed") {
