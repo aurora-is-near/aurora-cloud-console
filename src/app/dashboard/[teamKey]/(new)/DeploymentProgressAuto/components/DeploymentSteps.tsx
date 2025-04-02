@@ -46,9 +46,12 @@ const sleep = (delay: number) =>
     setTimeout(resolve, delay)
   })
 
-const isStepCompleted = (step: StepName, currentStep: StepName) =>
-  STEPS.indexOf(step) < STEPS.indexOf(currentStep) ||
-  currentStep === "CHAIN_DEPLOYED"
+const isStepCompleted = (step: StepName, currentStep: StepName) => {
+  return (
+    STEPS.indexOf(step) < STEPS.indexOf(currentStep) ||
+    currentStep === "CHAIN_DEPLOYED"
+  )
+}
 
 export const DeploymentSteps = ({
   chainPermission,
@@ -77,7 +80,7 @@ export const DeploymentSteps = ({
       // don't need to perform these transactions for these cases
       // because it's a chain's default state
       ENABLE_DEPLOY_CONTRACT_WHITELIST:
-        chainPermission !== "public" ? "SUCCESSFUL" : null,
+        chainPermission === "public" ? "SUCCESSFUL" : null,
     }
 
     const noTransactions = Object.values(siloTransactionStatuses ?? {}).every(
@@ -108,14 +111,6 @@ export const DeploymentSteps = ({
       return { name: "START_BLOCK_EXPLORER", state: "pending" }
     }
 
-    if (siloTransactionStatuses?.SET_BASE_TOKEN === "FAILED") {
-      return { name: "SETTING_BASE_TOKEN", state: "failed" }
-    }
-
-    if (siloTransactionStatuses?.SET_BASE_TOKEN === "PENDING") {
-      return { name: "SETTING_BASE_TOKEN", state: "pending" }
-    }
-
     if (
       siloTransactionStatuses?.ENABLE_DEPLOY_CONTRACT_WHITELIST === "FAILED"
     ) {
@@ -126,6 +121,14 @@ export const DeploymentSteps = ({
       siloTransactionStatuses?.ENABLE_DEPLOY_CONTRACT_WHITELIST === "PENDING"
     ) {
       return { name: "SET_CHAIN_PERMISSIONS", state: "pending" }
+    }
+
+    if (siloTransactionStatuses?.SET_BASE_TOKEN === "FAILED") {
+      return { name: "SETTING_BASE_TOKEN", state: "failed" }
+    }
+
+    if (siloTransactionStatuses?.SET_BASE_TOKEN === "PENDING") {
+      return { name: "SETTING_BASE_TOKEN", state: "pending" }
     }
 
     if (
@@ -232,7 +235,7 @@ export const DeploymentSteps = ({
             isEnabled: false,
             action: "DEPLOY_CONTRACT",
           })
-          .then(({ status: chainPermissionStatus }) => chainPermissionStatus)
+          .then(({ status }) => status)
       })
 
       if (status === "delayed") {
