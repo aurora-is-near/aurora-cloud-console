@@ -164,6 +164,45 @@ describe("DeploymentProgressContent", () => {
       expect(deployDefaultTokens).not.toHaveBeenCalled()
     })
 
+    it.each`
+      makeTxsWhitelistStatus | deployContractWhitelistStatus
+      ${"PENDING"}           | ${"PENDING"}
+      ${"PENDING"}           | ${"SUCCESSFUL"}
+      ${"SUCCESSFUL"}        | ${"PENDING"}
+      ${"FAILED"}            | ${"PENDING"}
+      ${"SUCCESSFUL"}        | ${"FAILED"}
+    `(
+      "starts at the initialising silo whitelists step if make tx is $makeTxsWhitelistStatus and deploy contracts is $deployContractWhitelistStatus",
+      async ({ makeTxsWhitelistStatus, deployContractWhitelistStatus }) => {
+        const silo = createMockSilo({
+          base_token_symbol: "AURORA",
+          base_token_name: "Aurora",
+        })
+
+        render(
+          <DeploymentProgressContent
+            hasUnassignedSilo
+            team={mockTeam}
+            silo={silo}
+            onboardingForm={createMockOnboardingForm()}
+            setIsDeploymentComplete={() => {}}
+            siloTransactionStatuses={{
+              ENABLE_MAKE_TXS_WHITELIST: makeTxsWhitelistStatus,
+              ENABLE_DEPLOY_CONTRACT_WHITELIST: deployContractWhitelistStatus,
+            }}
+          />,
+          { wrapper: createWrapper() },
+        )
+
+        await waitFor(() => {
+          expect(getCurrentStep()).toBe("INIT_AURORA_ENGINE")
+        })
+
+        expect(initialiseSiloWhitelists).toHaveBeenCalledTimes(1)
+        expect(initialiseSiloWhitelists).toHaveBeenCalledWith(silo)
+      },
+    )
+
     it("sets the base token once the silo whitelists have been initialised", async () => {
       ;(initialiseSiloWhitelists as jest.Mock).mockResolvedValue("SUCCESSFUL")
 
@@ -189,6 +228,34 @@ describe("DeploymentProgressContent", () => {
 
       expect(setBaseToken).toHaveBeenCalledTimes(1)
       expect(setBaseToken).toHaveBeenCalledWith(silo)
+    })
+
+    it("skips the initialise step if both transactions were already successful", async () => {
+      const silo = createMockSilo({
+        base_token_symbol: "AURORA",
+        base_token_name: "Aurora",
+      })
+
+      render(
+        <DeploymentProgressContent
+          hasUnassignedSilo
+          team={mockTeam}
+          silo={silo}
+          onboardingForm={createMockOnboardingForm()}
+          setIsDeploymentComplete={() => {}}
+          siloTransactionStatuses={{
+            ENABLE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
+            ENABLE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
+          }}
+        />,
+        { wrapper: createWrapper() },
+      )
+
+      await waitFor(() => {
+        expect(getCurrentStep()).toBe("SETTING_BASE_TOKEN")
+      })
+
+      expect(initialiseSiloWhitelists).not.toHaveBeenCalled()
     })
 
     it("starts from the deploying tokens step if no previous relevant transactions", async () => {
