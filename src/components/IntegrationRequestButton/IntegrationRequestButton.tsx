@@ -21,6 +21,17 @@ type ActionProps = {
   onClick: () => void
 }
 
+const SILO_PROPERTIES: Record<
+  Integration,
+  Extract<
+    keyof Silo,
+    "intents_integration_status" | "trisolaris_integration_status"
+  >
+> = {
+  intents: "intents_integration_status",
+  trisolaris: "trisolaris_integration_status",
+}
+
 const RequestAction = ({
   isLoading,
   integrationStatus,
@@ -86,30 +97,14 @@ export const IntegrationRequestButton = ({
       setShowPopup(true)
 
       if (updatedSilo) {
-        switch (integration) {
-          case "intents":
-            queryClient.setQueryData(
-              queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
-              {
-                ...silo,
-                intents_integration_status:
-                  updatedSilo.intents_integration_status,
-              },
-            )
-            break
-          case "trisolaris":
-            queryClient.setQueryData(
-              queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
-              {
-                ...silo,
-                trisolaris_integration_status:
-                  updatedSilo.trisolaris_integration_status,
-              },
-            )
-            break
-          default:
-            notReachable(integration, { throwError: false })
-        }
+        queryClient.setQueryData(
+          queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
+          {
+            ...silo,
+            [SILO_PROPERTIES[integration]]:
+              updatedSilo[SILO_PROPERTIES[integration]],
+          },
+        )
       }
     },
     onError: () => {
@@ -117,29 +112,11 @@ export const IntegrationRequestButton = ({
     },
   })
 
-  const integrationStatus = useMemo(() => {
-    const defaultStatus = "INITIAL"
-
-    switch (integration) {
-      case "intents":
-        return silo.intents_integration_status ?? defaultStatus
-      case "trisolaris":
-        return silo.trisolaris_integration_status ?? defaultStatus
-      default:
-        notReachable(integration, { throwError: false })
-        return defaultStatus
-    }
-  }, [
-    integration,
-    silo.trisolaris_integration_status,
-    silo.intents_integration_status,
-  ])
-
   return (
     <>
       <RequestAction
         isLoading={isRequestingIntegration}
-        integrationStatus={integrationStatus}
+        integrationStatus={silo[SILO_PROPERTIES[integration]] || "INITIAL"}
         onClick={mutateIntegrationRequest}
       />
       {showPopup && (
