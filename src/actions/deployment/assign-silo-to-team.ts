@@ -36,7 +36,9 @@ export const assignSiloToTeam = async (
     .insert([{ team_id: teamId, silo_id: unassignedSiloId }])
 
   // 3. Update the silo based on the onboarding form details
-  const siloUpdateData: Partial<Silo> = {}
+  const siloUpdateData: Partial<Silo> = {
+    is_make_txs_public: onboardingForm.chainPermission === "public",
+  }
 
   if (chainName) {
     siloUpdateData.name = chainName
