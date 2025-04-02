@@ -37,7 +37,8 @@ export const assignSiloToTeam = async (
 
   // 3. Update the silo based on the onboarding form details
   const siloUpdateData: Partial<Silo> = {
-    is_make_txs_public: onboardingForm.chainPermission === "public",
+    is_make_txs_public: onboardingForm.chainPermission !== "private",
+    is_deploy_contracts_public: onboardingForm.chainPermission === "public",
   }
 
   if (chainName) {
