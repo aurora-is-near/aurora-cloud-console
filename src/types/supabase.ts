@@ -160,7 +160,7 @@ export type Database = {
           icon_url: string | null
           id: number
           name: string
-          near_address: string | null
+          near_address: string
           symbol: string
         }
         Insert: {
@@ -171,7 +171,7 @@ export type Database = {
           icon_url?: string | null
           id?: number
           name: string
-          near_address?: string | null
+          near_address: string
           symbol: string
         }
         Update: {
@@ -182,7 +182,7 @@ export type Database = {
           icon_url?: string | null
           id?: number
           name?: string
-          near_address?: string | null
+          near_address?: string
           symbol?: string
         }
         Relationships: []

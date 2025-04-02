@@ -69,6 +69,7 @@ export const BridgedTokenForm = ({ token }: BridgedTokenFormProps) => {
       name: "near_address",
       label: "Near address",
       defaultValue: token?.near_address ?? "",
+      required: true,
     },
     {
       name: "icon_url",
