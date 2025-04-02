@@ -1,7 +1,7 @@
 "use client"
 
 import toast from "react-hot-toast"
-import { useState, useMemo } from "react"
+import { useMemo, useState } from "react"
 import { CheckIcon } from "@heroicons/react/24/solid"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
@@ -9,7 +9,7 @@ import { Button } from "@/components/Button"
 import { notReachable } from "@/utils/notReachable"
 import { queryKeys } from "@/actions/query-keys"
 import { requestIntegration } from "@/actions/silos/request-integration"
-import type { RequestStatus, Team, Silo } from "@/types/types"
+import type { RequestStatus, Silo, Team } from "@/types/types"
 
 import { RequestReceivedPopup } from "./RequestReceivedPopup"
 
@@ -114,13 +114,21 @@ export const IntegrationRequestButton = ({
 
   const integrationStatus = useMemo(() => {
     const defaultStatus = "INITIAL"
+
     if (integration === "intents") {
       return silo.intents_integration_status ?? defaultStatus
-    } else if (integration === "trisolaris") {
+    }
+
+    if (integration === "trisolaris") {
       return silo.trisolaris_integration_status ?? defaultStatus
     }
+
     return defaultStatus
-  }, [])
+  }, [
+    integration,
+    silo.trisolaris_integration_status,
+    silo.intents_integration_status,
+  ])
 
   return (
     <>
