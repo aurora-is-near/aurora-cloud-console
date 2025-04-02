@@ -18,7 +18,7 @@ export const initialiseSiloWhitelists = async (
     promises.push(
       performSiloConfigTransaction(
         silo,
-        "ENABLE_MAKE_TXS_WHITELIST",
+        "INITIALISE_MAKE_TXS_WHITELIST",
         async () => {
           return contractChangerApiClient.toggleWhitelist({
             siloEngineAccountId: silo.engine_account,
@@ -35,7 +35,7 @@ export const initialiseSiloWhitelists = async (
     promises.push(
       performSiloConfigTransaction(
         silo,
-        "ENABLE_DEPLOY_CONTRACT_WHITELIST",
+        "INITIALISE_DEPLOY_CONTRACT_WHITELIST",
         async () => {
           return contractChangerApiClient.toggleWhitelist({
             siloEngineAccountId: silo.engine_account,

@@ -187,8 +187,9 @@ describe("DeploymentProgressContent", () => {
             onboardingForm={createMockOnboardingForm()}
             setIsDeploymentComplete={() => {}}
             siloTransactionStatuses={{
-              ENABLE_MAKE_TXS_WHITELIST: makeTxsWhitelistStatus,
-              ENABLE_DEPLOY_CONTRACT_WHITELIST: deployContractWhitelistStatus,
+              INITIALISE_MAKE_TXS_WHITELIST: makeTxsWhitelistStatus,
+              INITIALISE_DEPLOY_CONTRACT_WHITELIST:
+                deployContractWhitelistStatus,
             }}
           />,
           { wrapper: createWrapper() },
@@ -244,8 +245,8 @@ describe("DeploymentProgressContent", () => {
           onboardingForm={createMockOnboardingForm()}
           setIsDeploymentComplete={() => {}}
           siloTransactionStatuses={{
-            ENABLE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
-            ENABLE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
+            INITIALISE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
+            INITIALISE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
           }}
         />,
         { wrapper: createWrapper() },
@@ -298,8 +299,8 @@ describe("DeploymentProgressContent", () => {
             onboardingForm={createMockOnboardingForm()}
             setIsDeploymentComplete={() => {}}
             siloTransactionStatuses={{
-              ENABLE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
-              ENABLE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
+              INITIALISE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
+              INITIALISE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
               SET_BASE_TOKEN: "SUCCESSFUL",
               DEPLOY_AURORA: status,
             }}
@@ -325,8 +326,8 @@ describe("DeploymentProgressContent", () => {
           onboardingForm={createMockOnboardingForm()}
           setIsDeploymentComplete={() => {}}
           siloTransactionStatuses={{
-            ENABLE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
-            ENABLE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
+            INITIALISE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
+            INITIALISE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
             SET_BASE_TOKEN: "SUCCESSFUL",
             DEPLOY_AURORA: "SUCCESSFUL",
             DEPLOY_NEAR: "SUCCESSFUL",
@@ -358,8 +359,8 @@ describe("DeploymentProgressContent", () => {
           onboardingForm={createMockOnboardingForm()}
           setIsDeploymentComplete={setIsDeploymentComplete}
           siloTransactionStatuses={{
-            ENABLE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
-            ENABLE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
+            INITIALISE_MAKE_TXS_WHITELIST: "SUCCESSFUL",
+            INITIALISE_DEPLOY_CONTRACT_WHITELIST: "SUCCESSFUL",
             SET_BASE_TOKEN: "SUCCESSFUL",
             DEPLOY_AURORA: "SUCCESSFUL",
             DEPLOY_NEAR: "SUCCESSFUL",

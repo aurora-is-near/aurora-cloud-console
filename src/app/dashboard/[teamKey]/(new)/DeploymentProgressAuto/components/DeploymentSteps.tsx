@@ -76,8 +76,8 @@ export const DeploymentSteps = ({
     // If any transactions to set the permissions previously failed start from
     // the beginning, in the failed state (so the user can retry).
     if (
-      siloTransactionStatuses?.ENABLE_MAKE_TXS_WHITELIST === "FAILED" ||
-      siloTransactionStatuses?.ENABLE_DEPLOY_CONTRACT_WHITELIST === "FAILED"
+      siloTransactionStatuses?.INITIALISE_MAKE_TXS_WHITELIST === "FAILED" ||
+      siloTransactionStatuses?.INITIALISE_DEPLOY_CONTRACT_WHITELIST === "FAILED"
     ) {
       return { name: "INIT_AURORA_ENGINE", state: "failed" }
     }
@@ -85,8 +85,9 @@ export const DeploymentSteps = ({
     // If any transactions to set the permissions are pending we also start from
     // the beginning, in the pending state.
     if (
-      siloTransactionStatuses?.ENABLE_MAKE_TXS_WHITELIST === "PENDING" ||
-      siloTransactionStatuses?.ENABLE_DEPLOY_CONTRACT_WHITELIST === "PENDING"
+      siloTransactionStatuses?.INITIALISE_MAKE_TXS_WHITELIST === "PENDING" ||
+      siloTransactionStatuses?.INITIALISE_DEPLOY_CONTRACT_WHITELIST ===
+        "PENDING"
     ) {
       return { name: "INIT_AURORA_ENGINE", state: "pending" }
     }
