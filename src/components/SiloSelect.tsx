@@ -15,9 +15,14 @@ import { getTeamSilosByKey } from "@/actions/team-silos/get-team-silos-by-key"
 type SiloSelectProps = {
   teamKey: string
   defaultValue: number
+  className?: string
 }
 
-export const SiloSelect = ({ teamKey, defaultValue }: SiloSelectProps) => {
+export const SiloSelect = ({
+  teamKey,
+  defaultValue,
+  className,
+}: SiloSelectProps) => {
   const router = useRouter()
   const pathname = usePathname()
 
@@ -31,7 +36,7 @@ export const SiloSelect = ({ teamKey, defaultValue }: SiloSelectProps) => {
   }
 
   return (
-    <div>
+    <div className={className}>
       <label htmlFor="silo" className="sr-only">
         Selected silo
       </label>

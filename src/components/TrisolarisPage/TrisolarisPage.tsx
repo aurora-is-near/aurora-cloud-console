@@ -1,104 +1,26 @@
 "use client"
 
 import Image from "next/image"
-import toast from "react-hot-toast"
-import { useContext, useState } from "react"
-import { CheckIcon } from "@heroicons/react/24/solid"
+import { useContext } from "react"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { queryKeys } from "@/actions/query-keys"
-import { requestIntegration } from "@/actions/silos/request-integration"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { notReachable } from "@/utils/notReachable"
 
 import Hero from "@/components/Hero/Hero"
-import { Button } from "@/components/Button"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
 import { DashboardPage } from "@/components/DashboardPage"
-import { RequestReceivedPopup } from "@/components/RequestReceivedPopup"
+import { IntegrationRequestButton } from "@/components/IntegrationRequestButton"
 
 import { TeamContext } from "@/providers/TeamProvider"
 import { SiloContext } from "@/providers/SiloProvider"
 
-import type { RequestStatus } from "@/types/types"
-
 import { Trisolaris } from "../../../public/static/v2/images/icons"
-
-const RequestButton = ({
-  isLoading,
-  integrationStatus,
-  onClick,
-}: {
-  isLoading: boolean
-  integrationStatus: RequestStatus
-  onClick: () => void
-}) => {
-  switch (integrationStatus) {
-    case "INITIAL":
-      return (
-        <Button onClick={onClick} disabled={isLoading} size="lg">
-          {isLoading ? "Requesting activation..." : "Activate integration"}
-        </Button>
-      )
-    case "REQUESTED":
-      return (
-        <Button variant="secondary" size="lg" disabled>
-          <CheckIcon className="w-4 h-4" />
-          Integration requested
-        </Button>
-      )
-    case "COMPLETED":
-      return (
-        <Button size="lg" disabled>
-          Active
-        </Button>
-      )
-    case "REJECTED":
-    case "APPROVED":
-    case "PENDING":
-      return null
-    default:
-      notReachable(integrationStatus, { throwError: false })
-
-      return null
-  }
-}
 
 export const TrisolarisPage = () => {
   const { team } = useRequiredContext(TeamContext)
   const { silo } = useContext(SiloContext) ?? {}
-
-  const queryClient = useQueryClient()
-  const [showPopup, setShowPopup] = useState(false)
-
-  const {
-    mutate: mutateIntegrationRequest,
-    isPending: isRequestingIntegration,
-  } = useMutation({
-    mutationFn: async () => {
-      if (!silo) {
-        return null
-      }
-
-      return requestIntegration(team, silo, "trisolaris")
-    },
-    onSuccess: (updatedSilo) => {
-      setShowPopup(true)
-
-      if (updatedSilo) {
-        queryClient.setQueryData(
-          queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
-          updatedSilo.intents_integration_status,
-        )
-      }
-    },
-    onError: () => {
-      toast.error("Failed to request integration")
-    },
-  })
 
   const tabs = [
     {
@@ -142,7 +64,7 @@ export const TrisolarisPage = () => {
               src="/static/v2/images/icons/marketplace/trisolaris.svg"
               alt="Trisolaris Logo"
             />
-            Trisolaris
+            DEX
           </>
         }
         description="Get your chain listed on Trisolaris, the first decentralized exchange on the Aurora network."
@@ -155,18 +77,14 @@ export const TrisolarisPage = () => {
           />
         }
       >
-        {showPopup && (
-          <RequestReceivedPopup
-            link={`/dashboard/${team.team_key}/silos/${silo?.id}/configuration?tab=brand-assets`}
-            close={() => setShowPopup(false)}
-          />
-        )}
         <div className="flex justify-start gap-2">
-          <RequestButton
-            isLoading={isRequestingIntegration}
-            integrationStatus={silo?.intents_integration_status ?? "INITIAL"}
-            onClick={mutateIntegrationRequest}
-          />
+          {silo && (
+            <IntegrationRequestButton
+              silo={silo}
+              team={team}
+              integration="trisolaris"
+            />
+          )}
           <LinkButton
             isExternal
             variant="border"

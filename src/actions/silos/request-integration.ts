@@ -1,5 +1,6 @@
 "use server"
 
+import { notReachable } from "@/utils/notReachable"
 import { notifyIntegrationRequest } from "@/actions/contact/integration-request"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { Silo, Team } from "@/types/types"
@@ -21,12 +22,15 @@ export const requestIntegration = async (
     Pick<Silo, "intents_integration_status" | "trisolaris_integration_status">
   > = {}
 
-  if (integration === "intents") {
-    values.intents_integration_status = "REQUESTED"
-  } else if (integration === "trisolaris") {
-    values.trisolaris_integration_status = "REQUESTED"
-  } else {
-    throw new Error(`Invalid integration request: ${integration}`)
+  switch (integration) {
+    case "intents":
+      values.intents_integration_status = "REQUESTED"
+      break
+    case "trisolaris":
+      values.trisolaris_integration_status = "REQUESTED"
+      break
+    default:
+      notReachable(integration)
   }
 
   const result = await supabase
@@ -39,7 +43,7 @@ export const requestIntegration = async (
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 
-  await notifyIntegrationRequest(team, result.data, "Intents")
+  await notifyIntegrationRequest(team, result.data, integration)
 
   return result.data
 }
