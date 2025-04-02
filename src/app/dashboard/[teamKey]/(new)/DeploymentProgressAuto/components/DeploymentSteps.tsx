@@ -76,8 +76,6 @@ export const DeploymentSteps = ({
       ...siloTransactionStatuses,
       // don't need to perform these transactions for these cases
       // because it's a chain's default state
-      ENABLE_MAKE_TXS_WHITELIST:
-        chainPermission === "private" ? "SUCCESSFUL" : null,
       ENABLE_DEPLOY_CONTRACT_WHITELIST:
         chainPermission !== "public" ? "SUCCESSFUL" : null,
     }
@@ -119,14 +117,12 @@ export const DeploymentSteps = ({
     }
 
     if (
-      siloTransactionStatuses?.ENABLE_MAKE_TXS_WHITELIST === "FAILED" ||
       siloTransactionStatuses?.ENABLE_DEPLOY_CONTRACT_WHITELIST === "FAILED"
     ) {
       return { name: "SET_CHAIN_PERMISSIONS", state: "failed" }
     }
 
     if (
-      siloTransactionStatuses?.ENABLE_MAKE_TXS_WHITELIST === "PENDING" ||
       siloTransactionStatuses?.ENABLE_DEPLOY_CONTRACT_WHITELIST === "PENDING"
     ) {
       return { name: "SET_CHAIN_PERMISSIONS", state: "pending" }
@@ -224,41 +220,17 @@ export const DeploymentSteps = ({
     // Set the chain permissions
     if (!isStepCompleted("SET_CHAIN_PERMISSIONS", currentStep.name)) {
       const status = await runTransactionStep("SET_CHAIN_PERMISSIONS", () =>
-        Promise.all([
-          // by default it's set to restricted so run only it's needed to
-          // be changed to public - otherwise return success by default
-          chainPermission === "private"
-            ? Promise.resolve({ status: "SUCCESSFUL" })
-            : toggleSiloWhitelist
-                .mutateAsync({
-                  id: silo.id,
-                  isEnabled: false,
-                  action: "MAKE_TRANSACTION",
-                })
-                .then(({ status: txStatus }) => txStatus),
-          chainPermission !== "public"
-            ? Promise.resolve({ status: "SUCCESSFUL" })
-            : toggleSiloWhitelist
-                .mutateAsync({
-                  id: silo.id,
-                  isEnabled: false,
-                  action: "DEPLOY_CONTRACT",
-                })
-                .then(({ status: txStatus }) => txStatus),
-        ]).then(([makeTxsStatus, deployContractStatus]) => {
-          if (makeTxsStatus === "FAILED" || deployContractStatus === "FAILED") {
-            return "FAILED"
-          }
-
-          if (
-            makeTxsStatus === "PENDING" ||
-            deployContractStatus === "PENDING"
-          ) {
-            return "PENDING"
-          }
-
-          return "SUCCESSFUL"
-        }),
+        // by default it's set to restricted so run only it's needed to
+        // be changed to public - otherwise return success by default
+        chainPermission !== "public"
+          ? Promise.resolve("SUCCESSFUL")
+          : toggleSiloWhitelist
+              .mutateAsync({
+                id: silo.id,
+                isEnabled: false,
+                action: "DEPLOY_CONTRACT",
+              })
+              .then(({ status }) => status),
       )
 
       if (status === "delayed") {

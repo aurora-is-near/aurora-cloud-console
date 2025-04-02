@@ -153,6 +153,7 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
                 }
               />
               <ChainPermissionBox
+                disabled
                 permission="private"
                 selected={form.chainPermission === "private"}
                 onClick={() => handleChainPermissionSelect("private")}

@@ -40,7 +40,7 @@ export const DeploymentProgressAuto = ({
       },
       {
         queryKey: ["unassgined-silo"],
-        queryFn: () => (silo ? getUnassignedSiloId() : null),
+        queryFn: () => (silo ? null : getUnassignedSiloId()),
       },
     ],
   })
