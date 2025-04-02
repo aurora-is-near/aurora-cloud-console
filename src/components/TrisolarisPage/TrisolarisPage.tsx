@@ -64,7 +64,7 @@ export const TrisolarisPage = () => {
               src="/static/v2/images/icons/marketplace/trisolaris.svg"
               alt="Trisolaris Logo"
             />
-            Trisolaris
+            DEX
           </>
         }
         description="Get your chain listed on Trisolaris, the first decentralized exchange on the Aurora network."

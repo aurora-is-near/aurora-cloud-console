@@ -129,7 +129,7 @@ export const MainDashboardLayout = ({
               },
               {
                 variant: "secondary",
-                name: "Trisolaris",
+                name: "DEX",
                 href: `/dashboard/${teamKey}${siloPrefix}/trisolaris`,
                 icon: <Trisolaris />,
               },
