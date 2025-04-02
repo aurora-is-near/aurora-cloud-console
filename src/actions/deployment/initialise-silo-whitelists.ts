@@ -22,7 +22,7 @@ export const initialiseSiloWhitelists = async (
         async () => {
           return contractChangerApiClient.toggleWhitelist({
             siloEngineAccountId: silo.engine_account,
-            action: "disable",
+            action: "enable",
             whitelistKind: "address",
           })
         },
@@ -39,7 +39,7 @@ export const initialiseSiloWhitelists = async (
         async () => {
           return contractChangerApiClient.toggleWhitelist({
             siloEngineAccountId: silo.engine_account,
-            action: "disable",
+            action: "enable",
             whitelistKind: "evm-admin",
           })
         },
