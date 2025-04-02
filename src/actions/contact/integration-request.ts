@@ -1,6 +1,6 @@
+import { sentenceCase } from "change-case"
 import { Silo, Team } from "@/types/types"
 import { sendSlackMessage } from "@/utils/send-slack-notification"
-import { sentenceCase } from "change-case"
 
 type IntegrationRequest = "oracle" | "intents" | "trisolaris"
 
