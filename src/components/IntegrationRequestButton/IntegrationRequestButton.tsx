@@ -86,24 +86,29 @@ export const IntegrationRequestButton = ({
       setShowPopup(true)
 
       if (updatedSilo) {
-        if (integration === "intents") {
-          queryClient.setQueryData(
-            queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
-            {
-              ...silo,
-              intents_integration_status:
-                updatedSilo.intents_integration_status,
-            },
-          )
-        } else if (integration === "trisolaris") {
-          queryClient.setQueryData(
-            queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
-            {
-              ...silo,
-              trisolaris_integration_status:
-                updatedSilo.trisolaris_integration_status,
-            },
-          )
+        switch (integration) {
+          case "intents":
+            queryClient.setQueryData(
+              queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
+              {
+                ...silo,
+                intents_integration_status:
+                  updatedSilo.intents_integration_status,
+              },
+            )
+            break
+          case "trisolaris":
+            queryClient.setQueryData(
+              queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
+              {
+                ...silo,
+                trisolaris_integration_status:
+                  updatedSilo.trisolaris_integration_status,
+              },
+            )
+            break
+          default:
+            notReachable(integration, { throwError: false })
         }
       }
     },
@@ -115,15 +120,15 @@ export const IntegrationRequestButton = ({
   const integrationStatus = useMemo(() => {
     const defaultStatus = "INITIAL"
 
-    if (integration === "intents") {
-      return silo.intents_integration_status ?? defaultStatus
+    switch (integration) {
+      case "intents":
+        return silo.intents_integration_status ?? defaultStatus
+      case "trisolaris":
+        return silo.trisolaris_integration_status ?? defaultStatus
+      default:
+        notReachable(integration, { throwError: false })
+        return defaultStatus
     }
-
-    if (integration === "trisolaris") {
-      return silo.trisolaris_integration_status ?? defaultStatus
-    }
-
-    return defaultStatus
   }, [
     integration,
     silo.trisolaris_integration_status,

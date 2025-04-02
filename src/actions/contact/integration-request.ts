@@ -1,7 +1,8 @@
 import { Silo, Team } from "@/types/types"
 import { sendSlackMessage } from "@/utils/send-slack-notification"
+import { sentenceCase } from "change-case"
 
-type IntegrationRequest = "Oracle" | "Intents" | "Trisolaris"
+type IntegrationRequest = "oracle" | "intents" | "trisolaris"
 
 export const notifyIntegrationRequest = async (
   team: Team,
@@ -36,7 +37,7 @@ export const notifyIntegrationRequest = async (
         {
           type: "section",
           text: {
-            text: `*Integration Request*\n${integrationRequest}`,
+            text: `*Integration Request*\n${sentenceCase(integrationRequest)}`,
             type: "mrkdwn",
           },
         },
