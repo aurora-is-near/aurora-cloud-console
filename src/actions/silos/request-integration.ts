@@ -39,7 +39,11 @@ export const requestIntegration = async (
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 
-  await notifyIntegrationRequest(team, result.data, "Intents")
+  if (integration === "intents") {
+    await notifyIntegrationRequest(team, result.data, "Intents")
+  } else if (integration === "trisolaris") {
+    await notifyIntegrationRequest(team, result.data, "Trisolaris")
+  }
 
   return result.data
 }
