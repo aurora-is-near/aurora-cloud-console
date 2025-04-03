@@ -48,7 +48,7 @@ export const initialiseSiloWhitelists = async (
     )
   }
 
-  const [statuses] = await Promise.all(promises)
+  const statuses = await Promise.all(promises)
 
   if (statuses.includes("PENDING")) {
     return "PENDING"
