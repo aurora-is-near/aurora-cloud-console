@@ -23,7 +23,7 @@ export const performSiloConfigTransaction = async (
 ): Promise<SiloConfigTransactionStatus> => {
   const previousTransactions = await getSiloConfigTransactions(
     silo.id,
-    operation,
+    [operation],
     nearAccountId,
   )
 
