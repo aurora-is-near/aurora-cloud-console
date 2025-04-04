@@ -10,7 +10,10 @@ import { useModals } from "@/hooks/useModals"
 import { Button } from "@/components/Button"
 import { Button as Btn, Card, InfoList, Typography } from "@/uikit"
 import type { Silo } from "@/types/types"
-import { decimalsToFloat } from "@/utils/decimals"
+import {
+  decimalsToFloat,
+  displayDecimalsWithoutScientificNotation,
+} from "@/utils/decimals"
 import { GasPriceForm } from "./GasPriceForm"
 
 type Props = {
@@ -56,7 +59,7 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
           <InfoList.Item label="Gas price">
             <div className="flex items-center justify-between gap-2">
               <Typography variant="paragraph" size={4}>
-                {`${gasPriceDisplayed} ${silo.base_token_symbol} per gas`}
+                {`${displayDecimalsWithoutScientificNotation(gasPriceDisplayed, silo.base_token_decimals)} ${silo.base_token_symbol} per gas`}
               </Typography>
               <Btn.Iconed
                 icon={PencilSquareIcon}
