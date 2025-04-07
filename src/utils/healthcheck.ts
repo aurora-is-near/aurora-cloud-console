@@ -67,6 +67,7 @@ const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
       USDt: defaultValue,
       USDC: defaultValue,
       AURORA: defaultValue,
+      ETH: defaultValue,
     },
   )
 }
