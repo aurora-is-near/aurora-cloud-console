@@ -59,6 +59,7 @@ export const adaptToken = (
   symbol: token.symbol,
   decimals: token.decimals,
   aurora_address: token.aurora_address,
+  silo_address: token.silo_address,
   ethereum_address: token.ethereum_address,
   near_address: token.near_address,
   iconUrl: token.icon_url,

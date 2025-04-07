@@ -346,11 +346,11 @@ describe("Silos repair route", () => {
 
     const mockBridgedTokens = [
       {
-        ...createMockBridgedToken({ symbol: "TESTa", aurora_address: "0x123" }),
+        ...createMockBridgedToken({ symbol: "TESTa", silo_address: "0x123" }),
         silo_bridged_tokens: [],
       },
       {
-        ...createMockBridgedToken({ symbol: "TESTb", aurora_address: "0x456" }),
+        ...createMockBridgedToken({ symbol: "TESTb", silo_address: "0x456" }),
         silo_bridged_tokens: [],
       },
     ]
@@ -367,7 +367,7 @@ describe("Silos repair route", () => {
     ;(ethers.Contract as jest.Mock).mockImplementation(
       (tokenContractAddress) => ({
         symbol: () => {
-          if (tokenContractAddress !== mockBridgedTokens[0].aurora_address) {
+          if (tokenContractAddress !== mockBridgedTokens[0].silo_address) {
             throw new Error("Not implemented")
           }
         },
@@ -425,13 +425,13 @@ describe("Silos repair route", () => {
 
     const mockBridgedTokens = [
       {
-        ...createMockBridgedToken({ symbol: "TESTa", aurora_address: "0x123" }),
+        ...createMockBridgedToken({ symbol: "TESTa", silo_address: "0x123" }),
         silo_bridged_tokens: [
           { silo_id: mockSilo.id, is_deployment_pending: true },
         ],
       },
       {
-        ...createMockBridgedToken({ symbol: "TESTb", aurora_address: "0x456" }),
+        ...createMockBridgedToken({ symbol: "TESTb", silo_address: "0x456" }),
         silo_bridged_tokens: [
           { silo_id: mockSilo.id, is_deployment_pending: true },
         ],
@@ -455,7 +455,7 @@ describe("Silos repair route", () => {
     ;(ethers.Contract as jest.Mock).mockImplementation(
       (tokenContractAddress) => ({
         symbol: () => {
-          if (tokenContractAddress !== mockBridgedTokens[0].aurora_address) {
+          if (tokenContractAddress !== mockBridgedTokens[0].silo_address) {
             throw new Error("Not implemented")
           }
         },

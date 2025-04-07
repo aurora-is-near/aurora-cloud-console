@@ -154,6 +154,7 @@ export type Database = {
       bridged_tokens: {
         Row: {
           aurora_address: string | null
+          silo_address: string | null
           created_at: string
           decimals: number
           ethereum_address: string | null
@@ -165,6 +166,7 @@ export type Database = {
         }
         Insert: {
           aurora_address?: string | null
+          silo_address?: string | null
           created_at?: string
           decimals: number
           ethereum_address?: string | null
@@ -176,6 +178,7 @@ export type Database = {
         }
         Update: {
           aurora_address?: string | null
+          silo_address?: string | null
           created_at?: string
           decimals?: number
           ethereum_address?: string | null

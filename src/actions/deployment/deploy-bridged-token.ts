@@ -20,7 +20,7 @@ const checkContract = async ({
   skipIfFailed?: boolean
 }): Promise<SiloConfigTransactionStatus> => {
   const nearAccountId = bridgedToken.near_address
-  const auroraAddress = bridgedToken.aurora_address
+  const siloAddress = bridgedToken.silo_address
 
   // Base tokens do not need an ERC20 contract deployed.
   if (
@@ -29,16 +29,16 @@ const checkContract = async ({
     return "SUCCESSFUL"
   }
 
-  // If there is no Aurora address we can't mirror the token, or check if the
+  // If there is no silo address we can't mirror the token, or check if the
   // token contract was deployed. We return pending as the result for the case
   // where we fill this account ID in later.
-  if (!auroraAddress) {
+  if (!siloAddress) {
     return "PENDING"
   }
 
   const isContractDeployed = await checkTokenByContractAddress(
     provider,
-    auroraAddress,
+    siloAddress,
   )
 
   if (isContractDeployed) {
