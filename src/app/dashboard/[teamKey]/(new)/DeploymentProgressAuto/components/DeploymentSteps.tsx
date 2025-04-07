@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { useMutation } from "@tanstack/react-query"
 import {
   Silo,
   SiloConfigTransactionOperation,
@@ -8,12 +7,12 @@ import {
 } from "@/types/types"
 import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { logger } from "@/logger"
-import { apiClient } from "@/utils/api/client"
 import { updateSilo } from "@/actions/silos/update-silo"
 import { ListProgressState } from "@/uikit"
 import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
 import { deployDefaultTokens } from "@/actions/deployment/deploy-default-tokens"
 import { DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES } from "@/constants/silo-config-transactions"
+import { initialiseSiloWhitelists } from "@/actions/deployment/initialise-silo-whitelists"
 import { useSteps } from "../hooks"
 import { Steps } from "./Steps"
 import { Step, StepName } from "../types"
@@ -22,7 +21,6 @@ type DeploymentStepsProps = {
   team: Team
   silo: Silo
   siloTransactionStatuses?: SiloConfigTransactionStatuses
-  isPublicChain: boolean
   onDeploymentComplete: () => void
 }
 
@@ -50,15 +48,9 @@ export const DeploymentSteps = ({
   team,
   silo,
   siloTransactionStatuses,
-  isPublicChain,
   onDeploymentComplete,
 }: DeploymentStepsProps) => {
   const wasConfigurationStarted = useRef(false)
-
-  const toggleSiloWhitelist = useMutation({
-    mutationFn: apiClient.toggleSiloPermissions,
-    onError: logger.error,
-  })
 
   // The initial state accounts for the case where the user started a
   // transaction to set the base token then navigated away from the page. In
@@ -81,6 +73,36 @@ export const DeploymentSteps = ({
       return { name: "INIT_AURORA_ENGINE", state: CURRENT_STEP_DEFAULT_STATE }
     }
 
+    // If any transactions to set the permissions previously failed start from
+    // the beginning, in the failed state (so the user can retry).
+    if (
+      siloTransactionStatuses?.INITIALISE_MAKE_TXS_WHITELIST === "FAILED" ||
+      siloTransactionStatuses?.INITIALISE_DEPLOY_CONTRACT_WHITELIST === "FAILED"
+    ) {
+      return { name: "INIT_AURORA_ENGINE", state: "failed" }
+    }
+
+    // If any transactions to set the permissions are pending we also start from
+    // the beginning, in the pending state.
+    if (
+      siloTransactionStatuses?.INITIALISE_MAKE_TXS_WHITELIST === "PENDING" ||
+      siloTransactionStatuses?.INITIALISE_DEPLOY_CONTRACT_WHITELIST ===
+        "PENDING"
+    ) {
+      return { name: "INIT_AURORA_ENGINE", state: "pending" }
+    }
+
+    // If either of the transactions to set the permissions are required but
+    // have not been performed yet we start from the beginning.
+    if (
+      (!silo.is_make_txs_public &&
+        !siloTransactionStatuses?.INITIALISE_MAKE_TXS_WHITELIST) ||
+      (!silo.is_deploy_contracts_public &&
+        !siloTransactionStatuses?.INITIALISE_DEPLOY_CONTRACT_WHITELIST)
+    ) {
+      return { name: "INIT_AURORA_ENGINE", state: "pending" }
+    }
+
     const tokenDeploymentTransactionStatuses = Object.keys(transactionStatuses)
       .filter((key): key is SiloConfigTransactionOperation =>
         key.startsWith("DEPLOY_"),
@@ -97,6 +119,10 @@ export const DeploymentSteps = ({
       return { name: "START_BLOCK_EXPLORER", state: "pending" }
     }
 
+    if (!siloTransactionStatuses?.SET_BASE_TOKEN) {
+      return { name: "SETTING_BASE_TOKEN", state: "pending" }
+    }
+
     if (siloTransactionStatuses?.SET_BASE_TOKEN === "FAILED") {
       return { name: "SETTING_BASE_TOKEN", state: "failed" }
     }
@@ -109,7 +135,7 @@ export const DeploymentSteps = ({
       !tokenDeploymentTransactionStatuses.length ||
       tokenDeploymentTransactionStatuses.every((status) => !status)
     ) {
-      return { name: "SETTING_BASE_TOKEN", state: "completed" }
+      return { name: "DEPLOYING_DEFAULT_TOKENS", state: "pending" }
     }
 
     if (tokenDeploymentTransactionStatuses.includes("FAILED")) {
@@ -145,6 +171,8 @@ export const DeploymentSteps = ({
       name: StepName,
       performTransaction: () => Promise<SiloConfigTransactionStatus>,
     ): Promise<ListProgressState> => {
+      const currentTime = Date.now()
+
       setCurrentStep({
         name,
         state: "pending",
@@ -188,15 +216,36 @@ export const DeploymentSteps = ({
         return "delayed"
       }
 
+      const totalTime = Date.now() - currentTime
+      const delay = 2500 - totalTime
+
+      // If the step was flagged as successful very quickly we add a short delay
+      // before setting the step to completed, to make it look like something is
+      // actually happening.
+      if (delay > 0) {
+        await sleep(delay)
+      }
+
       return "completed"
     },
     [],
   )
 
   const startConfiguration = useCallback(async () => {
-    // Start with a little delay while pretending to initialize the Aurora engine.
     if (!isStepCompleted("INIT_AURORA_ENGINE", currentStep.name)) {
-      await sleep(2500)
+      const status = await runTransactionStep("INIT_AURORA_ENGINE", () =>
+        initialiseSiloWhitelists(silo),
+      )
+
+      if (status === "delayed") {
+        await startConfiguration()
+
+        return
+      }
+
+      if (status === "failed") {
+        return
+      }
     }
 
     // Set the base token
@@ -214,16 +263,6 @@ export const DeploymentSteps = ({
       if (status === "failed") {
         return
       }
-    }
-
-    // Apply default chain permission (allow failure - can be changed later)
-    // Restricted by default so call only if public is selected
-    if (isPublicChain) {
-      toggleSiloWhitelist.mutate({
-        id: silo.id,
-        isEnabled: false,
-        action: "MAKE_TRANSACTION",
-      })
     }
 
     // Deploy the default token contracts
@@ -259,13 +298,7 @@ export const DeploymentSteps = ({
       name: "CHAIN_DEPLOYED",
       state: "completed",
     })
-  }, [
-    currentStep.name,
-    runTransactionStep,
-    silo,
-    isPublicChain,
-    toggleSiloWhitelist,
-  ])
+  }, [currentStep.name, runTransactionStep, silo])
 
   // Start the configuration on mount.
   useEffect(() => {
