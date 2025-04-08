@@ -7,5 +7,6 @@ export function safeBigintToNumber(value: bigint): number {
       `BigInt value ${value} is too large to safely convert to number`,
     )
   }
+
   return Number(value)
 }
