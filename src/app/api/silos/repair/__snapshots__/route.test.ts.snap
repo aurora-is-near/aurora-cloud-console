@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Silos repair route initialises the silo's set of bridged tokens 1`] = `
+[
+  [
+    [
+      {
+        "bridged_token_id": 47,
+        "is_deployment_pending": true,
+        "silo_id": 1,
+      },
+    ],
+  ],
+  [
+    [
+      {
+        "bridged_token_id": 44,
+        "is_deployment_pending": true,
+        "silo_id": 1,
+      },
+    ],
+  ],
+  [
+    [
+      {
+        "bridged_token_id": 42,
+        "is_deployment_pending": true,
+        "silo_id": 1,
+      },
+    ],
+  ],
+  [
+    [
+      {
+        "bridged_token_id": 46,
+        "is_deployment_pending": true,
+        "silo_id": 1,
+      },
+    ],
+  ],
+  [
+    [
+      {
+        "bridged_token_id": 45,
+        "is_deployment_pending": true,
+        "silo_id": 1,
+      },
+    ],
+  ],
+]
+`;
