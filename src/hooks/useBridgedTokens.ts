@@ -31,7 +31,7 @@ export const useBridgedTokens = (siloId: number) => {
       isSiloTokensPending ||
       isSiloTokenRequestsPending ||
       isSupportedTokensPending,
-    supportedTokens,
+    supportedTokens: supportedTokens.filter((token) => !!token.aurora_address),
     bridgedSiloTokens: bridgedSiloTokens?.items ?? [],
     bridgedSiloTokenRequests: bridgedSiloTokenRequests?.items ?? [],
   }
