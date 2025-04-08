@@ -105,7 +105,7 @@ export const BridgedTokensModal = ({ siloId }: BridgedTokensModalProps) => {
     setSelectedExistingToken(option)
     methods.setValue(
       "existing-token-address",
-      selectedToken.aurora_address ?? "N/A",
+      selectedToken.silo_address ?? "N/A",
     )
   }
 

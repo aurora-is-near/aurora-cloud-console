@@ -79,6 +79,7 @@ const setCustomTokensParam = (
         icon_url,
         ethereum_address,
         aurora_address,
+        silo_address,
         near_address,
       }) => {
         const data = cleanDeep({
@@ -90,7 +91,7 @@ const setCustomTokensParam = (
           aurora: getNetworkAddress(aurora_address, symbol, "ETH"),
           near: getNetworkAddress(near_address, symbol, "NEAR"),
           [silo.engine_account]: getNetworkAddress(
-            aurora_address,
+            silo_address,
             symbol,
             silo.base_token_symbol,
           ),
