@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation"
 import { NotAllowed } from "@/components/NotAllowed"
-import { DashboardLayout } from "@/components/DashboardLayout"
 import { DashboardPage } from "@/components/DashboardPage"
 import { FullScreenPage } from "@/components/FullScreenPage"
 import { getAuthUser } from "@/actions/auth-user/get-auth-user"
@@ -33,11 +32,9 @@ const Page = async () => {
   }
 
   return (
-    <DashboardLayout authUser={authUser}>
-      <DashboardPage heading="Pauser" headingSize="lg" className="pt-12">
-        <PauseForm />
-      </DashboardPage>
-    </DashboardLayout>
+    <DashboardPage heading="Pauser" headingSize="lg" className="pt-12">
+      <PauseForm />
+    </DashboardPage>
   )
 }
 

@@ -6,6 +6,7 @@ import { getTeams } from "@/actions/teams/get-teams"
 import { getBlockscoutDatabases } from "@/actions/blockscout-database/get-blockscout-databases"
 import { getSilosTeams } from "@/actions/silos/get-silos-teams"
 import { DeleteSiloButton } from "./DeleteSiloButton"
+import { PauseSiloButton } from "./PauseSiloButton"
 import { SiloForm } from "../../SiloForm"
 
 const Page = async ({ params: { id } }: { params: { id: number } }) => {
@@ -23,7 +24,12 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
   return (
     <DashboardPage
       heading={["Silos", silo.name]}
-      actions={<DeleteSiloButton silo={silo} />}
+      actions={
+        <>
+          <PauseSiloButton silo={silo} />
+          <DeleteSiloButton silo={silo} />
+        </>
+      }
     >
       <Card>
         <Card.Title tag="h3">Silo details</Card.Title>

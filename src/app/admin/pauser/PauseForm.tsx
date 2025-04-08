@@ -2,8 +2,8 @@
 
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useCallback } from "react"
-import { pause as sdkPause } from "@auroraisnear/pauser-sdk"
 import { Button } from "@/components/Button"
+import { pause } from "@/actions/contracts/pause"
 
 type Inputs = {
   networkId: "ethereum" | "near"
@@ -20,23 +20,14 @@ const PauseForm = () => {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>()
 
-  const pause: SubmitHandler<Inputs> = useCallback(
-    async ({ networkId, chainId, accountId, target, sender }) => {
-      if (networkId === "near" && target) {
-        await sdkPause({ networkId, chainId, accountId, target, sender })
-      } else if (networkId === "ethereum") {
-        const chain = parseInt(chainId, 10)
-
-        await sdkPause({ networkId, chainId: chain, accountId })
-      }
-    },
-    [],
-  )
+  const submit: SubmitHandler<Inputs> = useCallback(async (inputs) => {
+    await pause(inputs)
+  }, [])
 
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="p-6 md:p-10 w-full md:w-[457px]">
-        <form className="space-y-4" onSubmit={handleSubmit(pause)}>
+        <form className="space-y-4" onSubmit={handleSubmit(submit)}>
           <div>
             <label
               htmlFor="networkId"
