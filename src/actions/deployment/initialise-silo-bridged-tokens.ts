@@ -1,10 +1,10 @@
 import { JsonRpcProvider } from "ethers"
-import { getBridgedTokens } from "@/actions/bridged-tokens/get-bridged-tokens"
 import { createSiloBridgedToken } from "@/actions/silo-bridged-tokens/create-silo-bridged-token"
-import { getSiloBridgedTokens } from "@/actions/silo-bridged-tokens/get-silo-bridged-tokens"
 import { DEFAULT_TOKENS } from "@/constants/default-tokens"
 import { BridgedToken, Silo } from "@/types/types"
 import { checkTokenByContractAddress } from "@/utils/check-token-contract"
+import { filterBridgedTokensBySymbol } from "@/actions/bridged-tokens/filter-bridged-tokens-by-symbol"
+import { filterSiloBridgedTokensBySymbol } from "@/actions/silo-bridged-tokens/filter-silo-bridged-tokens-by-symbol"
 
 const checkContract = async (
   provider: JsonRpcProvider,
@@ -31,9 +31,11 @@ const checkContract = async (
 export const initialiseSiloBridgedTokens = async (
   silo: Silo,
 ): Promise<void> => {
+  const symbols = [...DEFAULT_TOKENS, silo.base_token_symbol]
+
   const [siloBridgedTokens, bridgedTokens] = await Promise.all([
-    getSiloBridgedTokens(silo.id),
-    getBridgedTokens(),
+    filterSiloBridgedTokensBySymbol(silo.id, symbols),
+    filterBridgedTokensBySymbol(symbols),
   ])
 
   const provider = new JsonRpcProvider(silo.rpc_url)
