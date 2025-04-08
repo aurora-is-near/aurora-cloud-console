@@ -2687,6 +2687,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                             "nullable": true,
                             "type": "string",
                           },
+                          "silo_address": {
+                            "nullable": true,
+                            "type": "string",
+                          },
                           "symbol": {
                             "type": "string",
                           },
@@ -2698,6 +2702,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "symbol",
                           "decimals",
                           "aurora_address",
+                          "silo_address",
                           "near_address",
                           "ethereum_address",
                           "iconUrl",

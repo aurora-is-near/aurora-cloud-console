@@ -147,7 +147,7 @@ describe("Healthcheck route", () => {
       {
         ...createMockBridgedToken({
           symbol: "PENDING_AND_DEPLOYED",
-          aurora_address: "0x1",
+          silo_address: "0x1",
         }),
         silo_bridged_tokens: [
           { silo_id: silo.id, is_deployment_pending: true },
@@ -156,7 +156,7 @@ describe("Healthcheck route", () => {
       {
         ...createMockBridgedToken({
           symbol: "PENDING_AND_NOT_DEPLOYED",
-          aurora_address: "0x2",
+          silo_address: "0x2",
         }),
         silo_bridged_tokens: [
           { silo_id: silo.id, is_deployment_pending: true },
@@ -165,7 +165,7 @@ describe("Healthcheck route", () => {
       {
         ...createMockBridgedToken({
           symbol: baseTokenSymbol,
-          aurora_address: "0x3",
+          silo_address: "0x3",
         }),
         silo_bridged_tokens: [
           { silo_id: silo.id, is_deployment_pending: true },
@@ -174,7 +174,7 @@ describe("Healthcheck route", () => {
       {
         ...createMockBridgedToken({
           symbol: "PENDING_AND_NOT_BASE_AND_NO_ADDRESS",
-          aurora_address: null,
+          silo_address: null,
         }),
         silo_bridged_tokens: [
           { silo_id: silo.id, is_deployment_pending: true },
@@ -183,7 +183,7 @@ describe("Healthcheck route", () => {
       {
         ...createMockBridgedToken({
           symbol: "NOT_PENDING",
-          aurora_address: null,
+          silo_address: null,
         }),
         silo_bridged_tokens: [
           { silo_id: silo.id, is_deployment_pending: false },
@@ -197,7 +197,7 @@ describe("Healthcheck route", () => {
     ;(ethers.Contract as jest.Mock).mockImplementation(
       (tokenContractAddress) => ({
         symbol: () => {
-          if (tokenContractAddress === mockTokens[0].aurora_address) {
+          if (tokenContractAddress === mockTokens[0].silo_address) {
             return mockTokens[0].symbol
           }
 

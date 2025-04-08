@@ -9,6 +9,7 @@ export const createMockBridgedToken = (
   decimals: 18,
   created_at: "2021-01-01T00:00:00Z",
   aurora_address: "0x",
+  silo_address: "0x",
   ethereum_address: "0x",
   near_address: "test",
   icon_url: "http://example.com/path/to/icon.png",
