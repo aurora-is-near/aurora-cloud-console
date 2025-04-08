@@ -160,7 +160,7 @@ export type Database = {
           icon_url: string | null
           id: number
           name: string
-          near_address: string | null
+          near_address: string
           symbol: string
         }
         Insert: {
@@ -171,7 +171,7 @@ export type Database = {
           icon_url?: string | null
           id?: number
           name: string
-          near_address?: string | null
+          near_address: string
           symbol: string
         }
         Update: {
@@ -182,7 +182,7 @@ export type Database = {
           icon_url?: string | null
           id?: number
           name?: string
-          near_address?: string | null
+          near_address?: string
           symbol?: string
         }
         Relationships: []
@@ -1304,6 +1304,8 @@ export type Database = {
         | "DEPLOY_ETH"
         | "STORAGE_DEPOSIT"
         | "DEPLOY_TOKEN"
+        | "INITIALISE_MAKE_TXS_WHITELIST"
+        | "INITIALISE_DEPLOY_CONTRACT_WHITELIST"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       user_integration:
         | "onramp"

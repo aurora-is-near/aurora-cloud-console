@@ -316,39 +316,6 @@ describe("Healthcheck route", () => {
     })
   })
 
-  it("does not perform additional near account checks when a bridged token has no near address", async () => {
-    const silo = createMockSilo()
-
-    mockSupabaseClient
-      .from("silos")
-      .select.mockImplementation(() => createSelect(silo))
-
-    mockSupabaseClient.from("bridged_tokens").select.mockImplementation(() =>
-      createSelect([
-        {
-          ...createMockBridgedToken({
-            symbol: "MYTOKEN",
-            aurora_address: "0x1",
-            near_address: null,
-          }),
-          silo_bridged_tokens: [
-            { silo_id: silo.id, is_deployment_pending: true },
-          ],
-        },
-      ]),
-    )
-
-    const res = await invokeApiHandler(
-      "GET",
-      `/api/silos/${silo.id}/healthcheck`,
-      GET,
-    )
-
-    expect(res.status).toBe(200)
-    expect(mockNearAccount.getAccountBalance).toHaveBeenCalledTimes(1)
-    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(3)
-  })
-
   it("checks the account balance twice if near is bridged", async () => {
     const silo = createMockSilo()
 
