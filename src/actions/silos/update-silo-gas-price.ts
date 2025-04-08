@@ -15,7 +15,7 @@ export const updateSiloGasPrice = async (
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("silos")
-    .update(inputs)
+    .update({ gas_price: toSupabaseBigIntString(inputs.gas_price) })
     .eq("id", id)
     .select()
     .single()
