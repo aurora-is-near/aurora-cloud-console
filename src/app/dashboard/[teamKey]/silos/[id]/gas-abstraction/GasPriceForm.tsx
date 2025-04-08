@@ -11,6 +11,7 @@ import type { SubmitHandler } from "react-hook-form"
 import { logger } from "@/logger"
 import { HorizontalInput } from "@/components/HorizontalInput"
 import { updateSiloGasPrice } from "@/actions/silos/update-silo-gas-price"
+import { safeBigintToNumber } from "@/utils/safe-bigint-to-number"
 import type { Silo } from "@/types/types"
 
 type FormData = {
@@ -18,7 +19,7 @@ type FormData = {
 }
 
 type FormSubmittedData = {
-  gasPrice: bigint
+  gasPrice: number
 }
 
 type Props = {
@@ -56,15 +57,26 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
       return
     }
 
+    let parsedGasSafeNumber: number = 0
+
     try {
-      await updateSiloGasPrice(silo.id, { gas_price: parsedGasPrice })
+      parsedGasSafeNumber = safeBigintToNumber(parsedGasPrice)
+    } catch (e: unknown) {
+      setError("gasPrice", { message: "Value is out of range" })
+      logger.error(e)
+
+      return
+    }
+
+    try {
+      await updateSiloGasPrice(silo.id, { gas_price: parsedGasSafeNumber })
       toast.success("Gas price updated successfully.")
     } catch (e: unknown) {
       logger.error(e)
       toast.error("Gas price update failed.", { position: "bottom-right" })
     }
 
-    onSubmitted({ gasPrice: parsedGasPrice })
+    onSubmitted({ gasPrice: parsedGasSafeNumber })
   }
 
   const gasPriceFieldValue = watch("gasPrice")

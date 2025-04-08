@@ -6,7 +6,6 @@ import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
-import { toSupabaseBigIntString } from "@/supabase/to-supabase-bigint-string"
 
 export const updateSiloGasPrice = async (
   id: number,
@@ -15,7 +14,7 @@ export const updateSiloGasPrice = async (
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("silos")
-    .update({ gas_price: toSupabaseBigIntString(inputs.gas_price) })
+    .update(inputs)
     .eq("id", id)
     .select()
     .single()
