@@ -55,7 +55,7 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
           <InfoList.Item label="Gas price">
             <div className="flex items-center justify-between gap-2">
               <Typography variant="paragraph" size={4}>
-                {`${formatUnits(gasPriceDisplayed, silo.base_token_decimals)} ${silo.base_token_symbol} per gas`}
+                {`${formatUnits(`${gasPriceDisplayed}`, silo.base_token_decimals)} ${silo.base_token_symbol} per gas`}
               </Typography>
               <Btn.Iconed
                 icon={PencilSquareIcon}
