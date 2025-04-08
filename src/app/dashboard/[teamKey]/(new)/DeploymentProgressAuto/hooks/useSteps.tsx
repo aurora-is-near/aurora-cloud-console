@@ -108,8 +108,8 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
       },
     },
 
-    START_BLOCK_EXPLORER: {
-      title: "Starting your Block Explorer",
+    CONFIGURING_CONSOLE: {
+      title: "Configuring your console",
     },
 
     CHAIN_DEPLOYED: {
