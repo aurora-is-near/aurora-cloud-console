@@ -393,6 +393,9 @@ describe("DeploymentProgressContent", () => {
       expect(setIsDeploymentComplete).toHaveBeenCalledTimes(1)
       expect(setIsDeploymentComplete).toHaveBeenCalledWith(true)
 
+      expect(initialiseSiloBridgedTokens).toHaveBeenCalledTimes(1)
+      expect(initialiseSiloBridgedTokens).toHaveBeenCalledWith(silo)
+
       expect(updateSilo).toHaveBeenCalledWith(silo.id, {
         is_active: true,
       })
