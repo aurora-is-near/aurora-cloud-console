@@ -13,6 +13,7 @@ import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
 import { deployDefaultTokens } from "@/actions/deployment/deploy-default-tokens"
 import { DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES } from "@/constants/silo-config-transactions"
 import { initialiseSiloWhitelists } from "@/actions/deployment/initialise-silo-whitelists"
+import { initialiseSiloBridgedTokens } from "@/actions/deployment/initialise-silo-bridged-tokens"
 import { useSteps } from "../hooks"
 import { Steps } from "./Steps"
 import { Step, StepName } from "../types"
@@ -284,11 +285,24 @@ export const DeploymentSteps = ({
 
     // "Start" the block explorer.
     if (!isStepCompleted("START_BLOCK_EXPLORER", currentStep.name)) {
-      setCurrentStep({
-        name: "START_BLOCK_EXPLORER",
-        state: "pending",
-      })
-      await sleep(2500)
+      const status = await runTransactionStep(
+        "START_BLOCK_EXPLORER",
+        async () => {
+          await initialiseSiloBridgedTokens(silo)
+
+          return "SUCCESSFUL"
+        },
+      )
+
+      if (status === "delayed") {
+        await startConfiguration()
+
+        return
+      }
+
+      if (status === "failed") {
+        return
+      }
     }
 
     // If the above process succeeds we consider the deployment complete and
