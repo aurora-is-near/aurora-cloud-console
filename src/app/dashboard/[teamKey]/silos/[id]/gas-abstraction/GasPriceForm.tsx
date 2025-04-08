@@ -49,8 +49,10 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
 
   const saveGasPrice: SubmitHandler<FormData> = async (values: FormData) => {
     const parsedGasPrice = parseUnits(values.gasPrice, silo.base_token_decimals)
+
     if (parsedGasPrice <= 0) {
       setError("gasPrice", { message: "Must be greater than 0" })
+
       return
     }
 
