@@ -25,7 +25,7 @@ export const OnrampHomePage = () => {
         <FeatureCTAList>
           <FeatureCTA
             title="Bridge"
-            description="Send, receive, bridge, pay and onramp on your virtual chain."
+            description="Bridge assets between Ethereum, Near, Aurora and your chain. Configure your bridge widget and embed it."
             icon="/static/v2/images/examples/bridge_widget.png"
             link={`${linkPrefix}/bridge`}
           />

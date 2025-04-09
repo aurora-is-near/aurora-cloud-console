@@ -50,7 +50,7 @@ export const IntegrationsPage = () => {
     {
       title: "Bridge",
       description:
-        "Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum.",
+        "Bridge assets between Ethereum, Near, Aurora and your chain. Configure your bridge widget and embed it.",
       icon: <BridgeWidget />,
       link: "/dashboard/[teamKey]/silos/[id]/onramp/bridge",
     },
