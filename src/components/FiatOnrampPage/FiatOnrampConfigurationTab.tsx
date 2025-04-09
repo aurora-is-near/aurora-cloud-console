@@ -1,5 +1,5 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import ConfigureUniversalWidgetTabCard from "@/components/Tabs/ConfigureUniversalWidgetTabCard"
+import ConfigureBridgeWidgetTabCard from "@/components/Tabs/ConfigureBridgeWidgetTabCard"
 import ConfigurationPanel from "@/components/FiatOnrampPage/ConfigurationPanel"
 import { Pill } from "@/components/Pill"
 import { LinkButton } from "@/components/LinkButton"
@@ -17,7 +17,7 @@ const FiatOnrampConfigurationTab = ({
 }: FiatOnrampConfigurationTabProps) => {
   return (
     <div className="w-full flex flex-col gap-4">
-      <ConfigureUniversalWidgetTabCard
+      <ConfigureBridgeWidgetTabCard
         isComingSoon
         linkPrefix={linkPrefix}
         siloId={siloId}

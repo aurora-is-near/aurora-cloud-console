@@ -92,8 +92,8 @@ export const MainDashboardLayout = ({
                 icon: <Onramp />,
                 items: [
                   {
-                    name: "Universal widget",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/universal-widget`,
+                    name: "Bridge",
+                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
                   },
                   {
                     name: "Fiat onramp",
@@ -102,10 +102,6 @@ export const MainDashboardLayout = ({
                   {
                     name: "Forwarder",
                     href: `/dashboard/${teamKey}${siloPrefix}/onramp/forwarder`,
-                  },
-                  {
-                    name: "Bridge",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
                   },
                 ],
               },

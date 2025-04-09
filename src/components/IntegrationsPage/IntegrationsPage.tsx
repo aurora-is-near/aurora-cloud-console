@@ -14,11 +14,11 @@ import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 import {
   BlockExplorer,
+  BridgeWidget,
   CexWithdrawals,
   Kyc,
   Onramp,
   Oracle,
-  UniversalWidget,
 } from "../../../public/static/v2/images/icons"
 import { GasAbstraction } from "../../../public/static/v2/images/menuIcons"
 
@@ -48,11 +48,11 @@ export const IntegrationsPage = () => {
 
   const nativeIntegrations: Integration[] = [
     {
-      title: "Universal widget",
+      title: "Bridge",
       description:
         "Send, receive, bridge, pay and onramp on Aurora virtual chains, NEAR and Ethereum.",
-      icon: <UniversalWidget />,
-      link: "/dashboard/[teamKey]/silos/[id]/onramp/universal-widget",
+      icon: <BridgeWidget />,
+      link: "/dashboard/[teamKey]/silos/[id]/onramp/bridge",
     },
     {
       title: "Fiat to crypto",
@@ -66,7 +66,7 @@ export const IntegrationsPage = () => {
       description:
         "Allow your users to deposit assets directly from centralized exchanges to your chain.",
       icon: <CexWithdrawals />,
-      link: "/dashboard/[teamKey]/silos/[id]/onramp/universal-widget",
+      link: "/dashboard/[teamKey]/silos/[id]/onramp/bridge-widget",
     },
     {
       title: "Oracle",

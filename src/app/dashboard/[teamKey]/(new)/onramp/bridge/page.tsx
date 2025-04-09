@@ -1,3 +1,3 @@
-import { BridgePage } from "@/components/BridgePage/BridgePage"
+import { BridgeWidgetPage } from "@/components/BridgeWidgetPage/BridgeWidgetPage"
 
-export default BridgePage
+export default BridgeWidgetPage
