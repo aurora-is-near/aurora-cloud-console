@@ -19,6 +19,7 @@ export type Teams = {
 
 export type TeamMember = {
   id: number
+  userUuid: string
   name: string | null
   email: string
   isPending: boolean
