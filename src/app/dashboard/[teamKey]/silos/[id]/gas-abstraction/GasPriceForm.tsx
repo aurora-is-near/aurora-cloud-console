@@ -74,6 +74,8 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
     } catch (e: unknown) {
       logger.error(e)
       toast.error("Gas price update failed.", { position: "bottom-right" })
+
+      return
     }
 
     onSubmitted({ gasPrice: parsedGasSafeNumber })
