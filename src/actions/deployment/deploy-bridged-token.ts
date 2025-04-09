@@ -7,6 +7,7 @@ import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-
 import { checkTokenByContractAddress } from "@/utils/check-token-contract"
 import { getStorageBalanceByAddress } from "@/utils/near-storage"
 import { BASE_TOKEN_PLACEHOLDER_ADDRESS } from "@/constants/base-token"
+import { STORAGE_DEPOSIT_AMOUNT } from "@/constants/storage-deposits"
 
 const checkContract = async ({
   provider,
@@ -103,7 +104,7 @@ const checkStorageBalance = async ({
     async () =>
       contractChangerApiClient.makeStorageDeposit({
         siloEngineAccountId: silo.engine_account,
-        amount: "0.00125 near",
+        amount: STORAGE_DEPOSIT_AMOUNT,
         token: nearAccountId,
       }),
     { skipIfFailed, nearAccountId },

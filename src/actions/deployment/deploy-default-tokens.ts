@@ -13,6 +13,7 @@ import { DefaultToken } from "@/types/default-tokens"
 import { DEFAULT_TOKENS } from "@/constants/default-tokens"
 import { getStorageBalanceBySymbol } from "@/utils/near-storage"
 import { NEAR_TOKEN_ADDRESSES } from "@/constants/near-token"
+import { STORAGE_DEPOSIT_AMOUNT } from "@/constants/storage-deposits"
 
 const CONTRACT_CHANGER_SYMBOLS: Record<
   DefaultToken,
@@ -94,7 +95,7 @@ const checkStorageBalance = async ({
     async () =>
       contractChangerApiClient.makeStorageDeposit({
         siloEngineAccountId: silo.engine_account,
-        amount: "0.00125 near",
+        amount: STORAGE_DEPOSIT_AMOUNT,
         token: nearAccountId,
       }),
     { skipIfFailed, nearAccountId },
