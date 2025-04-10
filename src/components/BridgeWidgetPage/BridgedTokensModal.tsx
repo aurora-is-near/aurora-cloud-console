@@ -37,7 +37,7 @@ type BridgedTokensModalProps = {
 
 export const BridgedTokensModal = ({ siloId }: BridgedTokensModalProps) => {
   const { closeModal, activeModal } = useModals()
-  const { supportedTokens } = useBridgedTokens(siloId)
+  const { bridgeableTokens } = useBridgedTokens(siloId)
   const getWidgetUpdater = useOptimisticUpdater("getWidget")
   const getSiloBridgedTokensUpdater = useOptimisticUpdater(
     "getSiloBridgedTokens",
@@ -94,7 +94,7 @@ export const BridgedTokensModal = ({ siloId }: BridgedTokensModalProps) => {
   }
 
   const onExistingTokenSymbolChange = (option: SelectInputOption) => {
-    const selectedToken = supportedTokens.find(
+    const selectedToken = bridgeableTokens.find(
       (token) => token.id === Number(option.value),
     )
 
@@ -180,7 +180,7 @@ export const BridgedTokensModal = ({ siloId }: BridgedTokensModalProps) => {
               id="existing-token-symbol"
               name="existing-token-symbol"
               register={register}
-              options={supportedTokens.map((token) => ({
+              options={bridgeableTokens.map((token) => ({
                 label: token.symbol,
                 value: token.id,
               }))}
