@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { useContext } from "react"
-import { Tabs } from "@/components/Tabs/Tabs"
+import { useCallback, useContext, useRef } from "react"
+import { Tabs, TabsFunctions } from "@/components/Tabs/Tabs"
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { WidgetEmbedCodeCard } from "@/components/WidgetEmbedCodeCard"
@@ -11,12 +11,18 @@ import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 import { SiloContext } from "@/providers/SiloProvider"
 import { BridgeWidgetOpenButton } from "@/components//BridgeWidgetOpenButton"
+import { Button } from "@/components/Button"
 import { BridgeWidgetAboutTab } from "./BridgeWidgetAboutTab"
 import { BridgeWidgetConfigurationTab } from "./BridgeWidgetConfigurationTab"
 
 export const BridgeWidgetPage = () => {
   const { team } = useRequiredContext(TeamContext)
   const { silo } = useContext(SiloContext) ?? {}
+  const tabsRef = useRef<TabsFunctions>(null)
+
+  const onConfigureClick = useCallback(() => {
+    tabsRef.current?.setActiveTabIndex(1)
+  }, [])
 
   const tabs = [
     {
@@ -79,15 +85,20 @@ export const BridgeWidgetPage = () => {
         }
       >
         {!!silo && (
-          <BridgeWidgetOpenButton
-            siloId={silo.id}
-            variant="border"
-            size="lg"
-            isExternal
-          />
+          <div className="space-x-3 flex flex-row">
+            <Button variant="primary" size="lg" onClick={onConfigureClick}>
+              Configure
+            </Button>
+            <BridgeWidgetOpenButton
+              siloId={silo.id}
+              variant="border"
+              size="lg"
+              isExternal
+            />
+          </div>
         )}
       </Hero>
-      <Tabs tabs={tabs} />
+      <Tabs ref={tabsRef} tabs={tabs} />
     </DashboardPage>
   )
 }
