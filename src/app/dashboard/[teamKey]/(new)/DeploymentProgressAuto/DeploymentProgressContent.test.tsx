@@ -3,6 +3,7 @@ import { setBaseToken } from "@/actions/deployment/set-base-token"
 import { deployDefaultTokens } from "@/actions/deployment/deploy-default-tokens"
 import { updateSilo } from "@/actions/silos/update-silo"
 import { initialiseSiloWhitelists } from "@/actions/deployment/initialise-silo-whitelists"
+import { initialiseSiloBridgedTokens } from "@/actions/deployment/initialise-silo-bridged-tokens"
 import { DeploymentProgressContent } from "./DeploymentProgressContent"
 import { mockTeam } from "../../../../../../test-utils/mock-team"
 import { createWrapper } from "../../../../../../test-utils/create-wrapper"
@@ -13,6 +14,7 @@ jest.useFakeTimers()
 jest.mock("../../../../../actions/deployment/set-base-token")
 jest.mock("../../../../../actions/deployment/deploy-default-tokens")
 jest.mock("../../../../../actions/deployment/initialise-silo-whitelists")
+jest.mock("../../../../../actions/deployment/initialise-silo-bridged-tokens")
 jest.mock("../../../../../actions/silos/update-silo")
 
 const getSteps = () => {
@@ -126,7 +128,7 @@ describe("DeploymentProgressContent", () => {
           isSelected: false,
         },
         {
-          id: "START_BLOCK_EXPLORER",
+          id: "CONFIGURING_CONSOLE",
           isSelected: false,
         },
         {
@@ -346,7 +348,7 @@ describe("DeploymentProgressContent", () => {
       )
 
       await waitFor(() => {
-        expect(getCurrentStep()).toBe("START_BLOCK_EXPLORER")
+        expect(getCurrentStep()).toBe("CONFIGURING_CONSOLE")
       })
     })
 
@@ -379,7 +381,7 @@ describe("DeploymentProgressContent", () => {
       )
 
       await waitFor(() => {
-        expect(getCurrentStep()).toBe("START_BLOCK_EXPLORER")
+        expect(getCurrentStep()).toBe("CONFIGURING_CONSOLE")
       })
 
       act(() => {
@@ -390,6 +392,9 @@ describe("DeploymentProgressContent", () => {
 
       expect(setIsDeploymentComplete).toHaveBeenCalledTimes(1)
       expect(setIsDeploymentComplete).toHaveBeenCalledWith(true)
+
+      expect(initialiseSiloBridgedTokens).toHaveBeenCalledTimes(1)
+      expect(initialiseSiloBridgedTokens).toHaveBeenCalledWith(silo)
 
       expect(updateSilo).toHaveBeenCalledWith(silo.id, {
         is_active: true,

@@ -96,6 +96,10 @@ describe("Healthcheck route", () => {
         USDt: defaultTokenMetadata,
         USDC: defaultTokenMetadata,
         NEAR: nearTokenMetadata,
+        ETH: {
+          ...defaultTokenMetadata,
+          isContractDeployed: true,
+        },
       },
     })
   })
@@ -223,6 +227,7 @@ describe("Healthcheck route", () => {
         USDt: defaultTokenMetadata,
         USDC: defaultTokenMetadata,
         NEAR: nearTokenMetadata,
+        ETH: defaultTokenMetadata,
       },
       bridgedTokens: {
         PENDING_AND_DEPLOYED: {
@@ -258,7 +263,7 @@ describe("Healthcheck route", () => {
 
     expect(res.status).toBe(200)
     expect(mockNearAccount.getAccountBalance).toHaveBeenCalledTimes(1)
-    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(3)
+    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(4)
     expect(mockNearAccount.viewFunction).toHaveBeenCalledWith({
       args: { account_id: mockSilo.engine_account },
       contractId:
@@ -308,7 +313,7 @@ describe("Healthcheck route", () => {
     )
 
     expect(res.status).toBe(200)
-    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(4)
+    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(5)
     expect(mockNearAccount.viewFunction).toHaveBeenLastCalledWith({
       args: { account_id: silo.engine_account },
       contractId: "0x1",

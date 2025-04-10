@@ -26,12 +26,23 @@ export const useBridgedTokens = (siloId: number) => {
       },
     })
 
+  const bridgedSiloTokensSymbols =
+    bridgedSiloTokens?.items.map((token) => token.symbol.toUpperCase()) ?? []
+
+  // List the tokens that can be bridged and have not already been for the given
+  // silo.
+  const bridgeableTokens = supportedTokens.filter(
+    (token) =>
+      !!token.aurora_address &&
+      !bridgedSiloTokensSymbols.includes(token.symbol.toUpperCase()),
+  )
+
   return {
     isPending:
       isSiloTokensPending ||
       isSiloTokenRequestsPending ||
       isSupportedTokensPending,
-    supportedTokens: supportedTokens.filter((token) => !!token.aurora_address),
+    bridgeableTokens,
     bridgedSiloTokens: bridgedSiloTokens?.items ?? [],
     bridgedSiloTokenRequests: bridgedSiloTokenRequests?.items ?? [],
   }

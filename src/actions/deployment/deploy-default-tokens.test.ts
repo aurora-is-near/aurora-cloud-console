@@ -42,7 +42,17 @@ jest.mock("near-api-js", () => ({
 }))
 
 const mockSilo = createMockSilo({ base_token_symbol: "AURORA" })
-const contractChangerTokens = ["Near", "Aurora", "Usdt", "Usdc"]
+const contractChangerTokens = [
+  "Near",
+  "Aurora",
+  "Usdt",
+  "Usdc",
+  {
+    source_contract_id: "aurora",
+    nep141: "0x5a524251df27A25AC6b9964a93E1c23AD692688D",
+  },
+]
+
 const nonBaseTokens = contractChangerTokens.filter(
   (token) => token !== "Aurora",
 )
@@ -75,7 +85,7 @@ describe("deployDefaultTokens", () => {
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
-    ).toHaveBeenCalledTimes(5)
+    ).toHaveBeenCalledTimes(7)
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert.mock.calls,
@@ -148,7 +158,7 @@ describe("deployDefaultTokens", () => {
 
     const result = await deployDefaultTokens(mockSilo)
 
-    expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledTimes(2)
+    expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledTimes(3)
     expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledWith({
       siloEngineAccountId: mockSilo.engine_account,
       token: "Near",
@@ -159,9 +169,17 @@ describe("deployDefaultTokens", () => {
       token: "Usdc",
     })
 
+    expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledWith({
+      siloEngineAccountId: mockSilo.engine_account,
+      token: {
+        source_contract_id: "aurora",
+        nep141: "0x5a524251df27A25AC6b9964a93E1c23AD692688D",
+      },
+    })
+
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
-    ).toHaveBeenCalledTimes(4)
+    ).toHaveBeenCalledTimes(6)
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert.mock.calls,
@@ -188,7 +206,7 @@ describe("deployDefaultTokens", () => {
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert,
-    ).toHaveBeenCalledTimes(5)
+    ).toHaveBeenCalledTimes(7)
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").insert.mock.calls,
@@ -227,7 +245,7 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).not.toHaveBeenCalled()
 
-    expect(mockTxStatus).toHaveBeenCalledTimes(5)
+    expect(mockTxStatus).toHaveBeenCalledTimes(7)
 
     Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(mockTxStatus).toHaveBeenNthCalledWith(
@@ -270,7 +288,7 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).not.toHaveBeenCalled()
 
-    expect(mockTxStatus).toHaveBeenCalledTimes(5)
+    expect(mockTxStatus).toHaveBeenCalledTimes(7)
 
     Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(mockTxStatus).toHaveBeenNthCalledWith(
@@ -283,7 +301,7 @@ describe("deployDefaultTokens", () => {
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").update,
-    ).toHaveBeenCalledTimes(5)
+    ).toHaveBeenCalledTimes(7)
 
     Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(
@@ -319,7 +337,7 @@ describe("deployDefaultTokens", () => {
       mockSupabaseClient.from("silo_config_transactions").insert,
     ).not.toHaveBeenCalled()
 
-    expect(mockTxStatus).toHaveBeenCalledTimes(5)
+    expect(mockTxStatus).toHaveBeenCalledTimes(7)
 
     Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(mockTxStatus).toHaveBeenNthCalledWith(
@@ -332,7 +350,7 @@ describe("deployDefaultTokens", () => {
 
     expect(
       mockSupabaseClient.from("silo_config_transactions").update,
-    ).toHaveBeenCalledTimes(5)
+    ).toHaveBeenCalledTimes(7)
 
     Array.from({ length: nonBaseTokens.length }).forEach((_, i) => {
       expect(
