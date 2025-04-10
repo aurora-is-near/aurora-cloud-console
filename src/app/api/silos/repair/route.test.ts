@@ -581,4 +581,57 @@ describe("Silos repair route", () => {
       })
     },
   )
+
+  it("initialises the silo's set of bridged tokens", async () => {
+    const oneHourAgo = new Date(currentTime.getTime() - 60 * 60 * 1000)
+
+    const mockSilo = createMockSilo({
+      base_token_symbol: "TURBO",
+      is_active: false,
+      inspected_at: oneHourAgo.toISOString(),
+    })
+
+    mockSupabaseClient
+      .from("silos")
+      .select.mockReturnValue(createSelect([mockSilo]))
+    ;(ethers.Contract as jest.Mock).mockImplementation(() => ({
+      symbol: () => {},
+    }))
+
+    mockSupabaseClient.from("bridged_tokens").select.mockImplementation(() =>
+      createSelect(
+        ["AURORA", "ETH", "NEAR", "USDC", "USDt", "TURBO"].map(
+          (symbol, index) => ({
+            ...createMockBridgedToken({ id: 42 + index, symbol }),
+            silo_bridged_tokens: [],
+          }),
+        ),
+      ),
+    )
+
+    const req = new NextRequest("https://example.com", {
+      method: "GET",
+      headers: {
+        "user-agent": "vercel-cron/1.0",
+      },
+    })
+
+    const res = await GET(req, { params: {} })
+
+    expect(res.status).toBe(200)
+    expect(await res.json()).toEqual({
+      status: 200,
+      body: {
+        message: "ok",
+      },
+    })
+
+    expect(
+      mockSupabaseClient.from("silo_bridged_tokens").insert,
+    ).toHaveBeenCalledTimes(5)
+
+    expect(
+      mockSupabaseClient.from("silo_bridged_tokens").insert.mock.calls,
+    ).toMatchSnapshot()
+  })
 })

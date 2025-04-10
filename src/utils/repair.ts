@@ -17,6 +17,7 @@ import { AUTOMATED_BASE_TOKENS } from "@/constants/base-token"
 import { checkPendingTransaction } from "@/utils/check-pending-silo-config-transaction"
 import { getPendingSiloConfigTransactions } from "@/actions/silo-config-transactions/get-pending-silo-config-transactions"
 import { deployBridgedToken } from "@/actions/deployment/deploy-bridged-token"
+import { initialiseSiloBridgedTokens } from "@/actions/deployment/initialise-silo-bridged-tokens"
 
 type PreviouslyInspectedSilo = Omit<Silo, "inspected_at"> & {
   inspected_at: string
@@ -231,6 +232,8 @@ export const repairSilo = async (silo: Silo): Promise<RepairSiloResult> => {
     Date.now() - new Date(silo.inspected_at).getTime() < 24 * 60 * 60 * 1000
 
   const initialisation = await initialiseSilo(silo, skipIfFailed)
+
+  await initialiseSiloBridgedTokens(silo)
 
   const [pendingBridgedTokens, pendingTransactions] = await Promise.all([
     resolvePendingBridgedTokens(silo, skipIfFailed),
