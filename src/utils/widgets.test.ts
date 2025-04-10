@@ -8,8 +8,8 @@ describe("Widget utils", () => {
 
   describe("getWidgetUrl", () => {
     it("generates the expected widget URL", () => {
-      expect(getWidgetUrl("team-key", 123, "universal")).toBe(
-        "https://app.auroracloud.dev/dashboard/team-key/silos/123/widgets/universal.js",
+      expect(getWidgetUrl("team-key", 123, "bridge")).toBe(
+        "https://app.auroracloud.dev/dashboard/team-key/silos/123/widgets/bridge.js",
       )
     })
 
@@ -17,8 +17,8 @@ describe("Widget utils", () => {
       process.env.NEXT_PUBLIC_VERCEL_ENV = "preview"
       process.env.NEXT_PUBLIC_VERCEL_URL = "example.vercel.app"
 
-      expect(getWidgetUrl("team-key", 123, "universal")).toBe(
-        "https://example.vercel.app/dashboard/team-key/silos/123/widgets/universal.js",
+      expect(getWidgetUrl("team-key", 123, "bridge")).toBe(
+        "https://example.vercel.app/dashboard/team-key/silos/123/widgets/bridge.js",
       )
     })
 
@@ -26,8 +26,8 @@ describe("Widget utils", () => {
       delete process.env.NEXT_PUBLIC_VERCEL_ENV
       delete process.env.NEXT_PUBLIC_VERCEL_URL
 
-      expect(getWidgetUrl("team-key", 123, "universal")).toBe(
-        "http://localhost:3000/dashboard/team-key/silos/123/widgets/universal.js",
+      expect(getWidgetUrl("team-key", 123, "bridge")).toBe(
+        "http://localhost:3000/dashboard/team-key/silos/123/widgets/bridge.js",
       )
     })
   })
@@ -37,7 +37,7 @@ describe("Widget utils", () => {
       expect(
         isTeamWidgetUrl(
           "team-key",
-          "https://app.auroracloud.dev/dashboard/team-key/silos/123/widgets/universal.js",
+          "https://app.auroracloud.dev/dashboard/team-key/silos/123/widgets/bridge.js",
         ),
       ).toBe(true)
     })
@@ -46,7 +46,7 @@ describe("Widget utils", () => {
       expect(
         isTeamWidgetUrl(
           "team-key",
-          "/dashboard/team-key/silos/123/widgets/universal.js",
+          "/dashboard/team-key/silos/123/widgets/bridge.js",
         ),
       ).toBe(true)
     })
@@ -59,14 +59,14 @@ describe("Widget utils", () => {
       expect(
         isTeamWidgetUrl(
           "team-key",
-          "https://wrong.com/dashboard/team-key/silos/123/widgets/universal.js",
+          "https://wrong.com/dashboard/team-key/silos/123/widgets/bridge.js",
         ),
       ).toBe(false)
     })
 
     it("returns true for a widget URL generated via getWidgetUrl", () => {
       const teamKey = "team-key"
-      const widgetUrl = getWidgetUrl(teamKey, 123, "universal")
+      const widgetUrl = getWidgetUrl(teamKey, 123, "bridge")
 
       expect(isTeamWidgetUrl(teamKey, widgetUrl)).toBe(true)
     })
