@@ -18,4 +18,6 @@ export const queryKeys = {
   getTeamDealsByKey: (teamKey: string) => ["team-deals-by-key", teamKey],
   getTeamByKey: (teamKey: string) => ["team-by-key", teamKey],
   getSiloOracle: (siloId: number | null) => ["silo-oracle", siloId],
+  getApiKeys: (teamKey: string) => ["api-keys", teamKey],
+  getTeamMembers: (teamKey: string) => ["team-members", teamKey],
 } as const
