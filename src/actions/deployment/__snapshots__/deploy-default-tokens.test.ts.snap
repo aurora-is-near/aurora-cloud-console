@@ -31,6 +31,15 @@ exports[`deployDefaultTokens handles FAILED transactions 1`] = `
   ],
   [
     {
+      "operation": "DEPLOY_ETH",
+      "silo_id": 1,
+      "status": "PENDING",
+      "target": "aurora",
+      "transaction_hash": "mock_tx_hash_[object Object]",
+    },
+  ],
+  [
+    {
       "operation": "STORAGE_DEPOSIT",
       "silo_id": 1,
       "status": "PENDING",
@@ -44,6 +53,15 @@ exports[`deployDefaultTokens handles FAILED transactions 1`] = `
       "silo_id": 1,
       "status": "PENDING",
       "target": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+      "transaction_hash": "mock_storage_deposit_tx_hash",
+    },
+  ],
+  [
+    {
+      "operation": "STORAGE_DEPOSIT",
+      "silo_id": 1,
+      "status": "PENDING",
+      "target": "aurora",
       "transaction_hash": "mock_storage_deposit_tx_hash",
     },
   ],
@@ -81,6 +99,15 @@ exports[`deployDefaultTokens performs the transactions to deploy the tokens 1`] 
   ],
   [
     {
+      "operation": "DEPLOY_ETH",
+      "silo_id": 1,
+      "status": "PENDING",
+      "target": "aurora",
+      "transaction_hash": "mock_tx_hash_[object Object]",
+    },
+  ],
+  [
+    {
       "operation": "STORAGE_DEPOSIT",
       "silo_id": 1,
       "status": "PENDING",
@@ -94,6 +121,15 @@ exports[`deployDefaultTokens performs the transactions to deploy the tokens 1`] 
       "silo_id": 1,
       "status": "PENDING",
       "target": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+      "transaction_hash": "mock_storage_deposit_tx_hash",
+    },
+  ],
+  [
+    {
+      "operation": "STORAGE_DEPOSIT",
+      "silo_id": 1,
+      "status": "PENDING",
+      "target": "aurora",
       "transaction_hash": "mock_storage_deposit_tx_hash",
     },
   ],
@@ -122,6 +158,15 @@ exports[`deployDefaultTokens skips a single token with an already SUCCESSFUL tra
   ],
   [
     {
+      "operation": "DEPLOY_ETH",
+      "silo_id": 1,
+      "status": "PENDING",
+      "target": "aurora",
+      "transaction_hash": "mock_tx_hash_[object Object]",
+    },
+  ],
+  [
+    {
       "operation": "STORAGE_DEPOSIT",
       "silo_id": 1,
       "status": "PENDING",
@@ -135,6 +180,15 @@ exports[`deployDefaultTokens skips a single token with an already SUCCESSFUL tra
       "silo_id": 1,
       "status": "PENDING",
       "target": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+      "transaction_hash": "mock_storage_deposit_tx_hash",
+    },
+  ],
+  [
+    {
+      "operation": "STORAGE_DEPOSIT",
+      "silo_id": 1,
+      "status": "PENDING",
+      "target": "aurora",
       "transaction_hash": "mock_storage_deposit_tx_hash",
     },
   ],
@@ -163,6 +217,15 @@ exports[`deployDefaultTokens skips if a token contract was already deployed 1`] 
   ],
   [
     {
+      "operation": "DEPLOY_ETH",
+      "silo_id": 1,
+      "status": "PENDING",
+      "target": "aurora",
+      "transaction_hash": "mock_tx_hash_[object Object]",
+    },
+  ],
+  [
+    {
       "operation": "STORAGE_DEPOSIT",
       "silo_id": 1,
       "status": "PENDING",
@@ -176,6 +239,15 @@ exports[`deployDefaultTokens skips if a token contract was already deployed 1`] 
       "silo_id": 1,
       "status": "PENDING",
       "target": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+      "transaction_hash": "mock_storage_deposit_tx_hash",
+    },
+  ],
+  [
+    {
+      "operation": "STORAGE_DEPOSIT",
+      "silo_id": 1,
+      "status": "PENDING",
+      "target": "aurora",
       "transaction_hash": "mock_storage_deposit_tx_hash",
     },
   ],
