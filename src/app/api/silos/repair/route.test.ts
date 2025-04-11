@@ -628,7 +628,7 @@ describe("Silos repair route", () => {
 
     expect(
       mockSupabaseClient.from("silo_bridged_tokens").insert,
-    ).toHaveBeenCalledTimes(5)
+    ).toHaveBeenCalledTimes(6)
 
     expect(
       mockSupabaseClient.from("silo_bridged_tokens").insert.mock.calls,
