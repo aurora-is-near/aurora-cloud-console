@@ -107,15 +107,18 @@ export async function middleware(req: NextRequest) {
     return homeRedirect(req, res)
   }
 
-  // Redirect to the first silo if the user is logged in, on the dashboard page
-  // for a team with no silo, but that team has a silo.
-  if (teamKey && pathname === `/dashboard/${teamKey}`) {
+  // Redirect to the correct silo or empty team page for certain routes.
+  if (
+    teamKey &&
+    [`/dashboard/${teamKey}`, `/dashboard/${teamKey}/silos`].includes(pathname)
+  ) {
     const siloId = await getFirstTeamSiloId(teamKey)
+    const correctRoute = siloId
+      ? `/dashboard/${teamKey}/silos/${siloId}`
+      : `/dashboard/${teamKey}`
 
-    if (siloId) {
-      return NextResponse.redirect(
-        new URL(`/dashboard/${teamKey}/silos/${siloId}`, req.url),
-      )
+    if (pathname !== correctRoute) {
+      return NextResponse.redirect(new URL(correctRoute, req.url))
     }
   }
 
