@@ -30,7 +30,7 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         storageState: "e2e/storage-state.json",
-        headless: process.env.CI ? true : false,
+        headless: !!process.env.CI,
       },
     },
   ],
