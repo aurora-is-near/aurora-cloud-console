@@ -119,6 +119,13 @@ export async function middleware(req: NextRequest) {
     }
   }
 
+  // Redirect to the team settings page if we hit the settings route directly.
+  if (pathname === `/dashboard/${teamKey}/settings`) {
+    return NextResponse.redirect(
+      new URL(`/dashboard/${teamKey}/settings/team`, req.url),
+    )
+  }
+
   return res
 }
 
