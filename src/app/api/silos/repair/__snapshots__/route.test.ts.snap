@@ -47,5 +47,14 @@ exports[`Silos repair route initialises the silo's set of bridged tokens 1`] = `
       },
     ],
   ],
+  [
+    [
+      {
+        "bridged_token_id": 43,
+        "is_deployment_pending": true,
+        "silo_id": 1,
+      },
+    ],
+  ],
 ]
 `;
