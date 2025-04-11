@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server"
 import { isAdminUser } from "@/utils/admin"
 import { createMiddlewareClient } from "@/supabase/create-middleware-client"
 import { isTeamWidgetUrl } from "@/utils/widgets"
+import { getFirstTeamSiloId } from "@/actions/team-silos/get-first-team-silo-id"
 import {
   AUTH_ACCEPT_ROUTE,
   AUTH_CALLBACK_ROUTE,
@@ -104,6 +105,18 @@ export async function middleware(req: NextRequest) {
   // of the login pages, or the base path
   if (user && ["/", LOGIN_ROUTE].includes(pathname)) {
     return homeRedirect(req, res)
+  }
+
+  // Redirect to the first silo if the user is logged in, on the dashboard page
+  // for a team with no silo, but that team has a silo.
+  if (teamKey && pathname === `/dashboard/${teamKey}`) {
+    const siloId = await getFirstTeamSiloId(teamKey)
+
+    if (siloId) {
+      return NextResponse.redirect(
+        new URL(`/dashboard/${teamKey}/silos/${siloId}`, req.url),
+      )
+    }
   }
 
   return res
