@@ -37,7 +37,7 @@ export function abort(
   message?: string,
   abortOptions?: AbortOptions,
 ): never {
-  const errorMessage = String(message ?? httpStatus[statusCode])
+  const errorMessage = String(message ?? { ...httpStatus }[statusCode])
   const error = new AbortError(statusCode, errorMessage, abortOptions)
 
   throw error

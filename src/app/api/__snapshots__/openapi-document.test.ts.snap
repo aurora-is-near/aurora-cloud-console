@@ -823,6 +823,9 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "id": {
                             "type": "number",
                           },
+                          "intentsIntegrationStatus": {
+                            "type": "string",
+                          },
                           "name": {
                             "type": "string",
                           },
@@ -847,10 +850,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                             ],
                             "type": "object",
                           },
-                          "network": {
+                          "rpcUrl": {
                             "type": "string",
                           },
-                          "rpcUrl": {
+                          "trisolarisIntegrationStatus": {
                             "type": "string",
                           },
                           "updatedAt": {
@@ -866,8 +869,9 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "engineVersion",
                           "genesis",
                           "name",
-                          "network",
                           "rpcUrl",
+                          "intentsIntegrationStatus",
+                          "trisolarisIntegrationStatus",
                           "nativeToken",
                         ],
                         "type": "object",
@@ -937,6 +941,9 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id": {
                       "type": "number",
                     },
+                    "intentsIntegrationStatus": {
+                      "type": "string",
+                    },
                     "name": {
                       "type": "string",
                     },
@@ -961,10 +968,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                       ],
                       "type": "object",
                     },
-                    "network": {
+                    "rpcUrl": {
                       "type": "string",
                     },
-                    "rpcUrl": {
+                    "trisolarisIntegrationStatus": {
                       "type": "string",
                     },
                     "updatedAt": {
@@ -980,8 +987,9 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "engineVersion",
                     "genesis",
                     "name",
-                    "network",
                     "rpcUrl",
+                    "intentsIntegrationStatus",
+                    "trisolarisIntegrationStatus",
                     "nativeToken",
                   ],
                   "type": "object",
@@ -2679,6 +2687,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                             "nullable": true,
                             "type": "string",
                           },
+                          "silo_address": {
+                            "nullable": true,
+                            "type": "string",
+                          },
                           "symbol": {
                             "type": "string",
                           },
@@ -2690,6 +2702,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "symbol",
                           "decimals",
                           "aurora_address",
+                          "silo_address",
                           "near_address",
                           "ethereum_address",
                           "iconUrl",

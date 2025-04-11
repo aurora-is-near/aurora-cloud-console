@@ -1,5 +1,6 @@
 "use client"
 
+import { formatUnits } from "ethers"
 import { useId, useState } from "react"
 import { CheckIcon } from "@heroicons/react/20/solid"
 import { PencilSquareIcon } from "@heroicons/react/24/outline"
@@ -10,7 +11,7 @@ import { useModals } from "@/hooks/useModals"
 import { Button } from "@/components/Button"
 import { Button as Btn, Card, InfoList, Typography } from "@/uikit"
 import type { Silo } from "@/types/types"
-import { decimalsToFloat } from "@/utils/decimals"
+
 import { GasPriceForm } from "./GasPriceForm"
 
 type Props = {
@@ -20,9 +21,7 @@ type Props = {
 export const GasAbstractionMechanics = ({ silo }: Props) => {
   const formId = useId()
 
-  const [gasPriceDisplayed, setGasPriceDisplayed] = useState(
-    decimalsToFloat(silo.gas_price, silo.base_token_decimals),
-  )
+  const [gasPriceDisplayed, setGasPriceDisplayed] = useState(silo.gas_price)
 
   const { closeModal, openModal, activeModal } = useModals()
   const editModalOpen = activeModal === Modals.EditGasPrice
@@ -53,13 +52,10 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
             complexity.
           </InfoList.Item>
 
-          <InfoList.Item
-            label="Gas value"
-            labelTooltip="The price of gas on your chain, which defines how much gas is charged per transaction. Refer to the table to have an estimate of price per transaction."
-          >
+          <InfoList.Item label="Gas price">
             <div className="flex items-center justify-between gap-2">
               <Typography variant="paragraph" size={4}>
-                {`${gasPriceDisplayed} ${silo.base_token_symbol} per gas`}
+                {`${formatUnits(`${gasPriceDisplayed}`, silo.base_token_decimals)} ${silo.base_token_symbol} per gas`}
               </Typography>
               <Btn.Iconed
                 icon={PencilSquareIcon}

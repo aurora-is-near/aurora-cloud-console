@@ -67,6 +67,7 @@ const checkDefaultTokens = async (provider: JsonRpcProvider, silo: Silo) => {
       USDt: defaultValue,
       USDC: defaultValue,
       AURORA: defaultValue,
+      ETH: defaultValue,
     },
   )
 }
@@ -84,11 +85,11 @@ const checkBridgedTokenContract = async (
     return true
   }
 
-  if (!token.aurora_address) {
+  if (!token.silo_address) {
     return false
   }
 
-  return checkTokenByContractAddress(provider, token.aurora_address)
+  return checkTokenByContractAddress(provider, token.silo_address)
 }
 
 const checkBridgedTokens = async (provider: JsonRpcProvider, silo: Silo) => {

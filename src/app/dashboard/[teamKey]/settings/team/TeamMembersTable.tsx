@@ -8,11 +8,12 @@ import {
 import { useQueryState } from "next-usequerystate"
 import { useCallback } from "react"
 import { useRouter } from "next/navigation"
+import { User } from "@supabase/supabase-js"
 import Table from "@/components/Table"
 import TableButton from "@/components/TableButton"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
-import { TeamMember, User } from "@/types/types"
+import { TeamMember } from "@/types/types"
 import { reinviteUser } from "@/actions/invite/reinvite-user"
 import { toError } from "@/utils/errors"
 import { deleteTeamMember } from "@/actions/team-members/delete-team-member"
@@ -21,13 +22,13 @@ import { Pill } from "@/components/Pill"
 
 type TeamMembersTableProps = {
   teamKey: string
-  currentUser: User
+  authUser: User
   teamMembers: TeamMember[]
 }
 
 export const TeamMembersTable = ({
   teamKey,
-  currentUser,
+  authUser,
   teamMembers,
 }: TeamMembersTableProps) => {
   const [, setErrorTitle] = useQueryState("error_title")
@@ -74,7 +75,7 @@ export const TeamMembersTable = ({
       <Table.TH>Status</Table.TH>
       <Table.TH hidden>Actions</Table.TH>
       {teamMembers.map((teamMember) => {
-        const isCurrentUser = currentUser.id === teamMember.id
+        const isCurrentUser = authUser.id === teamMember.userUuid
 
         return (
           <Table.TR key={teamMember.email}>
@@ -99,7 +100,6 @@ export const TeamMembersTable = ({
               {teamMember.isPending && !isCurrentUser ? (
                 <TableButton
                   Icon={PaperAirplaneIcon}
-                  disabled={currentUser.id === teamMember.id}
                   srOnlyText={`Reinvite ${teamMember.name ?? "user"}`}
                   onClick={async () => {
                     await onReinviteTeamMemberClick(teamMember)

@@ -10,6 +10,7 @@ export const createSelect = <T>(data?: T) => ({
   gte: jest.fn().mockReturnThis(),
   lte: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
+  or: jest.fn().mockReturnThis(),
   single: jest.fn(() => ({
     data,
     error: null,

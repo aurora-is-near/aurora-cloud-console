@@ -59,6 +59,7 @@ export const adaptToken = (
   symbol: token.symbol,
   decimals: token.decimals,
   aurora_address: token.aurora_address,
+  silo_address: token.silo_address,
   ethereum_address: token.ethereum_address,
   near_address: token.near_address,
   iconUrl: token.icon_url,
@@ -74,8 +75,9 @@ export const adaptSilo = (silo: Silo): SiloSchema => ({
   engineAccount: silo.engine_account,
   engineVersion: silo.engine_version,
   genesis: silo.genesis,
-  network: silo.network,
   rpcUrl: silo.rpc_url,
+  intentsIntegrationStatus: silo.intents_integration_status,
+  trisolarisIntegrationStatus: silo.trisolaris_integration_status,
   nativeToken: {
     name: silo.base_token_name,
     symbol: silo.base_token_symbol,

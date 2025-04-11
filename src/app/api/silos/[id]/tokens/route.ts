@@ -24,13 +24,13 @@ export const GET = createApiEndpoint(
     // deployed.
     await Promise.all(
       pendingTokens.map(async (token) => {
-        if (!token.aurora_address) {
+        if (!token.silo_address) {
           return
         }
 
         const result = await checkTokenByContractAddress(
           provider,
-          token.aurora_address,
+          token.silo_address,
         )
 
         if (result) {

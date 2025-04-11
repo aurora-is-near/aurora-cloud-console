@@ -42,6 +42,7 @@ export const SiloBridgedTokenSchema = z.object({
   symbol: z.string(),
   decimals: z.number(),
   aurora_address: z.string().nullable(),
+  silo_address: z.string().nullable(),
   near_address: z.string().nullable(),
   ethereum_address: z.string().nullable(),
   iconUrl: z.string().nullable(),
@@ -64,8 +65,9 @@ export const SiloSchema = z.object({
   engineVersion: z.string(),
   genesis: z.string(),
   name: z.string(),
-  network: z.string(),
   rpcUrl: z.string(),
+  intentsIntegrationStatus: z.string(),
+  trisolarisIntegrationStatus: z.string(),
   nativeToken: z.object({
     symbol: z.string(),
     name: z.string().nullable(),

@@ -1,21 +1,24 @@
+"use client"
+
 import Image from "next/image"
+import { useContext } from "react"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
+
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
-import { Silo } from "@/types/types"
 import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
+import { IntegrationRequestButton } from "@/components/IntegrationRequestButton"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { TeamContext } from "@/providers/TeamProvider"
+import { SiloContext } from "@/providers/SiloProvider"
+
 import { NearIntents } from "../../../public/static/v2/images/icons"
 
-type IntentsPageProps = {
-  silo?: Silo | null
-}
-
-export const IntentsPage = ({ silo = null }: IntentsPageProps) => {
-  if (!silo) {
-    return null
-  }
+export const IntentsPage = () => {
+  const { team } = useRequiredContext(TeamContext)
+  const { silo } = useContext(SiloContext) ?? {}
 
   const tabs = [
     {
@@ -75,15 +78,24 @@ export const IntentsPage = ({ silo = null }: IntentsPageProps) => {
           />
         }
       >
-        <LinkButton
-          isExternal
-          variant="border"
-          href="https://near-intents.org/"
-          size="lg"
-        >
-          <span>Open Near Intents</span>
-          <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-        </LinkButton>
+        <div className="flex justify-start gap-2">
+          {silo && (
+            <IntegrationRequestButton
+              silo={silo}
+              team={team}
+              integration="intents"
+            />
+          )}
+          <LinkButton
+            isExternal
+            variant="border"
+            href="https://near-intents.org/"
+            size="lg"
+          >
+            <span>Open Near Intents</span>
+            <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+          </LinkButton>
+        </div>
       </Hero>
 
       <Tabs tabs={tabs} />

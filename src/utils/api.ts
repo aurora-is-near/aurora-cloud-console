@@ -35,7 +35,7 @@ import { authorise } from "./auth"
 const getErrorType = (error: unknown, statusCode: number): string => {
   return isAbortError(error) && error.type
     ? error.type
-    : `/probs/${paramCase(String(httpStatus[statusCode]))}`
+    : `/probs/${paramCase(String({ ...httpStatus }[statusCode]))}`
 }
 
 /**

@@ -41,6 +41,8 @@ describe("assignSiloToTeam", () => {
       name: "Test Chain",
       base_token_name: "Aurora",
       base_token_symbol: "AURORA",
+      is_deploy_contracts_public: true,
+      is_make_txs_public: true,
       base_token_decimals: 18,
     })
 
@@ -85,6 +87,8 @@ describe("assignSiloToTeam", () => {
     expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledTimes(1)
     expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledWith({
       name: "Test Chain",
+      is_deploy_contracts_public: true,
+      is_make_txs_public: true,
     })
   })
 
@@ -95,4 +99,51 @@ describe("assignSiloToTeam", () => {
 
     expect(result).toBeNull()
   })
+
+  it.each`
+    onboardingFormValue      | isMakeTxsPublic | isDeployContractsPublic
+    ${"public"}              | ${true}         | ${true}
+    ${"public_permissioned"} | ${true}         | ${false}
+    ${"private"}             | ${false}        | ${false}
+  `(
+    "sets the expected permissions based on the the form data being set to $onboardingFormStatus",
+    async ({
+      onboardingFormValue,
+      isMakeTxsPublic,
+      isDeployContractsPublic,
+    }) => {
+      const teamId = 123
+      const mockSilo = createMockSilo()
+
+      mockSupabaseClient
+        .from("silos")
+        .select.mockReturnValue(createSelect(mockSilo))
+      mockSupabaseClient
+        .from("silos")
+        .update.mockReturnValue(createInsertOrUpdate(mockSilo))
+      mockSupabaseClient.from("onboarding_form").select.mockReturnValue(
+        createSelect(
+          createMockOnboardingForm({
+            baseToken: "AURORA",
+            chainName: "Test Chain",
+            chainPermission: onboardingFormValue,
+          }),
+        ),
+      )
+
+      const result = await assignSiloToTeam(teamId)
+
+      expect(result).toEqual(mockSilo)
+
+      expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledTimes(1)
+      expect(mockSupabaseClient.from("silos").update).toHaveBeenCalledWith({
+        name: "Test Chain",
+        base_token_name: "Aurora",
+        base_token_symbol: "AURORA",
+        is_deploy_contracts_public: isDeployContractsPublic,
+        is_make_txs_public: isMakeTxsPublic,
+        base_token_decimals: 18,
+      })
+    },
+  )
 })

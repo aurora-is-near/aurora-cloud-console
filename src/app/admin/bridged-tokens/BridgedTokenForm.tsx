@@ -61,6 +61,11 @@ export const BridgedTokenForm = ({ token }: BridgedTokenFormProps) => {
       defaultValue: token?.aurora_address ?? "",
     },
     {
+      name: "silo_address",
+      label: "Silo address",
+      defaultValue: token?.silo_address ?? "",
+    },
+    {
       name: "ethereum_address",
       label: "Ethereum address",
       defaultValue: token?.ethereum_address ?? "",
@@ -69,6 +74,7 @@ export const BridgedTokenForm = ({ token }: BridgedTokenFormProps) => {
       name: "near_address",
       label: "Near address",
       defaultValue: token?.near_address ?? "",
+      required: true,
     },
     {
       name: "icon_url",

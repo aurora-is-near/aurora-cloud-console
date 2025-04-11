@@ -154,35 +154,38 @@ export type Database = {
       bridged_tokens: {
         Row: {
           aurora_address: string | null
+          silo_address: string | null
           created_at: string
           decimals: number
           ethereum_address: string | null
           icon_url: string | null
           id: number
           name: string
-          near_address: string | null
+          near_address: string
           symbol: string
         }
         Insert: {
           aurora_address?: string | null
+          silo_address?: string | null
           created_at?: string
           decimals: number
           ethereum_address?: string | null
           icon_url?: string | null
           id?: number
           name: string
-          near_address?: string | null
+          near_address: string
           symbol: string
         }
         Update: {
           aurora_address?: string | null
+          silo_address?: string | null
           created_at?: string
           decimals?: number
           ethereum_address?: string | null
           icon_url?: string | null
           id?: number
           name?: string
-          near_address?: string | null
+          near_address?: string
           symbol?: string
         }
         Relationships: []
@@ -352,6 +355,7 @@ export type Database = {
           id: number
           integrations: Database["public"]["Enums"]["user_integration"][] | null
           networkType: Database["public"]["Enums"]["network_type"] | null
+          phoneNumber: string | null
           team_id: number | null
           telegramHandle: string | null
         }
@@ -370,6 +374,7 @@ export type Database = {
             | Database["public"]["Enums"]["user_integration"][]
             | null
           networkType?: Database["public"]["Enums"]["network_type"] | null
+          phoneNumber?: string | null
           team_id?: number | null
           telegramHandle?: string | null
         }
@@ -388,6 +393,7 @@ export type Database = {
             | Database["public"]["Enums"]["user_integration"][]
             | null
           networkType?: Database["public"]["Enums"]["network_type"] | null
+          phoneNumber?: string | null
           team_id?: number | null
           telegramHandle?: string | null
         }
@@ -902,13 +908,13 @@ export type Database = {
           is_deploy_contracts_public: boolean
           is_make_txs_public: boolean
           name: string
-          network: string
           network_logo: string
           network_logo_dark: string
           replenish_amount: number
           replenish_threshold: number
           rpc_url: string
           silo_to_silo_bridge_address: string | null
+          trisolaris_integration_status: Database["public"]["Enums"]["request_status"]
           type: string
           updated_at: string
         }
@@ -936,13 +942,13 @@ export type Database = {
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
           name: string
-          network?: string
           network_logo?: string
           network_logo_dark?: string
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
           silo_to_silo_bridge_address?: string | null
+          trisolaris_integration_status?: Database["public"]["Enums"]["request_status"]
           type?: string
           updated_at?: string
         }
@@ -970,13 +976,13 @@ export type Database = {
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
           name?: string
-          network?: string
           network_logo?: string
           network_logo_dark?: string
           replenish_amount?: number
           replenish_threshold?: number
           rpc_url?: string
           silo_to_silo_bridge_address?: string | null
+          trisolaris_integration_status?: Database["public"]["Enums"]["request_status"]
           type?: string
           updated_at?: string
         }
@@ -1301,6 +1307,8 @@ export type Database = {
         | "DEPLOY_ETH"
         | "STORAGE_DEPOSIT"
         | "DEPLOY_TOKEN"
+        | "INITIALISE_MAKE_TXS_WHITELIST"
+        | "INITIALISE_DEPLOY_CONTRACT_WHITELIST"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       user_integration:
         | "onramp"

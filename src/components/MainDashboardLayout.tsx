@@ -12,8 +12,10 @@ import {
   GasAbstraction,
   Integrations,
   Monitoring,
+  NearIntents,
   Onramp,
   Oracle,
+  Trisolaris,
 } from "../../public/static/v2/images/menuIcons"
 
 type MainDashboardLayoutProps = {
@@ -58,7 +60,7 @@ export const MainDashboardLayout = ({
                       icon: <Monitoring />,
                     },
                     {
-                      name: "Configuration",
+                      name: "Chain settings",
                       href: `/dashboard/${teamKey}${siloPrefix}/configuration`,
                       icon: <Configuration />,
                     },
@@ -90,8 +92,8 @@ export const MainDashboardLayout = ({
                 icon: <Onramp />,
                 items: [
                   {
-                    name: "Universal widget",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/universal-widget`,
+                    name: "Bridge",
+                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
                   },
                   {
                     name: "Fiat onramp",
@@ -100,10 +102,6 @@ export const MainDashboardLayout = ({
                   {
                     name: "Forwarder",
                     href: `/dashboard/${teamKey}${siloPrefix}/onramp/forwarder`,
-                  },
-                  {
-                    name: "Bridge",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
                   },
                 ],
               },
@@ -118,6 +116,18 @@ export const MainDashboardLayout = ({
                 name: "Block explorer",
                 href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
                 icon: <BlockExplorer />,
+              },
+              {
+                variant: "secondary",
+                name: "Intents",
+                href: `/dashboard/${teamKey}${siloPrefix}/intents`,
+                icon: <NearIntents />,
+              },
+              {
+                variant: "secondary",
+                name: "DEX",
+                href: `/dashboard/${teamKey}${siloPrefix}/trisolaris`,
+                icon: <Trisolaris />,
               },
             ],
           },

@@ -49,7 +49,7 @@ export const DashboardLayout = ({
       },
       {
         name: "Telegram",
-        href: "https://t.me/aurorasupportteam",
+        href: "https://t.me/auroraisnear",
         icon: <IconTelegram />,
         isExternal: true,
       },

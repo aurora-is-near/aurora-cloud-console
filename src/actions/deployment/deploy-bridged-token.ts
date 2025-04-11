@@ -7,6 +7,7 @@ import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-
 import { checkTokenByContractAddress } from "@/utils/check-token-contract"
 import { getStorageBalanceByAddress } from "@/utils/near-storage"
 import { BASE_TOKEN_PLACEHOLDER_ADDRESS } from "@/constants/base-token"
+import { STORAGE_DEPOSIT_AMOUNT } from "@/constants/storage-deposits"
 
 const checkContract = async ({
   provider,
@@ -20,7 +21,7 @@ const checkContract = async ({
   skipIfFailed?: boolean
 }): Promise<SiloConfigTransactionStatus> => {
   const nearAccountId = bridgedToken.near_address
-  const auroraAddress = bridgedToken.aurora_address
+  const siloAddress = bridgedToken.silo_address
 
   // Base tokens do not need an ERC20 contract deployed.
   if (
@@ -29,16 +30,16 @@ const checkContract = async ({
     return "SUCCESSFUL"
   }
 
-  // If there is no Aurora address we can't mirror the token, or check if the
+  // If there is no silo address we can't mirror the token, or check if the
   // token contract was deployed. We return pending as the result for the case
   // where we fill this account ID in later.
-  if (!auroraAddress) {
+  if (!siloAddress) {
     return "PENDING"
   }
 
   const isContractDeployed = await checkTokenByContractAddress(
     provider,
-    auroraAddress,
+    siloAddress,
   )
 
   if (isContractDeployed) {
@@ -103,7 +104,7 @@ const checkStorageBalance = async ({
     async () =>
       contractChangerApiClient.makeStorageDeposit({
         siloEngineAccountId: silo.engine_account,
-        amount: "0.00125 near",
+        amount: STORAGE_DEPOSIT_AMOUNT,
         token: nearAccountId,
       }),
     { skipIfFailed, nearAccountId },
