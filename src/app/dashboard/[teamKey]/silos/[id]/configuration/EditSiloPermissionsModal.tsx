@@ -105,7 +105,7 @@ const EditSiloPermissionsModalContent = ({
     onError: (address) => {
       setAddresses((p) => p.filter((a) => a !== address))
       toast.error(
-        `Failed to add address: ${address.length > 20 ? `${address.slice(0, 32)}...` : address}`,
+        `Failed to add address: ${address.length > 32 ? `${address.slice(0, 32)}...` : address}`,
       )
     },
     onSuccess: () => {
