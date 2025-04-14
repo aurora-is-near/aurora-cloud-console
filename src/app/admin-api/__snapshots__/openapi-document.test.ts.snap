@@ -1,0 +1,3426 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OpenAPI Document should be valid 1`] = `
+{
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "description": "An API key generated via the Aurora Cloud Console",
+        "in": "header",
+        "name": "Authorization",
+        "scheme": "bearer",
+        "type": "http",
+      },
+    },
+  },
+  "info": {
+    "title": "Aurora Cloud Console API",
+    "version": "1.0.0",
+  },
+  "openapi": "3.0.2",
+  "paths": {
+    "/api/deals": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:read\`",
+        "operationId": "getDeals",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "createdAt": {
+                            "type": "string",
+                          },
+                          "deletedAt": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "enabled": {
+                            "type": "boolean",
+                          },
+                          "endTime": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "id": {
+                            "type": "number",
+                          },
+                          "name": {
+                            "type": "string",
+                          },
+                          "open": {
+                            "type": "boolean",
+                          },
+                          "siloId": {
+                            "nullable": true,
+                            "type": "number",
+                          },
+                          "startTime": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "teamId": {
+                            "type": "number",
+                          },
+                          "updatedAt": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "createdAt",
+                          "updatedAt",
+                          "deletedAt",
+                          "name",
+                          "teamId",
+                          "siloId",
+                          "enabled",
+                          "open",
+                          "startTime",
+                          "endTime",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:read",
+            ],
+          },
+        ],
+        "summary": "Get all deals",
+        "tags": [
+          "deals",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:write\`",
+        "operationId": "createDeal",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "name",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "deletedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "endTime": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "open": {
+                      "type": "boolean",
+                    },
+                    "siloId": {
+                      "nullable": true,
+                      "type": "number",
+                    },
+                    "startTime": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "teamId": {
+                      "type": "number",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "deletedAt",
+                    "name",
+                    "teamId",
+                    "siloId",
+                    "enabled",
+                    "open",
+                    "startTime",
+                    "endTime",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:write",
+            ],
+          },
+        ],
+        "summary": "Create a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
+    "/api/deals/{id}": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:read\`",
+        "operationId": "getDeal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "deletedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "endTime": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "open": {
+                      "type": "boolean",
+                    },
+                    "siloId": {
+                      "nullable": true,
+                      "type": "number",
+                    },
+                    "startTime": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "teamId": {
+                      "type": "number",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "deletedAt",
+                    "name",
+                    "teamId",
+                    "siloId",
+                    "enabled",
+                    "open",
+                    "startTime",
+                    "endTime",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:read",
+            ],
+          },
+        ],
+        "summary": "Get a single deal",
+        "tags": [
+          "deals",
+        ],
+      },
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:write\`",
+        "operationId": "updateDeal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                  },
+                  "endTime": {
+                    "nullable": true,
+                    "type": "string",
+                  },
+                  "name": {
+                    "type": "string",
+                  },
+                  "open": {
+                    "type": "boolean",
+                  },
+                  "startTime": {
+                    "nullable": true,
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "deletedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "endTime": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "open": {
+                      "type": "boolean",
+                    },
+                    "siloId": {
+                      "nullable": true,
+                      "type": "number",
+                    },
+                    "startTime": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "teamId": {
+                      "type": "number",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "deletedAt",
+                    "name",
+                    "teamId",
+                    "siloId",
+                    "enabled",
+                    "open",
+                    "startTime",
+                    "endTime",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:write",
+            ],
+          },
+        ],
+        "summary": "Update a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
+    "/api/deals/{id}/rules": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:read\`",
+        "operationId": "getRules",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "chains": {
+                            "items": {
+                              "type": "number",
+                            },
+                            "type": "array",
+                          },
+                          "contracts": {
+                            "items": {
+                              "type": "string",
+                            },
+                            "type": "array",
+                          },
+                          "createdAt": {
+                            "type": "string",
+                          },
+                          "dealId": {
+                            "type": "number",
+                          },
+                          "exceptChains": {
+                            "items": {
+                              "type": "number",
+                            },
+                            "type": "array",
+                          },
+                          "exceptContracts": {
+                            "items": {
+                              "type": "string",
+                            },
+                            "type": "array",
+                          },
+                          "id": {
+                            "type": "number",
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "dealId",
+                          "chains",
+                          "contracts",
+                          "exceptChains",
+                          "exceptContracts",
+                          "createdAt",
+                          "updatedAt",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:read",
+            ],
+          },
+        ],
+        "summary": "Get all rules for a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:write\`",
+        "operationId": "createRule",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "chains": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "type": "array",
+                  },
+                  "contracts": {
+                    "items": {
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "exceptChains": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "type": "array",
+                  },
+                  "exceptContracts": {
+                    "items": {
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "chains": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "contracts": {
+                      "items": {
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "dealId": {
+                      "type": "number",
+                    },
+                    "exceptChains": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "exceptContracts": {
+                      "items": {
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "dealId",
+                    "chains",
+                    "contracts",
+                    "exceptChains",
+                    "exceptContracts",
+                    "createdAt",
+                    "updatedAt",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:write",
+            ],
+          },
+        ],
+        "summary": "Create a rule for a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
+    "/api/deals/{id}/rules/{rule_id}": {
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`deals:write\`",
+        "operationId": "updateRule",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
+            "name": "rule_id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "chains": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "nullable": true,
+                    "type": "array",
+                  },
+                  "contracts": {
+                    "items": {
+                      "type": "string",
+                    },
+                    "nullable": true,
+                    "type": "array",
+                  },
+                  "exceptChains": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "nullable": true,
+                    "type": "array",
+                  },
+                  "exceptContracts": {
+                    "items": {
+                      "type": "string",
+                    },
+                    "nullable": true,
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "chains",
+                  "contracts",
+                  "exceptChains",
+                  "exceptContracts",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "chains": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "contracts": {
+                      "items": {
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "dealId": {
+                      "type": "number",
+                    },
+                    "exceptChains": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "exceptContracts": {
+                      "items": {
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "dealId",
+                    "chains",
+                    "contracts",
+                    "exceptChains",
+                    "exceptContracts",
+                    "createdAt",
+                    "updatedAt",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "deals:write",
+            ],
+          },
+        ],
+        "summary": "Update a rule for a deal",
+        "tags": [
+          "deals",
+        ],
+      },
+    },
+    "/api/silos": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSilos",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "chainId": {
+                            "type": "number",
+                          },
+                          "createdAt": {
+                            "type": "string",
+                          },
+                          "engineAccount": {
+                            "type": "string",
+                          },
+                          "engineVersion": {
+                            "type": "string",
+                          },
+                          "genesis": {
+                            "type": "string",
+                          },
+                          "id": {
+                            "type": "number",
+                          },
+                          "intentsIntegrationStatus": {
+                            "type": "string",
+                          },
+                          "name": {
+                            "type": "string",
+                          },
+                          "nativeToken": {
+                            "properties": {
+                              "decimals": {
+                                "nullable": true,
+                                "type": "number",
+                              },
+                              "name": {
+                                "nullable": true,
+                                "type": "string",
+                              },
+                              "symbol": {
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "symbol",
+                              "name",
+                              "decimals",
+                            ],
+                            "type": "object",
+                          },
+                          "rpcUrl": {
+                            "type": "string",
+                          },
+                          "trisolarisIntegrationStatus": {
+                            "type": "string",
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "createdAt",
+                          "updatedAt",
+                          "chainId",
+                          "engineAccount",
+                          "engineVersion",
+                          "genesis",
+                          "name",
+                          "rpcUrl",
+                          "intentsIntegrationStatus",
+                          "trisolarisIntegrationStatus",
+                          "nativeToken",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get all silos",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSilo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "chainId": {
+                      "type": "number",
+                    },
+                    "createdAt": {
+                      "type": "string",
+                    },
+                    "engineAccount": {
+                      "type": "string",
+                    },
+                    "engineVersion": {
+                      "type": "string",
+                    },
+                    "genesis": {
+                      "type": "string",
+                    },
+                    "id": {
+                      "type": "number",
+                    },
+                    "intentsIntegrationStatus": {
+                      "type": "string",
+                    },
+                    "name": {
+                      "type": "string",
+                    },
+                    "nativeToken": {
+                      "properties": {
+                        "decimals": {
+                          "nullable": true,
+                          "type": "number",
+                        },
+                        "name": {
+                          "nullable": true,
+                          "type": "string",
+                        },
+                        "symbol": {
+                          "type": "string",
+                        },
+                      },
+                      "required": [
+                        "symbol",
+                        "name",
+                        "decimals",
+                      ],
+                      "type": "object",
+                    },
+                    "rpcUrl": {
+                      "type": "string",
+                    },
+                    "trisolarisIntegrationStatus": {
+                      "type": "string",
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "chainId",
+                    "engineAccount",
+                    "engineVersion",
+                    "genesis",
+                    "name",
+                    "rpcUrl",
+                    "intentsIntegrationStatus",
+                    "trisolarisIntegrationStatus",
+                    "nativeToken",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get a single silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/assets": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`assets:write\`",
+        "operationId": "uploadSiloAsset",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "nullable": true,
+                    "type": "string",
+                  },
+                  "type": {
+                    "enum": [
+                      "network_logo",
+                      "network_logo_dark",
+                      "favicon",
+                    ],
+                    "type": "string",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "url",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "assets:write",
+            ],
+          },
+        ],
+        "summary": "Upload an asset used in configuring the silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/failure-rate": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloFailureRate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "chart": {
+                            "items": {
+                              "properties": {
+                                "count": {
+                                  "type": "number",
+                                },
+                                "day": {
+                                  "type": "number",
+                                },
+                              },
+                              "required": [
+                                "day",
+                                "count",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "label": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "label",
+                          "chart",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the failure rate chart for a single silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/forwarder/contract": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "createForwarderAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "targetAddress": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "targetAddress",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "forwarderAddress": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "forwarderAddress",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Create a forwarder address for given target address",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/forwarder/contract/{targetAddress}": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:read\`",
+        "operationId": "getForwarderAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "path",
+            "name": "targetAddress",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "forwarderAddress": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "forwarderAddress",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:read",
+            ],
+          },
+        ],
+        "summary": "Get the forwarder address for given target address",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/forwarder/tokens": {
+      "delete": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "removeForwarderTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "tokens": {
+                    "items": {
+                      "enum": [
+                        "NEAR",
+                        "wNEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "tokens",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Remove forwarder support for the given token(s)",
+        "tags": [
+          "silos",
+        ],
+      },
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:read\`",
+        "operationId": "getForwarderTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "contractDeployed": {
+                            "type": "boolean",
+                          },
+                          "decimals": {
+                            "type": "number",
+                          },
+                          "enabled": {
+                            "type": "boolean",
+                          },
+                          "symbol": {
+                            "enum": [
+                              "NEAR",
+                              "wNEAR",
+                              "USDt",
+                              "USDC",
+                              "AURORA",
+                            ],
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "symbol",
+                          "decimals",
+                          "contractDeployed",
+                          "enabled",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:read",
+            ],
+          },
+        ],
+        "summary": "Get the tokens supported by the forwarder",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "addForwarderTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "tokens": {
+                    "items": {
+                      "enum": [
+                        "NEAR",
+                        "wNEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "tokens",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Add forwarder support for the given token(s)",
+        "tags": [
+          "silos",
+        ],
+      },
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`forwarder:write\`",
+        "operationId": "updateForwarderTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "tokens": {
+                    "items": {
+                      "enum": [
+                        "NEAR",
+                        "wNEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "required": [
+                  "tokens",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "forwarder:write",
+            ],
+          },
+        ],
+        "summary": "Update forwarder support for the given token(s)",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/gas-collected": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`transactions:read\`",
+        "operationId": "getSiloCollectedGas",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "startDate",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "endDate",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "type": "number",
+                    },
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "count": {
+                            "type": "number",
+                          },
+                          "day": {
+                            "type": "string",
+                          },
+                          "transactionsCount": {
+                            "type": "number",
+                          },
+                        },
+                        "required": [
+                          "day",
+                          "count",
+                          "transactionsCount",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                    "transactionsCount": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "count",
+                    "transactionsCount",
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "transactions:read",
+            ],
+          },
+        ],
+        "summary": "Get collected gas over time for a single silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/gas-collected-total": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`transactions:read\`",
+        "operationId": "getSiloCollectedGasTotal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "count": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "count",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "transactions:read",
+            ],
+          },
+        ],
+        "summary": "Get collected gas to the moment",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/healthcheck": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "healthcheck",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "bridgedTokens": {
+                      "additionalProperties": {},
+                      "nullable": true,
+                    },
+                    "defaultTokens": {
+                      "properties": {
+                        "AURORA": {
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
+                        },
+                        "NEAR": {
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
+                        },
+                        "USDC": {
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
+                        },
+                        "USDt": {
+                          "properties": {
+                            "isContractDeployed": {
+                              "type": "boolean",
+                            },
+                            "storageBalance": {
+                              "nullable": true,
+                              "properties": {
+                                "available": {
+                                  "type": "string",
+                                },
+                                "total": {
+                                  "type": "string",
+                                },
+                              },
+                              "required": [
+                                "total",
+                                "available",
+                              ],
+                              "type": "object",
+                            },
+                          },
+                          "required": [
+                            "isContractDeployed",
+                            "storageBalance",
+                          ],
+                          "type": "object",
+                        },
+                      },
+                      "required": [
+                        "NEAR",
+                        "USDt",
+                        "USDC",
+                        "AURORA",
+                      ],
+                      "type": "object",
+                    },
+                    "networkStatus": {
+                      "enum": [
+                        "ok",
+                        "invalid-network",
+                        "stalled",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "networkStatus",
+                    "defaultTokens",
+                    "bridgedTokens",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Perform various checks on the silo and report the status",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/latency": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloLatency",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "interval",
+            "schema": {
+              "enum": [
+                "now-24h",
+                "now-12h",
+                "now-1h",
+                "now-15m",
+              ],
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "chart": {
+                            "items": {
+                              "properties": {
+                                "count": {
+                                  "type": "number",
+                                },
+                                "day": {
+                                  "type": "number",
+                                },
+                              },
+                              "required": [
+                                "day",
+                                "count",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "label": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "label",
+                          "chart",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get latency chart data",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/oracle": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloOracle",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "address": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "createdAt",
+                    "updatedAt",
+                    "address",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the oracle configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "createSiloOracle",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {},
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "address": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "createdAt",
+                    "updatedAt",
+                    "address",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Create an oracle configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/permissions": {
+      "delete": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silo:write\`",
+        "operationId": "removeAddressFromPermissionsWhitelist",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "MAKE_TRANSACTION",
+                      "DEPLOY_CONTRACT",
+                    ],
+                    "type": "string",
+                  },
+                  "address": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "address",
+                  "action",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "MAKE_TRANSACTION",
+                        "DEPLOY_CONTRACT",
+                      ],
+                      "type": "string",
+                    },
+                    "address": {
+                      "type": "string",
+                    },
+                    "status": {
+                      "enum": [
+                        "PENDING",
+                        "SUCCESSFUL",
+                        "FAILED",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                    "address",
+                    "action",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silo:write",
+            ],
+          },
+        ],
+        "summary": "Remove wallet address from whitelist to forbid make transactions or deploy contracts",
+        "tags": [
+          "silos",
+        ],
+      },
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silo:write\`",
+        "operationId": "addAddressToPermissionsWhitelist",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "MAKE_TRANSACTION",
+                      "DEPLOY_CONTRACT",
+                    ],
+                    "type": "string",
+                  },
+                  "address": {
+                    "type": "string",
+                  },
+                },
+                "required": [
+                  "address",
+                  "action",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "MAKE_TRANSACTION",
+                        "DEPLOY_CONTRACT",
+                      ],
+                      "type": "string",
+                    },
+                    "address": {
+                      "type": "string",
+                    },
+                    "status": {
+                      "enum": [
+                        "PENDING",
+                        "SUCCESSFUL",
+                        "FAILED",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                    "address",
+                    "action",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silo:write",
+            ],
+          },
+        ],
+        "summary": "Add wallet address to whitelist to allow make transactions or deploy contracts",
+        "tags": [
+          "silos",
+        ],
+      },
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silo:write\`",
+        "operationId": "toggleSiloPermissions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "MAKE_TRANSACTION",
+                      "DEPLOY_CONTRACT",
+                    ],
+                    "type": "string",
+                  },
+                  "isEnabled": {
+                    "type": "boolean",
+                  },
+                },
+                "required": [
+                  "isEnabled",
+                  "action",
+                ],
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "action": {
+                      "enum": [
+                        "MAKE_TRANSACTION",
+                        "DEPLOY_CONTRACT",
+                      ],
+                      "type": "string",
+                    },
+                    "isEnabled": {
+                      "type": "boolean",
+                    },
+                    "status": {
+                      "enum": [
+                        "PENDING",
+                        "SUCCESSFUL",
+                        "FAILED",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                    "isEnabled",
+                    "action",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silo:write",
+            ],
+          },
+        ],
+        "summary": "Enable disable whitelists to allow make transactions or deploy contracts publicly",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/repair": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "repair",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {},
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "initialisation": {
+                      "nullable": true,
+                      "properties": {
+                        "baseTokenSet": {
+                          "enum": [
+                            "PENDING",
+                            "SUCCESSFUL",
+                            "FAILED",
+                          ],
+                          "type": "string",
+                        },
+                        "defaultTokensDeployed": {
+                          "enum": [
+                            "PENDING",
+                            "SUCCESSFUL",
+                            "FAILED",
+                          ],
+                          "type": "string",
+                        },
+                        "isSiloActive": {
+                          "type": "boolean",
+                        },
+                      },
+                      "required": [
+                        "defaultTokensDeployed",
+                        "baseTokenSet",
+                        "isSiloActive",
+                      ],
+                      "type": "object",
+                    },
+                    "pendingBridgedTokens": {
+                      "nullable": true,
+                      "properties": {
+                        "numberOfPendingDeployments": {
+                          "type": "number",
+                        },
+                        "numberOfPendingDeploymentsResolved": {
+                          "type": "number",
+                        },
+                        "numberOfRequests": {
+                          "type": "number",
+                        },
+                        "numberOfRequestsResolved": {
+                          "type": "number",
+                        },
+                        "tokens": {
+                          "items": {
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "PENDING",
+                                  "SUCCESSFUL",
+                                  "FAILED",
+                                ],
+                                "type": "string",
+                              },
+                              "symbol": {
+                                "type": "string",
+                              },
+                            },
+                            "required": [
+                              "symbol",
+                              "status",
+                            ],
+                            "type": "object",
+                          },
+                          "type": "array",
+                        },
+                      },
+                      "required": [
+                        "numberOfRequests",
+                        "numberOfRequestsResolved",
+                        "numberOfPendingDeployments",
+                        "numberOfPendingDeploymentsResolved",
+                        "tokens",
+                      ],
+                      "type": "object",
+                    },
+                    "pendingTransactions": {
+                      "nullable": true,
+                      "properties": {
+                        "numberOfPendingTransactions": {
+                          "type": "number",
+                        },
+                        "numberOfPendingTransactionsResolved": {
+                          "type": "number",
+                        },
+                      },
+                      "required": [
+                        "numberOfPendingTransactions",
+                        "numberOfPendingTransactionsResolved",
+                      ],
+                      "type": "object",
+                    },
+                    "status": {
+                      "enum": [
+                        "ok",
+                        "skipped",
+                      ],
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "status",
+                    "initialisation",
+                    "pendingTransactions",
+                    "pendingBridgedTokens",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Perform various checks and, if necessary, transactions to repair a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/rpc-requests": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloRpcRequests",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "chart": {
+                            "items": {
+                              "properties": {
+                                "count": {
+                                  "type": "number",
+                                },
+                                "day": {
+                                  "type": "number",
+                                },
+                              },
+                              "required": [
+                                "day",
+                                "count",
+                              ],
+                              "type": "object",
+                            },
+                            "type": "array",
+                          },
+                          "label": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "label",
+                          "chart",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get RPC request chart data",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/tokens": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloBridgedTokens",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "aurora_address": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "createdAt": {
+                            "type": "string",
+                          },
+                          "decimals": {
+                            "type": "number",
+                          },
+                          "ethereum_address": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "iconUrl": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "id": {
+                            "type": "number",
+                          },
+                          "isDeploymentPending": {
+                            "type": "boolean",
+                          },
+                          "name": {
+                            "type": "string",
+                          },
+                          "near_address": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "silo_address": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "symbol": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "createdAt",
+                          "name",
+                          "symbol",
+                          "decimals",
+                          "aurora_address",
+                          "silo_address",
+                          "near_address",
+                          "ethereum_address",
+                          "iconUrl",
+                          "isDeploymentPending",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                    "total": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "total",
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the bridged tokens associated with a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/tokens/bridge": {
+      "post": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "bridgeSiloToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "address": {
+                    "type": "string",
+                  },
+                  "symbol": {
+                    "type": "string",
+                  },
+                  "tokenId": {
+                    "type": "number",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "isDeploymentPending": {
+                      "type": "boolean",
+                    },
+                  },
+                  "required": [
+                    "isDeploymentPending",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Request bridging of a token for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/tokens/requests": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getSiloBridgedTokenRequests",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "address": {
+                            "nullable": true,
+                            "type": "string",
+                          },
+                          "createdAt": {
+                            "type": "string",
+                          },
+                          "id": {
+                            "type": "number",
+                          },
+                          "symbol": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "id",
+                          "createdAt",
+                          "symbol",
+                          "address",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                    "total": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "total",
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the bridged tokens requested for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/transactions": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`transactions:read\`",
+        "operationId": "getSiloTransactions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "interval",
+            "schema": {
+              "enum": [
+                "1 WEEK",
+                "1 MONTH",
+                "3 MONTH",
+              ],
+              "type": "string",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "data": {
+                            "properties": {
+                              "label": {
+                                "type": "string",
+                              },
+                              "transactionsCount": {
+                                "type": "number",
+                              },
+                              "transactionsPerDay": {
+                                "items": {
+                                  "properties": {
+                                    "count": {
+                                      "type": "number",
+                                    },
+                                    "day": {
+                                      "type": "string",
+                                    },
+                                  },
+                                  "required": [
+                                    "day",
+                                    "count",
+                                  ],
+                                  "type": "object",
+                                },
+                                "type": "array",
+                              },
+                              "walletsCount": {
+                                "type": "number",
+                              },
+                              "walletsPerDay": {
+                                "items": {
+                                  "properties": {
+                                    "count": {
+                                      "type": "number",
+                                    },
+                                    "day": {
+                                      "type": "string",
+                                    },
+                                  },
+                                  "required": [
+                                    "day",
+                                    "count",
+                                  ],
+                                  "type": "object",
+                                },
+                                "type": "array",
+                              },
+                            },
+                            "required": [
+                              "label",
+                              "transactionsCount",
+                              "walletsCount",
+                              "transactionsPerDay",
+                              "walletsPerDay",
+                            ],
+                            "type": "object",
+                          },
+                          "siloId": {
+                            "type": "number",
+                          },
+                        },
+                        "required": [
+                          "siloId",
+                          "data",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                  },
+                  "required": [
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "transactions:read",
+            ],
+          },
+        ],
+        "summary": "Get transaction chart data for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/wallets": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`transactions:read\`",
+        "operationId": "getWallets",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "number",
+            },
+          },
+          {
+            "in": "query",
+            "name": "dealId",
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "firstTransactionAt": {
+                            "type": "string",
+                          },
+                          "lastTransactionAt": {
+                            "type": "string",
+                          },
+                          "numberOfTransactions": {
+                            "type": "number",
+                          },
+                          "walletAddress": {
+                            "type": "string",
+                          },
+                        },
+                        "required": [
+                          "walletAddress",
+                          "numberOfTransactions",
+                          "firstTransactionAt",
+                          "lastTransactionAt",
+                        ],
+                        "type": "object",
+                      },
+                      "type": "array",
+                    },
+                    "total": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "total",
+                    "items",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "transactions:read",
+            ],
+          },
+        ],
+        "summary": "Get details of the wallets that have interacted with your silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/wallets/{address}": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`transactions:read\`",
+        "operationId": "getWallet",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "path",
+            "name": "address",
+            "required": true,
+            "schema": {
+              "type": "string",
+            },
+          },
+          {
+            "in": "query",
+            "name": "dealId",
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "firstTransactionAt": {
+                      "type": "string",
+                    },
+                    "lastTransactionAt": {
+                      "type": "string",
+                    },
+                    "numberOfTransactions": {
+                      "type": "number",
+                    },
+                    "walletAddress": {
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "walletAddress",
+                    "numberOfTransactions",
+                    "firstTransactionAt",
+                    "lastTransactionAt",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "transactions:read",
+            ],
+          },
+        ],
+        "summary": "Get details of a single wallet that has interacted with your silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+    "/api/silos/{id}/widget": {
+      "get": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:read\`",
+        "operationId": "getWidget",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "tokens": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                    "tokens",
+                    "widgetUrl",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:read",
+            ],
+          },
+        ],
+        "summary": "Get the widget configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+      "put": {
+        "deprecated": undefined,
+        "description": "**Required scopes:** \`silos:write\`",
+        "operationId": "updateWidget",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number",
+            },
+          },
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "fromNetworks": {
+                    "items": {
+                      "enum": [
+                        "AURORA",
+                        "ETHEREUM",
+                        "NEAR",
+                        "CUSTOM",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "toNetworks": {
+                    "items": {
+                      "enum": [
+                        "AURORA",
+                        "ETHEREUM",
+                        "NEAR",
+                        "CUSTOM",
+                      ],
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                  "tokens": {
+                    "items": {
+                      "type": "number",
+                    },
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "description": "Body",
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                    },
+                    "fromNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "toNetworks": {
+                      "items": {
+                        "enum": [
+                          "AURORA",
+                          "ETHEREUM",
+                          "NEAR",
+                          "CUSTOM",
+                        ],
+                        "type": "string",
+                      },
+                      "nullable": true,
+                      "type": "array",
+                    },
+                    "tokens": {
+                      "items": {
+                        "type": "number",
+                      },
+                      "type": "array",
+                    },
+                    "updatedAt": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                    "widgetUrl": {
+                      "nullable": true,
+                      "type": "string",
+                    },
+                  },
+                  "required": [
+                    "enabled",
+                    "createdAt",
+                    "updatedAt",
+                    "fromNetworks",
+                    "toNetworks",
+                    "tokens",
+                    "widgetUrl",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "200",
+          },
+        },
+        "security": [
+          {
+            "bearerAuth": [
+              "silos:write",
+            ],
+          },
+        ],
+        "summary": "Update the widget configuration for a silo",
+        "tags": [
+          "silos",
+        ],
+      },
+    },
+  },
+}
+`;

@@ -22,7 +22,7 @@ import { ApiScope } from "@/types/types"
 import { logger } from "@/logger"
 import { abort, isAbortError } from "./abort"
 import { toError } from "./errors"
-import { authorise } from "./auth"
+import { authorise, authoriseAsAdmin } from "./auth"
 
 /**
  * Get the specific type of error.
@@ -297,6 +297,39 @@ export const createApiEndpoint =
     })
 
     return data
+  }
+
+/**
+ * Create an endpoint for the admin API.
+ */
+export const createAdminApiEndpoint =
+  <TResponseBody>(
+    handler: PrivateApiRequestHandler<TResponseBody>,
+    options?: ApiEndpointOptions,
+  ) =>
+  async (
+    req: NextRequest,
+    ctx: BaseApiRequestContext,
+  ): Promise<ApiResponse<TResponseBody>> => {
+    let data: TResponseBody
+
+    try {
+      await authoriseAsAdmin()
+    } catch (error) {
+      logger.error(error)
+
+      return getErrorResponse(error)
+    }
+
+    try {
+      data = await handler(req, ctx)
+    } catch (error: unknown) {
+      logger.error(error)
+
+      return getErrorResponse(error)
+    }
+
+    return getResponse(data, options)
   }
 
 /**

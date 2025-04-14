@@ -171,3 +171,19 @@ export const authorise = async (requiredScopes: ApiScope[]): Promise<Team> => {
 
   return teamAndScopes.team
 }
+
+export const authoriseAsAdmin = async () => {
+  const apiKey = getApiKey()
+
+  if (!process.env.ADMIN_API_KEY) {
+    abort(500, "Admin API key is not set")
+  }
+
+  if (!apiKey) {
+    abort(401)
+  }
+
+  if (apiKey !== process.env.ADMIN_API_KEY) {
+    abort(403)
+  }
+}
