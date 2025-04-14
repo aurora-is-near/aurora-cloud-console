@@ -16,6 +16,7 @@ import type {
 
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { SiloContext } from "@/providers/SiloProvider"
+import { TeamContext } from "@/providers/TeamProvider"
 import { getSiloWhitelist } from "@/actions/silo-whitelist/get-silo-whitelist"
 import { ConfigurationItemsCard } from "./ConfigurationItemsCard"
 import { EditSiloPermissionsModal } from "./EditSiloPermissionsModal"
@@ -41,7 +42,9 @@ const useDisplayValue = (
 
 export const EditPermissions = () => {
   const { openModal } = useModals()
+  const { team } = useRequiredContext(TeamContext)
   const { silo } = useRequiredContext(SiloContext)
+
   const [currentModal, setCurrentModal] = useState<SiloWhitelistType | null>(
     null,
   )
@@ -78,6 +81,7 @@ export const EditPermissions = () => {
   return (
     <>
       <EditSiloPermissionsModal
+        team={team}
         silo={silo}
         whitelistType={currentModal}
         addresses={

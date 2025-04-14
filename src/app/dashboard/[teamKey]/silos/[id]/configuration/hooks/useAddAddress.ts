@@ -23,6 +23,7 @@ type Args = {
   addressValue: string
   whitelistType: SiloWhitelistType
   addresses: string[]
+  onError: (address: string) => void
   onSuccess: (address: string) => void
   onSubmit: (address: string) => void
 }
@@ -50,6 +51,7 @@ export const useAddAddress = ({
   addresses,
   addressValue,
   whitelistType,
+  onError,
   onSuccess,
   onSubmit,
 }: Args) => {
@@ -61,15 +63,19 @@ export const useAddAddress = ({
 
   const addAddressToList = useMutation({
     mutationFn: apiClient.addAddressToPermissionsWhitelist,
-    onError: () => setIsFailed(true),
+    onError: async (_error, variables) => {
+      setIsFailed(true)
+      onError(variables.address)
+    },
     onSuccess: async (data, variables) => {
       if (data.status === "PENDING") {
         retry(() => addAddressToList.mutate(variables))
       } else if (data.status === "SUCCESSFUL") {
         setIsFailed(false)
-        onSuccess(data.address)
+        onSuccess(variables.address)
       } else if (data.status === "FAILED") {
         setIsFailed(true)
+        onError(variables.address)
       }
     },
   })
