@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { useQueryClient } from "@tanstack/react-query"
 
+import { logger } from "@/logger"
 import { queryKeys } from "@/actions/query-keys"
 import { Hr, RadioGroup, Typography } from "@/uikit"
 import SlideOver from "@/components/SlideOver"
@@ -71,9 +72,13 @@ const EditSiloPermissionsModalContent = ({
 
   const queryClient = useQueryClient()
   const refreshSiloData = () => {
-    queryClient.invalidateQueries({
-      queryKey: queryKeys.getTeamSiloByKey(team.team_key, silo.id),
-    })
+    queryClient
+      .invalidateQueries({
+        queryKey: queryKeys.getTeamSiloByKey(team.team_key, silo.id),
+      })
+      .catch((error) => {
+        logger.error("Failed to refresh silo data:", error)
+      })
   }
 
   const {
