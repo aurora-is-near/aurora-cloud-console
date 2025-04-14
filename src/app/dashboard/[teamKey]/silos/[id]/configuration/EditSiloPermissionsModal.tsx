@@ -2,9 +2,10 @@
 
 import toast from "react-hot-toast"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { useQueryClient } from "@tanstack/react-query"
 
+import { queryKeys } from "@/actions/query-keys"
 import { Hr, RadioGroup, Typography } from "@/uikit"
 import SlideOver from "@/components/SlideOver"
 import { Modals } from "@/utils/modals"
@@ -16,6 +17,7 @@ import type {
   Silo,
   SiloWhitelistAddress,
   SiloWhitelistType,
+  Team,
 } from "@/types/types"
 
 import { useAddAddress, useRemoveAddress, useToggleWhitelist } from "./hooks"
@@ -50,22 +52,29 @@ const LoadingBadge = ({ label }: { label: string }) => (
 )
 
 type Props = {
+  team: Team
   silo: Silo
   whitelistType: SiloWhitelistType
   addresses: SiloWhitelistAddress[]
 }
 
 const EditSiloPermissionsModalContent = ({
+  team,
   silo,
   whitelistType,
   addresses: existingAddresses,
 }: Props) => {
-  const router = useRouter()
-
   const [addressValue, setAddressValue] = useState<string>("")
   const [addresses, setAddresses] = useState(
     existingAddresses.map((item) => item.address),
   )
+
+  const queryClient = useQueryClient()
+  const refreshSiloData = () => {
+    queryClient.invalidateQueries({
+      queryKey: queryKeys.getTeamSiloByKey(team.team_key, silo.id),
+    })
+  }
 
   const {
     isPublic,
@@ -75,7 +84,7 @@ const EditSiloPermissionsModalContent = ({
   } = useToggleWhitelist({
     silo,
     whitelistType,
-    onSuccess: router.refresh,
+    onSuccess: refreshSiloData,
   })
 
   const {
@@ -90,7 +99,7 @@ const EditSiloPermissionsModalContent = ({
     whitelistType,
     onSuccess: () => {
       setAddressValue("")
-      router.refresh()
+      refreshSiloData()
     },
     onSubmit: (address) => setAddresses((p) => [...p, address]),
   })
@@ -105,7 +114,7 @@ const EditSiloPermissionsModalContent = ({
     whitelistType,
     onSuccess: (addr) => {
       setAddresses((p) => p.filter((a) => a !== addr))
-      router.refresh()
+      refreshSiloData()
     },
   })
 
@@ -251,6 +260,7 @@ const EditSiloPermissionsModalContent = ({
 }
 
 export const EditSiloPermissionsModal = ({
+  team,
   silo,
   addresses,
   whitelistType,
@@ -268,6 +278,7 @@ export const EditSiloPermissionsModal = ({
     >
       {whitelistType ? (
         <EditSiloPermissionsModalContent
+          team={team}
           silo={silo}
           addresses={addresses}
           whitelistType={whitelistType}
