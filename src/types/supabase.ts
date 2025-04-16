@@ -1309,6 +1309,7 @@ export type Database = {
         | "DEPLOY_TOKEN"
         | "INITIALISE_MAKE_TXS_WHITELIST"
         | "INITIALISE_DEPLOY_CONTRACT_WHITELIST"
+        | "COLLECT_GAS"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       user_integration:
         | "onramp"

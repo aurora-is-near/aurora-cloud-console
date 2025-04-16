@@ -6,7 +6,10 @@ export const HorizontalInputWrapper = <Inputs extends Record<string, unknown>>({
   ...restProps
 }: InputWrapperProps<Inputs>) => (
   <InputWrapper
-    className={clsx("sm:grid sm:grid-cols-2 min-h-9", className)}
+    className={clsx("sm:grid min-h-9", className, {
+      "grid-cols-2 gap-x-4": restProps.label,
+      "grid-cols-1": !restProps.label,
+    })}
     {...restProps}
   />
 )

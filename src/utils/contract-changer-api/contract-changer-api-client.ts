@@ -1,6 +1,8 @@
 import { createDebugger } from "@/debug"
 import { getRequiredEnvVar } from "@/utils/get-required-env-var"
 
+import { logger } from "@/logger"
+
 const API_BASE_URL = "https://silo-deployer.aurora-labs.net"
 
 const request = async <T>(
@@ -41,6 +43,7 @@ const request = async <T>(
   })
 
   if (!res.ok) {
+    logger.error(res)
     throw new Error(
       `Contract Changer API call failed [${res.status}]: ${endpoint}`,
     )
@@ -146,6 +149,7 @@ export const contractChangerApiClient = {
       `/api/v1/contract/${siloEngineAccountId}/whitelist/${whitelistKind}/${addr}`,
       { method: "DELETE" },
     ),
+
   makeStorageDeposit: async ({
     siloEngineAccountId,
     amount,
@@ -163,4 +167,30 @@ export const contractChangerApiClient = {
         token,
       },
     }),
+
+  collectGasToNear: async ({
+    amount,
+    address,
+    network,
+    siloEngineAccountId,
+  }: {
+    amount: string
+    address: string
+    network: string
+    siloEngineAccountId: string
+  }) => {
+    return request<{ tx_hash?: string }>(
+      `/api/v1/contract/${siloEngineAccountId}/gas/collect`,
+      {
+        method: "POST",
+        data: {
+          amount,
+          destination: {
+            account_id: address,
+            network,
+          },
+        },
+      },
+    )
+  },
 }
