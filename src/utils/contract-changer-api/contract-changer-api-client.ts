@@ -167,12 +167,12 @@ export const contractChangerApiClient = {
 
   collectGasToNear: async ({
     amount,
-    address,
+    accountId,
     network,
     siloEngineAccountId,
   }: {
     amount: string
-    address: string
+    accountId: string
     network: string
     siloEngineAccountId: string
   }) => {
@@ -183,7 +183,7 @@ export const contractChangerApiClient = {
         data: {
           amount,
           destination: {
-            account_id: address,
+            account_id: accountId,
             network,
           },
         },

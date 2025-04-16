@@ -4,6 +4,7 @@ import toast from "react-hot-toast"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { logger } from "@/logger"
+import { getQueryKey } from "@/utils/api/query-keys"
 import { Button } from "@/components/Button"
 import { collectGas } from "@/actions/silo-gas/collect-gas"
 import { safeBigintToNumber } from "@/utils/safe-bigint-to-number"
@@ -39,13 +40,15 @@ const collectGasMutationFn = async ({ silo, availableGas }: MutationFnArgs) => {
     throw new Error("Gas amount is too high")
   }
 
-  try {
-    const status = await collectGas({ silo, amount: `${parsedGasSafeAmount}` })
+  let status = "PENDING"
 
-    if (status === "FAILED") {
-      throw new Error("Gas collection failed")
-    }
+  try {
+    status = await collectGas({ silo, amount: `${parsedGasSafeAmount}` })
   } catch (e: unknown) {
+    throw new Error("Gas collection failed")
+  }
+
+  if (status === "FAILED") {
     throw new Error("Gas collection failed")
   }
 }
@@ -55,23 +58,18 @@ export const GasCollectAction = ({ silo, availableGas }: Props) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
   const collectGasMutation = useMutation({
     mutationFn: () => collectGasMutationFn({ silo, availableGas }),
+    onSuccess: () => {
+      setIsConfirmModalOpen(false)
+      toast.success("Collected gas was sent to your account")
+      void queryClient.invalidateQueries({
+        queryKey: getQueryKey("getSiloCollectedGasTotal"),
+      })
+    },
+    onError: (error) => {
+      logger.error(error)
+      toast.error("Gas collection failed")
+    },
   })
-
-  const onConfirm = () => {
-    collectGasMutation
-      .mutateAsync()
-      .then(() => {
-        setIsConfirmModalOpen(false)
-        toast.success("Collected gas was sent to your account")
-        void queryClient.invalidateQueries({
-          queryKey: ["getSiloCollectedGasTotal"],
-        })
-      })
-      .catch((e) => {
-        logger.error(e)
-        toast.error("Gas collection failed")
-      })
-  }
 
   return (
     <>
@@ -86,7 +84,7 @@ export const GasCollectAction = ({ silo, availableGas }: Props) => {
         isOpen={isConfirmModalOpen}
         isLoading={collectGasMutation.isPending}
         onClose={() => setIsConfirmModalOpen(false)}
-        onConfirm={onConfirm}
+        onConfirm={collectGasMutation.mutate}
       />
     </>
   )

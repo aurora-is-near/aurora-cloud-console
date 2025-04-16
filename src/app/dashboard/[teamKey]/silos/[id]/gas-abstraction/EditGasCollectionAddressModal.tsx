@@ -58,12 +58,11 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
     try {
       await updateSilo(silo.id, { gas_collection_address: values.address })
       toast.success("Gas collection address successfully.")
-      void queryClient
+      await queryClient
         .invalidateQueries({
           queryKey: queryKeys.getTeamSiloByKey(team.team_key, silo.id),
         })
         .then(closeModal)
-      closeModal()
     } catch (e: unknown) {
       logger.error(e)
       toast.error("Gas collection address update failed.", {
