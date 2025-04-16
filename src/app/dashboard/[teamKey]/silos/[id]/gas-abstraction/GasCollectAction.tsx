@@ -30,6 +30,7 @@ const collectGasMutationFn = async ({ silo, availableGas }: MutationFnArgs) => {
     `${availableGas}`,
     silo.base_token_decimals,
   )
+
   let parsedGasSafeAmount: number = 0
 
   try {
