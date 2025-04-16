@@ -26,11 +26,14 @@ const collectGasMutationFn = async ({ silo, availableGas }: MutationFnArgs) => {
     throw new Error("No gas available for collection")
   }
 
-  const parsedGasPrice = parseUnits(`${availableGas}`, silo.base_token_decimals)
+  const parsedGasAmount = parseUnits(
+    `${availableGas}`,
+    silo.base_token_decimals,
+  )
   let parsedGasSafeAmount: number = 0
 
   try {
-    parsedGasSafeAmount = safeBigintToNumber(parsedGasPrice)
+    parsedGasSafeAmount = safeBigintToNumber(parsedGasAmount)
   } catch (e: unknown) {
     throw new Error("Gas amount is too high")
   }
@@ -58,6 +61,7 @@ export const GasCollectAction = ({ silo, availableGas }: Props) => {
       .mutateAsync()
       .then(() => {
         setIsConfirmModalOpen(false)
+        toast.success("Collected gas was sent to your account")
         void queryClient.invalidateQueries({
           queryKey: ["getSiloCollectedGasTotal"],
         })
