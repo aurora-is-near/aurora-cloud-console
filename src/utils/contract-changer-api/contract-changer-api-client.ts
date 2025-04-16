@@ -1,8 +1,6 @@
 import { createDebugger } from "@/debug"
 import { getRequiredEnvVar } from "@/utils/get-required-env-var"
 
-import { logger } from "@/logger"
-
 const API_BASE_URL = "https://silo-deployer.aurora-labs.net"
 
 const request = async <T>(
@@ -43,7 +41,6 @@ const request = async <T>(
   })
 
   if (!res.ok) {
-    logger.error(res)
     throw new Error(
       `Contract Changer API call failed [${res.status}]: ${endpoint}`,
     )
