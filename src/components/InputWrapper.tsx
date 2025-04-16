@@ -22,14 +22,14 @@ export const InputWrapper = <Inputs extends Record<string, unknown>>({
 
   return (
     <div className={className}>
-      {label && (
+      {label ? (
         <label
           htmlFor={id}
           className="py-2 flex text-sm font-medium leading-none"
         >
           {label}
         </label>
-      )}
+      ) : null}
       <div className="w-full">
         {children}
         {!!errorMessage && (

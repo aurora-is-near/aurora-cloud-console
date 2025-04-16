@@ -3,7 +3,7 @@
 import { BASE_TOKENS } from "@/constants/base-token"
 import { performSiloConfigTransaction } from "@/actions/deployment/perform-silo-config-transaction"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
-import type { Silo, BaseTokenSymbol } from "@/types/types"
+import type { BaseTokenSymbol, Silo } from "@/types/types"
 
 const isValidBaseToken = (baseToken: string): baseToken is BaseTokenSymbol => {
   return Object.keys(BASE_TOKENS).includes(baseToken)

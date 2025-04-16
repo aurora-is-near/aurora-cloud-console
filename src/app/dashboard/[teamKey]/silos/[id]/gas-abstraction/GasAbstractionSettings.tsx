@@ -9,7 +9,7 @@ import { useModals } from "@/hooks/useModals"
 import CopyButton from "@/components/CopyButton"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { notReachable } from "@/utils/notReachable"
-import { clsx, Card, InfoList, Skeleton, Typography, Button } from "@/uikit"
+import { Button, Card, clsx, InfoList, Skeleton, Typography } from "@/uikit"
 import type { Silo, Team } from "@/types/types"
 
 import { GasCollectAction } from "./GasCollectAction"
@@ -96,13 +96,13 @@ export const GasAbstractionSettings = ({ silo, team }: Props) => {
             labelTooltip="Gas collected on your chain is stored on this address until you claim it."
             Action={() => (
               <>
-                {silo.gas_collection_address && (
+                {silo.gas_collection_address ? (
                   <CopyButton
                     hasBorder
                     size="sm"
                     value={silo.gas_collection_address}
                   />
-                )}
+                ) : null}
                 <Button.Iconed
                   label="Edit"
                   icon={PencilSquareIcon}

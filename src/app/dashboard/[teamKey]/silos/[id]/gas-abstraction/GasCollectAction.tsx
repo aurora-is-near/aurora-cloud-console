@@ -37,6 +37,7 @@ const collectGasMutationFn = async ({ silo, availableGas }: MutationFnArgs) => {
 
   try {
     const status = await collectGas({ silo, amount: `${parsedGasSafeAmount}` })
+
     if (status === "FAILED") {
       throw new Error("Gas collection failed")
     }
@@ -57,7 +58,7 @@ export const GasCollectAction = ({ silo, availableGas }: Props) => {
       .mutateAsync()
       .then(() => {
         setIsConfirmModalOpen(false)
-        queryClient.invalidateQueries({
+        void queryClient.invalidateQueries({
           queryKey: ["getSiloCollectedGasTotal"],
         })
       })
