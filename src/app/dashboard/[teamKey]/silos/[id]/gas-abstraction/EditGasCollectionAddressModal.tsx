@@ -43,13 +43,16 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
       .min(1, { message: "Address is required" })
       .refine(
         async (address) => {
-          let state = undefined
+          let state
+
           try {
             const nearAccount = await getNearAccount(address)
+
             state = await nearAccount.state()
           } catch (e: unknown) {
             return false
           }
+
           return !!state
         },
         { message: "Invalid Near Account ID" },

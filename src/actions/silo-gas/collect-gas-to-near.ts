@@ -16,10 +16,11 @@ export const collectGasToNear = async ({
     return "FAILED"
   }
 
-  let state = undefined
+  let state
 
   try {
     const nearAccount = await getNearAccount(silo.gas_collection_address)
+
     state = await nearAccount.state()
   } catch (e: unknown) {
     return "FAILED"
