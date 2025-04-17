@@ -8,6 +8,16 @@ RETURNS TRIGGER AS $$
 DECLARE
   affected_id BIGINT;
 BEGIN
+  -- Check if the table has an 'id' column
+  PERFORM column_name
+  FROM information_schema.columns
+  WHERE table_name = TG_TABLE_NAME AND column_name = 'id' LIMIT 1;
+
+  -- If no 'id' column exists, exit the function
+  IF NOT FOUND THEN
+    RETURN NULL;
+  END IF;
+
   -- Determine affected row ID based on operation
   IF TG_OP = 'DELETE' THEN
     affected_id := OLD.id;
@@ -16,8 +26,8 @@ BEGIN
   END IF;
 
   -- Insert change record
-  INSERT INTO changes (operation, table_name, row_id, created_at)
-  VALUES (TG_OP, TG_TABLE_NAME, affected_id, now());
+  INSERT INTO public.changes (operation, table_name, row_id, created_at)
+  VALUES (TG_OP::public.database_operation, TG_TABLE_NAME, affected_id, now());
 
   RETURN NULL;
 END;
