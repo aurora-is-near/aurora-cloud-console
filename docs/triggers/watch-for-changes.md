@@ -16,7 +16,7 @@ BEGIN
   END IF;
 
   -- Insert change record
-  INSERT INTO latest_changes (operation, table_name, row_id, created_at)
+  INSERT INTO changes (operation, table_name, row_id, created_at)
   VALUES (TG_OP, TG_TABLE_NAME, affected_id, now());
 
   RETURN NULL;
