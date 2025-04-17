@@ -121,4 +121,13 @@ SELECT add_values_to_enum(
     'FAILED'
   ]
 );
+
+SELECT add_values_to_enum(
+  'database_operation',
+  ARRAY[
+    'INSERT',
+    'UPDATE',
+    'DELETE'
+  ]
+);
 ```
