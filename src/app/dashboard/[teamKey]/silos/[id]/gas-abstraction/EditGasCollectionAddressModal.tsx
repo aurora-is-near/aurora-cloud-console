@@ -18,7 +18,7 @@ import { HorizontalInput } from "@/components/HorizontalInput"
 import { updateSilo } from "@/actions/silos/update-silo"
 import SlideOver from "@/components/SlideOver"
 import { queryKeys } from "@/actions/query-keys"
-import { getNearAccount } from "@/utils/near-storage"
+import { getNearAccount } from "@/utils/near-api/account"
 import type { Silo, Team } from "@/types/types"
 
 type FormData = {
@@ -43,17 +43,15 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
       .min(1, { message: "Address is required" })
       .refine(
         async (address) => {
-          let state
-
           try {
             const nearAccount = await getNearAccount(address)
 
-            state = await nearAccount.state()
+            await nearAccount.state()
           } catch (e: unknown) {
             return false
           }
 
-          return !!state
+          return true
         },
         { message: "Invalid Near Account ID" },
       ),
