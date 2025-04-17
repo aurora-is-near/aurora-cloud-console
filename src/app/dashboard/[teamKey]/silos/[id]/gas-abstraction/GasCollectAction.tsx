@@ -67,7 +67,7 @@ export const GasCollectAction = ({ silo, availableGas }: Props) => {
     },
     onError: (error) => {
       logger.error(error)
-      toast.error("Gas collection failed")
+      toast.error(error.message)
     },
   })
 
