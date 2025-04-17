@@ -208,6 +208,30 @@ export type Database = {
         }
         Relationships: []
       }
+      deal_changes: {
+        Row: {
+          created_at: string
+          id: number
+          operation: Database["public"]["Enums"]["database_operation"]
+          row_id: number
+          table_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          operation: Database["public"]["Enums"]["database_operation"]
+          row_id: number
+          table_name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          operation?: Database["public"]["Enums"]["database_operation"]
+          row_id?: number
+          table_name?: string
+        }
+        Relationships: []
+      }
       deals: {
         Row: {
           created_at: string
@@ -1224,6 +1248,7 @@ export type Database = {
         | "WNEAR"
         | "CUSTOM"
       chain_permission: "public" | "public_permissioned" | "private"
+      database_operation: "INSERT" | "UPDATE" | "DELETE"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
       gas_mechanics: "usage" | "free" | "custom"
@@ -1419,6 +1444,7 @@ export const Constants = {
         "CUSTOM",
       ],
       chain_permission: ["public", "public_permissioned", "private"],
+      database_operation: ["INSERT", "UPDATE", "DELETE"],
       deployment_status: ["PENDING", "DEPLOYED", "NOT_DEPLOYED"],
       filter_type: ["USER", "CONTRACT", "CHAIN", "EOA", "TOKEN", "IP"],
       gas_mechanics: ["usage", "free", "custom"],
