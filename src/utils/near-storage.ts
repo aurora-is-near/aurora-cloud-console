@@ -6,7 +6,7 @@ import { NEAR_TOKEN_ADDRESSES } from "@/constants/near-token"
 
 type StorageBalanceResult = { total: string; available: string } | null
 
-const getNearAccount = async (siloEngineAccountId: string) => {
+export const getNearAccount = async (siloEngineAccountId: string) => {
   const nearConnection = await getNearApiConnection()
 
   return new Account(nearConnection.connection, siloEngineAccountId)

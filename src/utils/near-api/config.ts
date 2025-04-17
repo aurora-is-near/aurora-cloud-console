@@ -14,7 +14,7 @@ const NEAR_RPCS: string[] = [
   "https://rpc.web4.near.page",
   "https://free.rpc.fastnear.com",
   "https://near.lava.build",
-  "ttps://endpoints.omniatech.io/v1/near/mainnet/public",
+  "https://endpoints.omniatech.io/v1/near/mainnet/public",
   "https://nearrpc.aurora.dev",
 ]
 

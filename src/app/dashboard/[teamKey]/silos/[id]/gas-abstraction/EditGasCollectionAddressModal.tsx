@@ -18,6 +18,7 @@ import { HorizontalInput } from "@/components/HorizontalInput"
 import { updateSilo } from "@/actions/silos/update-silo"
 import SlideOver from "@/components/SlideOver"
 import { queryKeys } from "@/actions/query-keys"
+import { getNearAccount } from "@/utils/near-storage"
 import type { Silo, Team } from "@/types/types"
 
 type FormData = {
@@ -37,7 +38,22 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
   const open = activeModal === Modals.EditGasCollectionAddress
 
   const formSchema: z.ZodSchema<FormData> = z.object({
-    address: z.string().min(1, { message: "Address is required" }),
+    address: z
+      .string()
+      .min(1, { message: "Address is required" })
+      .refine(
+        async (address) => {
+          let state = undefined
+          try {
+            const nearAccount = await getNearAccount(address)
+            state = await nearAccount.state()
+          } catch (e: unknown) {
+            return false
+          }
+          return !!state
+        },
+        { message: "Invalid Near Account ID" },
+      ),
   })
 
   const {
@@ -48,7 +64,7 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     reValidateMode: "onSubmit",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema, { async: true }, { mode: "async" }),
     defaultValues: {
       address: silo.gas_collection_address ?? "",
     },

@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { logger } from "@/logger"
 import { getQueryKey } from "@/utils/api/query-keys"
 import { Button } from "@/components/Button"
-import { collectGas } from "@/actions/silo-gas/collect-gas"
+import { collectGasToNear } from "@/actions/silo-gas/collect-gas-to-near"
 import { safeBigintToNumber } from "@/utils/safe-bigint-to-number"
 import type { Silo } from "@/types/types"
 
@@ -43,7 +43,7 @@ const collectGasMutationFn = async ({ silo, availableGas }: MutationFnArgs) => {
   let status = "PENDING"
 
   try {
-    status = await collectGas({ silo, amount: `${parsedGasSafeAmount}` })
+    status = await collectGasToNear({ silo, amount: `${parsedGasSafeAmount}` })
   } catch (e: unknown) {
     throw new Error("Gas collection failed")
   }

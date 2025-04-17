@@ -1,10 +1,11 @@
 "use server"
 
+import { getNearAccount } from "@/utils/near-storage"
 import { performSiloConfigTransaction } from "@/actions/deployment/perform-silo-config-transaction"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import type { Silo } from "@/types/types"
 
-export const collectGas = async ({
+export const collectGasToNear = async ({
   silo,
   amount,
 }: {
@@ -12,6 +13,19 @@ export const collectGas = async ({
   amount: string
 }) => {
   if (!silo.gas_collection_address) {
+    return "FAILED"
+  }
+
+  let state = undefined
+
+  try {
+    const nearAccount = await getNearAccount(silo.gas_collection_address)
+    state = await nearAccount.state()
+  } catch (e: unknown) {
+    return "FAILED"
+  }
+
+  if (!state) {
     return "FAILED"
   }
 
