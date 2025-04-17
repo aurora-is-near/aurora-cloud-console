@@ -26,7 +26,7 @@ BEGIN
   END IF;
 
   -- Insert change record
-  INSERT INTO public.changes (operation, table_name, row_id, created_at)
+  INSERT INTO public.deal_changes (operation, table_name, row_id, created_at)
   VALUES (TG_OP::public.database_operation, TG_TABLE_NAME, affected_id, now());
 
   RETURN NULL;
@@ -36,18 +36,19 @@ $$ LANGUAGE plpgsql;
 DO $$
 DECLARE
   tbl TEXT;
-  excluded_tables TEXT[] := ARRAY[
-    'changes',
-    'datadog_web3_monitors',
-    'replenishments',
-    'silo_relayers'
+  tables TEXT[] := ARRAY[  -- the tables to watch for changes
+    'deals',
+    'limits',
+    'rule_user_deal_data',
+    'rule_users',
+    'rule_users_userlists',
+    'rules',
+    'rules_userlists',
+    'silos',
+    'userlists'
   ];
 BEGIN
-  FOR tbl IN
-    SELECT tablename
-    FROM pg_tables
-    WHERE schemaname = 'public'
-      AND tablename <> ALL (excluded_tables)
+  FOREACH tbl IN ARRAY tables
   LOOP
     EXECUTE format(
       'DROP TRIGGER IF EXISTS log_%I_change ON %I;
@@ -59,5 +60,5 @@ BEGIN
     );
   END LOOP;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 ```
