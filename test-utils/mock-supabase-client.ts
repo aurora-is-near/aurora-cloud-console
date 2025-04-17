@@ -79,6 +79,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   silo_bridged_tokens: createTableClient(),
   bridged_tokens: createTableClient(),
   bridged_token_requests: createTableClient(),
+  deal_changes: createTableClient(),
 }
 
 export const mockSupabaseClient = {
