@@ -11,7 +11,7 @@ const TransitionRoot = ({
 }) => (show ? <div className={className}>{children}</div> : null)
 
 const createReturnChildren = () =>
-  function ({
+  function returnChildren({
     className,
     children,
   }: {
