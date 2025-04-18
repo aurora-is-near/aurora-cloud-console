@@ -9,39 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      _prisma_migrations: {
-        Row: {
-          applied_steps_count: number
-          checksum: string
-          finished_at: string | null
-          id: string
-          logs: string | null
-          migration_name: string
-          rolled_back_at: string | null
-          started_at: string
-        }
-        Insert: {
-          applied_steps_count?: number
-          checksum: string
-          finished_at?: string | null
-          id: string
-          logs?: string | null
-          migration_name: string
-          rolled_back_at?: string | null
-          started_at?: string
-        }
-        Update: {
-          applied_steps_count?: number
-          checksum?: string
-          finished_at?: string | null
-          id?: string
-          logs?: string | null
-          migration_name?: string
-          rolled_back_at?: string | null
-          started_at?: string
-        }
-        Relationships: []
-      }
       api_keys: {
         Row: {
           created_at: string
@@ -154,7 +121,6 @@ export type Database = {
       bridged_tokens: {
         Row: {
           aurora_address: string | null
-          silo_address: string | null
           created_at: string
           decimals: number
           ethereum_address: string | null
@@ -162,11 +128,11 @@ export type Database = {
           id: number
           name: string
           near_address: string
+          silo_address: string | null
           symbol: string
         }
         Insert: {
           aurora_address?: string | null
-          silo_address?: string | null
           created_at?: string
           decimals: number
           ethereum_address?: string | null
@@ -174,11 +140,11 @@ export type Database = {
           id?: number
           name: string
           near_address: string
+          silo_address?: string | null
           symbol: string
         }
         Update: {
           aurora_address?: string | null
-          silo_address?: string | null
           created_at?: string
           decimals?: number
           ethereum_address?: string | null
@@ -186,6 +152,7 @@ export type Database = {
           id?: number
           name?: string
           near_address?: string
+          silo_address?: string | null
           symbol?: string
         }
         Relationships: []
@@ -238,6 +205,30 @@ export type Database = {
           silo_rpc_url?: string | null
           template_key?: string
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      deal_changes: {
+        Row: {
+          created_at: string
+          id: number
+          operation: Database["public"]["Enums"]["database_operation"]
+          row_id: number
+          table_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          operation: Database["public"]["Enums"]["database_operation"]
+          row_id: number
+          table_name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          operation?: Database["public"]["Enums"]["database_operation"]
+          row_id?: number
+          table_name?: string
         }
         Relationships: []
       }
@@ -1210,35 +1201,23 @@ export type Database = {
     }
     Functions: {
       add_scope_to_api_key_type: {
-        Args: {
-          scope_name: string
-        }
+        Args: { scope_name: string }
         Returns: undefined
       }
       add_scopes_to_api_key_type: {
-        Args: {
-          scopes_to_add: string[]
-        }
+        Args: { scopes_to_add: string[] }
         Returns: undefined
       }
       add_values_to_enum: {
-        Args: {
-          enum_name: string
-          enum_values: string[]
-        }
+        Args: { enum_name: string; enum_values: string[] }
         Returns: undefined
       }
       has_metadata_key: {
-        Args: {
-          metadata: Json
-          key: string
-        }
+        Args: { metadata: Json; key: string }
         Returns: boolean
       }
       update_user_metadata: {
-        Args: {
-          user_id_param: number
-        }
+        Args: { user_id_param: number }
         Returns: undefined
       }
     }
@@ -1269,6 +1248,7 @@ export type Database = {
         | "WNEAR"
         | "CUSTOM"
       chain_permission: "public" | "public_permissioned" | "private"
+      database_operation: "INSERT" | "UPDATE" | "DELETE"
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
       gas_mechanics: "usage" | "free" | "custom"
@@ -1328,27 +1308,29 @@ export type Database = {
   }
 }
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type DefaultSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
-  PublicTableNameOrOptions extends
-    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-        Database[PublicTableNameOrOptions["schema"]]["Views"])
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-        PublicSchema["Views"])
-    ? (PublicSchema["Tables"] &
-        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -1356,20 +1338,22 @@ export type Tables<
     : never
 
 export type TablesInsert<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -1377,20 +1361,22 @@ export type TablesInsert<
     : never
 
 export type TablesUpdate<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -1398,21 +1384,23 @@ export type TablesUpdate<
     : never
 
 export type Enums<
-  PublicEnumNameOrOptions extends
-    | keyof PublicSchema["Enums"]
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
     | { schema: keyof Database },
-  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
-> = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
+    | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
@@ -1421,6 +1409,98 @@ export type CompositeTypes<
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      account_type: ["contract", "wallet"],
+      address_whitelist_type: ["DEPLOY_CONTRACT", "MAKE_TRANSACTION"],
+      api_key_scopes: [
+        "deals:read",
+        "deals:write",
+        "silos:read",
+        "users:read",
+        "transactions:read",
+        "users:write",
+        "lists:read",
+        "lists:write",
+        "forwarder:read",
+        "forwarder:write",
+        "payments:read",
+        "payments:write",
+        "assets:write",
+        "silos:write",
+      ],
+      base_token_symbol: [
+        "AURORA",
+        "BTC",
+        "ETH",
+        "USDC",
+        "USDT",
+        "WNEAR",
+        "CUSTOM",
+      ],
+      chain_permission: ["public", "public_permissioned", "private"],
+      database_operation: ["INSERT", "UPDATE", "DELETE"],
+      deployment_status: ["PENDING", "DEPLOYED", "NOT_DEPLOYED"],
+      filter_type: ["USER", "CONTRACT", "CHAIN", "EOA", "TOKEN", "IP"],
+      gas_mechanics: ["usage", "free", "custom"],
+      limit_scope: ["USER", "GLOBAL"],
+      limit_type: ["CYCLIC", "RATELIMIT"],
+      network_type: ["devnet", "mainnet"],
+      order_type: ["initial_setup", "top_up"],
+      payment_status: [
+        "PAID",
+        "UNPAID",
+        "NO_PAYMENT_REQUIRED",
+        "paid",
+        "unpaid",
+        "no_payment_required",
+      ],
+      request_status: [
+        "INITIAL",
+        "REQUESTED",
+        "COMPLETED",
+        "PENDING",
+        "APPROVED",
+        "REJECTED",
+      ],
+      silo_config_transaction_operation: [
+        "SET_BASE_TOKEN",
+        "ENABLE_MAKE_TXS_WHITELIST",
+        "DISABLE_MAKE_TXS_WHITELIST",
+        "ENABLE_DEPLOY_CONTRACT_WHITELIST",
+        "DISABLE_DEPLOY_CONTRACT_WHITELIST",
+        "POPULATE_MAKE_TXS_WHITELIST",
+        "POPULATE_DEPLOY_CONTRACT_WHITELIST",
+        "PURGE_MAKE_TXS_WHITELIST",
+        "PURGE_DEPLOY_CONTRACT_WHITELIST",
+        "DEPLOY_AURORA",
+        "DEPLOY_USDT",
+        "DEPLOY_USDC",
+        "DEPLOY_NEAR",
+        "DEPLOY_ETH",
+        "STORAGE_DEPOSIT",
+        "DEPLOY_TOKEN",
+        "INITIALISE_MAKE_TXS_WHITELIST",
+        "INITIALISE_DEPLOY_CONTRACT_WHITELIST",
+        "COLLECT_GAS",
+      ],
+      silo_config_transaction_status: ["PENDING", "SUCCESSFUL", "FAILED"],
+      user_integration: [
+        "onramp",
+        "oracle",
+        "bridge_widget",
+        "cex_withdrawals_widget",
+        "block_explorer",
+        "intense_support",
+        "dex",
+      ],
+      user_type: ["customer", "admin"],
+      widget_network_type: ["AURORA", "NEAR", "ETHEREUM", "CUSTOM"],
+    },
+  },
+} as const
