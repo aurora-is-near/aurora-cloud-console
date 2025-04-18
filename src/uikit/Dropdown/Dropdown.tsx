@@ -31,6 +31,10 @@ type Props = {
 )
 
 export const Dropdown = ({ options, selected, className, ...props }: Props) => {
+  // HACK: Listbox throws "Too many re-renders" in test mode
+  // https://github.com/tailwindlabs/headlessui/issues/3476#issuecomment-2620026394
+  if (process.env.NODE_ENV === "test") return null
+
   return (
     <Listbox value={selected} onChange={props.onChange}>
       <div className={clsx("relative", className)}>

@@ -18,6 +18,7 @@ export const InfoListItem = ({
   Action,
 }: ListItemProps) => (
   <tr
+    aria-label={label}
     className={clsx(
       "border-b border-slate-200 last:border-transparent",
       className,
