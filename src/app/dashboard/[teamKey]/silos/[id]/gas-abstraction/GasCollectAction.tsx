@@ -28,7 +28,7 @@ const collectGasMutationFn = async ({ silo, availableGas }: MutationFnArgs) => {
   }
 
   const parsedGasAmount = parseUnits(
-    "0.00000000001", // `${availableGas}`,
+    `${availableGas}`,
     silo.base_token_decimals,
   )
 

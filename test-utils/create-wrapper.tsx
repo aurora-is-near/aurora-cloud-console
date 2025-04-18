@@ -34,15 +34,7 @@ export const createWrapper = ({
               closeMenu: () => {},
             }}
           >
-            <ModalsProvider
-            // value={{
-            //   activeModal: null,
-            //   openModal: () => {},
-            //   closeModal: () => {},
-            // }}
-            >
-              {children}
-            </ModalsProvider>
+            <ModalsProvider>{children}</ModalsProvider>
           </MenuContext.Provider>
         </AnalyticsContext.Provider>
       </QueryProvider>
