@@ -889,7 +889,7 @@ export type Database = {
           explorer_url: string | null
           favicon: string
           gas_collection_address: string | null
-          gas_price: number
+          gas_price: string
           genesis: string
           grafana_network_key: string | null
           id: number
@@ -923,7 +923,7 @@ export type Database = {
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: number
+          gas_price?: string
           genesis: string
           grafana_network_key?: string | null
           id?: number
@@ -957,7 +957,7 @@ export type Database = {
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: number
+          gas_price?: string
           genesis?: string
           grafana_network_key?: string | null
           id?: number
