@@ -24,8 +24,8 @@ const CONTRACT_CHANGER_SYMBOLS: Record<
   USDt: "Usdt",
   USDC: "Usdc",
   ETH: {
-    source_contract_id: "aurora",
-    nep141: "0x5a524251df27A25AC6b9964a93E1c23AD692688D",
+    source_contract_id: "0x4e454160.c.aurora",
+    nep141: "eth.bridge.near",
   },
 }
 
@@ -130,19 +130,22 @@ export const deployDefaultTokens = async (
 ): Promise<SiloConfigTransactionStatus> => {
   const provider = new JsonRpcProvider(silo.rpc_url)
 
-  const statuses = (
-    await Promise.all(
-      DEFAULT_TOKENS.filter((token) => token !== silo.base_token_symbol).map(
-        async (symbol) =>
-          deployDefaultToken({
-            provider,
-            silo,
-            symbol,
-            skipIfFailed,
-          }),
-      ),
-    )
-  ).flat()
+  const statuses = await DEFAULT_TOKENS.filter(
+    (token) => token !== silo.base_token_symbol,
+  ).reduce(
+    async (acc, symbol) => {
+      const previousStatuses = await acc
+      const symbolStatuses = await deployDefaultToken({
+        provider,
+        silo,
+        symbol,
+        skipIfFailed,
+      })
+
+      return [...previousStatuses, ...symbolStatuses]
+    },
+    Promise.resolve([] as SiloConfigTransactionStatus[]),
+  )
 
   if (statuses.includes("PENDING")) {
     return "PENDING"

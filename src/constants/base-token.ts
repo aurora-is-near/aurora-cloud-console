@@ -24,7 +24,11 @@ export const BASE_TOKENS: Record<
     nearAccountId: "near",
     decimals: 18,
   },
-  USDC: null,
+  USDC: {
+    name: "USD Coin",
+    nearAccountId: "6k1r7pg8butk6qr7bb2vrcvf7vd46yw2ojgm9buvmw6u.p.aurora",
+    decimals: 18,
+  },
   USDT: null,
   BTC: null,
   CUSTOM: null,
