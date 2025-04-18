@@ -39,7 +39,7 @@ export const GasAbstractionPage = () => {
       },
       {
         title: "Gas collected",
-        content: <GasAbstractionCollectedTab silo={silo} />,
+        content: <GasAbstractionCollectedTab silo={silo} team={team} />,
       },
     )
   }

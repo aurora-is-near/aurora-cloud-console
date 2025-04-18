@@ -1,16 +1,10 @@
-import { Account } from "near-api-js"
-import { getNearApiConnection } from "@/utils/near-api/connect"
 import { logger } from "@/logger"
 import { BASE_TOKEN_PLACEHOLDER_ADDRESS } from "@/constants/base-token"
 import { NEAR_TOKEN_ADDRESSES } from "@/constants/near-token"
 
+import { getNearAccount } from "./near-api/account"
+
 type StorageBalanceResult = { total: string; available: string } | null
-
-const getNearAccount = async (siloEngineAccountId: string) => {
-  const nearConnection = await getNearApiConnection()
-
-  return new Account(nearConnection.connection, siloEngineAccountId)
-}
 
 const getAccountBalance = async (
   siloEngineAccountId: string,
