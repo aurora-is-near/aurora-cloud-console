@@ -25,6 +25,10 @@ export const headlessUITransitionMock = (
   Dialog: TransitionRoot,
   DialogPanel: createReturnChildren(),
   DialogTitle: createReturnChildren(),
+  Listbox: TransitionRoot,
+  ListboxOptions: TransitionRoot,
+  ListboxButton: createReturnChildren(),
+  ListboxOption: createReturnChildren(),
   Transition: TransitionRoot,
   TransitionChild: createReturnChildren(),
 })
