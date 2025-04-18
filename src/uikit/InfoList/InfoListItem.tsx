@@ -6,6 +6,7 @@ type ListItemProps = {
   label: string
   labelTooltip?: string
   children: React.ReactNode
+  Action?: React.FC<{ term: string; description?: string }>
   className?: string
 }
 
@@ -14,6 +15,7 @@ export const InfoListItem = ({
   labelTooltip,
   children,
   className,
+  Action,
 }: ListItemProps) => (
   <tr
     className={clsx(
@@ -27,13 +29,21 @@ export const InfoListItem = ({
       </Label>
     </td>
     <td className="py-4">
-      {typeof children === "string" ? (
-        <Typography variant="paragraph" size={4} className="text-slate-600">
-          {children}
-        </Typography>
-      ) : (
-        children
-      )}
+      <div className="col-span-3 flex flex-row items-center justify-between gap-x-2.5">
+        {typeof children === "string" ? (
+          <Typography variant="paragraph" size={4} className="text-slate-600">
+            {children}
+          </Typography>
+        ) : (
+          children
+        )}
+        {Action && (
+          <Action
+            term={label}
+            description={typeof children === "string" ? children : undefined}
+          />
+        )}
+      </div>
     </td>
   </tr>
 )
