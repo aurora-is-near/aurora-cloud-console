@@ -1,9 +1,9 @@
 import {
+  fireEvent,
   render,
   screen,
-  within,
-  fireEvent,
   waitFor,
+  within,
 } from "@testing-library/react"
 
 import { getSilo } from "@/actions/silos/get-silo"
@@ -66,7 +66,7 @@ describe("CollectGas", () => {
     ;(collectGasToNear as jest.Mock).mockResolvedValue("PENDING")
 
     queryClient.setQueryData(["getSiloCollectedGasTotal", { id: silo.id }], {
-      count: 1,
+      count: 0.001,
     })
 
     queryClient.setQueryData(
@@ -100,29 +100,35 @@ describe("CollectGas", () => {
     const gasCollectItem = await screen.findByLabelText(
       /Gas collection address/,
     )
+
     expect(gasCollectItem).toBeInTheDocument()
 
     const gasCollectionNoAddress =
       await within(gasCollectItem).findByText(/Not set/)
+
     expect(gasCollectionNoAddress).toBeInTheDocument()
 
     // copy action button is not present
-    const copyAddressBtn = await within(gasCollectItem).queryByRole("button", {
+    const copyAddressBtn = within(gasCollectItem).queryByRole("button", {
       name: /Copy to clipboard/,
     })
+
     expect(copyAddressBtn).not.toBeInTheDocument()
 
     // edit action button is present
-    const editAddressBtn = await within(gasCollectItem).queryByLabelText("Edit")
+    const editAddressBtn = within(gasCollectItem).queryByLabelText("Edit")
+
     expect(editAddressBtn).toBeInTheDocument()
 
     // Collect button is disabled
     const gasBalanceItem = await screen.findByLabelText(/Gas balance/)
+
     expect(gasBalanceItem).toBeInTheDocument()
 
-    const collectBtn = await within(gasBalanceItem).queryByRole("button", {
+    const collectBtn = within(gasBalanceItem).queryByRole("button", {
       name: /Collect/,
     })
+
     expect(collectBtn).toBeInTheDocument()
     expect(collectBtn).toBeDisabled()
   })
@@ -141,11 +147,13 @@ describe("CollectGas", () => {
 
     // Collect button is disabled
     const gasBalanceItem = await screen.findByLabelText(/Gas balance/)
+
     expect(gasBalanceItem).toBeInTheDocument()
 
-    const collectBtn = await within(gasBalanceItem).queryByRole("button", {
+    const collectBtn = within(gasBalanceItem).queryByRole("button", {
       name: /Collect/,
     })
+
     expect(collectBtn).toBeInTheDocument()
     expect(collectBtn).toBeDisabled()
   })
@@ -160,11 +168,13 @@ describe("CollectGas", () => {
 
     // Collect button is enabled
     const gasBalanceItem = await screen.findByLabelText(/Gas balance/)
+
     expect(gasBalanceItem).toBeInTheDocument()
 
-    const collectBtn = await within(gasBalanceItem).queryByRole("button", {
+    const collectBtn = within(gasBalanceItem).queryByRole("button", {
       name: /Collect/,
     })
+
     expect(collectBtn).toBeInTheDocument()
     expect(collectBtn).toBeEnabled()
   })
@@ -184,7 +194,9 @@ describe("CollectGas", () => {
     const gasCollectItem = await screen.findByLabelText(
       /Gas collection address/,
     )
+
     const editAddressBtn = await within(gasCollectItem).findByLabelText("Edit")
+
     fireEvent.click(editAddressBtn)
 
     await screen.findByText(/Enter the NEAR address to withdraw gas to/)
@@ -201,7 +213,10 @@ describe("CollectGas", () => {
     })
 
     fireEvent.click(updateBtn)
-    await screen.findByText(/Invalid Near Account ID/)
+
+    expect(
+      await screen.findByText(/Invalid Near Account ID/),
+    ).toBeInTheDocument()
   })
 
   it("enter correct Near address", async () => {
@@ -219,7 +234,9 @@ describe("CollectGas", () => {
     const gasCollectItem = await screen.findByLabelText(
       /Gas collection address/,
     )
+
     const editAddressBtn = await within(gasCollectItem).findByLabelText("Edit")
+
     fireEvent.click(editAddressBtn)
 
     await screen.findByText(/Enter the NEAR address to withdraw gas to/)
@@ -247,6 +264,42 @@ describe("CollectGas", () => {
     })
   })
 
+  it("collect gas value is too high", async () => {
+    queryClient.setQueryData(["getSiloCollectedGasTotal", { id: silo.id }], {
+      count: 100,
+    })
+
+    render(<GasAbstractionPage />, {
+      wrapper: createWrapper({
+        siloContext: { silo: { ...silo, gas_collection_address: "test.near" } },
+        teamContext: { team },
+      }),
+    })
+
+    // Collect button is enabled
+    const gasBalanceItem = await screen.findByLabelText(/Gas balance/)
+
+    expect(gasBalanceItem).toBeInTheDocument()
+
+    const collectBtn = await within(gasBalanceItem).findByRole("button", {
+      name: /Collect/,
+    })
+
+    fireEvent.click(collectBtn)
+    await screen.findByText(/Are you sure you want to withdraw gas/)
+    const confirmBtn = await screen.findByRole("button", {
+      name: /Collect gas/,
+    })
+
+    fireEvent.click(confirmBtn)
+
+    await waitFor(() => {
+      screen.getByText(/Gas amount is too high/)
+    })
+
+    expect(collectGasToNear).not.toHaveBeenCalled()
+  })
+
   it("collect gas", async () => {
     render(<GasAbstractionPage />, {
       wrapper: createWrapper({
@@ -257,6 +310,7 @@ describe("CollectGas", () => {
 
     // Collect button is enabled
     const gasBalanceItem = await screen.findByLabelText(/Gas balance/)
+
     expect(gasBalanceItem).toBeInTheDocument()
 
     const collectBtn = await within(gasBalanceItem).findByRole("button", {
@@ -273,14 +327,15 @@ describe("CollectGas", () => {
 
     await waitFor(() => {
       screen.getByText(/Collected gas was sent to your account/)
-      expect(collectGasToNear).toHaveBeenCalledTimes(1)
-      expect(collectGasToNear).toHaveBeenCalledWith({
-        amount: "10000000",
-        silo: {
-          ...silo,
-          gas_collection_address: "test.near",
-        },
-      })
+    })
+
+    expect(collectGasToNear).toHaveBeenCalledTimes(1)
+    expect(collectGasToNear).toHaveBeenCalledWith({
+      amount: "1000000000000000",
+      silo: {
+        ...silo,
+        gas_collection_address: "test.near",
+      },
     })
   })
 })

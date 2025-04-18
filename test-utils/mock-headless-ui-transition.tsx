@@ -1,3 +1,5 @@
+import React from "react"
+
 const TransitionRoot = ({
   children,
   className,
@@ -8,15 +10,16 @@ const TransitionRoot = ({
   show?: boolean
 }) => (show ? <div className={className}>{children}</div> : null)
 
-const createReturnChildren =
-  () =>
-  ({
+const createReturnChildren = () =>
+  function ({
     className,
     children,
   }: {
     className: string
     children: React.ReactNode
-  }) => <div className={className}>{children}</div>
+  }) {
+    return <div className={className}>{children}</div>
+  }
 
 export const headlessUITransitionMock = (
   originalModule: Record<string, any>,
