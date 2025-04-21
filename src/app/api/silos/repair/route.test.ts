@@ -392,10 +392,10 @@ describe("Silos repair route", () => {
     })
 
     expect(
-      mockSupabaseClient.from("silo_bridged_tokens").insert,
+      mockSupabaseClient.from("silo_bridged_tokens").upsert,
     ).toHaveBeenCalledTimes(2)
     expect(
-      mockSupabaseClient.from("silo_bridged_tokens").insert,
+      mockSupabaseClient.from("silo_bridged_tokens").upsert,
     ).toHaveBeenCalledWith([
       {
         bridged_token_id: mockBridgedTokenReqeusts[0].id,
@@ -404,10 +404,10 @@ describe("Silos repair route", () => {
       },
     ])
     expect(
-      mockSupabaseClient.from("silo_bridged_tokens").insert,
+      mockSupabaseClient.from("silo_bridged_tokens").upsert,
     ).toHaveBeenCalledWith([
       {
-        bridged_token_id: mockBridgedTokenReqeusts[0].id,
+        bridged_token_id: mockBridgedTokenReqeusts[1].id,
         is_deployment_pending: false,
         silo_id: mockSilo.id,
       },
@@ -627,11 +627,11 @@ describe("Silos repair route", () => {
     })
 
     expect(
-      mockSupabaseClient.from("silo_bridged_tokens").insert,
+      mockSupabaseClient.from("silo_bridged_tokens").upsert,
     ).toHaveBeenCalledTimes(6)
 
     expect(
-      mockSupabaseClient.from("silo_bridged_tokens").insert.mock.calls,
+      mockSupabaseClient.from("silo_bridged_tokens").upsert.mock.calls,
     ).toMatchSnapshot()
   })
 })
