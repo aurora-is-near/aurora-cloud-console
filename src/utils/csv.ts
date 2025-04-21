@@ -1,4 +1,4 @@
-export const getCsvSafeValue = (value?: unknown) => {
+const getCsvSafeValue = (value?: unknown) => {
   if (typeof value === "string") {
     return value.replace(/"/g, '""')
   }
