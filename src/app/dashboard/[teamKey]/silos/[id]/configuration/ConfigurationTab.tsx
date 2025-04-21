@@ -4,7 +4,6 @@ import { getRelayerAccount } from "@/utils/relayer"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { SiloContext } from "@/providers/SiloProvider"
 import Contact from "@/components/Contact"
-import { useMetaMask } from "@/hooks/useMetaMask"
 import { AddSiloToMetaMaskButton } from "@/app/dashboard/[teamKey]/silos/[id]/configuration/AddSiloToMetaMaskButton"
 import {
   ConfigurationItemsCard,
