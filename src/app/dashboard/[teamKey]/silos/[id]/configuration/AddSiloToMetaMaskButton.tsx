@@ -18,5 +18,5 @@ export const AddSiloToMetaMaskButton = ({
     await addEthereumChain(silo)
   }, [silo, addEthereumChain])
 
-  return <AddToMetaMaskButton onClick={onClick} />
+  return <AddToMetaMaskButton size="sm" onClick={onClick} />
 }
