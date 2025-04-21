@@ -16,7 +16,7 @@ export const BASE_TOKENS: Record<
   },
   ETH: {
     name: "Ethereum",
-    nearAccountId: "aurora",
+    nearAccountId: "eth.bridge.near",
     decimals: 18,
   },
   WNEAR: {
