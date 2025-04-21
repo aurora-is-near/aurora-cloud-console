@@ -1,18 +1,11 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { getCsv } from "@/utils/csv"
 import {
   assertNonNullSupabaseResult,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
-
-const getCsvSafeValue = (value?: string | number | null) => {
-  if (typeof value === "string") {
-    return value.replace(/"/g, '""')
-  }
-
-  return value
-}
 
 export const getOnboardingReport = async () => {
   const supabase = createAdminSupabaseClient()
@@ -47,16 +40,5 @@ export const getOnboardingReport = async () => {
     }
   })
 
-  return [
-    Object.keys(csvData[0]).join(","),
-    ...csvData.map((row) => {
-      return Object.values(row).map((value) => {
-        if (Array.isArray(value)) {
-          return `"[${value.map(getCsvSafeValue).join(", ")}]"`
-        }
-
-        return `"${getCsvSafeValue(value)}"`
-      })
-    }),
-  ].join("\n")
+  return getCsv(csvData)
 }
