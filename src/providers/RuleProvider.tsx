@@ -54,6 +54,7 @@ export const RuleProvider = ({
       }
 
       const newUser = await createRuleUser({
+        team_id: team.id,
         userlist_id: userlist.id,
         eoas: [address],
       })
@@ -61,7 +62,7 @@ export const RuleProvider = ({
       setRuleUsers([...ruleUsers, newUser])
       toast.success("Address added")
     },
-    [userlist, ruleUsers],
+    [userlist, ruleUsers, team.id],
   )
 
   const removeRuleUser = useCallback(
