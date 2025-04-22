@@ -34,25 +34,34 @@ CREATE OR REPLACE FUNCTION log_change()
 RETURNS TRIGGER AS $$
 DECLARE
   affected_id BIGINT;
+  i INT;
+  column_changed BOOLEAN := FALSE;
 BEGIN
-  -- Check if the table has an 'id' column
-  PERFORM column_name
-  FROM information_schema.columns
-  WHERE table_name = TG_TABLE_NAME AND column_name = 'id' LIMIT 1;
+  -- Check if any of the watched columns have changed (for UPDATE queries)
+  IF TG_OP = 'UPDATE' THEN
+    FOR i IN 0..TG_NARGS - 1 LOOP
+      EXECUTE format('SELECT ($1).%I IS DISTINCT FROM ($2).%I', TG_ARGV[i], TG_ARGV[i])
+      INTO column_changed
+      USING OLD, NEW;
 
-  -- If no 'id' column exists, exit the function
-  IF NOT FOUND THEN
-    RETURN NULL;
+      IF column_changed THEN
+        EXIT; -- no need to check more columns
+      END IF;
+    END LOOP;
+
+    IF NOT column_changed THEN
+      RETURN NULL;
+    END IF;
   END IF;
 
-  -- Determine affected row ID based on operation
+  -- Determine affected row ID
   IF TG_OP = 'DELETE' THEN
     affected_id := OLD.id;
   ELSE
     affected_id := NEW.id;
   END IF;
 
-  -- Insert change record
+  -- Insert audit record
   INSERT INTO public.deal_changes (operation, table_name, row_id, created_at)
   VALUES (TG_OP::public.database_operation, TG_TABLE_NAME, affected_id, now());
 
@@ -63,28 +72,41 @@ $$ LANGUAGE plpgsql;
 -- Create new triggers on selected tables
 DO $$
 DECLARE
-  tbl TEXT;
-  tables TEXT[] := ARRAY[  -- the tables to watch for changes
-    'deals',
-    'limits',
-    'rule_user_deal_data',
-    'rule_users',
-    'rule_users_userlists',
-    'rules',
-    'rules_userlists',
-    'silos',
-    'userlists'
-  ];
+  tbl RECORD;
+  trigger_sql TEXT;
+  trigger_args TEXT := '';
 BEGIN
-  FOREACH tbl IN ARRAY tables
+  -- Loop through table names and respective columns to monitor
+  FOR tbl IN
+    VALUES
+      ('deals', NULL::TEXT[]),                 -- table_name, columns_to_monitor (NULL for all)
+      ('limits', NULL::TEXT[]),
+      ('rule_user_deal_data', NULL::TEXT[]),
+      ('rule_users', NULL::TEXT[]),
+      ('rule_users_userlists', NULL::TEXT[]),
+      ('rules', NULL::TEXT[]),
+      ('rules_userlists', NULL::TEXT[]),
+      ('silos', ARRAY['name', 'chainid', 'applieddealids', 'gasprice']),
+      ('userlists', NULL::TEXT[])
   LOOP
+    -- Prepare trigger arguments if any columns are specified for the table
+    trigger_args := CASE
+      WHEN tbl.column2 IS NOT NULL THEN
+        '(' || array_to_string(ARRAY(SELECT quote_literal(x) FROM unnest(tbl.column2) AS x), ', ') || ')'
+      ELSE
+        '()'  -- No columns to track, so pass an empty string
+    END;
+
+    -- Dynamically generate the SQL to create the trigger
+    -- If trigger_args is not empty, it will be included, otherwise, it is excluded
     EXECUTE format(
       'DROP TRIGGER IF EXISTS log_%I_change ON %I;
        CREATE TRIGGER log_%I_change
        AFTER INSERT OR UPDATE OR DELETE ON %I
        FOR EACH ROW
-       EXECUTE FUNCTION log_change();',
-       tbl, tbl, tbl, tbl
+       EXECUTE FUNCTION log_change%s;',
+      tbl.column1, tbl.column1, tbl.column1, tbl.column1,
+      CASE WHEN trigger_args <> '' THEN trigger_args ELSE '' END
     );
   END LOOP;
 END;
