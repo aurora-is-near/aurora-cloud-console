@@ -11,6 +11,7 @@ interface Tab {
 
 interface TabsProps {
   tabs: Tab[]
+  action?: ReactNode
 }
 
 export type TabsFunctions = {
@@ -18,7 +19,7 @@ export type TabsFunctions = {
 }
 
 export const Tabs = forwardRef<TabsFunctions, TabsProps>(
-  ({ tabs }: TabsProps, ref) => {
+  ({ tabs, action }: TabsProps, ref) => {
     const searchParams = useSearchParams()
 
     const [activeTab, setActiveTab] = useState<Tab | undefined>(() => {
@@ -42,8 +43,9 @@ export const Tabs = forwardRef<TabsFunctions, TabsProps>(
 
     return (
       <div className="flex w-full flex-col gap-5">
-        <div className="flex self-start text-sm font-medium text-center">
-          <ul className="flex flex-wrap -mb-px">
+        <div className="flex flex-col sm:flex-row sm:self-start text-sm font-medium text-center w-full sm:justify-between sm:items-center gap-4">
+          {!!action && <div className="sm:order-2">{action}</div>}
+          <ul className="flex flex-wrap -mb-px sm:order-1">
             {tabs.map((tab) => (
               <li key={tab.title} className="me-0">
                 <button

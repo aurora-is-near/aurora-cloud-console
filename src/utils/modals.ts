@@ -22,4 +22,5 @@ export enum Modals {
   EditPlanLimitsModal = "editPlanLimitsModal",
   EditSiloAddressPermissions = "editSiloAddressPermissions",
   BridgedTokens = "bridgedTokens",
+  MetaMaskNotInstalled = "metaMaskNotInstalled",
 }
