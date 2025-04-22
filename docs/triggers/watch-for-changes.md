@@ -3,6 +3,33 @@
 A dump of the Supabase trigger for watching for changes.
 
 ```sql
+-- Drop existing log_*_change triggers
+DO $$
+DECLARE
+  trig RECORD;
+BEGIN
+  FOR trig IN
+    SELECT
+      tg.tgname AS trigger_name,
+      cls.relname AS table_name,
+      nsp.nspname AS schema_name
+    FROM pg_trigger tg
+    JOIN pg_class cls ON tg.tgrelid = cls.oid
+    JOIN pg_namespace nsp ON cls.relnamespace = nsp.oid
+    WHERE tg.tgname LIKE 'log\_%\_change'
+      AND NOT tg.tgisinternal
+  LOOP
+    EXECUTE format(
+      'DROP TRIGGER IF EXISTS %I ON %I.%I;',
+      trig.trigger_name,
+      trig.schema_name,
+      trig.table_name
+    );
+  END LOOP;
+END;
+$$;
+
+-- (Re)Create log_change function
 CREATE OR REPLACE FUNCTION log_change()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -33,6 +60,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Create new triggers on selected tables
 DO $$
 DECLARE
   tbl TEXT;
