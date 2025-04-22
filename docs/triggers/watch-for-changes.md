@@ -37,20 +37,23 @@ DECLARE
   i INT;
   column_changed BOOLEAN := FALSE;
 BEGIN
-  -- Check if any of the watched columns have changed (for UPDATE queries)
+  -- For UPDATE queries, check if any of the watched columns have changed
   IF TG_OP = 'UPDATE' THEN
-    FOR i IN 0..TG_NARGS - 1 LOOP
-      EXECUTE format('SELECT ($1).%I IS DISTINCT FROM ($2).%I', TG_ARGV[i], TG_ARGV[i])
-      INTO column_changed
-      USING OLD, NEW;
+     IF TG_NARGS > 0 THEN
+      FOR i IN 0..TG_NARGS - 1 LOOP
+        EXECUTE format('SELECT ($1).%I IS DISTINCT FROM ($2).%I', TG_ARGV[i], TG_ARGV[i])
+        INTO column_changed
+        USING OLD, NEW;
 
-      IF column_changed THEN
-        EXIT; -- no need to check more columns
+        IF column_changed THEN
+          EXIT; -- If a column changed, exit the loop
+        END IF;
+      END LOOP;
+
+      -- If no changes in any specified column, return NULL (don't log)
+      IF NOT column_changed THEN
+        RETURN NULL;
       END IF;
-    END LOOP;
-
-    IF NOT column_changed THEN
-      RETURN NULL;
     END IF;
   END IF;
 
@@ -86,7 +89,7 @@ BEGIN
       ('rule_users_userlists', NULL::TEXT[]),
       ('rules', NULL::TEXT[]),
       ('rules_userlists', NULL::TEXT[]),
-      ('silos', ARRAY['name', 'chainid', 'applieddealids', 'gasprice']),
+      ('silos', ARRAY['name', 'applieddealids', 'gasprice']),
       ('userlists', NULL::TEXT[])
   LOOP
     -- Prepare trigger arguments if any columns are specified for the table
