@@ -4,6 +4,7 @@ import { getRelayerAccount } from "@/utils/relayer"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { SiloContext } from "@/providers/SiloProvider"
 import Contact from "@/components/Contact"
+import { AddSiloToMetaMaskButton } from "@/app/dashboard/[teamKey]/silos/[id]/configuration/AddSiloToMetaMaskButton"
 import {
   ConfigurationItemsCard,
   ConfigurationItemsCardProps,
@@ -62,6 +63,7 @@ export const ConfigurationTab = () => {
         title="Chain details"
         description="Virtual Chain configuration sets the key parameters that define your blockchain’s network and enable seamless operation."
         items={items}
+        belowDescription={<AddSiloToMetaMaskButton silo={silo} />}
       />
 
       <ConfigurationItemsCard
