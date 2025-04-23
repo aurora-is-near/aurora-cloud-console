@@ -29,7 +29,11 @@ export const BASE_TOKENS: Record<
     nearAccountId: "6k1r7pg8butk6qr7bb2vrcvf7vd46yw2ojgm9buvmw6u.p.aurora",
     decimals: 18,
   },
-  USDT: null,
+  USDT: {
+    name: "Tether USD",
+    nearAccountId: "5rubrrzzsb8usy5xn3ahmnle79xk9wgajspm5swezors.p.aurora",
+    decimals: 18,
+  },
   BTC: null,
   CUSTOM: null,
 }
