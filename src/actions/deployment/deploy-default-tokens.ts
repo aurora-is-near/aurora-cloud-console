@@ -1,6 +1,7 @@
 "use server"
 
 import { JsonRpcProvider } from "ethers"
+import PQueue from "p-queue"
 import { performSiloConfigTransaction } from "@/actions/deployment/perform-silo-config-transaction"
 import {
   Silo,
@@ -14,6 +15,8 @@ import { DEFAULT_TOKENS } from "@/constants/default-tokens"
 import { getStorageBalanceBySymbol } from "@/utils/near-storage"
 import { NEAR_TOKEN_ADDRESSES } from "@/constants/near-token"
 import { STORAGE_DEPOSIT_AMOUNT } from "@/constants/storage-deposits"
+
+const queue = new PQueue({ concurrency: 1 })
 
 const CONTRACT_CHANGER_SYMBOLS: Record<
   DefaultToken,
@@ -130,22 +133,23 @@ export const deployDefaultTokens = async (
 ): Promise<SiloConfigTransactionStatus> => {
   const provider = new JsonRpcProvider(silo.rpc_url)
 
-  const statuses = await DEFAULT_TOKENS.filter(
-    (token) => token !== silo.base_token_symbol,
-  ).reduce(
-    async (acc, symbol) => {
-      const previousStatuses = await acc
-      const symbolStatuses = await deployDefaultToken({
-        provider,
-        silo,
-        symbol,
-        skipIfFailed,
-      })
+  const statuses = (
+    await Promise.all(
+      DEFAULT_TOKENS.filter((token) => token !== silo.base_token_symbol).map(
+        async (symbol) =>
+          queue.add(() =>
+            deployDefaultToken({
+              provider,
+              silo,
+              symbol,
+              skipIfFailed,
+            }),
+          ),
+      ),
+    )
+  ).flat()
 
-      return [...previousStatuses, ...symbolStatuses]
-    },
-    Promise.resolve([] as SiloConfigTransactionStatus[]),
-  )
+  await queue.onIdle()
 
   if (statuses.includes("PENDING")) {
     return "PENDING"
