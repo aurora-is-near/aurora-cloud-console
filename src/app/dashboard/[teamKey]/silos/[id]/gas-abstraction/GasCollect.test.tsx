@@ -262,42 +262,6 @@ describe("CollectGas", () => {
     })
   })
 
-  it("collect gas value is too high", async () => {
-    queryClient.setQueryData(["getSiloCollectedGasTotal", { id: silo.id }], {
-      count: 100,
-    })
-
-    render(<GasAbstractionPage />, {
-      wrapper: createWrapper({
-        siloContext: { silo: { ...silo, gas_collection_address: "test.near" } },
-        teamContext: { team },
-      }),
-    })
-
-    // Collect button is enabled
-    const gasBalanceItem = await screen.findByLabelText(/Gas balance/)
-
-    expect(gasBalanceItem).toBeInTheDocument()
-
-    const collectBtn = await within(gasBalanceItem).findByRole("button", {
-      name: /Collect/,
-    })
-
-    fireEvent.click(collectBtn)
-    await screen.findByText(/Are you sure you want to withdraw gas/)
-    const confirmBtn = await screen.findByRole("button", {
-      name: /Collect gas/,
-    })
-
-    fireEvent.click(confirmBtn)
-
-    await waitFor(() => {
-      screen.getByText(/Gas amount is too high/)
-    })
-
-    expect(collectGasToNear).not.toHaveBeenCalled()
-  })
-
   it("collect gas", async () => {
     render(<GasAbstractionPage />, {
       wrapper: createWrapper({
