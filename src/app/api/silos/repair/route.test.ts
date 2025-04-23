@@ -533,7 +533,7 @@ describe("Silos repair route", () => {
     expect(logger.error).toHaveBeenCalledWith(new Error("Forbidden"))
   })
 
-  it.each(["CUSTOM", "ART", "USDT"])(
+  it.each(["CUSTOM", "ART", "BTC"])(
     "does not perform a transaction or set the silo to active for base token %p",
     async (symbol) => {
       const oneHourAgo = new Date(currentTime.getTime() - 60 * 60 * 1000)
