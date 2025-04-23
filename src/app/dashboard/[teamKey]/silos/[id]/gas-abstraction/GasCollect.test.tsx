@@ -101,8 +101,6 @@ describe("CollectGas", () => {
       /Gas collection address/,
     )
 
-    expect(gasCollectItem).toBeInTheDocument()
-
     const gasCollectionNoAddress =
       await within(gasCollectItem).findByText(/Not set/)
 
