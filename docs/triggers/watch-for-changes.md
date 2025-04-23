@@ -89,7 +89,7 @@ BEGIN
       ('rule_users_userlists', NULL::TEXT[]),
       ('rules', NULL::TEXT[]),
       ('rules_userlists', NULL::TEXT[]),
-      ('silos', ARRAY['name', 'applieddealids', 'gasprice']),
+      ('silos', ARRAY['name', 'applied_deal_ids', 'gas_price']),
       ('userlists', NULL::TEXT[])
   LOOP
     -- Prepare trigger arguments if any columns are specified for the table
