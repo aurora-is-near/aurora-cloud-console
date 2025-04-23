@@ -27,6 +27,9 @@ const CONTRACT_CHANGER_SYMBOLS: Record<
   USDt: "Usdt",
   USDC: "Usdc",
   ETH: {
+    // `aurora` can't be used as the source for eth as it' uses it as base token
+    // so we use `0x4e454160.c.aurora` (Berry Chain) as the source, but any
+    // virtual chain with ETH deployed as an ERC-20 will work
     source_contract_id: "0x4e454160.c.aurora",
     nep141: "eth.bridge.near",
   },
