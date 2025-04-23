@@ -136,7 +136,7 @@ export const deployDefaultTokens = async (
   const statuses = (
     await Promise.all(
       DEFAULT_TOKENS.filter((token) => token !== silo.base_token_symbol).map(
-        async (symbol) =>
+        (symbol) =>
           queue.add(() =>
             deployDefaultToken({
               provider,
