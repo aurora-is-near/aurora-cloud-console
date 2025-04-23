@@ -232,6 +232,30 @@ export type Database = {
         }
         Relationships: []
       }
+      deal_changes: {
+        Row: {
+          created_at: string
+          id: number
+          operation: Database["public"]["Enums"]["database_operation"]
+          row_id: number
+          table_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          operation: Database["public"]["Enums"]["database_operation"]
+          row_id: number
+          table_name: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          operation?: Database["public"]["Enums"]["database_operation"]
+          row_id?: number
+          table_name?: string
+        }
+        Relationships: []
+      }
       deals: {
         Row: {
           created_at: string
@@ -889,7 +913,7 @@ export type Database = {
           explorer_url: string | null
           favicon: string
           gas_collection_address: string | null
-          gas_price: number
+          gas_price: string
           genesis: string
           grafana_network_key: string | null
           id: number
@@ -923,7 +947,7 @@ export type Database = {
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: number
+          gas_price?: string
           genesis: string
           grafana_network_key?: string | null
           id?: number
@@ -957,7 +981,7 @@ export type Database = {
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: number
+          gas_price?: string
           genesis?: string
           grafana_network_key?: string | null
           id?: number
