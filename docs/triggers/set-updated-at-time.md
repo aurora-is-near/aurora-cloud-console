@@ -3,47 +3,56 @@
 A dump of the Supabase trigger for populating the updated at columns.
 
 ```sql
-create or replace function public.update_modified_column()
-returns trigger as $$
+do $$
+declare
+  tbl record;
+  new_trigger_name text;
+  existing_trigger record;
 begin
-  new.updated_at = now();
-  return new;
-END;
-$$ language plpgsql security definer;
+  -- Step 1: Drop triggers from tables that no longer have updated_at
+  for existing_trigger in
+    select event_object_table as table_name, trigger_name
+    from information_schema.triggers
+    where trigger_schema = 'public'
+      and trigger_name like 'set\_%\_updated_at'
+  loop
+    -- Check if this table still has an updated_at column
+    if not exists (
+      select 1
+      from information_schema.columns
+      where table_schema = 'public'
+        and table_name = existing_trigger.table_name
+        and column_name = 'updated_at'
+    ) then
+      execute format(
+        'drop trigger if exists %I on public.%I;',
+        existing_trigger.trigger_name,
+        existing_trigger.table_name
+      );
+    end if;
+  end loop;
 
--- trigger to execute the function on update of deals table
-drop trigger if exists set_deals_updated_at on deals;
-create trigger set_deals_updated_at
-  before update on deals
-  for each row execute procedure public.update_modified_column();
+  -- Step 2: Add triggers to tables that have updated_at
+  for tbl in
+    select table_name
+    from information_schema.columns
+    where column_name = 'updated_at'
+      and table_schema = 'public'
+    group by table_name
+  loop
+    new_trigger_name := 'set_' || tbl.table_name || '_updated_at';
 
--- trigger to execute the function on update of silos table
-drop trigger if exists set_silos_updated_at on silos;
-create trigger set_silos_updated_at
-  before update on silos
-  for each row execute procedure public.update_modified_column();
+    -- Drop existing one just in case
+    execute format('drop trigger if exists %I on public.%I;', new_trigger_name, tbl.table_name);
 
--- trigger to execute the function on update of teams table
-drop trigger if exists set_teams_updated_at on teams;
-create trigger set_teams_updated_at
-  before update on teams
-  for each row execute procedure public.update_modified_column();
-
--- trigger to execute the function on update of oracles table
-drop trigger if exists set_oracles_updated_at on oracles;
-create trigger set_oracles_updated_at
-  before update on oracles
-  for each row execute procedure public.update_modified_column();
-
--- trigger to execute the function on update of widgets table
-drop trigger if exists set_widgets_updated_at on widgets;
-create trigger set_widgets_updated_at
-  before update on widgets
-  for each row execute procedure public.update_modified_column();
-
--- trigger to execute the function on update of blockscout_databases table
-drop trigger if exists set_blockscout_databases_updated_at on blockscout_databases;
-create trigger set_blockscout_databases_updated_at
-  before update on blockscout_databases
-  for each row execute procedure public.update_modified_column();
+    -- Create trigger
+    execute format($f$
+      create trigger %I
+      before update on public.%I
+      for each row
+      execute procedure public.update_modified_column();
+    $f$, new_trigger_name, tbl.table_name);
+  end loop;
+end
+$$ language plpgsql;
 ```

@@ -1,19 +1,8 @@
 import { WidgetName } from "@/types/widgets"
-
-const getOrigin = () => {
-  if (process.env.NEXT_PUBLIC_VERCEL_ENV === "production") {
-    return "https://app.auroracloud.dev"
-  }
-
-  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  }
-
-  return "http://localhost:3000"
-}
+import { getSiteOrigin } from "@/utils/origin"
 
 export const isTeamWidgetUrl = (teamKey: string, url: string | URL) => {
-  const expectedOrigin = getOrigin()
+  const expectedOrigin = getSiteOrigin()
   const { pathname, origin } = new URL(url, expectedOrigin)
 
   if (!origin.startsWith(expectedOrigin)) {
@@ -37,6 +26,6 @@ export const getWidgetUrl = (
 ) => {
   return new URL(
     `/dashboard/${teamKey}/silos/${siloId}/widgets/${widgetName}${isShareableUrl ? "" : ".js"}`,
-    getOrigin(),
+    getSiteOrigin(),
   ).href
 }

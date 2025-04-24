@@ -4,7 +4,7 @@ import { Input, InputProps } from "@/components/Input"
 
 type HorizontalInputProps<Inputs extends Record<string, unknown>> =
   InputProps<Inputs> & {
-    label: string
+    label?: string
     errors?: FieldErrors<Inputs>
   }
 

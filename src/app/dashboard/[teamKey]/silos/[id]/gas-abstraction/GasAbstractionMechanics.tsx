@@ -52,17 +52,19 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
             complexity.
           </InfoList.Item>
 
-          <InfoList.Item label="Gas price">
-            <div className="flex items-center justify-between gap-2">
-              <Typography variant="paragraph" size={4}>
-                {`${formatUnits(`${gasPriceDisplayed}`, silo.base_token_decimals)} ${silo.base_token_symbol} per gas`}
-              </Typography>
+          <InfoList.Item
+            label="Gas price"
+            Action={() => (
               <Btn.Iconed
                 icon={PencilSquareIcon}
                 label="Edit gas price"
                 onClick={() => openModal(Modals.EditGasPrice)}
               />
-            </div>
+            )}
+          >
+            <Typography variant="paragraph" size={4}>
+              {`${formatUnits(`${gasPriceDisplayed}`, silo.base_token_decimals)} ${silo.base_token_symbol} per gas`}
+            </Typography>
           </InfoList.Item>
         </InfoList>
       </Card>

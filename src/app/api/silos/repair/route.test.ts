@@ -392,10 +392,10 @@ describe("Silos repair route", () => {
     })
 
     expect(
-      mockSupabaseClient.from("silo_bridged_tokens").insert,
+      mockSupabaseClient.from("silo_bridged_tokens").upsert,
     ).toHaveBeenCalledTimes(2)
     expect(
-      mockSupabaseClient.from("silo_bridged_tokens").insert,
+      mockSupabaseClient.from("silo_bridged_tokens").upsert,
     ).toHaveBeenCalledWith([
       {
         bridged_token_id: mockBridgedTokenReqeusts[0].id,
@@ -404,10 +404,10 @@ describe("Silos repair route", () => {
       },
     ])
     expect(
-      mockSupabaseClient.from("silo_bridged_tokens").insert,
+      mockSupabaseClient.from("silo_bridged_tokens").upsert,
     ).toHaveBeenCalledWith([
       {
-        bridged_token_id: mockBridgedTokenReqeusts[0].id,
+        bridged_token_id: mockBridgedTokenReqeusts[1].id,
         is_deployment_pending: false,
         silo_id: mockSilo.id,
       },
@@ -533,7 +533,7 @@ describe("Silos repair route", () => {
     expect(logger.error).toHaveBeenCalledWith(new Error("Forbidden"))
   })
 
-  it.each(["CUSTOM", "ART", "USDT"])(
+  it.each(["CUSTOM", "ART", "BTC"])(
     "does not perform a transaction or set the silo to active for base token %p",
     async (symbol) => {
       const oneHourAgo = new Date(currentTime.getTime() - 60 * 60 * 1000)
@@ -627,11 +627,11 @@ describe("Silos repair route", () => {
     })
 
     expect(
-      mockSupabaseClient.from("silo_bridged_tokens").insert,
+      mockSupabaseClient.from("silo_bridged_tokens").upsert,
     ).toHaveBeenCalledTimes(6)
 
     expect(
-      mockSupabaseClient.from("silo_bridged_tokens").insert.mock.calls,
+      mockSupabaseClient.from("silo_bridged_tokens").upsert.mock.calls,
     ).toMatchSnapshot()
   })
 })
