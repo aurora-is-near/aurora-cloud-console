@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation"
+import Image from "next/image"
+import clsx from "clsx"
 import { createGraphqlClient } from "@/cms/client"
 import {
   MarketplaceAppDocument,
@@ -6,7 +8,6 @@ import {
   MarketplaceAppsMetaDocument,
   MarketplaceAppsMetaQuery,
 } from "@/cms/generated/graphql"
-import { DashboardPage } from "@/components/DashboardPage"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { BaseContainer } from "@/components/BaseContainer"
 import Heading from "@/components/Heading"
@@ -55,9 +56,32 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           {marketplaceApp.content.map((contentItem) => (
             <Card
               key={contentItem.id}
-              className="flex flex-col gap-4 sm:gap-5 mb-6"
+              className={clsx(
+                "grid gap-x-12",
+                contentItem.image && "grid-cols-2",
+              )}
             >
-              <HtmlContent className="text-slate-600" html={contentItem.body} />
+              <div>
+                {!!contentItem.title && (
+                  <Heading tag="h2" size="sm" className="text-slate-900 mb-2.5">
+                    {contentItem.title}
+                  </Heading>
+                )}
+                <HtmlContent
+                  className="text-slate-600"
+                  html={contentItem.body}
+                />
+              </div>
+              {contentItem.image && (
+                <div className="relative w-full">
+                  <Image
+                    src={contentItem.image.url}
+                    alt={contentItem.image.alt ?? ""}
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
+              )}
             </Card>
           ))}
         </div>
