@@ -11,12 +11,14 @@ export type SidebarMenuProps = {
   heading?: string | JSX.Element
   action?: JSX.Element
   sections: MenuSection[]
+  isMarketplace?: boolean
 }
 
 export const SidebarMenu = ({
   heading,
   action,
   sections,
+  isMarketplace,
 }: SidebarMenuProps) => {
   const { isMenuOpen, closeMenu } = useMenu()
 
@@ -41,14 +43,17 @@ export const SidebarMenu = ({
       {/* Menu */}
       <aside
         className={clsx(
-          "flex inset-y-0 flex-col p-6 overflow-y-auto bg-white sm:border-r border-slate-200 w-full sm:w-72 sm:min-w-72 h-full lg:transform-none transition ease-in-out duration-300",
+          "flex inset-y-0 flex-col p-6 overflow-y-auto w-full sm:w-72 sm:min-w-72 h-full lg:transform-none transition ease-in-out duration-300",
+          !isMarketplace && "bg-white sm:border-r border-slate-200",
           isMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="flex flex-row justify-between items-center">
-          <Heading tag="span" textColorClassName="text-slate-900">
-            {heading}
-          </Heading>
+          {!!heading && (
+            <Heading tag="span" textColorClassName="text-slate-900">
+              {heading}
+            </Heading>
+          )}
           <button
             type="button"
             className="p-2 -mr-2 lg:hidden"

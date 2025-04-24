@@ -13,6 +13,7 @@ import {
   LINK_SENT_ROUTE,
   LOGIN_ROUTE,
   LOGOUT_ROUTE,
+  MARKETPLACE_ROUTE,
   SIGNUP_ROUTE,
   UNAUTHORISED_ROUTE,
 } from "./constants/routes"
@@ -62,18 +63,13 @@ export async function middleware(req: NextRequest) {
     return res
   }
 
-  // Allow requests for images services via our image resizer
-  if (pathname.startsWith(IMAGES_ROUTE)) {
-    return res
-  }
-
-  // Do nothing for email preview routes
-  if (pathname.startsWith(EMAIL_PREVIEW_ROUTE)) {
-    return res
-  }
-
-  // Do nothing for API requests (which are authenticated separately)
-  if (pathname.startsWith("/api")) {
+  // Allow unauthenticated requests for various route prefixes
+  if (
+    pathname.startsWith(MARKETPLACE_ROUTE) ||
+    pathname.startsWith(IMAGES_ROUTE) ||
+    pathname.startsWith(EMAIL_PREVIEW_ROUTE) ||
+    pathname.startsWith("/api")
+  ) {
     return res
   }
 
