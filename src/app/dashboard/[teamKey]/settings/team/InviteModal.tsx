@@ -49,10 +49,7 @@ const InviteModal = ({ team }: InviteModalProps) => {
     setIsLoading(true)
 
     try {
-      await inviteUser(team, {
-        ...data,
-        origin: window.location.origin,
-      })
+      await inviteUser(team, data)
     } catch (err) {
       setIsLoading(false)
       setError("root", {

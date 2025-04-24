@@ -48,8 +48,8 @@ const contractChangerTokens = [
   "Usdt",
   "Usdc",
   {
-    source_contract_id: "aurora",
-    nep141: "0x5a524251df27A25AC6b9964a93E1c23AD692688D",
+    source_contract_id: "0x4e454160.c.aurora",
+    nep141: "eth.bridge.near",
   },
 ]
 
@@ -172,8 +172,8 @@ describe("deployDefaultTokens", () => {
     expect(contractChangerApiClient.mirrorErc20Token).toHaveBeenCalledWith({
       siloEngineAccountId: mockSilo.engine_account,
       token: {
-        source_contract_id: "aurora",
-        nep141: "0x5a524251df27A25AC6b9964a93E1c23AD692688D",
+        source_contract_id: "0x4e454160.c.aurora",
+        nep141: "eth.bridge.near",
       },
     })
 
