@@ -2,15 +2,16 @@ import { MarketplaceApp } from "@/types/marketplace"
 
 export const MARKETPLACE_APPS: MarketplaceApp[] = [
   {
-    title: "Dune",
+    title: "Aleph Cloud",
+    slug: "aleph-cloud",
     description:
-      "Access to onchain data by enabling users to query, visualize, and share insights across various blockchains.",
-    categories: ["Analytics"],
-    logo: "/v2/images/marketplace/dune-logo.png",
+      "Aleph.im enables AI-driven applications to access trusted off-chain data and run computations seamlessly. From startups building the future of autonomous systems to enterprises deploying large-scale AI models, our blockchain-based infrastructure bridges hardware, cloud, and intelligence.",
+    categories: ["Infrastructure"],
+    logo: "",
     content: [
       {
         heading: "Seamless Blockchain Integration",
-        body: "Effortlessly import, decode, query, and store your blockchain data in a human-readable, organized Web3 warehouse. Dune Catalyst supports both EVM and non-EVM chains, providing full historical data with enterprise-grade SLAs and storage. Benefit from 24/7 support via Slack and Telegram to ensure a smooth integration process.",
+        body: "Experience the future of web hosting with our Web3 solutions. Whether you're building static sites or dynamic web apps with Next.js, React, or Vue.js, our platform offers seamless deployment and robust support. Connect your custom domains and leverage the power of decentralized technology.",
       },
       {
         heading: "Extensive Data Distribution",
