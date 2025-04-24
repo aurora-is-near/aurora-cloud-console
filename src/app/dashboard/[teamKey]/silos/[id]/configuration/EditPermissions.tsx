@@ -7,7 +7,6 @@ import { useQueries } from "@tanstack/react-query"
 import { Button } from "@/uikit"
 import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
-import { useFeatureFlags } from "@/hooks/useFeatureFlags"
 import type {
   Silo,
   SiloWhitelistAddress,
@@ -16,6 +15,7 @@ import type {
 
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { SiloContext } from "@/providers/SiloProvider"
+import { TeamContext } from "@/providers/TeamProvider"
 import { getSiloWhitelist } from "@/actions/silo-whitelist/get-silo-whitelist"
 import { ConfigurationItemsCard } from "./ConfigurationItemsCard"
 import { EditSiloPermissionsModal } from "./EditSiloPermissionsModal"
@@ -41,7 +41,9 @@ const useDisplayValue = (
 
 export const EditPermissions = () => {
   const { openModal } = useModals()
+  const { team } = useRequiredContext(TeamContext)
   const { silo } = useRequiredContext(SiloContext)
+
   const [currentModal, setCurrentModal] = useState<SiloWhitelistType | null>(
     null,
   )
@@ -60,9 +62,6 @@ export const EditPermissions = () => {
       ],
     })
 
-  const { flags } = useFeatureFlags()
-  const isWhitelistsEditingEnabled = flags.silo_whitelist_permissions
-
   const displayTxsWhitelistLabel = useDisplayValue(
     silo,
     "MAKE_TRANSACTION",
@@ -78,6 +77,7 @@ export const EditPermissions = () => {
   return (
     <>
       <EditSiloPermissionsModal
+        team={team}
         silo={silo}
         whitelistType={currentModal}
         addresses={
@@ -99,34 +99,32 @@ export const EditPermissions = () => {
             description: displayTxsWhitelistLabel,
             tooltip:
               "This whitelist contains the list of addresses allowed to interact with your chain.",
-            Action: () =>
-              isWhitelistsEditingEnabled && (
-                <Button.Iconed
-                  label="Edit"
-                  icon={PencilSquareIcon}
-                  onClick={() => {
-                    setCurrentModal("MAKE_TRANSACTION")
-                    openModal(Modals.EditSiloAddressPermissions)
-                  }}
-                />
-              ),
+            Action: () => (
+              <Button.Iconed
+                label="Edit"
+                icon={PencilSquareIcon}
+                onClick={() => {
+                  setCurrentModal("MAKE_TRANSACTION")
+                  openModal(Modals.EditSiloAddressPermissions)
+                }}
+              />
+            ),
           },
           {
             term: "Deploy contracts",
             description: displayDeployWhitelistLabel,
             tooltip:
               "This whitelist contains the list of addresses allowed to deploy contracts on your chain.",
-            Action: () =>
-              isWhitelistsEditingEnabled && (
-                <Button.Iconed
-                  label="Edit"
-                  icon={PencilSquareIcon}
-                  onClick={() => {
-                    setCurrentModal("DEPLOY_CONTRACT")
-                    openModal(Modals.EditSiloAddressPermissions)
-                  }}
-                />
-              ),
+            Action: () => (
+              <Button.Iconed
+                label="Edit"
+                icon={PencilSquareIcon}
+                onClick={() => {
+                  setCurrentModal("DEPLOY_CONTRACT")
+                  openModal(Modals.EditSiloAddressPermissions)
+                }}
+              />
+            ),
           },
         ]}
       />

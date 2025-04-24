@@ -96,6 +96,10 @@ describe("Healthcheck route", () => {
         USDt: defaultTokenMetadata,
         USDC: defaultTokenMetadata,
         NEAR: nearTokenMetadata,
+        ETH: {
+          ...defaultTokenMetadata,
+          isContractDeployed: true,
+        },
       },
     })
   })
@@ -147,7 +151,7 @@ describe("Healthcheck route", () => {
       {
         ...createMockBridgedToken({
           symbol: "PENDING_AND_DEPLOYED",
-          aurora_address: "0x1",
+          silo_address: "0x1",
         }),
         silo_bridged_tokens: [
           { silo_id: silo.id, is_deployment_pending: true },
@@ -156,7 +160,7 @@ describe("Healthcheck route", () => {
       {
         ...createMockBridgedToken({
           symbol: "PENDING_AND_NOT_DEPLOYED",
-          aurora_address: "0x2",
+          silo_address: "0x2",
         }),
         silo_bridged_tokens: [
           { silo_id: silo.id, is_deployment_pending: true },
@@ -165,7 +169,7 @@ describe("Healthcheck route", () => {
       {
         ...createMockBridgedToken({
           symbol: baseTokenSymbol,
-          aurora_address: "0x3",
+          silo_address: "0x3",
         }),
         silo_bridged_tokens: [
           { silo_id: silo.id, is_deployment_pending: true },
@@ -174,7 +178,7 @@ describe("Healthcheck route", () => {
       {
         ...createMockBridgedToken({
           symbol: "PENDING_AND_NOT_BASE_AND_NO_ADDRESS",
-          aurora_address: null,
+          silo_address: null,
         }),
         silo_bridged_tokens: [
           { silo_id: silo.id, is_deployment_pending: true },
@@ -183,7 +187,7 @@ describe("Healthcheck route", () => {
       {
         ...createMockBridgedToken({
           symbol: "NOT_PENDING",
-          aurora_address: null,
+          silo_address: null,
         }),
         silo_bridged_tokens: [
           { silo_id: silo.id, is_deployment_pending: false },
@@ -197,7 +201,7 @@ describe("Healthcheck route", () => {
     ;(ethers.Contract as jest.Mock).mockImplementation(
       (tokenContractAddress) => ({
         symbol: () => {
-          if (tokenContractAddress === mockTokens[0].aurora_address) {
+          if (tokenContractAddress === mockTokens[0].silo_address) {
             return mockTokens[0].symbol
           }
 
@@ -223,6 +227,7 @@ describe("Healthcheck route", () => {
         USDt: defaultTokenMetadata,
         USDC: defaultTokenMetadata,
         NEAR: nearTokenMetadata,
+        ETH: defaultTokenMetadata,
       },
       bridgedTokens: {
         PENDING_AND_DEPLOYED: {
@@ -258,7 +263,7 @@ describe("Healthcheck route", () => {
 
     expect(res.status).toBe(200)
     expect(mockNearAccount.getAccountBalance).toHaveBeenCalledTimes(1)
-    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(3)
+    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(4)
     expect(mockNearAccount.viewFunction).toHaveBeenCalledWith({
       args: { account_id: mockSilo.engine_account },
       contractId:
@@ -308,7 +313,7 @@ describe("Healthcheck route", () => {
     )
 
     expect(res.status).toBe(200)
-    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(4)
+    expect(mockNearAccount.viewFunction).toHaveBeenCalledTimes(5)
     expect(mockNearAccount.viewFunction).toHaveBeenLastCalledWith({
       args: { account_id: silo.engine_account },
       contractId: "0x1",

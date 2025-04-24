@@ -12,7 +12,9 @@ export const getTeamMembers = async (
 
   const { data: users, error: usersError } = await supabase
     .from("users")
-    .select("id, name, email, users_teams!inner(user_id, confirmed_at)")
+    .select(
+      "id, name, email, user_id, users_teams!inner(user_id, confirmed_at)",
+    )
     .eq("users_teams.team_id", team.id)
 
   if (usersError) {
@@ -22,6 +24,7 @@ export const getTeamMembers = async (
 
   return users.map((user) => ({
     id: user.id,
+    userUuid: user.user_id,
     name: user.name,
     email: user.email,
     isPending: !user.users_teams[0]?.confirmed_at,

@@ -108,8 +108,21 @@ export const useSteps = ({ team, onClick }: Args): StepsAttrs => {
       },
     },
 
-    START_BLOCK_EXPLORER: {
-      title: "Starting your Block Explorer",
+    CONFIGURING_CONSOLE: {
+      title: "Configuring your console",
+      delayed: {
+        description: "Running a bit slow — come back shortly.",
+      },
+      failed: {
+        description:
+          "Please try again or contact us to resolve the server issue promptly.",
+        action: {
+          variant: "destructive",
+          title: "Try again",
+          onClick: () =>
+            onClick?.({ name: "CONFIGURING_CONSOLE", state: "failed" }),
+        },
+      },
     },
 
     CHAIN_DEPLOYED: {

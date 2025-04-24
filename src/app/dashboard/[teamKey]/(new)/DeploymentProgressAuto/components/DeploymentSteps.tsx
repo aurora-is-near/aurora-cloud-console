@@ -13,6 +13,7 @@ import { SiloConfigTransactionStatuses } from "@/types/silo-config-transactions"
 import { deployDefaultTokens } from "@/actions/deployment/deploy-default-tokens"
 import { DEFAULT_SILO_CONFIG_TRANSACTION_STATUSES } from "@/constants/silo-config-transactions"
 import { initialiseSiloWhitelists } from "@/actions/deployment/initialise-silo-whitelists"
+import { initialiseSiloBridgedTokens } from "@/actions/deployment/initialise-silo-bridged-tokens"
 import { useSteps } from "../hooks"
 import { Steps } from "./Steps"
 import { Step, StepName } from "../types"
@@ -29,7 +30,7 @@ const STEPS: StepName[] = [
   "INIT_AURORA_ENGINE",
   "SETTING_BASE_TOKEN",
   "DEPLOYING_DEFAULT_TOKENS",
-  "START_BLOCK_EXPLORER",
+  "CONFIGURING_CONSOLE",
   "CHAIN_DEPLOYED",
 ]
 
@@ -113,10 +114,10 @@ export const DeploymentSteps = ({
       (status) => status === "SUCCESSFUL",
     )
 
-    // If all transactions are successful we jump ahead to the start block
-    // explorer step.
+    // If all transactions are successful we jump ahead to the final
+    // configuration step.
     if (allTransactionsSuccessful) {
-      return { name: "START_BLOCK_EXPLORER", state: "pending" }
+      return { name: "CONFIGURING_CONSOLE", state: "pending" }
     }
 
     if (!siloTransactionStatuses?.SET_BASE_TOKEN) {
@@ -282,18 +283,32 @@ export const DeploymentSteps = ({
       }
     }
 
-    // "Start" the block explorer.
-    if (!isStepCompleted("START_BLOCK_EXPLORER", currentStep.name)) {
-      setCurrentStep({
-        name: "START_BLOCK_EXPLORER",
-        state: "pending",
-      })
-      await sleep(2500)
+    // Perform final configuration steps.
+    if (!isStepCompleted("CONFIGURING_CONSOLE", currentStep.name)) {
+      const status = await runTransactionStep(
+        "CONFIGURING_CONSOLE",
+        async () => {
+          await initialiseSiloBridgedTokens(silo)
+
+          // If all of the above succeeds we consider the deployment complete
+          // and mark the silo as active.
+          await updateSilo(silo.id, { is_active: true })
+
+          return "SUCCESSFUL"
+        },
+      )
+
+      if (status === "delayed") {
+        await startConfiguration()
+
+        return
+      }
+
+      if (status === "failed") {
+        return
+      }
     }
 
-    // If the above process succeeds we consider the deployment complete and
-    // mark the silo as active.
-    await updateSilo(silo.id, { is_active: true })
     setCurrentStep({
       name: "CHAIN_DEPLOYED",
       state: "completed",

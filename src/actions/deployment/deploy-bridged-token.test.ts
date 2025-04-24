@@ -75,7 +75,7 @@ describe("deployDefaultTokens", () => {
     expect(contractChangerApiClient.makeStorageDeposit).toHaveBeenCalledTimes(1)
     expect(contractChangerApiClient.makeStorageDeposit).toHaveBeenCalledWith({
       siloEngineAccountId: mockSilo.engine_account,
-      amount: "0.00125 near",
+      amount: "1250000000000000000000",
       token: bridgedToken.near_address,
     })
 

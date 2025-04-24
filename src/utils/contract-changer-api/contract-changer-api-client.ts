@@ -146,6 +146,7 @@ export const contractChangerApiClient = {
       `/api/v1/contract/${siloEngineAccountId}/whitelist/${whitelistKind}/${addr}`,
       { method: "DELETE" },
     ),
+
   makeStorageDeposit: async ({
     siloEngineAccountId,
     amount,
@@ -163,4 +164,30 @@ export const contractChangerApiClient = {
         token,
       },
     }),
+
+  collectGasToNear: async ({
+    amount,
+    accountId,
+    network,
+    siloEngineAccountId,
+  }: {
+    amount: string
+    accountId: string
+    network: string
+    siloEngineAccountId: string
+  }) => {
+    return request<{ tx_hash?: string }>(
+      `/api/v1/contract/${siloEngineAccountId}/gas/collect`,
+      {
+        method: "POST",
+        data: {
+          amount,
+          destination: {
+            account_id: accountId,
+            network,
+          },
+        },
+      },
+    )
+  },
 }

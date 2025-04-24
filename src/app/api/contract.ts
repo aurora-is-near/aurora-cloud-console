@@ -42,6 +42,7 @@ export const SiloBridgedTokenSchema = z.object({
   symbol: z.string(),
   decimals: z.number(),
   aurora_address: z.string().nullable(),
+  silo_address: z.string().nullable(),
   near_address: z.string().nullable(),
   ethereum_address: z.string().nullable(),
   iconUrl: z.string().nullable(),

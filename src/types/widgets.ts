@@ -1,1 +1,1 @@
-export type WidgetName = "universal" | "forwarder"
+export type WidgetName = "bridge" | "forwarder"
