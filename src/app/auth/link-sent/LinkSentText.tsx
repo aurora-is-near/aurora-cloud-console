@@ -4,9 +4,9 @@ import { useSearchParams } from "next/navigation"
 import { EMAIL_QUERY_PARAM } from "@/constants/auth"
 
 export const LinkSentText = () => {
-  const seachParams = useSearchParams()
+  const searchParams = useSearchParams()
   const emailAddress =
-    seachParams.get(EMAIL_QUERY_PARAM) ?? "your email address"
+    searchParams.get(EMAIL_QUERY_PARAM) ?? "your email address"
 
   return <p className="text-slate-400">We sent a link to {emailAddress}.</p>
 }

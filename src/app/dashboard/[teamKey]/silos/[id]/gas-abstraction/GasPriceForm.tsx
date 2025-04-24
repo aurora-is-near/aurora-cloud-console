@@ -11,7 +11,6 @@ import type { SubmitHandler } from "react-hook-form"
 import { logger } from "@/logger"
 import { HorizontalInput } from "@/components/HorizontalInput"
 import { updateSiloGasPrice } from "@/actions/silos/update-silo-gas-price"
-import { safeBigintToNumber } from "@/utils/safe-bigint-to-number"
 import type { Silo } from "@/types/types"
 
 type FormData = {
@@ -19,7 +18,7 @@ type FormData = {
 }
 
 type FormSubmittedData = {
-  gasPrice: number
+  gasPrice: string
 }
 
 type Props = {
@@ -44,7 +43,7 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
     reValidateMode: "onSubmit",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      gasPrice: formatUnits(`${silo.gas_price}`, silo.base_token_decimals),
+      gasPrice: formatUnits(silo.gas_price, silo.base_token_decimals),
     },
   })
 
@@ -57,19 +56,12 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
       return
     }
 
-    let parsedGasSafeNumber: number = 0
+    const newGasPrice = parsedGasPrice.toString()
 
     try {
-      parsedGasSafeNumber = safeBigintToNumber(parsedGasPrice)
-    } catch (e: unknown) {
-      setError("gasPrice", { message: "Value is out of range" })
-      logger.error(e)
-
-      return
-    }
-
-    try {
-      await updateSiloGasPrice(silo.id, { gas_price: parsedGasSafeNumber })
+      await updateSiloGasPrice(silo.id, {
+        gas_price: newGasPrice,
+      })
       toast.success("Gas price updated successfully.")
     } catch (e: unknown) {
       logger.error(e)
@@ -78,7 +70,7 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
       return
     }
 
-    onSubmitted({ gasPrice: parsedGasSafeNumber })
+    onSubmitted({ gasPrice: newGasPrice })
   }
 
   const gasPriceFieldValue = watch("gasPrice")
@@ -101,7 +93,7 @@ export const GasPriceForm = ({ silo, formId, onSubmitted }: Props) => {
         errors={{ gasPrice: errors.gasPrice }}
         register={register}
         registerOptions={{
-          value: formatUnits(`${silo.gas_price}`, silo.base_token_decimals),
+          value: formatUnits(silo.gas_price, silo.base_token_decimals),
         }}
       />
     </form>

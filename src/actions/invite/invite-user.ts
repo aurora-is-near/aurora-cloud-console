@@ -7,6 +7,7 @@ import { isTeamMember } from "@/utils/team"
 import { AUTH_ACCEPT_ROUTE } from "@/constants/routes"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
+import { getSiteOrigin } from "@/utils/origin"
 
 const getUserId = async (email: string) => {
   const cleanedEmail = email.toLowerCase().trim()
@@ -22,12 +23,7 @@ const getUserId = async (email: string) => {
   return result.data
 }
 
-const addUserToTeam = async (
-  userId: number,
-  email: string,
-  team: Team,
-  origin: string,
-) => {
+const addUserToTeam = async (userId: number, email: string, team: Team) => {
   const supabase = createAdminSupabaseClient()
   const result = await supabase
     .from("users_teams")
@@ -42,7 +38,7 @@ const addUserToTeam = async (
       <p>Hi there,</p>
       <p>You've been invited to join the <strong>${team.name}</strong> team on Aurora Cloud Console.</p>
       <p>
-        <a href="${origin}">
+        <a href="${getSiteOrigin()}">
           Click here to get started
         </a>
       </p>
@@ -55,11 +51,9 @@ export const inviteUser = async (
   {
     email,
     name,
-    origin,
   }: {
     email: string
     name: string
-    origin: string
   },
 ) => {
   const cleanedEmail = email.toLowerCase().trim()
@@ -68,7 +62,7 @@ export const inviteUser = async (
 
   if (!user) {
     const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
-      redirectTo: `${origin}${AUTH_ACCEPT_ROUTE}`,
+      redirectTo: `${getSiteOrigin()}${AUTH_ACCEPT_ROUTE}`,
       data: { name, new_team: team.team_key },
     })
 
@@ -83,5 +77,5 @@ export const inviteUser = async (
     abort(400, "User is already a member of this team")
   }
 
-  await addUserToTeam(user.id, cleanedEmail, team, origin)
+  await addUserToTeam(user.id, cleanedEmail, team)
 }

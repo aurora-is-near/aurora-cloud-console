@@ -13,7 +13,7 @@ export const createSiloBridgedToken = async (
   },
 ): Promise<void> => {
   const supabase = createAdminSupabaseClient()
-  const result = await supabase.from("silo_bridged_tokens").insert([
+  const result = await supabase.from("silo_bridged_tokens").upsert([
     {
       silo_id: siloId,
       bridged_token_id: bridgedTokenId,

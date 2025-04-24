@@ -44,15 +44,6 @@ SELECT add_values_to_enum(
 );
 
 SELECT add_values_to_enum(
-  'token_type',
-  ARRAY[
-    'ERC20',
-    'ERC721',
-    'ERC1155'
-  ]
-);
-
-SELECT add_values_to_enum(
   'widget_network_type',
   ARRAY[
     'AURORA',
@@ -119,6 +110,15 @@ SELECT add_values_to_enum(
     'PENDING',
     'SUCCESSFUL',
     'FAILED'
+  ]
+);
+
+SELECT add_values_to_enum(
+  'database_operation',
+  ARRAY[
+    'INSERT',
+    'UPDATE',
+    'DELETE'
   ]
 );
 ```
