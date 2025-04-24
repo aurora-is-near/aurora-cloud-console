@@ -12,6 +12,7 @@
     "knip": "knip --production --exclude types",
     "generate-supabase-types": "supabase gen types typescript --project-id xqharbhfobwuhpcdsapg --schema public > src/types/supabase.ts",
     "generate-tailwind-styles": "tailwindcss -i ./src/styles/globals.css -o ./tests/tailwind.css",
+    "generate-cms": "yarn graphql-codegen --config datocms-codegen.yml",
     "fix-tailwind-font-family": "sed -i '' 's/var(--font-circular)/CircularXXSub/g' tests/tailwind.css",
     "test:regression": "npm-run-all2 generate-tailwind-styles fix-tailwind-font-family && PUPPETEER_DISABLE_HEADLESS_WARNING=true JEST_PUPPETEER_CONFIG=jest-puppeteer.config.js npx jest --config=jest.visual.config.js"
   },
@@ -43,6 +44,9 @@
     "debug": "^4.4.0",
     "eases": "^1.0.8",
     "ethers": "6.13.5",
+    "graphql": "^16.7.1",
+    "graphql-request": "^6.1.0",
+    "html-react-parser": "^5.2.3",
     "http-status": "^2.1.0",
     "human-date": "^1.4.0",
     "lodash.debounce": "^4.0.8",
@@ -73,6 +77,10 @@
   },
   "devDependencies": {
     "@aurora-is-near/eslint-config": "^1.5.0",
+    "@graphql-codegen/cli": "^4.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@graphql-codegen/typescript-react-query": "^4.1.0",
     "@jest/globals": "^29.7.0",
     "@slack/types": "^2.14.0",
     "@svgr/webpack": "^8.1.0",

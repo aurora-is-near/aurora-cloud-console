@@ -1,0 +1,5 @@
+query MarketplaceAppsMeta {
+  allMarketplaceApps(first: 100) {
+    slug
+  }
+}

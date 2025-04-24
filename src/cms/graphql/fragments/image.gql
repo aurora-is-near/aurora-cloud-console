@@ -1,0 +1,7 @@
+fragment imageAttributes on FileField {
+  id
+  url
+  width
+  alt
+  height
+}

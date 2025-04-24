@@ -1,0 +1,11 @@
+#import "./fragments/image.graphql"
+
+query MarketplaceApps {
+  allMarketplaceApps(first: 100, orderBy: _createdAt_DESC) {
+    title
+    description
+    logo {
+      ...imageAttributes
+    }
+  }
+}

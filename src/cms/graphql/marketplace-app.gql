@@ -1,0 +1,24 @@
+#import "./fragments/image.graphql"
+
+query MarketplaceApp($slug: String!) {
+  marketplaceApp(filter: { slug: { eq: $slug } }) {
+    title
+    description
+    logo {
+      ...imageAttributes
+    }
+    content {
+      id
+      title
+      body
+      image {
+        ...imageAttributes
+      }
+    }
+    links {
+      id
+      text
+      url
+    }
+  }
+}

@@ -1,0 +1,23 @@
+overwrite: true
+
+schema:
+  - 'https://graphql.datocms.com':
+      headers:
+        Authorization: 'Bearer c41a51b9acf5d51eff3e370141769c'
+
+documents:
+  - '**/*.graphql'
+  - '**/*.gql'
+
+generates:
+  ./src/cms/generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher: graphql-request
+      maybeValue: T
+
+hooks:
+  afterAllFileWrite: ['./bin/after-datocms-codegen.sh']

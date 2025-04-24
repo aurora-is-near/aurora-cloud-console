@@ -1,3 +1,4 @@
 node_modules/
 coverage/
 src/types/supabase.ts
+src/cms/generated/
