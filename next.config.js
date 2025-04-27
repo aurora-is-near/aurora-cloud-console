@@ -16,12 +16,14 @@ const nextConfig = {
 
     return config
   },
-  remotePatterns: [
-    {
-      protocol: "https",
-      hostname: "www.datocms-assets.com",
-    },
-  ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "www.datocms-assets.com",
+      },
+    ],
+  },
 }
 
 const sentryConfig = {
