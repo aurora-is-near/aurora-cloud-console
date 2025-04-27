@@ -11,14 +11,14 @@ export type SidebarMenuProps = {
   heading?: string | JSX.Element
   action?: JSX.Element
   sections: MenuSection[]
-  isMarketplace?: boolean
+  variant?: "default" | "compact"
 }
 
 export const SidebarMenu = ({
   heading,
   action,
   sections,
-  isMarketplace,
+  variant,
 }: SidebarMenuProps) => {
   const { isMenuOpen, closeMenu } = useMenu()
 
@@ -43,8 +43,8 @@ export const SidebarMenu = ({
       {/* Menu */}
       <aside
         className={clsx(
-          "flex inset-y-0 flex-col p-6 overflow-y-auto w-full sm:w-72 sm:min-w-72 h-full lg:transform-none transition ease-in-out duration-300",
-          !isMarketplace && "bg-white sm:border-r border-slate-200",
+          "flex inset-y-0 flex-col overflow-y-auto w-full sm:w-72 sm:min-w-72 h-full lg:transform-none transition ease-in-out duration-300",
+          variant !== "compact" && "p-6 bg-white sm:border-r border-slate-200",
           isMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -66,7 +66,12 @@ export const SidebarMenu = ({
 
         {action}
 
-        <nav className="flex flex-col flex-1 mt-4 divide-y divide-slate-200">
+        <nav
+          className={clsx(
+            "flex flex-col flex-1 divide-y divide-slate-200",
+            variant !== "compact" && "mt-4",
+          )}
+        >
           {sections.map((section, index) => {
             return (
               <section
@@ -74,7 +79,14 @@ export const SidebarMenu = ({
                 key={section.heading ?? index}
               >
                 {!!section.heading && (
-                  <h3 className="text-slate-500 uppercase text-xs font-bold tracking-[1.5px] px-3 py-2.5 mb-1">
+                  <h3
+                    className={clsx(
+                      "font-bold",
+                      variant === "compact"
+                        ? "text-slate-900 text-lg mb-3"
+                        : "px-3 text-slate-500 uppercase text-xs tracking-[1.5px] py-2.5 mb-1",
+                    )}
+                  >
                     {section.heading}
                   </h3>
                 )}

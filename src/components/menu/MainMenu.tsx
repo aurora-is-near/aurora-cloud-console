@@ -7,9 +7,11 @@ import { MobileMenuToggleButton } from "@/components/menu/MobileMenuToggleButton
 import { MainMenuLogoutButton } from "@/components/menu/MainMenuLogoutButton"
 import type { MenuItem } from "@/types/menu"
 import { isAdminUser } from "@/utils/admin"
+import { LinkButton } from "@/components/LinkButton"
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/constants/routes"
 
 type MainMenuProps = {
-  menuItems: MenuItem[]
+  menuItems?: MenuItem[]
   authUser: User | null
   isMarketplace?: boolean
 }
@@ -29,7 +31,7 @@ const getHomeRoute = (
 }
 
 export const MainMenu = ({
-  menuItems,
+  menuItems = [],
   authUser,
   isMarketplace,
 }: MainMenuProps) => {
@@ -54,11 +56,26 @@ export const MainMenu = ({
             <MainMenuButton {...item} />
           </li>
         ))}
-        <li
-          className={clsx(menuItems.length && "pl-2 border-l border-slate-700")}
-        >
-          <MainMenuLogoutButton />
-        </li>
+        {authUser ? (
+          <li
+            className={clsx(
+              menuItems.length && "pl-2 border-l border-slate-700",
+            )}
+          >
+            <MainMenuLogoutButton />
+          </li>
+        ) : (
+          <div className="flex flex-row items-center gap-x-3">
+            <LinkButton
+              href={LOGIN_ROUTE}
+              variant="border"
+              className="text-white"
+            >
+              Sign in
+            </LinkButton>
+            <LinkButton href={SIGNUP_ROUTE}>Get started</LinkButton>
+          </div>
+        )}
       </ul>
       <MobileMenuToggleButton />
     </div>

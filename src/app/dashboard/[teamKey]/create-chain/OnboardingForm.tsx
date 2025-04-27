@@ -132,7 +132,7 @@ const OnboardingForm = ({ team, data }: OnboardingFormProps) => {
         </div>
       </section>
 
-      <BaseContainer className="h-full md:mt-10">
+      <BaseContainer className="h-full md:mt-10 py-6">
         <div className="relative flex flex-col gap-8">
           <Step
             number={1}

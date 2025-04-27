@@ -19,7 +19,6 @@ type DashboardLayoutProps = {
   teamKey?: string
   authUser: User | null
   children: ReactNode
-  isMarketplace?: boolean
   sidebarMenu?: {
     heading?: string | JSX.Element
     action?: JSX.Element
@@ -31,7 +30,6 @@ export const DashboardLayout = ({
   teamKey,
   authUser,
   children,
-  isMarketplace,
   sidebarMenu,
 }: DashboardLayoutProps) => {
   const showAdminMenu = isAdminUser(authUser?.email)
@@ -79,15 +77,10 @@ export const DashboardLayout = ({
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
-      <MainMenu
-        isMarketplace={isMarketplace}
-        authUser={authUser}
-        menuItems={mainMenuItems}
-      />
+      <MainMenu authUser={authUser} menuItems={mainMenuItems} />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
         {!!sidebarMenu?.sections.length && (
           <SidebarMenu
-            isMarketplace={isMarketplace}
             heading={sidebarMenu.heading}
             sections={sidebarMenu.sections}
             action={sidebarMenu.action}
