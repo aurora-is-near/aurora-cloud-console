@@ -2,9 +2,9 @@ import Image from "next/image"
 import { Heading } from "@/uikit/Typography/Heading"
 import { BaseContainer } from "@/components/BaseContainer"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
-import { MarketplaceMainSidebarMenu } from "@/app/marketplace/MarketplaceMainSidebarMenu"
-import { MarketplaceGetStartedBanner } from "@/app/marketplace/MarketplaceGetStartedBanner"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
+import { MarketplaceMainSidebarMenu } from "./MarketplaceMainSidebarMenu"
+import { MarketplaceGetStartedBanner } from "./MarketplaceGetStartedBanner"
 
 const Page = async () => {
   return (
@@ -32,8 +32,27 @@ const Page = async () => {
       <BaseContainer size="lg">
         <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden pt-14">
           <MarketplaceMainSidebarMenu />
-          <div className="w-full">
-            <MarketplaceCards apps={[]} className="mt-8" />
+          <div className="w-full lg:pl-16 space-y-14">
+            <MarketplaceCards
+              title="Popular"
+              query={{ popular: true, first: 3 }}
+              seeAllLink="/marketplace/featured/popular"
+            />
+            <MarketplaceCards
+              title="Built by Aurora"
+              query={{ builtByAurora: true, first: 3 }}
+              seeAllLink="/marketplace/featured/built-by-aurora"
+            />
+            <MarketplaceCards
+              title="New & noteworthy"
+              query={{ new: true, first: 3 }}
+              seeAllLink="/marketplace/featured/new"
+            />
+            <MarketplaceCards
+              title="Essentials"
+              query={{ essential: true, first: 3 }}
+              seeAllLink="/marketplace/featured/essentials"
+            />
           </div>
         </div>
         <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />

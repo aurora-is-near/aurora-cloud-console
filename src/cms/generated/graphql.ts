@@ -3292,6 +3292,11 @@ export type MarketplaceAppsMetaQuery = { __typename?: 'Query', allMarketplaceApp
 
 export type MarketplaceAppsQueryVariables = Exact<{
   categoryId?: InputMaybe<Array<InputMaybe<Scalars['ItemId']['input']>> | InputMaybe<Scalars['ItemId']['input']>>;
+  popular?: InputMaybe<Scalars['BooleanType']['input']>;
+  new?: InputMaybe<Scalars['BooleanType']['input']>;
+  builtByAurora?: InputMaybe<Scalars['BooleanType']['input']>;
+  essential?: InputMaybe<Scalars['BooleanType']['input']>;
+  first?: InputMaybe<Scalars['IntType']['input']>;
 }>;
 
 
@@ -3414,11 +3419,11 @@ export const useMarketplaceAppsMetaQuery = <
       options
     );
 export const MarketplaceAppsDocument = `
-    query MarketplaceApps($categoryId: [ItemId]) {
+    query MarketplaceApps($categoryId: [ItemId], $popular: BooleanType, $new: BooleanType, $builtByAurora: BooleanType, $essential: BooleanType, $first: IntType = 100) {
   allMarketplaceApps(
-    first: 100
+    first: $first
     orderBy: _createdAt_DESC
-    filter: {categories: {eq: $categoryId}}
+    filter: {categories: {eq: $categoryId}, popular: {eq: $popular}, new: {eq: $new}, builtByAurora: {eq: $builtByAurora}, essential: {eq: $essential}}
   ) {
     id
     title

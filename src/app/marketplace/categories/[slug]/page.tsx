@@ -8,12 +8,9 @@ import {
   MarketplaceAppCategoriesQuery,
   MarketplaceAppCategoryDocument,
   MarketplaceAppCategoryQuery,
-  MarketplaceAppsDocument,
-  MarketplaceAppsQuery,
 } from "@/cms/generated/graphql"
 import { createGraphqlClient } from "@/cms/client"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
-import { MarketplaceAppCard } from "@/types/marketplace"
 import { Heading } from "@/uikit/Typography/Heading"
 
 export async function generateStaticParams() {
@@ -43,20 +40,6 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
     notFound()
   }
 
-  const { allMarketplaceApps = [] } =
-    await graphqlClient.request<MarketplaceAppsQuery>(MarketplaceAppsDocument, {
-      categoryId: marketplaceAppCategory.id,
-    })
-
-  const apps = allMarketplaceApps.filter(
-    (app): app is MarketplaceAppCard =>
-      !!app.id &&
-      !!app.title &&
-      !!app.slug &&
-      !!app.categories &&
-      !!app.builtByAurora,
-  )
-
   return (
     <BaseContainer size="lg">
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden pt-14">
@@ -68,7 +51,11 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
               {marketplaceAppCategory.description}
             </Paragraph>
           )}
-          <MarketplaceCards showNumberOfApps apps={apps} className="mt-8" />
+          <MarketplaceCards
+            showNumberOfApps
+            query={{ categoryId: marketplaceAppCategory.id }}
+            className="mt-8"
+          />
         </div>
       </div>
       <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />

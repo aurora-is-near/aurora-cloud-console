@@ -4,26 +4,61 @@ import clsx from "clsx"
 import { Card } from "@/uikit"
 import { Heading } from "@/uikit/Typography/Heading"
 import { MarketplaceAppCard } from "@/types/marketplace"
+import {
+  MarketplaceAppsDocument,
+  MarketplaceAppsQuery,
+  MarketplaceAppsQueryVariables,
+} from "@/cms/generated/graphql"
+import { createGraphqlClient } from "@/cms/client"
+import { LinkButton } from "@/components/LinkButton"
 import { MarketPlacePill } from "./MarketPlacePill"
 
 type MarketplaceFooterProps = {
-  apps: MarketplaceAppCard[]
   className?: string
   showNumberOfApps?: boolean
+  title?: string
+  seeAllLink?: string
+  query: MarketplaceAppsQueryVariables
 }
 
-export const MarketplaceCards = ({
-  apps,
+export const MarketplaceCards = async ({
   className,
   showNumberOfApps,
+  title,
+  seeAllLink,
+  query,
 }: MarketplaceFooterProps) => {
+  const graphqlClient = createGraphqlClient()
+  const { allMarketplaceApps = [] } =
+    await graphqlClient.request<MarketplaceAppsQuery>(
+      MarketplaceAppsDocument,
+      query,
+    )
+
+  const apps = allMarketplaceApps.filter(
+    (app): app is MarketplaceAppCard =>
+      !!app.id &&
+      !!app.title &&
+      !!app.slug &&
+      !!app.categories &&
+      !!app.builtByAurora,
+  )
+
   return (
-    <div className={clsx("flex flex-col gap-4", className)}>
-      {showNumberOfApps && (
-        <p className="font-bold text-lg tracking-tight">
-          {apps.length} app{apps.length > 1 ? "s" : ""}
-        </p>
-      )}
+    <div className={clsx("flex flex-col", className)}>
+      <div className="mb-4 flex flex-row items-center justify-between">
+        {!!title && <Heading size={3}>{title}</Heading>}
+        {showNumberOfApps && (
+          <p className="font-bold text-lg tracking-tight">
+            {apps.length} app{apps.length > 1 ? "s" : ""}
+          </p>
+        )}
+        {!!seeAllLink && (
+          <LinkButton size="sm" href={seeAllLink} variant="border">
+            See all
+          </LinkButton>
+        )}
+      </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {apps?.map((app) => (
           <Link key={app.id} href={`/marketplace/apps/${app.slug}`}>

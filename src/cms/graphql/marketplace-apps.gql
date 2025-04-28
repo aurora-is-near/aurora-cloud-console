@@ -1,10 +1,23 @@
 #import "./fragments/image.graphql"
 
-query MarketplaceApps($categoryId: [ItemId]) {
+query MarketplaceApps(
+  $categoryId: [ItemId],
+  $popular: BooleanType,
+  $new: BooleanType,
+  $builtByAurora: BooleanType
+  $essential: BooleanType
+  $first: IntType = 100
+) {
   allMarketplaceApps(
-    first: 100
+    first: $first
     orderBy: _createdAt_DESC
-    filter: { categories: { eq: $categoryId } }
+    filter: {
+      categories: { eq: $categoryId },
+      popular: { eq: $popular },
+      new: { eq: $new },
+      builtByAurora: { eq: $builtByAurora },
+      essential: { eq: $essential }
+    }
   ) {
     id
     title
