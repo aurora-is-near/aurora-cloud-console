@@ -41,7 +41,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   }
 
   return (
-    <main>
+    <div>
       <BaseContainer className="relative flex flex-col pt-10">
         <div className="mb-14">
           <Heading tag="h1" size="lg" className="mb-3">
@@ -86,7 +86,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           ))}
         </div>
       </BaseContainer>
-    </main>
+    </div>
   )
 }
 

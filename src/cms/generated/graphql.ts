@@ -2175,6 +2175,7 @@ export type MarketplaceAppCategoryModelFilter = {
   _status?: InputMaybe<StatusFilter>;
   _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
   _updatedAt?: InputMaybe<UpdatedAtFilter>;
+  description?: InputMaybe<TextFilter>;
   id?: InputMaybe<ItemIdFilter>;
   slug?: InputMaybe<SlugFilter>;
   title?: InputMaybe<StringFilter>;
@@ -2219,6 +2220,7 @@ export type MarketplaceAppCategoryRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ItemId']['output'];
   slug?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -2228,6 +2230,12 @@ export type MarketplaceAppCategoryRecord = RecordInterface & {
 /** Record of type Marketplace App Category (marketplace_app_category) */
 export type MarketplaceAppCategoryRecord_SeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
+};
+
+
+/** Record of type Marketplace App Category (marketplace_app_category) */
+export type MarketplaceAppCategoryRecordDescriptionArgs = {
+  markdown?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Block of type Marketplace App Content (marketplace_app_content) */
@@ -3247,6 +3255,13 @@ export type MarketplaceAppCategoriesQueryVariables = Exact<{ [key: string]: neve
 
 export type MarketplaceAppCategoriesQuery = { __typename?: 'Query', allMarketplaceAppCategories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', title?: string, slug?: string }> };
 
+export type MarketplaceAppCategoryQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type MarketplaceAppCategoryQuery = { __typename?: 'Query', marketplaceAppCategory?: { __typename?: 'MarketplaceAppCategoryRecord', title?: string, slug?: string, description?: string } };
+
 export type MarketplaceAppQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
@@ -3293,6 +3308,29 @@ export const useMarketplaceAppCategoriesQuery = <
     useQuery<MarketplaceAppCategoriesQuery, TError, TData>(
       variables === undefined ? ['MarketplaceAppCategories'] : ['MarketplaceAppCategories', variables],
       fetcher<MarketplaceAppCategoriesQuery, MarketplaceAppCategoriesQueryVariables>(client, MarketplaceAppCategoriesDocument, variables, headers),
+      options
+    );
+export const MarketplaceAppCategoryDocument = `
+    query MarketplaceAppCategory($slug: String!) {
+  marketplaceAppCategory(filter: {slug: {eq: $slug}}) {
+    title
+    slug
+    description
+  }
+}
+    `;
+export const useMarketplaceAppCategoryQuery = <
+      TData = MarketplaceAppCategoryQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: MarketplaceAppCategoryQueryVariables,
+      options?: UseQueryOptions<MarketplaceAppCategoryQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<MarketplaceAppCategoryQuery, TError, TData>(
+      ['MarketplaceAppCategory', variables],
+      fetcher<MarketplaceAppCategoryQuery, MarketplaceAppCategoryQueryVariables>(client, MarketplaceAppCategoryDocument, variables, headers),
       options
     );
 export const MarketplaceAppDocument = `

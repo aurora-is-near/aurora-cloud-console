@@ -1,0 +1,7 @@
+query MarketplaceAppCategory($slug: String!) {
+  marketplaceAppCategory(filter: { slug: { eq: $slug } }) {
+    title
+    slug
+    description
+  }
+}

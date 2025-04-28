@@ -43,8 +43,11 @@ export const SidebarMenu = ({
       {/* Menu */}
       <aside
         className={clsx(
-          "flex inset-y-0 flex-col overflow-y-auto w-full sm:w-72 sm:min-w-72 h-full lg:transform-none transition ease-in-out duration-300",
-          variant !== "compact" && "p-6 bg-white sm:border-r border-slate-200",
+          "flex inset-y-0 flex-col overflow-y-auto w-full h-full lg:transform-none transition ease-in-out duration-300",
+          variant === "compact"
+            ? "sm:w-52 sm:min-w-52"
+            : "sm:w-72 sm:min-w-72 p-6 bg-white sm:border-r border-slate-200",
+
           isMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -75,7 +78,10 @@ export const SidebarMenu = ({
           {sections.map((section, index) => {
             return (
               <section
-                className={clsx(index && "mt-4 pt-4")}
+                className={clsx({
+                  "mt-4 pt-4": index && variant !== "compact",
+                  "mt-5 pt-6": index && variant === "compact",
+                })}
                 key={section.heading ?? index}
               >
                 {!!section.heading && (
