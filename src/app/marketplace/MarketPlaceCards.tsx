@@ -50,7 +50,7 @@ export const MarketplaceCards = async ({
         {!!title && <Heading size={3}>{title}</Heading>}
         {showNumberOfApps && (
           <p className="font-bold text-lg tracking-tight">
-            {apps.length} app{apps.length > 1 ? "s" : ""}
+            {apps.length} app{apps.length === 1 ? "" : "s"}
           </p>
         )}
         {!!seeAllLink && (

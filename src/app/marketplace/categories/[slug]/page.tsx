@@ -1,8 +1,4 @@
 import { notFound } from "next/navigation"
-import { BaseContainer } from "@/components/BaseContainer"
-import { Paragraph } from "@/uikit/Typography/Paragraph"
-import { MarketplaceMainSidebarMenu } from "@/app/marketplace/MarketplaceMainSidebarMenu"
-import { MarketplaceGetStartedBanner } from "@/app/marketplace/MarketplaceGetStartedBanner"
 import {
   MarketplaceAppCategoriesDocument,
   MarketplaceAppCategoriesQuery,
@@ -10,8 +6,7 @@ import {
   MarketplaceAppCategoryQuery,
 } from "@/cms/generated/graphql"
 import { createGraphqlClient } from "@/cms/client"
-import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
-import { Heading } from "@/uikit/Typography/Heading"
+import { MarketplaceCategoryPage } from "../../MarketplaceCategoryPage"
 
 export async function generateStaticParams() {
   const graphqlClient = createGraphqlClient()
@@ -41,25 +36,11 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   }
 
   return (
-    <BaseContainer size="lg">
-      <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden pt-14">
-        <MarketplaceMainSidebarMenu />
-        <div className="w-full lg:pl-16">
-          <Heading size={1}>{marketplaceAppCategory.title}</Heading>
-          {!!marketplaceAppCategory.description && (
-            <Paragraph size={1} className="text-slate-500 mt-4">
-              {marketplaceAppCategory.description}
-            </Paragraph>
-          )}
-          <MarketplaceCards
-            showNumberOfApps
-            query={{ categoryId: marketplaceAppCategory.id }}
-            className="mt-8"
-          />
-        </div>
-      </div>
-      <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />
-    </BaseContainer>
+    <MarketplaceCategoryPage
+      title={marketplaceAppCategory.title}
+      description={marketplaceAppCategory.description}
+      query={{ categoryId: marketplaceAppCategory.id }}
+    />
   )
 }
 
