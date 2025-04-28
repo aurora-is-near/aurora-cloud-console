@@ -77,7 +77,8 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   <Image
                     src={contentItem.image.url}
                     alt={contentItem.image.alt ?? ""}
-                    layout="fill"
+                    width={contentItem.image.width}
+                    height={contentItem.image.height}
                     objectFit="contain"
                   />
                 </div>
