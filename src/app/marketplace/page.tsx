@@ -8,9 +8,9 @@ import { MarketplaceGetStartedBanner } from "@/app/marketplace/MarketplaceGetSta
 const Page = async () => {
   return (
     <>
-      <div className="w-full h-[340px] relative bg-slate-100 flex flex-row items-center">
+      <div className="w-full md:h-[340px] relative bg-slate-100 flex flex-row items-center">
         <BaseContainer size="lg">
-          <div className="max-w-lg">
+          <div className="md:max-w-md lg:max-w-lg py-10">
             <Heading size={1}>Explore Aurora Cloud Integrations</Heading>
             <Paragraph size={1} className="text-slate-500 mt-4">
               Aurora Cloud chains come ready to use with built-in integrations
@@ -23,7 +23,7 @@ const Page = async () => {
             alt=""
             width={3024}
             height={684}
-            className="absolute top-0 left-0 w-full h-full object-cover"
+            className="absolute top-0 left-0 w-full h-full object-cover hidden md:block"
             priority
           />
         </BaseContainer>
