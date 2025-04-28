@@ -4,21 +4,26 @@ import clsx from "clsx"
 import { Card } from "@/uikit"
 import { Heading } from "@/uikit/Typography/Heading"
 import { MarketplaceAppCard } from "@/types/marketplace"
+import { MarketPlacePill } from "./MarketPlacePill"
 
 type MarketplaceFooterProps = {
   apps: MarketplaceAppCard[]
   className?: string
+  showNumberOfApps?: boolean
 }
 
 export const MarketplaceCards = ({
   apps,
   className,
+  showNumberOfApps,
 }: MarketplaceFooterProps) => {
   return (
     <div className={clsx("flex flex-col gap-4", className)}>
-      <p className="font-bold text-lg tracking-tight">
-        {apps.length} app{apps.length > 1 ? "s" : ""}
-      </p>
+      {showNumberOfApps && (
+        <p className="font-bold text-lg tracking-tight">
+          {apps.length} app{apps.length > 1 ? "s" : ""}
+        </p>
+      )}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {apps?.map((app) => (
           <Link key={app.id} href={`/marketplace/apps/${app.slug}`}>
@@ -40,13 +45,22 @@ export const MarketplaceCards = ({
               )}
               <ul className="mt-4 flex flex-wrap gap-1.5">
                 {app.categories.map((category) => (
-                  <li
-                    key={category.id}
-                    className="rounded-full p-1.5 bg-slate-200 border border-slate-300 text-sm font-medium text-slate-900 tracking-tight leading-none"
-                  >
-                    {category.title}
+                  <li key={category.id}>
+                    <MarketPlacePill>{category.title}</MarketPlacePill>
                   </li>
                 ))}
+                {app.builtByAurora && (
+                  <MarketPlacePill variant="green">
+                    <Image
+                      src="/static/v2/images/icons/marketplace/aurora-small.svg"
+                      width={14}
+                      height={14}
+                      className="inline-block mr-1"
+                      alt=""
+                    />
+                    Built by Aurora
+                  </MarketPlacePill>
+                )}
               </ul>
             </Card>
           </Link>

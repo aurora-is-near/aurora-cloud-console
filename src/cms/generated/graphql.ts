@@ -2283,10 +2283,14 @@ export type MarketplaceAppModelFilter = {
   _status?: InputMaybe<StatusFilter>;
   _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
   _updatedAt?: InputMaybe<UpdatedAtFilter>;
+  builtByAurora?: InputMaybe<BooleanFilter>;
   categories?: InputMaybe<LinksFilter>;
   description?: InputMaybe<TextFilter>;
+  essential?: InputMaybe<BooleanFilter>;
   id?: InputMaybe<ItemIdFilter>;
   logo?: InputMaybe<FileFilter>;
+  new?: InputMaybe<BooleanFilter>;
+  popular?: InputMaybe<BooleanFilter>;
   pricing?: InputMaybe<StringFilter>;
   slug?: InputMaybe<SlugFilter>;
   title?: InputMaybe<StringFilter>;
@@ -2309,8 +2313,16 @@ export enum MarketplaceAppModelOrderBy {
   UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
   UpdatedAtAsc = '_updatedAt_ASC',
   UpdatedAtDesc = '_updatedAt_DESC',
+  BuiltByAuroraAsc = 'builtByAurora_ASC',
+  BuiltByAuroraDesc = 'builtByAurora_DESC',
+  EssentialAsc = 'essential_ASC',
+  EssentialDesc = 'essential_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  NewAsc = 'new_ASC',
+  NewDesc = 'new_DESC',
+  PopularAsc = 'popular_ASC',
+  PopularDesc = 'popular_DESC',
   PricingAsc = 'pricing_ASC',
   PricingDesc = 'pricing_DESC',
   TitleAsc = 'title_ASC',
@@ -2333,12 +2345,16 @@ export type MarketplaceAppRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
+  builtByAurora: Scalars['BooleanType']['output'];
   categories: Array<MarketplaceAppCategoryRecord>;
   content: Array<MarketplaceAppContentRecord>;
   description?: Maybe<Scalars['String']['output']>;
+  essential: Scalars['BooleanType']['output'];
   id: Scalars['ItemId']['output'];
   links: Array<LinkRecord>;
   logo?: Maybe<FileField>;
+  new: Scalars['BooleanType']['output'];
+  popular: Scalars['BooleanType']['output'];
   pricing?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -3279,7 +3295,7 @@ export type MarketplaceAppsQueryVariables = Exact<{
 }>;
 
 
-export type MarketplaceAppsQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title?: string, slug?: string, description?: string, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title?: string, slug?: string }> }> };
+export type MarketplaceAppsQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title?: string, slug?: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title?: string, slug?: string }> }> };
 
 export const ImageAttributesFragmentDoc = `
     fragment imageAttributes on FileField {
@@ -3416,6 +3432,7 @@ export const MarketplaceAppsDocument = `
       title
       slug
     }
+    builtByAurora
   }
 }
     ${ImageAttributesFragmentDoc}`;

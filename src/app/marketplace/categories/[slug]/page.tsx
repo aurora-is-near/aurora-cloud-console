@@ -50,7 +50,11 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const apps = allMarketplaceApps.filter(
     (app): app is MarketplaceAppCard =>
-      !!app.id && !!app.title && !!app.slug && !!app.categories,
+      !!app.id &&
+      !!app.title &&
+      !!app.slug &&
+      !!app.categories &&
+      !!app.builtByAurora,
   )
 
   return (
@@ -64,7 +68,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
               {marketplaceAppCategory.description}
             </Paragraph>
           )}
-          <MarketplaceCards apps={apps} className="mt-8" />
+          <MarketplaceCards showNumberOfApps apps={apps} className="mt-8" />
         </div>
       </div>
       <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />

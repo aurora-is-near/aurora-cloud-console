@@ -4,6 +4,7 @@ import { BaseContainer } from "@/components/BaseContainer"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { MarketplaceMainSidebarMenu } from "@/app/marketplace/MarketplaceMainSidebarMenu"
 import { MarketplaceGetStartedBanner } from "@/app/marketplace/MarketplaceGetStartedBanner"
+import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
 
 const Page = async () => {
   return (
@@ -31,7 +32,9 @@ const Page = async () => {
       <BaseContainer size="lg">
         <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden pt-14">
           <MarketplaceMainSidebarMenu />
-          <div className="w-full" />
+          <div className="w-full">
+            <MarketplaceCards apps={[]} className="mt-8" />
+          </div>
         </div>
         <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />
       </BaseContainer>
