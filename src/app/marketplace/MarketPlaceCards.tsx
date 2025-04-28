@@ -38,6 +38,16 @@ export const MarketplaceCards = ({
                   {app.description}
                 </p>
               )}
+              <ul className="mt-4 flex flex-wrap gap-1.5">
+                {app.categories.map((category) => (
+                  <li
+                    key={category.id}
+                    className="rounded-full p-1.5 bg-slate-200 border border-slate-300 text-sm font-medium text-slate-900 tracking-tight leading-none"
+                  >
+                    {category.title}
+                  </li>
+                ))}
+              </ul>
             </Card>
           </Link>
         ))}
