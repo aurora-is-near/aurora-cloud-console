@@ -99,7 +99,10 @@ export const SidebarMenu = ({
                 <ul className="space-y-1">
                   {section.items.map((item) => (
                     <li key={item.name}>
-                      <SidebarMenuItem menuItem={item} />
+                      <SidebarMenuItem
+                        menuItem={item}
+                        isDark={variant === "compact"}
+                      />
                     </li>
                   ))}
                 </ul>

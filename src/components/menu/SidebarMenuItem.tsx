@@ -11,11 +11,13 @@ import { clsx } from "@/uikit"
 type SidebarMenuItemProps = {
   menuItem: MenuItem
   isChild?: boolean
+  isDark?: boolean
 }
 
 export const SidebarMenuItem = ({
   menuItem: { href, name, icon, items, variant = "primary" },
   isChild,
+  isDark,
 }: SidebarMenuItemProps) => {
   const pathname = usePathname()
   const isCurrentRoute = pathname === href
@@ -40,8 +42,11 @@ export const SidebarMenuItem = ({
           "group w-full flex items-center gap-x-2.5 rounded-lg font-medium select-none leading-none px-3",
           isChild ? "py-2.5 text-sm" : "py-1.5 text-base",
           isCurrentRoute
-            ? "bg-slate-100 text-slate-900"
-            : "text-slate-500 hover:text-slate-900 hover:bg-slate-100",
+            ? clsx("text-slate-900", isDark ? "bg-slate-200" : "bg-slate-100")
+            : clsx(
+                "text-slate-500 hover:text-slate-900",
+                isDark ? "hover:bg-slate-200" : "hover:bg-slate-100",
+              ),
         )}
       >
         {variant === "secondary" ? (
