@@ -33,7 +33,7 @@ const Page = async () => {
           <MarketplaceMainSidebarMenu />
           <div className="w-full" />
         </div>
-        <MarketplaceGetStartedBanner className="mt-28" />
+        <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />
       </BaseContainer>
     </>
   )

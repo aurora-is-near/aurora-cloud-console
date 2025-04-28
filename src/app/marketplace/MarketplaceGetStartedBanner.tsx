@@ -15,7 +15,7 @@ export const MarketplaceGetStartedBanner = async ({
   return (
     <div
       className={clsx(
-        "w-full aspect-[3.68] relative flex flex-row items-center",
+        "w-full xl:aspect-[3.68] relative flex flex-row items-center",
         className,
       )}
     >
@@ -25,11 +25,11 @@ export const MarketplaceGetStartedBanner = async ({
             <Heading size={2} className="text-slate-50">
               Deploy instantly with Aurora Cloud
             </Heading>
-            <p className="text-slate-300 mt-4">
+            <p className="text-slate-300 mt-2 xl:mt-4 text-sm xl:text-base">
               Start with Aurora Cloud now and launch your virtual chain
               instantly, with 1,000 free transactions ready to go.
             </p>
-            <LinkButton href={SIGNUP_ROUTE} className="mt-5">
+            <LinkButton href={SIGNUP_ROUTE} className="mt-3 xl:mt-5">
               Get Started
             </LinkButton>
           </div>
