@@ -2279,6 +2279,7 @@ export type MarketplaceAppModelFilter = {
   description?: InputMaybe<TextFilter>;
   id?: InputMaybe<ItemIdFilter>;
   logo?: InputMaybe<FileFilter>;
+  pricing?: InputMaybe<StringFilter>;
   slug?: InputMaybe<SlugFilter>;
   title?: InputMaybe<StringFilter>;
 };
@@ -2302,6 +2303,8 @@ export enum MarketplaceAppModelOrderBy {
   UpdatedAtDesc = '_updatedAt_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  PricingAsc = 'pricing_ASC',
+  PricingDesc = 'pricing_DESC',
   TitleAsc = 'title_ASC',
   TitleDesc = 'title_DESC'
 }
@@ -2328,6 +2331,7 @@ export type MarketplaceAppRecord = RecordInterface & {
   id: Scalars['ItemId']['output'];
   links: Array<LinkRecord>;
   logo?: Maybe<FileField>;
+  pricing?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
 };
@@ -3238,6 +3242,11 @@ export type FocalPoint = {
 
 export type ImageAttributesFragment = { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any };
 
+export type MarketplaceAppCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MarketplaceAppCategoriesQuery = { __typename?: 'Query', allMarketplaceAppCategories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', title?: string, slug?: string }> };
+
 export type MarketplaceAppQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
@@ -3264,6 +3273,28 @@ export const ImageAttributesFragmentDoc = `
   height
 }
     `;
+export const MarketplaceAppCategoriesDocument = `
+    query MarketplaceAppCategories {
+  allMarketplaceAppCategories(first: 100) {
+    title
+    slug
+  }
+}
+    `;
+export const useMarketplaceAppCategoriesQuery = <
+      TData = MarketplaceAppCategoriesQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: MarketplaceAppCategoriesQueryVariables,
+      options?: UseQueryOptions<MarketplaceAppCategoriesQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<MarketplaceAppCategoriesQuery, TError, TData>(
+      variables === undefined ? ['MarketplaceAppCategories'] : ['MarketplaceAppCategories', variables],
+      fetcher<MarketplaceAppCategoriesQuery, MarketplaceAppCategoriesQueryVariables>(client, MarketplaceAppCategoriesDocument, variables, headers),
+      options
+    );
 export const MarketplaceAppDocument = `
     query MarketplaceApp($slug: String!) {
   marketplaceApp(filter: {slug: {eq: $slug}}) {
