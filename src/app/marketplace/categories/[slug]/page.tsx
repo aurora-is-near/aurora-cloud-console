@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation"
-import { Heading } from "@/uikit/Typography/Heading"
 import { BaseContainer } from "@/components/BaseContainer"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { MarketplaceMainSidebarMenu } from "@/app/marketplace/MarketplaceMainSidebarMenu"
@@ -9,8 +8,13 @@ import {
   MarketplaceAppCategoriesQuery,
   MarketplaceAppCategoryDocument,
   MarketplaceAppCategoryQuery,
+  MarketplaceAppsDocument,
+  MarketplaceAppsQuery,
 } from "@/cms/generated/graphql"
 import { createGraphqlClient } from "@/cms/client"
+import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
+import { MarketplaceAppCard } from "@/types/marketplace"
+import { Heading } from "@/uikit/Typography/Heading"
 
 export async function generateStaticParams() {
   const graphqlClient = createGraphqlClient()
@@ -39,19 +43,28 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
     notFound()
   }
 
+  const { allMarketplaceApps = [] } =
+    await graphqlClient.request<MarketplaceAppsQuery>(MarketplaceAppsDocument, {
+      categoryId: marketplaceAppCategory.id,
+    })
+
+  const apps = allMarketplaceApps.filter(
+    (app): app is MarketplaceAppCard =>
+      !!app.id && !!app.title && !!app.slug && !!app.categories,
+  )
+
   return (
     <BaseContainer size="lg">
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden pt-14">
         <MarketplaceMainSidebarMenu />
         <div className="w-full lg:pl-16">
-          <div className="md:max-w-md lg:max-w-lg">
-            <Heading size={1}>{marketplaceAppCategory.title}</Heading>
-            {marketplaceAppCategory.description && (
-              <Paragraph size={1} className="text-slate-500 mt-4">
-                {marketplaceAppCategory.description}
-              </Paragraph>
-            )}
-          </div>
+          <Heading size={1}>{marketplaceAppCategory.title}</Heading>
+          {!!marketplaceAppCategory.description && (
+            <Paragraph size={1} className="text-slate-500 mt-4">
+              {marketplaceAppCategory.description}
+            </Paragraph>
+          )}
+          <MarketplaceCards apps={apps} className="mt-8" />
         </div>
       </div>
       <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />

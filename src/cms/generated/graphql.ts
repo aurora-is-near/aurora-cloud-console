@@ -3253,31 +3253,33 @@ export type ImageAttributesFragment = { __typename?: 'FileField', id: any, url: 
 export type MarketplaceAppCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MarketplaceAppCategoriesQuery = { __typename?: 'Query', allMarketplaceAppCategories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', title?: string, slug?: string }> };
+export type MarketplaceAppCategoriesQuery = { __typename?: 'Query', allMarketplaceAppCategories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title?: string, slug?: string }> };
 
 export type MarketplaceAppCategoryQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type MarketplaceAppCategoryQuery = { __typename?: 'Query', marketplaceAppCategory?: { __typename?: 'MarketplaceAppCategoryRecord', title?: string, slug?: string, description?: string } };
+export type MarketplaceAppCategoryQuery = { __typename?: 'Query', marketplaceAppCategory?: { __typename?: 'MarketplaceAppCategoryRecord', id: any, title?: string, slug?: string, description?: string } };
 
 export type MarketplaceAppQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type MarketplaceAppQuery = { __typename?: 'Query', marketplaceApp?: { __typename?: 'MarketplaceAppRecord', title?: string, description?: string, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, content: Array<{ __typename?: 'MarketplaceAppContentRecord', id: any, title?: string, body?: string, image?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any } }>, links: Array<{ __typename?: 'LinkRecord', id: any, text?: string, url?: string }> } };
+export type MarketplaceAppQuery = { __typename?: 'Query', marketplaceApp?: { __typename?: 'MarketplaceAppRecord', id: any, title?: string, description?: string, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, content: Array<{ __typename?: 'MarketplaceAppContentRecord', id: any, title?: string, body?: string, image?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any } }>, links: Array<{ __typename?: 'LinkRecord', id: any, text?: string, url?: string }> } };
 
 export type MarketplaceAppsMetaQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MarketplaceAppsMetaQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', slug?: string }> };
 
-export type MarketplaceAppsQueryVariables = Exact<{ [key: string]: never; }>;
+export type MarketplaceAppsQueryVariables = Exact<{
+  categoryId?: InputMaybe<Array<InputMaybe<Scalars['ItemId']['input']>> | InputMaybe<Scalars['ItemId']['input']>>;
+}>;
 
 
-export type MarketplaceAppsQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', title?: string, description?: string, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any } }> };
+export type MarketplaceAppsQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title?: string, slug?: string, description?: string, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title?: string, slug?: string }> }> };
 
 export const ImageAttributesFragmentDoc = `
     fragment imageAttributes on FileField {
@@ -3291,6 +3293,7 @@ export const ImageAttributesFragmentDoc = `
 export const MarketplaceAppCategoriesDocument = `
     query MarketplaceAppCategories {
   allMarketplaceAppCategories(first: 100) {
+    id
     title
     slug
   }
@@ -3313,6 +3316,7 @@ export const useMarketplaceAppCategoriesQuery = <
 export const MarketplaceAppCategoryDocument = `
     query MarketplaceAppCategory($slug: String!) {
   marketplaceAppCategory(filter: {slug: {eq: $slug}}) {
+    id
     title
     slug
     description
@@ -3336,6 +3340,7 @@ export const useMarketplaceAppCategoryQuery = <
 export const MarketplaceAppDocument = `
     query MarketplaceApp($slug: String!) {
   marketplaceApp(filter: {slug: {eq: $slug}}) {
+    id
     title
     description
     logo {
@@ -3393,12 +3398,23 @@ export const useMarketplaceAppsMetaQuery = <
       options
     );
 export const MarketplaceAppsDocument = `
-    query MarketplaceApps {
-  allMarketplaceApps(first: 100, orderBy: _createdAt_DESC) {
+    query MarketplaceApps($categoryId: [ItemId]) {
+  allMarketplaceApps(
+    first: 100
+    orderBy: _createdAt_DESC
+    filter: {categories: {eq: $categoryId}}
+  ) {
+    id
     title
+    slug
     description
     logo {
       ...imageAttributes
+    }
+    categories {
+      id
+      title
+      slug
     }
   }
 }

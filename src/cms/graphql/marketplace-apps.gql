@@ -1,11 +1,22 @@
 #import "./fragments/image.graphql"
 
-query MarketplaceApps {
-  allMarketplaceApps(first: 100, orderBy: _createdAt_DESC) {
+query MarketplaceApps($categoryId: [ItemId]) {
+  allMarketplaceApps(
+    first: 100
+    orderBy: _createdAt_DESC
+    filter: { categories: { eq: $categoryId } }
+  ) {
+    id
     title
+    slug
     description
     logo {
       ...imageAttributes
+    }
+    categories {
+      id
+      title
+      slug
     }
   }
 }

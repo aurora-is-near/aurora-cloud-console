@@ -2,6 +2,7 @@
 
 query MarketplaceApp($slug: String!) {
   marketplaceApp(filter: { slug: { eq: $slug } }) {
+    id
     title
     description
     logo {

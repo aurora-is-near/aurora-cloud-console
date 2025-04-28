@@ -1,5 +1,6 @@
 query MarketplaceAppCategories {
   allMarketplaceAppCategories(first: 100) {
+    id
     title
     slug
   }
