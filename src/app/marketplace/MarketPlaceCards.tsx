@@ -37,11 +37,7 @@ export const MarketplaceCards = async ({
 
   const apps = allMarketplaceApps.filter(
     (app): app is MarketplaceAppCard =>
-      !!app.id &&
-      !!app.title &&
-      !!app.slug &&
-      !!app.categories &&
-      !!app.builtByAurora,
+      !!app.id && !!app.title && !!app.slug && !!app.categories,
   )
 
   return (
