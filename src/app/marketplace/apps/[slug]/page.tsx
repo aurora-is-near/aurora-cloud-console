@@ -43,25 +43,49 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   return (
     <div>
       <BaseContainer className="relative flex flex-col pt-10">
-        <div className="mb-14">
-          <Heading tag="h1" size="lg" className="mb-3">
-            {marketplaceApp.title}
-          </Heading>
-          <Paragraph size={1} className="text-slate-500 max-w-md">
-            Access to onchain data by enabling users to query, visualize, and
-            share insights across various blockchains.
-          </Paragraph>
+        <div className="flex flex-col sm:flex-row mb-8 sm:mb-14">
+          <div className="w-[60px] h-[60px] sm:w-[108px] sm:h-[108px] mb-6 sm:mb-0 sm:mr-10">
+            {!!marketplaceApp.logo?.url && (
+              <Image
+                src={marketplaceApp.logo.url}
+                alt={marketplaceApp.logo.alt ?? ""}
+                width={marketplaceApp.logo.width}
+                height={marketplaceApp.logo.height}
+                className="object-contain"
+              />
+            )}
+          </div>
+          <div>
+            <Heading tag="h1" size="lg" className="mb-3">
+              {marketplaceApp.title}
+            </Heading>
+            <Paragraph size={1} className="text-slate-500 max-w-md">
+              Access to onchain data by enabling users to query, visualize, and
+              share insights across various blockchains.
+            </Paragraph>
+          </div>
         </div>
-        <div className="flex flex-col flex-1 space-y-4 sm:space-y-5 mb-16">
+        <div className="flex flex-col flex-1 space-y-4 sm:space-y-5 sm:mb-16">
           {marketplaceApp.content.map((contentItem) => (
             <Card
               key={contentItem.id}
               className={clsx(
-                "grid gap-x-12",
-                contentItem.image && "grid-cols-2",
+                "grid gap-y-5 gap-x-12",
+                contentItem.image && "md:grid-cols-2",
               )}
             >
-              <div>
+              {contentItem.image && (
+                <div className="relative w-full md:order-2">
+                  <Image
+                    src={contentItem.image.url}
+                    alt={contentItem.image.alt ?? ""}
+                    width={contentItem.image.width}
+                    height={contentItem.image.height}
+                    objectFit="contain"
+                  />
+                </div>
+              )}
+              <div className="">
                 {!!contentItem.title && (
                   <Heading tag="h2" size="sm" className="text-slate-900 mb-2.5">
                     {contentItem.title}
@@ -72,17 +96,6 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   html={contentItem.body}
                 />
               </div>
-              {contentItem.image && (
-                <div className="relative w-full">
-                  <Image
-                    src={contentItem.image.url}
-                    alt={contentItem.image.alt ?? ""}
-                    width={contentItem.image.width}
-                    height={contentItem.image.height}
-                    objectFit="contain"
-                  />
-                </div>
-              )}
             </Card>
           ))}
         </div>
