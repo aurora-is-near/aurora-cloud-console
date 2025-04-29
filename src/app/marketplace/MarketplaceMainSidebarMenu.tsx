@@ -40,19 +40,19 @@ export const MarketplaceMainSidebarMenu = async ({
             items: [
               {
                 name: "Popular",
-                href: `/marketplace/popular`,
+                href: `/marketplace/featured/popular`,
               },
               {
                 name: "Built by Aurora",
-                href: `/marketplace/built-by-aurora`,
+                href: `/marketplace/featured/built-by-aurora`,
               },
               {
                 name: "Essentials",
-                href: `/marketplace/essentials`,
+                href: `/marketplace/featured/essentials`,
               },
               {
                 name: "New & noteworthy",
-                href: `/marketplace/new`,
+                href: `/marketplace/featured/new`,
               },
             ],
           },
