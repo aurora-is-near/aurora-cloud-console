@@ -11,15 +11,24 @@ import { submitContactForm } from "@/actions/contact/submit-contact-form"
 import { toError } from "@/utils/errors"
 
 type ContactModalProps = {
-  teamKey: string
+  teamKey?: string
+  subject?: string
+  title?: string
+  includeTelegramHandle?: boolean
 }
 
 type Inputs = {
   subject: string
   message: string
+  telegramHandle?: string
 }
 
-const ContactModal = ({ teamKey }: ContactModalProps) => {
+const ContactModal = ({
+  teamKey,
+  subject,
+  title = "Contact us",
+  includeTelegramHandle,
+}: ContactModalProps) => {
   const [isPending, setIsPending] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const { activeModal, closeModal } = useModals()
@@ -42,8 +51,11 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
     setIsPending(true)
 
     try {
-      await submitContactForm(teamKey, {
-        ...data,
+      await submitContactForm({
+        teamKey,
+        subject: subject ?? data.subject,
+        message: data.message,
+        telegramHandle: data.telegramHandle,
         pageUri: window.location.href.split(/[?#]/)[0],
       })
     } catch (error) {
@@ -60,11 +72,7 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
   }
 
   return (
-    <Modal
-      title={isSuccess ? "" : "Contact us"}
-      open={isOpen}
-      close={closeModal}
-    >
+    <Modal title={isSuccess ? "" : title} open={isOpen} close={closeModal}>
       {isSuccess ? (
         <div className="flex flex-col items-center justify-center mt-8 text-center">
           <CheckCircleIcon
@@ -93,28 +101,53 @@ const ContactModal = ({ teamKey }: ContactModalProps) => {
             within 24 hours.
           </p>
           <form className="mt-4 space-y-6" onSubmit={handleSubmit(handleSend)}>
-            <div>
-              <label
-                htmlFor="subject"
-                className="block text-sm font-medium leading-none text-gray-900"
-              >
-                Subject
-              </label>
-              <input
-                type="text"
-                id="subject"
-                className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-                required
-                {...register("subject", {
-                  required: "Please enter a subject for your message.",
-                })}
-              />
-              {!!errors.subject?.message && (
-                <p className="mt-1.5 text-sm font-medium text-red-500">
-                  {errors.subject.message}
-                </p>
-              )}
-            </div>
+            {!subject && (
+              <div>
+                <label
+                  htmlFor="subject"
+                  className="block text-sm font-medium leading-none text-gray-900"
+                >
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  required
+                  {...register("subject", {
+                    required: "Please enter a subject for your message.",
+                  })}
+                />
+                {!!errors.subject?.message && (
+                  <p className="mt-1.5 text-sm font-medium text-red-500">
+                    {errors.subject.message}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {includeTelegramHandle && (
+              <div>
+                <label
+                  htmlFor="telegramHandle"
+                  className="block text-sm font-medium leading-none text-gray-900"
+                >
+                  Telegram handle
+                </label>
+                <input
+                  type="text"
+                  id="telegramHandle"
+                  className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  required
+                  {...register("telegramHandle")}
+                />
+                {!!errors.telegramHandle?.message && (
+                  <p className="mt-1.5 text-sm font-medium text-red-500">
+                    {errors.telegramHandle.message}
+                  </p>
+                )}
+              </div>
+            )}
 
             <div>
               <label

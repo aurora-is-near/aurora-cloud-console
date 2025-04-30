@@ -8,6 +8,7 @@ import {
 import { LinkButton } from "@/components/LinkButton"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import { MenuItem } from "@/types/menu"
+import { MarketplaceSubmitAppRequestButton } from "./MarketplaceSubmitAppRequestButton"
 
 type MarketplaceMainSidebarMenuProps = {
   hasBackButton?: boolean
@@ -76,6 +77,15 @@ export const MarketplaceMainSidebarMenu = async ({
           },
         ]}
       />
+      <section>
+        <h3 className="font-bold text-slate-900 text-lg mt-6 pt-6 border-t border-slate-200">
+          Request an app
+        </h3>
+        <p className="text-slate-500 text-sm mt-3">
+          Can't find what you're looking for? Let us know.
+        </p>
+        <MarketplaceSubmitAppRequestButton />
+      </section>
     </div>
   )
 }

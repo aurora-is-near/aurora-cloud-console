@@ -3,6 +3,7 @@
 import { abort } from "@/utils/abort"
 import { getCurrentUser } from "@/actions/current-user/get-current-user"
 import { getTeamByKey } from "@/actions/teams/get-team-by-key"
+import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 
 const getEnvVar = (name: string) => {
   const value = process.env[name]
@@ -18,21 +19,24 @@ const getEnvVar = (name: string) => {
  * Submit a form to Hubspot.
  * @see https://legacydocs.hubspot.com/docs/methods/forms/submit_form_v3_authentication
  */
-export const submitContactForm = async (
-  teamKey: string,
-  {
-    subject,
-    message,
-    pageUri,
-  }: {
-    subject: string
-    message: string
-    pageUri: string
-  },
-) => {
+export const submitContactForm = async ({
+  subject,
+  message,
+  pageUri,
+  teamKey,
+  telegramHandle,
+}: {
+  subject: string
+  message: string
+  pageUri: string
+  teamKey?: string
+  telegramHandle?: string
+}) => {
+  const isAuthenticated = !!(await getAuthUser())
+
   const [user, team] = await Promise.all([
-    getCurrentUser(),
-    getTeamByKey(teamKey),
+    isAuthenticated ? getCurrentUser() : null,
+    teamKey ? getTeamByKey(teamKey) : null,
   ])
 
   const accessToken = getEnvVar("HUBSPOT_ACCESS_TOKEN")
@@ -47,17 +51,22 @@ export const submitContactForm = async (
     {
       objectTypeId: "0-1",
       name: "email",
-      value: user.email,
+      value: user?.email,
     },
     {
       objectTypeId: "0-1",
       name: "firstname",
-      value: user.name,
+      value: user?.name,
     },
     {
       objectTypeId: "0-2",
       name: "name",
-      value: team.name,
+      value: team?.name,
+    },
+    {
+      objectTypeId: "0-2",
+      name: "telegramHandle",
+      value: telegramHandle,
     },
   ].filter((field) => !!field.value)
 
