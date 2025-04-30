@@ -21,5 +21,11 @@ query MarketplaceApp($slug: String!) {
       text
       url
     }
+    categories {
+      id
+      title
+      slug
+    }
+    builtByAurora
   }
 }

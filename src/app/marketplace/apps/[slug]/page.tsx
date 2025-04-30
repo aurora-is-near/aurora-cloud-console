@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import clsx from "clsx"
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid"
 import { createGraphqlClient } from "@/cms/client"
 import {
   MarketplaceAppDocument,
@@ -41,66 +42,129 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   }
 
   return (
-    <div>
-      <BaseContainer className="relative flex flex-col pt-10">
-        <div className="flex flex-col sm:flex-row mb-8 sm:mb-14">
-          <div className="w-[60px] h-[60px] sm:w-[108px] sm:h-[108px] mb-6 sm:mb-0 sm:mr-10">
-            {!!marketplaceApp.logo?.url && (
-              <Image
-                src={marketplaceApp.logo.url}
-                alt={marketplaceApp.logo.alt ?? ""}
-                width={marketplaceApp.logo.width}
-                height={marketplaceApp.logo.height}
-                className="object-contain"
-              />
-            )}
-          </div>
-          <div>
-            <Heading tag="h1" size="lg" className="mb-3">
-              {marketplaceApp.title}
-            </Heading>
-            <Paragraph size={1} className="text-slate-500 max-w-md">
-              Access to onchain data by enabling users to query, visualize, and
-              share insights across various blockchains.
-            </Paragraph>
-          </div>
-        </div>
-        <div className="flex flex-col flex-1 space-y-4 sm:space-y-5 sm:mb-16">
-          {marketplaceApp.content.map((contentItem) => (
-            <Card
-              key={contentItem.id}
-              className={clsx(
-                "grid gap-y-5 gap-x-12",
-                contentItem.image && "md:grid-cols-2",
+    <BaseContainer size="lg">
+      <div className="w-full h-full flex flex-col md:flex-row bg-slate-50 overflow-hidden pt-14 md:gap-x-16">
+        <div className="mb-8 md:mb-16 md:order-2">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row mb-8 md:mb-14">
+            <div className="w-[60px] min-w-[60px] sm:w-[108px] sm:min-w-[108px] aspect-square mb-6 sm:mb-0 sm:mr-10">
+              {!!marketplaceApp.logo?.url && (
+                <Image
+                  src={marketplaceApp.logo.url}
+                  alt={marketplaceApp.logo.alt ?? ""}
+                  width={marketplaceApp.logo.width}
+                  height={marketplaceApp.logo.height}
+                  className="object-contain"
+                />
               )}
-            >
-              {contentItem.image && (
-                <div className="relative w-full md:order-2">
-                  <Image
-                    src={contentItem.image.url}
-                    alt={contentItem.image.alt ?? ""}
-                    width={contentItem.image.width}
-                    height={contentItem.image.height}
-                    className="object-contain"
+            </div>
+            <div>
+              <Heading tag="h1" size="lg" className="mb-3">
+                {marketplaceApp.title}
+              </Heading>
+              <Paragraph size={1} className="text-slate-500 max-w-md">
+                Access to onchain data by enabling users to query, visualize,
+                and share insights across various blockchains.
+              </Paragraph>
+            </div>
+          </div>
+
+          {/* Main content area */}
+          <div className="flex flex-col flex-1 space-y-4 sm:space-y-5">
+            {marketplaceApp.content.map((contentItem) => (
+              <Card
+                key={contentItem.id}
+                className={clsx(
+                  "grid gap-y-5 gap-x-12",
+                  contentItem.image && "md:grid-cols-2",
+                )}
+              >
+                {contentItem.image && (
+                  <div className="relative w-full md:order-2">
+                    <Image
+                      src={contentItem.image.url}
+                      alt={contentItem.image.alt ?? ""}
+                      width={contentItem.image.width}
+                      height={contentItem.image.height}
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+                <div className="">
+                  {!!contentItem.title && (
+                    <Heading
+                      tag="h2"
+                      size="sm"
+                      className="text-slate-900 mb-2.5"
+                    >
+                      {contentItem.title}
+                    </Heading>
+                  )}
+                  <HtmlContent
+                    className="text-slate-600"
+                    html={contentItem.body}
                   />
                 </div>
-              )}
-              <div className="">
-                {!!contentItem.title && (
-                  <Heading tag="h2" size="sm" className="text-slate-900 mb-2.5">
-                    {contentItem.title}
-                  </Heading>
-                )}
-                <HtmlContent
-                  className="text-slate-600"
-                  html={contentItem.body}
-                />
-              </div>
-            </Card>
-          ))}
+              </Card>
+            ))}
+          </div>
         </div>
-      </BaseContainer>
-    </div>
+
+        {/* Sidebar */}
+        <aside className="w-full md:w-52 md:min-w-52 divide-y space-y-4 divide-slate-200 md:order-1 mb-8 md:mb-0">
+          <section>
+            <h3 className="font-bold text-slate-900 text-lg mt-4">Pricing</h3>
+            {/* <ul className="space-y-1">
+              {section.items.map((item) => (
+                <li key={item.name}>
+                  <SidebarMenuItem
+                    menuItem={item}
+                    isDark={variant === "compact"}
+                  />
+                </li>
+              ))}
+            </ul> */}
+          </section>
+          {!!marketplaceApp.links.length && (
+            <section>
+              <h3 className="font-bold text-slate-900 text-lg mt-4">
+                Learn more
+              </h3>
+              <ul className="space-y-3 mt-4">
+                {marketplaceApp.links.map((link) => (
+                  <li key={link.id}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:no-underline text-cyan-700 font-medium flex flex-row items-center gap-1"
+                    >
+                      {link.text}
+                      <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+          <section>
+            <h3 className="font-bold text-slate-900 text-lg mt-4">
+              Categories
+            </h3>
+            {/* <ul className="space-y-1">
+              {section.items.map((item) => (
+                <li key={item.name}>
+                  <SidebarMenuItem
+                    menuItem={item}
+                    isDark={variant === "compact"}
+                  />
+                </li>
+              ))}
+            </ul> */}
+          </section>
+        </aside>
+      </div>
+    </BaseContainer>
   )
 }
 

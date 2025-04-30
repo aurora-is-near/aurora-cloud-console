@@ -11,7 +11,7 @@ import {
 } from "@/cms/generated/graphql"
 import { createGraphqlClient } from "@/cms/client"
 import { LinkButton } from "@/components/LinkButton"
-import { MarketPlacePill } from "./MarketPlacePill"
+import { MarketPlacePills } from "@/app/marketplace/MarketPlacePills"
 
 type MarketplaceFooterProps = {
   className?: string
@@ -74,25 +74,11 @@ export const MarketplaceCards = async ({
                   {app.description}
                 </p>
               )}
-              <ul className="mt-4 flex flex-wrap gap-1.5">
-                {app.categories.map((category) => (
-                  <li key={category.id}>
-                    <MarketPlacePill>{category.title}</MarketPlacePill>
-                  </li>
-                ))}
-                {app.builtByAurora && (
-                  <MarketPlacePill variant="green">
-                    <Image
-                      src="/static/v2/images/icons/marketplace/aurora-small.svg"
-                      width={14}
-                      height={14}
-                      className="inline-block mr-1"
-                      alt=""
-                    />
-                    Built by Aurora
-                  </MarketPlacePill>
-                )}
-              </ul>
+              <MarketPlacePills
+                categories={app.categories}
+                builtByAurora={app.builtByAurora}
+                className="mt-4"
+              />
             </Card>
           </Link>
         ))}
