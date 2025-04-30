@@ -15,6 +15,7 @@ import Heading from "@/components/Heading"
 import { Card } from "@/uikit"
 import { HtmlContent } from "@/components/HtmlContent"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
+import { RequestIntegrationButton } from "@/app/marketplace/apps/[slug]/RequestIntegrationButton"
 import { MarketPlacePills } from "../../MarketPlacePills"
 import { BackButton } from "./BackButton"
 
@@ -64,14 +65,17 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 />
               )}
             </div>
-            <div>
-              <Heading tag="h1" size="lg" className="mb-3">
-                {marketplaceApp.title}
-              </Heading>
+            <div className="flex-1 relative">
+              <div className="flex flex-row justify-between">
+                <Heading tag="h1" size="lg" className="mb-3">
+                  {marketplaceApp.title}
+                </Heading>
+              </div>
               <Paragraph size={1} className="text-slate-500 max-w-md">
                 Access to onchain data by enabling users to query, visualize,
                 and share insights across various blockchains.
               </Paragraph>
+              <RequestIntegrationButton />
             </div>
           </div>
 

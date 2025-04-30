@@ -15,6 +15,7 @@ type ContactModalProps = {
   subject?: string
   title?: string
   includeTelegramHandle?: boolean
+  submitButtonText?: string
 }
 
 type Inputs = {
@@ -28,6 +29,7 @@ const ContactModal = ({
   subject,
   title = "Contact us",
   includeTelegramHandle,
+  submitButtonText = "Send message",
 }: ContactModalProps) => {
   const [isPending, setIsPending] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -174,7 +176,7 @@ const ContactModal = ({
             </div>
             <Button type="submit" loading={isPending}>
               <PaperAirplaneIcon className="w-5 h-5" />
-              Send message
+              {submitButtonText}
             </Button>
           </form>
           {!!errors?.root?.serverError && (

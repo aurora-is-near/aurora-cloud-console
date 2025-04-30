@@ -5,7 +5,7 @@ import ContactModal from "@/components/ContactModal"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 
-export const MarketplaceSubmitAppRequestButton = () => {
+export const RequestIntegrationButton = () => {
   const { openModal } = useModals()
 
   const onClick = () => {
@@ -14,14 +14,19 @@ export const MarketplaceSubmitAppRequestButton = () => {
 
   return (
     <>
-      <Button onClick={onClick} variant="border" className="mt-4" size="sm">
-        Submit a request
+      <Button
+        onClick={onClick}
+        variant="border"
+        size="lg"
+        className="mt-6 lg:mt-0 lg:absolute right-0 top-0"
+      >
+        Request integration
       </Button>
       <ContactModal
         includeTelegramHandle
         submitButtonText="Submit request"
-        title="Request an app"
-        subject="Marketplace new app request"
+        title="Request integration"
+        subject="Marketplace app integration"
       />
     </>
   )
