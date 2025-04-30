@@ -14,7 +14,8 @@ import { BaseContainer } from "@/components/BaseContainer"
 import Heading from "@/components/Heading"
 import { Card } from "@/uikit"
 import { HtmlContent } from "@/components/HtmlContent"
-import { MarketPlacePills } from "@/app/marketplace/MarketPlacePills"
+import { MarketPlacePills } from "../../MarketPlacePills"
+import { BackButton } from "./BackButton"
 
 export async function generateStaticParams() {
   const graphqlClient = createGraphqlClient()
@@ -112,9 +113,10 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
         </div>
 
         {/* Sidebar */}
-        <aside className="w-full md:w-52 md:min-w-52 divide-y space-y-4 divide-slate-200 md:order-1 mb-8 md:mb-0">
+        <aside className="w-full md:w-52 md:min-w-52 divide-y space-y-6 divide-slate-200 md:order-1 mb-8 md:mb-0">
+          <BackButton />
           <section>
-            <h3 className="font-bold text-slate-900 text-lg mt-4">Pricing</h3>
+            <h3 className="font-bold text-slate-900 text-lg mt-6">Pricing</h3>
             {/* <ul className="space-y-1">
               {section.items.map((item) => (
                 <li key={item.name}>
@@ -128,7 +130,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           </section>
           {!!marketplaceApp.links.length && (
             <section>
-              <h3 className="font-bold text-slate-900 text-lg mt-4">
+              <h3 className="font-bold text-slate-900 text-lg mt-6">
                 Learn more
               </h3>
               <ul className="space-y-3 mt-4">
@@ -150,7 +152,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           )}
           {marketplaceApp.categories.length > 0 && (
             <section>
-              <h3 className="font-bold text-slate-900 text-lg mt-4">
+              <h3 className="font-bold text-slate-900 text-lg mt-6">
                 Categories
               </h3>
               <MarketPlacePills
