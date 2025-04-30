@@ -42,6 +42,10 @@ export const MarketplaceCards = async ({
       !!app.id && !!app.title && !!app.slug && !!app.categories,
   )
 
+  if (!apps.length) {
+    return null
+  }
+
   return (
     <div className={clsx("flex flex-col", className)}>
       <div className="mb-4 flex flex-row items-center justify-between">

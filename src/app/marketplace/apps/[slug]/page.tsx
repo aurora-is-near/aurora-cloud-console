@@ -14,6 +14,7 @@ import { BaseContainer } from "@/components/BaseContainer"
 import Heading from "@/components/Heading"
 import { Card } from "@/uikit"
 import { HtmlContent } from "@/components/HtmlContent"
+import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
 import { MarketPlacePills } from "../../MarketPlacePills"
 import { BackButton } from "./BackButton"
 
@@ -44,6 +45,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   }
 
   const isFree = /free/i.test(marketplaceApp.pricing ?? "")
+  const firstCategory = marketplaceApp.categories[0]
 
   return (
     <BaseContainer size="lg">
@@ -112,6 +114,30 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
               </Card>
             ))}
           </div>
+
+          {!!(marketplaceApp.builtByAurora || firstCategory) && (
+            <MarketplaceCards
+              showSingleRow
+              className="mt-16 pt-16 border-t border-slate-200"
+              title={
+                marketplaceApp.builtByAurora
+                  ? "Built by Aurora"
+                  : firstCategory.title
+              }
+              query={{
+                first: 3,
+                excludedAppId: marketplaceApp.id,
+                ...(marketplaceApp.builtByAurora
+                  ? { builtByAurora: true }
+                  : { categoryId: firstCategory.id }),
+              }}
+              seeAllLink={
+                marketplaceApp.builtByAurora
+                  ? "/marketplace/featured/built-by-aurora"
+                  : `/marketplace/categories/${firstCategory.slug}`
+              }
+            />
+          )}
         </div>
 
         {/* Sidebar */}
