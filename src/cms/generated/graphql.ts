@@ -3283,7 +3283,7 @@ export type MarketplaceAppQueryVariables = Exact<{
 }>;
 
 
-export type MarketplaceAppQuery = { __typename?: 'Query', marketplaceApp?: { __typename?: 'MarketplaceAppRecord', id: any, title: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, content: Array<{ __typename?: 'MarketplaceAppContentRecord', id: any, title?: string, body?: string, image?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any } }>, links: Array<{ __typename?: 'LinkRecord', id: any, text: string, url: string }>, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug?: string }> } };
+export type MarketplaceAppQuery = { __typename?: 'Query', marketplaceApp?: { __typename?: 'MarketplaceAppRecord', id: any, title: string, description?: string, builtByAurora: any, pricing?: string, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, content: Array<{ __typename?: 'MarketplaceAppContentRecord', id: any, title?: string, body?: string, image?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any } }>, links: Array<{ __typename?: 'LinkRecord', id: any, text: string, url: string }>, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug?: string }> } };
 
 export type MarketplaceAppsMetaQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3386,6 +3386,7 @@ export const MarketplaceAppDocument = `
       slug
     }
     builtByAurora
+    pricing
   }
 }
     ${ImageAttributesFragmentDoc}`;

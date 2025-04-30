@@ -27,5 +27,6 @@ query MarketplaceApp($slug: String!) {
       slug
     }
     builtByAurora
+    pricing
   }
 }

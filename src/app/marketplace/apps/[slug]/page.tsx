@@ -43,6 +43,8 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
     notFound()
   }
 
+  const isFree = /free/i.test(marketplaceApp.pricing ?? "")
+
   return (
     <BaseContainer size="lg">
       <div className="w-full h-full flex flex-col md:flex-row bg-slate-50 overflow-hidden pt-14 md:gap-x-16">
@@ -115,19 +117,31 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
         {/* Sidebar */}
         <aside className="w-full md:w-52 md:min-w-52 divide-y space-y-6 divide-slate-200 md:order-1 mb-8 md:mb-0">
           <BackButton />
-          <section>
-            <h3 className="font-bold text-slate-900 text-lg mt-6">Pricing</h3>
-            {/* <ul className="space-y-1">
-              {section.items.map((item) => (
-                <li key={item.name}>
-                  <SidebarMenuItem
-                    menuItem={item}
-                    isDark={variant === "compact"}
-                  />
-                </li>
-              ))}
-            </ul> */}
-          </section>
+          {!!marketplaceApp.pricing && (
+            <section>
+              <h3 className="font-bold text-slate-900 text-lg mt-6">Pricing</h3>
+              <div className="mt-4 flex flex-row items-center gap-1.5">
+                <Image
+                  src={
+                    isFree
+                      ? "/static/v2/images/icons/marketplace/seal-check.svg"
+                      : "/static/v2/images/icons/marketplace/seal-question.svg"
+                  }
+                  width={20}
+                  height={20}
+                  alt=""
+                />
+                <p
+                  className={clsx(
+                    "font-medium text-sm tracking-tight",
+                    isFree ? "text-green-800" : "text-slate-500",
+                  )}
+                >
+                  {marketplaceApp.pricing}
+                </p>
+              </div>
+            </section>
+          )}
           {!!marketplaceApp.links.length && (
             <section>
               <h3 className="font-bold text-slate-900 text-lg mt-6">
