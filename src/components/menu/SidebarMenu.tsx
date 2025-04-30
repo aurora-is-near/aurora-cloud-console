@@ -44,14 +44,20 @@ export const SidebarMenu = ({
       <aside
         className={clsx(
           "flex inset-y-0 flex-col overflow-y-auto w-full h-full lg:transform-none transition ease-in-out duration-300",
+          "bg-white sm:border-r border-slate-200 p-6",
           variant === "compact"
-            ? "sm:w-52 sm:min-w-52"
-            : "sm:w-72 sm:min-w-72 p-6 bg-white sm:border-r border-slate-200",
+            ? "sm:w-64 sm:min-w-64 lg:w-52 lg:min-w-52 lg:border-none lg:bg-transparent lg:p-0"
+            : "sm:w-72 sm:min-w-72",
 
           isMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <div className="flex flex-row justify-between items-center">
+        <div
+          className={clsx(
+            "flex flex-row items-center",
+            heading ? "justify-between" : "justify-end",
+          )}
+        >
           {!!heading && (
             <Heading tag="span" textColorClassName="text-slate-900">
               {heading}
