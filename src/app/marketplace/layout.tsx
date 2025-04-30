@@ -8,7 +8,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="bg-slate-50">
-      <MainMenu isMarketplace authUser={authUser} />
+      <MainMenu
+        isMarketplace
+        authUser={authUser}
+        menuItems={[{ name: "Dashboard", href: "/dashboard" }]}
+      />
       {children}
       <MarketplaceFooter className="mt-16" />
     </div>

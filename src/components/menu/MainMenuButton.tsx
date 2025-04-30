@@ -36,12 +36,12 @@ export const MainMenuButton = ({
     null,
   )
 
-  icon = generateIcon(icon, "w-5 h-5 shrink-0")
+  const iconElement = generateIcon(icon, "w-5 h-5 shrink-0")
 
   const containerClassName = clsx(
     "relative",
     "text-slate-300 hover:text-slate-50 hover:bg-slate-700",
-    "group flex rounded-lg p-2 text-sm leading-6 font-semibold items-center justify-center",
+    "group flex rounded-lg p-2 text-sm leading-6 font-medium items-center justify-center",
     className,
   )
 
@@ -53,8 +53,8 @@ export const MainMenuButton = ({
 
   const content = (
     <>
-      {icon}
-      <span className="sr-only">{name}</span>
+      {iconElement}
+      <span className={clsx(!!icon && "sr-only")}>{name}</span>
       {notificationCountBadge}
     </>
   )
