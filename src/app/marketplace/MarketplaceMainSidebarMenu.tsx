@@ -1,4 +1,5 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/solid"
+import clsx from "clsx"
 import { createGraphqlClient } from "@/cms/client"
 import {
   MarketplaceAppCategoriesDocument,
@@ -10,10 +11,12 @@ import { MenuItem } from "@/types/menu"
 
 type MarketplaceMainSidebarMenuProps = {
   hasBackButton?: boolean
+  className?: string
 }
 
 export const MarketplaceMainSidebarMenu = async ({
   hasBackButton,
+  className,
 }: MarketplaceMainSidebarMenuProps) => {
   const graphqlClient = createGraphqlClient()
 
@@ -23,9 +26,9 @@ export const MarketplaceMainSidebarMenu = async ({
     )
 
   return (
-    <div className="flex flex-col">
+    <div className={clsx("flex flex-col", className)}>
       {hasBackButton && (
-        <div className="mb-6 pb-6 border-b border-slate-200">
+        <div className="mb-6 pb-6 border-b border-slate-200 hidden lg:block">
           <LinkButton href="/marketplace" variant="border">
             <ArrowLeftIcon className="w-5 h-5" />
             Back
