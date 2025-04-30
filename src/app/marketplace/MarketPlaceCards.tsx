@@ -16,6 +16,7 @@ import { MarketPlacePills } from "@/app/marketplace/MarketPlacePills"
 type MarketplaceFooterProps = {
   className?: string
   showNumberOfApps?: boolean
+  showSingleRow?: boolean
   title?: string
   seeAllLink?: string
   query: MarketplaceAppsQueryVariables
@@ -24,6 +25,7 @@ type MarketplaceFooterProps = {
 export const MarketplaceCards = async ({
   className,
   showNumberOfApps,
+  showSingleRow,
   title,
   seeAllLink,
   query,
@@ -55,33 +57,42 @@ export const MarketplaceCards = async ({
           </LinkButton>
         )}
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {apps?.map((app) => (
-          <Link key={app.id} href={`/marketplace/apps/${app.slug}`}>
-            <Card>
-              {!!app.logo?.url && (
-                <Image
-                  src={app.logo.url}
-                  width={48}
-                  height={48}
-                  className="object-contain mb-4"
-                  alt=""
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+        {apps?.map((app, index) => {
+          return (
+            <Link
+              key={app.id}
+              href={`/marketplace/apps/${app.slug}`}
+              className={clsx(
+                showSingleRow && index > 1 && "md:hidden xl:block",
+                showSingleRow && index > 2 && "xl:hidden",
+              )}
+            >
+              <Card>
+                {!!app.logo?.url && (
+                  <Image
+                    src={app.logo.url}
+                    width={48}
+                    height={48}
+                    className="object-contain mb-4"
+                    alt=""
+                  />
+                )}
+                <Heading size={4}>{app.title}</Heading>
+                {!!app.description && (
+                  <p className="text-sm text-slate-500 line-clamp-2	mt-1.5">
+                    {app.description}
+                  </p>
+                )}
+                <MarketPlacePills
+                  categories={app.categories}
+                  builtByAurora={app.builtByAurora}
+                  className="mt-4"
                 />
-              )}
-              <Heading size={4}>{app.title}</Heading>
-              {!!app.description && (
-                <p className="text-sm text-slate-500 line-clamp-2	mt-1.5">
-                  {app.description}
-                </p>
-              )}
-              <MarketPlacePills
-                categories={app.categories}
-                builtByAurora={app.builtByAurora}
-                className="mt-4"
-              />
-            </Card>
-          </Link>
-        ))}
+              </Card>
+            </Link>
+          )
+        })}
       </div>
     </div>
   )

@@ -34,21 +34,25 @@ const Page = async () => {
           <MarketplaceMainSidebarMenu />
           <div className="w-full lg:pl-16 space-y-14">
             <MarketplaceCards
+              showSingleRow
               title="Popular"
               query={{ popular: true, first: 3 }}
               seeAllLink="/marketplace/featured/popular"
             />
             <MarketplaceCards
+              showSingleRow
               title="Built by Aurora"
               query={{ builtByAurora: true, first: 3 }}
               seeAllLink="/marketplace/featured/built-by-aurora"
             />
             <MarketplaceCards
+              showSingleRow
               title="New & noteworthy"
               query={{ new: true, first: 3 }}
               seeAllLink="/marketplace/featured/new"
             />
             <MarketplaceCards
+              showSingleRow
               title="Essentials"
               query={{ essential: true, first: 3 }}
               seeAllLink="/marketplace/featured/essentials"
