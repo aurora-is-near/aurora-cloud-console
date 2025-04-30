@@ -6,7 +6,7 @@ import { MainMenuButton } from "@/components/menu/MainMenuButton"
 import { useMenu } from "@/hooks/useMenu"
 
 export const MobileMenuToggleButton = () => {
-  const { isMenuOpen, openMenu, closeMenu } = useMenu()
+  const { isMenuOpen, openMenu, closeMenu, hasMenu } = useMenu()
 
   const onClick = useCallback(() => {
     if (isMenuOpen) {
@@ -17,6 +17,10 @@ export const MobileMenuToggleButton = () => {
 
     openMenu()
   }, [closeMenu, isMenuOpen, openMenu])
+
+  if (!hasMenu) {
+    return null
+  }
 
   return (
     <MainMenuButton

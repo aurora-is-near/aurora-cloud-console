@@ -2,6 +2,7 @@
 
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import clsx from "clsx"
+import { useEffect } from "react"
 import { useMenu } from "@/hooks/useMenu"
 import { MenuSection } from "@/types/menu"
 import { SidebarMenuItem } from "@/components/menu/SidebarMenuItem"
@@ -20,7 +21,11 @@ export const SidebarMenu = ({
   sections,
   variant,
 }: SidebarMenuProps) => {
-  const { isMenuOpen, closeMenu } = useMenu()
+  const { isMenuOpen, closeMenu, setHasMenu } = useMenu()
+
+  useEffect(() => {
+    setHasMenu(!!sections.length)
+  }, [sections, setHasMenu])
 
   return (
     <div
