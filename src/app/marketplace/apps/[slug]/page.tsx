@@ -14,6 +14,7 @@ import { BaseContainer } from "@/components/BaseContainer"
 import Heading from "@/components/Heading"
 import { Card } from "@/uikit"
 import { HtmlContent } from "@/components/HtmlContent"
+import { MarketPlacePills } from "@/app/marketplace/MarketPlacePills"
 
 export async function generateStaticParams() {
   const graphqlClient = createGraphqlClient()
@@ -147,21 +148,17 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
               </ul>
             </section>
           )}
-          <section>
-            <h3 className="font-bold text-slate-900 text-lg mt-4">
-              Categories
-            </h3>
-            {/* <ul className="space-y-1">
-              {section.items.map((item) => (
-                <li key={item.name}>
-                  <SidebarMenuItem
-                    menuItem={item}
-                    isDark={variant === "compact"}
-                  />
-                </li>
-              ))}
-            </ul> */}
-          </section>
+          {marketplaceApp.categories.length > 0 && (
+            <section>
+              <h3 className="font-bold text-slate-900 text-lg mt-4">
+                Categories
+              </h3>
+              <MarketPlacePills
+                categories={marketplaceApp.categories}
+                className="mt-4"
+              />
+            </section>
+          )}
         </aside>
       </div>
     </BaseContainer>

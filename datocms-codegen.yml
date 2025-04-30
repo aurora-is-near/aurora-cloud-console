@@ -4,6 +4,7 @@ schema:
   - 'https://graphql.datocms.com':
       headers:
         Authorization: 'Bearer c41a51b9acf5d51eff3e370141769c'
+        X-Exclude-Invalid: true
 
 documents:
   - '**/*.graphql'

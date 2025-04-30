@@ -102,9 +102,9 @@ export type FaqItemRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
-  answer?: Maybe<Scalars['String']['output']>;
+  answer: Scalars['String']['output'];
   id: Scalars['ItemId']['output'];
-  question?: Maybe<Scalars['String']['output']>;
+  question: Scalars['String']['output'];
 };
 
 
@@ -2140,8 +2140,8 @@ export type LinkRecord = RecordInterface & {
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
   id: Scalars['ItemId']['output'];
-  text?: Maybe<Scalars['String']['output']>;
-  url?: Maybe<Scalars['String']['output']>;
+  text: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 
@@ -2223,7 +2223,7 @@ export type MarketplaceAppCategoryRecord = RecordInterface & {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ItemId']['output'];
   slug?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
 };
 
 
@@ -2357,7 +2357,7 @@ export type MarketplaceAppRecord = RecordInterface & {
   popular: Scalars['BooleanType']['output'];
   pricing?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
 };
 
 
@@ -2406,7 +2406,7 @@ export type PlanItemRecord = RecordInterface & {
   _updatedAt: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ItemId']['output'];
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   values?: Maybe<PlanItemModelValuesField>;
 };
 
@@ -2460,10 +2460,10 @@ export type PlanItemValuesTextRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
-  enterprise?: Maybe<Scalars['String']['output']>;
+  enterprise: Scalars['String']['output'];
   id: Scalars['ItemId']['output'];
-  plus?: Maybe<Scalars['String']['output']>;
-  pro?: Maybe<Scalars['String']['output']>;
+  plus: Scalars['String']['output'];
+  pro: Scalars['String']['output'];
 };
 
 
@@ -2489,9 +2489,9 @@ export type PlanSectionRecord = RecordInterface & {
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  icon?: Maybe<FileField>;
+  icon: FileField;
   id: Scalars['ItemId']['output'];
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   values: Array<PlanItemRecord>;
 };
 
@@ -3269,21 +3269,21 @@ export type ImageAttributesFragment = { __typename?: 'FileField', id: any, url: 
 export type MarketplaceAppCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MarketplaceAppCategoriesQuery = { __typename?: 'Query', allMarketplaceAppCategories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title?: string, slug?: string }> };
+export type MarketplaceAppCategoriesQuery = { __typename?: 'Query', allMarketplaceAppCategories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug?: string }> };
 
 export type MarketplaceAppCategoryQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type MarketplaceAppCategoryQuery = { __typename?: 'Query', marketplaceAppCategory?: { __typename?: 'MarketplaceAppCategoryRecord', id: any, title?: string, slug?: string, description?: string } };
+export type MarketplaceAppCategoryQuery = { __typename?: 'Query', marketplaceAppCategory?: { __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug?: string, description?: string } };
 
 export type MarketplaceAppQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type MarketplaceAppQuery = { __typename?: 'Query', marketplaceApp?: { __typename?: 'MarketplaceAppRecord', id: any, title?: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, content: Array<{ __typename?: 'MarketplaceAppContentRecord', id: any, title?: string, body?: string, image?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any } }>, links: Array<{ __typename?: 'LinkRecord', id: any, text?: string, url?: string }>, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title?: string, slug?: string }> } };
+export type MarketplaceAppQuery = { __typename?: 'Query', marketplaceApp?: { __typename?: 'MarketplaceAppRecord', id: any, title: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, content: Array<{ __typename?: 'MarketplaceAppContentRecord', id: any, title?: string, body?: string, image?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any } }>, links: Array<{ __typename?: 'LinkRecord', id: any, text: string, url: string }>, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug?: string }> } };
 
 export type MarketplaceAppsMetaQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3300,7 +3300,7 @@ export type MarketplaceAppsQueryVariables = Exact<{
 }>;
 
 
-export type MarketplaceAppsQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title?: string, slug?: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title?: string, slug?: string }> }> };
+export type MarketplaceAppsQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title: string, slug?: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug?: string }> }> };
 
 export const ImageAttributesFragmentDoc = `
     fragment imageAttributes on FileField {
