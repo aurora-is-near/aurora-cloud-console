@@ -3307,6 +3307,7 @@ export type MarketplaceAppsQueryVariables = Exact<{
   builtByAurora?: InputMaybe<Scalars['BooleanType']['input']>;
   essential?: InputMaybe<Scalars['BooleanType']['input']>;
   first?: InputMaybe<Scalars['IntType']['input']>;
+  excludedAppId?: InputMaybe<Scalars['ItemId']['input']>;
 }>;
 
 
@@ -3478,11 +3479,11 @@ export const useMarketplaceAppsSearchQuery = <
       options
     );
 export const MarketplaceAppsDocument = `
-    query MarketplaceApps($categoryId: [ItemId], $popular: BooleanType, $new: BooleanType, $builtByAurora: BooleanType, $essential: BooleanType, $first: IntType = 100) {
+    query MarketplaceApps($categoryId: [ItemId], $popular: BooleanType, $new: BooleanType, $builtByAurora: BooleanType, $essential: BooleanType, $first: IntType = 100, $excludedAppId: ItemId) {
   allMarketplaceApps(
     first: $first
     orderBy: _createdAt_DESC
-    filter: {categories: {eq: $categoryId}, popular: {eq: $popular}, new: {eq: $new}, builtByAurora: {eq: $builtByAurora}, essential: {eq: $essential}}
+    filter: {categories: {eq: $categoryId}, popular: {eq: $popular}, new: {eq: $new}, builtByAurora: {eq: $builtByAurora}, essential: {eq: $essential}, id: {neq: $excludedAppId}}
   ) {
     ...marketplaceAppAttributes
   }

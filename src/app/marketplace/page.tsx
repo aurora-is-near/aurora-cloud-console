@@ -3,10 +3,18 @@ import { Heading } from "@/uikit/Typography/Heading"
 import { BaseContainer } from "@/components/BaseContainer"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
+import { getMarketplaceApps } from "@/utils/marketplace/get-marketplace-apps"
 import { MarketplaceMainSidebarMenu } from "./MarketplaceMainSidebarMenu"
 import { MarketplaceGetStartedBanner } from "./MarketplaceGetStartedBanner"
 
 const Page = async () => {
+  const [popularApps, auroraApps, newApps, essentialApps] = await Promise.all([
+    getMarketplaceApps({ popular: true, first: 3 }),
+    getMarketplaceApps({ builtByAurora: true, first: 3 }),
+    getMarketplaceApps({ new: true, first: 3 }),
+    getMarketplaceApps({ essential: true, first: 3 }),
+  ])
+
   return (
     <>
       <div className="w-full md:h-[340px] relative bg-slate-100 flex flex-row items-center">
@@ -36,25 +44,25 @@ const Page = async () => {
             <MarketplaceCards
               showSingleRow
               title="Popular"
-              query={{ popular: true, first: 3 }}
+              apps={popularApps}
               seeAllLink="/marketplace/featured/popular"
             />
             <MarketplaceCards
               showSingleRow
               title="Built by Aurora"
-              query={{ builtByAurora: true, first: 3 }}
+              apps={auroraApps}
               seeAllLink="/marketplace/featured/built-by-aurora"
             />
             <MarketplaceCards
               showSingleRow
               title="New & noteworthy"
-              query={{ new: true, first: 3 }}
+              apps={newApps}
               seeAllLink="/marketplace/featured/new"
             />
             <MarketplaceCards
               showSingleRow
               title="Essentials"
-              query={{ essential: true, first: 3 }}
+              apps={essentialApps}
               seeAllLink="/marketplace/featured/essentials"
             />
           </div>

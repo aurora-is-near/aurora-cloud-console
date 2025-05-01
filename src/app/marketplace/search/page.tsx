@@ -1,3 +1,12 @@
+"use client"
+
+import { useCallback, useEffect, useState } from "react"
+import { MarketplaceAppCard } from "@/types/marketplace"
+import { createGraphqlClient } from "@/cms/client"
+import {
+  MarketplaceAppsSearchDocument,
+  MarketplaceAppsSearchQuery,
+} from "@/cms/generated/graphql"
 import { MarketplaceCategoryPage } from "../MarketplaceCategoryPage"
 
 const Page = ({
@@ -5,12 +14,38 @@ const Page = ({
 }: {
   searchParams: { query?: string }
 }) => {
+  const [apps, setApps] = useState<MarketplaceAppCard[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  const loadResults = useCallback(async () => {
+    const graphqlClient = createGraphqlClient()
+
+    const { allMarketplaceApps = [] } =
+      await graphqlClient.request<MarketplaceAppsSearchQuery>(
+        MarketplaceAppsSearchDocument,
+        { search: query ?? "" },
+      )
+
+    const validResults = allMarketplaceApps.filter(
+      (app): app is MarketplaceAppCard =>
+        !!app.id && !!app.title && !!app.slug && !!app.categories,
+    )
+
+    setApps(validResults)
+    setIsLoading(false)
+  }, [query])
+
+  useEffect(() => {
+    setIsLoading(true)
+    void loadResults()
+  }, [loadResults])
+
+  if (isLoading) {
+    return null
+  }
+
   return (
-    <MarketplaceCategoryPage
-      isSearchQuery
-      title={`Results for "${query}"`}
-      query={{ search: query ?? "" }}
-    />
+    <MarketplaceCategoryPage title={`Results for "${query}"`} apps={apps} />
   )
 }
 

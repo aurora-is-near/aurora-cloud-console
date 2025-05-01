@@ -4,14 +4,6 @@ import clsx from "clsx"
 import { Card } from "@/uikit"
 import { Heading } from "@/uikit/Typography/Heading"
 import { MarketplaceAppCard } from "@/types/marketplace"
-import {
-  MarketplaceAppsDocument,
-  MarketplaceAppsQuery,
-  MarketplaceAppsQueryVariables,
-  MarketplaceAppsSearchDocument,
-  MarketplaceAppsSearchQuery,
-} from "@/cms/generated/graphql"
-import { createGraphqlClient } from "@/cms/client"
 import { LinkButton } from "@/components/LinkButton"
 import { MarketPlacePills } from "@/app/marketplace/MarketPlacePills"
 
@@ -21,43 +13,17 @@ type MarketplaceCardsProps = {
   showSingleRow?: boolean
   title?: string
   seeAllLink?: string
-  query: MarketplaceAppsQueryVariables
-  isSearchQuery?: boolean
+  apps: MarketplaceAppCard[]
 }
 
-export const MarketplaceCards = async ({
+export const MarketplaceCards = ({
   className,
   showNumberOfApps,
   showSingleRow,
   title,
   seeAllLink,
-  query,
-  isSearchQuery,
+  apps,
 }: MarketplaceCardsProps) => {
-  const graphqlClient = createGraphqlClient()
-  const results = isSearchQuery
-    ? (
-        await graphqlClient.request<MarketplaceAppsSearchQuery>(
-          MarketplaceAppsSearchDocument,
-          query,
-        )
-      ).allMarketplaceApps
-    : (
-        await graphqlClient.request<MarketplaceAppsQuery>(
-          MarketplaceAppsDocument,
-          query,
-        )
-      ).allMarketplaceApps
-
-  const apps = results.filter(
-    (app): app is MarketplaceAppCard =>
-      !!app.id && !!app.title && !!app.slug && !!app.categories,
-  )
-
-  if (!apps.length) {
-    return null
-  }
-
   return (
     <div className={clsx("flex flex-col", className)}>
       <div className="mb-4 flex flex-row items-center justify-between">

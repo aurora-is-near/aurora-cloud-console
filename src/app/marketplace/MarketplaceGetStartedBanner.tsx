@@ -9,7 +9,7 @@ type MarketplaceGetStartedBannerProps = {
   className?: string
 }
 
-export const MarketplaceGetStartedBanner = async ({
+export const MarketplaceGetStartedBanner = ({
   className,
 }: MarketplaceGetStartedBannerProps) => {
   return (

@@ -16,6 +16,7 @@ import { Card } from "@/uikit"
 import { HtmlContent } from "@/components/HtmlContent"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
 import { RequestIntegrationButton } from "@/app/marketplace/apps/[slug]/RequestIntegrationButton"
+import { getMarketplaceApps } from "@/utils/marketplace/get-marketplace-apps"
 import { MarketPlacePills } from "../../MarketPlacePills"
 import { BackButton } from "./BackButton"
 
@@ -47,6 +48,17 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const isFree = /free/i.test(marketplaceApp.pricing ?? "")
   const firstCategory = marketplaceApp.categories[0]
+
+  const relatedApps =
+    marketplaceApp.builtByAurora || firstCategory
+      ? await getMarketplaceApps({
+          first: 3,
+          excludedAppId: marketplaceApp.id,
+          ...(marketplaceApp.builtByAurora
+            ? { builtByAurora: true }
+            : { categoryId: firstCategory.id }),
+        })
+      : []
 
   return (
     <BaseContainer size="lg">
@@ -119,7 +131,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
             ))}
           </div>
 
-          {!!(marketplaceApp.builtByAurora || firstCategory) && (
+          {!!relatedApps.length && (
             <MarketplaceCards
               showSingleRow
               className="mt-16 pt-16 border-t border-slate-200"
@@ -128,13 +140,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   ? "Built by Aurora"
                   : firstCategory.title
               }
-              query={{
-                first: 3,
-                excludedAppId: marketplaceApp.id,
-                ...(marketplaceApp.builtByAurora
-                  ? { builtByAurora: true }
-                  : { categoryId: firstCategory.id }),
-              }}
+              apps={relatedApps}
               seeAllLink={
                 marketplaceApp.builtByAurora
                   ? "/marketplace/featured/built-by-aurora"
