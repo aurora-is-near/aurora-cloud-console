@@ -2,6 +2,7 @@ import { ReactNode } from "react"
 import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 import { MainMenu } from "@/components/menu/MainMenu"
 import { MarketplaceFooter } from "@/app/marketplace/MarketPlaceFooter"
+import { MarketPlaceSearchInput } from "@/app/marketplace/MarketPlaceSearchInput"
 
 const Layout = async ({ children }: { children: ReactNode }) => {
   const authUser = await getAuthUser()
@@ -12,7 +13,9 @@ const Layout = async ({ children }: { children: ReactNode }) => {
         isMarketplace
         authUser={authUser}
         menuItems={[{ name: "Dashboard", href: "/dashboard" }]}
-      />
+      >
+        <MarketPlaceSearchInput />
+      </MainMenu>
       {children}
       <MarketplaceFooter className="mt-16" />
     </div>

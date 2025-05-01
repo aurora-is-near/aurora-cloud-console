@@ -1,6 +1,7 @@
 import clsx from "clsx"
 
 import { User } from "@supabase/supabase-js"
+import { ReactNode } from "react"
 import AuroraLogo from "@/components/AuroraLogo"
 import { MainMenuButton } from "@/components/menu/MainMenuButton"
 import { MobileMenuToggleButton } from "@/components/menu/MobileMenuToggleButton"
@@ -14,6 +15,7 @@ type MainMenuProps = {
   menuItems?: MenuItem[]
   authUser: User | null
   isMarketplace?: boolean
+  children?: ReactNode
 }
 
 const getHomeRoute = (
@@ -34,6 +36,7 @@ export const MainMenu = ({
   menuItems = [],
   authUser,
   isMarketplace,
+  children,
 }: MainMenuProps) => {
   const userTeams: string[] = authUser?.user_metadata.teams || []
   const homeRoute = getHomeRoute(authUser, userTeams, isMarketplace)
@@ -50,6 +53,9 @@ export const MainMenu = ({
           </div>
         )}
       </div>
+
+      {children}
+
       <ul className="hidden lg:flex flex-row items-center">
         {menuItems.map((item) => (
           <li key={item.name} className="px-2">

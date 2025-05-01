@@ -1,0 +1,17 @@
+#import "./image.graphql"
+
+fragment marketplaceAppAttributes on MarketplaceAppRecord {
+  id
+  title
+  slug
+  description
+  builtByAurora
+  logo {
+    ...imageAttributes
+  }
+  categories {
+    id
+    title
+    slug
+  }
+}

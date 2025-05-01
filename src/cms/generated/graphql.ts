@@ -2356,7 +2356,7 @@ export type MarketplaceAppRecord = RecordInterface & {
   new: Scalars['BooleanType']['output'];
   popular: Scalars['BooleanType']['output'];
   pricing?: Maybe<Scalars['String']['output']>;
-  slug?: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
   title: Scalars['String']['output'];
 };
 
@@ -3266,6 +3266,8 @@ export type FocalPoint = {
 
 export type ImageAttributesFragment = { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any };
 
+export type MarketplaceAppAttributesFragment = { __typename?: 'MarketplaceAppRecord', id: any, title: string, slug: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug?: string }> };
+
 export type MarketplaceAppCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3288,7 +3290,15 @@ export type MarketplaceAppQuery = { __typename?: 'Query', marketplaceApp?: { __t
 export type MarketplaceAppsMetaQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MarketplaceAppsMetaQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', slug?: string }> };
+export type MarketplaceAppsMetaQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', slug: string }> };
+
+export type MarketplaceAppsSearchQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['IntType']['input']>;
+  search: Scalars['String']['input'];
+}>;
+
+
+export type MarketplaceAppsSearchQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title: string, slug: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug?: string }> }> };
 
 export type MarketplaceAppsQueryVariables = Exact<{
   categoryId?: InputMaybe<Array<InputMaybe<Scalars['ItemId']['input']>> | InputMaybe<Scalars['ItemId']['input']>>;
@@ -3297,11 +3307,10 @@ export type MarketplaceAppsQueryVariables = Exact<{
   builtByAurora?: InputMaybe<Scalars['BooleanType']['input']>;
   essential?: InputMaybe<Scalars['BooleanType']['input']>;
   first?: InputMaybe<Scalars['IntType']['input']>;
-  excludedAppId?: InputMaybe<Scalars['ItemId']['input']>;
 }>;
 
 
-export type MarketplaceAppsQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title: string, slug?: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug?: string }> }> };
+export type MarketplaceAppsQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title: string, slug: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug?: string }> }> };
 
 export const ImageAttributesFragmentDoc = `
     fragment imageAttributes on FileField {
@@ -3312,6 +3321,23 @@ export const ImageAttributesFragmentDoc = `
   height
 }
     `;
+export const MarketplaceAppAttributesFragmentDoc = `
+    fragment marketplaceAppAttributes on MarketplaceAppRecord {
+  id
+  title
+  slug
+  description
+  builtByAurora
+  logo {
+    ...imageAttributes
+  }
+  categories {
+    id
+    title
+    slug
+  }
+}
+    ${ImageAttributesFragmentDoc}`;
 export const MarketplaceAppCategoriesDocument = `
     query MarketplaceAppCategories {
   allMarketplaceAppCategories(first: 100) {
@@ -3426,29 +3452,42 @@ export const useMarketplaceAppsMetaQuery = <
       fetcher<MarketplaceAppsMetaQuery, MarketplaceAppsMetaQueryVariables>(client, MarketplaceAppsMetaDocument, variables, headers),
       options
     );
-export const MarketplaceAppsDocument = `
-    query MarketplaceApps($categoryId: [ItemId], $popular: BooleanType, $new: BooleanType, $builtByAurora: BooleanType, $essential: BooleanType, $first: IntType = 100, $excludedAppId: ItemId) {
+export const MarketplaceAppsSearchDocument = `
+    query MarketplaceAppsSearch($first: IntType = 100, $search: String!) {
   allMarketplaceApps(
     first: $first
     orderBy: _createdAt_DESC
-    filter: {categories: {eq: $categoryId}, popular: {eq: $popular}, new: {eq: $new}, builtByAurora: {eq: $builtByAurora}, essential: {eq: $essential}, id: {neq: $excludedAppId}}
+    filter: {OR: [{title: {matches: {pattern: $search}}}, {description: {matches: {pattern: $search}}}]}
   ) {
-    id
-    title
-    slug
-    description
-    logo {
-      ...imageAttributes
-    }
-    categories {
-      id
-      title
-      slug
-    }
-    builtByAurora
+    ...marketplaceAppAttributes
   }
 }
-    ${ImageAttributesFragmentDoc}`;
+    ${MarketplaceAppAttributesFragmentDoc}`;
+export const useMarketplaceAppsSearchQuery = <
+      TData = MarketplaceAppsSearchQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: MarketplaceAppsSearchQueryVariables,
+      options?: UseQueryOptions<MarketplaceAppsSearchQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<MarketplaceAppsSearchQuery, TError, TData>(
+      ['MarketplaceAppsSearch', variables],
+      fetcher<MarketplaceAppsSearchQuery, MarketplaceAppsSearchQueryVariables>(client, MarketplaceAppsSearchDocument, variables, headers),
+      options
+    );
+export const MarketplaceAppsDocument = `
+    query MarketplaceApps($categoryId: [ItemId], $popular: BooleanType, $new: BooleanType, $builtByAurora: BooleanType, $essential: BooleanType, $first: IntType = 100) {
+  allMarketplaceApps(
+    first: $first
+    orderBy: _createdAt_DESC
+    filter: {categories: {eq: $categoryId}, popular: {eq: $popular}, new: {eq: $new}, builtByAurora: {eq: $builtByAurora}, essential: {eq: $essential}}
+  ) {
+    ...marketplaceAppAttributes
+  }
+}
+    ${MarketplaceAppAttributesFragmentDoc}`;
 export const useMarketplaceAppsQuery = <
       TData = MarketplaceAppsQuery,
       TError = unknown

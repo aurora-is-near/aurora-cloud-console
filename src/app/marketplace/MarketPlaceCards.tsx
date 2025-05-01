@@ -8,6 +8,8 @@ import {
   MarketplaceAppsDocument,
   MarketplaceAppsQuery,
   MarketplaceAppsQueryVariables,
+  MarketplaceAppsSearchDocument,
+  MarketplaceAppsSearchQuery,
 } from "@/cms/generated/graphql"
 import { createGraphqlClient } from "@/cms/client"
 import { LinkButton } from "@/components/LinkButton"
@@ -20,6 +22,7 @@ type MarketplaceFooterProps = {
   title?: string
   seeAllLink?: string
   query: MarketplaceAppsQueryVariables
+  isSearchQuery?: boolean
 }
 
 export const MarketplaceCards = async ({
@@ -29,15 +32,24 @@ export const MarketplaceCards = async ({
   title,
   seeAllLink,
   query,
+  isSearchQuery,
 }: MarketplaceFooterProps) => {
   const graphqlClient = createGraphqlClient()
-  const { allMarketplaceApps = [] } =
-    await graphqlClient.request<MarketplaceAppsQuery>(
-      MarketplaceAppsDocument,
-      query,
-    )
+  const results = isSearchQuery
+    ? (
+        await graphqlClient.request<MarketplaceAppsSearchQuery>(
+          MarketplaceAppsSearchDocument,
+          query,
+        )
+      ).allMarketplaceApps
+    : (
+        await graphqlClient.request<MarketplaceAppsQuery>(
+          MarketplaceAppsDocument,
+          query,
+        )
+      ).allMarketplaceApps
 
-  const apps = allMarketplaceApps.filter(
+  const apps = results.filter(
     (app): app is MarketplaceAppCard =>
       !!app.id && !!app.title && !!app.slug && !!app.categories,
   )

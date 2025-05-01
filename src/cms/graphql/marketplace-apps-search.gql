@@ -1,0 +1,19 @@
+#import "./fragments/marketplace-app.graphql"
+
+query MarketplaceAppsSearch(
+  $first: IntType = 100
+  $search: String!
+) {
+  allMarketplaceApps(
+    first: $first
+    orderBy: _createdAt_DESC
+    filter: {
+      OR: [
+        { title: { matches: { pattern: $search } } },
+        { description: { matches: { pattern: $search } } }
+      ]
+    }
+  ) {
+    ...marketplaceAppAttributes
+  }
+}

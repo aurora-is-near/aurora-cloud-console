@@ -2,21 +2,30 @@ import { BaseContainer } from "@/components/BaseContainer"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { MarketplaceMainSidebarMenu } from "@/app/marketplace/MarketplaceMainSidebarMenu"
 import { MarketplaceGetStartedBanner } from "@/app/marketplace/MarketplaceGetStartedBanner"
-import { MarketplaceAppsQueryVariables } from "@/cms/generated/graphql"
+import {
+  MarketplaceAppsQueryVariables,
+  MarketplaceAppsSearchQueryVariables,
+} from "@/cms/generated/graphql"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
 import { Heading } from "@/uikit/Typography/Heading"
 
-type MarketplaceCategoryPageProps = {
+type MarketplaceCategoryPageProps<TIsSearchQuery extends boolean = false> = {
   title?: string
   description?: string
-  query: MarketplaceAppsQueryVariables
+  query: TIsSearchQuery extends true
+    ? MarketplaceAppsSearchQueryVariables
+    : MarketplaceAppsQueryVariables
+  isSearchQuery?: TIsSearchQuery
 }
 
-export const MarketplaceCategoryPage = async ({
+export const MarketplaceCategoryPage = async <
+  TIsSearchQuery extends boolean = false,
+>({
   title,
   description,
   query,
-}: MarketplaceCategoryPageProps) => {
+  isSearchQuery,
+}: MarketplaceCategoryPageProps<TIsSearchQuery>) => {
   return (
     <BaseContainer size="lg">
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden pt-14">
@@ -28,7 +37,12 @@ export const MarketplaceCategoryPage = async ({
               {description}
             </Paragraph>
           )}
-          <MarketplaceCards showNumberOfApps query={query} className="mt-8" />
+          <MarketplaceCards
+            showNumberOfApps
+            query={query}
+            isSearchQuery={isSearchQuery}
+            className="mt-8"
+          />
         </div>
       </div>
       <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />
