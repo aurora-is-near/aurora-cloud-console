@@ -6,6 +6,7 @@ type MarketPlacePillsProps = {
   categories: {
     id: string
     title: string
+    slug: string
   }[]
   builtByAurora?: boolean
   className?: string
@@ -20,11 +21,16 @@ export const MarketPlacePills = ({
     <ul className={clsx("flex flex-wrap gap-1.5", className)}>
       {categories.map((category) => (
         <li key={category.id}>
-          <MarketPlacePill>{category.title}</MarketPlacePill>
+          <MarketPlacePill href={`/marketplace/categories/${category.slug}`}>
+            {category.title}
+          </MarketPlacePill>
         </li>
       ))}
       {builtByAurora && (
-        <MarketPlacePill variant="green">
+        <MarketPlacePill
+          variant="green"
+          href="/marketplace/featured/built-by-aurora"
+        >
           <Image
             src="/static/v2/images/icons/marketplace/aurora-small.svg"
             width={14}
