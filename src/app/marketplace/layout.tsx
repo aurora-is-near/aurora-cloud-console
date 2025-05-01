@@ -1,8 +1,24 @@
 import { ReactNode } from "react"
+import { Metadata } from "next"
 import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 import { MainMenu } from "@/components/menu/MainMenu"
 import { MarketplaceFooter } from "@/app/marketplace/MarketPlaceFooter"
 import { MarketPlaceSearchInput } from "@/app/marketplace/MarketPlaceSearchInput"
+
+export const metadata: Metadata = {
+  title: "Aurora Cloud Marketplace",
+  openGraph: {
+    url: "https://app.auroracloud.dev/marketplace",
+    images: [
+      {
+        url: "https://app.auroracloud.dev/marketplace/static/v2/images/acc-marketplace-opengraph.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Aurora Cloud Marketplace",
+      },
+    ],
+  },
+}
 
 const Layout = async ({ children }: { children: ReactNode }) => {
   const authUser = await getAuthUser()
