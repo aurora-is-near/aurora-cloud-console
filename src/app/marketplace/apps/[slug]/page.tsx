@@ -73,7 +73,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   alt={marketplaceApp.logo.alt ?? ""}
                   width={marketplaceApp.logo.width}
                   height={marketplaceApp.logo.height}
-                  className="object-contain"
+                  className="object-contain rounded-2xl"
                 />
               )}
             </div>

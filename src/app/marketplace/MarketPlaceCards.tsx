@@ -56,7 +56,7 @@ export const MarketplaceCards = ({
                     src={app.logo.url}
                     width={48}
                     height={48}
-                    className="object-contain mb-4"
+                    className="object-contain mb-4 rounded-xl"
                     alt=""
                   />
                 )}
