@@ -32,6 +32,8 @@ export const createWrapper = ({
               isMenuOpen: false,
               openMenu: () => {},
               closeMenu: () => {},
+              setHasMenu: () => {},
+              hasMenu: false,
             }}
           >
             <ModalsContext.Provider
