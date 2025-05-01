@@ -27,7 +27,7 @@ export const MarketplaceGetStartedBanner = ({
             Start with Aurora Cloud now and launch your virtual chain instantly,
             with 1,000 free transactions ready to go.
           </p>
-          <LinkButton href={SIGNUP_ROUTE} className="mt-3 xl:mt-5">
+          <LinkButton href={SIGNUP_ROUTE} className="mt-3 xl:mt-5" size="lg">
             Get Started
           </LinkButton>
         </div>
