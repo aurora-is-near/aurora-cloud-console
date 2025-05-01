@@ -1,11 +1,11 @@
 import Link from "next/link"
 import Image from "next/image"
 import clsx from "clsx"
-import { Card } from "@/uikit"
 import { Heading } from "@/uikit/Typography/Heading"
 import { MarketplaceAppCard } from "@/types/marketplace"
 import { LinkButton } from "@/components/LinkButton"
 import { MarketPlacePills } from "@/app/marketplace/MarketPlacePills"
+import Card from "@/components/Card"
 
 type MarketplaceCardsProps = {
   className?: string
@@ -50,7 +50,7 @@ export const MarketplaceCards = ({
                 showSingleRow && index > 2 && "xl:hidden",
               )}
             >
-              <Card>
+              <Card isClickable>
                 {!!app.logo?.url && (
                   <Image
                     src={app.logo.url}
