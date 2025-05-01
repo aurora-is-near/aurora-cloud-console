@@ -100,7 +100,7 @@ export const SidebarMenu = ({
                     className={clsx(
                       "font-bold",
                       variant === "compact"
-                        ? "text-slate-900 text-lg mb-3"
+                        ? "text-slate-900 text-lg mb-3 tracking-[-0.5px]"
                         : "px-3 text-slate-500 uppercase text-xs tracking-[1.5px] py-2.5 mb-1",
                     )}
                   >
