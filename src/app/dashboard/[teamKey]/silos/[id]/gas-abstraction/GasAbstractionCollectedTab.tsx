@@ -9,7 +9,7 @@ type Props = {
   team: Team
 }
 
-export const _active = ({ silo, team }: Props) => {
+export const GasAbstractionCollectedTab = ({ silo, team }: Props) => {
   return (
     <section className="w-full space-y-5">
       <GasCollectedChart silo={silo} />
