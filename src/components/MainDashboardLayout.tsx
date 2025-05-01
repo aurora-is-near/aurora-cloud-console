@@ -76,9 +76,10 @@ export const MainDashboardLayout = ({
                 })),
               },
               {
-                name: "Integrations",
-                href: `/dashboard/${teamKey}${siloPrefix}/integrations`,
+                name: "Marketplace",
+                href: "/marketplace",
                 icon: <Integrations />,
+                isExternal: true,
               },
             ],
           },
