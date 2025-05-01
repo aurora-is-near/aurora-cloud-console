@@ -74,7 +74,7 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
   const onSave: SubmitHandler<FormData> = async (values: FormData) => {
     try {
       await updateSilo(silo.id, { gas_collection_address: values.address })
-      toast.success("Gas collection address successfully.")
+      toast.success("Gas collection address added successfully.")
       await queryClient
         .invalidateQueries({
           queryKey: queryKeys.getTeamSiloByKey(team.team_key, silo.id),

@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { ModalsContext } from "@/providers/ModalsProvider"
+import { ModalsProvider } from "@/providers/ModalsProvider"
 import { MenuContext } from "@/providers/MenuProvider"
 import { AnalyticsContext } from "@/providers/AnalyticsProvider"
 import { QueryProvider } from "@/providers/QueryProvider"
@@ -36,15 +36,7 @@ export const createWrapper = ({
               hasMenu: false,
             }}
           >
-            <ModalsContext.Provider
-              value={{
-                activeModal: null,
-                openModal: () => {},
-                closeModal: () => {},
-              }}
-            >
-              {children}
-            </ModalsContext.Provider>
+            <ModalsProvider>{children}</ModalsProvider>
           </MenuContext.Provider>
         </AnalyticsContext.Provider>
       </QueryProvider>

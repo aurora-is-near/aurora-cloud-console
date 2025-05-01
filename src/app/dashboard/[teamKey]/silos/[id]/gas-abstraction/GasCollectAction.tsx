@@ -7,7 +7,6 @@ import { logger } from "@/logger"
 import { getQueryKey } from "@/utils/api/query-keys"
 import { Button } from "@/components/Button"
 import { collectGasToNear } from "@/actions/silo-gas/collect-gas-to-near"
-import { safeBigintToNumber } from "@/utils/safe-bigint-to-number"
 import type { Silo } from "@/types/types"
 
 import { ConfirmGasCollectionModal } from "./ConfirmGasCollectionModal"
@@ -32,18 +31,13 @@ const collectGasMutationFn = async ({ silo, availableGas }: MutationFnArgs) => {
     silo.base_token_decimals,
   )
 
-  let parsedGasSafeAmount: number = 0
-
-  try {
-    parsedGasSafeAmount = safeBigintToNumber(parsedGasAmount)
-  } catch (e: unknown) {
-    throw new Error("Gas amount is too high")
-  }
-
   let status = "PENDING"
 
   try {
-    status = await collectGasToNear({ silo, amount: `${parsedGasSafeAmount}` })
+    status = await collectGasToNear({
+      silo,
+      amount: parsedGasAmount.toString(),
+    })
   } catch (e: unknown) {
     throw new Error("Gas collection failed")
   }

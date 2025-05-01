@@ -13,7 +13,7 @@ export const _active = ({ silo, team }: Props) => {
   return (
     <section className="w-full space-y-5">
       <GasCollectedChart silo={silo} />
-      <GasAbstractionSettings silo={silo} team={team} />
+      <GasAbstractionSettings team={team} />
       <GasAbstractionMechanics silo={silo} />
     </section>
   )
