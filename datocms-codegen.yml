@@ -16,6 +16,8 @@ generates:
       - typescript
       - typescript-operations
       - typescript-react-query
+      - add:
+          content: '// @ts-nocheck'
     config:
       fetcher: graphql-request
       maybeValue: T

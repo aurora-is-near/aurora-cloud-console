@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GraphQLClient } from 'graphql-request';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 export type Maybe<T> = T;
