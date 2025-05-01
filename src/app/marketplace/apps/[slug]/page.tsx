@@ -62,7 +62,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <BaseContainer size="lg">
-      <div className="w-full h-full flex flex-col md:flex-row bg-slate-50 overflow-hidden pt-14 md:gap-x-16">
+      <div className="w-full h-full flex flex-col md:flex-row bg-slate-50 overflow-hidden pt-10 md:gap-x-16">
         <div className="mb-8 md:mb-16 md:order-2">
           {/* Header */}
           <div className="flex flex-col sm:flex-row mb-8 md:mb-14">
