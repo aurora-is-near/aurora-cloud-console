@@ -7,6 +7,7 @@ import { MarketPlaceSearchInput } from "@/app/marketplace/MarketPlaceSearchInput
 
 export const metadata: Metadata = {
   title: "Aurora Cloud Marketplace",
+  description: "Enhance your Aurora Chain with powerful tools and services.",
   openGraph: {
     url: "https://app.auroracloud.dev/marketplace",
     images: [
