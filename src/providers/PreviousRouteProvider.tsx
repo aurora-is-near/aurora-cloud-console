@@ -1,6 +1,6 @@
 "use client"
 
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { createContext, ReactNode, useEffect, useMemo, useState } from "react"
 
 type PreviousRouteContextType = {
@@ -16,15 +16,16 @@ export const PreviousRouteProvider = ({
   children: ReactNode
 }) => {
   const pathname = usePathname()
-  const searchParams = useSearchParams()
 
   const [previousRoute, setPreviousRoute] = useState<string | null>(null)
   const [currentRoute, setCurrentRoute] = useState<string | null>(null)
 
   useEffect(() => {
+    const { search } = window.location
+
     setPreviousRoute(currentRoute)
-    setCurrentRoute(`${pathname}?${searchParams}`)
-  }, [currentRoute, pathname, searchParams])
+    setCurrentRoute(search ? `${pathname}?${search}` : pathname)
+  }, [currentRoute, pathname])
 
   const ctx = useMemo(
     () => ({
