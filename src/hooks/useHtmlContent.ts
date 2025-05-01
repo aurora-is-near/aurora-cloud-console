@@ -42,7 +42,7 @@ const trimExternalClasses = (element: ReactNode, scope: "t" | "b") => {
   // last element) so that we can more easily control the spacing of the entire
   // content block from the outside.
   return cloneElement(element, {
-    className: element.props.className.replace(
+    className: element.props.className?.replace(
       new RegExp(`((xs|sm|md|lg|xl|2xl):)?[mp]${scope}[^s$]+`, "g"),
       "",
     ),
