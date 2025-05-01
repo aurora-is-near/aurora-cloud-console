@@ -11,12 +11,12 @@ import {
 } from "@/cms/generated/graphql"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { BaseContainer } from "@/components/BaseContainer"
-import Heading from "@/components/Heading"
 import { Card } from "@/uikit"
 import { HtmlContent } from "@/components/HtmlContent"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
 import { RequestIntegrationButton } from "@/app/marketplace/apps/[slug]/RequestIntegrationButton"
 import { getMarketplaceApps } from "@/utils/marketplace/get-marketplace-apps"
+import { Heading } from "@/uikit/Typography/Heading"
 import { MarketPlacePills } from "../../MarketPlacePills"
 import { BackButton } from "./BackButton"
 
@@ -81,7 +81,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
             </div>
             <div className="flex-1 relative">
               <div className="flex flex-row justify-between">
-                <Heading tag="h1" size="lg" className="mb-3">
+                <Heading as="h1" size={2} className="mb-3">
                   {marketplaceApp.title}
                 </Heading>
               </div>
@@ -116,11 +116,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 )}
                 <div className="">
                   {!!contentItem.title && (
-                    <Heading
-                      tag="h2"
-                      size="sm"
-                      className="text-slate-900 mb-2.5"
-                    >
+                    <Heading as="h2" size={3} className="text-slate-900 mb-2.5">
                       {contentItem.title}
                     </Heading>
                   )}

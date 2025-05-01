@@ -16,7 +16,9 @@ export const MarketplaceCategoryPage = ({
 }: MarketplaceCategoryPageProps) => {
   return (
     <div className="w-full lg:pl-16">
-      <Heading size={1}>{title}</Heading>
+      <Heading as="h1" size={2}>
+        {title}
+      </Heading>
       {!!description && (
         <Paragraph size={1} className="text-slate-500 mt-4">
           {description}
