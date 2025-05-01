@@ -27,7 +27,11 @@ export const MarketplaceCards = ({
   return (
     <div className={clsx("flex flex-col", className)}>
       <div className="mb-4 flex flex-row items-center justify-between">
-        {!!title && <Heading size={3}>{title}</Heading>}
+        {!!title && (
+          <h2 className="text-slate-900 text-2xl font-bold tracking-[-1px]">
+            {title}
+          </h2>
+        )}
         {showNumberOfApps && (
           <p className="font-bold text-lg tracking-tight">
             {apps.length} app{apps.length === 1 ? "" : "s"}
