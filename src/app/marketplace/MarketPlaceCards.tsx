@@ -15,7 +15,7 @@ import { createGraphqlClient } from "@/cms/client"
 import { LinkButton } from "@/components/LinkButton"
 import { MarketPlacePills } from "@/app/marketplace/MarketPlacePills"
 
-type MarketplaceFooterProps = {
+type MarketplaceCardsProps = {
   className?: string
   showNumberOfApps?: boolean
   showSingleRow?: boolean
@@ -33,7 +33,7 @@ export const MarketplaceCards = async ({
   seeAllLink,
   query,
   isSearchQuery,
-}: MarketplaceFooterProps) => {
+}: MarketplaceCardsProps) => {
   const graphqlClient = createGraphqlClient()
   const results = isSearchQuery
     ? (
