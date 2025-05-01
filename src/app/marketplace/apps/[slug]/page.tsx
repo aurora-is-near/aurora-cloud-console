@@ -67,7 +67,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           {/* Header */}
           <div className="flex flex-col sm:flex-row mb-8 md:mb-14">
             <div className="w-[60px] min-w-[60px] sm:w-[108px] sm:min-w-[108px] aspect-square mb-6 sm:mb-0 sm:mr-10">
-              {!!marketplaceApp.logo?.url && (
+              {marketplaceApp.logo?.url ? (
                 <Image
                   src={marketplaceApp.logo.url}
                   alt={marketplaceApp.logo.alt ?? ""}
@@ -75,6 +75,8 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   height={marketplaceApp.logo.height}
                   className="object-contain rounded-2xl"
                 />
+              ) : (
+                <div className="bg-slate-200 rounded-2xl h-full w-full" />
               )}
             </div>
             <div className="flex-1 relative">

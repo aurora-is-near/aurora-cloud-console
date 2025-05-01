@@ -51,15 +51,18 @@ export const MarketplaceCards = ({
               )}
             >
               <Card isClickable>
-                {!!app.logo?.url && (
-                  <Image
-                    src={app.logo.url}
-                    width={48}
-                    height={48}
-                    className="object-contain mb-4 rounded-xl"
-                    alt=""
-                  />
-                )}
+                <div className="w-[48px] h-[48px] relative mb-4">
+                  {app.logo?.url ? (
+                    <Image
+                      fill
+                      src={app.logo.url}
+                      className="object-contain rounded-xl"
+                      alt=""
+                    />
+                  ) : (
+                    <div className="bg-slate-200 rounded-xl h-full w-full" />
+                  )}
+                </div>
                 <Heading size={4}>{app.title}</Heading>
                 {!!app.description && (
                   <p className="text-sm text-slate-500 line-clamp-2	mt-1.5">
