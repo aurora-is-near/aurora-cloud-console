@@ -12,7 +12,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
       <MainMenu
         isMarketplace
         authUser={authUser}
-        menuItems={[{ name: "Dashboard", href: "/dashboard" }]}
+        menuItems={authUser ? [{ name: "Dashboard", href: "/dashboard" }] : []}
       >
         <MarketPlaceSearchInput />
       </MainMenu>
