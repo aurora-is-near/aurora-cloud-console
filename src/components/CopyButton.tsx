@@ -39,6 +39,7 @@ const CopyButton = ({ value, className, hasBorder, size }: CopyButtonProps) => {
   }
 
   return (
+    // @ts-expect-error: refs is required according to the CopyToClipboard types
     <CopyToClipboard text={value} onCopy={() => setCopied(true)}>
       <button
         type="button"
