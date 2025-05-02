@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowLeftIcon } from "@heroicons/react/24/solid"
+import { ArrowLeftIcon } from "@heroicons/react/20/solid"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/Button"
 import { usePreviousRoute } from "@/hooks/usePreviousRoute"

@@ -4,6 +4,7 @@ import { BaseContainer } from "@/components/BaseContainer"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
 import { getMarketplaceApps } from "@/utils/marketplace/get-marketplace-apps"
+import { MarketplaceCollectionCard } from "@/app/marketplace/MarketPlaceCollectionCard"
 import { MarketplaceMainSidebarMenu } from "./MarketplaceMainSidebarMenu"
 import { MarketplaceGetStartedBanner } from "./MarketplaceGetStartedBanner"
 
@@ -41,6 +42,25 @@ const Page = async () => {
         <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden pt-14">
           <MarketplaceMainSidebarMenu />
           <div className="w-full lg:pl-16 space-y-14">
+            <div>
+              <h2 className="text-slate-900 text-2xl font-bold tracking-[-1px] mb-5">
+                Collections
+              </h2>
+              <div className="grid lg:grid-cols-2 gap-x-8 gap-y-5">
+                <MarketplaceCollectionCard
+                  variant="green"
+                  title="Built by Aurora"
+                  seeAllLink="/marketplace/featured/built-by-aurora"
+                  iconSrc="/static/v2/images/icons/marketplace/collection-built-by-aurora.svg"
+                />
+                <MarketplaceCollectionCard
+                  variant="orange"
+                  title="Essentials"
+                  seeAllLink="/marketplace/featured/essentials"
+                  iconSrc="/static/v2/images/icons/marketplace/collection-essentials.svg"
+                />
+              </div>
+            </div>
             <MarketplaceCards
               showSingleRow
               title="Popular"

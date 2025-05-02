@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import clsx from "clsx"
+import { ArrowRightIcon } from "@heroicons/react/20/solid"
 import { Heading } from "@/uikit/Typography/Heading"
 import { MarketplaceAppCard } from "@/types/marketplace"
 import { LinkButton } from "@/components/LinkButton"
@@ -40,6 +41,7 @@ export const MarketplaceCards = ({
         {!!seeAllLink && (
           <LinkButton size="sm" href={seeAllLink} variant="border">
             See all
+            <ArrowRightIcon className="w-4 h-4" />
           </LinkButton>
         )}
       </div>
