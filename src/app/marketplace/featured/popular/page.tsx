@@ -2,7 +2,7 @@ import { getMarketplaceApps } from "@/utils/marketplace/get-marketplace-apps"
 import { MarketplaceCategoryPage } from "../../MarketplaceCategoryPage"
 
 const Page = async () => {
-  const apps = await getMarketplaceApps({ new: true })
+  const apps = await getMarketplaceApps({ popular: true })
 
   return (
     <MarketplaceCategoryPage
