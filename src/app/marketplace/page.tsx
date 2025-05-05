@@ -1,4 +1,5 @@
 import Image from "next/image"
+import clsx from "clsx"
 import { Heading } from "@/uikit/Typography/Heading"
 import { BaseContainer } from "@/components/BaseContainer"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
@@ -55,7 +56,12 @@ const Page = async () => {
               <h2 className="text-slate-900 text-2xl font-bold tracking-[-1px] mb-5">
                 Collections
               </h2>
-              <div className="grid lg:grid-cols-2 gap-x-8 gap-y-5">
+              <div
+                className={clsx(
+                  "grid gap-x-8 gap-y-5",
+                  featuredCollections.length > 1 && "lg:grid-cols-2",
+                )}
+              >
                 {featuredCollections.map((collection) => (
                   <MarketplaceCollectionCard
                     colorScheme={collection.builtByAurora ? "green" : "orange"}
