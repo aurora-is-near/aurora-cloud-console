@@ -31,7 +31,7 @@ const Layout = async ({ children }: { children: ReactNode }) => {
         authUser={authUser}
         menuItems={authUser ? [{ name: "Dashboard", href: "/dashboard" }] : []}
       >
-        <MarketPlaceSearchInput />
+        <MarketPlaceSearchInput className="hidden md:block" />
       </MainMenu>
       {children}
       <MarketplaceFooter className="mt-16" />

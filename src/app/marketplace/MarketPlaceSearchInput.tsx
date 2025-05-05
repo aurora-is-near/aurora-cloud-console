@@ -1,10 +1,17 @@
 "use client"
 
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
+import clsx from "clsx"
 import { useRouter } from "next/navigation"
 import { FormEvent, useRef } from "react"
 
-export const MarketPlaceSearchInput = () => {
+type MarketPlaceSearchInputProps = {
+  className?: string
+}
+
+export const MarketPlaceSearchInput = ({
+  className,
+}: MarketPlaceSearchInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
 
@@ -21,7 +28,10 @@ export const MarketPlaceSearchInput = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="flex items-center justify-center w-full max-w-[270px] bg-slate-800 rounded-lg text-slate-300 overflow-hidden px-2.5"
+      className={clsx(
+        "flex items-center justify-center w-full max-w-[270px] bg-slate-800 rounded-lg text-slate-300 overflow-hidden px-2.5",
+        className,
+      )}
     >
       <MagnifyingGlassIcon className="w-5 h-5 mr-2.5" />
       <input

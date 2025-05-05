@@ -9,7 +9,7 @@ import {
 } from "@/cms/generated/graphql"
 import { LinkButton } from "@/components/LinkButton"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
-import { MarketplaceSubmitAppRequestButton } from "./MarketplaceSubmitAppRequestButton"
+import { MarketplaceRequestAppSection } from "@/app/marketplace/MarketplaceRequestAppSection"
 
 type MarketplaceMainSidebarMenuProps = {
   hasBackButton?: boolean
@@ -68,15 +68,7 @@ export const MarketplaceMainSidebarMenu = async ({
           },
         ]}
       />
-      <section>
-        <h3 className="font-bold text-slate-900 text-lg mt-6 pt-6 border-t border-slate-200">
-          Request an app
-        </h3>
-        <p className="text-slate-500 text-sm mt-3">
-          Can't find what you're looking for? Let us know.
-        </p>
-        <MarketplaceSubmitAppRequestButton />
-      </section>
+      <MarketplaceRequestAppSection className="hidden lg:block mt-6 pt-6 border-t border-slate-200" />
     </div>
   )
 }

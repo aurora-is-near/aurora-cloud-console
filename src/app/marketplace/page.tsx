@@ -1,6 +1,5 @@
 import Image from "next/image"
 import clsx from "clsx"
-import { Heading } from "@/uikit/Typography/Heading"
 import { BaseContainer } from "@/components/BaseContainer"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
@@ -12,6 +11,7 @@ import {
 } from "@/cms/generated/graphql"
 import { MarketplaceMainSidebarMenu } from "./MarketplaceMainSidebarMenu"
 import { MarketplaceGetStartedBanner } from "./MarketplaceGetStartedBanner"
+import { MarketplaceRequestAppSection } from "./MarketplaceRequestAppSection"
 
 const Page = async () => {
   const graphqlClient = createGraphqlClient()
@@ -31,7 +31,9 @@ const Page = async () => {
       <div className="w-full md:h-[340px] relative bg-slate-100 flex flex-row items-center">
         <BaseContainer size="lg">
           <div className="md:max-w-md lg:max-w-lg py-10">
-            <Heading size={1}>Explore Aurora Cloud Integrations</Heading>
+            <h1 className="font-bold text-4xl md:text-5xl tracking-tight md:leading-[3.25rem]">
+              Explore Aurora Cloud Integrations
+            </h1>
             <Paragraph size={1} className="text-slate-500 mt-4">
               Aurora Cloud chains come ready to use with built-in integrations
               for a seamless start. You can also enhance your Virtual Chain with
@@ -88,6 +90,7 @@ const Page = async () => {
             ))}
           </div>
         </div>
+        <MarketplaceRequestAppSection className="lg:hidden bg-slate-100 rounded-[10px] p-6 mt-12" />
         <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />
       </BaseContainer>
     </>

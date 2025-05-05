@@ -46,8 +46,8 @@ export const MainMenu = ({
       <div className="flex flex-row items-center">
         <AuroraLogo href={homeRoute} />
         {!!isMarketplace && (
-          <div className="ml-5 flex flex-row items-center border border-slate-600 rounded-full">
-            <span className="text-slate-300 font-medium px-2.5 py-2 leading-none">
+          <div className="ml-4 md:ml-5 flex flex-row items-center border border-slate-600 rounded-full">
+            <span className="text-sm md:text-base text-slate-300 font-medium px-2.5 py-2 leading-none">
               Marketplace
             </span>
           </div>
