@@ -4,7 +4,6 @@ import {
   MarketplaceAppsQuery,
   MarketplaceAppsQueryVariables,
 } from "@/cms/generated/graphql"
-import { MarketplaceAppCard } from "@/types/marketplace"
 
 export const getMarketplaceApps = async (
   query: MarketplaceAppsQueryVariables,
@@ -16,8 +15,5 @@ export const getMarketplaceApps = async (
       query,
     )
 
-  return allMarketplaceApps.filter(
-    (app): app is MarketplaceAppCard =>
-      !!app.id && !!app.title && !!app.slug && !!app.categories,
-  )
+  return allMarketplaceApps
 }

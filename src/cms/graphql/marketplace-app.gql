@@ -5,6 +5,7 @@ query MarketplaceApp($slug: String!) {
     id
     title
     description
+    pricing
     logo {
       ...imageAttributes
     }
@@ -26,7 +27,11 @@ query MarketplaceApp($slug: String!) {
       title
       slug
     }
-    builtByAurora
-    pricing
+    _allReferencingMarketplaceCollections {
+      id
+      title
+      slug
+      builtByAurora
+    }
   }
 }

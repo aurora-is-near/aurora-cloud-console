@@ -3,7 +3,6 @@ fragment marketplaceAppAttributes on MarketplaceAppRecord {
   title
   slug
   description
-  builtByAurora
   logo {
     ...imageAttributes
   }
@@ -11,5 +10,11 @@ fragment marketplaceAppAttributes on MarketplaceAppRecord {
     id
     title
     slug
+  }
+  _allReferencingMarketplaceCollections {
+    id
+    title
+    slug
+    builtByAurora
   }
 }

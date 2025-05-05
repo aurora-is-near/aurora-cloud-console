@@ -23,7 +23,7 @@ const Page = async () => {
   const featuredCollections = allMarketplaceCollections
     .filter((collection) => collection.featured)
     .slice(0, 2)
-    .sort((a) => (a.theme === "aurora" ? -1 : 1))
+    .sort((a) => (a.builtByAurora ? -1 : 1))
 
   return (
     <>
@@ -58,14 +58,12 @@ const Page = async () => {
               <div className="grid lg:grid-cols-2 gap-x-8 gap-y-5">
                 {featuredCollections.map((collection) => (
                   <MarketplaceCollectionCard
-                    colorScheme={
-                      collection.theme === "aurora" ? "green" : "orange"
-                    }
+                    colorScheme={collection.builtByAurora ? "green" : "orange"}
                     key={collection.id}
                     title={collection.title}
                     seeAllLink={`/marketplace/collections/${collection.slug}`}
                     iconSrc={
-                      collection.theme === "aurora"
+                      collection.builtByAurora
                         ? "/static/v2/images/icons/marketplace/collection-aurora.svg"
                         : "/static/v2/images/icons/marketplace/collection-default.svg"
                     }

@@ -8,7 +8,7 @@ query MarketplaceCollections {
     title
     slug
     featured
-    theme
+    builtByAurora
     apps {
       ...marketplaceAppAttributes
     }

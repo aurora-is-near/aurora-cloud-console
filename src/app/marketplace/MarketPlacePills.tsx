@@ -8,13 +8,16 @@ type MarketPlacePillsProps = {
     title: string
     slug: string
   }[]
-  builtByAurora?: boolean
+  auroraCollection?: {
+    title: string
+    slug: string
+  }
   className?: string
 }
 
 export const MarketPlacePills = ({
   categories,
-  builtByAurora,
+  auroraCollection,
   className,
 }: MarketPlacePillsProps) => {
   return (
@@ -26,10 +29,10 @@ export const MarketPlacePills = ({
           </MarketPlacePill>
         </li>
       ))}
-      {builtByAurora && (
+      {auroraCollection && (
         <MarketPlacePill
           variant="green"
-          href="/marketplace/featured/built-by-aurora"
+          href={`/marketplace/collections/${auroraCollection.slug}`}
         >
           <Image
             src="/static/v2/images/icons/marketplace/aurora-small.svg"
@@ -38,7 +41,7 @@ export const MarketPlacePills = ({
             className="inline-block mr-1"
             alt=""
           />
-          Built by Aurora
+          {auroraCollection.title}
         </MarketPlacePill>
       )}
     </ul>

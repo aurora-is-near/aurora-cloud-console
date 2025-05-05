@@ -3,10 +3,11 @@ import Image from "next/image"
 import clsx from "clsx"
 import { ArrowRightIcon } from "@heroicons/react/20/solid"
 import { Heading } from "@/uikit/Typography/Heading"
-import { MarketplaceAppCard } from "@/types/marketplace"
 import { LinkButton } from "@/components/LinkButton"
 import { MarketPlacePills } from "@/app/marketplace/MarketPlacePills"
 import Card from "@/components/Card"
+import { getAuroraCollection } from "@/utils/marketplace/get-aurora-collection"
+import { MarketplaceAppCard } from "@/types/marketplace"
 
 type MarketplaceCardsProps = {
   className?: string
@@ -77,7 +78,7 @@ export const MarketplaceCards = ({
                 )}
                 <MarketPlacePills
                   categories={app.categories}
-                  builtByAurora={app.builtByAurora}
+                  auroraCollection={getAuroraCollection(app)}
                   className="mt-4"
                 />
               </Card>

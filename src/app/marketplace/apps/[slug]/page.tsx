@@ -8,6 +8,8 @@ import {
   MarketplaceAppQuery,
   MarketplaceAppsMetaDocument,
   MarketplaceAppsMetaQuery,
+  MarketplaceCollectionDocument,
+  MarketplaceCollectionQuery,
 } from "@/cms/generated/graphql"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { BaseContainer } from "@/components/BaseContainer"
@@ -17,6 +19,7 @@ import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
 import { RequestIntegrationButton } from "@/app/marketplace/apps/[slug]/RequestIntegrationButton"
 import { getMarketplaceApps } from "@/utils/marketplace/get-marketplace-apps"
 import { Heading } from "@/uikit/Typography/Heading"
+import { getAuroraCollection } from "@/utils/marketplace/get-aurora-collection"
 import { MarketPlacePills } from "../../MarketPlacePills"
 import { BackButton } from "./BackButton"
 
@@ -48,17 +51,27 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   const isFree = /free/i.test(marketplaceApp.pricing ?? "")
   const firstCategory = marketplaceApp.categories[0]
+  const auroraCollection = getAuroraCollection(marketplaceApp)
 
-  const relatedApps =
-    marketplaceApp.builtByAurora || firstCategory
-      ? await getMarketplaceApps({
+  const [relatedCollection, firstCategoryApps] = await Promise.all([
+    auroraCollection
+      ? await graphqlClient.request<MarketplaceCollectionQuery>(
+          MarketplaceCollectionDocument,
+          { slug: auroraCollection.slug },
+        )
+      : null,
+    firstCategory
+      ? getMarketplaceApps({
           first: 3,
           excludedAppId: marketplaceApp.id,
-          ...(marketplaceApp.builtByAurora
-            ? { builtByAurora: true }
-            : { categoryId: firstCategory.id }),
+          categoryId: firstCategory.id,
         })
-      : []
+      : null,
+  ])
+
+  const relatedApps = auroraCollection
+    ? (relatedCollection?.marketplaceCollection?.apps ?? [])
+    : firstCategoryApps
 
   return (
     <BaseContainer size="lg">
@@ -129,19 +142,15 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
             ))}
           </div>
 
-          {!!relatedApps.length && (
+          {!!relatedApps?.length && (
             <MarketplaceCards
               showSingleRow
               className="mt-16 pt-16 border-t border-slate-200"
-              title={
-                marketplaceApp.builtByAurora
-                  ? "Built by Aurora"
-                  : firstCategory.title
-              }
+              title={auroraCollection?.title ?? firstCategory.title}
               apps={relatedApps}
               seeAllLink={
-                marketplaceApp.builtByAurora
-                  ? "/marketplace/featured/built-by-aurora"
+                auroraCollection
+                  ? `/marketplace/collections/${auroraCollection.slug}`
                   : `/marketplace/categories/${firstCategory.slug}`
               }
             />

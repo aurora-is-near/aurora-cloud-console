@@ -26,12 +26,7 @@ const Page = ({
         { search: query ?? "" },
       )
 
-    const validResults = allMarketplaceApps.filter(
-      (app): app is MarketplaceAppCard =>
-        !!app.id && !!app.title && !!app.slug && !!app.categories,
-    )
-
-    setApps(validResults)
+    setApps(allMarketplaceApps)
     setIsLoading(false)
   }, [query])
 

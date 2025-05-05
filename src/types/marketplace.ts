@@ -27,7 +27,12 @@ export type MarketplaceApp = {
     text: string
     url: string
   }[]
-  builtByAurora: boolean
+  _allReferencingMarketplaceCollections: {
+    id: string
+    title: string
+    slug: string
+    builtByAurora: boolean
+  }[]
 }
 
 export type MarketplaceAppCard = Pick<
@@ -38,5 +43,5 @@ export type MarketplaceAppCard = Pick<
   | "slug"
   | "logo"
   | "categories"
-  | "builtByAurora"
+  | "_allReferencingMarketplaceCollections"
 >
