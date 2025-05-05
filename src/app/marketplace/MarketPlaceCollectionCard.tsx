@@ -2,7 +2,6 @@ import clsx from "clsx"
 import Image from "next/image"
 import { ArrowRightIcon } from "@heroicons/react/20/solid"
 import { LinkButton } from "@/components/LinkButton"
-import { Heading } from "@/uikit/Typography/Heading"
 
 type MarketplaceCollectionCardProps = {
   colorScheme: "green" | "orange"
