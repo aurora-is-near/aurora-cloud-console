@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { logger } from "@/logger"
-import { getSilo } from "@/actions/silos/get-silo"
-import { createSiloFundingWallet } from "@/actions/teams-funding/create-funding-wallet"
+import { type Team } from "@/types/types"
+import { createTeamFundingWallet } from "@/actions/teams-funding/create-funding-wallet"
 
 const INTENTS_BASE_URL = "https://app.near-intents.org/withdraw"
 const BASE_AMOUNT = 69.42
@@ -9,7 +9,7 @@ const BASE_NETWORK = "aurora"
 const BASE_TOKEN = "USDT"
 
 export const useIntentsTxTopUpLink = (
-  siloId: number,
+  team: Team,
 ): {
   topupLink: string | null
   error: Error | null
@@ -21,13 +21,12 @@ export const useIntentsTxTopUpLink = (
 
   async function checkSiloFundingWallet(): Promise<string | null> {
     try {
-      const silo = await getSilo(siloId)
 
-      if (!silo?.funding_wallet_address) {
+      if (!team.funding_wallet_address) {
         return null
       }
 
-      return silo.funding_wallet_address
+      return team.funding_wallet_address
     } catch (err) {
       logger.error("Error checking silo funding wallet", err)
       setError(err as Error)
@@ -41,7 +40,7 @@ export const useIntentsTxTopUpLink = (
     checkSiloFundingWallet()
       .then(async (address) => {
         if (!address) {
-          const res = await createSiloFundingWallet(siloId)
+          const res = await createTeamFundingWallet(team.id)
 
           if (!res.funding_wallet_address) {
             throw new Error("Funding wallet not created")

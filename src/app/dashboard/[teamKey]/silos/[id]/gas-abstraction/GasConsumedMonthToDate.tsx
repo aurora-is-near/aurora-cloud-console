@@ -11,7 +11,6 @@ import { getMonthsList } from "@/utils/dates/get-months-list"
 import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
 import { Card, InfoList, Skeleton, Typography } from "@/uikit"
 import type { Silo, Team } from "@/types/types"
-
 type Props = {
   team: Team
   silo: Silo
@@ -25,7 +24,7 @@ const Items = ({ silo, team }: Props) => {
     topupLink: intentsTopupLink,
     error,
     loading,
-  } = useIntentsTxTopUpLink(silo.id)
+  } = useIntentsTxTopUpLink(team)
   const infoListItemProps = {
     label: "Total transactions used",
   }
@@ -92,16 +91,16 @@ const Items = ({ silo, team }: Props) => {
                     <ArrowTopRightOnSquareIcon className="w-3 h-3" />
                   </LinkButton>
                 )}
-                <LinkButton
+                {intentsTopupLink ? <LinkButton
                   size="sm"
                   variant="border"
                   href={`${intentsTopupLink ? intentsTopupLink : ""}`}
-                  disabled={loading || !!error}
                   isExternal
+                  loading={loading}
                 >
                   Crypto Top up
                   <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                </LinkButton>
+                </LinkButton> : <Skeleton className="w-32 h-6" />}
               </div>
             </div>
           </InfoList.Item>

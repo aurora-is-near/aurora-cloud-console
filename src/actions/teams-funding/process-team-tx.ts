@@ -1,10 +1,14 @@
 import { getCryptoOrders } from "@/actions/orders/get-crypto-orders"
 import { updateTeam } from "@/actions/teams/update-team"
-import { Team, Order } from "@/types/types"
+import { Team } from "@/types/types"
 import { addOrder, type OrderWithRequiredFields } from "@/actions/orders/add-order"
+
 const AURORA_API_URL = "https://explorer.testnet.aurora.dev/api/"
+// const AURORA_API_URL = "https://explorer.mainnet.aurora.dev/api/"
 const AURORA_USDT_CONTRACT =
   "0x80da25da4d783e57d2fcda0436873a193a4beccf".toLowerCase()
+const QUERY_TYPE_TOKEN = 'tokentx'
+const QUERY_TYPE_COIN = 'txlist'
 const TX_COST_USDT = 0.004628
 
 export async function processTeamTx(team: Team) {
@@ -14,16 +18,10 @@ export async function processTeamTx(team: Team) {
   if (inflows.length === 0) return
   const orders = await getCryptoOrders(team.id)
   if (orders.length === 0) {
-    // add all inflows as orders
     await Promise.all(
       inflows.map(async (tx) => {
         const txHash = tx.hash
         const txAmount = tx.txAmount
-        const foundOrder = orders.find((order) => order.tx_hash === txHash)
-        if (foundOrder) {
-          console.log("Order already exists for txHash:", txHash)
-          return
-        }
         const newOrder: OrderWithRequiredFields = {
           number_of_transactions: txAmount,
           team_id: team.id,
@@ -37,15 +35,14 @@ export async function processTeamTx(team: Team) {
         })
       }))
   } else {
-    //TODO: can be optimized: recieve transactions in descending order, recieve orders in id descending order, then just ocmpare first tx with first order
-    // if the first order has the same tx hash as the first tx, then we can just skip all orders until the next tx
-    inflows.forEach((tx) => {
+    for (let i = 0; i < inflows.length; i++) {
+      const tx = inflows[i]
       const txHash = tx.hash
       const txAmount = tx.txAmount
       const foundOrder = orders.find((order) => order.tx_hash === txHash)
       if (foundOrder) {
-        console.log("Order already exists for txHash:", txHash)
-        return
+        //if order was found, then all orders after it are also found
+        break
       }
       const newOrder: OrderWithRequiredFields = {
         number_of_transactions: txAmount,
@@ -54,33 +51,32 @@ export async function processTeamTx(team: Team) {
         payment_status: "paid",
         type: "top_up",
       }
-      addOrder(newOrder)
-      // update team funding wallet balance
-      const fundingWalletBalance = team.prepaid_transactions || 0
-      const newFundingWalletBalance = fundingWalletBalance + txAmount
-      updateTeam(team.id, {
-        prepaid_transactions: newFundingWalletBalance,
+      await addOrder(newOrder)
+      await updateTeam(team.id, {
+        prepaid_transactions: team.prepaid_transactions ? team.prepaid_transactions + txAmount : txAmount
       })
-    })
+    }
   }
 }
 
 async function getFundingWalletTxs(
   fundingWalletAddress: string,
 ): Promise<getFundingWalletTxsResponse[]> {
-  const url = `${AURORA_API_URL}?module=account&action=tokentx&address=${fundingWalletAddress}&sort=desc`
+  const url = `${AURORA_API_URL}?module=account&action=${QUERY_TYPE_COIN}&address=${fundingWalletAddress}&sort=desc`
   try {
     const response = await fetch(url)
     const data: AuroraAPIResponse = await response.json()
     if (data.status !== "1") return []
     const inflows = data.result.filter(
       (tx: any) =>
-        tx.to?.toLowerCase() === fundingWalletAddress.toLowerCase() &&
-        tx.value !== "0" &&
-        tx.tokenSymbol &&
-        tx.contractAddress &&
-        tx.tokenSymbol === "USDT" &&
-        tx.contractAddress.toLowerCase() === AURORA_USDT_CONTRACT,
+        tx.to?.toLowerCase() === fundingWalletAddress.toLowerCase()
+        // &&
+        // tx.value !== "0" &&
+        // tx.tokenSymbol
+        // &&
+        // tx.contractAddress &&
+        // tx.tokenSymbol === "USDT" &&
+        // tx.contractAddress.toLowerCase() === AURORA_USDT_CONTRACT,
     )
     const transformedInflows = inflows.map((tx) => {
       const parseTokenTxValue =
