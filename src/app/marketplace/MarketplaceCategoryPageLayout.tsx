@@ -12,7 +12,7 @@ export const MarketplaceCategoryPageLayout = ({
         <MarketplaceMainSidebarMenu hasBackButton />
         {children}
       </div>
-      <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />
+      <MarketplaceGetStartedBanner className="mt-12 md:mt-28" />
     </BaseContainer>
   )
 }
