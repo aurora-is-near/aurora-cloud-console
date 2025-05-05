@@ -14,7 +14,7 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
     <footer className={className}>
       <BaseContainer
         size="lg"
-        className="flex flex-col items-center md:items-start md:grid md:grid-cols-6 gap-4 space-y-6 md:space-y-0"
+        className="flex flex-col md:grid md:grid-cols-6 md:gap-4"
       >
         <div>
           <Image
@@ -22,10 +22,18 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
             height="70"
             src="/static/v2/images/aurora-cloud-logo.svg"
             alt="Aurora Cloud logo"
+            className="hidden md:block"
+          />
+          <Image
+            width="217"
+            height="28"
+            src="/static/v2/images/aurora-cloud-logo-horizontal.svg"
+            alt="Aurora Cloud logo"
+            className="md:hidden"
           />
         </div>
-        <div className="md:col-span-2 xl:ml-16">
-          <h4 className="uppercase font-bold tracking-[2px] text-slate-900 mb-6 text-center md:text-left">
+        <div className="border-t border-slate-200 md:border-none md:col-span-2 xl:ml-16 pt-8 mt-6 md:pt-0 md:mt-0">
+          <h4 className="uppercase font-bold tracking-[2px] text-slate-900 mb-6">
             Get Help
           </h4>
           <ul className="grid gap-y-4">
@@ -33,23 +41,21 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
               href="https://discord.com/invite/auroralabs"
               iconSrc="/static/v2/images/icons/marketplace/discord.svg"
             >
-              <span className="hidden md:inline">Developer chat on </span>
-              Discord
+              Developer chat on Discord
             </MarketplaceFooterItem>
             <MarketplaceFooterItem
               href="https://t.me/auroraisnear"
               iconSrc="/static/v2/images/icons/marketplace/telegram.svg"
             >
-              <span className="hidden md:inline">Aurora Cloud chat on</span>
-              Telegram
+              Aurora Cloud chat on Telegram
             </MarketplaceFooterItem>
           </ul>
         </div>
-        <div className="md:col-span-3">
-          <h4 className="uppercase font-bold tracking-[2px] text-slate-900 mb-6 text-center md:text-left">
+        <div className="md:col-span-3 mt-8 md:mt-0">
+          <h4 className="uppercase font-bold tracking-[2px] text-slate-900 mb-6">
             Resources
           </h4>
-          <ul className="gap-y-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8">
+          <ul className="gap-y-4 grid grid-cols-2 lg:grid-cols-3 gap-x-8">
             <MarketplaceFooterItem
               href="https://aurora-labs.gitbook.io/aurora-cloud-documentation"
               iconSrc="/static/v2/images/icons/marketplace/file.svg"
@@ -83,11 +89,8 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
           </ul>
         </div>
       </BaseContainer>
-      <div className="border-t border-slate-200 py-8 mt-8">
-        <BaseContainer
-          size="lg"
-          className="flex flex-col sm:flex-row sm:items-center justify-between"
-        >
+      <BaseContainer size="lg">
+        <div className="border-t border-slate-200 py-8 mt-8 flex flex-col sm:flex-row sm:items-center justify-between">
           <div className="flex items-center space-x-5 text-sm font-medium leading-none text-slate-500">
             <Link
               className="underline hover:no-underline"
@@ -105,8 +108,8 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
           <div className="text-sm font-medium leading-none text-slate-500 mt-4 sm:mt-0">
             &copy; {year} Aurora Labs. All Rights Reserved.
           </div>
-        </BaseContainer>
-      </div>
+        </div>
+      </BaseContainer>
     </footer>
   )
 }
