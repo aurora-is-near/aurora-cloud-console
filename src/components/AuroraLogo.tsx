@@ -11,7 +11,7 @@ const AuroraLogo = ({ href = "/", className }: AuroraLogoProps) => (
   <Link
     href={href}
     className={clsx(
-      "flex shrink-0 items-center justify-center h-[40px]",
+      "flex shrink-0 items-center justify-center w-[186px] sm:w-[202px]",
       className,
     )}
   >
