@@ -1,0 +1,133 @@
+import { getCryptoOrders } from "@/actions/orders/get-crypto-orders"
+import { updateTeam } from "@/actions/teams/update-team"
+import { Team, Order } from "@/types/types"
+import { addOrder, type OrderWithRequiredFields } from "@/actions/orders/add-order"
+const AURORA_API_URL = "https://explorer.testnet.aurora.dev/api/"
+const AURORA_USDT_CONTRACT =
+  "0x80da25da4d783e57d2fcda0436873a193a4beccf".toLowerCase()
+const TX_COST_USDT = 0.004628
+
+export async function processTeamTx(team: Team) {
+  const fundingWalletAddress = team.funding_wallet_address
+  if (!fundingWalletAddress) return
+  const inflows = await getFundingWalletTxs(fundingWalletAddress)
+  if (inflows.length === 0) return
+  const orders = await getCryptoOrders(team.id)
+  if (orders.length === 0) {
+    // add all inflows as orders
+    await Promise.all(
+      inflows.map(async (tx) => {
+        const txHash = tx.hash
+        const txAmount = tx.txAmount
+        const foundOrder = orders.find((order) => order.tx_hash === txHash)
+        if (foundOrder) {
+          console.log("Order already exists for txHash:", txHash)
+          return
+        }
+        const newOrder: OrderWithRequiredFields = {
+          number_of_transactions: txAmount,
+          team_id: team.id,
+          tx_hash: txHash,
+          payment_status: "paid",
+          type: "top_up",
+        }
+        await addOrder(newOrder)
+        await updateTeam(team.id, {
+          prepaid_transactions: team.prepaid_transactions ? team.prepaid_transactions + txAmount : txAmount
+        })
+      }))
+  } else {
+    //TODO: can be optimized: recieve transactions in descending order, recieve orders in id descending order, then just ocmpare first tx with first order
+    // if the first order has the same tx hash as the first tx, then we can just skip all orders until the next tx
+    inflows.forEach((tx) => {
+      const txHash = tx.hash
+      const txAmount = tx.txAmount
+      const foundOrder = orders.find((order) => order.tx_hash === txHash)
+      if (foundOrder) {
+        console.log("Order already exists for txHash:", txHash)
+        return
+      }
+      const newOrder: OrderWithRequiredFields = {
+        number_of_transactions: txAmount,
+        team_id: team.id,
+        tx_hash: txHash,
+        payment_status: "paid",
+        type: "top_up",
+      }
+      addOrder(newOrder)
+      // update team funding wallet balance
+      const fundingWalletBalance = team.prepaid_transactions || 0
+      const newFundingWalletBalance = fundingWalletBalance + txAmount
+      updateTeam(team.id, {
+        prepaid_transactions: newFundingWalletBalance,
+      })
+    })
+  }
+}
+
+async function getFundingWalletTxs(
+  fundingWalletAddress: string,
+): Promise<getFundingWalletTxsResponse[]> {
+  const url = `${AURORA_API_URL}?module=account&action=tokentx&address=${fundingWalletAddress}&sort=desc`
+  try {
+    const response = await fetch(url)
+    const data: AuroraAPIResponse = await response.json()
+    if (data.status !== "1") return []
+    const inflows = data.result.filter(
+      (tx: any) =>
+        tx.to?.toLowerCase() === fundingWalletAddress.toLowerCase() &&
+        tx.value !== "0" &&
+        tx.tokenSymbol &&
+        tx.contractAddress &&
+        tx.tokenSymbol === "USDT" &&
+        tx.contractAddress.toLowerCase() === AURORA_USDT_CONTRACT,
+    )
+    const transformedInflows = inflows.map((tx) => {
+      const parseTokenTxValue =
+        Number(tx.value) / Math.pow(10, Number(tx.tokenDecimal) || 6)
+      const txAmount = Math.ceil(parseTokenTxValue / TX_COST_USDT)
+      const { input, ...rest } = tx
+      return {
+        ...rest,
+        value: parseTokenTxValue,
+        txAmount,
+      }
+    })
+    return transformedInflows
+  } catch (err) {
+    console.error(`Error fetching for ${fundingWalletAddress}:`, err)
+    return []
+  }
+}
+
+type AuroraAPIResponse = {
+  status: string
+  message: string
+  result: Array<{
+    blockNumber: string
+    timeStamp: string
+    hash: string
+    nonce: string
+    blockHash: string
+    transactionIndex: string
+    from: string
+    to: string
+    value: string
+    gas: string
+    gasPrice: string
+    isError: string
+    txreceipt_status: string
+    input: string
+    contractAddress?: string
+    tokenName?: string
+    tokenDecimal?: string
+    tokenSymbol?: string
+  }>
+}
+
+type AuroraAPIResult = AuroraAPIResponse["result"][0]
+
+type getFundingWalletTxsResponse = Omit<AuroraAPIResult, "value" | "input"> & {
+  value: number // Changed from string to number
+  txAmount: number
+}

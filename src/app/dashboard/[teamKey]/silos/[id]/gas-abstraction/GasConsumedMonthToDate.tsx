@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-
+import { useIntentsTxTopUpLink } from "@/hooks/useIntentsTxTopUpLink"
 import { useStripePaymentLink } from "@/hooks/useStripePaymentLink"
 import { LinkButton } from "@/components/LinkButton"
 import { notReachable } from "@/utils/notReachable"
@@ -21,6 +21,11 @@ const Items = ({ silo, team }: Props) => {
   const topupLink = useStripePaymentLink(team, "top_up")
   const monthsList = getMonthsList(silo.created_at)
   const startDate = monthsList[monthsList.length - 1].value
+  const {
+    topupLink: intentsTopupLink,
+    error,
+    loading,
+  } = useIntentsTxTopUpLink(silo.id)
   const infoListItemProps = {
     label: "Total transactions used",
   }
@@ -54,7 +59,7 @@ const Items = ({ silo, team }: Props) => {
       return (
         <InfoList className="md:max-w-[50%]">
           <InfoList.Item label="Available transactions">
-            <div className="flex items-center justify-end gap-4">
+            <div className="flex items-center justify-between gap-4 w-full">
               <Typography
                 size={4}
                 variant="paragraph"
@@ -64,28 +69,40 @@ const Items = ({ silo, team }: Props) => {
                   transactionLeft < 0 ? 0 : transactionLeft,
                 )}
               </Typography>
-              {topupLink ? (
+              <div className="flex flex-col gap-2 item-end">
+                {topupLink ? (
+                  <LinkButton
+                    size="sm"
+                    variant="border"
+                    href={topupLink}
+                    isExternal
+                  >
+                    Top up
+                    <ArrowTopRightOnSquareIcon className="w-3 h-3" />
+                  </LinkButton>
+                ) : (
+                  <LinkButton
+                    size="sm"
+                    variant="border"
+                    href=""
+                    disabled
+                    isExternal
+                  >
+                    Top up
+                    <ArrowTopRightOnSquareIcon className="w-3 h-3" />
+                  </LinkButton>
+                )}
                 <LinkButton
                   size="sm"
                   variant="border"
-                  href={topupLink}
+                  href={`${intentsTopupLink ? intentsTopupLink : ""}`}
+                  disabled={loading || !!error}
                   isExternal
                 >
-                  Top up
+                  Crypto Top up
                   <ArrowTopRightOnSquareIcon className="w-3 h-3" />
                 </LinkButton>
-              ) : (
-                <LinkButton
-                  size="sm"
-                  variant="border"
-                  href=""
-                  disabled
-                  isExternal
-                >
-                  Top up
-                  <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                </LinkButton>
-              )}
+              </div>
             </div>
           </InfoList.Item>
           <InfoList.Item {...infoListItemProps}>

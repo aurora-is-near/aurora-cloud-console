@@ -157,30 +157,6 @@ export type Database = {
         }
         Relationships: []
       }
-      changes: {
-        Row: {
-          created_at: string
-          id: number
-          operation: Database["public"]["Enums"]["database_operation"]
-          row_id: number
-          table: string
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          operation: Database["public"]["Enums"]["database_operation"]
-          row_id: number
-          table: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          operation?: Database["public"]["Enums"]["database_operation"]
-          row_id?: number
-          table?: string
-        }
-        Relationships: []
-      }
       datadog_web3_monitors: {
         Row: {
           created_at: string | null
@@ -457,8 +433,9 @@ export type Database = {
           id: number
           number_of_transactions: number | null
           payment_status: Database["public"]["Enums"]["payment_status"]
-          session_id: string
+          session_id: string | null
           team_id: number
+          tx_hash: string | null
           type: Database["public"]["Enums"]["order_type"]
         }
         Insert: {
@@ -466,8 +443,9 @@ export type Database = {
           id?: number
           number_of_transactions?: number | null
           payment_status: Database["public"]["Enums"]["payment_status"]
-          session_id: string
+          session_id?: string | null
           team_id: number
+          tx_hash?: string | null
           type: Database["public"]["Enums"]["order_type"]
         }
         Update: {
@@ -475,8 +453,9 @@ export type Database = {
           id?: number
           number_of_transactions?: number | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
-          session_id?: string
+          session_id?: string | null
           team_id?: number
+          tx_hash?: string | null
           type?: Database["public"]["Enums"]["order_type"]
         }
         Relationships: [
@@ -947,7 +926,7 @@ export type Database = {
           explorer_url?: string | null
           favicon?: string
           gas_collection_address?: string | null
-          gas_price?: string
+          gas_price: string
           genesis: string
           grafana_network_key?: string | null
           id?: number
@@ -1044,6 +1023,8 @@ export type Database = {
       teams: {
         Row: {
           created_at: string
+          funding_wallet_address: string | null
+          funding_wallet_pk: string | null
           id: number
           name: string
           prepaid_transactions: number
@@ -1052,6 +1033,8 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          funding_wallet_address?: string | null
+          funding_wallet_pk?: string | null
           id?: number
           name: string
           prepaid_transactions?: number
@@ -1060,6 +1043,8 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          funding_wallet_address?: string | null
+          funding_wallet_pk?: string | null
           id?: number
           name?: string
           prepaid_transactions?: number
@@ -1315,7 +1300,6 @@ export type Database = {
         | "INITIALISE_DEPLOY_CONTRACT_WHITELIST"
         | "COLLECT_GAS"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
-      token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:
         | "onramp"
         | "oracle"
@@ -1515,7 +1499,6 @@ export const Constants = {
         "COLLECT_GAS",
       ],
       silo_config_transaction_status: ["PENDING", "SUCCESSFUL", "FAILED"],
-      token_type: ["ERC20", "ERC721", "ERC1155"],
       user_integration: [
         "onramp",
         "oracle",
