@@ -2373,6 +2373,92 @@ export type MarketplaceAppRecordDescriptionArgs = {
   markdown?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type MarketplaceCollectionModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<MarketplaceCollectionModelFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<MarketplaceCollectionModelFilter>>>;
+  _createdAt?: InputMaybe<CreatedAtFilter>;
+  _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
+  _isValid?: InputMaybe<BooleanFilter>;
+  _publicationScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _publishedAt?: InputMaybe<PublishedAtFilter>;
+  _status?: InputMaybe<StatusFilter>;
+  _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _updatedAt?: InputMaybe<UpdatedAtFilter>;
+  apps?: InputMaybe<LinksFilter>;
+  description?: InputMaybe<TextFilter>;
+  featured?: InputMaybe<BooleanFilter>;
+  icon?: InputMaybe<FileFilter>;
+  id?: InputMaybe<ItemIdFilter>;
+  slug?: InputMaybe<SlugFilter>;
+  theme?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+};
+
+export enum MarketplaceCollectionModelOrderBy {
+  CreatedAtAsc = '_createdAt_ASC',
+  CreatedAtDesc = '_createdAt_DESC',
+  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
+  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
+  IsValidAsc = '_isValid_ASC',
+  IsValidDesc = '_isValid_DESC',
+  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
+  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
+  PublishedAtAsc = '_publishedAt_ASC',
+  PublishedAtDesc = '_publishedAt_DESC',
+  StatusAsc = '_status_ASC',
+  StatusDesc = '_status_DESC',
+  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
+  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
+  UpdatedAtAsc = '_updatedAt_ASC',
+  UpdatedAtDesc = '_updatedAt_DESC',
+  FeaturedAsc = 'featured_ASC',
+  FeaturedDesc = 'featured_DESC',
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  ThemeAsc = 'theme_ASC',
+  ThemeDesc = 'theme_DESC',
+  TitleAsc = 'title_ASC',
+  TitleDesc = 'title_DESC'
+}
+
+/** Record of type Marketplace Collection (marketplace_collection) */
+export type MarketplaceCollectionRecord = RecordInterface & {
+  __typename?: 'MarketplaceCollectionRecord';
+  _createdAt: Scalars['DateTime']['output'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']['output']>;
+  _firstPublishedAt: Scalars['DateTime']['output'];
+  _isValid: Scalars['BooleanType']['output'];
+  _modelApiKey: Scalars['String']['output'];
+  _publicationScheduledAt?: Maybe<Scalars['DateTime']['output']>;
+  _publishedAt: Scalars['DateTime']['output'];
+  /** Generates SEO and Social card meta tags to be used in your frontend */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
+  _updatedAt: Scalars['DateTime']['output'];
+  apps: Array<MarketplaceAppRecord>;
+  description?: Maybe<Scalars['String']['output']>;
+  featured: Scalars['BooleanType']['output'];
+  icon?: Maybe<FileField>;
+  id: Scalars['ItemId']['output'];
+  slug: Scalars['String']['output'];
+  theme: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+};
+
+
+/** Record of type Marketplace Collection (marketplace_collection) */
+export type MarketplaceCollectionRecord_SeoMetaTagsArgs = {
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+/** Record of type Marketplace Collection (marketplace_collection) */
+export type MarketplaceCollectionRecordDescriptionArgs = {
+  markdown?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export enum MuxThumbnailFormatType {
   Gif = 'gif',
   Jpg = 'jpg',
@@ -2554,6 +2640,8 @@ export type Query = {
   _allMarketplaceAppCategoriesMeta: CollectionMetadata;
   /** Returns meta information regarding a record collection */
   _allMarketplaceAppsMeta: CollectionMetadata;
+  /** Returns meta information regarding a record collection */
+  _allMarketplaceCollectionsMeta: CollectionMetadata;
   /** Returns meta information regarding an assets collection */
   _allUploadsMeta: CollectionMetadata;
   /** Returns the single instance record */
@@ -2562,12 +2650,16 @@ export type Query = {
   allMarketplaceAppCategories: Array<MarketplaceAppCategoryRecord>;
   /** Returns a collection of records */
   allMarketplaceApps: Array<MarketplaceAppRecord>;
+  /** Returns a collection of records */
+  allMarketplaceCollections: Array<MarketplaceCollectionRecord>;
   /** Returns a collection of assets */
   allUploads: Array<FileField>;
   /** Returns a specific record */
   marketplaceApp?: Maybe<MarketplaceAppRecord>;
   /** Returns a specific record */
   marketplaceAppCategory?: Maybe<MarketplaceAppCategoryRecord>;
+  /** Returns a specific record */
+  marketplaceCollection?: Maybe<MarketplaceCollectionRecord>;
   /** Returns the single instance record */
   plansPage?: Maybe<PlansPageRecord>;
   /** Returns the single instance record */
@@ -2587,6 +2679,13 @@ export type Query_AllMarketplaceAppCategoriesMetaArgs = {
 /** The query root for this schema */
 export type Query_AllMarketplaceAppsMetaArgs = {
   filter?: InputMaybe<MarketplaceAppModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+/** The query root for this schema */
+export type Query_AllMarketplaceCollectionsMetaArgs = {
+  filter?: InputMaybe<MarketplaceCollectionModelFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -2628,6 +2727,17 @@ export type QueryAllMarketplaceAppsArgs = {
 
 
 /** The query root for this schema */
+export type QueryAllMarketplaceCollectionsArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<MarketplaceCollectionModelFilter>;
+  first?: InputMaybe<Scalars['IntType']['input']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<MarketplaceCollectionModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']['input']>;
+};
+
+
+/** The query root for this schema */
 export type QueryAllUploadsArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<UploadFilter>;
@@ -2653,6 +2763,15 @@ export type QueryMarketplaceAppCategoryArgs = {
   filter?: InputMaybe<MarketplaceAppCategoryModelFilter>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<MarketplaceAppCategoryModelOrderBy>>>;
+};
+
+
+/** The query root for this schema */
+export type QueryMarketplaceCollectionArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<MarketplaceCollectionModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<MarketplaceCollectionModelOrderBy>>>;
 };
 
 
@@ -3303,16 +3422,24 @@ export type MarketplaceAppsSearchQuery = { __typename?: 'Query', allMarketplaceA
 
 export type MarketplaceAppsQueryVariables = Exact<{
   categoryId?: InputMaybe<Array<InputMaybe<Scalars['ItemId']['input']>> | InputMaybe<Scalars['ItemId']['input']>>;
-  popular?: InputMaybe<Scalars['BooleanType']['input']>;
-  new?: InputMaybe<Scalars['BooleanType']['input']>;
-  builtByAurora?: InputMaybe<Scalars['BooleanType']['input']>;
-  essential?: InputMaybe<Scalars['BooleanType']['input']>;
   first?: InputMaybe<Scalars['IntType']['input']>;
   excludedAppId?: InputMaybe<Scalars['ItemId']['input']>;
 }>;
 
 
 export type MarketplaceAppsQuery = { __typename?: 'Query', allMarketplaceApps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title: string, slug: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug: string }> }> };
+
+export type MarketplaceCollectionQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type MarketplaceCollectionQuery = { __typename?: 'Query', marketplaceCollection?: { __typename?: 'MarketplaceCollectionRecord', id: any, title: string, description?: string, apps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title: string, slug: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug: string }> }> } };
+
+export type MarketplaceCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MarketplaceCollectionsQuery = { __typename?: 'Query', allMarketplaceCollections: Array<{ __typename?: 'MarketplaceCollectionRecord', id: any, title: string, slug: string, featured: any, theme: string, apps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title: string, slug: string, description?: string, builtByAurora: any, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug: string }> }> }> };
 
 export const ImageAttributesFragmentDoc = `
     fragment imageAttributes on FileField {
@@ -3480,11 +3607,11 @@ export const useMarketplaceAppsSearchQuery = <
       options
     );
 export const MarketplaceAppsDocument = `
-    query MarketplaceApps($categoryId: [ItemId], $popular: BooleanType, $new: BooleanType, $builtByAurora: BooleanType, $essential: BooleanType, $first: IntType = 100, $excludedAppId: ItemId) {
+    query MarketplaceApps($categoryId: [ItemId], $first: IntType = 100, $excludedAppId: ItemId) {
   allMarketplaceApps(
     first: $first
     orderBy: _createdAt_DESC
-    filter: {categories: {eq: $categoryId}, popular: {eq: $popular}, new: {eq: $new}, builtByAurora: {eq: $builtByAurora}, essential: {eq: $essential}, id: {neq: $excludedAppId}}
+    filter: {categories: {eq: $categoryId}, id: {neq: $excludedAppId}}
   ) {
     ...marketplaceAppAttributes
   }
@@ -3502,5 +3629,59 @@ export const useMarketplaceAppsQuery = <
     useQuery<MarketplaceAppsQuery, TError, TData>(
       variables === undefined ? ['MarketplaceApps'] : ['MarketplaceApps', variables],
       fetcher<MarketplaceAppsQuery, MarketplaceAppsQueryVariables>(client, MarketplaceAppsDocument, variables, headers),
+      options
+    );
+export const MarketplaceCollectionDocument = `
+    query MarketplaceCollection($slug: String!) {
+  marketplaceCollection(filter: {slug: {eq: $slug}}) {
+    id
+    title
+    description
+    apps {
+      ...marketplaceAppAttributes
+    }
+  }
+}
+    ${MarketplaceAppAttributesFragmentDoc}`;
+export const useMarketplaceCollectionQuery = <
+      TData = MarketplaceCollectionQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: MarketplaceCollectionQueryVariables,
+      options?: UseQueryOptions<MarketplaceCollectionQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<MarketplaceCollectionQuery, TError, TData>(
+      ['MarketplaceCollection', variables],
+      fetcher<MarketplaceCollectionQuery, MarketplaceCollectionQueryVariables>(client, MarketplaceCollectionDocument, variables, headers),
+      options
+    );
+export const MarketplaceCollectionsDocument = `
+    query MarketplaceCollections {
+  allMarketplaceCollections(first: 100) {
+    id
+    title
+    slug
+    featured
+    theme
+    apps {
+      ...marketplaceAppAttributes
+    }
+  }
+}
+    ${MarketplaceAppAttributesFragmentDoc}`;
+export const useMarketplaceCollectionsQuery = <
+      TData = MarketplaceCollectionsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: MarketplaceCollectionsQueryVariables,
+      options?: UseQueryOptions<MarketplaceCollectionsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<MarketplaceCollectionsQuery, TError, TData>(
+      variables === undefined ? ['MarketplaceCollections'] : ['MarketplaceCollections', variables],
+      fetcher<MarketplaceCollectionsQuery, MarketplaceCollectionsQueryVariables>(client, MarketplaceCollectionsDocument, variables, headers),
       options
     );

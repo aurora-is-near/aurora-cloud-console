@@ -1,0 +1,12 @@
+#import "./fragments/marketplace-app.graphql"
+
+query MarketplaceCollection($slug: String!) {
+  marketplaceCollection(filter: { slug: { eq: $slug } }) {
+    id
+    title
+    description
+    apps {
+      ...marketplaceAppAttributes
+    }
+  }
+}

@@ -2,10 +2,6 @@
 
 query MarketplaceApps(
   $categoryId: [ItemId],
-  $popular: BooleanType,
-  $new: BooleanType,
-  $builtByAurora: BooleanType
-  $essential: BooleanType
   $first: IntType = 100
   $excludedAppId: ItemId
 ) {
@@ -14,11 +10,7 @@ query MarketplaceApps(
     orderBy: _createdAt_DESC
     filter: {
       categories: { eq: $categoryId },
-      popular: { eq: $popular },
-      new: { eq: $new },
-      builtByAurora: { eq: $builtByAurora },
-      essential: { eq: $essential },
-       id: { neq: $excludedAppId }
+      id: { neq: $excludedAppId }
     }
   ) {
     ...marketplaceAppAttributes

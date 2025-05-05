@@ -3,18 +3,27 @@ import { Heading } from "@/uikit/Typography/Heading"
 import { BaseContainer } from "@/components/BaseContainer"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
-import { getMarketplaceApps } from "@/utils/marketplace/get-marketplace-apps"
 import { MarketplaceCollectionCard } from "@/app/marketplace/MarketPlaceCollectionCard"
+import { createGraphqlClient } from "@/cms/client"
+import {
+  MarketplaceCollectionsDocument,
+  MarketplaceCollectionsQuery,
+} from "@/cms/generated/graphql"
 import { MarketplaceMainSidebarMenu } from "./MarketplaceMainSidebarMenu"
 import { MarketplaceGetStartedBanner } from "./MarketplaceGetStartedBanner"
 
 const Page = async () => {
-  const [popularApps, auroraApps, newApps, essentialApps] = await Promise.all([
-    getMarketplaceApps({ popular: true, first: 3 }),
-    getMarketplaceApps({ builtByAurora: true, first: 3 }),
-    getMarketplaceApps({ new: true, first: 3 }),
-    getMarketplaceApps({ essential: true, first: 3 }),
-  ])
+  const graphqlClient = createGraphqlClient()
+
+  const { allMarketplaceCollections } =
+    await graphqlClient.request<MarketplaceCollectionsQuery>(
+      MarketplaceCollectionsDocument,
+    )
+
+  const featuredCollections = allMarketplaceCollections
+    .filter((collection) => collection.featured)
+    .slice(0, 2)
+    .sort((a) => (a.theme === "aurora" ? -1 : 1))
 
   return (
     <>
@@ -47,44 +56,32 @@ const Page = async () => {
                 Collections
               </h2>
               <div className="grid lg:grid-cols-2 gap-x-8 gap-y-5">
-                <MarketplaceCollectionCard
-                  variant="green"
-                  title="Built by Aurora"
-                  seeAllLink="/marketplace/featured/built-by-aurora"
-                  iconSrc="/static/v2/images/icons/marketplace/collection-built-by-aurora.svg"
-                />
-                <MarketplaceCollectionCard
-                  variant="orange"
-                  title="Essentials"
-                  seeAllLink="/marketplace/featured/essentials"
-                  iconSrc="/static/v2/images/icons/marketplace/collection-essentials.svg"
-                />
+                {featuredCollections.map((collection) => (
+                  <MarketplaceCollectionCard
+                    colorScheme={
+                      collection.theme === "aurora" ? "green" : "orange"
+                    }
+                    key={collection.id}
+                    title={collection.title}
+                    seeAllLink={`/marketplace/collections/${collection.slug}`}
+                    iconSrc={
+                      collection.theme === "aurora"
+                        ? "/static/v2/images/icons/marketplace/collection-aurora.svg"
+                        : "/static/v2/images/icons/marketplace/collection-default.svg"
+                    }
+                  />
+                ))}
               </div>
             </div>
-            <MarketplaceCards
-              showSingleRow
-              title="Popular"
-              apps={popularApps}
-              seeAllLink="/marketplace/featured/popular"
-            />
-            <MarketplaceCards
-              showSingleRow
-              title="Built by Aurora"
-              apps={auroraApps}
-              seeAllLink="/marketplace/featured/built-by-aurora"
-            />
-            <MarketplaceCards
-              showSingleRow
-              title="New & noteworthy"
-              apps={newApps}
-              seeAllLink="/marketplace/featured/new"
-            />
-            <MarketplaceCards
-              showSingleRow
-              title="Essentials"
-              apps={essentialApps}
-              seeAllLink="/marketplace/featured/essentials"
-            />
+            {allMarketplaceCollections.map((collection) => (
+              <MarketplaceCards
+                key={collection.id}
+                showSingleRow
+                title={collection.title}
+                apps={collection.apps}
+                seeAllLink={`/marketplace/collections/${collection.slug}`}
+              />
+            ))}
           </div>
         </div>
         <MarketplaceGetStartedBanner className="mt-28 hidden lg:block" />

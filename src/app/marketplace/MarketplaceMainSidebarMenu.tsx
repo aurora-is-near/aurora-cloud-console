@@ -4,10 +4,11 @@ import { createGraphqlClient } from "@/cms/client"
 import {
   MarketplaceAppCategoriesDocument,
   MarketplaceAppCategoriesQuery,
+  MarketplaceCollectionsDocument,
+  MarketplaceCollectionsQuery,
 } from "@/cms/generated/graphql"
 import { LinkButton } from "@/components/LinkButton"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
-import { MenuItem } from "@/types/menu"
 import { MarketplaceSubmitAppRequestButton } from "./MarketplaceSubmitAppRequestButton"
 
 type MarketplaceMainSidebarMenuProps = {
@@ -21,10 +22,15 @@ export const MarketplaceMainSidebarMenu = async ({
 }: MarketplaceMainSidebarMenuProps) => {
   const graphqlClient = createGraphqlClient()
 
-  const { allMarketplaceAppCategories } =
-    await graphqlClient.request<MarketplaceAppCategoriesQuery>(
-      MarketplaceAppCategoriesDocument,
-    )
+  const [{ allMarketplaceAppCategories }, { allMarketplaceCollections }] =
+    await Promise.all([
+      graphqlClient.request<MarketplaceAppCategoriesQuery>(
+        MarketplaceAppCategoriesDocument,
+      ),
+      graphqlClient.request<MarketplaceCollectionsQuery>(
+        MarketplaceCollectionsDocument,
+      ),
+    ])
 
   return (
     <div className={clsx("flex flex-col", className)}>
@@ -41,39 +47,17 @@ export const MarketplaceMainSidebarMenu = async ({
         sections={[
           {
             heading: "Featured",
-            items: [
-              {
-                name: "Popular",
-                href: `/marketplace/featured/popular`,
-              },
-              {
-                name: "Built by Aurora",
-                href: `/marketplace/featured/built-by-aurora`,
-              },
-              {
-                name: "Essentials",
-                href: `/marketplace/featured/essentials`,
-              },
-              {
-                name: "New & noteworthy",
-                href: `/marketplace/featured/new`,
-              },
-            ],
+            items: allMarketplaceCollections.map(({ title, slug }) => ({
+              name: title,
+              href: `/marketplace/collections/${slug}`,
+            })),
           },
           {
             heading: "Categories",
-            items: allMarketplaceAppCategories
-              .map((category) => {
-                if (!category.title || !category.slug) {
-                  return null
-                }
-
-                return {
-                  name: category.title,
-                  href: `/marketplace/categories/${category.slug}`,
-                }
-              })
-              .filter((item): item is MenuItem => !!item),
+            items: allMarketplaceAppCategories.map(({ title, slug }) => ({
+              name: title,
+              href: `/marketplace/categories/${slug}`,
+            })),
           },
         ]}
       />

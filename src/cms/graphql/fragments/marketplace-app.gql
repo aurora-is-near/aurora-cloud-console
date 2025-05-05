@@ -1,5 +1,3 @@
-#import "./image.graphql"
-
 fragment marketplaceAppAttributes on MarketplaceAppRecord {
   id
   title
