@@ -16,6 +16,9 @@ type MarketplaceMainSidebarMenuProps = {
   className?: string
 }
 
+const sortByTitle = (a: { title: string }, b: { title: string }) =>
+  a.title.localeCompare(b.title)
+
 export const MarketplaceMainSidebarMenu = async ({
   hasBackButton,
   className,
@@ -47,17 +50,21 @@ export const MarketplaceMainSidebarMenu = async ({
         sections={[
           {
             heading: "Featured",
-            items: allMarketplaceCollections.map(({ title, slug }) => ({
-              name: title,
-              href: `/marketplace/collections/${slug}`,
-            })),
+            items: allMarketplaceCollections
+              .sort(sortByTitle)
+              .map(({ title, slug }) => ({
+                name: title,
+                href: `/marketplace/collections/${slug}`,
+              })),
           },
           {
             heading: "Categories",
-            items: allMarketplaceAppCategories.map(({ title, slug }) => ({
-              name: title,
-              href: `/marketplace/categories/${slug}`,
-            })),
+            items: allMarketplaceAppCategories
+              .sort(sortByTitle)
+              .map(({ title, slug }) => ({
+                name: title,
+                href: `/marketplace/categories/${slug}`,
+              })),
           },
         ]}
       />
