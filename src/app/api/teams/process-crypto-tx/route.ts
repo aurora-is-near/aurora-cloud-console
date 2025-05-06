@@ -12,13 +12,17 @@ import { abort } from "@/utils/abort"
 const queue = new PQueue({ concurrency: 1 })
 
 export const GET = async (req: NextRequest) => {
-  // if (req.headers.get("user-agent") !== "vercel-cron/1.0") {
-  //   abort(403, "Forbidden")
-  // }
+  if (req.headers.get("user-agent") !== "vercel-cron/1.0") {
+    abort(403, "Forbidden")
+  }
   const teams = await getTeams()
   await Promise.all(
     teams.map(async (team) => {
-      await queue.add(() => processTeamTx(team))
+      try {
+        await queue.add(() => processTeamTx(team))
+      } catch (error) {
+        console.error(`Error processing team ${team.id}:`, error)
+      }
     }),
   )
   return new Response("ok")

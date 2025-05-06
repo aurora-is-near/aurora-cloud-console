@@ -3,8 +3,8 @@ import { updateTeam } from "@/actions/teams/update-team"
 import { Team } from "@/types/types"
 import { addOrder, type OrderWithRequiredFields } from "@/actions/orders/add-order"
 
-const AURORA_API_URL = "https://explorer.testnet.aurora.dev/api/"
-// const AURORA_API_URL = "https://explorer.mainnet.aurora.dev/api/"
+// const AURORA_API_URL = "https://explorer.testnet.aurora.dev/api/"
+const AURORA_API_URL = "https://explorer.mainnet.aurora.dev/api/"
 const AURORA_USDT_CONTRACT =
   "0x80da25da4d783e57d2fcda0436873a193a4beccf".toLowerCase()
 const QUERY_TYPE_TOKEN = 'tokentx'
@@ -62,21 +62,21 @@ export async function processTeamTx(team: Team) {
 async function getFundingWalletTxs(
   fundingWalletAddress: string,
 ): Promise<getFundingWalletTxsResponse[]> {
-  const url = `${AURORA_API_URL}?module=account&action=${QUERY_TYPE_COIN}&address=${fundingWalletAddress}&sort=desc`
+  const url = `${AURORA_API_URL}?module=account&action=${QUERY_TYPE_TOKEN}&address=${fundingWalletAddress}&sort=desc`
   try {
     const response = await fetch(url)
-    const data: AuroraAPIResponse = await response.json()
+    const data: AuroraExplorerResponse = await response.json()
     if (data.status !== "1") return []
     const inflows = data.result.filter(
       (tx: any) =>
         tx.to?.toLowerCase() === fundingWalletAddress.toLowerCase()
-        // &&
-        // tx.value !== "0" &&
-        // tx.tokenSymbol
-        // &&
-        // tx.contractAddress &&
-        // tx.tokenSymbol === "USDT" &&
-        // tx.contractAddress.toLowerCase() === AURORA_USDT_CONTRACT,
+        &&
+        tx.value !== "0" &&
+        tx.tokenSymbol
+        &&
+        tx.contractAddress &&
+        tx.tokenSymbol === "USDT" &&
+        tx.contractAddress.toLowerCase() === AURORA_USDT_CONTRACT,
     )
     const transformedInflows = inflows.map((tx) => {
       const parseTokenTxValue =
@@ -96,7 +96,7 @@ async function getFundingWalletTxs(
   }
 }
 
-type AuroraAPIResponse = {
+type AuroraExplorerResponse = {
   status: string
   message: string
   result: Array<{
@@ -121,9 +121,9 @@ type AuroraAPIResponse = {
   }>
 }
 
-type AuroraAPIResult = AuroraAPIResponse["result"][0]
+type AuroraExplorerResult = AuroraExplorerResponse["result"][0]
 
-type getFundingWalletTxsResponse = Omit<AuroraAPIResult, "value" | "input"> & {
+type getFundingWalletTxsResponse = Omit<AuroraExplorerResult, "value" | "input"> & {
   value: number // Changed from string to number
   txAmount: number
 }
