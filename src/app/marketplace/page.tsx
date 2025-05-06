@@ -69,7 +69,7 @@ const Page = async () => {
                     colorScheme={collection.builtByAurora ? "green" : "orange"}
                     key={collection.id}
                     title={collection.title}
-                    seeAllLink={`/marketplace/collections/${collection.slug}`}
+                    href={`/marketplace/collections/${collection.slug}`}
                     iconSrc={
                       collection.builtByAurora
                         ? "/static/v2/images/icons/marketplace/collection-aurora.svg"

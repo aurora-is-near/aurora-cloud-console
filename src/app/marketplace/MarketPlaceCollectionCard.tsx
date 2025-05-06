@@ -1,25 +1,28 @@
 import clsx from "clsx"
 import Image from "next/image"
 import { ArrowRightIcon } from "@heroicons/react/20/solid"
-import { LinkButton } from "@/components/LinkButton"
+import Link from "next/link"
+import { getButtonClassName } from "@/utils/buttons"
 
 type MarketplaceCollectionCardProps = {
   colorScheme: "green" | "orange"
-  seeAllLink: string
+  href: string
   title: string
   iconSrc?: string
 }
 
 export const MarketplaceCollectionCard = ({
   colorScheme,
-  seeAllLink,
+  href,
   title,
   iconSrc,
 }: MarketplaceCollectionCardProps) => {
   return (
-    <div
+    <Link
+      href={href}
       className={clsx(
         "p-6 sm:min-h-[232px] flex sm:flex-col sm:justify-between rounded-[10px] border border-black/5 shadow-sm relative overflow-hidden",
+        "transition-shadow transition-border-color hover:transition-shadow hover:transition-border-color hover:shadow-3xl hover:border-slate-300",
         {
           "bg-green-50": colorScheme === "green",
           "bg-purple-50": colorScheme === "orange",
@@ -36,15 +39,10 @@ export const MarketplaceCollectionCard = ({
           <h3 className="font-bold text-2xl sm:text-4xl tracking-tight">
             {title}
           </h3>
-          <LinkButton
-            size="sm"
-            href={seeAllLink}
-            variant="border"
-            className="mt-3"
-          >
+          <div className={clsx("mt-3", getButtonClassName("border", "sm"))}>
             See apps
             <ArrowRightIcon className="w-4 h-4" />
-          </LinkButton>
+          </div>
         </div>
         <div
           className={clsx(
@@ -58,6 +56,6 @@ export const MarketplaceCollectionCard = ({
           )}
         />
       </div>
-    </div>
+    </Link>
   )
 }
