@@ -32,7 +32,7 @@ export const MarketplaceGetStartedBanner = ({
             className="mt-7 md:mt-3 xl:mt-5"
             size="lg"
           >
-            Get Started
+            Get started
           </LinkButton>
         </div>
       </div>
