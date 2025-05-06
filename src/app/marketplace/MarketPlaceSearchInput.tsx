@@ -41,7 +41,6 @@ export const MarketPlaceSearchInput = ({
     >
       <MagnifyingGlassIcon className="w-5 h-5 mr-2.5" />
       <input
-        required
         ref={inputRef}
         type="text"
         placeholder="Search apps"
@@ -49,7 +48,13 @@ export const MarketPlaceSearchInput = ({
         onChange={handleChange}
       />
       {hasText && (
-        <Image src="/static/icons/return.svg" alt="" width={16} height={16} />
+        <Image
+          src="/static/icons/return.svg"
+          alt=""
+          width={16}
+          height={16}
+          className="hidden group-focus-within:block"
+        />
       )}
     </form>
   )
