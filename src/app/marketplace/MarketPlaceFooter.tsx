@@ -95,12 +95,14 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
             <Link
               className="underline hover:no-underline"
               href="https://auroracloud.dev/terms"
+              target="_blank"
             >
               Terms
             </Link>
             <Link
               className="underline hover:no-underline"
               href="https://auroracloud.dev/privacy"
+              target="_blank"
             >
               Privacy
             </Link>
