@@ -157,6 +157,30 @@ export type Database = {
         }
         Relationships: []
       }
+      changes: {
+        Row: {
+          created_at: string
+          id: number
+          operation: Database["public"]["Enums"]["database_operation"]
+          row_id: number
+          table: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          operation: Database["public"]["Enums"]["database_operation"]
+          row_id: number
+          table: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          operation?: Database["public"]["Enums"]["database_operation"]
+          row_id?: number
+          table?: string
+        }
+        Relationships: []
+      }
       datadog_web3_monitors: {
         Row: {
           created_at: string | null
@@ -1291,6 +1315,7 @@ export type Database = {
         | "INITIALISE_DEPLOY_CONTRACT_WHITELIST"
         | "COLLECT_GAS"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
+      token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:
         | "onramp"
         | "oracle"
@@ -1490,6 +1515,7 @@ export const Constants = {
         "COLLECT_GAS",
       ],
       silo_config_transaction_status: ["PENDING", "SUCCESSFUL", "FAILED"],
+      token_type: ["ERC20", "ERC721", "ERC1155"],
       user_integration: [
         "onramp",
         "oracle",

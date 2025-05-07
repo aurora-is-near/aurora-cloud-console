@@ -9,6 +9,8 @@ import { useModals } from "@/hooks/useModals"
 import CopyButton from "@/components/CopyButton"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { notReachable } from "@/utils/notReachable"
+import { SiloContext } from "@/providers/SiloProvider"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { Button, Card, clsx, InfoList, Skeleton, Typography } from "@/uikit"
 import type { Silo, Team } from "@/types/types"
 
@@ -67,8 +69,9 @@ const TotalGasBalance = ({ silo }: Omit<Props, "team">) => {
   }
 }
 
-export const GasAbstractionSettings = ({ silo, team }: Props) => {
+export const GasAbstractionSettings = ({ team }: { team: Team }) => {
   const { openModal } = useModals()
+  const { silo } = useRequiredContext(SiloContext) ?? {}
 
   return (
     <Card className="flex flex-col gap-6 md:gap-12 md:flex-row">

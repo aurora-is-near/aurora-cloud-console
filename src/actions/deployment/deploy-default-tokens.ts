@@ -1,6 +1,7 @@
 "use server"
 
 import { JsonRpcProvider } from "ethers"
+import PQueue from "p-queue"
 import { performSiloConfigTransaction } from "@/actions/deployment/perform-silo-config-transaction"
 import {
   Silo,
@@ -15,6 +16,8 @@ import { getStorageBalanceBySymbol } from "@/utils/near-storage"
 import { NEAR_TOKEN_ADDRESSES } from "@/constants/near-token"
 import { STORAGE_DEPOSIT_AMOUNT } from "@/constants/storage-deposits"
 
+const queue = new PQueue({ concurrency: 1 })
+
 const CONTRACT_CHANGER_SYMBOLS: Record<
   DefaultToken,
   Parameters<typeof contractChangerApiClient.mirrorErc20Token>[0]["token"]
@@ -24,8 +27,11 @@ const CONTRACT_CHANGER_SYMBOLS: Record<
   USDt: "Usdt",
   USDC: "Usdc",
   ETH: {
-    source_contract_id: "aurora",
-    nep141: "0x5a524251df27A25AC6b9964a93E1c23AD692688D",
+    // `aurora` can't be used as the source for eth as it' uses it as base token
+    // so we use `0x4e454160.c.aurora` (Berry Chain) as the source, but any
+    // virtual chain with ETH deployed as an ERC-20 will work
+    source_contract_id: "0x4e454160.c.aurora",
+    nep141: "eth.bridge.near",
   },
 }
 
@@ -133,16 +139,20 @@ export const deployDefaultTokens = async (
   const statuses = (
     await Promise.all(
       DEFAULT_TOKENS.filter((token) => token !== silo.base_token_symbol).map(
-        async (symbol) =>
-          deployDefaultToken({
-            provider,
-            silo,
-            symbol,
-            skipIfFailed,
-          }),
+        (symbol) =>
+          queue.add(() =>
+            deployDefaultToken({
+              provider,
+              silo,
+              symbol,
+              skipIfFailed,
+            }),
+          ),
       ),
     )
   ).flat()
+
+  await queue.onIdle()
 
   if (statuses.includes("PENDING")) {
     return "PENDING"
