@@ -5,8 +5,6 @@ import { CHART_DATE_OPTION_VALUES } from "@/constants/charts"
 import { WIDGET_NETWORKS } from "@/constants/bridge"
 import { SILO_ASSETS } from "@/constants/assets"
 import { FORWARDER_TOKENS } from "@/constants/forwarder-tokens"
-import { createSilo } from "@/actions/silos/create-silo"
-import status from "http-status"
 
 extendZodWithOpenApi(z)
 

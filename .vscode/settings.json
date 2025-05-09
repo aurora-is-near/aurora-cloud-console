@@ -17,5 +17,5 @@
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "git.ignoreLimitWarning": true,
-  "tailwindCSS.colorDecorators": false,
+  "tailwindCSS.colorDecorators": false
 }

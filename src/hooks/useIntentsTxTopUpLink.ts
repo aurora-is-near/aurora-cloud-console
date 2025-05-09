@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { logger } from "@/logger"
 import { type Team } from "@/types/types"
 import { createTeamFundingWallet } from "@/actions/teams-funding/create-funding-wallet"
@@ -19,22 +19,22 @@ export const useIntentsTxTopUpLink = (
   const [error, setError] = useState<Error | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
-  async function checkSiloFundingWallet(): Promise<string | null> {
-    try {
+  const checkSiloFundingWallet: () => Promise<string | null> =
+    useCallback(async () => {
+      try {
+        if (!team.funding_wallet_address) {
+          return null
+        }
 
-      if (!team.funding_wallet_address) {
+        return team.funding_wallet_address
+      } catch (err) {
+        logger.error("Error checking silo funding wallet", err)
+        setError(err as Error)
+        setLoading(false)
+
         return null
       }
-
-      return team.funding_wallet_address
-    } catch (err) {
-      logger.error("Error checking silo funding wallet", err)
-      setError(err as Error)
-      setLoading(false)
-
-      return null
-    }
-  }
+    }, [team])
 
   useEffect(() => {
     checkSiloFundingWallet()
@@ -62,7 +62,7 @@ export const useIntentsTxTopUpLink = (
         setError(err)
         setLoading(false)
       })
-  }, [])
+  }, [team, checkSiloFundingWallet])
 
   return {
     topupLink,

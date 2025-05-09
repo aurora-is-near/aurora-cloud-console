@@ -1,27 +1,88 @@
 import { getCryptoOrders } from "@/actions/orders/get-crypto-orders"
 import { updateTeam } from "@/actions/teams/update-team"
 import { Team } from "@/types/types"
-import { addOrder, type OrderWithRequiredFields } from "@/actions/orders/add-order"
+import {
+  addOrder,
+  type OrderWithRequiredFields,
+} from "@/actions/orders/add-order"
 
 // const AURORA_API_URL = "https://explorer.testnet.aurora.dev/api/"
 const AURORA_API_URL = "https://explorer.mainnet.aurora.dev/api/"
 const AURORA_USDT_CONTRACT =
   "0x80da25da4d783e57d2fcda0436873a193a4beccf".toLowerCase()
-const QUERY_TYPE_TOKEN = 'tokentx'
-const QUERY_TYPE_COIN = 'txlist'
+
+const QUERY_TYPE_TOKEN = "tokentx"
+// const _QUERY_TYPE_COIN = "txlist"
 const TX_COST_USDT = 0.004628
+
+// Define the function that will be used later in the file
+async function getFundingWalletTxs(
+  fundingWalletAddress: string,
+): Promise<getFundingWalletTxsResponse[]> {
+  const url = `${AURORA_API_URL}?module=account&action=${QUERY_TYPE_TOKEN}&address=${fundingWalletAddress}&sort=desc`
+
+  try {
+    const response = await fetch(url)
+    const data: AuroraExplorerResponse = await response.json()
+
+    if (data.status !== "1") {
+      return []
+    }
+
+    const inflows = data.result.filter(
+      (tx: AuroraExplorerResponse["result"][0]) =>
+        tx.to?.toLowerCase() === fundingWalletAddress.toLowerCase() &&
+        tx.value !== "0" &&
+        tx.tokenSymbol &&
+        tx.contractAddress &&
+        tx.tokenSymbol === "USDT" &&
+        tx.contractAddress.toLowerCase() === AURORA_USDT_CONTRACT,
+    )
+
+    const transformedInflows = inflows.map((tx) => {
+      const parseTokenTxValue =
+        Number(tx.value) / 10 ** (Number(tx.tokenDecimal) || 6)
+
+      const txAmount = Math.ceil(parseTokenTxValue / TX_COST_USDT)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { input, ...rest } = tx
+
+      return {
+        ...rest,
+        value: parseTokenTxValue,
+        txAmount,
+      }
+    })
+
+    return transformedInflows
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(`Error fetching for ${fundingWalletAddress}:`, err)
+
+    return []
+  }
+}
 
 export async function processTeamTx(team: Team) {
   const fundingWalletAddress = team.funding_wallet_address
-  if (!fundingWalletAddress) return
+
+  if (!fundingWalletAddress) {
+    return
+  }
+
   const inflows = await getFundingWalletTxs(fundingWalletAddress)
-  if (inflows.length === 0) return
+
+  if (inflows.length === 0) {
+    return
+  }
+
   const orders = await getCryptoOrders(team.id)
+
   if (orders.length === 0) {
     await Promise.all(
       inflows.map(async (tx) => {
         const txHash = tx.hash
-        const txAmount = tx.txAmount
+        const { txAmount } = tx
         const newOrder: OrderWithRequiredFields = {
           number_of_transactions: txAmount,
           team_id: team.id,
@@ -29,21 +90,30 @@ export async function processTeamTx(team: Team) {
           payment_status: "paid",
           type: "top_up",
         }
+
         await addOrder(newOrder)
         await updateTeam(team.id, {
-          prepaid_transactions: team.prepaid_transactions ? team.prepaid_transactions + txAmount : txAmount
+          prepaid_transactions: team.prepaid_transactions
+            ? team.prepaid_transactions + txAmount
+            : txAmount,
         })
-      }))
+      }),
+    )
   } else {
-    for (let i = 0; i < inflows.length; i++) {
-      const tx = inflows[i]
+    // Disable ESLint rules for this specific loop
+    // We need sequential execution here as we're processing financial transactions in order
+    // and need to stop processing as soon as we find an existing transaction
+    /* eslint-disable no-restricted-syntax, no-await-in-loop */
+    for (const tx of inflows) {
       const txHash = tx.hash
-      const txAmount = tx.txAmount
+      const { txAmount } = tx
       const foundOrder = orders.find((order) => order.tx_hash === txHash)
+
       if (foundOrder) {
-        //if order was found, then all orders after it are also found
+        // if order was found, then all orders after it are also found
         break
       }
+
       const newOrder: OrderWithRequiredFields = {
         number_of_transactions: txAmount,
         team_id: team.id,
@@ -51,48 +121,16 @@ export async function processTeamTx(team: Team) {
         payment_status: "paid",
         type: "top_up",
       }
+
+      // Sequential processing is required
       await addOrder(newOrder)
       await updateTeam(team.id, {
-        prepaid_transactions: team.prepaid_transactions ? team.prepaid_transactions + txAmount : txAmount
+        prepaid_transactions: team.prepaid_transactions
+          ? team.prepaid_transactions + txAmount
+          : txAmount,
       })
     }
-  }
-}
-
-async function getFundingWalletTxs(
-  fundingWalletAddress: string,
-): Promise<getFundingWalletTxsResponse[]> {
-  const url = `${AURORA_API_URL}?module=account&action=${QUERY_TYPE_TOKEN}&address=${fundingWalletAddress}&sort=desc`
-  try {
-    const response = await fetch(url)
-    const data: AuroraExplorerResponse = await response.json()
-    if (data.status !== "1") return []
-    const inflows = data.result.filter(
-      (tx: any) =>
-        tx.to?.toLowerCase() === fundingWalletAddress.toLowerCase()
-        &&
-        tx.value !== "0" &&
-        tx.tokenSymbol
-        &&
-        tx.contractAddress &&
-        tx.tokenSymbol === "USDT" &&
-        tx.contractAddress.toLowerCase() === AURORA_USDT_CONTRACT,
-    )
-    const transformedInflows = inflows.map((tx) => {
-      const parseTokenTxValue =
-        Number(tx.value) / Math.pow(10, Number(tx.tokenDecimal) || 6)
-      const txAmount = Math.ceil(parseTokenTxValue / TX_COST_USDT)
-      const { input, ...rest } = tx
-      return {
-        ...rest,
-        value: parseTokenTxValue,
-        txAmount,
-      }
-    })
-    return transformedInflows
-  } catch (err) {
-    console.error(`Error fetching for ${fundingWalletAddress}:`, err)
-    return []
+    /* eslint-enable no-restricted-syntax, no-await-in-loop */
   }
 }
 

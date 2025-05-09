@@ -1,8 +1,9 @@
 "use server"
-import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { Team } from "@/types/types"
+
 import { Wallet } from "ethers"
 import Cryptr from "cryptr"
+import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
+import { Team } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
   assertUniqueChainIdNotViolated,
@@ -24,7 +25,7 @@ export const createTeamFundingWallet = async (
 ): Promise<Team> => {
   const supabase = createAdminSupabaseClient()
   const fundingWallet = Wallet.createRandom()
-  const address = fundingWallet.address
+  const { address } = fundingWallet
   const pk = fundingWallet.privateKey
   const cryptredPk = getCryptr()
   const result = await supabase
@@ -36,6 +37,7 @@ export const createTeamFundingWallet = async (
     .eq("id", teamId)
     .select()
     .single()
+
   assertUniqueChainIdNotViolated(result)
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)

@@ -8,5 +8,6 @@ export const createMockOrder = (data?: Partial<Order>): Order => ({
   team_id: 1,
   type: "top_up",
   number_of_transactions: 42,
+  tx_hash: "mock-tx-hash",
   ...data,
 })

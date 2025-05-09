@@ -15,15 +15,20 @@ export const GET = async (req: NextRequest) => {
   if (req.headers.get("user-agent") !== "vercel-cron/1.0") {
     abort(403, "Forbidden")
   }
+
   const teams = await getTeams()
+
   await Promise.all(
     teams.map(async (team) => {
       try {
         await queue.add(() => processTeamTx(team))
       } catch (error) {
+        // for debugging purposes, to keep the error log in the vercel logs
+        // eslint-disable-next-line no-console
         console.error(`Error processing team ${team.id}:`, error)
       }
-    })
+    }),
   )
+
   return new Response("ok")
 }

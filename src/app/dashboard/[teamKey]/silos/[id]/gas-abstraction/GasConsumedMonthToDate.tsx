@@ -11,6 +11,7 @@ import { getMonthsList } from "@/utils/dates/get-months-list"
 import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
 import { Card, InfoList, Skeleton, Typography } from "@/uikit"
 import type { Silo, Team } from "@/types/types"
+
 type Props = {
   team: Team
   silo: Silo
@@ -20,11 +21,8 @@ const Items = ({ silo, team }: Props) => {
   const topupLink = useStripePaymentLink(team, "top_up")
   const monthsList = getMonthsList(silo.created_at)
   const startDate = monthsList[monthsList.length - 1].value
-  const {
-    topupLink: intentsTopupLink,
-    error,
-    loading,
-  } = useIntentsTxTopUpLink(team)
+  const { topupLink: intentsTopupLink, loading } = useIntentsTxTopUpLink(team)
+
   const infoListItemProps = {
     label: "Total transactions used",
   }
@@ -91,16 +89,20 @@ const Items = ({ silo, team }: Props) => {
                     <ArrowTopRightOnSquareIcon className="w-3 h-3" />
                   </LinkButton>
                 )}
-                {intentsTopupLink ? <LinkButton
-                  size="sm"
-                  variant="border"
-                  href={`${intentsTopupLink ? intentsTopupLink : ""}`}
-                  isExternal
-                  loading={loading}
-                >
-                  Crypto Top up
-                  <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                </LinkButton> : <Skeleton className="w-32 h-6" />}
+                {intentsTopupLink ? (
+                  <LinkButton
+                    size="sm"
+                    variant="border"
+                    href={`${intentsTopupLink || ""}`}
+                    isExternal
+                    loading={loading}
+                  >
+                    Crypto Top up
+                    <ArrowTopRightOnSquareIcon className="w-3 h-3" />
+                  </LinkButton>
+                ) : (
+                  <Skeleton className="w-32 h-6" />
+                )}
               </div>
             </div>
           </InfoList.Item>
