@@ -120,10 +120,10 @@ type AuroraExplorerResponse = {
     tokenSymbol?: string
   }>
 }
-
-type AuroraExplorerResult = AuroraExplorerResponse["result"][0]
-
-type getFundingWalletTxsResponse = Omit<AuroraExplorerResult, "value" | "input"> & {
+type getFundingWalletTxsResponse = Omit<
+  AuroraExplorerResponse["result"][0],
+  "value" | "input"
+> & {
   value: number // Changed from string to number
   txAmount: number
 }

@@ -23,7 +23,7 @@ export const GET = async (req: NextRequest) => {
       } catch (error) {
         console.error(`Error processing team ${team.id}:`, error)
       }
-    }),
+    })
   )
   return new Response("ok")
 }
