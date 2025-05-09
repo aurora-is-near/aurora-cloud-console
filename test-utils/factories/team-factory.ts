@@ -8,6 +8,8 @@ export const createMockTeam = (data?: Partial<Team>): Team => ({
   prepaid_transactions: 100,
   team_key: "test-team",
   ...data,
+  funding_wallet_address: "0x1234567890abcdef1234567890abcdef12345678",
+  funding_wallet_pk: "encrypted-private-key",
 })
 
 export const createMockTeams = (count: number, data?: Partial<Team>): Team[] =>

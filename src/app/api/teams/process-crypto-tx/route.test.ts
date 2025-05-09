@@ -7,6 +7,7 @@ import { getTeams } from "@/actions/teams/get-teams"
 import { abort } from "@/utils/abort"
 import { Team } from "@/types/types"
 import { GET } from "./route"
+import { createMockTeams } from "../../../../../test-utils/factories/team-factory"
 // Mock dependencies
 jest.mock("@/actions/teams/get-teams")
 jest.mock("@/actions/teams-funding/process-team-tx")
@@ -38,29 +39,7 @@ describe("Process Crypto Transactions API", () => {
 
   it("should process all teams when called with correct user-agent", async () => {
     // Mock getTeams to return mock data
-    const mockTeams: Team[] = [
-      {
-        created_at: "2023-01-01",
-        id: 1,
-        name: "Team One",
-        prepaid_transactions: 0,
-        funding_wallet_pk: "pk_123",
-        team_key: "Team One",
-        updated_at: "2023-01-01",
-        funding_wallet_address: "0x123",
-      },
-      {
-        created_at: "2023-01-01",
-        id: 2,
-        name: "Team Two",
-        prepaid_transactions: 0,
-        funding_wallet_pk: "pk_456",
-        team_key: "Team Two",
-        updated_at: "2023-01-01",
-        funding_wallet_address: "0x456",
-      },
-    ]
-
+    const mockTeams: Team[] = createMockTeams(2)
     const mockGetTeams = getTeams as jest.MockedFunction<typeof getTeams>
 
     mockGetTeams.mockResolvedValue(mockTeams)
@@ -120,29 +99,7 @@ describe("Process Crypto Transactions API", () => {
 
   it("should continue processing other teams if one fails", async () => {
     // Mock getTeams to return mock data
-    const mockTeams: Team[] = [
-      {
-        created_at: "2023-01-01",
-        id: 1,
-        name: "Team One",
-        prepaid_transactions: 0,
-        funding_wallet_pk: "pk_123",
-        team_key: "Team One",
-        updated_at: "2023-01-01",
-        funding_wallet_address: "0x123",
-      },
-      {
-        created_at: "2023-01-01",
-        id: 2,
-        name: "Team Two",
-        prepaid_transactions: 0,
-        funding_wallet_pk: "pk_456",
-        team_key: "Team Two",
-        updated_at: "2023-01-01",
-        funding_wallet_address: "0x456",
-      },
-    ]
-
+    const mockTeams: Team[] = createMockTeams(2)
     const mockGetTeams = getTeams as jest.MockedFunction<typeof getTeams>
 
     mockGetTeams.mockResolvedValue(mockTeams)
