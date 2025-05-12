@@ -6,8 +6,8 @@ import {
   type OrderWithRequiredFields,
 } from "@/actions/orders/add-order"
 
-export const AURORA_API_URL = "https://explorer.mainnet.aurora.dev/api/"
-export const AURORA_USDT_CONTRACT =
+const AURORA_API_URL = "https://explorer.mainnet.aurora.dev/api/"
+const AURORA_USDT_CONTRACT =
   "0x80da25da4d783e57d2fcda0436873a193a4beccf".toLowerCase()
 
 const TX_COST_USDT = 0.004628
