@@ -6,7 +6,6 @@ import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-clie
 import { Team } from "@/types/types"
 import {
   assertNonNullSupabaseResult,
-  assertUniqueChainIdNotViolated,
   assertValidSupabaseResult,
 } from "@/utils/supabase"
 
@@ -38,7 +37,6 @@ export const createTeamFundingWallet = async (
     .select()
     .single()
 
-  assertUniqueChainIdNotViolated(result)
   assertValidSupabaseResult(result)
   assertNonNullSupabaseResult(result)
 

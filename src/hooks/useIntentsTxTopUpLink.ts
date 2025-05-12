@@ -21,19 +21,7 @@ export const useIntentsTxTopUpLink = (
 
   const checkSiloFundingWallet: () => Promise<string | null> =
     useCallback(async () => {
-      try {
-        if (!team.funding_wallet_address) {
-          return null
-        }
-
-        return team.funding_wallet_address
-      } catch (err) {
-        logger.error("Error checking silo funding wallet", err)
-        setError(err as Error)
-        setLoading(false)
-
-        return null
-      }
+      return team.funding_wallet_address
     }, [team])
 
   useEffect(() => {
@@ -49,17 +37,17 @@ export const useIntentsTxTopUpLink = (
           setTopupLink(
             `${INTENTS_BASE_URL}?amount=${BASE_AMOUNT}&token=${BASE_TOKEN}&network=${BASE_NETWORK}&recipient=${res.funding_wallet_address}`,
           )
-          setLoading(false)
         } else {
           setTopupLink(
             `${INTENTS_BASE_URL}?amount=${BASE_AMOUNT}&token=${BASE_TOKEN}&network=${BASE_NETWORK}&recipient=${address}`,
           )
-          setLoading(false)
         }
       })
       .catch((err) => {
         logger.error("Error creating funding wallet", err)
         setError(err)
+      })
+      .finally(() => {
         setLoading(false)
       })
   }, [team, checkSiloFundingWallet])

@@ -4,54 +4,37 @@
 import { NextRequest } from "next/server"
 import { processTeamTx } from "@/actions/teams-funding/process-team-tx"
 import { getTeams } from "@/actions/teams/get-teams"
-import { abort } from "@/utils/abort"
 import { Team } from "@/types/types"
 import { GET } from "./route"
+import { logger } from "@/logger"
 import { createMockTeams } from "../../../../../test-utils/factories/team-factory"
-// Mock dependencies
+
 jest.mock("@/actions/teams/get-teams")
 jest.mock("@/actions/teams-funding/process-team-tx")
-jest.mock("@/utils/abort")
+jest.mock("@/logger")
+global.fetch = jest.fn()
 
 describe("Process Crypto Transactions API", () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
-
   it("should reject requests without the Vercel cron user-agent", async () => {
-    // Mock abort to capture the call
-    const mockAbort = abort as jest.MockedFunction<typeof abort>
-
-    mockAbort.mockImplementation((statusCode, message) => {
-      throw new Error(`Abort: ${statusCode} - ${message}`)
-    })
-
-    // Create a request without the correct user-agent
     const req = new NextRequest(
       "https://example.com/api/teams/process-crypto-tx",
     )
-
-    // Test that the function aborts
-    await expect(GET(req)).rejects.toThrow("Abort: 403 - Forbidden")
-    expect(mockAbort).toHaveBeenCalledWith(403, "Forbidden")
+    await expect(GET(req)).rejects.toThrow("Forbidden")
     expect(getTeams).not.toHaveBeenCalled()
   })
 
   it("should process all teams when called with correct user-agent", async () => {
-    // Mock getTeams to return mock data
     const mockTeams: Team[] = createMockTeams(2)
     const mockGetTeams = getTeams as jest.MockedFunction<typeof getTeams>
 
     mockGetTeams.mockResolvedValue(mockTeams)
 
-    // Mock processTeamTx
     const mockProcessTeamTx = processTeamTx as jest.MockedFunction<
       typeof processTeamTx
     >
 
     mockProcessTeamTx.mockResolvedValue(undefined)
 
-    // Create a request with the correct user-agent
     const req = new NextRequest(
       "https://example.com/api/teams/process-crypto-tx",
       {
@@ -61,14 +44,11 @@ describe("Process Crypto Transactions API", () => {
       },
     )
 
-    // Call the handler
     const response = await GET(req)
 
-    // Verify response
     expect(response).toBeInstanceOf(Response)
     expect(await response.text()).toBe("ok")
 
-    // Verify mocks were called correctly
     expect(getTeams).toHaveBeenCalledTimes(1)
     expect(mockProcessTeamTx).toHaveBeenCalledTimes(mockTeams.length)
     expect(mockProcessTeamTx).toHaveBeenCalledWith(mockTeams[0])
@@ -76,12 +56,10 @@ describe("Process Crypto Transactions API", () => {
   })
 
   it("should handle errors from getTeams", async () => {
-    // Mock getTeams to throw an error
     const mockGetTeams = getTeams as jest.MockedFunction<typeof getTeams>
 
     mockGetTeams.mockRejectedValue(new Error("Database error"))
 
-    // Create a request with the correct user-agent
     const req = new NextRequest(
       "https://example.com/api/teams/process-crypto-tx",
       {
@@ -91,20 +69,17 @@ describe("Process Crypto Transactions API", () => {
       },
     )
 
-    // Test that the function rejects
     await expect(GET(req)).rejects.toThrow("Database error")
     expect(getTeams).toHaveBeenCalledTimes(1)
     expect(processTeamTx).not.toHaveBeenCalled()
   })
 
   it("should continue processing other teams if one fails", async () => {
-    // Mock getTeams to return mock data
     const mockTeams: Team[] = createMockTeams(2)
     const mockGetTeams = getTeams as jest.MockedFunction<typeof getTeams>
 
     mockGetTeams.mockResolvedValue(mockTeams)
 
-    // Mock processTeamTx to fail for the first team
     const mockProcessTeamTx = processTeamTx as jest.MockedFunction<
       typeof processTeamTx
     >
@@ -117,7 +92,6 @@ describe("Process Crypto Transactions API", () => {
       return Promise.resolve(undefined)
     })
 
-    // Create a request with the correct user-agent
     const req = new NextRequest(
       "https://example.com/api/teams/process-crypto-tx",
       {
@@ -131,14 +105,13 @@ describe("Process Crypto Transactions API", () => {
     // each individual team's processing in a separate Promise
     const response = await GET(req)
 
-    // Verify response
     expect(response).toBeInstanceOf(Response)
     expect(await response.text()).toBe("ok")
 
-    // Verify mocks were called correctly
     expect(getTeams).toHaveBeenCalledTimes(1)
     expect(mockProcessTeamTx).toHaveBeenCalledTimes(mockTeams.length)
     expect(mockProcessTeamTx).toHaveBeenCalledWith(mockTeams[0])
     expect(mockProcessTeamTx).toHaveBeenCalledWith(mockTeams[1])
+    expect(logger.error).toHaveBeenCalled()
   })
 })
