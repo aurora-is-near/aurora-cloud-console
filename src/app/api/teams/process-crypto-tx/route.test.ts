@@ -5,8 +5,8 @@ import { NextRequest } from "next/server"
 import { processTeamTx } from "@/actions/teams-funding/process-team-tx"
 import { getTeams } from "@/actions/teams/get-teams"
 import { Team } from "@/types/types"
-import { GET } from "./route"
 import { logger } from "@/logger"
+import { GET } from "./route"
 import { createMockTeams } from "../../../../../test-utils/factories/team-factory"
 
 jest.mock("@/actions/teams/get-teams")
@@ -19,6 +19,7 @@ describe("Process Crypto Transactions API", () => {
     const req = new NextRequest(
       "https://example.com/api/teams/process-crypto-tx",
     )
+
     await expect(GET(req)).rejects.toThrow("Forbidden")
     expect(getTeams).not.toHaveBeenCalled()
   })

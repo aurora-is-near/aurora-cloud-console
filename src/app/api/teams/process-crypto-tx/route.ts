@@ -15,7 +15,9 @@ export const GET = async (req: NextRequest) => {
   if (req.headers.get("user-agent") !== "vercel-cron/1.0") {
     abort(403, "Forbidden")
   }
+
   const teams = await getTeams()
+
   await Promise.all(
     teams.map(async (team) => {
       try {
