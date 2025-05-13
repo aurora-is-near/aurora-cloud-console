@@ -12,7 +12,6 @@ jest.mock("@/logger")
 global.fetch = jest.fn()
 
 describe("processTeamTx", () => {
-  
   it("should do nothing if no funding wallet address is provided", async () => {
     const team = createMockTeam({
       funding_wallet_address: undefined,
