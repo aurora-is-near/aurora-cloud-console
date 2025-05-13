@@ -5,15 +5,16 @@ import {
   addOrder,
   type OrderWithRequiredFields,
 } from "@/actions/orders/add-order"
+import { logger } from "@/logger"
 
-export const AURORA_API_URL = "https://explorer.mainnet.aurora.dev/api/"
-export const AURORA_USDT_CONTRACT =
+const AURORA_API_URL = "https://explorer.mainnet.aurora.dev/api/"
+const AURORA_USDT_CONTRACT =
   "0x80da25da4d783e57d2fcda0436873a193a4beccf".toLowerCase()
 
-export const TX_COST_USDT = 0.004628
+const TX_COST_USDT = 0.004628
 
 // Define the function that will be used later in the file
-export async function getFundingWalletTxs(
+async function getFundingWalletTxs(
   fundingWalletAddress: string,
 ): Promise<getFundingWalletTxsResponse[]> {
   const url = `${AURORA_API_URL}?module=account&action=tokentx&address=${fundingWalletAddress}&sort=desc`
@@ -53,8 +54,7 @@ export async function getFundingWalletTxs(
 
     return transformedInflows
   } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(`Error fetching for ${fundingWalletAddress}:`, err)
+    logger.error(`Error fetching for ${fundingWalletAddress}:`, err)
 
     return []
   }

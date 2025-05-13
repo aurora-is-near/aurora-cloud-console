@@ -1,141 +1,182 @@
-import {
-  getFundingWalletTxs,
-  AURORA_API_URL,
-  AURORA_USDT_CONTRACT,
-  TX_COST_USDT,
-} from "./process-team-tx"
+import { getCryptoOrders } from "@/actions/orders/get-crypto-orders"
+import { updateTeam } from "@/actions/teams/update-team"
+import { addOrder } from "@/actions/orders/add-order"
+import { createMockTeam } from "../../../test-utils/factories/team-factory"
+import * as processTeamTxModule from "./process-team-tx"
+
+jest.mock("@/actions/orders/get-crypto-orders")
+jest.mock("@/actions/teams/update-team")
+jest.mock("@/actions/orders/add-order")
+jest.mock("@/logger")
 
 global.fetch = jest.fn()
 
-describe("getFundingWalletTxs", () => {
+describe("processTeamTx", () => {
+  
+  it("should do nothing if no funding wallet address is provided", async () => {
+    const team = createMockTeam({
+      funding_wallet_address: undefined,
+    })
 
-  it('returns an empty array when API status is not "1"', async () => {
-(fetch as jest.Mock).mockResolvedValueOnce({
-      json: async () => ({
-        status: "0",
-        message: "No transactions found",
-        result: [],
-      }),
-    } as Response)
+    await processTeamTxModule.processTeamTx(team)
 
-    const result = await getFundingWalletTxs("0xTESTADDRESS")
-
-    expect(fetch).toHaveBeenCalledWith(
-      `${AURORA_API_URL}?module=account&action=tokentx&address=0xTESTADDRESS&sort=desc`,
-    )
-    expect(result).toEqual([])
+    // global.fetch is aurora blockscout API call
+    expect(global.fetch).not.toHaveBeenCalled()
+    expect(getCryptoOrders).not.toHaveBeenCalled()
   })
 
-  it("correctly filters and transforms USDT transactions", async () => {
-    const mockTransactions = [
-      {
-        blockNumber: "1234567",
-        timeStamp: "1620100000",
-        hash: "0xTEST1",
-        nonce: "1",
-        blockHash: "0xBLOCKHASH1",
-        transactionIndex: "0",
-        from: "0xSENDER",
-        to: "0xTESTADDRESS",
-        value: "1000000",
-        gas: "21000",
-        gasPrice: "5000000000",
-        isError: "0",
-        txreceipt_status: "1",
-        input: "0xDATA",
-        contractAddress: AURORA_USDT_CONTRACT,
-        tokenName: "Tether USD",
-        tokenSymbol: "USDT",
-        tokenDecimal: "6",
-      },
-      {
-        blockNumber: "1234568",
-        timeStamp: "1620100001",
-        hash: "0xTEST2",
-        nonce: "2",
-        blockHash: "0xBLOCKHASH2",
-        transactionIndex: "1",
-        from: "0xSENDER",
-        to: "0xTESTADDRESS",
-        value: "3000000",
-        gas: "21000",
-        gasPrice: "5000000000",
-        isError: "0",
-        txreceipt_status: "1",
-        input: "0xDATA",
-        contractAddress: AURORA_USDT_CONTRACT,
-        tokenName: "Tether USD",
-        tokenSymbol: "USDT",
-        tokenDecimal: "6",
-      },
-      {
-        // This one should be filtered out (wrong token)
-        blockNumber: "1234569",
-        timeStamp: "1620100002",
-        hash: "0xTEST3",
-        from: "0xSENDER",
-        to: "0xTESTADDRESS",
-        value: "5000000000000000000",
-        contractAddress: "0xDIFFERENTCONTRACT",
-        tokenSymbol: "ETH",
-        tokenDecimal: "18",
-      },
-      {
-        // This one should be filtered out (wrong recipient)
-        blockNumber: "1234570",
-        timeStamp: "1620100003",
-        hash: "0xTEST4",
-        from: "0xTESTADDRESS",
-        to: "0xOTHERADDRESS",
-        value: "2000000",
-        contractAddress: AURORA_USDT_CONTRACT,
-        tokenSymbol: "USDT",
-        tokenDecimal: "6",
-      },
-    ];
-    //on the first call to fetch, return this response.
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      json: async () => ({
+  it("should do nothing if no inflows are found", async () => {
+    const team = createMockTeam({
+      funding_wallet_address: "0xTEST",
+    })
+
+    ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce({
         status: "1",
         message: "OK",
-        result: mockTransactions,
+        result: [],
       }),
-    } as Response)
+    })
 
-    const result = await getFundingWalletTxs("0xTESTADDRESS")
+    await processTeamTxModule.processTeamTx(team)
 
-    expect(fetch).toHaveBeenCalledTimes(1)
-
-    expect(result.length).toBe(2)
-
-    expect(result[0]).toEqual(
-      expect.objectContaining({
-        hash: "0xTEST1",
-        value: 1, // 1000000 / 10^6
-        txAmount: Math.ceil(1 / TX_COST_USDT),
-      }),
-    )
-
-    expect(result[1]).toEqual(
-      expect.objectContaining({
-        hash: "0xTEST2",
-        value: 3,
-        txAmount: Math.ceil(3 / TX_COST_USDT),
-      }),
-    )
+    // aurora blockscout API call
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("0xTEST"))
+    expect(getCryptoOrders).not.toHaveBeenCalled()
   })
 
-  it("handles API errors gracefully", async () => {
-    (fetch as jest.Mock).mockRejectedValueOnce(new Error("Network error"))
+  it("should process all transactions when there are no existing orders", async () => {
+    const team = createMockTeam({
+      id: 1,
+      funding_wallet_address: "0xTEST",
+      prepaid_transactions: 5,
+    })
 
-    const consoleSpy = jest.spyOn(console, "error").mockImplementation()
+    ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce({
+        status: "1",
+        message: "OK",
+        result: [
+          {
+            hash: "0xTX1",
+            to: "0xTEST",
+            value: "10000000", // 10 USDT with 6 decimals
+            contractAddress: "0x80da25da4d783e57d2fcda0436873a193a4beccf",
+            tokenSymbol: "USDT",
+            tokenDecimal: "6",
+          },
+          {
+            hash: "0xTX2",
+            to: "0xTEST",
+            value: "20000000",
+            contractAddress: "0x80da25da4d783e57d2fcda0436873a193a4beccf",
+            tokenSymbol: "USDT",
+            tokenDecimal: "6",
+          },
+          // This transaction should be ignored
+          {
+            hash: "0xTX2",
+            to: "0xTEST",
+            value: "20000000",
+            contractAddress: "0x9bFafdB4a5446f9F3753bABE083A86cE85d59715", // wrong contract address
+            tokenSymbol: "USDT",
+            tokenDecimal: "6",
+          },
+        ],
+      }),
+    })
+    ;(getCryptoOrders as jest.Mock).mockResolvedValueOnce([])
 
-    const result = await getFundingWalletTxs("0xTESTADDRESS")
+    await processTeamTxModule.processTeamTx(team)
 
-    expect(consoleSpy).toHaveBeenCalled()
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("0xTEST"))
+    expect(getCryptoOrders).toHaveBeenCalledWith(1)
 
-    expect(result).toEqual([])
+    // Check the expected behavior based on txAmount calculated from USDT values
+    // and TX_COST_USDT constant in your app
+    expect(addOrder).toHaveBeenCalledTimes(2)
+    expect(updateTeam).toHaveBeenCalledTimes(2)
+  })
 
-    consoleSpy.mockRestore()
+  it("should process transactions until finding an existing one", async () => {
+    const team = createMockTeam({
+      id: 1,
+      funding_wallet_address: "0xTEST",
+      prepaid_transactions: 5,
+    })
+
+    ;(global.fetch as jest.Mock).mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce({
+        status: "1",
+        message: "OK",
+        result: [
+          {
+            hash: "0xNEW1",
+            to: "0xTEST",
+            value: "10000000",
+            contractAddress: "0x80da25da4d783e57d2fcda0436873a193a4beccf",
+            tokenSymbol: "USDT",
+            tokenDecimal: "6",
+          },
+          {
+            hash: "0xNEW2",
+            to: "0xTEST",
+            value: "20000000",
+            contractAddress: "0x80da25da4d783e57d2fcda0436873a193a4beccf",
+            tokenSymbol: "USDT",
+            tokenDecimal: "6",
+          },
+          {
+            hash: "0xEXISTING",
+            to: "0xTEST",
+            value: "30000000",
+            contractAddress: "0x80da25da4d783e57d2fcda0436873a193a4beccf",
+            tokenSymbol: "USDT",
+            tokenDecimal: "6",
+          },
+          {
+            hash: "0xOLD",
+            to: "0xTEST",
+            value: "40000000",
+            contractAddress: "0x80da25da4d783e57d2fcda0436873a193a4beccf",
+            tokenSymbol: "USDT",
+            tokenDecimal: "6",
+          },
+        ],
+      }),
+    })
+    ;(getCryptoOrders as jest.Mock).mockResolvedValueOnce([
+      { tx_hash: "0xEXISTING" },
+    ])
+
+    await processTeamTxModule.processTeamTx(team)
+
+    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("0xTEST"))
+    expect(getCryptoOrders).toHaveBeenCalledWith(1)
+
+    // Should only process the first two transactions
+    expect(addOrder).toHaveBeenCalledTimes(2)
+    expect(addOrder).toHaveBeenCalledWith(
+      expect.objectContaining({
+        tx_hash: "0xNEW1",
+      }),
+    )
+    expect(addOrder).toHaveBeenCalledWith(
+      expect.objectContaining({
+        tx_hash: "0xNEW2",
+      }),
+    )
+
+    // Verify existing and old transactions were not processed
+    expect(addOrder).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        tx_hash: "0xEXISTING",
+      }),
+    )
+    expect(addOrder).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        tx_hash: "0xOLD",
+      }),
+    )
   })
 })
