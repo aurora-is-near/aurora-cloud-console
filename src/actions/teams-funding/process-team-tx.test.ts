@@ -77,7 +77,7 @@ describe("processTeamTx", () => {
             hash: "0xTX2",
             to: "0xTEST",
             value: "20000000",
-            contractAddress: "0x9bFafdB4a5446f9F3753bABE083A86cE85d59715", // wrong contract address
+            contractAddress: "0xRANDOM", // wrong contract address
             tokenSymbol: "USDT",
             tokenDecimal: "6",
           },

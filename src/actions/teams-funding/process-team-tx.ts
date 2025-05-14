@@ -1,3 +1,4 @@
+import { formatUnits } from "ethers"
 import { getCryptoOrders } from "@/actions/orders/get-crypto-orders"
 import { updateTeam } from "@/actions/teams/update-team"
 import { Team } from "@/types/types"
@@ -7,17 +8,21 @@ import {
 } from "@/actions/orders/add-order"
 import { logger } from "@/logger"
 
-const AURORA_API_URL = "https://explorer.mainnet.aurora.dev/api/"
-const AURORA_USDT_CONTRACT =
-  "0x80da25da4d783e57d2fcda0436873a193a4beccf".toLowerCase()
+const AURORA_EXPLORER_API_URL =
+  process.env.AURORA_EXPLORER_API_URL ??
+  "https://explorer.testnet.aurora.dev/api/"
 
-const TX_COST_USDT = 0.004628
+const AURORA_USDT_CONTRACT =
+  process.env.AURORA_USDT_CONTRACT_ADDRESS ??
+  "0x80da25da4d783e57d2fcda0436873a193a4beccf"
+
+const TX_COST_USDT = Number(process.env.TX_COST_USDT) ?? 0.004628
 
 // Define the function that will be used later in the file
 async function getFundingWalletTxs(
   fundingWalletAddress: string,
 ): Promise<getFundingWalletTxsResponse[]> {
-  const url = `${AURORA_API_URL}?module=account&action=tokentx&address=${fundingWalletAddress}&sort=desc`
+  const url = `${AURORA_EXPLORER_API_URL}?module=account&action=tokentx&address=${fundingWalletAddress}&sort=desc`
 
   try {
     const response = await fetch(url)
@@ -34,20 +39,22 @@ async function getFundingWalletTxs(
         tx.tokenSymbol &&
         tx.contractAddress &&
         tx.tokenSymbol === "USDT" &&
-        tx.contractAddress.toLowerCase() === AURORA_USDT_CONTRACT,
+        tx.contractAddress.toLowerCase() === AURORA_USDT_CONTRACT.toLowerCase(),
     )
 
     const transformedInflows = inflows.map((tx) => {
-      const parseTokenTxValue =
-        Number(tx.value) / 10 ** (Number(tx.tokenDecimal) || 6)
+      const parseTokenTxValue = formatUnits(
+        Number(tx.value),
+        Number(tx.tokenDecimal) || 6,
+      )
 
-      const txAmount = Math.ceil(parseTokenTxValue / TX_COST_USDT)
+      const txAmount = Math.ceil(Number(parseTokenTxValue) / TX_COST_USDT)
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { input, ...rest } = tx
 
       return {
         ...rest,
-        value: parseTokenTxValue,
+        value: Number(parseTokenTxValue),
         txAmount,
       }
     })
