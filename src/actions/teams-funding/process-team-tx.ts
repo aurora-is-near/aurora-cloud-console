@@ -16,7 +16,7 @@ const AURORA_USDT_CONTRACT =
   process.env.AURORA_USDT_CONTRACT_ADDRESS ??
   "0x80da25da4d783e57d2fcda0436873a193a4beccf"
 
-const TX_COST_USDT = Number(process.env.TX_COST_USDT) ?? 0.004628
+const TX_COST_USDT = process.env.TX_COST_USDT ?? 0.004628
 
 // Define the function that will be used later in the file
 async function getFundingWalletTxs(
@@ -48,7 +48,10 @@ async function getFundingWalletTxs(
         Number(tx.tokenDecimal) || 6,
       )
 
-      const txAmount = Math.ceil(Number(parseTokenTxValue) / TX_COST_USDT)
+      const txAmount = Math.ceil(
+        Number(parseTokenTxValue) / Number(TX_COST_USDT),
+      )
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { input, ...rest } = tx
 
