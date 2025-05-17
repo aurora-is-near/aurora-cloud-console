@@ -41,3 +41,11 @@ next-env.d.ts
 # visual regression testing
 tests/tailwind.css
 tests/__image_snapshots_diff__/
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+e2e/storage-state.json

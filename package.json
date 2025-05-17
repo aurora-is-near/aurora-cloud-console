@@ -13,7 +13,8 @@
     "generate-supabase-types": "supabase gen types typescript --project-id xqharbhfobwuhpcdsapg --schema public > src/types/supabase.ts",
     "generate-tailwind-styles": "tailwindcss -i ./src/styles/globals.css -o ./tests/tailwind.css",
     "fix-tailwind-font-family": "sed -i '' 's/var(--font-circular)/CircularXXSub/g' tests/tailwind.css",
-    "test:regression": "npm-run-all2 generate-tailwind-styles fix-tailwind-font-family && PUPPETEER_DISABLE_HEADLESS_WARNING=true JEST_PUPPETEER_CONFIG=jest-puppeteer.config.js npx jest --config=jest.visual.config.js"
+    "test:regression": "npm-run-all2 generate-tailwind-styles fix-tailwind-font-family && PUPPETEER_DISABLE_HEADLESS_WARNING=true JEST_PUPPETEER_CONFIG=jest-puppeteer.config.js npx jest --config=jest.visual.config.js",
+    "test:e2e": "npx playwright test"
   },
   "engines": {
     "node": ">=20.8.1"
@@ -74,6 +75,7 @@
   "devDependencies": {
     "@aurora-is-near/eslint-config": "^1.5.0",
     "@jest/globals": "^29.7.0",
+    "@playwright/test": "^1.51.1",
     "@slack/types": "^2.14.0",
     "@svgr/webpack": "^8.1.0",
     "@swc/core": "^1.11.9",
