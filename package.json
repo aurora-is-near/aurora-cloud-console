@@ -27,7 +27,7 @@
     "@supabase/ssr": "^0.6.1",
     "@supabase/storage-js": "^2.7.1",
     "@supabase/supabase-js": "^2.49.4",
-    "@tanstack/react-query": "^5.71.10",
+    "@tanstack/react-query": "^5.76.1",
     "@ts-rest/core": "^3.52.0",
     "@ts-rest/open-api": "^3.52.1",
     "@types/lodash.debounce": "^4.0.9",
