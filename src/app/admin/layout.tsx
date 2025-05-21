@@ -2,6 +2,7 @@ import { ReactNode } from "react"
 import {
   BellAlertIcon,
   CircleStackIcon,
+  CogIcon,
   CubeIcon,
   CurrencyDollarIcon,
   DocumentTextIcon,
@@ -40,6 +41,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
                 name: "Silos",
                 href: "/admin/silos",
                 icon: <CubeIcon />,
+              },
+              {
+                name: "Integration requests",
+                href: "/admin/integration-requests",
+                icon: <CogIcon />,
               },
               {
                 name: "Blockscout",
