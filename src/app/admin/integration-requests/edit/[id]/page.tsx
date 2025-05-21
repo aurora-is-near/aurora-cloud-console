@@ -11,8 +11,6 @@ const Page = async ({ params: { id } }: { params: { id: number } }) => {
     notFound()
   }
 
-  console.log("integrationRequest", integrationRequest)
-
   return (
     <DashboardPage
       heading={["Integration Requests", integrationRequest.id.toString()]}
