@@ -3,10 +3,6 @@
     {
       "path": "/api/silos/repair",
       "schedule": "0 * * * *"
-    },
-    {
-      "path": "/api/teams/process-crypto-tx",
-      "schedule": "0 * * * *"
     }
   ]
 }

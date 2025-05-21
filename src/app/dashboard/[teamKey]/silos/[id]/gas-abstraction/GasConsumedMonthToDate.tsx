@@ -1,16 +1,16 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import { useIntentsTxTopUpLink } from "@/hooks/useIntentsTxTopUpLink"
-import { useStripePaymentLink } from "@/hooks/useStripePaymentLink"
-import { LinkButton } from "@/components/LinkButton"
 import { notReachable } from "@/utils/notReachable"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getMonthsList } from "@/utils/dates/get-months-list"
 import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
 import { Card, InfoList, Skeleton, Typography } from "@/uikit"
 import type { Silo, Team } from "@/types/types"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
+import { Button } from "@/components/Button"
+import { TopUpModal } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/TopUpModal"
 
 type Props = {
   team: Team
@@ -18,11 +18,9 @@ type Props = {
 }
 
 const Items = ({ silo, team }: Props) => {
-  const topupLink = useStripePaymentLink(team, "top_up")
   const monthsList = getMonthsList(silo.created_at)
   const startDate = monthsList[monthsList.length - 1].value
-  const { topupLink: intentsTopupLink, loading } = useIntentsTxTopUpLink(team)
-
+  const { openModal } = useModals()
   const infoListItemProps = {
     label: "Total transactions used",
   }
@@ -55,7 +53,7 @@ const Items = ({ silo, team }: Props) => {
 
       return (
         <InfoList className="md:max-w-[50%]">
-          <InfoList.Item label="Available transactions">
+          <InfoList.Item label="Available balance">
             <div className="flex items-center justify-between gap-4 w-full">
               <Typography
                 size={4}
@@ -67,44 +65,18 @@ const Items = ({ silo, team }: Props) => {
                 )}
               </Typography>
               <div className="flex flex-col gap-2 item-end">
-                {topupLink ? (
-                  <LinkButton
-                    size="sm"
-                    variant="border"
-                    href={topupLink}
-                    isExternal
-                  >
-                    Top up
-                    <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                  </LinkButton>
-                ) : (
-                  <LinkButton
-                    size="sm"
-                    variant="border"
-                    href=""
-                    disabled
-                    isExternal
-                  >
-                    Top up
-                    <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                  </LinkButton>
-                )}
-                {intentsTopupLink ? (
-                  <LinkButton
-                    size="sm"
-                    variant="border"
-                    href={`${intentsTopupLink || ""}`}
-                    isExternal
-                    loading={loading}
-                  >
-                    Crypto Top up
-                    <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                  </LinkButton>
-                ) : (
-                  <Skeleton className="w-32 h-6" />
-                )}
+                <Button
+                  className="flex-shrink-0"
+                  onClick={() => openModal(Modals.TopUpOptions)}
+                  variant="border"
+                >
+                  Top up
+                </Button>
               </div>
             </div>
+          </InfoList.Item>
+          <InfoList.Item label="Estimated transactions">
+            <Skeleton />
           </InfoList.Item>
           <InfoList.Item {...infoListItemProps}>
             <div className="flex items-center justify-end">
@@ -139,6 +111,7 @@ export const GasConsumedMonthToDate = ({ silo, team }: Props) => {
         </Typography>
       </aside>
       <Items silo={silo} team={team} />
+      <TopUpModal silo={silo} team={team} />
     </Card>
   )
 }

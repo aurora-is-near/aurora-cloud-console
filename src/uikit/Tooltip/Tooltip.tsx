@@ -3,7 +3,7 @@ import { clsx } from "../clsx"
 import { Typography } from "../Typography"
 
 type Props = {
-  children: string
+  children: string | ReactNode
   trigger: ReactNode
   className?: string
   width?: number

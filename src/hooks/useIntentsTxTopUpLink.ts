@@ -1,60 +1,37 @@
-import { useCallback, useEffect, useState } from "react"
-import { logger } from "@/logger"
-import { type Team } from "@/types/types"
-import { createTeamFundingWallet } from "@/actions/teams-funding/create-funding-wallet"
+import { useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { type Silo } from "@/types/types"
+import { getSiloRelayer } from "@/actions/silo-relayers/get-silo-relayer"
+import { queryKeys } from "@/actions/query-keys"
 
 const INTENTS_BASE_URL = "https://app.near-intents.org/withdraw"
 const BASE_AMOUNT = 69.42
-const BASE_NETWORK = "aurora"
-const BASE_TOKEN = "USDT"
+const BASE_NETWORK = "near"
+const BASE_TOKEN = "NEAR"
 
 export const useIntentsTxTopUpLink = (
-  team: Team,
+  silo: Silo,
 ): {
-  topupLink: string | null
-  error: Error | null
-  loading: boolean
+  isLoading: boolean
+  link: string
+  relayerAccount: string
 } => {
-  const [topupLink, setTopupLink] = useState<string | null>(null)
-  const [error, setError] = useState<Error | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+  const { data: relayerAccount, isLoading } = useQuery({
+    queryKey: queryKeys.getSiloRelayer(silo.id),
+    queryFn: () => getSiloRelayer(silo.id),
+  })
 
-  const checkSiloFundingWallet: () => Promise<string | null> =
-    useCallback(async () => {
-      return team.funding_wallet_address
-    }, [team])
+  const link = useMemo(() => {
+    if (relayerAccount) {
+      return `${INTENTS_BASE_URL}?amount=${BASE_AMOUNT}&network=${BASE_NETWORK}&token=${BASE_TOKEN}&recipient=${relayerAccount.account_id}`
+    }
 
-  useEffect(() => {
-    checkSiloFundingWallet()
-      .then(async (address) => {
-        if (!address) {
-          const res = await createTeamFundingWallet(team.id)
-
-          if (!res.funding_wallet_address) {
-            throw new Error("Funding wallet not created")
-          }
-
-          setTopupLink(
-            `${INTENTS_BASE_URL}?amount=${BASE_AMOUNT}&token=${BASE_TOKEN}&network=${BASE_NETWORK}&recipient=${res.funding_wallet_address}`,
-          )
-        } else {
-          setTopupLink(
-            `${INTENTS_BASE_URL}?amount=${BASE_AMOUNT}&token=${BASE_TOKEN}&network=${BASE_NETWORK}&recipient=${address}`,
-          )
-        }
-      })
-      .catch((err) => {
-        logger.error("Error creating funding wallet", err)
-        setError(err)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [team, checkSiloFundingWallet])
+    return `${INTENTS_BASE_URL}?amount=${BASE_AMOUNT}&network=${BASE_NETWORK}&token=${BASE_TOKEN}&recipient=${silo.engine_account}`
+  }, [relayerAccount, silo.engine_account])
 
   return {
-    topupLink,
-    error,
-    loading,
+    isLoading,
+    link,
+    relayerAccount: relayerAccount?.account_id ?? silo.engine_account,
   }
 }

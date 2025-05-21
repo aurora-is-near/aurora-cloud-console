@@ -20,4 +20,5 @@ export const queryKeys = {
   getSiloOracle: (siloId: number | null) => ["silo-oracle", siloId],
   getApiKeys: (teamKey: string) => ["api-keys", teamKey],
   getTeamMembers: (teamKey: string) => ["team-members", teamKey],
+  getSiloRelayer: (siloId: number | null) => ["silo-relayer", siloId],
 } as const
