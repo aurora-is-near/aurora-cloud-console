@@ -110,7 +110,7 @@ export const contractChangerApiClient = {
   }) =>
     request<{ tx_hash?: string }>(
       `/api/v1/contract/${siloEngineAccountId}/whitelist/${whitelistKind}/${action}`,
-      { method: "POST" },
+      { method: "PUT" },
     ),
 
   addAddressToWhitelist: async ({
