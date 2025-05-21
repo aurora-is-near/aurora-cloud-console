@@ -823,9 +823,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "id": {
                             "type": "number",
                           },
-                          "intentsIntegrationStatus": {
-                            "type": "string",
-                          },
                           "name": {
                             "type": "string",
                           },
@@ -853,9 +850,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "rpcUrl": {
                             "type": "string",
                           },
-                          "trisolarisIntegrationStatus": {
-                            "type": "string",
-                          },
                           "updatedAt": {
                             "type": "string",
                           },
@@ -870,8 +864,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "genesis",
                           "name",
                           "rpcUrl",
-                          "intentsIntegrationStatus",
-                          "trisolarisIntegrationStatus",
                           "nativeToken",
                         ],
                         "type": "object",
@@ -941,9 +933,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id": {
                       "type": "number",
                     },
-                    "intentsIntegrationStatus": {
-                      "type": "string",
-                    },
                     "name": {
                       "type": "string",
                     },
@@ -971,9 +960,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "rpcUrl": {
                       "type": "string",
                     },
-                    "trisolarisIntegrationStatus": {
-                      "type": "string",
-                    },
                     "updatedAt": {
                       "type": "string",
                     },
@@ -988,8 +974,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "genesis",
                     "name",
                     "rpcUrl",
-                    "intentsIntegrationStatus",
-                    "trisolarisIntegrationStatus",
                     "nativeToken",
                   ],
                   "type": "object",
