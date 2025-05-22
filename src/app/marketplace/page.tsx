@@ -51,7 +51,7 @@ const Page = async () => {
         </BaseContainer>
       </div>
       <BaseContainer size="lg">
-        <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden pt-10 md:pt-14">
+        <div className="w-full h-full flex flex-row bg-slate-50 dark:bg-slate-900 overflow-hidden pt-10 md:pt-14">
           <MarketplaceMainSidebarMenu />
           <div className="w-full lg:pl-16 space-y-12 md:space-y-14">
             <div>

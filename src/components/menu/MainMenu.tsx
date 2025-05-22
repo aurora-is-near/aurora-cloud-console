@@ -10,11 +10,13 @@ import type { MenuItem } from "@/types/menu"
 import { isAdminUser } from "@/utils/admin"
 import { LinkButton } from "@/components/LinkButton"
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/constants/routes"
+import { DarkModeToggleButton } from "@/components/menu/DarkModeToggleButton"
 
 type MainMenuProps = {
   menuItems?: MenuItem[]
   authUser: User | null
   isMarketplace?: boolean
+  hasDarkModeToggle?: boolean
   children?: ReactNode
 }
 
@@ -36,6 +38,7 @@ export const MainMenu = ({
   menuItems = [],
   authUser,
   isMarketplace,
+  hasDarkModeToggle,
   children,
 }: MainMenuProps) => {
   const userTeams: string[] = authUser?.user_metadata.teams || []
@@ -84,6 +87,9 @@ export const MainMenu = ({
         )}
       </ul>
       <MobileMenuToggleButton />
+      {hasDarkModeToggle && authUser && (
+        <DarkModeToggleButton authUser={authUser} />
+      )}
     </div>
   )
 }

@@ -8,7 +8,7 @@ export const MarketplaceCategoryPageLayout = ({
 }: PropsWithChildren) => {
   return (
     <BaseContainer size="lg">
-      <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden pt-10">
+      <div className="w-full h-full flex flex-row bg-slate-50 dark:bg-slate-900 overflow-hidden pt-10">
         <MarketplaceMainSidebarMenu hasBackButton />
         {children}
       </div>

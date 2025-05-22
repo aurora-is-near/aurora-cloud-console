@@ -4,6 +4,7 @@ import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 import { MainMenu } from "@/components/menu/MainMenu"
 import { MarketplaceFooter } from "@/app/marketplace/MarketPlaceFooter"
 import { MarketPlaceSearchInput } from "@/app/marketplace/MarketPlaceSearchInput"
+import { DarkModeProvider } from "@/providers/DarkModeProvider"
 
 export const metadata: Metadata = {
   title: "Aurora Cloud Marketplace",
@@ -25,17 +26,22 @@ const Layout = async ({ children }: { children: ReactNode }) => {
   const authUser = await getAuthUser()
 
   return (
-    <div className="bg-slate-50">
-      <MainMenu
-        isMarketplace
-        authUser={authUser}
-        menuItems={authUser ? [{ name: "Dashboard", href: "/dashboard" }] : []}
-      >
-        <MarketPlaceSearchInput className="hidden md:flex" />
-      </MainMenu>
-      {children}
-      <MarketplaceFooter className="mt-16" />
-    </div>
+    <DarkModeProvider authUser={authUser}>
+      <div className="bg-slate-50 dark:bg-slate-900">
+        <MainMenu
+          isMarketplace
+          hasDarkModeToggle
+          authUser={authUser}
+          menuItems={
+            authUser ? [{ name: "Dashboard", href: "/dashboard" }] : []
+          }
+        >
+          <MarketPlaceSearchInput className="hidden md:flex" />
+        </MainMenu>
+        {children}
+        <MarketplaceFooter className="mt-16" />
+      </div>
+    </DarkModeProvider>
   )
 }
 
