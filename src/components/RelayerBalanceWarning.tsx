@@ -36,17 +36,17 @@ export const RelayerBalanceWarning = () => {
   return (
     <div className="bg-orange-600 text-slate-100 px-[14px] py-[10px]">
       <div className="flex items-center justify-center gap-2">
-        <p className="text-sm text-center self-center flex-1 font-medium">
+        <p className="text-xs md:text-sm text-center self-center flex-1 font-medium">
           You have {txLeft} transactions left. Please top up for uninterrupted
           experience
         </p>
         <Button
           variant="transparent"
           onClick={handleTopUpClick}
-          className="active:bg-transparent hover:bg-transparent text-slate-200 hover:text-slate-100 text-sm py-0 px-0 font-medium h-0"
+          className="active:bg-transparent hover:bg-transparent text-slate-200 hover:text-slate-100 text-xs md:text-sm py-0 px-0 font-medium h-0"
         >
           Top up now
-          <ArrowRightIcon className="w-5 h-5" />
+          <ArrowRightIcon className="w-4 h-4 md:w-5 md:h-5" />
         </Button>
       </div>
     </div>
