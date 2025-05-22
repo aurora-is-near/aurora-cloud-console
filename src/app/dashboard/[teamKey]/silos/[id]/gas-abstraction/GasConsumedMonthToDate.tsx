@@ -94,7 +94,6 @@ const Items = ({ silo }: Props) => {
                 variant="paragraph"
                 className="text-slate-900"
               >
-                ~
                 {new Intl.NumberFormat(undefined).format(
                   txLeft < 0 ? 0 : txLeft,
                 )}
