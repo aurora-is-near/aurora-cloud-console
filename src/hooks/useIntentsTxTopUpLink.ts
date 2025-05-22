@@ -18,7 +18,7 @@ export const useIntentsTxTopUpLink = (
 } => {
   const { data: relayerAccount, isLoading } = useQuery({
     queryKey: queryKeys.getSiloRelayer(silo.id),
-    queryFn: () => getSiloRelayer(silo.id),
+    queryFn: () => getSiloRelayer(silo),
   })
 
   const link = useMemo(() => {

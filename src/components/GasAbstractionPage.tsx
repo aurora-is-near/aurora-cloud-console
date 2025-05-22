@@ -35,7 +35,7 @@ export const GasAbstractionPage = () => {
     tabs.push(
       {
         title: "Gas consumed",
-        content: <GasAbstractionConsumedTab silo={silo} team={team} />,
+        content: <GasAbstractionConsumedTab silo={silo} />,
       },
       {
         title: "Gas collected",

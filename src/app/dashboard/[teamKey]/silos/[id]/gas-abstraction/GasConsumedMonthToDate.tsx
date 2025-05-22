@@ -6,20 +6,24 @@ import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getMonthsList } from "@/utils/dates/get-months-list"
 import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
 import { Card, InfoList, Skeleton, Typography } from "@/uikit"
-import type { Silo, Team } from "@/types/types"
+import type { Silo } from "@/types/types"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
+import {
+  getEstimatedTransactionsLeft,
+  useRelayerBalance,
+} from "@/hooks/useRelayerBalance"
 
 type Props = {
-  team: Team
   silo: Silo
 }
 
-const Items = ({ silo, team }: Props) => {
+const Items = ({ silo }: Props) => {
   const monthsList = getMonthsList(silo.created_at)
   const startDate = monthsList[monthsList.length - 1].value
   const { openModal } = useModals()
+  const { data: balanceData, isLoading } = useRelayerBalance(silo)
 
   const collectedGasQuery = useQuery(
     getQueryFnAndKey("getSiloCollectedGas", {
@@ -53,8 +57,7 @@ const Items = ({ silo, team }: Props) => {
       )
 
     case "success": {
-      const transactionLeft =
-        team.prepaid_transactions - collectedGasQuery.data.transactionsCount
+      const txLeft = getEstimatedTransactionsLeft(balanceData?.near)
 
       return (
         <InfoList className="md:max-w-[50%]">
@@ -68,9 +71,7 @@ const Items = ({ silo, team }: Props) => {
                 variant="paragraph"
                 className="text-slate-900"
               >
-                {new Intl.NumberFormat(undefined).format(
-                  transactionLeft < 0 ? 0 : transactionLeft,
-                )}
+                {isLoading ? <Skeleton /> : (balanceData?.near ?? 0)}
               </Typography>
               <div className="flex flex-col gap-2 item-end">
                 <Button
@@ -87,7 +88,18 @@ const Items = ({ silo, team }: Props) => {
             label="Estimated transactions"
             labelTooltip="An approximate number of transactions your current NEAR balance can cover, based on average gas costs. Actual usage may vary depending on transaction complexity."
           >
-            <Skeleton />
+            <div className="flex items-center justify-end">
+              <Typography
+                size={4}
+                variant="paragraph"
+                className="text-slate-900"
+              >
+                ~
+                {new Intl.NumberFormat(undefined).format(
+                  txLeft < 0 ? 0 : txLeft,
+                )}
+              </Typography>
+            </div>
           </InfoList.Item>
           <InfoList.Item label="Total transactions used">
             <div className="flex items-center justify-end">
@@ -110,7 +122,7 @@ const Items = ({ silo, team }: Props) => {
   }
 }
 
-export const GasConsumedMonthToDate = ({ silo, team }: Props) => {
+export const GasConsumedMonthToDate = ({ silo }: Props) => {
   return (
     <Card className="flex flex-col gap-6 md:gap-12 md:flex-row">
       <aside className="w-full">
@@ -121,7 +133,7 @@ export const GasConsumedMonthToDate = ({ silo, team }: Props) => {
           Overview of your transactions usage and balance up to date.
         </Typography>
       </aside>
-      <Items silo={silo} team={team} />
+      <Items silo={silo} />
     </Card>
   )
 }

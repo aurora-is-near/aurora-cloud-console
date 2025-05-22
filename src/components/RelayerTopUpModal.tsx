@@ -10,21 +10,19 @@ import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
 import { useIntentsTxTopUpLink } from "@/hooks/useIntentsTxTopUpLink"
 import { Modals } from "@/utils/modals"
-import type { Silo, Team } from "@/types/types"
 import CopyButton from "@/components/CopyButton"
 import { Tooltip } from "@/uikit/Tooltip"
 import { useStripePaymentLink } from "@/hooks/useStripePaymentLink"
 import { Skeleton } from "@/uikit"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
+import { SiloContext } from "@/providers/SiloProvider"
+import { TeamContext } from "@/providers/TeamProvider"
 import { NearToken } from "../../public/static/v2/images/icons"
 
-export const RelayerTopUpModal = ({
-  silo,
-  team,
-}: {
-  silo: Silo
-  team: Team
-}) => {
+export const RelayerTopUpModal = () => {
   const { closeModal, activeModal } = useModals()
+  const { silo } = useRequiredContext(SiloContext)
+  const { team } = useRequiredContext(TeamContext)
   const open = activeModal === Modals.TopUpOptions
   const stripeTopUpLink = useStripePaymentLink(team, "top_up")
   const { isLoading, link, relayerAccount } = useIntentsTxTopUpLink(silo)
