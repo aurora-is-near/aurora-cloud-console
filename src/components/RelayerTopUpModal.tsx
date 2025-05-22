@@ -15,14 +15,19 @@ import CopyButton from "@/components/CopyButton"
 import { Tooltip } from "@/uikit/Tooltip"
 import { useStripePaymentLink } from "@/hooks/useStripePaymentLink"
 import { Skeleton } from "@/uikit"
-import { NearToken } from "../../../../../../../public/static/v2/images/icons"
+import { NearToken } from "../../public/static/v2/images/icons"
 
-export const TopUpModal = ({ silo, team }: { silo: Silo; team: Team }) => {
+export const RelayerTopUpModal = ({
+  silo,
+  team,
+}: {
+  silo: Silo
+  team: Team
+}) => {
   const { closeModal, activeModal } = useModals()
   const open = activeModal === Modals.TopUpOptions
   const stripeTopUpLink = useStripePaymentLink(team, "top_up")
   const { isLoading, link, relayerAccount } = useIntentsTxTopUpLink(silo)
-
   const openNearIntents = () => {
     if (link) {
       window.open(link, "_blank", "noopener,noreferrer")

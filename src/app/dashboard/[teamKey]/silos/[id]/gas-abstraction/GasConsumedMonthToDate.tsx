@@ -10,7 +10,6 @@ import type { Silo, Team } from "@/types/types"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 import { Button } from "@/components/Button"
-import { TopUpModal } from "@/app/dashboard/[teamKey]/silos/[id]/gas-abstraction/TopUpModal"
 
 type Props = {
   team: Team
@@ -21,9 +20,6 @@ const Items = ({ silo, team }: Props) => {
   const monthsList = getMonthsList(silo.created_at)
   const startDate = monthsList[monthsList.length - 1].value
   const { openModal } = useModals()
-  const infoListItemProps = {
-    label: "Total transactions used",
-  }
 
   const collectedGasQuery = useQuery(
     getQueryFnAndKey("getSiloCollectedGas", {
@@ -38,10 +34,19 @@ const Items = ({ silo, team }: Props) => {
     case "error":
       return (
         <InfoList className="md:max-w-[50%]">
-          <InfoList.Item label="Available transactions">
+          <InfoList.Item
+            label="Available balance"
+            labelTooltip="Your current NEAR balance used to cover transaction fees on your chain."
+          >
             <Skeleton />
           </InfoList.Item>
-          <InfoList.Item {...infoListItemProps}>
+          <InfoList.Item
+            label="Estimated transactions"
+            labelTooltip="An approximate number of transactions your current NEAR balance can cover, based on average gas costs. Actual usage may vary depending on transaction complexity."
+          >
+            <Skeleton />
+          </InfoList.Item>
+          <InfoList.Item label="Total transactions used">
             <Skeleton />
           </InfoList.Item>
         </InfoList>
@@ -53,7 +58,10 @@ const Items = ({ silo, team }: Props) => {
 
       return (
         <InfoList className="md:max-w-[50%]">
-          <InfoList.Item label="Available balance">
+          <InfoList.Item
+            label="Available balance"
+            labelTooltip="Your current NEAR balance used to cover transaction fees on your chain."
+          >
             <div className="flex items-center justify-between gap-4 w-full">
               <Typography
                 size={4}
@@ -75,10 +83,13 @@ const Items = ({ silo, team }: Props) => {
               </div>
             </div>
           </InfoList.Item>
-          <InfoList.Item label="Estimated transactions">
+          <InfoList.Item
+            label="Estimated transactions"
+            labelTooltip="An approximate number of transactions your current NEAR balance can cover, based on average gas costs. Actual usage may vary depending on transaction complexity."
+          >
             <Skeleton />
           </InfoList.Item>
-          <InfoList.Item {...infoListItemProps}>
+          <InfoList.Item label="Total transactions used">
             <div className="flex items-center justify-end">
               <Typography
                 size={4}
@@ -111,7 +122,6 @@ export const GasConsumedMonthToDate = ({ silo, team }: Props) => {
         </Typography>
       </aside>
       <Items silo={silo} team={team} />
-      <TopUpModal silo={silo} team={team} />
     </Card>
   )
 }

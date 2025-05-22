@@ -9,11 +9,15 @@ import { MainMenu } from "@/components/menu/MainMenu"
 import { MenuItem, MenuSection } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import Helpscout from "@/components/Helpscout"
-
+import { RelayerTopUpModal } from "@/components/RelayerTopUpModal"
 import { getAdminNotificationCount } from "@/actions/get-admin-notification-count"
 import { isAdminUser } from "@/utils/admin"
-import IconDiscord from "../../public/static/icons/discord-logo.svg"
+import { RelayerBalanceWarning } from "@/components/RelayerBalanceWarning"
+import { SiloContext } from "@/providers/SiloProvider"
+import { TeamContext } from "@/providers/TeamProvider"
+import { useRequiredContext } from "@/hooks/useRequiredContext"
 import IconTelegram from "../../public/static/icons/telegram-logo.svg"
+import IconDiscord from "../../public/static/icons/discord-logo.svg"
 
 type DashboardLayoutProps = {
   teamKey?: string
@@ -33,6 +37,8 @@ export const DashboardLayout = ({
   sidebarMenu,
 }: DashboardLayoutProps) => {
   const showAdminMenu = isAdminUser(authUser?.email)
+  const { silo } = useRequiredContext(SiloContext)
+  const { team } = useRequiredContext(TeamContext)
   const mainMenuItems = useMemo(() => {
     const items: MenuItem[] = [
       {
@@ -77,6 +83,12 @@ export const DashboardLayout = ({
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
+      {silo && team && (
+        <>
+          <RelayerBalanceWarning silo={silo} />
+          <RelayerTopUpModal silo={silo} team={team} />
+        </>
+      )}
       <MainMenu authUser={authUser} menuItems={mainMenuItems} />
       <div className="w-full h-full flex flex-row bg-slate-50 overflow-hidden">
         {!!sidebarMenu?.sections.length && (
