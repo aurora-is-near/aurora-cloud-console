@@ -11,7 +11,7 @@ import {
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { SiloContext } from "@/providers/SiloProvider"
 
-const TRANSACTION_THRESHOLD = 10000
+const TRANSACTION_THRESHOLD = 5
 
 export const RelayerBalanceWarning = () => {
   const { openModal } = useModals()
