@@ -21,7 +21,7 @@ export const RequestReceivedPopup = ({
           />
           <div className="flex flex-col gap-3 items-center justify-center pt-6">
             <Image
-              src="/static/v2/images/aurora-wait.png"
+              src="/static/images/aurora-wait.png"
               alt="Aurora Cloud Console"
               width={135}
               height={135}

@@ -19,7 +19,7 @@ import {
   BlockExplorer,
   NearIntents,
   Trisolaris,
-} from "../../../../../../../public/static/v2/images/menuIcons"
+} from "../../../../../../../public/static/images/menuIcons"
 
 const NETWORK_IMAGE_SIZE = 300
 const FAVICON_IMAGE_SIZE = 120
