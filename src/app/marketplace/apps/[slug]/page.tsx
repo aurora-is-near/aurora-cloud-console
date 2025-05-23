@@ -22,6 +22,7 @@ import { Heading } from "@/uikit/Typography/Heading"
 import { getAuroraCollection } from "@/utils/marketplace/get-aurora-collection"
 import { MarketPlacePills } from "../../MarketPlacePills"
 import { BackButton } from "./BackButton"
+import { Seal } from "./Seal"
 
 export async function generateStaticParams() {
   const graphqlClient = createGraphqlClient()
@@ -176,15 +177,9 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 Pricing
               </h3>
               <div className="mt-4 flex flex-row items-center gap-1.5">
-                <Image
-                  src={
-                    isFree
-                      ? "/static/v2/images/icons/marketplace/seal-check.svg"
-                      : "/static/v2/images/icons/marketplace/seal-question.svg"
-                  }
-                  width={20}
-                  height={20}
-                  alt=""
+                <Seal
+                  variant={isFree ? "check" : "question"}
+                  className="w-5 h-5 text-slate-500 dark:text-slate-300"
                 />
                 <p
                   className={clsx(

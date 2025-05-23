@@ -35,7 +35,7 @@ export const MarketplaceCards = ({
           </h2>
         )}
         {showNumberOfApps && (
-          <p className="font-bold text-lg tracking-tight">
+          <p className="font-bold text-lg tracking-tight text-slate-900 dark:text-slate-50">
             {apps.length} app{apps.length === 1 ? "" : "s"}
           </p>
         )}
