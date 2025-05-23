@@ -1,7 +1,7 @@
 import Link from "next/link"
-import Image from "next/image"
 import { BaseContainer } from "@/components/BaseContainer"
-import { MarketplaceFooterItem } from "@/app/marketplace/MarketPlaceFooterItem"
+import { MarketplaceFooterItem } from "./MarketPlaceFooterItem"
+import { MarketplaceFooterLogo } from "./MarketPlaceFooterLogo"
 import FileIcon from "../../../public/static/v2/images/icons/marketplace/file.svg"
 import DiscordIcon from "../../../public/static/v2/images/icons/marketplace/discord.svg"
 import TelegramIcon from "../../../public/static/v2/images/icons/marketplace/telegram.svg"
@@ -23,22 +23,7 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
         size="lg"
         className="flex flex-col md:grid md:grid-cols-6 md:gap-4"
       >
-        <div>
-          <Image
-            width="122"
-            height="70"
-            src="/static/v2/images/aurora-cloud-logo.svg"
-            alt="Aurora Cloud logo"
-            className="hidden md:block"
-          />
-          <Image
-            width="217"
-            height="28"
-            src="/static/v2/images/aurora-cloud-logo-horizontal.svg"
-            alt="Aurora Cloud logo"
-            className="md:hidden"
-          />
-        </div>
+        <MarketplaceFooterLogo />
         <div className="border-t border-slate-200 dark:border-slate-700 md:border-none md:col-span-2 xl:ml-16 pt-8 mt-6 md:pt-0 md:mt-0">
           <h4 className="uppercase font-bold tracking-[2px] text-slate-900 dark:text-slate-50 mb-6">
             Get Help
