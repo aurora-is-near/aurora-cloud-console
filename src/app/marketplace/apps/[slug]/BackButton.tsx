@@ -25,7 +25,11 @@ export const BackButton = () => {
   }
 
   return (
-    <Button onClick={onBackClick} variant="border">
+    <Button
+      onClick={onBackClick}
+      variant="border"
+      className="text-slate-900 dark:text-slate-50"
+    >
       <ArrowLeftIcon className="w-5 h-5" />
       Back
     </Button>

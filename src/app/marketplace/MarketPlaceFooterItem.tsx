@@ -19,7 +19,7 @@ export const MarketplaceFooterItem = ({
         <Image src={iconSrc} width={16} height={16} alt="" />
       </div>
       <Link
-        className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors -tracking-[0.25px]"
+        className="text-sm font-medium text-slate-600 hover:text-slate-900 dark:hover:text-slate-50 transition-colors -tracking-[0.25px]"
         href={href}
         target="_blank"
       >

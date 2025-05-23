@@ -17,11 +17,11 @@ export const MarketPlacePill = ({
     <Link
       href={href}
       className={clsx(
-        "rounded-full p-1.5 border text-sm font-medium text-slate-900 tracking-tight leading-none flex flex-row items-center",
+        "rounded-full p-1.5 border text-sm font-medium tracking-tight leading-none flex flex-row items-center",
         {
-          "bg-slate-200 border-slate-300 hover:bg-slate-300":
+          "bg-slate-200 dark:bg-slate-700 border-slate-300 dark:border-slate-600 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-50":
             variant === "default",
-          "bg-green-100 border-grey-100 hover:bg-green-200":
+          "bg-green-100 border-grey-100 hover:bg-green-200 text-slate-900":
             variant === "green",
         },
       )}

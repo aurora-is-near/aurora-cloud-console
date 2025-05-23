@@ -20,7 +20,7 @@ export const MarketplaceCategoryPage = ({
         {title}
       </Heading>
       {!!description && (
-        <Paragraph size={1} className="text-slate-500 mt-4">
+        <Paragraph size={1} className="text-slate-500 dark:text-slate-300 mt-4">
           {description}
         </Paragraph>
       )}

@@ -22,7 +22,7 @@ export const MarketplaceCollectionCard = ({
       href={href}
       className={clsx(
         "p-6 sm:min-h-[232px] flex sm:flex-col sm:justify-between rounded-[10px] border border-black/5 shadow-sm relative overflow-hidden",
-        "transition-shadow transition-border-color hover:transition-shadow hover:transition-border-color hover:shadow-3xl hover:border-slate-300",
+        "transition-shadow transition-border-color hover:transition-shadow hover:transition-border-color hover:shadow-3xl hover:border-slate-300 dark:hover:border-slate-500",
         {
           "bg-green-50": colorScheme === "green",
           "bg-purple-50": colorScheme === "orange",

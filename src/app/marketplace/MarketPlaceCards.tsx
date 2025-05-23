@@ -30,7 +30,7 @@ export const MarketplaceCards = ({
     <div className={clsx("flex flex-col", className)}>
       <div className="mb-4 flex flex-row items-center justify-between">
         {!!title && (
-          <h2 className="text-slate-900 text-2xl font-bold tracking-[-1px]">
+          <h2 className="text-slate-900 dark:text-slate-50 text-2xl font-bold tracking-[-1px]">
             {title}
           </h2>
         )}
@@ -44,7 +44,7 @@ export const MarketplaceCards = ({
             size="sm"
             href={seeAllLink}
             variant="border"
-            className="dark:text-slate-50"
+            className="text-slate-900 dark:text-slate-50"
           >
             See all
             <ArrowRightIcon className="w-4 h-4" />
@@ -72,12 +72,14 @@ export const MarketplaceCards = ({
                       alt=""
                     />
                   ) : (
-                    <div className="bg-slate-200 rounded-xl h-full w-full" />
+                    <div className="bg-slate-200 dark:bg-slate-700 rounded-xl h-full w-full" />
                   )}
                 </div>
-                <Heading size={4}>{app.title}</Heading>
+                <Heading size={4} className="text-slate-900 dark:text-slate-50">
+                  {app.title}
+                </Heading>
                 {!!app.description && (
-                  <p className="text-sm text-slate-500 line-clamp-2	mt-1.5">
+                  <p className="text-sm text-slate-500 dark:text-slate-300 line-clamp-2	mt-1.5">
                     {app.description}
                   </p>
                 )}

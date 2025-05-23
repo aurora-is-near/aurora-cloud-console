@@ -7,20 +7,17 @@ const HORIZONTAL_PADDING = "px-5 md:px-6"
 const Title = ({
   children,
   tag: Tag = "h2",
-  isDisabled,
   size = "medium",
 }: {
   children: ReactNode
   tag?: keyof JSX.IntrinsicElements
-  isDisabled?: boolean
   size?: "small" | "medium" | "large"
 }) => (
   <Tag
     className={clsx(
-      "text-base font-medium !leading-none",
+      "text-base text-slate-900 dark:text-slate-50 font-medium !leading-none",
       size === "medium" && "sm:text-lg",
       size === "large" && "md:text-xl",
-      isDisabled ? "text-slate-500" : "text-slate-900",
     )}
   >
     {children}
@@ -30,7 +27,9 @@ const Title = ({
 Title.displayName = "Title"
 
 const Subtitle = ({ children }: { children: ReactNode }) => (
-  <p className="mt-1 text-sm leading-5 text-slate-500 sm:mt-2">{children}</p>
+  <p className="mt-1 text-sm leading-5 text-slate-500 dark:text-slate-300 sm:mt-2">
+    {children}
+  </p>
 )
 
 Subtitle.displayName = "Subtitle"
@@ -75,7 +74,6 @@ const Card = ({
   className,
   tag: Tag = "div",
   borderRadius = "md",
-  isDisabled,
   isClickable,
   children,
   ...rest
@@ -83,7 +81,6 @@ const Card = ({
   className?: string
   tag?: keyof JSX.IntrinsicElements
   borderRadius?: "md" | "xl" | "2xl"
-  isDisabled?: boolean
   isClickable?: boolean
   children: ReactNode
   [key: string]: unknown
@@ -104,16 +101,15 @@ const Card = ({
   return (
     <Tag
       className={clsx(
-        "border border-slate-200 shadow-sm",
+        "border border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-800",
         {
           "rounded-[10px]": borderRadius === "md",
           "rounded-xl": borderRadius === "xl",
           "rounded-2xl": borderRadius === "2xl",
           "p-5 md:p-6": !hasHeader,
         },
-        isDisabled ? "bg-gray-100" : "bg-white",
         isClickable
-          ? "transition-shadow transition-border-color hover:transition-shadow hover:transition-border-color hover:shadow-3xl hover:border-slate-300"
+          ? "transition-shadow transition-border-color hover:transition-shadow hover:transition-border-color hover:shadow-3xl hover:border-slate-300 dark:hover:border-slate-500"
           : "",
         className,
       )}

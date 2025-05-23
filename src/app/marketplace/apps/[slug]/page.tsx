@@ -89,18 +89,24 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   className="object-contain rounded-2xl"
                 />
               ) : (
-                <div className="bg-slate-200 rounded-2xl h-full w-full" />
+                <div className="bg-slate-200 dark:bg-slate-800 rounded-2xl h-full w-full" />
               )}
             </div>
             <div className="flex-1 relative">
               <div className="flex flex-row justify-between">
-                <Heading as="h1" size={2} className="mb-3">
+                <Heading
+                  as="h1"
+                  size={2}
+                  className="mb-3 text-slate-900 dark:text-slate-50"
+                >
                   {marketplaceApp.title}
                 </Heading>
               </div>
-              <Paragraph size={1} className="text-slate-500 max-w-md">
-                Access to onchain data by enabling users to query, visualize,
-                and share insights across various blockchains.
+              <Paragraph
+                size={1}
+                className="text-slate-500 dark:text-slate-300 max-w-md"
+              >
+                {marketplaceApp.description}
               </Paragraph>
               <RequestIntegrationButton />
             </div>
@@ -127,14 +133,18 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                     />
                   </div>
                 )}
-                <div className="">
+                <div>
                   {!!contentItem.title && (
-                    <Heading as="h2" size={3} className="text-slate-900 mb-2.5">
+                    <Heading
+                      as="h2"
+                      size={3}
+                      className="text-slate-900 dark:text-slate-50 mb-2.5"
+                    >
                       {contentItem.title}
                     </Heading>
                   )}
                   <HtmlContent
-                    className="text-slate-600"
+                    className="text-slate-600 dark:text-slate-300"
                     html={contentItem.body}
                   />
                 </div>
@@ -145,7 +155,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           {!!relatedApps?.length && (
             <MarketplaceCards
               showSingleRow
-              className="mt-16 pt-16 border-t border-slate-200"
+              className="mt-16 pt-16 border-t border-slate-200 dark:border-slate-700"
               title={auroraCollection?.title ?? firstCategory.title}
               apps={relatedApps}
               seeAllLink={
@@ -158,11 +168,13 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
         </div>
 
         {/* Sidebar */}
-        <aside className="w-full md:w-52 md:min-w-52 divide-y space-y-6 divide-slate-200 md:order-1 mb-8 md:mb-0">
+        <aside className="w-full md:w-52 md:min-w-52 divide-y space-y-6 divide-slate-200 dark:divide-slate-700 md:order-1 mb-8 md:mb-0">
           <BackButton />
           {!!marketplaceApp.pricing && (
             <section>
-              <h3 className="font-bold text-slate-900 text-lg mt-6">Pricing</h3>
+              <h3 className="font-bold text-slate-900 dark:text-slate-50 text-lg mt-6">
+                Pricing
+              </h3>
               <div className="mt-4 flex flex-row items-center gap-1.5">
                 <Image
                   src={
@@ -177,7 +189,9 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 <p
                   className={clsx(
                     "font-medium text-sm tracking-tight",
-                    isFree ? "text-green-800" : "text-slate-500",
+                    isFree
+                      ? "text-green-800 dark:text-green-500"
+                      : "text-slate-500 dark:text-slate-300",
                   )}
                 >
                   {marketplaceApp.pricing}
@@ -187,7 +201,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           )}
           {!!marketplaceApp.links.length && (
             <section>
-              <h3 className="font-bold text-slate-900 text-lg mt-6">
+              <h3 className="font-bold text-slate-900 dark:text-slate-50 text-lg mt-6">
                 Learn more
               </h3>
               <ul className="space-y-3 mt-4">
@@ -197,7 +211,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="underline hover:no-underline text-cyan-700 font-medium flex flex-row items-center gap-1"
+                      className="underline hover:no-underline text-cyan-700 dark:text-cyan-500 font-medium flex flex-row items-center gap-1"
                     >
                       {link.text}
                       <ArrowTopRightOnSquareIcon className="w-4 h-4" />
@@ -209,7 +223,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
           )}
           {marketplaceApp.categories.length > 0 && (
             <section>
-              <h3 className="font-bold text-slate-900 text-lg mt-6">
+              <h3 className="font-bold text-slate-900 dark:text-slate-50 text-lg mt-6">
                 Categories
               </h3>
               <MarketPlacePills

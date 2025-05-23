@@ -28,13 +28,16 @@ const Page = async () => {
 
   return (
     <>
-      <div className="w-full md:h-[340px] relative bg-slate-100 flex flex-row items-center">
+      <div className="w-full md:h-[340px] relative bg-slate-100 dark:bg-slate-800 flex flex-row items-center">
         <BaseContainer size="lg">
           <div className="md:max-w-md lg:max-w-lg py-10">
-            <h1 className="font-bold text-4xl md:text-5xl tracking-tight md:leading-[3.25rem]">
+            <h1 className="font-bold text-4xl md:text-5xl tracking-tight md:leading-[3.25rem] text-slate-900 dark:text-slate-50">
               Explore Aurora Cloud Integrations
             </h1>
-            <Paragraph size={1} className="text-slate-500 mt-4">
+            <Paragraph
+              size={1}
+              className="text-slate-500 bg:text-slate-400 dark:text-slate-300 mt-4"
+            >
               Aurora Cloud chains come ready to use with built-in integrations
               for a seamless start. You can also enhance your Virtual Chain with
               a variety of additional tools and services.
@@ -55,7 +58,7 @@ const Page = async () => {
           <MarketplaceMainSidebarMenu />
           <div className="w-full lg:pl-16 space-y-12 md:space-y-14">
             <div>
-              <h2 className="text-slate-900 text-2xl font-bold tracking-[-1px] mb-5">
+              <h2 className="text-slate-900 dark:text-slate-50 text-2xl font-bold tracking-[-1px] mb-5">
                 Collections
               </h2>
               <div

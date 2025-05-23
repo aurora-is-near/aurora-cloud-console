@@ -32,8 +32,8 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
             className="md:hidden"
           />
         </div>
-        <div className="border-t border-slate-200 md:border-none md:col-span-2 xl:ml-16 pt-8 mt-6 md:pt-0 md:mt-0">
-          <h4 className="uppercase font-bold tracking-[2px] text-slate-900 mb-6">
+        <div className="border-t border-slate-200 dark:border-slate-700 md:border-none md:col-span-2 xl:ml-16 pt-8 mt-6 md:pt-0 md:mt-0">
+          <h4 className="uppercase font-bold tracking-[2px] text-slate-900 dark:text-slate-50 mb-6">
             Get Help
           </h4>
           <ul className="grid gap-y-4">
@@ -52,7 +52,7 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
           </ul>
         </div>
         <div className="md:col-span-3 mt-8 md:mt-0">
-          <h4 className="uppercase font-bold tracking-[2px] text-slate-900 mb-6">
+          <h4 className="uppercase font-bold tracking-[2px] text-slate-900 dark:text-slate-50 mb-6">
             Resources
           </h4>
           <ul className="gap-y-4 grid grid-cols-2 lg:grid-cols-3 gap-x-8">
@@ -90,8 +90,8 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
         </div>
       </BaseContainer>
       <BaseContainer size="lg">
-        <div className="border-t border-slate-200 py-8 mt-8 flex flex-col sm:flex-row sm:items-center justify-between">
-          <div className="flex items-center space-x-5 text-sm font-medium leading-none text-slate-500">
+        <div className="border-t border-slate-200 dark:border-slate-700 py-8 mt-8 flex flex-col sm:flex-row sm:items-center justify-between">
+          <div className="flex items-center space-x-5 text-sm font-medium leading-none text-slate-500 dark:text-slate-300">
             <Link
               className="underline hover:no-underline"
               href="https://auroracloud.dev/terms"
@@ -107,7 +107,7 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
               Privacy
             </Link>
           </div>
-          <div className="text-sm font-medium leading-none text-slate-500 mt-4 sm:mt-0">
+          <div className="text-sm font-medium leading-none text-slate-500 dark:text-slate-300 mt-4 sm:mt-0">
             &copy; {year} Aurora Labs. All Rights Reserved.
           </div>
         </div>

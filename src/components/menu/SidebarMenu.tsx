@@ -49,7 +49,7 @@ export const SidebarMenu = ({
       <aside
         className={clsx(
           "flex inset-y-0 flex-col overflow-y-auto w-full h-full lg:transform-none transition ease-in-out duration-300",
-          "bg-white sm:border-r border-slate-200 p-6",
+          "bg-white sm:border-r border-slate-200 dark:border-slate-700 p-6",
           variant === "compact"
             ? "sm:w-64 sm:min-w-64 lg:w-52 lg:min-w-52 lg:border-none lg:bg-transparent lg:p-0"
             : "sm:w-72 sm:min-w-72",
@@ -88,7 +88,7 @@ export const SidebarMenu = ({
 
         <nav
           className={clsx(
-            "flex flex-col flex-1 divide-y divide-slate-200",
+            "flex flex-col flex-1 divide-y divide-slate-200 dark:divide-slate-700",
             variant !== "compact" && "mt-4",
           )}
         >
