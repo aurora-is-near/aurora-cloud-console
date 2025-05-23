@@ -80,9 +80,11 @@ export const TrisolarisPage = () => {
         <div className="flex justify-start gap-2">
           {silo && (
             <IntegrationRequestButton
+              showUpdateIconPrompt
               silo={silo}
               team={team}
-              integration="trisolaris"
+              integrationType="trisolaris"
+              requestReceivedMessage="Your chain will be integrated within 1-2 business days. To enhance your visibility on Trisolaris, be sure to upload your blockchain icon."
             />
           )}
           <LinkButton
