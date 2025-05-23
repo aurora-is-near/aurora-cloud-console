@@ -66,13 +66,20 @@ export const MainMenu = ({
           </li>
         ))}
         {authUser ? (
-          <li
-            className={clsx(
-              menuItems.length && "pl-2 border-l border-slate-700",
+          <>
+            <li
+              className={clsx(
+                menuItems.length && "pl-2 border-l border-slate-700",
+              )}
+            >
+              <MainMenuLogoutButton />
+            </li>
+            {hasDarkModeToggle && (
+              <li>
+                <DarkModeToggleButton />
+              </li>
             )}
-          >
-            <MainMenuLogoutButton />
-          </li>
+          </>
         ) : (
           <div className="flex flex-row items-center gap-x-3">
             <LinkButton
@@ -83,13 +90,11 @@ export const MainMenu = ({
               Sign in
             </LinkButton>
             <LinkButton href={SIGNUP_ROUTE}>Get started</LinkButton>
+            {hasDarkModeToggle && <DarkModeToggleButton />}
           </div>
         )}
       </ul>
       <MobileMenuToggleButton />
-      {hasDarkModeToggle && authUser && (
-        <DarkModeToggleButton authUser={authUser} />
-      )}
     </div>
   )
 }
