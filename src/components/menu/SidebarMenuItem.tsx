@@ -46,7 +46,7 @@ export const SidebarMenuItem = ({
           isCurrentRoute
             ? clsx("text-slate-900", isDark ? "bg-slate-200" : "bg-slate-100")
             : clsx(
-                "text-slate-500 hover:text-slate-900",
+                "text-slate-500 dark:text-slate-300 hover:text-slate-900",
                 isDark ? "hover:bg-slate-200" : "hover:bg-slate-100",
               ),
         )}

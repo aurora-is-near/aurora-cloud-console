@@ -40,7 +40,12 @@ export const MarketplaceCards = ({
           </p>
         )}
         {!!seeAllLink && (
-          <LinkButton size="sm" href={seeAllLink} variant="border">
+          <LinkButton
+            size="sm"
+            href={seeAllLink}
+            variant="border"
+            className="dark:text-slate-50"
+          >
             See all
             <ArrowRightIcon className="w-4 h-4" />
           </LinkButton>
