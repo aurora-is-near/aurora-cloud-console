@@ -14,7 +14,12 @@ export const MarketplaceSubmitAppRequestButton = () => {
 
   return (
     <>
-      <Button onClick={onClick} variant="border" className="mt-4" size="sm">
+      <Button
+        onClick={onClick}
+        variant="border"
+        className="mt-4 dark:text-slate-50"
+        size="sm"
+      >
         Submit a request
       </Button>
       <ContactModal

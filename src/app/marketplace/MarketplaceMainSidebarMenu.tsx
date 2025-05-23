@@ -39,7 +39,11 @@ export const MarketplaceMainSidebarMenu = async ({
     <div className={clsx("flex flex-col", className)}>
       {hasBackButton && (
         <div className="mb-6 pb-6 border-b border-slate-200 hidden lg:block">
-          <LinkButton href="/marketplace" variant="border">
+          <LinkButton
+            href="/marketplace"
+            variant="border"
+            className="dark:text-slate-50"
+          >
             <ArrowLeftIcon className="w-5 h-5" />
             Back
           </LinkButton>

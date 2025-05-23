@@ -39,7 +39,12 @@ export const MarketplaceCollectionCard = ({
           <h3 className="font-bold text-2xl sm:text-4xl tracking-tight">
             {title}
           </h3>
-          <div className={clsx("mt-3", getButtonClassName("border", "sm"))}>
+          <div
+            className={clsx(
+              "mt-3 flex items-center justify-center gap-2",
+              getButtonClassName("border", "sm"),
+            )}
+          >
             See apps
             <ArrowRightIcon className="w-4 h-4" />
           </div>
