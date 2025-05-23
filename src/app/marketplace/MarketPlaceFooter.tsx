@@ -2,6 +2,13 @@ import Link from "next/link"
 import Image from "next/image"
 import { BaseContainer } from "@/components/BaseContainer"
 import { MarketplaceFooterItem } from "@/app/marketplace/MarketPlaceFooterItem"
+import FileIcon from "../../../public/static/v2/images/icons/marketplace/file.svg"
+import DiscordIcon from "../../../public/static/v2/images/icons/marketplace/discord.svg"
+import TelegramIcon from "../../../public/static/v2/images/icons/marketplace/telegram.svg"
+import BookmarksIcon from "../../../public/static/v2/images/icons/marketplace/bookmarks.svg"
+import PlanetIcon from "../../../public/static/v2/images/icons/marketplace/planet.svg"
+import PenIcon from "../../../public/static/v2/images/icons/marketplace/pen.svg"
+import AuroraIcon from "../../../public/static/v2/images/icons/marketplace/aurora.svg"
 
 type MarketplaceFooterProps = {
   className?: string
@@ -39,13 +46,13 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
           <ul className="grid gap-y-4">
             <MarketplaceFooterItem
               href="https://discord.com/invite/auroralabs"
-              iconSrc="/static/v2/images/icons/marketplace/discord.svg"
+              Icon={DiscordIcon}
             >
               Developer chat on Discord
             </MarketplaceFooterItem>
             <MarketplaceFooterItem
               href="https://t.me/auroraisnear"
-              iconSrc="/static/v2/images/icons/marketplace/telegram.svg"
+              Icon={TelegramIcon}
             >
               Aurora Cloud chat on Telegram
             </MarketplaceFooterItem>
@@ -58,32 +65,26 @@ export const MarketplaceFooter = ({ className }: MarketplaceFooterProps) => {
           <ul className="gap-y-4 grid grid-cols-2 lg:grid-cols-3 gap-x-8">
             <MarketplaceFooterItem
               href="https://aurora-labs.gitbook.io/aurora-cloud-documentation"
-              iconSrc="/static/v2/images/icons/marketplace/file.svg"
+              Icon={FileIcon}
             >
               Documentation
             </MarketplaceFooterItem>
-            <MarketplaceFooterItem
-              href="/dashboard"
-              iconSrc="/static/v2/images/icons/marketplace/bookmarks.svg"
-            >
+            <MarketplaceFooterItem href="/dashboard" Icon={BookmarksIcon}>
               Developer Portal
             </MarketplaceFooterItem>
             <MarketplaceFooterItem
               href="https://aurora.dev/ecosystem"
-              iconSrc="/static/v2/images/icons/marketplace/planet.svg"
+              Icon={PlanetIcon}
             >
               Ecosystem
             </MarketplaceFooterItem>
             <MarketplaceFooterItem
               href="https://aurora.dev/blog"
-              iconSrc="/static/v2/images/icons/marketplace/pen.svg"
+              Icon={PenIcon}
             >
               Blog
             </MarketplaceFooterItem>
-            <MarketplaceFooterItem
-              href="https://aurora.dev"
-              iconSrc="/static/v2/images/icons/marketplace/aurora.svg"
-            >
+            <MarketplaceFooterItem href="https://aurora.dev" Icon={AuroraIcon}>
               Aurora.dev
             </MarketplaceFooterItem>
           </ul>
