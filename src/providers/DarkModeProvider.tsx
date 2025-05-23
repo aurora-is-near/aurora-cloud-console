@@ -7,6 +7,7 @@ import { setThemePreference } from "@/utils/set-theme-preference"
 
 export type DarkModeContextType = {
   isDarkModeEnabled: boolean
+  toggleDarkMode: () => void
 }
 
 type DarkModeProviderProps = {
