@@ -1,8 +1,11 @@
+"use client"
+
 import Image from "next/image"
 import clsx from "clsx"
 import { Heading } from "@/uikit/Typography/Heading"
 import { LinkButton } from "@/components/LinkButton"
 import { SIGNUP_ROUTE } from "@/constants/routes"
+import { useDarkMode } from "@/hooks/useDarkMode"
 
 type MarketplaceGetStartedBannerProps = {
   className?: string
@@ -11,6 +14,8 @@ type MarketplaceGetStartedBannerProps = {
 export const MarketplaceGetStartedBanner = ({
   className,
 }: MarketplaceGetStartedBannerProps) => {
+  const { isDarkModeEnabled } = useDarkMode()
+
   return (
     <div
       className={clsx(
@@ -37,14 +42,22 @@ export const MarketplaceGetStartedBanner = ({
         </div>
       </div>
       <Image
-        src="/static/v2/images/marketplace/get-started-banner.png"
+        src={
+          isDarkModeEnabled
+            ? "/static/v2/images/marketplace/get-started-banner-dark.png"
+            : "/static/v2/images/marketplace/get-started-banner.png"
+        }
         alt=""
         width={2488}
         height={676}
         className="w-full h-auto object-cover hidden md:block md:aspect-[2] lg:aspect-[3.68]"
       />
       <Image
-        src="/static/v2/images/marketplace/get-started-banner-mobile.png"
+        src={
+          isDarkModeEnabled
+            ? "/static/v2/images/marketplace/get-started-banner-mobile-dark.png"
+            : "/static/v2/images/marketplace/get-started-banner-mobile.png"
+        }
         alt=""
         width={764}
         height={1156}
