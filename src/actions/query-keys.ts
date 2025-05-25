@@ -1,3 +1,5 @@
+import { get } from "http";
+
 /**
  * Query keys used for our server action queries.
  *
@@ -21,4 +23,5 @@ export const queryKeys = {
   getApiKeys: (teamKey: string) => ["api-keys", teamKey],
   getTeamMembers: (teamKey: string) => ["team-members", teamKey],
   getSiloRelayer: (siloId: number | null) => ["silo-relayer", siloId],
+  getRelayerBalance: (siloId: number | null) => ["relayer-balance", siloId],
 } as const

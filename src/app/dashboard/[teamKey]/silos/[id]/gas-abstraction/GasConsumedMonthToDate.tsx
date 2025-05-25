@@ -71,7 +71,7 @@ const Items = ({ silo }: Props) => {
                 variant="paragraph"
                 className="text-slate-900"
               >
-                {isLoading ? <Skeleton /> : (balanceData?.near ?? 0)}
+                {isLoading ? <Skeleton /> : (balanceData?.near ?? <Skeleton />)}
               </Typography>
               <div className="flex flex-col gap-2 item-end">
                 <Button

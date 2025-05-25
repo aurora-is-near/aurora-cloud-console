@@ -8,14 +8,12 @@ import {
   getEstimatedTransactionsLeft,
   useRelayerBalance,
 } from "@/hooks/useRelayerBalance"
-import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { SiloContext } from "@/providers/SiloProvider"
+import { Silo } from "@/types/types"
 
 const TRANSACTION_THRESHOLD = 5
 
-export const RelayerBalanceWarning = () => {
+export const RelayerBalanceWarning = ({ silo }: { silo?: Silo }) => {
   const { openModal } = useModals()
-  const { silo } = useRequiredContext(SiloContext) ?? {}
   const { data: balanceData, isLoading, isError } = useRelayerBalance(silo)
   const txLeft = getEstimatedTransactionsLeft(balanceData?.near)
 

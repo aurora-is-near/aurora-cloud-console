@@ -15,13 +15,12 @@ import { Tooltip } from "@/uikit/Tooltip"
 import { useStripePaymentLink } from "@/hooks/useStripePaymentLink"
 import { Skeleton } from "@/uikit"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
-import { SiloContext } from "@/providers/SiloProvider"
 import { TeamContext } from "@/providers/TeamProvider"
+import type { Silo } from "@/types/types"
 import { NearToken } from "../../public/static/v2/images/icons"
 
-export const RelayerTopUpModal = () => {
+export const RelayerTopUpModal = ({ silo }: { silo?: Silo }) => {
   const { closeModal, activeModal } = useModals()
-  const { silo } = useRequiredContext(SiloContext)
   const { team } = useRequiredContext(TeamContext)
   const open = activeModal === Modals.TopUpOptions
   const stripeTopUpLink = useStripePaymentLink(team, "top_up")
