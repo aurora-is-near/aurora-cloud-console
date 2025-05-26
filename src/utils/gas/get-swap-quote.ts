@@ -29,7 +29,7 @@ export const getSwapQuote = async ({
   token,
 }: {
   amount: string
-  deadline: string,
+  deadline: string
   recipient: string
   refundTo: string
   token: TokenResponse
