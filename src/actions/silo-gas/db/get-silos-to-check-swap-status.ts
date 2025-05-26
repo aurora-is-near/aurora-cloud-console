@@ -8,30 +8,13 @@ import { GAS_SWAP_TRANSACTION_TIME_BOUNDARY } from "../constants"
 
 export const getSilosToCheckSwapStatus = async (): Promise<Silo[]> => {
   const supabase = createAdminSupabaseClient()
+  const { data, error } = await supabase.rpc("get_silos_to_get_swap_status", {
+    boundary: GAS_SWAP_TRANSACTION_TIME_BOUNDARY,
+  })
 
-  const result = await supabase
-    .from("silos")
-    .select("*")
-    .or(
-      `
-        exists(
-          silo_gas_swaps!inner(
-            silo_id.eq.id,
-            status.eq.PENDING,
-            created_at.gt.${GAS_SWAP_TRANSACTION_TIME_BOUNDARY}
-          )
-        ),
-        exists(
-          silo_gas_swaps!inner(
-            silo_id.eq.id,
-            status.eq.INITIATED,
-            created_at.gt.${GAS_SWAP_TRANSACTION_TIME_BOUNDARY}
-          )
-        )
-      `,
-    )
+  if (error) {
+    throw error
+  }
 
-  assertValidSupabaseResult(result)
-
-  return result.data || []
+  return data || []
 }

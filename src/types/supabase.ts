@@ -1311,6 +1311,18 @@ export type Database = {
         Args: { user_id_param: number }
         Returns: undefined
       }
+      get_silos_for_gas_swap_relayer: {
+        Args: { boundary: string }
+        Returns: Database["public"]["Tables"]["silos"]["Row"][]
+      }
+      get_silos_for_gas_burn: {
+        Args: { boundary: string }
+        Returns: Database["public"]["Tables"]["silos"]["Row"][]
+      }
+      get_silos_to_get_swap_status: {
+        Args: { boundary: string }
+        Returns: Database["public"]["Tables"]["silos"]["Row"][]
+      }
     }
     Enums: {
       account_type: "contract" | "wallet"
