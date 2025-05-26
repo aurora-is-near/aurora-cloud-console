@@ -80,6 +80,8 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   bridged_tokens: createTableClient(),
   bridged_token_requests: createTableClient(),
   deal_changes: createTableClient(),
+  integration_requests: createTableClient(),
+  silo_gas_swaps: createTableClient(),
 }
 
 export const mockSupabaseClient = {

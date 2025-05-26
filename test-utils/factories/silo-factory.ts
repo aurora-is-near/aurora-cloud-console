@@ -33,6 +33,7 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   inspected_at: null,
   intents_integration_status: "INITIAL",
   trisolaris_integration_status: "INITIAL",
+  gas_burn_percent: 0,
   ...data,
 })
 

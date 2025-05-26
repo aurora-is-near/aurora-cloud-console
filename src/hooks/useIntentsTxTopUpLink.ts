@@ -34,7 +34,6 @@ export const useIntentsTxTopUpLink = (
     return `${INTENTS_BASE_URL}?amount=${BASE_AMOUNT}&network=${BASE_NETWORK}&token=${BASE_TOKEN}&recipient=${silo.engine_account}`
   }, [relayerAccount, silo])
 
-
   const relayerAccountId = silo?.id
     ? (relayerAccount?.account_id ?? silo.engine_account)
     : ""
