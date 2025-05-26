@@ -45,7 +45,7 @@ export const getSwapQuote = async ({
 
     amount, // received from get-chain-transactions-cost
     refundTo, // collected gas account
-    recipient, // silo's engine account
+    recipient, // silo's relayer account
     originAsset: token.assetId, // silo's base token
     destinationAsset: WNEAR_ASSET_ID,
   }
