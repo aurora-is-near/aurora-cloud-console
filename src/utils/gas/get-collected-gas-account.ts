@@ -9,5 +9,6 @@ import type { Silo } from "@/types/types"
  */
 export function getCollectedGasAccount(silo: Silo): string {
   const hash = keccak256(toUtf8Bytes(silo.engine_account))
+
   return `0x${hash.substring(26)}`
 }
