@@ -22,4 +22,9 @@ export const queryKeys = {
   getTeamMembers: (teamKey: string) => ["team-members", teamKey],
   getSiloRelayer: (siloId: number | null) => ["silo-relayer", siloId],
   getRelayerBalance: (siloId: number | null) => ["relayer-balance", siloId],
+  getSiloIntegrationRequest: (siloId: number, integrationType: string) => [
+    "integration-requests",
+    siloId,
+    integrationType,
+  ],
 } as const

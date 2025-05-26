@@ -12,7 +12,7 @@ import { TabCard } from "@/components/TabCard/TabCard"
 import { NotAvailableBadge } from "@/components/NotAvailableBadge"
 
 import { SiloContext } from "@/providers/SiloProvider"
-import { Blockscout } from "../../../public/static/v2/images/icons"
+import { Blockscout } from "../../../public/static/images/icons"
 
 export const BlockExplorerPage = () => {
   const { silo } = useContext(SiloContext) ?? {}
@@ -58,7 +58,7 @@ export const BlockExplorerPage = () => {
             <Image
               width="48"
               height="48"
-              src="/static/v2/images/icons/marketplace/block_explorer.svg"
+              src="/static/images/icons/marketplace/block_explorer.svg"
               alt="Block Explorer Logo"
             />
             Block Explorer
@@ -69,7 +69,7 @@ export const BlockExplorerPage = () => {
           <Image
             width="400"
             height="240"
-            src="/static/v2/images/feature/hero/block_explorer.png"
+            src="/static/images/feature/hero/block_explorer.png"
             alt="Block Explorer Preview"
           />
         }

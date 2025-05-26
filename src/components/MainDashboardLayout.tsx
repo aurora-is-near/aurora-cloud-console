@@ -18,7 +18,7 @@ import {
   Onramp,
   Oracle,
   Trisolaris,
-} from "../../public/static/v2/images/menuIcons"
+} from "../../public/static/images/menuIcons"
 
 type MainDashboardLayoutProps = {
   teamKey: string
