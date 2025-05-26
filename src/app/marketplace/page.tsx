@@ -57,6 +57,7 @@ const Page = async () => {
           <div className="w-full lg:pl-16 space-y-12 md:space-y-14">
             {featuredCollections.map((collection) => (
               <MarketplaceCards
+                numberOfAppsToShow={3}
                 key={collection.id}
                 showSingleRow
                 title={collection.title}
