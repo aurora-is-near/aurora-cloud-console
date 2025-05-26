@@ -66,13 +66,17 @@ const Items = ({ silo }: Props) => {
             labelTooltip="Your current NEAR balance used to cover transaction fees on your chain."
           >
             <div className="flex items-center justify-between gap-4 w-full">
-              <Typography
-                size={4}
-                variant="paragraph"
-                className="text-slate-900"
-              >
-                {isLoading ? <Skeleton /> : (balanceData?.near ?? <Skeleton />)}
-              </Typography>
+              {isLoading || balanceData?.near === undefined ? (
+                <Skeleton className="w-10 h-4" />
+              ) : (
+                <Typography
+                  size={4}
+                  variant="paragraph"
+                  className="text-slate-900"
+                >
+                  {Number(balanceData.near).toFixed(2)} NEAR
+                </Typography>
+              )}
               <div className="flex flex-col gap-2 item-end">
                 <Button
                   className="flex-shrink-0"

@@ -7,11 +7,10 @@ import { queryKeys } from "@/actions/query-keys"
 
 const TRANSACTIONS_PER_NEAR = 100
 
-export const useRelayerBalance = (silo?: Silo) => {
+export const useRelayerBalance = (silo: Silo) => {
   return useQuery({
-    queryKey: queryKeys.getRelayerBalance(silo?.id ?? null),
-    queryFn: async () =>
-      silo?.id ? getRelayerBalance(silo) : Promise.resolve(null),
+    queryKey: queryKeys.getRelayerBalance(silo?.id),
+    queryFn: async () => getRelayerBalance(silo),
     refetchIntervalInBackground: false,
     refetchInterval: 45000, // Refresh every 45 seconds
     staleTime: 60000,

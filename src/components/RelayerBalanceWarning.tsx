@@ -10,24 +10,22 @@ import {
 } from "@/hooks/useRelayerBalance"
 import { Silo } from "@/types/types"
 
-const TRANSACTION_THRESHOLD = 5
+const TRANSACTION_THRESHOLD = 10000
 
-export const RelayerBalanceWarning = ({ silo }: { silo?: Silo }) => {
+export const RelayerBalanceWarning = ({ silo }: { silo: Silo }) => {
   const { openModal } = useModals()
   const { data: balanceData, isLoading, isError } = useRelayerBalance(silo)
   const txLeft = getEstimatedTransactionsLeft(balanceData?.near)
 
   const handleTopUpClick = () => {
-    if (silo) {
-      openModal(Modals.TopUpOptions)
-    }
+    openModal(Modals.TopUpOptions)
   }
 
   // Only show warning when:
   // 1. Silo exists
   // 2. Data is loaded
   // 3. Transactions left are below threshold
-  if (!silo || isLoading || isError || txLeft > TRANSACTION_THRESHOLD) {
+  if (isLoading || isError || txLeft > TRANSACTION_THRESHOLD) {
     return null
   }
 

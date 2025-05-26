@@ -19,7 +19,7 @@ import { TeamContext } from "@/providers/TeamProvider"
 import type { Silo } from "@/types/types"
 import { NearToken } from "../../public/static/images/icons"
 
-export const RelayerTopUpModal = ({ silo }: { silo?: Silo }) => {
+export const RelayerTopUpModal = ({ silo }: { silo: Silo }) => {
   const { closeModal, activeModal } = useModals()
   const { team } = useRequiredContext(TeamContext)
   const open = activeModal === Modals.TopUpOptions

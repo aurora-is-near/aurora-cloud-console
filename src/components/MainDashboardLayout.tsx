@@ -41,8 +41,8 @@ export const MainDashboardLayout = ({
 
   return (
     <>
-      <RelayerBalanceWarning silo={silo} />
-      <RelayerTopUpModal silo={silo} />
+      {silo && <RelayerBalanceWarning silo={silo} />}
+      {silo && <RelayerTopUpModal silo={silo} />}
       <DashboardLayout
         teamKey={teamKey}
         authUser={authUser}
