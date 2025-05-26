@@ -75,7 +75,7 @@ export const MainMenu = ({
               <MainMenuLogoutButton />
             </li>
             {hasDarkModeToggle && (
-              <li>
+              <li className="pl-2">
                 <DarkModeToggleButton />
               </li>
             )}
