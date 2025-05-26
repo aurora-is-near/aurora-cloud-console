@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     url: "https://app.auroracloud.dev/marketplace",
     images: [
       {
-        url: "https://app.auroracloud.dev/marketplace/static/v2/images/acc-marketplace-opengraph.jpg",
+        url: "https://app.auroracloud.dev/marketplace/static/image/acc-marketplace-opengraph.jpg",
         width: 1200,
         height: 630,
         alt: "Aurora Cloud Marketplace",

@@ -11,7 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Image
             fill
             className="object-cover object-[0_20%]"
-            src="/static/v2/images/authBg.svg"
+            src="/static/image/authBg.svg"
             sizes="100vw"
             alt=""
           />

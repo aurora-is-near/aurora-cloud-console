@@ -44,8 +44,8 @@ export const MarketplaceGetStartedBanner = ({
       <Image
         src={
           isDarkModeEnabled
-            ? "/static/v2/images/marketplace/get-started-banner-dark.png"
-            : "/static/v2/images/marketplace/get-started-banner.png"
+            ? "/static/image/marketplace/get-started-banner-dark.png"
+            : "/static/image/marketplace/get-started-banner.png"
         }
         alt=""
         width={2488}
@@ -55,8 +55,8 @@ export const MarketplaceGetStartedBanner = ({
       <Image
         src={
           isDarkModeEnabled
-            ? "/static/v2/images/marketplace/get-started-banner-mobile-dark.png"
-            : "/static/v2/images/marketplace/get-started-banner-mobile.png"
+            ? "/static/image/marketplace/get-started-banner-mobile-dark.png"
+            : "/static/image/marketplace/get-started-banner-mobile.png"
         }
         alt=""
         width={764}

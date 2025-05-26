@@ -68,7 +68,7 @@ export const BridgeWidgetPage = () => {
             <Image
               width="48"
               height="48"
-              src="/static/v2/images/icons/marketplace/bridge.svg"
+              src="/static/image/icons/marketplace/bridge.svg"
               alt="Bridge Logo"
             />
             Bridge
@@ -79,7 +79,7 @@ export const BridgeWidgetPage = () => {
           <Image
             width="400"
             height="240"
-            src="/static/v2/images/feature/hero/bridge_widget.png"
+            src="/static/image/feature/hero/bridge_widget.png"
             alt="Bridge Preview"
           />
         }

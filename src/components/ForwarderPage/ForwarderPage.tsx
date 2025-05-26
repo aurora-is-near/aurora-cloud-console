@@ -64,7 +64,7 @@ export const ForwarderPage = () => {
             <Image
               width="48"
               height="48"
-              src="/static/v2/images/icons/marketplace/cex_withdrawals.svg"
+              src="/static/image/icons/marketplace/cex_withdrawals.svg"
               alt="Onramp Logo"
             />
             Forwarder
@@ -75,7 +75,7 @@ export const ForwarderPage = () => {
           <Image
             width="400"
             height="240"
-            src="/static/v2/images/feature/hero/forwarder.png"
+            src="/static/image/feature/hero/forwarder.png"
             alt="Forwarder Preview"
           />
         }

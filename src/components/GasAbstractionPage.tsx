@@ -68,7 +68,7 @@ export const GasAbstractionPage = () => {
             <Image
               width="180"
               height="180"
-              src="/static/v2/images/heroIcons/gas-abstraction.webp"
+              src="/static/image/heroIcons/gas-abstraction.webp"
               className="mr-16 shadow-xl rounded-[2rem]"
               alt=""
             />

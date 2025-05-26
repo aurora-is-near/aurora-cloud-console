@@ -63,7 +63,7 @@ const OraclePage = () => {
               <Image
                 width="48"
                 height="48"
-                src="/static/v2/images/icons/marketplace/oracle.svg"
+                src="/static/image/icons/marketplace/oracle.svg"
                 alt="Oracle Logo"
               />
               Oracle
@@ -74,7 +74,7 @@ const OraclePage = () => {
             <Image
               width="400"
               height="240"
-              src="/static/v2/images/feature/hero/oracle.png"
+              src="/static/image/feature/hero/oracle.png"
               alt="Oracle Preview"
             />
           }
