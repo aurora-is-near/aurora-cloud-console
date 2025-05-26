@@ -1,6 +1,5 @@
 "use server"
 
-import { logger } from "@/logger"
 import {
   type GetExecutionStatusResponse,
   OneClickService,
@@ -27,7 +26,6 @@ export const getSwapStatus = async ({
   try {
     statusResponse = await OneClickService.getExecutionStatus(depositAddress)
   } catch (e: unknown) {
-    logger.error(e)
     throw new Error("Failed to fetch swap status", { cause: e })
   }
 

@@ -56,7 +56,7 @@ export const getSwapQuote = async ({
   try {
     quoteResponse = await OneClickService.getQuote(quoteRequest)
   } catch (e: unknown) {
-    throw new Error("Failed to fetch swap quote")
+    throw new Error("Failed to fetch swap quote", { cause: e })
   }
 
   return quoteResponse.quote
