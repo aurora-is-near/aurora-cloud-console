@@ -1,4 +1,5 @@
 const { withSentryConfig } = require("@sentry/nextjs")
+const { cspHeader } = require("./csp")
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -23,6 +24,19 @@ const nextConfig = {
         hostname: "www.datocms-assets.com",
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: cspHeader.replace(/\n/g, ""),
+          },
+        ],
+      },
+    ]
   },
 }
 

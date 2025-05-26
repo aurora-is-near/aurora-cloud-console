@@ -44,7 +44,7 @@ const Page = async () => {
             </Paragraph>
           </div>
           <Image
-            src="/static/image/marketplace/main-banner.png"
+            src="/static/images/marketplace/main-banner.png"
             alt=""
             width={3024}
             height={684}
@@ -75,8 +75,8 @@ const Page = async () => {
                     href={`/marketplace/collections/${collection.slug}`}
                     iconSrc={
                       collection.builtByAurora
-                        ? "/static/image/icons/marketplace/collection-aurora.svg"
-                        : "/static/image/icons/marketplace/collection-default.svg"
+                        ? "/static/images/icons/marketplace/collection-aurora.svg"
+                        : "/static/images/icons/marketplace/collection-default.svg"
                     }
                   />
                 ))}

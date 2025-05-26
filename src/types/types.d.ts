@@ -111,6 +111,8 @@ export type ChartColor = (typeof CHART_COLOURS)[number]
 
 export type SiloWhitelistType = Enums<"address_whitelist_type">
 
+export type IntegrationRequest = Tables<"integration_requests">
+
 type ChartData = {
   label: string
   chart: {

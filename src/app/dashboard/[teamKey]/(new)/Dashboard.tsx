@@ -74,19 +74,19 @@ export const DashboardHomePage = () => {
             <FeatureCTA
               title="Share your feedback"
               description="Get 300 AURORA for sharing feedback about your Aurora Cloud experience."
-              icon="/static/image/examples/share-feedback.png"
+              icon="/static/images/examples/share-feedback.png"
               link="https://forms.gle/dqkE3aFxGwEaP3oJ7"
             />
             <FeatureCTA
               title="Join our Discord"
               description="Join the thriving Aurora community and get support on Discord."
-              icon="/static/image/examples/join-discord.png"
+              icon="/static/images/examples/join-discord.png"
               link="https://discord.com/invite/auroralabs"
             />
             <FeatureCTA
               title="Join our Telegram"
               description="Get technical support and interact with other developers."
-              icon="/static/image/examples/join-telegram.png"
+              icon="/static/images/examples/join-telegram.png"
               link="https://t.me/auroraisnear"
             />
           </FeatureCTAList>

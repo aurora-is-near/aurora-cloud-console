@@ -35,7 +35,7 @@ export const MarketPlacePills = ({
           href={`/marketplace/collections/${auroraCollection.slug}`}
         >
           <Image
-            src="/static/image/icons/marketplace/aurora-small.svg"
+            src="/static/images/icons/marketplace/aurora-small.svg"
             width={14}
             height={14}
             className="inline-block mr-1"

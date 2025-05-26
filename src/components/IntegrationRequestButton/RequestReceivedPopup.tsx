@@ -6,9 +6,13 @@ import { LinkButton } from "@/components/LinkButton"
 export const RequestReceivedPopup = ({
   link,
   close,
+  showUpdateIconPrompt,
+  message = "We will be in touch with you soon to discuss the integration process.",
 }: {
   link: string
   close: () => void
+  showUpdateIconPrompt?: boolean
+  message?: string
 }) => {
   return (
     <>
@@ -21,7 +25,7 @@ export const RequestReceivedPopup = ({
           />
           <div className="flex flex-col gap-3 items-center justify-center pt-6">
             <Image
-              src="/static/image/aurora-wait.png"
+              src="/static/images/aurora-wait.png"
               alt="Aurora Cloud Console"
               width={135}
               height={135}
@@ -34,18 +38,18 @@ export const RequestReceivedPopup = ({
               size={4}
               className="text-center font-thin"
             >
-              Your chain will be integrated within 1-2 business days. To enhance
-              your visibility on Near Intents, be sure to upload your blockchain
-              icon.
+              {message}
             </Typography>
-            <LinkButton
-              variant="border"
-              size="lg"
-              href={link}
-              className="mt-3 w-full"
-            >
-              Upload blockchain icon
-            </LinkButton>
+            {showUpdateIconPrompt && (
+              <LinkButton
+                variant="border"
+                size="lg"
+                href={link}
+                className="mt-3 w-full"
+              >
+                Upload blockchain icon
+              </LinkButton>
+            )}
           </div>
         </Card>
       </div>

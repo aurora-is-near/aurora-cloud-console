@@ -1,10 +1,10 @@
 "use client"
 
 import { useDarkMode } from "@/hooks/useDarkMode"
-import SealCheck from "../../../../../public/static/image/icons/marketplace/seal-check.svg"
-import SealCheckDark from "../../../../../public/static/image/icons/marketplace/seal-check-dark.svg"
-import SealQuestion from "../../../../../public/static/image/icons/marketplace/seal-question.svg"
-import SealQuestionDark from "../../../../../public/static/image/icons/marketplace/seal-question-dark.svg"
+import SealCheck from "../../../../../public/static/images/icons/marketplace/seal-check.svg"
+import SealCheckDark from "../../../../../public/static/images/icons/marketplace/seal-check-dark.svg"
+import SealQuestion from "../../../../../public/static/images/icons/marketplace/seal-question.svg"
+import SealQuestionDark from "../../../../../public/static/images/icons/marketplace/seal-question-dark.svg"
 
 type SealProps = {
   variant: "check" | "question"

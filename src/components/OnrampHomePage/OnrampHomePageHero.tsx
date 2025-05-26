@@ -18,7 +18,7 @@ export const OnrampHomePageHero = ({ silo }: Props) => {
         <Image
           width="180"
           height="180"
-          src="/static/image/heroIcons/onramp.webp"
+          src="/static/images/heroIcons/onramp.webp"
           alt="Aurora Cloud"
           className="mr-16 shadow-xl rounded-[2rem]"
         />

@@ -43,7 +43,7 @@ export const FiatOnrampPage = () => {
             <Image
               width="48"
               height="48"
-              src="/static/image/icons/marketplace/cex_withdrawals.svg"
+              src="/static/images/icons/marketplace/cex_withdrawals.svg"
               alt="Onramp Logo"
             />
             Fiat onramp
@@ -54,7 +54,7 @@ export const FiatOnrampPage = () => {
           <Image
             width="400"
             height="240"
-            src="/static/image/feature/hero/fiat_onramp.png"
+            src="/static/images/feature/hero/fiat_onramp.png"
             alt="Onramp Preview"
           />
         }

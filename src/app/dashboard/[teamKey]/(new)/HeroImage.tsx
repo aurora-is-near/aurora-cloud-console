@@ -20,8 +20,8 @@ export const HeroImage = ({ isDeploymentComplete }: Props) => {
         height="180"
         src={
           isDeploymentComplete
-            ? "/static/image/heroIcons/cloud.webp"
-            : "/static/image/heroIcons/cloud-dev.webp"
+            ? "/static/images/heroIcons/cloud.webp"
+            : "/static/images/heroIcons/cloud-dev.webp"
         }
         alt="Aurora Cloud"
         className="shadow-xl rounded-[2rem] z-10"

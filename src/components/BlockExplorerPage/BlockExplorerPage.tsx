@@ -58,7 +58,7 @@ export const BlockExplorerPage = () => {
             <Image
               width="48"
               height="48"
-              src="/static/image/icons/marketplace/block_explorer.svg"
+              src="/static/images/icons/marketplace/block_explorer.svg"
               alt="Block Explorer Logo"
             />
             Block Explorer
@@ -69,7 +69,7 @@ export const BlockExplorerPage = () => {
           <Image
             width="400"
             height="240"
-            src="/static/image/feature/hero/block_explorer.png"
+            src="/static/images/feature/hero/block_explorer.png"
             alt="Block Explorer Preview"
           />
         }
