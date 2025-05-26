@@ -146,6 +146,7 @@ user object might look something like this:
       "whitebit"
     ]
   },
+
   }
 }
 ```
