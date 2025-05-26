@@ -44,11 +44,8 @@ const _SQL_QUERY_GET_SILOS_FOR_GAS_BURN = `
 
       GROUP BY s.id
       HAVING
-        COUNT(to_relayer.*) = 1
-        AND (
-          COUNT(to_burn.*) = 0
-          OR BOOL_AND(to_burn.status = 'FAILED')
-        );
+        COUNT(to_burn.*) = 0
+        OR BOOL_AND(to_burn.status = 'FAILED');
   END;
   $$ LANGUAGE plpgsql;
 `
