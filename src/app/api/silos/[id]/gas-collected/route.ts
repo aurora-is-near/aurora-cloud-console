@@ -11,6 +11,7 @@ import { getSiloBlockscoutDatabase } from "@/actions/silo-blockscout-database/ge
 import { logger } from "@/logger"
 import { queryGasCollected } from "../../../../../utils/blockscout-db/query-gas-collected"
 import { abort } from "../../../../../utils/abort"
+import { getRelayerBalance } from "../../../../../utils/gas"
 
 const getDay = (date: Date | string) =>
   new Date(date).toISOString().split("T")[0]

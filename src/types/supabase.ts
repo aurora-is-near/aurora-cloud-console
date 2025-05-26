@@ -816,6 +816,44 @@ export type Database = {
           },
         ]
       }
+      silo_gas_swaps: {
+        Row: {
+          amount: string
+          created_at: string
+          deposit_address: string
+          id: number
+          silo_id: number
+          status: Database["public"]["Enums"]["gas_swap_status"]
+          variant: Database["public"]["Enums"]["gas_swap_variant"]
+        }
+        Insert: {
+          amount: string
+          created_at?: string
+          deposit_address: string
+          id?: number
+          silo_id: number
+          status: Database["public"]["Enums"]["gas_swap_status"]
+          variant: Database["public"]["Enums"]["gas_swap_variant"]
+        }
+        Update: {
+          amount?: string
+          created_at?: string
+          deposit_address?: string
+          id?: number
+          silo_id?: number
+          status?: Database["public"]["Enums"]["gas_swap_status"]
+          variant?: Database["public"]["Enums"]["gas_swap_variant"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_gas_swaps_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       silo_relayers: {
         Row: {
           account_id: string
@@ -912,6 +950,7 @@ export type Database = {
           engine_version: string
           explorer_url: string | null
           favicon: string
+          gas_burn_percent: number | null
           gas_collection_address: string | null
           gas_price: string
           genesis: string
@@ -946,6 +985,7 @@ export type Database = {
           engine_version: string
           explorer_url?: string | null
           favicon?: string
+          gas_burn_percent?: number | null
           gas_collection_address?: string | null
           gas_price?: string
           genesis: string
@@ -980,6 +1020,7 @@ export type Database = {
           engine_version?: string
           explorer_url?: string | null
           favicon?: string
+          gas_burn_percent?: number | null
           gas_collection_address?: string | null
           gas_price?: string
           genesis?: string
@@ -1276,6 +1317,8 @@ export type Database = {
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
       gas_mechanics: "usage" | "free" | "custom"
+      gas_swap_status: "INITIATED" | "PENDING" | "FAILED" | "SUCCEED"
+      gas_swap_variant: "TO_RELAYER" | "BURN"
       limit_scope: "USER" | "GLOBAL"
       limit_type: "CYCLIC" | "RATELIMIT"
       network_type: "devnet" | "mainnet"
@@ -1295,6 +1338,7 @@ export type Database = {
         | "APPROVED"
         | "REJECTED"
       silo_config_transaction_operation:
+        | "BURN_GAS"
         | "SET_BASE_TOKEN"
         | "ENABLE_MAKE_TXS_WHITELIST"
         | "DISABLE_MAKE_TXS_WHITELIST"
@@ -1313,6 +1357,7 @@ export type Database = {
         | "DEPLOY_TOKEN"
         | "INITIALISE_MAKE_TXS_WHITELIST"
         | "INITIALISE_DEPLOY_CONTRACT_WHITELIST"
+        | "INTENTS_SWAP"
         | "COLLECT_GAS"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
       token_type: "ERC20" | "ERC721" | "ERC1155"
@@ -1473,6 +1518,8 @@ export const Constants = {
       deployment_status: ["PENDING", "DEPLOYED", "NOT_DEPLOYED"],
       filter_type: ["USER", "CONTRACT", "CHAIN", "EOA", "TOKEN", "IP"],
       gas_mechanics: ["usage", "free", "custom"],
+      gas_swap_status: ["INITIATED", "PENDING", "FAILED", "SUCCEED"],
+      gas_swap_variant: ["TO_RELAYER", "BURN"],
       limit_scope: ["USER", "GLOBAL"],
       limit_type: ["CYCLIC", "RATELIMIT"],
       network_type: ["devnet", "mainnet"],
@@ -1494,6 +1541,7 @@ export const Constants = {
         "REJECTED",
       ],
       silo_config_transaction_operation: [
+        "BURN_GAS",
         "SET_BASE_TOKEN",
         "ENABLE_MAKE_TXS_WHITELIST",
         "DISABLE_MAKE_TXS_WHITELIST",
@@ -1512,6 +1560,7 @@ export const Constants = {
         "DEPLOY_TOKEN",
         "INITIALISE_MAKE_TXS_WHITELIST",
         "INITIALISE_DEPLOY_CONTRACT_WHITELIST",
+        "INTENTS_SWAP",
         "COLLECT_GAS",
       ],
       silo_config_transaction_status: ["PENDING", "SUCCESSFUL", "FAILED"],
