@@ -50,7 +50,7 @@ export const MarketplaceGetStartedBanner = ({
         alt=""
         width={2488}
         height={676}
-        className="w-full h-auto object-cover hidden md:block md:aspect-[2] lg:aspect-[3.68]"
+        className="w-full h-auto object-cover hidden md:block md:aspect-[2] lg:aspect-auto"
       />
       <Image
         src={
