@@ -3,13 +3,25 @@ import { createApiEndpoint } from "@/utils/api"
 import { abort } from "@/utils/abort"
 import { getWalletDetails } from "@/utils/wallets"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
-import { queryWallets } from "../../../../utils/proxy-db/query-users"
+import { getSiloBlockscoutDatabase } from "@/actions/silo-blockscout-database/get-silo-blockscout-database"
+import { queryWallets } from "@/utils/blockscout-db/query-wallets"
+import { logger } from "@/logger"
 
 export const GET = createApiEndpoint("getWallet", async (req, ctx) => {
   const { searchParams } = req.nextUrl
-  const silo = await getTeamSilo(ctx.team.id, Number(ctx.params.id))
+  const siloId = Number(ctx.params.id)
+  const [silo, blockscoutDatabase] = await Promise.all([
+    getTeamSilo(ctx.team.id, siloId),
+    getSiloBlockscoutDatabase(siloId),
+  ])
 
   if (!silo) {
+    abort(404)
+  }
+
+  if (!blockscoutDatabase) {
+    logger.warn(`No blockscout database found for silo ${siloId}`)
+
     abort(404)
   }
 
@@ -18,7 +30,7 @@ export const GET = createApiEndpoint("getWallet", async (req, ctx) => {
     ? decodeURIComponent(walletAddressParam)
     : null
 
-  const result = await queryWallets(silo.chain_id, {
+  const result = await queryWallets(blockscoutDatabase, {
     limit: 1,
     walletAddress,
   })

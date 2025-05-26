@@ -3026,13 +3026,6 @@ exports[`OpenAPI Document should be valid 1`] = `
               "type": "number",
             },
           },
-          {
-            "in": "query",
-            "name": "dealId",
-            "schema": {
-              "type": "number",
-            },
-          },
         ],
         "responses": {
           "200": {
@@ -3114,13 +3107,6 @@ exports[`OpenAPI Document should be valid 1`] = `
             "required": true,
             "schema": {
               "type": "string",
-            },
-          },
-          {
-            "in": "query",
-            "name": "dealId",
-            "schema": {
-              "type": "number",
             },
           },
         ],
