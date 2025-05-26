@@ -53,6 +53,7 @@ export const swapGasToRelayer = async ({ silo }: { silo: Silo }) => {
   const swapQuote = await getSwapQuote({
     token,
     refundTo: collectedGasAccount,
+    // TODO: update to use getSiloRelayer after https://github.com/aurora-is-near/aurora-cloud-console/pull/583 is merged
     recipient: silo.engine_account,
     amount: lastDayTransactionsCumulativeCost,
   })
