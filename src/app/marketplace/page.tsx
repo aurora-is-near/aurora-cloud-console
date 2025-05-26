@@ -1,9 +1,7 @@
 import Image from "next/image"
-import clsx from "clsx"
 import { BaseContainer } from "@/components/BaseContainer"
 import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
-import { MarketplaceCollectionCard } from "@/app/marketplace/MarketPlaceCollectionCard"
 import { createGraphqlClient } from "@/cms/client"
 import {
   MarketplaceCollectionsDocument,
@@ -57,32 +55,7 @@ const Page = async () => {
         <div className="w-full h-full flex flex-row bg-slate-50 dark:bg-slate-900 overflow-hidden pt-10 md:pt-14">
           <MarketplaceMainSidebarMenu />
           <div className="w-full lg:pl-16 space-y-12 md:space-y-14">
-            <div>
-              <h2 className="text-slate-900 dark:text-slate-50 text-2xl font-bold tracking-[-1px] mb-5">
-                Collections
-              </h2>
-              <div
-                className={clsx(
-                  "grid gap-x-8 gap-y-5",
-                  featuredCollections.length > 1 && "lg:grid-cols-2",
-                )}
-              >
-                {featuredCollections.map((collection) => (
-                  <MarketplaceCollectionCard
-                    colorScheme={collection.builtByAurora ? "green" : "orange"}
-                    key={collection.id}
-                    title={collection.title}
-                    href={`/marketplace/collections/${collection.slug}`}
-                    iconSrc={
-                      collection.builtByAurora
-                        ? "/static/images/icons/marketplace/collection-aurora.svg"
-                        : "/static/images/icons/marketplace/collection-default.svg"
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-            {allMarketplaceCollections.map((collection) => (
+            {featuredCollections.map((collection) => (
               <MarketplaceCards
                 key={collection.id}
                 showSingleRow
