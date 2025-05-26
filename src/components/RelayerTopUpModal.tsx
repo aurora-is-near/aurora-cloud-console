@@ -17,7 +17,7 @@ import { Skeleton } from "@/uikit"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 import type { Silo } from "@/types/types"
-import { NearToken } from "../../public/static/v2/images/icons"
+import { NearToken } from "../../public/static/images/icons"
 
 export const RelayerTopUpModal = ({ silo }: { silo?: Silo }) => {
   const { closeModal, activeModal } = useModals()

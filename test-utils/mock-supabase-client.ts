@@ -81,7 +81,6 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   bridged_token_requests: createTableClient(),
   deal_changes: createTableClient(),
   silo_gas_swaps: createTableClient(),
-  changes: createTableClient(),
   integration_requests: createTableClient(),
 }
 
