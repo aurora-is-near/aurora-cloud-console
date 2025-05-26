@@ -1,9 +1,9 @@
 "use server"
 
 import {
-  OpenAPI,
-  OneClickService,
   type GetExecutionStatusResponse,
+  OneClickService,
+  OpenAPI,
 } from "@defuse-protocol/one-click-sdk-typescript"
 
 import { ONE_CLICK_API_URL } from "./constants"

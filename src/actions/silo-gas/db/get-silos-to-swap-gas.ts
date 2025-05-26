@@ -1,9 +1,9 @@
 "use server"
 
+import type { PostgrestSingleResponse } from "@supabase/supabase-js"
 import { notReachable } from "@/utils/notReachable"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { assertValidSupabaseResult } from "@/utils/supabase"
-import type { PostgrestSingleResponse } from "@supabase/supabase-js"
 import type { Silo, SiloGasSwap } from "@/types/types"
 
 import { GAS_SWAP_TRANSACTION_TIME_BOUNDARY } from "../constants"
@@ -77,5 +77,6 @@ export const getSilosToSwapGas = async (
   }
 
   assertValidSupabaseResult(result)
+
   return result.data || []
 }

@@ -32,5 +32,6 @@ export const getSilosToCheckSwapStatus = async (): Promise<Silo[]> => {
     )
 
   assertValidSupabaseResult(result)
+
   return result.data || []
 }

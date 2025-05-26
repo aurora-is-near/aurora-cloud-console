@@ -21,29 +21,30 @@ export const getGasSwapTransactions = async ({
   endDate?: string
 }): Promise<SiloGasSwap[]> => {
   const supabase = createAdminSupabaseClient()
-  const query = supabase.from("silo_gas_swaps").select("*")
+  let query = supabase.from("silo_gas_swaps").select("*")
 
   if (silo_id) {
-    query.eq("silo_id", silo_id)
+    query = query.eq("silo_id", silo_id)
   }
 
   if (variant) {
-    query.eq("variant", variant)
+    query = query.eq("variant", variant)
   }
 
   if (status) {
-    query.in("status", status)
+    query = query.in("status", status)
   }
 
   if (startDate) {
-    query.gte("created_at", startDate)
+    query = query.gte("created_at", startDate)
   }
 
   if (endDate) {
-    query.lte("created_at", endDate)
+    query = query.lte("created_at", endDate)
   }
 
   const result = await query.order("created_at", { ascending: false })
+
   assertValidSupabaseResult(result)
 
   return result.data

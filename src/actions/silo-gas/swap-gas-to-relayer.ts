@@ -64,6 +64,7 @@ export const swapGasToRelayer = async ({ silo }: { silo: Silo }) => {
 
   // 5. Do the transfer to a one-time deposit address
   const oneTimeDepositAddress = swapQuote.depositAddress
+
   await performSiloConfigTransaction(
     silo,
     "INTENTS_SWAP",

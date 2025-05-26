@@ -14,5 +14,6 @@ export const getTradableToken = async (
   symbol: string,
 ): Promise<TokenResponse | undefined> => {
   const tokens = await OneClickService.getTokens()
+
   return tokens.find((token) => token.symbol === symbol)
 }

@@ -1,6 +1,6 @@
 "use server"
 
-import { parseUnits, formatUnits } from "ethers"
+import { formatUnits, parseUnits } from "ethers"
 
 import {
   getCollectedGasAccount,
@@ -54,6 +54,7 @@ export const swapGasToRelayer = async ({ silo }: { silo: Silo }) => {
 
   // 3. Get collected gas for the last 24 hours
   const siloBlockscoutDB = await getSiloBlockscoutDatabase(silo.id)
+
   if (!siloBlockscoutDB) {
     throw new Error(`Cannot get blockscout database for silo ${silo.id}`)
   }
@@ -85,6 +86,7 @@ export const swapGasToRelayer = async ({ silo }: { silo: Silo }) => {
 
   // 5. Initiate a swap quote
   const burnGasPortion = silo.gas_burn_percent ?? 0
+
   if (burnGasPortion < 0 || burnGasPortion > 100) {
     throw new Error("Invalid gas burn percentage configured for the silo")
   }
@@ -108,6 +110,7 @@ export const swapGasToRelayer = async ({ silo }: { silo: Silo }) => {
 
   // 6. Do the transfer to a one-time deposit address
   const oneTimeDepositAddress = swapQuote.depositAddress
+
   await performSiloConfigTransaction(
     silo,
     "INTENTS_SWAP",

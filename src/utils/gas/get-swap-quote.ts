@@ -4,10 +4,9 @@ import {
   OneClickService,
   OpenAPI,
   QuoteRequest,
-  TokenResponse,
   type QuoteResponse,
+  TokenResponse,
 } from "@defuse-protocol/one-click-sdk-typescript"
-import type { Silo } from "@/types/types"
 
 import { ONE_CLICK_API_URL, WNEAR_ASSET_ID } from "./constants"
 

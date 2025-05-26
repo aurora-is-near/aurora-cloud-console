@@ -73,8 +73,10 @@ export const swapGasStatusCheck = async ({
       })
       break
     }
+
     case "FAILED":
       await updateGasSwapTransaction(gasSwap.id, { status: "FAILED" })
+
       return
     // still pending - do nothing
     case "PENDING":
@@ -90,24 +92,29 @@ export const swapGasStatusCheck = async ({
     case GetExecutionStatusResponse.status.KNOWN_DEPOSIT_TX:
       // still pending
       await updateGasSwapTransaction(gasSwap.id, { status: "PENDING" })
+
       return
     case GetExecutionStatusResponse.status.FAILED:
     case GetExecutionStatusResponse.status.REFUNDED:
       await updateGasSwapTransaction(gasSwap.id, { status: "FAILED" })
+
       return
     case GetExecutionStatusResponse.status.SUCCESS:
       await updateGasSwapTransaction(gasSwap.id, { status: "SUCCEED" })
+
       return
     case GetExecutionStatusResponse.status.INCOMPLETE_DEPOSIT:
       // some special error, is it possible in our case?
       // change status to FAILED and log it to Sentry
       await updateGasSwapTransaction(gasSwap.id, { status: "FAILED" })
       logger.error(`Swap gas ${variant} failed with: INCOMPLETE_DEPOSIT`)
+
       return
     default:
       logger.error(
         `Swap gas ${variant} finished with unknown status: ${swapStatus}`,
       )
+
       return
   }
 }
