@@ -64,6 +64,12 @@ const Page = async () => {
                 seeAllLink={`/marketplace/collections/${collection.slug}`}
               />
             ))}
+            <MarketplaceCards
+              title="All apps"
+              apps={allMarketplaceCollections.flatMap(
+                (collection) => collection.apps,
+              )}
+            />
           </div>
         </div>
         <MarketplaceRequestAppSection className="lg:hidden bg-slate-100 dark:bg-slate-800 rounded-[10px] p-6 mt-12" />
