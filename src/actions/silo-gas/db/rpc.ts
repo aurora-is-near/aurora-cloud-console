@@ -6,6 +6,8 @@ const _SQL_QUERY_GET_SILOS_FOR_GAS_SWAP_RELAYER = `
       SELECT s.*
       FROM silos AS s
 
+      INNER JOIN silos_teams st ON st.silo_id = s.id
+
       LEFT JOIN silo_gas_swaps AS tx
         ON tx.silo_id = s.id
         AND tx.variant = 'TO_RELAYER'
@@ -26,6 +28,8 @@ const _SQL_QUERY_GET_SILOS_FOR_GAS_BURN = `
     RETURN QUERY
       SELECT s.*
       FROM silos AS s
+
+      INNER JOIN silos_teams st ON st.silo_id = s.id
 
       LEFT JOIN silo_gas_swaps AS to_relayer
         ON to_relayer.silo_id = s.id
@@ -57,6 +61,8 @@ const _SQL_QUERY_GET_SILOS_TO_CHECK_SWAP_STATUS = `
     RETURN QUERY
       SELECT s.*
       FROM silos AS s
+
+      INNER JOIN silos_teams st ON st.silo_id = s.id
 
       LEFT JOIN silo_gas_swaps AS tx
         ON tx.silo_id = s.id
