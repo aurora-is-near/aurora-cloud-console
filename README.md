@@ -141,7 +141,11 @@ user object might look something like this:
   "id": "da153a55-00b2-4661-95c3-e79663486b86",
   "email": "alex.mendes@aurora.dev",
   "user_metadata": {
-    "teams": ["aurora", "whitebit"]
+        "teams": [
+      "aurora",
+      "whitebit"
+    ]
+  },
   }
 }
 ```
