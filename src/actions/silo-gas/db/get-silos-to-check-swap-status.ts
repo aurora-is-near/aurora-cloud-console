@@ -1,7 +1,6 @@
 "use server"
 
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
-import { assertValidSupabaseResult } from "@/utils/supabase"
 import type { Silo } from "@/types/types"
 
 import { GAS_SWAP_TRANSACTION_TIME_BOUNDARY } from "../constants"
