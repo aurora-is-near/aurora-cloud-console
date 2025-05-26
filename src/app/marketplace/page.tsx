@@ -93,7 +93,7 @@ const Page = async () => {
             ))}
           </div>
         </div>
-        <MarketplaceRequestAppSection className="lg:hidden bg-slate-100 rounded-[10px] p-6 mt-12" />
+        <MarketplaceRequestAppSection className="lg:hidden bg-slate-100 dark:bg-slate-800 rounded-[10px] p-6 mt-12" />
         <MarketplaceGetStartedBanner className="mt-12 md:mt-28" />
       </BaseContainer>
     </>
