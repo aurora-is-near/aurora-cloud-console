@@ -309,6 +309,38 @@ export type Database = {
           },
         ]
       }
+      integration_requests: {
+        Row: {
+          created_at: string
+          id: number
+          silo_id: number
+          status: Database["public"]["Enums"]["request_status"]
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          silo_id: number
+          status?: Database["public"]["Enums"]["request_status"]
+          type?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          silo_id?: number
+          status?: Database["public"]["Enums"]["request_status"]
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_requests_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       limits: {
         Row: {
           created_at: string
@@ -957,7 +989,6 @@ export type Database = {
           grafana_network_key: string | null
           id: number
           inspected_at: string | null
-          intents_integration_status: Database["public"]["Enums"]["request_status"]
           is_active: boolean
           is_deploy_contracts_public: boolean
           is_make_txs_public: boolean
@@ -968,7 +999,6 @@ export type Database = {
           replenish_threshold: number
           rpc_url: string
           silo_to_silo_bridge_address: string | null
-          trisolaris_integration_status: Database["public"]["Enums"]["request_status"]
           type: string
           updated_at: string
         }
@@ -992,7 +1022,6 @@ export type Database = {
           grafana_network_key?: string | null
           id?: number
           inspected_at?: string | null
-          intents_integration_status?: Database["public"]["Enums"]["request_status"]
           is_active?: boolean
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
@@ -1003,7 +1032,6 @@ export type Database = {
           replenish_threshold?: number
           rpc_url?: string
           silo_to_silo_bridge_address?: string | null
-          trisolaris_integration_status?: Database["public"]["Enums"]["request_status"]
           type?: string
           updated_at?: string
         }
@@ -1027,7 +1055,6 @@ export type Database = {
           grafana_network_key?: string | null
           id?: number
           inspected_at?: string | null
-          intents_integration_status?: Database["public"]["Enums"]["request_status"]
           is_active?: boolean
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
@@ -1038,7 +1065,6 @@ export type Database = {
           replenish_threshold?: number
           rpc_url?: string
           silo_to_silo_bridge_address?: string | null
-          trisolaris_integration_status?: Database["public"]["Enums"]["request_status"]
           type?: string
           updated_at?: string
         }

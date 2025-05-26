@@ -16,7 +16,7 @@ import { IntegrationRequestButton } from "@/components/IntegrationRequestButton"
 import { TeamContext } from "@/providers/TeamProvider"
 import { SiloContext } from "@/providers/SiloProvider"
 
-import { Trisolaris } from "../../../public/static/v2/images/icons"
+import { Trisolaris } from "../../../public/static/images/icons"
 
 export const TrisolarisPage = () => {
   const { team } = useRequiredContext(TeamContext)
@@ -61,7 +61,7 @@ export const TrisolarisPage = () => {
             <Image
               width="48"
               height="48"
-              src="/static/v2/images/icons/marketplace/trisolaris.svg"
+              src="/static/images/icons/marketplace/trisolaris.svg"
               alt="Trisolaris Logo"
             />
             DEX
@@ -72,7 +72,7 @@ export const TrisolarisPage = () => {
           <Image
             width="400"
             height="240"
-            src="/static/v2/images/feature/hero/trisolaris.png"
+            src="/static/images/feature/hero/trisolaris.png"
             alt="Trisolaris Preview"
           />
         }
@@ -80,9 +80,11 @@ export const TrisolarisPage = () => {
         <div className="flex justify-start gap-2">
           {silo && (
             <IntegrationRequestButton
+              showUpdateIconPrompt
               silo={silo}
               team={team}
-              integration="trisolaris"
+              integrationType="trisolaris"
+              requestReceivedMessage="Your chain will be integrated within 1-2 business days. To enhance your visibility on Trisolaris, be sure to upload your blockchain icon."
             />
           )}
           <LinkButton

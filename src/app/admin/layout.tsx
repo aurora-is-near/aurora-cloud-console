@@ -2,6 +2,7 @@ import { ReactNode } from "react"
 import {
   BellAlertIcon,
   CircleStackIcon,
+  CogIcon,
   CubeIcon,
   CurrencyDollarIcon,
   DocumentTextIcon,
@@ -14,7 +15,7 @@ import { DashboardLayout } from "@/components/DashboardLayout"
 import { UNAUTHORISED_ROUTE } from "@/constants/routes"
 import { getAuthUser } from "@/actions/auth-user/get-auth-user"
 import { isAdminUser } from "@/utils/admin"
-import { Oracle } from "../../../public/static/v2/images/menuIcons"
+import { Oracle } from "../../../public/static/images/menuIcons"
 
 const Layout = async ({ children }: { children: ReactNode }) => {
   const authUser = await getAuthUser()
@@ -40,6 +41,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
                 name: "Silos",
                 href: "/admin/silos",
                 icon: <CubeIcon />,
+              },
+              {
+                name: "Integration requests",
+                href: "/admin/integration-requests",
+                icon: <CogIcon />,
               },
               {
                 name: "Blockscout",

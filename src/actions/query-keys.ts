@@ -20,4 +20,9 @@ export const queryKeys = {
   getSiloOracle: (siloId: number | null) => ["silo-oracle", siloId],
   getApiKeys: (teamKey: string) => ["api-keys", teamKey],
   getTeamMembers: (teamKey: string) => ["team-members", teamKey],
+  getSiloIntegrationRequest: (siloId: number, integrationType: string) => [
+    "integration-requests",
+    siloId,
+    integrationType,
+  ],
 } as const

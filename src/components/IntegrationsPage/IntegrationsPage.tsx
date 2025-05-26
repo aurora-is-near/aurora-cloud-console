@@ -19,8 +19,8 @@ import {
   Kyc,
   Onramp,
   Oracle,
-} from "../../../public/static/v2/images/icons"
-import { GasAbstraction } from "../../../public/static/v2/images/menuIcons"
+} from "../../../public/static/images/icons"
+import { GasAbstraction } from "../../../public/static/images/menuIcons"
 
 type Integration = {
   title: string
@@ -110,7 +110,7 @@ export const IntegrationsPage = () => {
           <Image
             width="180"
             height="180"
-            src="/static/v2/images/heroIcons/integrations.webp"
+            src="/static/images/heroIcons/integrations.webp"
             alt="Aurora Cloud"
             className="mr-16 shadow-xl rounded-[2rem]"
           />

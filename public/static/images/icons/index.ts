@@ -1,4 +1,3 @@
-export { default as WarningOctagon } from "./warning_octagon.svg"
 export { default as ChainPrivate } from "./chain_private.svg"
 export { default as ChainPublic } from "./chain_public.svg"
 export { default as ChainPublicPermissioned } from "./chain_public_permissioned.svg"
