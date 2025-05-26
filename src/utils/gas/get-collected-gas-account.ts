@@ -1,5 +1,3 @@
-"use server"
-
 import { keccak256, toUtf8Bytes } from "ethers"
 import type { Silo } from "@/types/types"
 
