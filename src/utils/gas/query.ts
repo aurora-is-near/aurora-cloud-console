@@ -5,7 +5,7 @@ import { createDebugger } from "@/debug"
 
 import { toError } from "../errors"
 
-const debug = createDebugger("silos-near-fee-collector-db")
+const debug = createDebugger("near-fee-collector-db")
 
 export const query = async <TRow extends QueryResultRow>(
   text: string,
