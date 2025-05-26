@@ -8,12 +8,6 @@ import type { Silo } from "@/types/types"
  * @returns Ethereum address in hex format with 0x prefix
  */
 export function getCollectedGasAccount(silo: Silo): string {
-  if (!silo.engine_account) {
-    throw new Error("Silo engine_account is not defined")
-  }
-
   const hash = keccak256(toUtf8Bytes(silo.engine_account))
-  const address = `0x${hash.substring(26)}`
-
-  return address
+  return `0x${hash.substring(26)}`
 }
