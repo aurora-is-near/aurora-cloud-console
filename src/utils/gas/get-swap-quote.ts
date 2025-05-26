@@ -23,11 +23,13 @@ OpenAPI.BASE = ONE_CLICK_API_URL
  */
 export const getSwapQuote = async ({
   amount,
+  deadline,
   recipient,
   refundTo,
   token,
 }: {
   amount: string
+  deadline: string,
   recipient: string
   refundTo: string
   token: TokenResponse
@@ -36,12 +38,12 @@ export const getSwapQuote = async ({
     dry: false,
     slippageTolerance: 100, // 1%
     quoteWaitingTimeMs: 3000, // ms
-    deadline: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour
     swapType: QuoteRequest.swapType.EXACT_INPUT,
     depositType: QuoteRequest.depositType.INTENTS,
     refundType: QuoteRequest.refundType.ORIGIN_CHAIN,
     recipientType: QuoteRequest.recipientType.DESTINATION_CHAIN,
 
+    deadline,
     amount, // received from get-chain-transactions-cost
     refundTo, // collected gas account
     recipient, // silo's relayer account

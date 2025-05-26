@@ -102,6 +102,7 @@ export const burnGas = async ({ silo }: { silo: Silo }) => {
     refundTo: collectedGasAccount,
     recipient: NEAR_BURN_ACCOUNT,
     amount: gasToBurn,
+    deadline: new Date(Date.now() + 15 * 60 * 1000).toISOString(), // 15 minutes
   })
 
   if (!swapQuote?.depositAddress) {
