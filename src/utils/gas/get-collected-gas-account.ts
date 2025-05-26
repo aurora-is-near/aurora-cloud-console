@@ -15,6 +15,7 @@ export function getCollectedGasAccount(silo: Silo): string {
   }
 
   const hash = keccak256(toUtf8Bytes(silo.engine_account))
-  const address = "0x" + hash.substring(26)
+  const address = `0x${hash.substring(26)}`
+
   return address
 }
