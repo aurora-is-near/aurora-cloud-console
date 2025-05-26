@@ -18,6 +18,8 @@ type MarketplaceCardsProps = {
   apps: MarketplaceAppCard[]
 }
 
+const NUMBER_OF_APPS_TO_SHOW = 3
+
 export const MarketplaceCards = ({
   className,
   showNumberOfApps,
@@ -44,7 +46,10 @@ export const MarketplaceCards = ({
             size="sm"
             href={seeAllLink}
             variant="border"
-            className="text-slate-900 dark:text-slate-50"
+            className={clsx(
+              "text-slate-900 dark:text-slate-50",
+              apps.length <= NUMBER_OF_APPS_TO_SHOW && "hidden xl:hidden",
+            )}
           >
             See all
             <ArrowRightIcon className="w-4 h-4" />
@@ -52,7 +57,7 @@ export const MarketplaceCards = ({
         )}
       </div>
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
-        {apps?.map((app, index) => {
+        {apps?.slice(0, NUMBER_OF_APPS_TO_SHOW).map((app, index) => {
           return (
             <Link
               key={app.id}
