@@ -10,7 +10,7 @@ import {
 } from "@/hooks/useRelayerBalance"
 import { Silo } from "@/types/types"
 
-const TRANSACTION_THRESHOLD = 10000
+const TRANSACTION_THRESHOLD = 5
 
 export const RelayerBalanceWarning = ({ silo }: { silo: Silo }) => {
   const { openModal } = useModals()
