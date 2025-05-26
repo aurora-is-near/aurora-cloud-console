@@ -12,6 +12,7 @@ import { getSiloBlockscoutDatabase } from "@/actions/silo-blockscout-database/ge
 
 import { abort } from "../../../../../utils/abort"
 import { queryGasCollected } from "../../../../../utils/blockscout-db/query-gas-collected"
+import { getSilosToSwapGas } from "@/actions/silo-gas/db/get-silos-to-swap-gas"
 
 const getDay = (date: Date | string) =>
   new Date(date).toISOString().split("T")[0]
@@ -26,6 +27,9 @@ export const GET = createApiEndpoint(
       getTeamSilo(ctx.team.id, siloId),
       getSiloBlockscoutDatabase(siloId),
     ])
+
+    const res = await getSilosToSwapGas("TO_RELAYER")
+    logger.error("---1", res)
 
     if (!silo) {
       abort(404)

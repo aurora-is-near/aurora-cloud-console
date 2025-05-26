@@ -19,7 +19,7 @@ import { createGasSwapTransaction, getGasSwapTransactions } from "./db"
 
 const NEAR_BURN_ACCOUNT = "system.near"
 
-export const swapGasToRelayer = async ({ silo }: { silo: Silo }) => {
+export const burnGas = async ({ silo }: { silo: Silo }) => {
   // 1. Check if silo's base token is tradable
   const token = await getTradableToken(silo.base_token_symbol)
 

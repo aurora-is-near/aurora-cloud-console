@@ -2,9 +2,9 @@ import PQueue from "p-queue"
 import { NextRequest } from "next/server"
 
 import { abort } from "@/utils/abort"
-import { repairSilo } from "@/utils/repair"
 import { createPrivateApiEndpoint } from "@/utils/api"
 import { getSilosToSwapGas } from "@/actions/silo-gas/db/get-silos-to-swap-gas"
+import { burnGas } from "@/actions/silo-gas/burn-gas"
 
 // A promise queue is used to avoid overwhelming the server with too many
 // requests at once, which at the time of writing doesn't seem difficult.
@@ -25,7 +25,7 @@ export const GET = createPrivateApiEndpoint(async (req: NextRequest) => {
       // TODO: Remove filter after testing
       .filter((silo) => silo.id === 103)
       .map(async (silo) => {
-        await queue.add(() => repairSilo(silo))
+        await queue.add(() => burnGas({ silo }))
       }),
   )
 
