@@ -146,9 +146,7 @@ user object might look something like this:
       "whitebit"
     ]
   },
-
   }
-}
 ```
 
 This setup means we can create authentication middleware that check the session
