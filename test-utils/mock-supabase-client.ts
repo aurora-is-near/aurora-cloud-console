@@ -82,6 +82,7 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   deal_changes: createTableClient(),
   changes: createTableClient(),
   integration_requests: createTableClient(),
+  silo_gas_swaps: createTableClient(),
 }
 
 export const mockSupabaseClient = {
