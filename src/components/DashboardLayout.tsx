@@ -9,11 +9,10 @@ import { MainMenu } from "@/components/menu/MainMenu"
 import { MenuItem, MenuSection } from "@/types/menu"
 import { SidebarMenu } from "@/components/menu/SidebarMenu"
 import Helpscout from "@/components/Helpscout"
-
 import { getAdminNotificationCount } from "@/actions/get-admin-notification-count"
 import { isAdminUser } from "@/utils/admin"
-import IconDiscord from "../../public/static/icons/discord-logo.svg"
 import IconTelegram from "../../public/static/icons/telegram-logo.svg"
+import IconDiscord from "../../public/static/icons/discord-logo.svg"
 
 type DashboardLayoutProps = {
   teamKey?: string
