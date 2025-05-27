@@ -1,3 +1,5 @@
+import timestring from "timestring"
+
 export const GAS_SWAP_TRANSACTION_TIME_BOUNDARY = new Date(
-  Date.now() - 60 * 60 * 1000,
+  timestring(1, "hour"),
 ).toISOString()

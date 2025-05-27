@@ -1,5 +1,6 @@
 "use server"
 
+import timestring from "timestring"
 import { parseUnits } from "ethers"
 
 import {
@@ -27,7 +28,7 @@ export const swapGasToRelayer = async ({ silo }: { silo: Silo }) => {
   const lastDayTransactionsCumulativeCost = await getChainTransactionsCost(
     silo,
     {
-      startDate: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+      startDate: new Date(timestring(1, "day")).toISOString(),
       endDate: new Date().toISOString(),
     },
   )
@@ -56,7 +57,7 @@ export const swapGasToRelayer = async ({ silo }: { silo: Silo }) => {
     // TODO: update to use getSiloRelayer after https://github.com/aurora-is-near/aurora-cloud-console/pull/583 is merged
     recipient: silo.engine_account,
     amount: lastDayTransactionsCumulativeCost,
-    deadline: new Date(Date.now() + 15 * 60 * 1000).toISOString(), // 15 minutes
+    deadline: new Date(timestring(15, "mins")).toISOString(), // 15 minutes
   })
 
   if (!swapQuote?.depositAddress) {
