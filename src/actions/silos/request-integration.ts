@@ -20,5 +20,5 @@ export const requestIntegration = async (
 
   assertValidSupabaseResult(result)
 
-  await notifyIntegrationRequest(team, silo, integrationType)
+  await notifyIntegrationRequest({ team, silo, integrationType })
 }

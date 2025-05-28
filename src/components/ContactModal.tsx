@@ -16,6 +16,7 @@ type ContactModalProps = {
   title?: string
   includeTelegramHandle?: boolean
   submitButtonText?: string
+  onSubmit?: (inputs: Inputs) => Promise<void>
 }
 
 type Inputs = {
@@ -30,6 +31,7 @@ const ContactModal = ({
   title = "Contact us",
   includeTelegramHandle,
   submitButtonText = "Send message",
+  onSubmit,
 }: ContactModalProps) => {
   const [isPending, setIsPending] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -53,13 +55,18 @@ const ContactModal = ({
     setIsPending(true)
 
     try {
-      await submitContactForm({
-        teamKey,
-        subject: subject ?? data.subject,
-        message: data.message,
-        telegramHandle: data.telegramHandle,
-        pageUri: window.location.href.split(/[?#]/)[0],
-      })
+      await (onSubmit
+        ? onSubmit({
+            ...data,
+            subject: subject ?? data.subject,
+          })
+        : submitContactForm({
+            teamKey,
+            subject: subject ?? data.subject,
+            message: data.message,
+            telegramHandle: data.telegramHandle,
+            pageUri: window.location.href.split(/[?#]/)[0],
+          }))
     } catch (error) {
       setIsPending(false)
       setError("root", {

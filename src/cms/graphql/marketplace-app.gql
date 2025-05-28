@@ -6,6 +6,7 @@ query MarketplaceApp($slug: String!) {
     title
     description
     pricing
+    slug
     logo {
       ...imageAttributes
     }

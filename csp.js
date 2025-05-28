@@ -21,6 +21,8 @@ const cspProperties = {
     "xqharbhfobwuhpcdsapg.supabase.co",
     "beaconapi.helpscout.net",
     "chatapi.helpscout.net",
+    "hooks.slack.com",
+    "api-js.mixpanel.com",
   ],
   "base-uri": ["'self'"],
   "form-action": ["'self'"],

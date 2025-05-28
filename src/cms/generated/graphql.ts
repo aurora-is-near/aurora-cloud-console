@@ -2106,6 +2106,24 @@ export type InUseFilter = {
   eq?: InputMaybe<Scalars['BooleanType']['input']>;
 };
 
+/** Specifies how to filter Integer fields */
+export type IntegerFilter = {
+  /** Search for records with an exact match */
+  eq?: InputMaybe<Scalars['IntType']['input']>;
+  /** Filter records with the specified field defined (i.e. with any value) or not */
+  exists?: InputMaybe<Scalars['BooleanType']['input']>;
+  /** Filter records with a value that's strictly greater than the one specified */
+  gt?: InputMaybe<Scalars['IntType']['input']>;
+  /** Filter records with a value that's greater than or equal to the one specified */
+  gte?: InputMaybe<Scalars['IntType']['input']>;
+  /** Filter records with a value that's less than the one specified */
+  lt?: InputMaybe<Scalars['IntType']['input']>;
+  /** Filter records with a value that's less or equal than the one specified */
+  lte?: InputMaybe<Scalars['IntType']['input']>;
+  /** Exclude records with an exact match */
+  neq?: InputMaybe<Scalars['IntType']['input']>;
+};
+
 /** Specifies how to filter by linking fields */
 export type InverseRelationshipFieldFilterBetweenMarketplaceCollectionAndMarketplaceApp = {
   /** Filter linking records that reference current record in at least one of the specified fields */
@@ -2314,14 +2332,10 @@ export type MarketplaceAppModelFilter = {
   _status?: InputMaybe<StatusFilter>;
   _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
   _updatedAt?: InputMaybe<UpdatedAtFilter>;
-  builtByAurora?: InputMaybe<BooleanFilter>;
   categories?: InputMaybe<LinksFilter>;
   description?: InputMaybe<TextFilter>;
-  essential?: InputMaybe<BooleanFilter>;
   id?: InputMaybe<ItemIdFilter>;
   logo?: InputMaybe<FileFilter>;
-  new?: InputMaybe<BooleanFilter>;
-  popular?: InputMaybe<BooleanFilter>;
   pricing?: InputMaybe<StringFilter>;
   slug?: InputMaybe<SlugFilter>;
   title?: InputMaybe<StringFilter>;
@@ -2344,16 +2358,8 @@ export enum MarketplaceAppModelOrderBy {
   UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
   UpdatedAtAsc = '_updatedAt_ASC',
   UpdatedAtDesc = '_updatedAt_DESC',
-  BuiltByAuroraAsc = 'builtByAurora_ASC',
-  BuiltByAuroraDesc = 'builtByAurora_DESC',
-  EssentialAsc = 'essential_ASC',
-  EssentialDesc = 'essential_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
-  NewAsc = 'new_ASC',
-  NewDesc = 'new_DESC',
-  PopularAsc = 'popular_ASC',
-  PopularDesc = 'popular_DESC',
   PricingAsc = 'pricing_ASC',
   PricingDesc = 'pricing_DESC',
   TitleAsc = 'title_ASC',
@@ -2379,16 +2385,12 @@ export type MarketplaceAppRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
   _updatedAt: Scalars['DateTime']['output'];
-  builtByAurora: Scalars['BooleanType']['output'];
   categories: Array<MarketplaceAppCategoryRecord>;
   content: Array<MarketplaceAppContentRecord>;
   description?: Maybe<Scalars['String']['output']>;
-  essential: Scalars['BooleanType']['output'];
   id: Scalars['ItemId']['output'];
   links: Array<LinkRecord>;
   logo?: Maybe<FileField>;
-  new: Scalars['BooleanType']['output'];
-  popular: Scalars['BooleanType']['output'];
   pricing?: Maybe<Scalars['String']['output']>;
   slug: Scalars['String']['output'];
   title: Scalars['String']['output'];
@@ -2644,33 +2646,6 @@ export type PlanSectionRecord_SeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
-/** Record of type Plans page (plans_page) */
-export type PlansPageRecord = RecordInterface & {
-  __typename?: 'PlansPageRecord';
-  _createdAt: Scalars['DateTime']['output'];
-  /** Editing URL */
-  _editingUrl?: Maybe<Scalars['String']['output']>;
-  _firstPublishedAt: Scalars['DateTime']['output'];
-  _isValid: Scalars['BooleanType']['output'];
-  _modelApiKey: Scalars['String']['output'];
-  _publicationScheduledAt?: Maybe<Scalars['DateTime']['output']>;
-  _publishedAt: Scalars['DateTime']['output'];
-  /** Generates SEO and Social card meta tags to be used in your frontend */
-  _seoMetaTags: Array<Tag>;
-  _status: ItemStatus;
-  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
-  _updatedAt: Scalars['DateTime']['output'];
-  faq: Array<FaqItemRecord>;
-  id: Scalars['ItemId']['output'];
-  plansSection: Array<PlanSectionRecord>;
-};
-
-
-/** Record of type Plans page (plans_page) */
-export type PlansPageRecord_SeoMetaTagsArgs = {
-  locale?: InputMaybe<SiteLocale>;
-};
-
 /** Specifies how to filter by publication datetime */
 export type PublishedAtFilter = {
   /** Filter records with a value that's within the specified minute range. Seconds and milliseconds are truncated from the argument. */
@@ -2700,6 +2675,8 @@ export type Query = {
   _allMarketplaceCollectionsMeta: CollectionMetadata;
   /** Returns meta information regarding an assets collection */
   _allUploadsMeta: CollectionMetadata;
+  /** Returns meta information regarding a record collection */
+  _allVirtualChainsMeta: CollectionMetadata;
   /** Returns the single instance record */
   _site: Site;
   /** Returns a collection of records */
@@ -2710,6 +2687,8 @@ export type Query = {
   allMarketplaceCollections: Array<MarketplaceCollectionRecord>;
   /** Returns a collection of assets */
   allUploads: Array<FileField>;
+  /** Returns a collection of records */
+  allVirtualChains: Array<VirtualChainRecord>;
   /** Returns a specific record */
   marketplaceApp?: Maybe<MarketplaceAppRecord>;
   /** Returns a specific record */
@@ -2717,11 +2696,11 @@ export type Query = {
   /** Returns a specific record */
   marketplaceCollection?: Maybe<MarketplaceCollectionRecord>;
   /** Returns the single instance record */
-  plansPage?: Maybe<PlansPageRecord>;
-  /** Returns the single instance record */
   realEstatePage?: Maybe<RealEstatePageRecord>;
   /** Returns a specific asset */
   upload?: Maybe<FileField>;
+  /** Returns a specific record */
+  virtualChain?: Maybe<VirtualChainRecord>;
 };
 
 
@@ -2749,6 +2728,13 @@ export type Query_AllMarketplaceCollectionsMetaArgs = {
 /** The query root for this schema */
 export type Query_AllUploadsMetaArgs = {
   filter?: InputMaybe<UploadFilter>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+/** The query root for this schema */
+export type Query_AllVirtualChainsMetaArgs = {
+  filter?: InputMaybe<VirtualChainModelFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -2805,6 +2791,17 @@ export type QueryAllUploadsArgs = {
 
 
 /** The query root for this schema */
+export type QueryAllVirtualChainsArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<VirtualChainModelFilter>;
+  first?: InputMaybe<Scalars['IntType']['input']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<VirtualChainModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']['input']>;
+};
+
+
+/** The query root for this schema */
 export type QueryMarketplaceAppArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<MarketplaceAppModelFilter>;
@@ -2832,13 +2829,6 @@ export type QueryMarketplaceCollectionArgs = {
 
 
 /** The query root for this schema */
-export type QueryPlansPageArgs = {
-  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
-  locale?: InputMaybe<SiteLocale>;
-};
-
-
-/** The query root for this schema */
 export type QueryRealEstatePageArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   locale?: InputMaybe<SiteLocale>;
@@ -2851,6 +2841,15 @@ export type QueryUploadArgs = {
   filter?: InputMaybe<UploadFilter>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<UploadOrderBy>>>;
+};
+
+
+/** The query root for this schema */
+export type QueryVirtualChainArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<VirtualChainModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<VirtualChainModelOrderBy>>>;
 };
 
 /** Record of type Real Estate page (real_estate_page) */
@@ -3434,6 +3433,116 @@ export enum VideoMp4Res {
   Medium = 'medium'
 }
 
+export type VirtualChainModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<VirtualChainModelFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<VirtualChainModelFilter>>>;
+  _createdAt?: InputMaybe<CreatedAtFilter>;
+  _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
+  _isValid?: InputMaybe<BooleanFilter>;
+  _publicationScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _publishedAt?: InputMaybe<PublishedAtFilter>;
+  _status?: InputMaybe<StatusFilter>;
+  _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _updatedAt?: InputMaybe<UpdatedAtFilter>;
+  baseTokenDecimals?: InputMaybe<IntegerFilter>;
+  baseTokenSymbol?: InputMaybe<StringFilter>;
+  chainId?: InputMaybe<StringFilter>;
+  description?: InputMaybe<TextFilter>;
+  explorerUrl?: InputMaybe<StringFilter>;
+  id?: InputMaybe<ItemIdFilter>;
+  logo?: InputMaybe<FileFilter>;
+  new?: InputMaybe<BooleanFilter>;
+  rpcUrl?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+  trending?: InputMaybe<BooleanFilter>;
+  website?: InputMaybe<StringFilter>;
+  xHandle?: InputMaybe<StringFilter>;
+};
+
+export enum VirtualChainModelOrderBy {
+  CreatedAtAsc = '_createdAt_ASC',
+  CreatedAtDesc = '_createdAt_DESC',
+  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
+  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
+  IsValidAsc = '_isValid_ASC',
+  IsValidDesc = '_isValid_DESC',
+  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
+  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
+  PublishedAtAsc = '_publishedAt_ASC',
+  PublishedAtDesc = '_publishedAt_DESC',
+  StatusAsc = '_status_ASC',
+  StatusDesc = '_status_DESC',
+  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
+  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
+  UpdatedAtAsc = '_updatedAt_ASC',
+  UpdatedAtDesc = '_updatedAt_DESC',
+  BaseTokenDecimalsAsc = 'baseTokenDecimals_ASC',
+  BaseTokenDecimalsDesc = 'baseTokenDecimals_DESC',
+  BaseTokenSymbolAsc = 'baseTokenSymbol_ASC',
+  BaseTokenSymbolDesc = 'baseTokenSymbol_DESC',
+  ChainIdAsc = 'chainId_ASC',
+  ChainIdDesc = 'chainId_DESC',
+  ExplorerUrlAsc = 'explorerUrl_ASC',
+  ExplorerUrlDesc = 'explorerUrl_DESC',
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  NewAsc = 'new_ASC',
+  NewDesc = 'new_DESC',
+  RpcUrlAsc = 'rpcUrl_ASC',
+  RpcUrlDesc = 'rpcUrl_DESC',
+  TitleAsc = 'title_ASC',
+  TitleDesc = 'title_DESC',
+  TrendingAsc = 'trending_ASC',
+  TrendingDesc = 'trending_DESC',
+  WebsiteAsc = 'website_ASC',
+  WebsiteDesc = 'website_DESC',
+  XHandleAsc = 'xHandle_ASC',
+  XHandleDesc = 'xHandle_DESC'
+}
+
+/** Record of type Virtual Chain (virtual_chain) */
+export type VirtualChainRecord = RecordInterface & {
+  __typename?: 'VirtualChainRecord';
+  _createdAt: Scalars['DateTime']['output'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']['output']>;
+  _firstPublishedAt: Scalars['DateTime']['output'];
+  _isValid: Scalars['BooleanType']['output'];
+  _modelApiKey: Scalars['String']['output'];
+  _publicationScheduledAt?: Maybe<Scalars['DateTime']['output']>;
+  _publishedAt: Scalars['DateTime']['output'];
+  /** Generates SEO and Social card meta tags to be used in your frontend */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']['output']>;
+  _updatedAt: Scalars['DateTime']['output'];
+  baseTokenDecimals: Scalars['IntType']['output'];
+  baseTokenSymbol: Scalars['String']['output'];
+  chainId: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  explorerUrl: Scalars['String']['output'];
+  id: Scalars['ItemId']['output'];
+  logo?: Maybe<FileField>;
+  new: Scalars['BooleanType']['output'];
+  rpcUrl: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  trending: Scalars['BooleanType']['output'];
+  website?: Maybe<Scalars['String']['output']>;
+  xHandle?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** Record of type Virtual Chain (virtual_chain) */
+export type VirtualChainRecord_SeoMetaTagsArgs = {
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+/** Record of type Virtual Chain (virtual_chain) */
+export type VirtualChainRecordDescriptionArgs = {
+  markdown?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export type FocalPoint = {
   __typename?: 'focalPoint';
   x: Scalars['FloatType']['output'];
@@ -3461,7 +3570,7 @@ export type MarketplaceAppQueryVariables = Exact<{
 }>;
 
 
-export type MarketplaceAppQuery = { __typename?: 'Query', marketplaceApp?: { __typename?: 'MarketplaceAppRecord', id: any, title: string, description?: string, pricing?: string, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, content: Array<{ __typename?: 'MarketplaceAppContentRecord', id: any, title?: string, body?: string, image?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any } }>, links: Array<{ __typename?: 'LinkRecord', id: any, text: string, url: string }>, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug: string }>, _allReferencingMarketplaceCollections: Array<{ __typename?: 'MarketplaceCollectionRecord', id: any, title: string, slug: string, builtByAurora: any }> } };
+export type MarketplaceAppQuery = { __typename?: 'Query', marketplaceApp?: { __typename?: 'MarketplaceAppRecord', id: any, title: string, description?: string, pricing?: string, slug: string, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, content: Array<{ __typename?: 'MarketplaceAppContentRecord', id: any, title?: string, body?: string, image?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any } }>, links: Array<{ __typename?: 'LinkRecord', id: any, text: string, url: string }>, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug: string }>, _allReferencingMarketplaceCollections: Array<{ __typename?: 'MarketplaceCollectionRecord', id: any, title: string, slug: string, builtByAurora: any }> } };
 
 export type MarketplaceAppsMetaQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3582,6 +3691,7 @@ export const MarketplaceAppDocument = `
     title
     description
     pricing
+    slug
     logo {
       ...imageAttributes
     }

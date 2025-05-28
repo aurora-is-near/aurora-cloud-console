@@ -109,7 +109,9 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
               >
                 {marketplaceApp.description}
               </Paragraph>
-              <RequestIntegrationButton />
+              <RequestIntegrationButton
+                integrationType={marketplaceApp.title}
+              />
             </div>
           </div>
 

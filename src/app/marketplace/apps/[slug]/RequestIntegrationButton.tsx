@@ -1,15 +1,43 @@
 "use client"
 
+import { notifyIntegrationRequest } from "@/actions/contact/integration-request"
 import { Button } from "@/components/Button"
 import ContactModal from "@/components/ContactModal"
 import { useModals } from "@/hooks/useModals"
 import { Modals } from "@/utils/modals"
 
-export const RequestIntegrationButton = () => {
+type RequestIntegrationButtonProps = {
+  integrationType: string
+}
+
+const SUBJECT = "Marketplace integration request"
+
+export const RequestIntegrationButton = ({
+  integrationType,
+}: RequestIntegrationButtonProps) => {
   const { openModal } = useModals()
 
   const onClick = () => {
     openModal(Modals.Contact)
+  }
+
+  const onSumbit = async ({
+    subject,
+    message,
+    telegramHandle,
+  }: {
+    subject: string
+    message: string
+    telegramHandle?: string
+  }) => {
+    await notifyIntegrationRequest({
+      subject,
+      integrationType,
+      extraDetails: [
+        `*Telegram handle:*\n${`@${telegramHandle}`.replace(/^@@/g, "@")}`,
+        `*Message:*\n${message}`,
+      ],
+    })
   }
 
   return (
@@ -26,7 +54,8 @@ export const RequestIntegrationButton = () => {
         includeTelegramHandle
         submitButtonText="Submit request"
         title="Request integration"
-        subject="Marketplace app integration"
+        subject="Marketplace integration request"
+        onSubmit={onSumbit}
       />
     </>
   )
