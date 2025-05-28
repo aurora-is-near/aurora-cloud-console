@@ -7,15 +7,15 @@ import { getSiloBlockscoutDatabase } from "@/actions/silo-blockscout-database/ge
 import { queryWallets } from "@/utils/blockscout-db/query-wallets"
 import { logger } from "@/logger"
 
-export const GET = createApiEndpoint("getWallet", async (req, ctx) => {
-  const { searchParams } = req.nextUrl
+export const GET = createApiEndpoint("getWallet", async (_req, ctx) => {
   const siloId = Number(ctx.params.id)
+  const { address } = ctx.params
   const [silo, blockscoutDatabase] = await Promise.all([
     getTeamSilo(ctx.team.id, siloId),
     getSiloBlockscoutDatabase(siloId),
   ])
 
-  if (!silo) {
+  if (!silo || !address) {
     abort(404)
   }
 
@@ -25,14 +25,9 @@ export const GET = createApiEndpoint("getWallet", async (req, ctx) => {
     abort(404)
   }
 
-  const walletAddressParam = searchParams.get("walletAddress")
-  const walletAddress = walletAddressParam
-    ? decodeURIComponent(walletAddressParam)
-    : undefined
-
   const result = await queryWallets(blockscoutDatabase, {
     limit: 1,
-    walletAddress,
+    walletAddress: address,
   })
 
   const [row] = result.rows
