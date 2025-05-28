@@ -25,7 +25,7 @@ export const MarketplaceSubmitAppRequestButton = () => {
       <ContactModal
         includeTelegramHandle
         submitButtonText="Submit request"
-        title="Request an app"
+        title="Get your app listed"
         subject="Marketplace new app request"
       />
     </>
