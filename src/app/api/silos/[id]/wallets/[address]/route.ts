@@ -28,7 +28,7 @@ export const GET = createApiEndpoint("getWallet", async (req, ctx) => {
   const walletAddressParam = searchParams.get("walletAddress")
   const walletAddress = walletAddressParam
     ? decodeURIComponent(walletAddressParam)
-    : null
+    : undefined
 
   const result = await queryWallets(blockscoutDatabase, {
     limit: 1,

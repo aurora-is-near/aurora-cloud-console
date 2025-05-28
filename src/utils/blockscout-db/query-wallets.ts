@@ -6,7 +6,7 @@ export const queryWallets = async (
   params: {
     limit?: number
     offset?: number
-    walletAddress?: string | null
+    walletAddress?: string
   },
 ) => {
   const { limit, offset, walletAddress } = params
