@@ -10,8 +10,6 @@ type RequestIntegrationButtonProps = {
   integrationType: string
 }
 
-const SUBJECT = "Marketplace integration request"
-
 export const RequestIntegrationButton = ({
   integrationType,
 }: RequestIntegrationButtonProps) => {
