@@ -157,30 +157,6 @@ export type Database = {
         }
         Relationships: []
       }
-      changes: {
-        Row: {
-          created_at: string
-          id: number
-          operation: Database["public"]["Enums"]["database_operation"]
-          row_id: number
-          table: string
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          operation: Database["public"]["Enums"]["database_operation"]
-          row_id: number
-          table: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          operation?: Database["public"]["Enums"]["database_operation"]
-          row_id?: number
-          table?: string
-        }
-        Relationships: []
-      }
       datadog_web3_monitors: {
         Row: {
           created_at: string | null
@@ -322,7 +298,7 @@ export type Database = {
           id?: number
           silo_id: number
           status?: Database["public"]["Enums"]["request_status"]
-          type?: string
+          type: string
         }
         Update: {
           created_at?: string
@@ -848,6 +824,44 @@ export type Database = {
           },
         ]
       }
+      silo_gas_swaps: {
+        Row: {
+          amount: string
+          created_at: string
+          deposit_address: string
+          id: number
+          silo_id: number
+          status: Database["public"]["Enums"]["gas_swap_status"]
+          variant: Database["public"]["Enums"]["gas_swap_variant"]
+        }
+        Insert: {
+          amount: string
+          created_at?: string
+          deposit_address: string
+          id?: number
+          silo_id: number
+          status: Database["public"]["Enums"]["gas_swap_status"]
+          variant: Database["public"]["Enums"]["gas_swap_variant"]
+        }
+        Update: {
+          amount?: string
+          created_at?: string
+          deposit_address?: string
+          id?: number
+          silo_id?: number
+          status?: Database["public"]["Enums"]["gas_swap_status"]
+          variant?: Database["public"]["Enums"]["gas_swap_variant"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "silo_gas_swaps_silo_id_fkey"
+            columns: ["silo_id"]
+            isOneToOne: false
+            referencedRelation: "silos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       silo_relayers: {
         Row: {
           account_id: string
@@ -944,12 +958,14 @@ export type Database = {
           engine_version: string
           explorer_url: string | null
           favicon: string
+          gas_burn_percent: number | null
           gas_collection_address: string | null
           gas_price: string
           genesis: string
           grafana_network_key: string | null
           id: number
           inspected_at: string | null
+          intents_integration_status: Database["public"]["Enums"]["request_status"]
           is_active: boolean
           is_deploy_contracts_public: boolean
           is_make_txs_public: boolean
@@ -960,6 +976,7 @@ export type Database = {
           replenish_threshold: number
           rpc_url: string
           silo_to_silo_bridge_address: string | null
+          trisolaris_integration_status: Database["public"]["Enums"]["request_status"]
           type: string
           updated_at: string
         }
@@ -976,12 +993,14 @@ export type Database = {
           engine_version: string
           explorer_url?: string | null
           favicon?: string
+          gas_burn_percent?: number | null
           gas_collection_address?: string | null
-          gas_price?: string
+          gas_price: string
           genesis: string
           grafana_network_key?: string | null
           id?: number
           inspected_at?: string | null
+          intents_integration_status?: Database["public"]["Enums"]["request_status"]
           is_active?: boolean
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
@@ -992,6 +1011,7 @@ export type Database = {
           replenish_threshold?: number
           rpc_url?: string
           silo_to_silo_bridge_address?: string | null
+          trisolaris_integration_status?: Database["public"]["Enums"]["request_status"]
           type?: string
           updated_at?: string
         }
@@ -1008,12 +1028,14 @@ export type Database = {
           engine_version?: string
           explorer_url?: string | null
           favicon?: string
+          gas_burn_percent?: number | null
           gas_collection_address?: string | null
           gas_price?: string
           genesis?: string
           grafana_network_key?: string | null
           id?: number
           inspected_at?: string | null
+          intents_integration_status?: Database["public"]["Enums"]["request_status"]
           is_active?: boolean
           is_deploy_contracts_public?: boolean
           is_make_txs_public?: boolean
@@ -1024,6 +1046,7 @@ export type Database = {
           replenish_threshold?: number
           rpc_url?: string
           silo_to_silo_bridge_address?: string | null
+          trisolaris_integration_status?: Database["public"]["Enums"]["request_status"]
           type?: string
           updated_at?: string
         }
@@ -1302,6 +1325,8 @@ export type Database = {
       deployment_status: "PENDING" | "DEPLOYED" | "NOT_DEPLOYED"
       filter_type: "USER" | "CONTRACT" | "CHAIN" | "EOA" | "TOKEN" | "IP"
       gas_mechanics: "usage" | "free" | "custom"
+      gas_swap_status: "PENDING" | "FAILED" | "SUCCEED" | "INITIATED"
+      gas_swap_variant: "TO_RELAYER" | "BURN"
       limit_scope: "USER" | "GLOBAL"
       limit_type: "CYCLIC" | "RATELIMIT"
       network_type: "devnet" | "mainnet"
@@ -1340,8 +1365,9 @@ export type Database = {
         | "INITIALISE_MAKE_TXS_WHITELIST"
         | "INITIALISE_DEPLOY_CONTRACT_WHITELIST"
         | "COLLECT_GAS"
+        | "INTENTS_SWAP"
+        | "BURN_GAS"
       silo_config_transaction_status: "PENDING" | "SUCCESSFUL" | "FAILED"
-      token_type: "ERC20" | "ERC721" | "ERC1155"
       user_integration:
         | "onramp"
         | "oracle"
@@ -1499,6 +1525,8 @@ export const Constants = {
       deployment_status: ["PENDING", "DEPLOYED", "NOT_DEPLOYED"],
       filter_type: ["USER", "CONTRACT", "CHAIN", "EOA", "TOKEN", "IP"],
       gas_mechanics: ["usage", "free", "custom"],
+      gas_swap_status: ["PENDING", "FAILED", "SUCCEED", "INITIATED"],
+      gas_swap_variant: ["TO_RELAYER", "BURN"],
       limit_scope: ["USER", "GLOBAL"],
       limit_type: ["CYCLIC", "RATELIMIT"],
       network_type: ["devnet", "mainnet"],
@@ -1539,9 +1567,10 @@ export const Constants = {
         "INITIALISE_MAKE_TXS_WHITELIST",
         "INITIALISE_DEPLOY_CONTRACT_WHITELIST",
         "COLLECT_GAS",
+        "INTENTS_SWAP",
+        "BURN_GAS",
       ],
       silo_config_transaction_status: ["PENDING", "SUCCESSFUL", "FAILED"],
-      token_type: ["ERC20", "ERC721", "ERC1155"],
       user_integration: [
         "onramp",
         "oracle",

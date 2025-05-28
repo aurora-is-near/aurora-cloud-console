@@ -23,4 +23,5 @@ export enum Modals {
   EditSiloAddressPermissions = "editSiloAddressPermissions",
   BridgedTokens = "bridgedTokens",
   MetaMaskNotInstalled = "metaMaskNotInstalled",
+  TopUpOptions = "topUpOptions",
 }

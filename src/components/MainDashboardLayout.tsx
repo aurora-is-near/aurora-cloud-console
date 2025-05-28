@@ -6,6 +6,8 @@ import { User } from "@supabase/supabase-js"
 import { DashboardLayout } from "@/components/DashboardLayout"
 import { useTeamDeals } from "@/hooks/useTeamDeals"
 import { SiloContext } from "@/providers/SiloProvider"
+import { RelayerTopUpModal } from "@/components/RelayerTopUpModal"
+import { RelayerBalanceWarning } from "@/components/RelayerBalanceWarning"
 import {
   BlockExplorer,
   Configuration,
@@ -38,104 +40,108 @@ export const MainDashboardLayout = ({
   const { silo } = useContext(SiloContext) ?? {}
 
   return (
-    <DashboardLayout
-      teamKey={teamKey}
-      authUser={authUser}
-      sidebarMenu={{
-        heading: silo?.name ?? "Explore Aurora",
-        action: sidebarAction,
-        sections: [
-          {
-            items: [
-              {
-                name: "Home",
-                href: `/dashboard/${teamKey}${siloPrefix}`,
-                icon: <HomeIcon />,
-              },
-              ...(siloId
-                ? [
+    <>
+      {silo && <RelayerBalanceWarning silo={silo} />}
+      {silo && <RelayerTopUpModal silo={silo} />}
+      <DashboardLayout
+        teamKey={teamKey}
+        authUser={authUser}
+        sidebarMenu={{
+          heading: silo?.name ?? "Explore Aurora",
+          action: sidebarAction,
+          sections: [
+            {
+              items: [
+                {
+                  name: "Home",
+                  href: `/dashboard/${teamKey}${siloPrefix}`,
+                  icon: <HomeIcon />,
+                },
+                ...(siloId
+                  ? [
+                      {
+                        name: "Monitoring",
+                        href: `/dashboard/${teamKey}${siloPrefix}/monitoring`,
+                        icon: <Monitoring />,
+                      },
+                      {
+                        name: "Chain settings",
+                        href: `/dashboard/${teamKey}${siloPrefix}/configuration`,
+                        icon: <Configuration />,
+                      },
+                    ]
+                  : []),
+                {
+                  name: "Gas abstraction",
+                  href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction`,
+                  icon: <GasAbstraction />,
+                  items: deals?.map((deal) => ({
+                    name: deal.name,
+                    href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction/${deal.id}`,
+                  })),
+                },
+                {
+                  name: "Marketplace",
+                  href: "/marketplace",
+                  icon: <Integrations />,
+                  isExternal: true,
+                },
+              ],
+            },
+            {
+              heading: "Your Stack",
+              items: [
+                {
+                  variant: "secondary",
+                  name: "Onramp",
+                  href: `/dashboard/${teamKey}${siloPrefix}/onramp`,
+                  icon: <Onramp />,
+                  items: [
                     {
-                      name: "Monitoring",
-                      href: `/dashboard/${teamKey}${siloPrefix}/monitoring`,
-                      icon: <Monitoring />,
+                      name: "Bridge",
+                      href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
                     },
                     {
-                      name: "Chain settings",
-                      href: `/dashboard/${teamKey}${siloPrefix}/configuration`,
-                      icon: <Configuration />,
+                      name: "Fiat onramp",
+                      href: `/dashboard/${teamKey}${siloPrefix}/onramp/fiat-to-crypto`,
                     },
-                  ]
-                : []),
-              {
-                name: "Gas abstraction",
-                href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction`,
-                icon: <GasAbstraction />,
-                items: deals?.map((deal) => ({
-                  name: deal.name,
-                  href: `/dashboard/${teamKey}${siloPrefix}/gas-abstraction/${deal.id}`,
-                })),
-              },
-              {
-                name: "Marketplace",
-                href: "/marketplace",
-                icon: <Integrations />,
-                isExternal: true,
-              },
-            ],
-          },
-          {
-            heading: "Your Stack",
-            items: [
-              {
-                variant: "secondary",
-                name: "Onramp",
-                href: `/dashboard/${teamKey}${siloPrefix}/onramp`,
-                icon: <Onramp />,
-                items: [
-                  {
-                    name: "Bridge",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/bridge`,
-                  },
-                  {
-                    name: "Fiat onramp",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/fiat-to-crypto`,
-                  },
-                  {
-                    name: "Forwarder",
-                    href: `/dashboard/${teamKey}${siloPrefix}/onramp/forwarder`,
-                  },
-                ],
-              },
-              {
-                variant: "secondary",
-                name: "Oracle",
-                href: `/dashboard/${teamKey}${siloPrefix}/oracle`,
-                icon: <Oracle />,
-              },
-              {
-                variant: "secondary",
-                name: "Block explorer",
-                href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
-                icon: <BlockExplorer />,
-              },
-              {
-                variant: "secondary",
-                name: "Intents",
-                href: `/dashboard/${teamKey}${siloPrefix}/intents`,
-                icon: <NearIntents />,
-              },
-              {
-                variant: "secondary",
-                name: "DEX",
-                href: `/dashboard/${teamKey}${siloPrefix}/trisolaris`,
-                icon: <Trisolaris />,
-              },
-            ],
-          },
-        ],
-      }}
-    >
-      {children}
-    </DashboardLayout>
+                    {
+                      name: "Forwarder",
+                      href: `/dashboard/${teamKey}${siloPrefix}/onramp/forwarder`,
+                    },
+                  ],
+                },
+                {
+                  variant: "secondary",
+                  name: "Oracle",
+                  href: `/dashboard/${teamKey}${siloPrefix}/oracle`,
+                  icon: <Oracle />,
+                },
+                {
+                  variant: "secondary",
+                  name: "Block explorer",
+                  href: `/dashboard/${teamKey}${siloPrefix}/block-explorer`,
+                  icon: <BlockExplorer />,
+                },
+                {
+                  variant: "secondary",
+                  name: "Intents",
+                  href: `/dashboard/${teamKey}${siloPrefix}/intents`,
+                  icon: <NearIntents />,
+                },
+                {
+                  variant: "secondary",
+                  name: "DEX",
+                  href: `/dashboard/${teamKey}${siloPrefix}/trisolaris`,
+                  icon: <Trisolaris />,
+                },
+              ],
+            },
+          ],
+        }}
+      >
+        {children}
+      </DashboardLayout>
+    </>
   )
 }
