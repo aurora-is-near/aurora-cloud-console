@@ -99,6 +99,8 @@ export type BridgedToken = Tables<"bridged_tokens">
 
 export type SiloBridgedTokenMetadata = Tables<"silo_bridged_tokens">
 
+export type SiloRelayer = Tables<"silo_relayers">
+
 export type SiloBridgedToken = BridgedToken & {
   is_deployment_pending: boolean
 }
