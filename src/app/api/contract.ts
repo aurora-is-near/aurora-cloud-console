@@ -454,6 +454,7 @@ export const contract = c.router({
       scopes: ["transactions:read"],
     },
     pathParams: z.object({
+      id: z.number(),
       address: z.string(),
     }),
   },

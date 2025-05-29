@@ -13,7 +13,11 @@ export const queryWallets = async (
   let whereClause = "WHERE t.status = 1"
 
   if (walletAddress) {
-    whereClause += ` AND t.from_address_hash = '${walletAddress}'`
+    const addressHex = walletAddress.startsWith("0x")
+      ? walletAddress.slice(2)
+      : walletAddress
+
+    whereClause += ` AND t.from_address_hash = decode('${addressHex}', 'hex')`
   }
 
   return query<TransactionsQuery>(
