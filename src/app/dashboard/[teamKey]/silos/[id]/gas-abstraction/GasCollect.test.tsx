@@ -18,7 +18,6 @@ import { getNearAccount } from "@/utils/near-api/account"
 import { createWrapper } from "../../../../../../../test-utils/create-wrapper"
 import { createMockSilo } from "../../../../../../../test-utils/factories/silo-factory"
 import { createMockTeam } from "../../../../../../../test-utils/factories/team-factory"
-import { headlessUITransitionMock } from "../../../../../../../test-utils/mock-headless-ui-transition"
 
 import GasAbstractionPage from "./page"
 
@@ -40,10 +39,6 @@ jest.mock("next/navigation", () => ({
     prefetch: jest.fn(),
   }),
 }))
-
-jest.mock("@headlessui/react", () => {
-  return headlessUITransitionMock(jest.requireActual("@headlessui/react"))
-})
 
 jest.mock("@/utils/near-api/account", () => ({
   getNearAccount: jest.fn(),
