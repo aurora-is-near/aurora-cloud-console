@@ -10,6 +10,7 @@ import {
   getSwapQuote,
   getTradableToken,
 } from "@/utils/gas"
+import { getSiloRelayer } from "@/actions/silo-relayers/get-silo-relayer"
 import { contractChangerApiClient } from "@/utils/contract-changer-api/contract-changer-api-client"
 import { performSiloConfigTransaction } from "@/actions/deployment/perform-silo-config-transaction"
 import type { Silo } from "@/types/types"
@@ -50,12 +51,14 @@ export const swapGasToRelayer = async ({ silo }: { silo: Silo }) => {
   }
 
   // 4. Initiate a swap quote
+  const siloRelayerAccount =
+    (await getSiloRelayer(silo))?.account_id ?? silo.engine_account
+
   const collectedGasAccount = getCollectedGasAccount(silo)
   const swapQuote = await getSwapQuote({
     token,
     refundTo: collectedGasAccount,
-    // TODO: update to use getSiloRelayer after https://github.com/aurora-is-near/aurora-cloud-console/pull/583 is merged
-    recipient: silo.engine_account,
+    recipient: siloRelayerAccount,
     amount: lastDayTransactionsCumulativeCost,
     deadline: new Date(timestring(15, "mins")).toISOString(), // 15 minutes
   })
