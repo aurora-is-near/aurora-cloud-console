@@ -26,30 +26,32 @@ const Page = async () => {
 
   return (
     <>
-      <div className="w-full md:h-[340px] relative bg-slate-100 dark:bg-slate-800 flex flex-row items-center">
-        <BaseContainer size="lg">
-          <div className="md:max-w-md lg:max-w-lg py-10">
-            <h1 className="font-bold text-4xl md:text-5xl tracking-tight md:leading-[3.25rem] text-slate-900 dark:text-slate-50">
-              Explore Aurora Cloud Integrations
+      <div className="w-full max-h-[575px] relative bg-slate-800 flex flex-row items-center aspect-[2.63]">
+        <BaseContainer
+          size="lg"
+          className="z-10 flex items-center justify-center"
+        >
+          <div className="max-w-xs md:max-w-md lg:max-w-lg py-10 text-center">
+            <h1 className="font-bold text-4xl md:text-5xl xl:text-6xl tracking-tight md:leading-[3.25rem] text-slate-50">
+              Supercharge
+              <br />
+              Your Virtual Chain
             </h1>
-            <Paragraph
-              size={1}
-              className="text-slate-500 bg:text-slate-400 dark:text-slate-300 mt-4"
-            >
+            <Paragraph size={1} className="text-slate-300 text-lg mt-4 md:mt-6">
               Aurora Cloud chains come ready to use with built-in integrations
               for a seamless start. You can also enhance your Virtual Chain with
               a variety of additional tools and services.
             </Paragraph>
           </div>
-          <Image
-            src="/static/images/marketplace/main-banner.png"
-            alt=""
-            width={3024}
-            height={684}
-            className="absolute top-0 left-0 w-full h-full object-cover hidden md:block"
-            priority
-          />
         </BaseContainer>
+        <Image
+          src="/static/images/marketplace/hero-banner.jpg"
+          alt=""
+          width={3024}
+          height={1150}
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          priority
+        />
       </div>
       <BaseContainer size="lg">
         <div className="w-full h-full flex flex-row bg-slate-50 dark:bg-slate-900 overflow-hidden pt-10 md:pt-14">
