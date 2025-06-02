@@ -1,6 +1,5 @@
 "use server"
 
-import { subDays, addHours } from "date-fns"
 import { GetExecutionStatusResponse } from "@defuse-protocol/one-click-sdk-typescript"
 
 import { logger } from "@/logger"
@@ -25,15 +24,6 @@ export const swapGasStatusCheck = async ({
     status: ["INITIATED", "PENDING"],
     startDate: GAS_SWAP_TRANSACTION_TIME_BOUNDARY,
     endDate: new Date().toISOString(),
-  })
-
-  const failedStartDate = subDays(new Date(), 1)
-  const failedGasSwapsFromPreviousDay = await getGasSwapTransactions({
-    variant,
-    silo_id: silo.id,
-    status: ["FAILED"],
-    startDate: failedStartDate.toISOString(),
-    endDate: addHours(failedStartDate, 1).toISOString(),
   })
 
   if (gasSwaps.length > 1) {
