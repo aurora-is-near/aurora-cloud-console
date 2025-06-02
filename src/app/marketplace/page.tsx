@@ -4,6 +4,8 @@ import { Paragraph } from "@/uikit/Typography/Paragraph"
 import { MarketplaceCards } from "@/app/marketplace/MarketPlaceCards"
 import { createGraphqlClient } from "@/cms/client"
 import {
+  MarketplaceAppsDocument,
+  MarketplaceAppsQuery,
   MarketplaceCollectionsDocument,
   MarketplaceCollectionsQuery,
 } from "@/cms/generated/graphql"
@@ -14,10 +16,13 @@ import { MarketplaceRequestAppSection } from "./MarketplaceRequestAppSection"
 const Page = async () => {
   const graphqlClient = createGraphqlClient()
 
-  const { allMarketplaceCollections } =
-    await graphqlClient.request<MarketplaceCollectionsQuery>(
-      MarketplaceCollectionsDocument,
-    )
+  const [{ allMarketplaceCollections }, { allMarketplaceApps }] =
+    await Promise.all([
+      graphqlClient.request<MarketplaceCollectionsQuery>(
+        MarketplaceCollectionsDocument,
+      ),
+      graphqlClient.request<MarketplaceAppsQuery>(MarketplaceAppsDocument),
+    ])
 
   const featuredCollections = allMarketplaceCollections
     .filter((collection) => collection.featured)
@@ -67,12 +72,7 @@ const Page = async () => {
                 seeAllLink={`/marketplace/collections/${collection.slug}`}
               />
             ))}
-            <MarketplaceCards
-              title="All apps"
-              apps={allMarketplaceCollections.flatMap(
-                (collection) => collection.apps,
-              )}
-            />
+            <MarketplaceCards title="All apps" apps={allMarketplaceApps} />
           </div>
         </div>
         <MarketplaceRequestAppSection className="lg:hidden bg-slate-100 dark:bg-slate-800 rounded-[10px] p-6 mt-12" />
