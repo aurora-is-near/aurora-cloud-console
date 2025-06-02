@@ -25,9 +25,11 @@ const Page = async () => {
     ])
 
   const featuredCollections = allMarketplaceCollections
-    .filter((collection) => collection.featured)
-    .slice(0, 2)
-    .sort((a) => (a.builtByAurora ? -1 : 1))
+    .filter(
+      (collection) =>
+        collection.homepageDisplay && collection.homepageDisplay !== "none",
+    )
+    .sort((a) => (a.homepageDisplay === "carousel" ? -1 : 1))
 
   return (
     <>

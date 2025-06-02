@@ -2334,6 +2334,7 @@ export type MarketplaceAppModelFilter = {
   _updatedAt?: InputMaybe<UpdatedAtFilter>;
   categories?: InputMaybe<LinksFilter>;
   description?: InputMaybe<TextFilter>;
+  heroImage?: InputMaybe<FileFilter>;
   id?: InputMaybe<ItemIdFilter>;
   logo?: InputMaybe<FileFilter>;
   pricing?: InputMaybe<StringFilter>;
@@ -2388,6 +2389,7 @@ export type MarketplaceAppRecord = RecordInterface & {
   categories: Array<MarketplaceAppCategoryRecord>;
   content: Array<MarketplaceAppContentRecord>;
   description?: Maybe<Scalars['String']['output']>;
+  heroImage?: Maybe<FileField>;
   id: Scalars['ItemId']['output'];
   links: Array<LinkRecord>;
   logo?: Maybe<FileField>;
@@ -2447,7 +2449,7 @@ export type MarketplaceCollectionModelFilter = {
   apps?: InputMaybe<LinksFilter>;
   builtByAurora?: InputMaybe<BooleanFilter>;
   description?: InputMaybe<TextFilter>;
-  featured?: InputMaybe<BooleanFilter>;
+  homepageDisplay?: InputMaybe<StringFilter>;
   id?: InputMaybe<ItemIdFilter>;
   slug?: InputMaybe<SlugFilter>;
   title?: InputMaybe<StringFilter>;
@@ -2472,8 +2474,8 @@ export enum MarketplaceCollectionModelOrderBy {
   UpdatedAtDesc = '_updatedAt_DESC',
   BuiltByAuroraAsc = 'builtByAurora_ASC',
   BuiltByAuroraDesc = 'builtByAurora_DESC',
-  FeaturedAsc = 'featured_ASC',
-  FeaturedDesc = 'featured_DESC',
+  HomepageDisplayAsc = 'homepageDisplay_ASC',
+  HomepageDisplayDesc = 'homepageDisplay_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
   TitleAsc = 'title_ASC',
@@ -2499,7 +2501,7 @@ export type MarketplaceCollectionRecord = RecordInterface & {
   apps: Array<MarketplaceAppRecord>;
   builtByAurora: Scalars['BooleanType']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  featured: Scalars['BooleanType']['output'];
+  homepageDisplay?: Maybe<Scalars['String']['output']>;
   id: Scalars['ItemId']['output'];
   slug: Scalars['String']['output'];
   title: Scalars['String']['output'];
@@ -3604,7 +3606,7 @@ export type MarketplaceCollectionQuery = { __typename?: 'Query', marketplaceColl
 export type MarketplaceCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MarketplaceCollectionsQuery = { __typename?: 'Query', allMarketplaceCollections: Array<{ __typename?: 'MarketplaceCollectionRecord', id: any, title: string, slug: string, featured: any, builtByAurora: any, apps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title: string, slug: string, description?: string, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug: string }>, _allReferencingMarketplaceCollections: Array<{ __typename?: 'MarketplaceCollectionRecord', id: any, title: string, slug: string, builtByAurora: any }> }> }> };
+export type MarketplaceCollectionsQuery = { __typename?: 'Query', allMarketplaceCollections: Array<{ __typename?: 'MarketplaceCollectionRecord', id: any, title: string, slug: string, homepageDisplay?: string, builtByAurora: any, apps: Array<{ __typename?: 'MarketplaceAppRecord', id: any, title: string, slug: string, description?: string, logo?: { __typename?: 'FileField', id: any, url: string, width?: any, alt?: string, height?: any }, categories: Array<{ __typename?: 'MarketplaceAppCategoryRecord', id: any, title: string, slug: string }>, _allReferencingMarketplaceCollections: Array<{ __typename?: 'MarketplaceCollectionRecord', id: any, title: string, slug: string, builtByAurora: any }> }> }> };
 
 export const ImageAttributesFragmentDoc = `
     fragment imageAttributes on FileField {
@@ -3839,7 +3841,7 @@ export const MarketplaceCollectionsDocument = `
     id
     title
     slug
-    featured
+    homepageDisplay
     builtByAurora
     apps {
       ...marketplaceAppAttributes

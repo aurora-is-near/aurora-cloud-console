@@ -7,7 +7,7 @@ query MarketplaceCollections {
     id
     title
     slug
-    featured
+    homepageDisplay
     builtByAurora
     apps {
       ...marketplaceAppAttributes
