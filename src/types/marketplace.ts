@@ -22,6 +22,11 @@ export type MarketplaceApp = {
       alt?: string
     }
   }[]
+  heroImage?: {
+    id: string
+    url: string
+    alt?: string
+  }
   links?: {
     id: string
     text: string
@@ -43,5 +48,6 @@ export type MarketplaceAppCard = Pick<
   | "slug"
   | "logo"
   | "categories"
+  | "heroImage"
   | "_allReferencingMarketplaceCollections"
 >

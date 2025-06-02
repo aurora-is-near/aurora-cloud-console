@@ -11,6 +11,9 @@ fragment marketplaceAppAttributes on MarketplaceAppRecord {
     title
     slug
   }
+  heroImage {
+    ...imageAttributes
+  }
   _allReferencingMarketplaceCollections {
     id
     title

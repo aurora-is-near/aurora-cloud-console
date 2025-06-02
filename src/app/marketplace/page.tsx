@@ -9,6 +9,7 @@ import {
   MarketplaceCollectionsDocument,
   MarketplaceCollectionsQuery,
 } from "@/cms/generated/graphql"
+import { MarketplaceAppCarousel } from "@/app/marketplace/MarketplaceAppCarousel"
 import { MarketplaceMainSidebarMenu } from "./MarketplaceMainSidebarMenu"
 import { MarketplaceGetStartedBanner } from "./MarketplaceGetStartedBanner"
 import { MarketplaceRequestAppSection } from "./MarketplaceRequestAppSection"
@@ -64,16 +65,24 @@ const Page = async () => {
         <div className="w-full h-full flex flex-row bg-slate-50 dark:bg-slate-900 overflow-hidden pt-10 md:pt-14">
           <MarketplaceMainSidebarMenu />
           <div className="w-full lg:pl-16 space-y-12 md:space-y-14">
-            {featuredCollections.map((collection) => (
-              <MarketplaceCards
-                numberOfAppsToShow={3}
-                key={collection.id}
-                showSingleRow
-                title={collection.title}
-                apps={collection.apps}
-                seeAllLink={`/marketplace/collections/${collection.slug}`}
-              />
-            ))}
+            {featuredCollections.map((collection) =>
+              collection.homepageDisplay === "carousel" ? (
+                <MarketplaceAppCarousel
+                  title={collection.title}
+                  key={collection.id}
+                  apps={collection.apps}
+                />
+              ) : (
+                <MarketplaceCards
+                  numberOfAppsToShow={3}
+                  key={collection.id}
+                  showSingleRow
+                  title={collection.title}
+                  apps={collection.apps}
+                  seeAllLink={`/marketplace/collections/${collection.slug}`}
+                />
+              ),
+            )}
             <MarketplaceCards title="All apps" apps={allMarketplaceApps} />
           </div>
         </div>
