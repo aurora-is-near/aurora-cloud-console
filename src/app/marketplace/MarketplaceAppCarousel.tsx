@@ -4,6 +4,7 @@ import Image from "next/image"
 import Slider from "react-slick"
 import { useEffect, useRef, useState } from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid"
+import clsx from "clsx"
 import { LinkButton } from "@/components/LinkButton"
 import { MarketplaceAppCard } from "@/types/marketplace"
 import { Button } from "@/components/Button"
@@ -104,10 +105,20 @@ export const MarketplaceAppCarousel = ({
                           <div className="bg-slate-200 dark:bg-slate-800 rounded-2xl h-full w-full" />
                         )}
                       </div>
-                      <h3 className="text-slate-900 text-2xl font-bold tracking-[-1px] mt-4">
+                      <h3
+                        className={clsx(
+                          "text-slate-900 text-2xl font-bold tracking-[-1px] mt-4",
+                          !app.heroImage && "dark:text-slate-50",
+                        )}
+                      >
                         {app.title}
                       </h3>
-                      <p className="text-slate-500 mt-2 max-w-sm mx-auto md:mx-0 line-clamp-2">
+                      <p
+                        className={clsx(
+                          "text-slate-500 mt-2 max-w-sm mx-auto md:mx-0 line-clamp-2",
+                          !app.heroImage && "dark:text-slate-300",
+                        )}
+                      >
                         {app.description}
                       </p>
                       <LinkButton
