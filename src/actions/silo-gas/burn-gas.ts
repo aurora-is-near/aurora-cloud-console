@@ -1,6 +1,6 @@
 "use server"
 
-import timestring from "timestring"
+import { addMinutes } from "date-fns"
 import { formatUnits, parseUnits } from "ethers"
 
 import {
@@ -61,7 +61,7 @@ export const burnGas = async ({ silo }: { silo: Silo }) => {
   }
 
   const dailyCollectedGasResult = await queryGasCollected(siloBlockscoutDB, {
-    startDate: new Date(timestring(15, "mins")).toISOString(),
+    startDate: addMinutes(new Date(), 15).toISOString(),
     endDate: new Date().toISOString(),
   })
 
@@ -103,7 +103,7 @@ export const burnGas = async ({ silo }: { silo: Silo }) => {
     refundTo: collectedGasAccount,
     recipient: NEAR_BURN_ACCOUNT,
     amount: gasToBurn,
-    deadline: new Date(timestring(15, "mins")).toISOString(), // 15 minutes
+    deadline: addMinutes(new Date(), 15).toISOString(),
   })
 
   if (!swapQuote?.depositAddress) {

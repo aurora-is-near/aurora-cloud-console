@@ -1,5 +1,5 @@
-import timestring from "timestring"
+import { addHours } from "date-fns"
 
 export const GAS_SWAP_TRANSACTION_TIME_BOUNDARY = new Date(
-  timestring(1, "hour"),
+  addHours(new Date(), 1),
 ).toISOString()
