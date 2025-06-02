@@ -31,6 +31,8 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   is_make_txs_public: false,
   is_deploy_contracts_public: false,
   inspected_at: null,
+  intents_integration_status: "INITIAL",
+  trisolaris_integration_status: "INITIAL",
   gas_burn_percent: 0,
   ...data,
 })

@@ -1,7 +1,6 @@
 import debug from "debug"
 
 type DebuggerName =
-  | "proxy-db"
   | "grafana"
   | "aurora-oracle"
   | "forwarder"

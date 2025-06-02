@@ -15,10 +15,7 @@ import { DashboardPage } from "@/components/DashboardPage"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 
-type Inputs = Omit<
-  Team,
-  "id" | "created_at" | "team_key" | "transaction_database" | "updated_at"
->
+type Inputs = Omit<Team, "id" | "created_at" | "team_key" | "updated_at">
 
 const Page = () => {
   const { team } = useRequiredContext(TeamContext)

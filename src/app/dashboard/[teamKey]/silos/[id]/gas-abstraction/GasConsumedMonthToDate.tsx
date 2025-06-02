@@ -1,29 +1,29 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-
-import { useStripePaymentLink } from "@/hooks/useStripePaymentLink"
-import { LinkButton } from "@/components/LinkButton"
 import { notReachable } from "@/utils/notReachable"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getMonthsList } from "@/utils/dates/get-months-list"
 import { getLastDayOfMonth } from "@/utils/dates/get-last-day-of-month"
 import { Card, InfoList, Skeleton, Typography } from "@/uikit"
-import type { Silo, Team } from "@/types/types"
+import type { Silo } from "@/types/types"
+import { useModals } from "@/hooks/useModals"
+import { Modals } from "@/utils/modals"
+import { Button } from "@/components/Button"
+import {
+  getEstimatedTransactionsLeft,
+  useRelayerBalance,
+} from "@/hooks/useRelayerBalance"
 
 type Props = {
-  team: Team
   silo: Silo
 }
 
-const Items = ({ silo, team }: Props) => {
-  const topupLink = useStripePaymentLink(team, "top_up")
+const Items = ({ silo }: Props) => {
   const monthsList = getMonthsList(silo.created_at)
   const startDate = monthsList[monthsList.length - 1].value
-  const infoListItemProps = {
-    label: "Total transactions used",
-  }
+  const { openModal } = useModals()
+  const { data: balanceData, isLoading } = useRelayerBalance(silo)
 
   const collectedGasQuery = useQuery(
     getQueryFnAndKey("getSiloCollectedGas", {
@@ -38,57 +38,73 @@ const Items = ({ silo, team }: Props) => {
     case "error":
       return (
         <InfoList className="md:max-w-[50%]">
-          <InfoList.Item label="Available transactions">
+          <InfoList.Item
+            label="Available balance"
+            labelTooltip="Your current NEAR balance used to cover transaction fees on your chain."
+          >
             <Skeleton />
           </InfoList.Item>
-          <InfoList.Item {...infoListItemProps}>
+          <InfoList.Item
+            label="Estimated transactions"
+            labelTooltip="An approximate number of transactions your current NEAR balance can cover, based on average gas costs. Actual usage may vary depending on transaction complexity."
+          >
+            <Skeleton />
+          </InfoList.Item>
+          <InfoList.Item label="Total transactions used">
             <Skeleton />
           </InfoList.Item>
         </InfoList>
       )
 
     case "success": {
-      const transactionLeft =
-        team.prepaid_transactions - collectedGasQuery.data.transactionsCount
+      const txLeft = getEstimatedTransactionsLeft(balanceData?.near)
 
       return (
         <InfoList className="md:max-w-[50%]">
-          <InfoList.Item label="Available transactions">
-            <div className="flex items-center justify-end gap-4">
+          <InfoList.Item
+            label="Available balance"
+            labelTooltip="Your current NEAR balance used to cover transaction fees on your chain."
+          >
+            <div className="flex items-center justify-between gap-4 w-full">
+              {isLoading || balanceData?.near === undefined ? (
+                <Skeleton className="w-10 h-4" />
+              ) : (
+                <Typography
+                  size={4}
+                  variant="paragraph"
+                  className="text-slate-900"
+                >
+                  {Number(balanceData.near).toFixed(2)} NEAR
+                </Typography>
+              )}
+              <div className="flex flex-col gap-2 item-end">
+                <Button
+                  className="flex-shrink-0"
+                  onClick={() => openModal(Modals.TopUpOptions)}
+                  variant="border"
+                >
+                  Top up
+                </Button>
+              </div>
+            </div>
+          </InfoList.Item>
+          <InfoList.Item
+            label="Estimated transactions"
+            labelTooltip="An approximate number of transactions your current NEAR balance can cover, based on average gas costs. Actual usage may vary depending on transaction complexity."
+          >
+            <div className="flex items-center justify-end">
               <Typography
                 size={4}
                 variant="paragraph"
                 className="text-slate-900"
               >
                 {new Intl.NumberFormat(undefined).format(
-                  transactionLeft < 0 ? 0 : transactionLeft,
+                  txLeft < 0 ? 0 : txLeft,
                 )}
               </Typography>
-              {topupLink ? (
-                <LinkButton
-                  size="sm"
-                  variant="border"
-                  href={topupLink}
-                  isExternal
-                >
-                  Top up
-                  <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                </LinkButton>
-              ) : (
-                <LinkButton
-                  size="sm"
-                  variant="border"
-                  href=""
-                  disabled
-                  isExternal
-                >
-                  Top up
-                  <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                </LinkButton>
-              )}
             </div>
           </InfoList.Item>
-          <InfoList.Item {...infoListItemProps}>
+          <InfoList.Item label="Total transactions used">
             <div className="flex items-center justify-end">
               <Typography
                 size={4}
@@ -109,7 +125,7 @@ const Items = ({ silo, team }: Props) => {
   }
 }
 
-export const GasConsumedMonthToDate = ({ silo, team }: Props) => {
+export const GasConsumedMonthToDate = ({ silo }: Props) => {
   return (
     <Card className="flex flex-col gap-6 md:gap-12 md:flex-row">
       <aside className="w-full">
@@ -120,7 +136,7 @@ export const GasConsumedMonthToDate = ({ silo, team }: Props) => {
           Overview of your transactions usage and balance up to date.
         </Typography>
       </aside>
-      <Items silo={silo} team={team} />
+      <Items silo={silo} />
     </Card>
   )
 }
