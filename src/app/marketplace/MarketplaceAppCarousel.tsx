@@ -137,7 +137,7 @@ export const MarketplaceAppCarousel = ({
                       alt=""
                       width={970}
                       height={312}
-                      className="w-full h-full object-cover z-0 absolute top-0 right-0"
+                      className="w-full h-full object-cover object-left md:object-center z-0 absolute top-0 right-0"
                     />
                   )}
                 </div>
