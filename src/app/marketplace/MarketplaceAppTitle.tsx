@@ -17,11 +17,9 @@ export const MarketplaceAppTitle = ({
   const Icon = icon ? ICONS[icon] : null
 
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center text-slate-900 dark:text-slate-50">
       {Icon && <Icon className="w-6 h-6 mr-2.5" />}
-      <h2 className="text-slate-900 dark:text-slate-50 text-2xl font-bold tracking-[-1px]">
-        {title}
-      </h2>
+      <h2 className="text-2xl font-bold tracking-[-1px]">{title}</h2>
     </div>
   )
 }
