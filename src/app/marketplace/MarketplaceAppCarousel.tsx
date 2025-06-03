@@ -8,14 +8,17 @@ import clsx from "clsx"
 import { LinkButton } from "@/components/LinkButton"
 import { MarketplaceAppCard } from "@/types/marketplace"
 import { Button } from "@/components/Button"
+import { MarketplaceAppTitle } from "@/app/marketplace/MarketplaceAppTitle"
 
 type MarketplaceAppCarouselProps = {
   title: string
+  icon?: string
   apps: MarketplaceAppCard[]
 }
 
 export const MarketplaceAppCarousel = ({
   title,
+  icon,
   apps,
 }: MarketplaceAppCarouselProps) => {
   const carouselRef = useRef<Slider>(null)
@@ -43,9 +46,7 @@ export const MarketplaceAppCarousel = ({
   return (
     <div className="w-full" ref={containerRef}>
       <div className="flex flex-row items-center justify-between mb-4">
-        <h2 className="text-slate-900 dark:text-slate-50 text-2xl font-bold tracking-[-1px]">
-          {title}
-        </h2>
+        <MarketplaceAppTitle title={title} icon={icon} />
         <div className="flex flex-row items-center gap-2.5">
           <Button
             variant="border"

@@ -69,6 +69,7 @@ const Page = async () => {
               collection.homepageDisplay === "carousel" ? (
                 <MarketplaceAppCarousel
                   title={collection.title}
+                  icon={collection.icon}
                   key={collection.id}
                   apps={collection.apps}
                 />
@@ -78,6 +79,7 @@ const Page = async () => {
                   key={collection.id}
                   showSingleRow
                   title={collection.title}
+                  icon={collection.icon}
                   apps={collection.apps}
                   seeAllLink={`/marketplace/collections/${collection.slug}`}
                 />

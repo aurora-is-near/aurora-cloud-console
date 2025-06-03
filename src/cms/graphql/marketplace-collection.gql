@@ -5,6 +5,7 @@ query MarketplaceCollection($slug: String!) {
     id
     title
     description
+    icon
     apps {
       ...marketplaceAppAttributes
     }

@@ -8,13 +8,15 @@ import { MarketPlacePills } from "@/app/marketplace/MarketPlacePills"
 import Card from "@/components/Card"
 import { getAuroraCollection } from "@/utils/marketplace/get-aurora-collection"
 import { MarketplaceAppCard } from "@/types/marketplace"
+import { MarketplaceAppTitle } from "@/app/marketplace/MarketplaceAppTitle"
 
 type MarketplaceCardsProps = {
   className?: string
   showNumberOfApps?: boolean
   numberOfAppsToShow?: number
   showSingleRow?: boolean
-  title?: string
+  title: string
+  icon?: string
   seeAllLink?: string
   apps: MarketplaceAppCard[]
 }
@@ -25,17 +27,14 @@ export const MarketplaceCards = ({
   numberOfAppsToShow,
   showSingleRow,
   title,
+  icon,
   seeAllLink,
   apps,
 }: MarketplaceCardsProps) => {
   return (
     <div className={clsx("flex flex-col", className)}>
       <div className="mb-4 flex flex-row items-center justify-between">
-        {!!title && (
-          <h2 className="text-slate-900 dark:text-slate-50 text-2xl font-bold tracking-[-1px]">
-            {title}
-          </h2>
-        )}
+        <MarketplaceAppTitle title={title} icon={icon} />
         {showNumberOfApps && (
           <p className="font-bold text-lg tracking-tight text-slate-900 dark:text-slate-50">
             {apps.length} app{apps.length === 1 ? "" : "s"}
