@@ -14,16 +14,16 @@ export const MarketplaceGetStartedBanner = ({
   return (
     <div
       className={clsx(
-        "w-full relative flex flex-row items-center rounded-3xl overflow-hidden max-h-[550px] sm:max-h-[400px]",
+        "w-full relative flex flex-row items-center rounded-3xl overflow-hidden max-h-[550px] sm:max-h-[400px] aspect-square md:aspect-auto",
         className,
       )}
     >
       <div className="md:max-w-md lg:max-w-lg z-10 absolute top-0 left-0 right-0 h-full w-full">
-        <div className="w-full p-[10%] sm:p-12 md:p-0 md:pl-16 ld:pl-24 flex flex-col md:justify-center items-center md:items-start h-full text-center md:text-left">
-          <Heading size={2} className="text-slate-50 dark:text-slate-900">
+        <div className="w-full p-[10%] sm:p-12 md:p-0 md:pl-16 ld:pl-24 flex flex-col justify-center items-center md:items-start h-full text-center md:text-left">
+          <Heading size={2} className="text-slate-50">
             Deploy instantly with Aurora Cloud
           </Heading>
-          <p className="text-slate-300 dark:text-slate-600 mt-2 xl:mt-4 text-sm xl:text-base w-[90%] md:w-full">
+          <p className="text-slate-300 mt-2 xl:mt-4 text-sm xl:text-base w-[90%] md:w-full">
             Start with Aurora Cloud now and launch your virtual chain instantly,
             with 1,000 free transactions ready to go.
           </p>
@@ -41,14 +41,7 @@ export const MarketplaceGetStartedBanner = ({
         alt=""
         width={2488}
         height={676}
-        className="w-full h-auto object-cover hidden md:block md:aspect-[2] lg:aspect-auto"
-      />
-      <Image
-        src="/static/images/marketplace/get-started-banner-mobile.png"
-        alt=""
-        width={764}
-        height={1156}
-        className="w-full h-auto object-cover md:hidden"
+        className="w-full h-full md:h-auto object-cover object-left md:object-center md:aspect-[2] lg:aspect-auto"
       />
     </div>
   )
