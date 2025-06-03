@@ -45,7 +45,7 @@ export const MainMenu = ({
   const homeRoute = getHomeRoute(authUser, userTeams, isMarketplace)
 
   return (
-    <div className="flex flex-row justify-between w-full bg-slate-900 px-4 md:px-6 py-4 dark:border-b dark:border-slate-800">
+    <div className="flex flex-row justify-between w-full bg-slate-900 px-4 md:px-6 py-4">
       <div className="flex flex-row items-center">
         <AuroraLogo href={homeRoute} />
         {!!isMarketplace && (
