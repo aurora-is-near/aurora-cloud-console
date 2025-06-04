@@ -5,6 +5,7 @@ import { Input, InputProps } from "@/components/Input"
 type HorizontalInputProps<Inputs extends Record<string, unknown>> =
   InputProps<Inputs> & {
     label?: string
+    layout?: "horizontal" | "vertical"
     errors?: FieldErrors<Inputs>
   }
 
@@ -16,6 +17,7 @@ export const HorizontalInput = <Inputs extends Record<string, unknown>>({
   register,
   registerOptions,
   errors,
+  layout = "horizontal",
   ...restProps
 }: HorizontalInputProps<Inputs>) => (
   <HorizontalInputWrapper
@@ -23,6 +25,7 @@ export const HorizontalInput = <Inputs extends Record<string, unknown>>({
     inputName={name}
     label={label}
     errors={errors}
+    layout={layout}
     className={className}
   >
     <Input

@@ -21,6 +21,8 @@ import { queryKeys } from "@/actions/query-keys"
 import { getNearAccount } from "@/utils/near-api/account"
 import type { Silo, Team } from "@/types/types"
 
+import { NearToken } from "../../../../../../../public/static/images/icons"
+
 type FormData = {
   address: string
 }
@@ -97,11 +99,7 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
   }, [addressFieldValue, clearErrors])
 
   return (
-    <SlideOver
-      open={open}
-      close={closeModal}
-      title="Enter the NEAR address to withdraw gas to"
-    >
+    <SlideOver open={open} close={closeModal} title="Gas collection address">
       <form
         id={formId}
         onSubmit={handleSubmit(onSave)}
@@ -110,10 +108,20 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
         <HorizontalInput
           id="gasPrice"
           name="address"
+          layout="vertical"
+          label="Enter the NEAR address to which gas will be withdrawn:"
           placeholder="Near account ID to send collected gas to"
           autoComplete="off"
           errors={errors}
           register={register}
+          icon={
+            <NearToken
+              style={{
+                transform: "scale(0.6)",
+                transformOrigin: "center",
+              }}
+            />
+          }
         />
         <Typography variant="paragraph" size={4} className="text-gray-500">
           <strong>⚠️ Only NEAR addresses are supported.</strong> Using any other

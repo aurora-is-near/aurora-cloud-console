@@ -192,7 +192,7 @@ describe("CollectGas", () => {
 
     fireEvent.click(editAddressBtn)
 
-    await screen.findByText(/Enter the NEAR address to withdraw gas to/)
+    await screen.findByText(/Gas collection address/)
     const addressInput = await screen.findByPlaceholderText(
       /Near account ID to send collected gas to/,
     )
@@ -232,7 +232,7 @@ describe("CollectGas", () => {
 
     fireEvent.click(editAddressBtn)
 
-    await screen.findByText(/Enter the NEAR address to withdraw gas to/)
+    await screen.findByText(/Gas collection address/)
     const addressInput = await screen.findByPlaceholderText(
       /Near account ID to send collected gas to/,
     )
