@@ -122,10 +122,15 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
             />
           }
         />
-        <Typography variant="paragraph" size={4} className="text-gray-500">
-          <strong>⚠️ Only NEAR addresses are supported.</strong> Using any other
-          type of address may result in permanent loss of funds.
-        </Typography>
+        <div className="bg-orange-50 p-3 rounded-md text-xs">
+          <Typography variant="label" size={4}>
+            Only NEAR addresses are supported.
+          </Typography>
+          <Typography variant="paragraph" size={5} className="text-gray-500">
+            Using any other type of address may result in permanent loss of
+            funds.
+          </Typography>
+        </div>
       </form>
       <SlideOver.Actions>
         <div className="flex items-center justify-between w-full">
