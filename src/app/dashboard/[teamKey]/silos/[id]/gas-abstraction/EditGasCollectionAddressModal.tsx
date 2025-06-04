@@ -14,7 +14,7 @@ import { Typography } from "@/uikit"
 import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
 import { Button } from "@/components/Button"
-import { HorizontalInput } from "@/components/HorizontalInput"
+import { InputField } from "@/components/InputField"
 import { updateSilo } from "@/actions/silos/update-silo"
 import SlideOver from "@/components/SlideOver"
 import { queryKeys } from "@/actions/query-keys"
@@ -105,10 +105,9 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
         onSubmit={handleSubmit(onSave)}
         className="flex flex-col gap-4"
       >
-        <HorizontalInput
+        <InputField
           id="gasPrice"
           name="address"
-          layout="vertical"
           label="Enter the NEAR address to which gas will be withdrawn:"
           placeholder="Near account ID to send collected gas to"
           autoComplete="off"

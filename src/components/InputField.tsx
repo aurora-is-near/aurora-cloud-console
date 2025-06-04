@@ -1,14 +1,13 @@
 import { FieldErrors } from "react-hook-form"
-import { HorizontalInputWrapper } from "@/components/HorizontalInputWrapper"
+import { InputWrapper } from "@/components/InputWrapper"
 import { Input, InputProps } from "@/components/Input"
 
-type HorizontalInputProps<Inputs extends Record<string, unknown>> =
-  InputProps<Inputs> & {
-    label?: string
-    errors?: FieldErrors<Inputs>
-  }
+type Props<Inputs extends Record<string, unknown>> = InputProps<Inputs> & {
+  label?: string
+  errors?: FieldErrors<Inputs>
+}
 
-export const HorizontalInput = <Inputs extends Record<string, unknown>>({
+export const InputField = <Inputs extends Record<string, unknown>>({
   id,
   name,
   className,
@@ -17,8 +16,8 @@ export const HorizontalInput = <Inputs extends Record<string, unknown>>({
   registerOptions,
   errors,
   ...restProps
-}: HorizontalInputProps<Inputs>) => (
-  <HorizontalInputWrapper
+}: Props<Inputs>) => (
+  <InputWrapper
     id={id}
     inputName={name}
     label={label}
@@ -32,5 +31,5 @@ export const HorizontalInput = <Inputs extends Record<string, unknown>>({
       registerOptions={registerOptions}
       {...restProps}
     />
-  </HorizontalInputWrapper>
+  </InputWrapper>
 )
