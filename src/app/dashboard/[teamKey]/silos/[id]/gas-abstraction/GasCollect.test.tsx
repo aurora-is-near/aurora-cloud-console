@@ -92,7 +92,7 @@ describe("CollectGas", () => {
     })
 
     // check that address is not set
-    const generalSettings = await screen.getByTestId("gas-abstraction-settings")
+    const generalSettings = screen.getByTestId("gas-abstraction-settings")
     const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
@@ -185,7 +185,7 @@ describe("CollectGas", () => {
       }),
     })
 
-    const generalSettings = await screen.getByTestId("gas-abstraction-settings")
+    const generalSettings = screen.getByTestId("gas-abstraction-settings")
     const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
@@ -225,7 +225,7 @@ describe("CollectGas", () => {
       }),
     })
 
-    const generalSettings = await screen.getByTestId("gas-abstraction-settings")
+    const generalSettings = screen.getByTestId("gas-abstraction-settings")
     const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
