@@ -83,7 +83,9 @@ describe("GasBurn", () => {
       await within(gasBurnItem).findByText(/5% of collected gas/)
 
     expect(gasBurnValue).toBeInTheDocument()
+
     const editBtn = within(gasBurnItem).queryByLabelText("Edit")
+
     expect(editBtn).toBeInTheDocument()
   })
 
@@ -99,9 +101,11 @@ describe("GasBurn", () => {
     const gasBurnItem = await within(card).findByLabelText(/Gas burn/)
 
     const editBtn = await within(gasBurnItem).findByLabelText("Edit")
+
     fireEvent.click(editBtn)
 
     const amountInput = await screen.findByLabelText(/Set gas burn rate/)
+
     expect(amountInput).toBeInTheDocument()
 
     fireEvent.change(amountInput, {
@@ -113,6 +117,7 @@ describe("GasBurn", () => {
     })
 
     fireEvent.click(updateBtn)
+
     expect(updateSilo).not.toHaveBeenCalled()
   })
 
@@ -128,6 +133,7 @@ describe("GasBurn", () => {
     const gasBurnItem = await within(card).findByLabelText(/Gas burn/)
 
     const editBtn = await within(gasBurnItem).findByLabelText("Edit")
+
     fireEvent.click(editBtn)
 
     const amountInput = await screen.findByLabelText(/Set gas burn rate/)
