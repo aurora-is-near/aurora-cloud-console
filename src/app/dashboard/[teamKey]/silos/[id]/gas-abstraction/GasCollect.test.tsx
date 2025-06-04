@@ -92,7 +92,8 @@ describe("CollectGas", () => {
     })
 
     // check that address is not set
-    const gasCollectItem = await screen.findByLabelText(
+    const generalSettings = screen.getByTestId("gas-abstraction-settings")
+    const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
 
@@ -184,7 +185,8 @@ describe("CollectGas", () => {
       }),
     })
 
-    const gasCollectItem = await screen.findByLabelText(
+    const generalSettings = screen.getByTestId("gas-abstraction-settings")
+    const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
 
@@ -192,7 +194,6 @@ describe("CollectGas", () => {
 
     fireEvent.click(editAddressBtn)
 
-    await screen.findByText(/Enter the NEAR address to withdraw gas to/)
     const addressInput = await screen.findByPlaceholderText(
       /Near account ID to send collected gas to/,
     )
@@ -224,7 +225,8 @@ describe("CollectGas", () => {
       }),
     })
 
-    const gasCollectItem = await screen.findByLabelText(
+    const generalSettings = screen.getByTestId("gas-abstraction-settings")
+    const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
 
@@ -232,7 +234,6 @@ describe("CollectGas", () => {
 
     fireEvent.click(editAddressBtn)
 
-    await screen.findByText(/Enter the NEAR address to withdraw gas to/)
     const addressInput = await screen.findByPlaceholderText(
       /Near account ID to send collected gas to/,
     )

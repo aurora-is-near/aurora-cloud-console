@@ -14,12 +14,14 @@ import { Typography } from "@/uikit"
 import { Modals } from "@/utils/modals"
 import { useModals } from "@/hooks/useModals"
 import { Button } from "@/components/Button"
-import { HorizontalInput } from "@/components/HorizontalInput"
+import { InputField } from "@/components/InputField"
 import { updateSilo } from "@/actions/silos/update-silo"
 import SlideOver from "@/components/SlideOver"
 import { queryKeys } from "@/actions/query-keys"
 import { getNearAccount } from "@/utils/near-api/account"
 import type { Silo, Team } from "@/types/types"
+
+import { NearToken } from "../../../../../../../public/static/images/icons"
 
 type FormData = {
   address: string
@@ -97,23 +99,28 @@ export const EditGasCollectionAddressModal = ({ team, silo }: Props) => {
   }, [addressFieldValue, clearErrors])
 
   return (
-    <SlideOver
-      open={open}
-      close={closeModal}
-      title="Enter the NEAR address to withdraw gas to"
-    >
+    <SlideOver open={open} close={closeModal} title="Gas collection address">
       <form
         id={formId}
         onSubmit={handleSubmit(onSave)}
         className="flex flex-col gap-4"
       >
-        <HorizontalInput
+        <InputField
           id="gasPrice"
           name="address"
+          label="Enter the NEAR address to which gas will be withdrawn:"
           placeholder="Near account ID to send collected gas to"
           autoComplete="off"
           errors={errors}
           register={register}
+          icon={
+            <NearToken
+              style={{
+                transform: "scale(0.6)",
+                transformOrigin: "center",
+              }}
+            />
+          }
         />
         <div className="bg-orange-50 p-3 rounded-md text-xs">
           <Typography variant="label" size={4}>

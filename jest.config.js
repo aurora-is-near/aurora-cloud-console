@@ -20,7 +20,8 @@ module.exports = {
   ],
   transform: {
     "^.+\\.(t|j)sx?$": ["@swc/jest"],
-    ".+\\.(png|jpg|svg)$": "jest-transform-stub",
+    ".+\\.(png|jpg)$": "jest-transform-stub",
+    "^.+\\.svg$": "jest-transformer-svg",
   },
   transformIgnorePatterns: [`node_modules/(?!(${nodeModulesToTransform})/)`],
   moduleNameMapper: {
