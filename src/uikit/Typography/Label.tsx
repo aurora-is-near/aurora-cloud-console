@@ -3,7 +3,7 @@ import { CommonProps } from "./types"
 import { clsx } from "../clsx"
 
 export type LabelProps = CommonProps<"span" | "strong" | "label"> & {
-  size: 2 | 3
+  size: 2 | 3 | 4
 }
 
 export const Label = ({
@@ -18,7 +18,11 @@ export const Label = ({
       {...props}
       className={clsx(
         "font-medium",
-        { "text-sm": size === 3, "text-base": size === 2 },
+        {
+          "text-xs": size === 4,
+          "text-sm": size === 3,
+          "text-base": size === 2,
+        },
         className,
       )}
     >
