@@ -18,6 +18,7 @@ import { updateSilo } from "@/actions/silos/update-silo"
 import SlideOver from "@/components/SlideOver"
 import { queryKeys } from "@/actions/query-keys"
 import type { Silo, Team } from "@/types/types"
+import { Typography } from "@/uikit"
 
 type FormData = {
   gasBurn: number
@@ -95,6 +96,15 @@ export const EditGasBurnAmountModal = ({ team, silo }: Props) => {
           autoComplete="off"
           errors={errors}
           register={register}
+          suffix={
+            <Typography
+              variant="paragraph"
+              size={4}
+              className="text-gray-500 whitespace-nowrap"
+            >
+              % of collected gas
+            </Typography>
+          }
         />
       </form>
       <SlideOver.Actions>
