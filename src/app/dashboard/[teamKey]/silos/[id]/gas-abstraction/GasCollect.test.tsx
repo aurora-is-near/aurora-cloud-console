@@ -92,7 +92,14 @@ describe("CollectGas", () => {
     })
 
     // check that address is not set
-    const gasCollectItem = await screen.findByLabelText(
+    const generalSettings = (await screen.findByText("General settings"))
+      .parentElement?.parentElement
+
+    if (!generalSettings) {
+      throw new Error("General settings section not found")
+    }
+
+    const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
 
@@ -184,7 +191,14 @@ describe("CollectGas", () => {
       }),
     })
 
-    const gasCollectItem = await screen.findByLabelText(
+    const generalSettings = (await screen.findByText("General settings"))
+      .parentElement?.parentElement
+
+    if (!generalSettings) {
+      throw new Error("General settings section not found")
+    }
+
+    const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
 
@@ -192,7 +206,6 @@ describe("CollectGas", () => {
 
     fireEvent.click(editAddressBtn)
 
-    await screen.findByText(/Gas collection address/)
     const addressInput = await screen.findByPlaceholderText(
       /Near account ID to send collected gas to/,
     )
@@ -224,7 +237,14 @@ describe("CollectGas", () => {
       }),
     })
 
-    const gasCollectItem = await screen.findByLabelText(
+    const generalSettings = (await screen.findByText("General settings"))
+      .parentElement?.parentElement
+
+    if (!generalSettings) {
+      throw new Error("General settings section not found")
+    }
+
+    const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
 
@@ -232,7 +252,6 @@ describe("CollectGas", () => {
 
     fireEvent.click(editAddressBtn)
 
-    await screen.findByText(/Gas collection address/)
     const addressInput = await screen.findByPlaceholderText(
       /Near account ID to send collected gas to/,
     )
