@@ -22,11 +22,11 @@ export const Input = <Inputs extends Record<string, unknown>>({
   ...restProps
 }: InputProps<Inputs>) => (
   <div className="flex align-center w-full rounded-md shadow-sm ring-1 ring-gray-300 focus-within:ring-2 focus-within:ring-green-600 sm:text-sm sm:leading-6">
-    {Icon && (
+    {Icon ? (
       <div className="flex items-center align-center pointer-events-none">
         {Icon}
       </div>
-    )}
+    ) : null}
     <input
       name={name}
       disabled={disabled}
