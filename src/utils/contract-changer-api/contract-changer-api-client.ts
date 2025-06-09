@@ -190,4 +190,15 @@ export const contractChangerApiClient = {
       },
     )
   },
+
+  getCollectedGasBalance: async ({
+    siloEngineAccountId,
+  }: {
+    siloEngineAccountId: string
+  }) => {
+    return request<{ amount: string }>(
+      `/api/v1/contract/${siloEngineAccountId}/gas/collected`,
+      { method: "GET" },
+    )
+  },
 }

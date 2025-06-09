@@ -3,6 +3,18 @@
     {
       "path": "/api/silos/repair",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/silos/gas-swap-to-relayer",
+      "schedule": "0-45/15 0-1 * * *"
+    },
+    {
+      "path": "/api/silos/gas-burn",
+      "schedule": "5-45/5 0-1 * * *"
+    },
+    {
+      "path": "/api/silos/gas-swap-status",
+      "schedule": "1-45/1 0-1 * * *"
     }
   ]
 }

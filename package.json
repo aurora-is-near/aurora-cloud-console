@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@anatine/zod-openapi": "^2.2.8",
+    "@defuse-protocol/one-click-sdk-typescript": "^0.1.2",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",

@@ -1293,6 +1293,18 @@ export type Database = {
         Args: { user_id_param: number }
         Returns: undefined
       }
+      get_silos_for_gas_swap_relayer: {
+        Args: { boundary: string }
+        Returns: Database["public"]["Tables"]["silos"]["Row"][]
+      }
+      get_silos_for_gas_burn: {
+        Args: { boundary: string }
+        Returns: Database["public"]["Tables"]["silos"]["Row"][]
+      }
+      get_silos_to_get_swap_status: {
+        Args: { boundary: string }
+        Returns: Database["public"]["Tables"]["silos"]["Row"][]
+      }
     }
     Enums: {
       account_type: "contract" | "wallet"
@@ -1346,6 +1358,7 @@ export type Database = {
         | "APPROVED"
         | "REJECTED"
       silo_config_transaction_operation:
+        | "BURN_GAS"
         | "SET_BASE_TOKEN"
         | "ENABLE_MAKE_TXS_WHITELIST"
         | "DISABLE_MAKE_TXS_WHITELIST"
@@ -1364,6 +1377,7 @@ export type Database = {
         | "DEPLOY_TOKEN"
         | "INITIALISE_MAKE_TXS_WHITELIST"
         | "INITIALISE_DEPLOY_CONTRACT_WHITELIST"
+        | "INTENTS_SWAP"
         | "COLLECT_GAS"
         | "INTENTS_SWAP"
         | "BURN_GAS"
@@ -1548,6 +1562,7 @@ export const Constants = {
         "REJECTED",
       ],
       silo_config_transaction_operation: [
+        "BURN_GAS",
         "SET_BASE_TOKEN",
         "ENABLE_MAKE_TXS_WHITELIST",
         "DISABLE_MAKE_TXS_WHITELIST",
@@ -1566,6 +1581,7 @@ export const Constants = {
         "DEPLOY_TOKEN",
         "INITIALISE_MAKE_TXS_WHITELIST",
         "INITIALISE_DEPLOY_CONTRACT_WHITELIST",
+        "INTENTS_SWAP",
         "COLLECT_GAS",
         "INTENTS_SWAP",
         "BURN_GAS",

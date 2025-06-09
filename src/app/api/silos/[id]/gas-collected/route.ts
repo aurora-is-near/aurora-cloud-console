@@ -5,12 +5,13 @@ import {
   parseISO,
 } from "date-fns"
 
+import { logger } from "@/logger"
 import { createApiEndpoint } from "@/utils/api"
 import { getTeamSilo } from "@/actions/team-silos/get-team-silo"
 import { getSiloBlockscoutDatabase } from "@/actions/silo-blockscout-database/get-silo-blockscout-database"
-import { logger } from "@/logger"
-import { queryGasCollected } from "../../../../../utils/blockscout-db/query-gas-collected"
+
 import { abort } from "../../../../../utils/abort"
+import { queryGasCollected } from "../../../../../utils/blockscout-db/query-gas-collected"
 
 const getDay = (date: Date | string) =>
   new Date(date).toISOString().split("T")[0]
