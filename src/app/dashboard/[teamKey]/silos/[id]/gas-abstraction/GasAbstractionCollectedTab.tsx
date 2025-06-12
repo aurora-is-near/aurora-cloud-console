@@ -14,7 +14,7 @@ export const GasAbstractionCollectedTab = ({ silo, team }: Props) => {
     <section className="w-full space-y-5">
       <GasCollectedChart silo={silo} />
       <GasAbstractionSettings team={team} />
-      <GasAbstractionMechanics silo={silo} />
+      <GasAbstractionMechanics silo={silo} team={team} />
     </section>
   )
 }

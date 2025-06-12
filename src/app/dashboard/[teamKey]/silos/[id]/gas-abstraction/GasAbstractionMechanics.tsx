@@ -10,15 +10,17 @@ import SlideOver from "@/components/SlideOver"
 import { useModals } from "@/hooks/useModals"
 import { Button } from "@/components/Button"
 import { Button as Btn, Card, InfoList, Typography } from "@/uikit"
-import type { Silo } from "@/types/types"
+import type { Silo, Team } from "@/types/types"
 
 import { GasPriceForm } from "./GasPriceForm"
+import { EditGasBurnAmountModal } from "./EditGasBurnAmountModal"
 
 type Props = {
   silo: Silo
+  team: Team
 }
 
-export const GasAbstractionMechanics = ({ silo }: Props) => {
+export const GasAbstractionMechanics = ({ silo, team }: Props) => {
   const formId = useId()
 
   const [gasPriceDisplayed, setGasPriceDisplayed] = useState(silo.gas_price)
@@ -28,7 +30,10 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
 
   return (
     <>
-      <Card className="flex flex-col gap-6 md:gap-12 md:flex-row">
+      <Card
+        className="flex flex-col gap-6 md:gap-12 md:flex-row"
+        testID="gas-mechanics-card"
+      >
         <aside className="w-full">
           <Typography
             variant="heading"
@@ -66,6 +71,22 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
               {`${formatUnits(`${gasPriceDisplayed}`, silo.base_token_decimals)} ${silo.base_token_symbol} per gas`}
             </Typography>
           </InfoList.Item>
+
+          <InfoList.Item
+            label="Gas burn"
+            labelTooltip="The percentage of collected gas that is burned daily to reduce supply."
+            Action={() => (
+              <Btn.Iconed
+                label="Edit"
+                icon={PencilSquareIcon}
+                onClick={() => openModal(Modals.EditGasBurn)}
+              />
+            )}
+          >
+            <Typography variant="paragraph" size={4}>
+              {`${silo.gas_burn_percent ?? "0"}% of collected gas`}
+            </Typography>
+          </InfoList.Item>
         </InfoList>
       </Card>
 
@@ -90,6 +111,8 @@ export const GasAbstractionMechanics = ({ silo }: Props) => {
           </div>
         </SlideOver.Actions>
       </SlideOver>
+
+      <EditGasBurnAmountModal team={team} silo={silo} />
     </>
   )
 }
