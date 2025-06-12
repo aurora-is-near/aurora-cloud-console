@@ -1,5 +1,5 @@
 import Stripe from "stripe"
-import { ProductType } from "@/types/products"
+import type { ProductType } from "@/types/products"
 import { createPaymentLink } from "@/actions/stripe/create-payment-link"
 
 jest.mock("stripe")
@@ -7,6 +7,7 @@ jest.mock("stripe")
 const stripeSecretKey = "test_stripe_secret_key"
 const productType: ProductType = "top_up"
 const teamId = 42
+const siloId = 123
 const callbackUrl = "https://example.com/callback"
 
 const stripeMock = {
@@ -43,7 +44,12 @@ describe("createPaymentLink", () => {
       url: "https://payment.link/session",
     })
 
-    const result = await createPaymentLink(productType, teamId, callbackUrl)
+    const result = await createPaymentLink(
+      productType,
+      teamId,
+      siloId,
+      callbackUrl,
+    )
 
     expect(result).toBe("https://payment.link/session")
     expect(stripeMock.products.retrieve).toHaveBeenCalledWith("test_product_id")
@@ -60,6 +66,7 @@ describe("createPaymentLink", () => {
       ],
       metadata: {
         team_id: teamId,
+        silo_id: siloId,
         product_type: productType,
         number_of_transactions: 15000,
       },
@@ -70,7 +77,7 @@ describe("createPaymentLink", () => {
     delete process.env.STRIPE_SECRET_KEY
 
     await expect(
-      createPaymentLink(productType, teamId, callbackUrl),
+      createPaymentLink(productType, teamId, siloId, callbackUrl),
     ).rejects.toThrow("Stripe secret key is not set")
   })
 
@@ -78,7 +85,7 @@ describe("createPaymentLink", () => {
     delete process.env.STRIPE_INITIAL_SETUP_PRODUCT_ID
 
     await expect(
-      createPaymentLink(productType, teamId, callbackUrl),
+      createPaymentLink(productType, teamId, siloId, callbackUrl),
     ).rejects.toThrow(`Product ID not found for type: ${productType}`)
   })
 
@@ -86,7 +93,7 @@ describe("createPaymentLink", () => {
     stripeMock.products.retrieve.mockResolvedValue(null)
 
     await expect(
-      createPaymentLink(productType, teamId, callbackUrl),
+      createPaymentLink(productType, teamId, siloId, callbackUrl),
     ).rejects.toThrow("Product not found: test_product_id")
   })
 
@@ -97,7 +104,7 @@ describe("createPaymentLink", () => {
     })
 
     await expect(
-      createPaymentLink(productType, teamId, callbackUrl),
+      createPaymentLink(productType, teamId, siloId, callbackUrl),
     ).rejects.toThrow("No default price set for product: test_product_id")
   })
 
@@ -111,7 +118,7 @@ describe("createPaymentLink", () => {
     stripeMock.checkout.sessions.create.mockResolvedValue({ url: null })
 
     await expect(
-      createPaymentLink(productType, teamId, callbackUrl),
+      createPaymentLink(productType, teamId, siloId, callbackUrl),
     ).rejects.toThrow("No session URL returned")
   })
 })

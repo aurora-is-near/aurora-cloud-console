@@ -466,6 +466,7 @@ export type Database = {
           number_of_transactions: number | null
           payment_status: Database["public"]["Enums"]["payment_status"]
           session_id: string
+          silo_id: number | null
           team_id: number
           type: Database["public"]["Enums"]["order_type"]
         }
@@ -475,6 +476,7 @@ export type Database = {
           number_of_transactions?: number | null
           payment_status: Database["public"]["Enums"]["payment_status"]
           session_id: string
+          silo_id?: number | null
           team_id: number
           type: Database["public"]["Enums"]["order_type"]
         }
@@ -484,6 +486,7 @@ export type Database = {
           number_of_transactions?: number | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
           session_id?: string
+          silo_id?: number | null
           team_id?: number
           type?: Database["public"]["Enums"]["order_type"]
         }
@@ -1284,6 +1287,120 @@ export type Database = {
       add_values_to_enum: {
         Args: { enum_name: string; enum_values: string[] }
         Returns: undefined
+      }
+      get_silos_for_gas_burn: {
+        Args: { boundary: string }
+        Returns: {
+          applied_deal_ids: number[]
+          base_token_decimals: number
+          base_token_name: string
+          base_token_symbol: string
+          blockscout_database_id: number | null
+          chain_id: number
+          created_at: string
+          deleted_at: string | null
+          engine_account: string
+          engine_version: string
+          explorer_url: string | null
+          favicon: string
+          gas_burn_percent: number | null
+          gas_collection_address: string | null
+          gas_price: string
+          genesis: string
+          grafana_network_key: string | null
+          id: number
+          inspected_at: string | null
+          intents_integration_status: Database["public"]["Enums"]["request_status"]
+          is_active: boolean
+          is_deploy_contracts_public: boolean
+          is_make_txs_public: boolean
+          name: string
+          network_logo: string
+          network_logo_dark: string
+          replenish_amount: number
+          replenish_threshold: number
+          rpc_url: string
+          silo_to_silo_bridge_address: string | null
+          trisolaris_integration_status: Database["public"]["Enums"]["request_status"]
+          type: string
+          updated_at: string
+        }[]
+      }
+      get_silos_for_gas_swap_relayer: {
+        Args: { boundary: string }
+        Returns: {
+          applied_deal_ids: number[]
+          base_token_decimals: number
+          base_token_name: string
+          base_token_symbol: string
+          blockscout_database_id: number | null
+          chain_id: number
+          created_at: string
+          deleted_at: string | null
+          engine_account: string
+          engine_version: string
+          explorer_url: string | null
+          favicon: string
+          gas_burn_percent: number | null
+          gas_collection_address: string | null
+          gas_price: string
+          genesis: string
+          grafana_network_key: string | null
+          id: number
+          inspected_at: string | null
+          intents_integration_status: Database["public"]["Enums"]["request_status"]
+          is_active: boolean
+          is_deploy_contracts_public: boolean
+          is_make_txs_public: boolean
+          name: string
+          network_logo: string
+          network_logo_dark: string
+          replenish_amount: number
+          replenish_threshold: number
+          rpc_url: string
+          silo_to_silo_bridge_address: string | null
+          trisolaris_integration_status: Database["public"]["Enums"]["request_status"]
+          type: string
+          updated_at: string
+        }[]
+      }
+      get_silos_to_get_swap_status: {
+        Args: { boundary: string }
+        Returns: {
+          applied_deal_ids: number[]
+          base_token_decimals: number
+          base_token_name: string
+          base_token_symbol: string
+          blockscout_database_id: number | null
+          chain_id: number
+          created_at: string
+          deleted_at: string | null
+          engine_account: string
+          engine_version: string
+          explorer_url: string | null
+          favicon: string
+          gas_burn_percent: number | null
+          gas_collection_address: string | null
+          gas_price: string
+          genesis: string
+          grafana_network_key: string | null
+          id: number
+          inspected_at: string | null
+          intents_integration_status: Database["public"]["Enums"]["request_status"]
+          is_active: boolean
+          is_deploy_contracts_public: boolean
+          is_make_txs_public: boolean
+          name: string
+          network_logo: string
+          network_logo_dark: string
+          replenish_amount: number
+          replenish_threshold: number
+          rpc_url: string
+          silo_to_silo_bridge_address: string | null
+          trisolaris_integration_status: Database["public"]["Enums"]["request_status"]
+          type: string
+          updated_at: string
+        }[]
       }
       has_metadata_key: {
         Args: { metadata: Json; key: string }

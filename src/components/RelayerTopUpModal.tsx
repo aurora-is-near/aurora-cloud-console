@@ -23,7 +23,7 @@ export const RelayerTopUpModal = ({ silo }: { silo: Silo }) => {
   const { closeModal, activeModal } = useModals()
   const { team } = useRequiredContext(TeamContext)
   const open = activeModal === Modals.TopUpOptions
-  const stripeTopUpLink = useStripePaymentLink(team, "top_up")
+  const stripeTopUpLink = useStripePaymentLink(team, silo, "top_up")
   const { isLoading, link, relayerAccount } = useIntentsTxTopUpLink(silo)
   const openNearIntents = () => {
     if (link) {
