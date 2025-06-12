@@ -1,17 +1,18 @@
 "use client"
 
 import { useStripePaymentLink } from "@/hooks/useStripePaymentLink"
-import type { Team } from "@/types/types"
+import type { Silo, Team } from "@/types/types"
 
 import IconCoins from "../../../../../public/static/icons/coins.svg"
 import { Banner } from "./Banner"
 
 type Props = {
   team: Team
+  silo: Silo
 }
 
-export const BannerTopup = ({ team }: Props) => {
-  const topupLink = useStripePaymentLink(team, "top_up")
+export const BannerTopup = ({ team, silo }: Props) => {
+  const topupLink = useStripePaymentLink(team, silo, "top_up")
 
   return (
     <Banner

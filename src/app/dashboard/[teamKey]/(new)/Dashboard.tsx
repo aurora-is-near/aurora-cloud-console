@@ -64,7 +64,7 @@ export const DashboardHomePage = () => {
       </Hero>
 
       <section className="flex flex-col pt-4 gap-14">
-        <WhatsNext team={team} />
+        {silo && <WhatsNext team={team} silo={silo} />}
 
         <div className="flex flex-col gap-5">
           <Typography variant="heading" size={3}>

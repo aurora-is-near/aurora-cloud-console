@@ -1,16 +1,17 @@
 import { BookOpenIcon, SparklesIcon } from "@heroicons/react/24/outline"
 
 import { Typography } from "@/uikit"
-import type { Team } from "@/types/types"
+import type { Silo, Team } from "@/types/types"
 
 import { BannerTopup } from "./BannerTopup"
 import { Banner } from "./Banner"
 
 type Props = {
   team: Team
+  silo: Silo
 }
 
-export const WhatsNext = ({ team }: Props) => (
+export const WhatsNext = ({ team, silo }: Props) => (
   <section className="flex flex-col gap-5">
     <Typography variant="heading" size={3}>
       Discover more
@@ -28,7 +29,7 @@ export const WhatsNext = ({ team }: Props) => (
           url: "https://calendly.com/d/5f2-77d-766/aurora-cloud-demo",
         }}
       />
-      <BannerTopup team={team} />
+      <BannerTopup team={team} silo={silo} />
       <Banner
         variant="info"
         title="Explore Aurora Cloud documentation"
