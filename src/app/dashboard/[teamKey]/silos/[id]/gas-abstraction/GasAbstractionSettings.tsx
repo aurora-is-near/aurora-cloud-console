@@ -74,7 +74,10 @@ export const GasAbstractionSettings = ({ team }: { team: Team }) => {
   const { silo } = useRequiredContext(SiloContext) ?? {}
 
   return (
-    <Card className="flex flex-col gap-6 md:gap-12 md:flex-row">
+    <Card
+      className="flex flex-col gap-6 md:gap-12 md:flex-row"
+      testID="gas-abstraction-settings"
+    >
       <aside className="w-full">
         <Typography variant="heading" size={4} className="text-slate-900 mb-1">
           General settings

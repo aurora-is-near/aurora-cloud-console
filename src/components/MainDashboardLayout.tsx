@@ -81,9 +81,10 @@ export const MainDashboardLayout = ({
                   })),
                 },
                 {
-                  name: "Integrations",
-                  href: `/dashboard/${teamKey}${siloPrefix}/integrations`,
+                  name: "Marketplace",
+                  href: "https://marketplace.auroracloud.dev",
                   icon: <Integrations />,
+                  isExternal: true,
                 },
               ],
             },
