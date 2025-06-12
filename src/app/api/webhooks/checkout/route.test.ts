@@ -40,6 +40,7 @@ describe("Checkout webhook route", () => {
     mockSupabaseClient.from("orders").select.mockReturnValue(createSelect([]))
     mockSupabaseClient.from("teams").select.mockReturnValue(createSelect([]))
     mockSupabaseClient.from("users").select.mockReturnValue(createSelect([]))
+    mockSupabaseClient.from("silos").select.mockReturnValue(createSelect([]))
   })
 
   it("returns a 400 if no payload is provided", async () => {
@@ -148,6 +149,7 @@ describe("Checkout webhook route", () => {
         product_type: "top_up",
         number_of_transactions: 42,
       },
+      amount_total: 6942,
       payment_status: "paid",
       customer_details: {
         name: "Joe Bloggs",
@@ -170,6 +172,7 @@ describe("Checkout webhook route", () => {
     const teamUpdateQueries = createInsertOrUpdate(mockTeam)
     const teamSelectQueries = createSelect(mockTeam)
     const ordersInsertQueries = createInsertOrUpdate(mockOrder)
+    const siloSelectQueries = createSelect(mockSilo)
 
     mockSupabaseClient
       .from("teams")
@@ -186,6 +189,10 @@ describe("Checkout webhook route", () => {
     mockSupabaseClient
       .from("orders")
       .update.mockImplementation(() => ordersInsertQueries)
+
+    mockSupabaseClient
+      .from("silos")
+      .select.mockImplementation(() => siloSelectQueries)
 
     mockSupabaseClient
       .from("users")
