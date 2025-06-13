@@ -5,6 +5,7 @@ import type { KeyPairString } from "near-api-js/lib/utils"
 import type { Silo, SiloConfigTransactionStatus } from "@/types/types"
 import { getRelayerAccount } from "@/utils/relayer"
 import { coinGeckoApiClient } from "@/utils/coingecko-api/client"
+import { logger } from "@/logger"
 
 export const processNearOrder = async ({
   silo,
@@ -63,7 +64,11 @@ export const processNearOrder = async ({
 
     return "SUCCESSFUL"
   } catch (error) {
-    console.error("Failed to process NEAR transfer:", error)
+    logger.error("Failed to process NEAR transfer:", {
+      error,
+      siloId: silo.id,
+      amount,
+    })
 
     return "FAILED"
   }
