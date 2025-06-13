@@ -111,7 +111,9 @@ export const LimitsModal = ({
               name="limit_value"
               register={methods.register}
             />
-            <p className="text-xs text-gray-500">Leave empty for unlimited.</p>
+            <p className="text-xs text-gray-500 mt-1">
+              Leave empty for unlimited.
+            </p>
           </InputWrapper>
         </div>
         <SlideOver.Actions>
