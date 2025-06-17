@@ -1,32 +1,36 @@
+import type { NextRequest } from "next/server"
 import Stripe from "stripe"
-import { type NextRequest } from "next/server"
+import type { ProductMetadata, ProductType } from "@/types/products"
+import type { Silo, Team } from "@/types/types"
 import { abort } from "@/utils/abort"
 import { toError } from "@/utils/errors"
 import { createAdminSupabaseClient } from "@/supabase/create-admin-supabase-client"
 import { createPrivateApiEndpoint } from "@/utils/api"
-import { ProductMetadata, ProductType } from "@/types/products"
 import { PRODUCT_TYPES } from "@/constants/products"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 import { sendSlackMessage } from "@/utils/send-slack-notification"
 import { getTeam } from "@/actions/teams/get-team"
-import { Team } from "@/types/types"
 import { getStripeConfig } from "@/utils/stripe"
 import { trackEvent } from "@/actions/analytics"
+import { processNearOrder } from "@/actions/fiat-topup/process-near-order"
+import { getSilo } from "@/actions/silos/get-silo"
 
 type WebhookResponse = {
   fulfilled: boolean
   teamId: number
+  siloId?: number
   paymentId?: number
 }
 
 const sendSlackNotification = async (
   session: Stripe.Checkout.Session,
   teamId: number,
+  silo: Silo,
   team?: Team | null,
 ) => {
   const summary = `Payment received for the "${
     team?.name ?? "Unknown"
-  }" team (ACC ID: ${teamId})`
+  }" team (ACC ID: ${teamId}) - Silo: ${silo?.name ?? "Unknown"}`
 
   await sendSlackMessage({
     text: summary,
@@ -80,6 +84,7 @@ const getTeamFromId = async (teamId: number) => {
 const createPayment = async <T extends ProductType>(
   session: Stripe.Checkout.Session,
   teamId: number,
+  siloId: number,
   type: T,
   productMetadata: ProductMetadata[T],
 ) => {
@@ -91,6 +96,7 @@ const createPayment = async <T extends ProductType>(
       payment_status: session.payment_status,
       session_id: session.id,
       team_id: teamId,
+      silo_id: siloId,
       number_of_transactions: productMetadata.number_of_transactions,
     })
     .select("id")
@@ -104,10 +110,16 @@ const createPayment = async <T extends ProductType>(
 const fulfillOrder = async <T extends ProductType>(
   session: Stripe.Checkout.Session,
   teamId: number,
+  siloId: number,
   productMetadata: ProductMetadata[T],
 ) => {
   const supabase = createAdminSupabaseClient()
   const team = await getTeamFromId(teamId)
+  const silo = await getSilo(siloId)
+
+  if (!silo) {
+    abort(400, `Silo with ID ${siloId} not found`)
+  }
 
   const [ordersResult] = await Promise.all([
     supabase
@@ -128,11 +140,18 @@ const fulfillOrder = async <T extends ProductType>(
       .eq("id", teamId)
       .select()
       .single(),
-    sendSlackNotification(session, teamId, team),
+    sendSlackNotification(session, teamId, silo, team),
     trackEvent("payment_received"),
   ])
 
   assertValidSupabaseResult(ordersResult)
+
+  if (silo) {
+    await processNearOrder({
+      silo,
+      amount: session.amount_total ? session.amount_total / 100 : 0,
+    })
+  }
 
   return ordersResult.data.id
 }
@@ -211,10 +230,12 @@ export const POST = createPrivateApiEndpoint<WebhookResponse>(
     const {
       team_id: teamIdStr,
       product_type: productType,
+      silo_id: siloIdStr,
       ...additionalMetadata
     } = session.metadata ?? {}
 
     const teamId = Number(teamIdStr)
+    const siloId = Number(siloIdStr)
 
     if (!teamId || !Number.isFinite(teamId)) {
       abort(400, `Invalid team ID found in session metadata: ${teamId}`)
@@ -236,6 +257,7 @@ export const POST = createPrivateApiEndpoint<WebhookResponse>(
       const paymentId = await createPayment(
         session,
         teamId,
+        siloId,
         productType,
         productMetadata,
       )
@@ -249,11 +271,12 @@ export const POST = createPrivateApiEndpoint<WebhookResponse>(
 
       // If already paid, fulfill the order.
       if (fulfilled) {
-        await fulfillOrder(session, teamId, productMetadata)
+        await fulfillOrder(session, teamId, siloId, productMetadata)
       }
 
       return {
         teamId,
+        siloId,
         fulfilled,
         paymentId,
       }
@@ -262,8 +285,9 @@ export const POST = createPrivateApiEndpoint<WebhookResponse>(
     if (event.type === "checkout.session.async_payment_succeeded") {
       return {
         teamId,
+        siloId,
         fulfilled: true,
-        paymentId: await fulfillOrder(session, teamId, productMetadata),
+        paymentId: await fulfillOrder(session, teamId, siloId, productMetadata),
       }
     }
 

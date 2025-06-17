@@ -5,6 +5,7 @@ import Stripe from "stripe"
 import { NextRequest } from "next/server"
 import { logger } from "@/logger"
 import { sendSlackMessage } from "@/utils/send-slack-notification"
+import { processNearOrder } from "@/actions/fiat-topup/process-near-order"
 import { POST } from "./route"
 import {
   createInsertOrUpdate,
@@ -14,9 +15,11 @@ import {
 import { mockTeam } from "../../../../../test-utils/mock-team"
 import { createMockOrder } from "../../../../../test-utils/factories/order-factory"
 import { mockUser } from "../../../../../test-utils/mock-user"
+import { createMockSilo } from "../../../../../test-utils/factories/silo-factory"
 
 jest.mock("stripe")
 jest.mock("../../../../utils/send-slack-notification")
+jest.mock("@/actions/fiat-topup/process-near-order")
 
 const stripeSecretKey = "test_stripe_secret_key"
 const stripeWebhookSecret = "test_stripe_webhook_secret"
@@ -37,6 +40,7 @@ describe("Checkout webhook route", () => {
     mockSupabaseClient.from("orders").select.mockReturnValue(createSelect([]))
     mockSupabaseClient.from("teams").select.mockReturnValue(createSelect([]))
     mockSupabaseClient.from("users").select.mockReturnValue(createSelect([]))
+    mockSupabaseClient.from("silos").select.mockReturnValue(createSelect([]))
   })
 
   it("returns a 400 if no payload is provided", async () => {
@@ -135,13 +139,17 @@ describe("Checkout webhook route", () => {
   })
 
   it("handles a checkout.session.completed event", async () => {
+    const mockSilo = createMockSilo()
+
     const session = {
       id: "session_id",
       metadata: {
         team_id: String(mockTeam.id),
+        silo_id: String(mockSilo.id),
         product_type: "top_up",
         number_of_transactions: 42,
       },
+      amount_total: 6942,
       payment_status: "paid",
       customer_details: {
         name: "Joe Bloggs",
@@ -164,6 +172,7 @@ describe("Checkout webhook route", () => {
     const teamUpdateQueries = createInsertOrUpdate(mockTeam)
     const teamSelectQueries = createSelect(mockTeam)
     const ordersInsertQueries = createInsertOrUpdate(mockOrder)
+    const siloSelectQueries = createSelect(mockSilo)
 
     mockSupabaseClient
       .from("teams")
@@ -180,6 +189,10 @@ describe("Checkout webhook route", () => {
     mockSupabaseClient
       .from("orders")
       .update.mockImplementation(() => ordersInsertQueries)
+
+    mockSupabaseClient
+      .from("silos")
+      .select.mockImplementation(() => siloSelectQueries)
 
     mockSupabaseClient
       .from("users")
@@ -199,6 +212,7 @@ describe("Checkout webhook route", () => {
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
       teamId: mockTeam.id,
+      siloId: mockSilo.id,
       fulfilled: true,
       paymentId: mockOrder.id,
     })
@@ -209,6 +223,7 @@ describe("Checkout webhook route", () => {
       payment_status: "paid",
       session_id: "session_id",
       team_id: mockTeam.id,
+      silo_id: mockSilo.id,
       number_of_transactions: 42,
     })
 
@@ -221,13 +236,13 @@ describe("Checkout webhook route", () => {
 
     expect(sendSlackMessage).toHaveBeenCalledTimes(1)
     expect(sendSlackMessage).toHaveBeenCalledWith({
-      text: `Payment received for the "${mockTeam.name}" team (ACC ID: ${mockTeam.id})`,
+      text: `Payment received for the "${mockTeam.name}" team (ACC ID: ${mockTeam.id}) - Silo: ${mockSilo.name}`,
       blocks: [
         {
           type: "header",
           text: {
             type: "plain_text",
-            text: `Payment received for the "${mockTeam.name}" team (ACC ID: ${mockTeam.id})`,
+            text: `Payment received for the "${mockTeam.name}" team (ACC ID: ${mockTeam.id}) - Silo: ${mockSilo.name}`,
           },
         },
         {
@@ -248,6 +263,12 @@ describe("Checkout webhook route", () => {
           },
         },
       ],
+    })
+
+    expect(processNearOrder).toHaveBeenCalledTimes(1)
+    expect(processNearOrder).toHaveBeenCalledWith({
+      silo: mockSilo,
+      amount: 69.42,
     })
   })
 

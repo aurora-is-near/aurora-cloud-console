@@ -2,11 +2,12 @@ import { useEffect, useState } from "react"
 
 import { logger } from "@/logger"
 import { createPaymentLink } from "@/actions/stripe/create-payment-link"
-import type { Team } from "@/types/types"
-import { ProductType } from "@/types/products"
+import type { Silo, Team } from "@/types/types"
+import type { ProductType } from "@/types/products"
 
 export const useStripePaymentLink = (
   team: Team,
+  silo: Silo,
   productType: ProductType,
 ): string | null => {
   const [topupLink, setTopupLink] = useState<string | null>(null)
@@ -15,6 +16,7 @@ export const useStripePaymentLink = (
     createPaymentLink(
       productType,
       team.id,
+      silo.id,
       `${window.location.origin}/dashboard/${team.team_key}`,
     )
       .then(setTopupLink)
@@ -22,7 +24,7 @@ export const useStripePaymentLink = (
         logger.error("Unable to get Stripe payment link", error)
         setTopupLink(null)
       })
-  }, [team, productType])
+  }, [team, productType, silo.id])
 
   return topupLink
 }

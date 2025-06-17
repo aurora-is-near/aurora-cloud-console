@@ -1,7 +1,7 @@
 "use server"
 
 import Stripe from "stripe"
-import { ProductMetadata, ProductType } from "@/types/products"
+import type { ProductMetadata, ProductType } from "@/types/products"
 import { getStripeConfig } from "@/utils/stripe"
 
 const getProductId = async (productType: ProductType) => {
@@ -36,6 +36,7 @@ const getProductMetadata = <T extends ProductType>(
 export const createPaymentLink = async (
   productType: ProductType,
   teamId: number,
+  siloId: number,
   callbackUrl: string,
 ) => {
   const [{ secretKey }, productId] = await Promise.all([
@@ -77,6 +78,7 @@ export const createPaymentLink = async (
     ],
     metadata: {
       team_id: teamId,
+      silo_id: siloId,
       product_type: productType,
       ...getProductMetadata(productType),
     },

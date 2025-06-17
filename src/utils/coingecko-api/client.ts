@@ -1,4 +1,4 @@
-import CoinGecko from "coingecko-api"
+import type CoinGecko from "coingecko-api"
 import { createDebugger } from "@/debug"
 
 const COINGECKO_BASE_URL = "https://api.coingecko.com/"
@@ -34,5 +34,10 @@ export const coinGeckoApiClient = {
   getCoin: async (id: string) =>
     request<Promise<Awaited<ReturnType<CoinGecko["coins"]["fetch"]>>["data"]>>(
       `/api/v3/coins/${id}`,
+    ),
+
+  getNearUsdPrice: async () =>
+    request<Promise<Awaited<ReturnType<CoinGecko["simple"]["price"]>>["data"]>>(
+      "/api/v3/simple/price?ids=near&vs_currencies=usd",
     ),
 }
