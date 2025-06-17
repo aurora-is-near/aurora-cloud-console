@@ -14,7 +14,7 @@ import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 import { SiloContext } from "@/providers/SiloProvider"
 
-import { NearIntents } from "../../../public/static/v2/images/icons"
+import { NearIntents } from "../../../public/static/images/icons"
 
 export const IntentsPage = () => {
   const { team } = useRequiredContext(TeamContext)
@@ -62,7 +62,7 @@ export const IntentsPage = () => {
             <Image
               width="48"
               height="48"
-              src="/static/v2/images/icons/marketplace/near_intents.svg"
+              src="/static/images/icons/marketplace/near_intents.svg"
               alt="Near Intents Logo"
             />
             Near Intents
@@ -73,7 +73,7 @@ export const IntentsPage = () => {
           <Image
             width="400"
             height="240"
-            src="/static/v2/images/feature/hero/near_intents.png"
+            src="/static/images/feature/hero/near_intents.png"
             alt="Near Intents Preview"
           />
         }
@@ -81,9 +81,11 @@ export const IntentsPage = () => {
         <div className="flex justify-start gap-2">
           {silo && (
             <IntegrationRequestButton
+              showUpdateIconPrompt
               silo={silo}
               team={team}
-              integration="intents"
+              integrationType="intents"
+              requestReceivedMessage="Your chain will be integrated within 1-2 business days. To enhance your visibility on Near Intents, be sure to upload your blockchain icon."
             />
           )}
           <LinkButton

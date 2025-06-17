@@ -66,8 +66,6 @@ export const SiloSchema = z.object({
   genesis: z.string(),
   name: z.string(),
   rpcUrl: z.string(),
-  intentsIntegrationStatus: z.string(),
-  trisolarisIntegrationStatus: z.string(),
   nativeToken: z.object({
     symbol: z.string(),
     name: z.string().nullable(),
@@ -439,7 +437,6 @@ export const contract = c.router({
     query: z.object({
       limit: z.number().optional(),
       offset: z.number().optional(),
-      dealId: z.number().optional(),
     }),
     metadata: {
       scopes: ["transactions:read"],
@@ -453,13 +450,11 @@ export const contract = c.router({
     responses: {
       200: WalletDetailsSchema,
     },
-    query: z.object({
-      dealId: z.number().optional(),
-    }),
     metadata: {
       scopes: ["transactions:read"],
     },
     pathParams: z.object({
+      id: z.number(),
       address: z.string(),
     }),
   },
