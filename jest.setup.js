@@ -1,4 +1,7 @@
 const { mockSupabaseClient } = require("./test-utils/mock-supabase-client")
+const {
+  headlessUITransitionMock,
+} = require("./test-utils/mock-headless-ui-transition")
 
 jest.mock(
   "next/link",
@@ -59,3 +62,7 @@ jest.mock("cryptr", () => ({
     decrypt: jest.fn(() => "decrypted-text"),
   })),
 }))
+
+jest.mock("@headlessui/react", () => {
+  return headlessUITransitionMock(jest.requireActual("@headlessui/react"))
+})

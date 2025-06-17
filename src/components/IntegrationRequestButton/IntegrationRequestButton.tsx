@@ -3,33 +3,21 @@
 import toast from "react-hot-toast"
 import { useState } from "react"
 import { CheckIcon } from "@heroicons/react/24/solid"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 
 import { Button } from "@/components/Button"
 import { notReachable } from "@/utils/notReachable"
-import { queryKeys } from "@/actions/query-keys"
 import { requestIntegration } from "@/actions/silos/request-integration"
 import type { RequestStatus, Silo, Team } from "@/types/types"
+import { queryKeys } from "@/actions/query-keys"
+import { getSiloIntegrationRequest } from "@/actions/silo-integration-requests/get-silo-integration-request"
 
 import { RequestReceivedPopup } from "./RequestReceivedPopup"
-
-type Integration = "intents" | "trisolaris"
 
 type ActionProps = {
   isLoading: boolean
   integrationStatus: RequestStatus
   onClick: () => void
-}
-
-const SILO_PROPERTIES: Record<
-  Integration,
-  Extract<
-    keyof Silo,
-    "intents_integration_status" | "trisolaris_integration_status"
-  >
-> = {
-  intents: "intents_integration_status",
-  trisolaris: "trisolaris_integration_status",
 }
 
 const RequestAction = ({
@@ -71,16 +59,24 @@ const RequestAction = ({
 type Props = {
   team: Team
   silo: Silo
-  integration: Integration
+  integrationType: string
+  showUpdateIconPrompt?: boolean
+  requestReceivedMessage?: string
 }
 
 export const IntegrationRequestButton = ({
   team,
   silo,
-  integration,
+  integrationType,
+  showUpdateIconPrompt,
+  requestReceivedMessage,
 }: Props) => {
-  const queryClient = useQueryClient()
   const [showPopup, setShowPopup] = useState(false)
+
+  const { data: integrationRequest } = useQuery({
+    queryKey: queryKeys.getSiloIntegrationRequest(silo.id, integrationType),
+    queryFn: async () => getSiloIntegrationRequest(silo.id, integrationType),
+  })
 
   const {
     mutate: mutateIntegrationRequest,
@@ -91,21 +87,10 @@ export const IntegrationRequestButton = ({
         return null
       }
 
-      return requestIntegration(team, silo, integration)
+      await requestIntegration(team, silo, integrationType)
     },
-    onSuccess: (updatedSilo) => {
+    onSuccess: () => {
       setShowPopup(true)
-
-      if (updatedSilo) {
-        queryClient.setQueryData(
-          queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
-          {
-            ...silo,
-            [SILO_PROPERTIES[integration]]:
-              updatedSilo[SILO_PROPERTIES[integration]],
-          },
-        )
-      }
     },
     onError: () => {
       toast.error("Failed to request integration")
@@ -116,13 +101,15 @@ export const IntegrationRequestButton = ({
     <>
       <RequestAction
         isLoading={isRequestingIntegration}
-        integrationStatus={silo[SILO_PROPERTIES[integration]] || "INITIAL"}
+        integrationStatus={integrationRequest?.status ?? "INITIAL"}
         onClick={mutateIntegrationRequest}
       />
       {showPopup && (
         <RequestReceivedPopup
           link={`/dashboard/${team.team_key}/silos/${silo.id}/configuration?tab=brand-assets`}
           close={() => setShowPopup(false)}
+          showUpdateIconPrompt={showUpdateIconPrompt}
+          message={requestReceivedMessage}
         />
       )}
     </>

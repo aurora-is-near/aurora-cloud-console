@@ -21,7 +21,7 @@ import {
   NearToken,
   USDCToken,
   USDTToken,
-} from "../../public/static/v2/images/icons"
+} from "../../public/static/images/icons"
 
 export const integrationOptions: Integration[] = [
   "block_explorer",

@@ -8,7 +8,7 @@ import {
   ChainPrivate,
   ChainPublic,
   ChainPublicPermissioned,
-} from "../../../../../public/static/v2/images/icons"
+} from "../../../../../public/static/images/icons"
 
 interface ChainPermissionBoxProps {
   permission: ChainPermission

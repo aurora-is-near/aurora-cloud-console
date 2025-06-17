@@ -5,8 +5,8 @@ import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/Button"
 import { Silo, Team } from "@/types/types"
-import { requestOracleDeployment } from "@/actions/contact/request-oracle-deployment"
 import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
+import { requestIntegration } from "@/actions/silos/request-integration"
 
 type OracleRequestDeploymentButtonProps = {
   silo: Silo
@@ -24,7 +24,7 @@ export const OracleRequestDeploymentButton = ({
   const onClick = () => {
     if (silo) {
       startTransition(async () => {
-        await requestOracleDeployment(team, silo)
+        await requestIntegration(team, silo, "Oracle")
         getSiloOracleUpdater.invalidate()
 
         toast.success("Oracle deployment requested")

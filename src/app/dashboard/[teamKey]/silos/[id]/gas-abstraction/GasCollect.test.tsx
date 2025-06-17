@@ -18,7 +18,6 @@ import { getNearAccount } from "@/utils/near-api/account"
 import { createWrapper } from "../../../../../../../test-utils/create-wrapper"
 import { createMockSilo } from "../../../../../../../test-utils/factories/silo-factory"
 import { createMockTeam } from "../../../../../../../test-utils/factories/team-factory"
-import { headlessUITransitionMock } from "../../../../../../../test-utils/mock-headless-ui-transition"
 
 import GasAbstractionPage from "./page"
 
@@ -40,10 +39,6 @@ jest.mock("next/navigation", () => ({
     prefetch: jest.fn(),
   }),
 }))
-
-jest.mock("@headlessui/react", () => {
-  return headlessUITransitionMock(jest.requireActual("@headlessui/react"))
-})
 
 jest.mock("@/utils/near-api/account", () => ({
   getNearAccount: jest.fn(),
@@ -97,7 +92,8 @@ describe("CollectGas", () => {
     })
 
     // check that address is not set
-    const gasCollectItem = await screen.findByLabelText(
+    const generalSettings = screen.getByTestId("gas-abstraction-settings")
+    const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
 
@@ -189,7 +185,8 @@ describe("CollectGas", () => {
       }),
     })
 
-    const gasCollectItem = await screen.findByLabelText(
+    const generalSettings = screen.getByTestId("gas-abstraction-settings")
+    const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
 
@@ -197,7 +194,6 @@ describe("CollectGas", () => {
 
     fireEvent.click(editAddressBtn)
 
-    await screen.findByText(/Enter the NEAR address to withdraw gas to/)
     const addressInput = await screen.findByPlaceholderText(
       /Near account ID to send collected gas to/,
     )
@@ -229,7 +225,8 @@ describe("CollectGas", () => {
       }),
     })
 
-    const gasCollectItem = await screen.findByLabelText(
+    const generalSettings = screen.getByTestId("gas-abstraction-settings")
+    const gasCollectItem = await within(generalSettings).findByLabelText(
       /Gas collection address/,
     )
 
@@ -237,7 +234,6 @@ describe("CollectGas", () => {
 
     fireEvent.click(editAddressBtn)
 
-    await screen.findByText(/Enter the NEAR address to withdraw gas to/)
     const addressInput = await screen.findByPlaceholderText(
       /Near account ID to send collected gas to/,
     )

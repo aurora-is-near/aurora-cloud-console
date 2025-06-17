@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid"
 import { generateIcon } from "@/utils/buttons"
 import { MenuItem } from "@/types/menu"
 import { clsx } from "@/uikit"
@@ -14,7 +15,7 @@ type SidebarMenuItemProps = {
 }
 
 export const SidebarMenuItem = ({
-  menuItem: { href, name, icon, items, variant = "primary" },
+  menuItem: { href, name, icon, items, variant = "primary", isExternal },
   isChild,
 }: SidebarMenuItemProps) => {
   const pathname = usePathname()
@@ -35,6 +36,7 @@ export const SidebarMenuItem = ({
     <>
       <Link
         href={href}
+        target={isExternal ? "_blank" : undefined}
         aria-current={isCurrentRoute ? "page" : undefined}
         className={clsx(
           "group w-full flex items-center gap-x-2.5 rounded-lg font-medium select-none leading-none px-3",
@@ -66,6 +68,9 @@ export const SidebarMenuItem = ({
               pathname.startsWith(href) && "rotate-90",
             )}
           />
+        )}
+        {isExternal && (
+          <ArrowTopRightOnSquareIcon className="ml-auto w-4 h-4 text-slate-500" />
         )}
       </Link>
       {!!items && pathname.startsWith(href) && (
