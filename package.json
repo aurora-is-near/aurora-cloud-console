@@ -62,7 +62,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-datepicker": "^8.3.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.54.2",
+    "react-hook-form": "^7.58.1",
     "react-hot-toast": "^2.5.2",
     "react-select": "^5.10.0",
     "stripe": "^18.0.0",
