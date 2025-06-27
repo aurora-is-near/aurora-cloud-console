@@ -82,10 +82,10 @@
     eslint-plugin-storybook "^0.8.0"
     eslint-plugin-testing-library "^6.2.2"
 
-"@auroraisnear/pauser-sdk@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@auroraisnear/pauser-sdk/-/pauser-sdk-1.5.0.tgz#a1750717476830f4f1bd4b11daca298d21607a02"
-  integrity sha512-C43DV7z+WoEHxqSXAchKbmAvgqH7FPoFzLSCJew6FYmgFgTgrF8ZFHeAo02dr9TyMxrm70xmrG391CdwvzkKcA==
+"@auroraisnear/pauser-sdk@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@auroraisnear/pauser-sdk/-/pauser-sdk-1.6.0.tgz#60dc82fa0e94b1da5fc76cc30a43095c07df881a"
+  integrity sha512-EH0uQEGiXIVRMDOpxZ1S8idtPIGtW4YcOTiNxXZxTtBJunvl4uIlTR9h2guX48+TBxRrkPFVjleL52K7sdypVQ==
   dependencies:
     bs58 "^5.0.0"
     ethers "^6.11.1"
