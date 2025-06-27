@@ -29,16 +29,29 @@ export const PauseSiloButton = ({ silo }: PauseSiloButtonProps) => {
     setIsPending(true)
 
     try {
-      await pause({
-        accountId: silo.engine_account,
-        chainId: "mainnet",
-        networkId: "near",
-        target: "controller.aurora",
-        sender: "controller-delegate.aurora",
-      })
+      if (silo.name === "Turbo") {
+        await pause({
+          networkId: "near",
+          chainId: "testnet",
+          accountId: "demo-pausable.testnet",
+          target: "demo-pauser.testnet",
+          methodName: "pa_pause_feature",
+          methodArgs: { key: "ALL" },
+          sender: "aurealis.testnet",
+        })
+      } else {
+        await pause({
+          networkId: "near",
+          chainId: "mainnet",
+          accountId: silo.engine_account,
+          target: "c.aurora",
+          sender: "security-ops.near",
+        })
+      }
+
       router.push("/admin/silos")
     } catch (error) {
-      toast.error("Failed to delete item")
+      toast.error("Failed to pause silo")
       logger.error(error)
     }
 

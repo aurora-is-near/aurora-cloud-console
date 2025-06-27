@@ -1,13 +1,15 @@
 "use server"
 
-import { pause as pauseContract } from "@auroraisnear/pauser-sdk"
+import { isPausable, pause as pauseContract } from "@auroraisnear/pauser-sdk"
 
 type PauseContractArgs = {
   networkId: "ethereum" | "near"
   chainId: string
   accountId: string
-  target?: string
+  target: string
   sender?: string
+  methodName?: string
+  methodArgs?: { key: string }
 }
 
 export const pause = async ({
@@ -16,14 +18,25 @@ export const pause = async ({
   accountId,
   target,
   sender,
+  methodName,
+  methodArgs,
 }: PauseContractArgs): Promise<void> => {
-  if (networkId === "near" && target) {
-    await pauseContract({ networkId, chainId, accountId, target, sender })
-  } else if (networkId === "ethereum") {
+  const pausable = await isPausable({ networkId, chainId, accountId })
+
+  if (!pausable) {
+    return
+  }
+
+  if (networkId === "near") {
     await pauseContract({
       networkId,
-      chainId: parseInt(chainId, 10),
+      chainId,
       accountId,
+      target,
+      sender,
+      methodName,
+      methodArgs,
+      derivationPath: "m/44'/397'/0'",
     })
   }
 }
