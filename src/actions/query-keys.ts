@@ -18,4 +18,13 @@ export const queryKeys = {
   getTeamDealsByKey: (teamKey: string) => ["team-deals-by-key", teamKey],
   getTeamByKey: (teamKey: string) => ["team-by-key", teamKey],
   getSiloOracle: (siloId: number | null) => ["silo-oracle", siloId],
+  getApiKeys: (teamKey: string) => ["api-keys", teamKey],
+  getTeamMembers: (teamKey: string) => ["team-members", teamKey],
+  getSiloRelayer: (siloId: number | null) => ["silo-relayer", siloId],
+  getRelayerBalance: (siloId: number | null) => ["relayer-balance", siloId],
+  getSiloIntegrationRequest: (siloId: number, integrationType: string) => [
+    "integration-requests",
+    siloId,
+    integrationType,
+  ],
 } as const

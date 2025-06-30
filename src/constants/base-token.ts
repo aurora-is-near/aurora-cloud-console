@@ -16,7 +16,7 @@ export const BASE_TOKENS: Record<
   },
   ETH: {
     name: "Ethereum",
-    nearAccountId: "aurora",
+    nearAccountId: "eth.bridge.near",
     decimals: 18,
   },
   WNEAR: {
@@ -24,8 +24,16 @@ export const BASE_TOKENS: Record<
     nearAccountId: "near",
     decimals: 18,
   },
-  USDC: null,
-  USDT: null,
+  USDC: {
+    name: "USD Coin",
+    nearAccountId: "6k1r7pg8butk6qr7bb2vrcvf7vd46yw2ojgm9buvmw6u.p.aurora",
+    decimals: 18,
+  },
+  USDT: {
+    name: "Tether USD",
+    nearAccountId: "5rubrrzzsb8usy5xn3ahmnle79xk9wgajspm5swezors.p.aurora",
+    decimals: 18,
+  },
   BTC: null,
   CUSTOM: null,
 }

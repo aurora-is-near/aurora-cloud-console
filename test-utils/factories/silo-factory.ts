@@ -15,10 +15,9 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   genesis: "1695870567776",
   rpc_url: "testnet.aurora.dev",
   engine_version: "2.0.22",
-  network: "public",
   grafana_network_key: "testnet",
   gas_collection_address: null,
-  gas_price: 0,
+  gas_price: "0",
   network_logo: "https://example.com/network_logo.png",
   network_logo_dark: "https://example.com/network_logo_dark.png",
   favicon: "https://example.com/favicon.png",
@@ -34,6 +33,7 @@ export const createMockSilo = (data?: Partial<Silo>): Silo => ({
   inspected_at: null,
   intents_integration_status: "INITIAL",
   trisolaris_integration_status: "INITIAL",
+  gas_burn_percent: 0,
   ...data,
 })
 

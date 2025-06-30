@@ -24,28 +24,22 @@ export const OnrampHomePage = () => {
 
         <FeatureCTAList>
           <FeatureCTA
-            title="Universal widget"
-            description="Send, receive, bridge, pay and onramp on your virtual chain."
-            icon="/static/v2/images/examples/universal_widget.png"
-            link={`${linkPrefix}/universal-widget`}
+            title="Bridge"
+            description="Bridge assets between Ethereum, Near, Aurora and your chain. Configure your bridge widget and embed it."
+            icon="/static/images/examples/bridge_widget.png"
+            link={`${linkPrefix}/bridge`}
           />
           <FeatureCTA
             title="Fiat to crypto"
             description="Enable your users to onramp from fiat to crypto directly on your chain."
-            icon="/static/v2/images/examples/fiat_to_crypto.png"
+            icon="/static/images/examples/fiat_to_crypto.png"
             link={`${linkPrefix}/fiat-to-crypto`}
           />
           <FeatureCTA
             title="Forwarder"
             description="Allow users to deposit assets from centralized exchanges to your chain."
-            icon="/static/v2/images/examples/cex_withdrawals.png"
+            icon="/static/images/examples/cex_withdrawals.png"
             link={`${linkPrefix}/forwarder`}
-          />
-          <FeatureCTA
-            title="Bridge"
-            description="Bridge assets between Ethereum, NEAR and Aurora."
-            icon="/static/v2/images/examples/bridge.png"
-            link={`${linkPrefix}/bridge`}
           />
         </FeatureCTAList>
       </div>

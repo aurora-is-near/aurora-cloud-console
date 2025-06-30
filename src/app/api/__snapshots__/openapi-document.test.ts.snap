@@ -823,9 +823,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "id": {
                             "type": "number",
                           },
-                          "intentsIntegrationStatus": {
-                            "type": "string",
-                          },
                           "name": {
                             "type": "string",
                           },
@@ -850,13 +847,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                             ],
                             "type": "object",
                           },
-                          "network": {
-                            "type": "string",
-                          },
                           "rpcUrl": {
-                            "type": "string",
-                          },
-                          "trisolarisIntegrationStatus": {
                             "type": "string",
                           },
                           "updatedAt": {
@@ -872,10 +863,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "engineVersion",
                           "genesis",
                           "name",
-                          "network",
                           "rpcUrl",
-                          "intentsIntegrationStatus",
-                          "trisolarisIntegrationStatus",
                           "nativeToken",
                         ],
                         "type": "object",
@@ -945,9 +933,6 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "id": {
                       "type": "number",
                     },
-                    "intentsIntegrationStatus": {
-                      "type": "string",
-                    },
                     "name": {
                       "type": "string",
                     },
@@ -972,13 +957,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                       ],
                       "type": "object",
                     },
-                    "network": {
-                      "type": "string",
-                    },
                     "rpcUrl": {
-                      "type": "string",
-                    },
-                    "trisolarisIntegrationStatus": {
                       "type": "string",
                     },
                     "updatedAt": {
@@ -994,10 +973,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                     "engineVersion",
                     "genesis",
                     "name",
-                    "network",
                     "rpcUrl",
-                    "intentsIntegrationStatus",
-                    "trisolarisIntegrationStatus",
                     "nativeToken",
                   ],
                   "type": "object",
@@ -2695,6 +2671,10 @@ exports[`OpenAPI Document should be valid 1`] = `
                             "nullable": true,
                             "type": "string",
                           },
+                          "silo_address": {
+                            "nullable": true,
+                            "type": "string",
+                          },
                           "symbol": {
                             "type": "string",
                           },
@@ -2706,6 +2686,7 @@ exports[`OpenAPI Document should be valid 1`] = `
                           "symbol",
                           "decimals",
                           "aurora_address",
+                          "silo_address",
                           "near_address",
                           "ethereum_address",
                           "iconUrl",
@@ -3045,13 +3026,6 @@ exports[`OpenAPI Document should be valid 1`] = `
               "type": "number",
             },
           },
-          {
-            "in": "query",
-            "name": "dealId",
-            "schema": {
-              "type": "number",
-            },
-          },
         ],
         "responses": {
           "200": {
@@ -3124,7 +3098,7 @@ exports[`OpenAPI Document should be valid 1`] = `
             "name": "id",
             "required": true,
             "schema": {
-              "type": "string",
+              "type": "number",
             },
           },
           {
@@ -3133,13 +3107,6 @@ exports[`OpenAPI Document should be valid 1`] = `
             "required": true,
             "schema": {
               "type": "string",
-            },
-          },
-          {
-            "in": "query",
-            "name": "dealId",
-            "schema": {
-              "type": "number",
             },
           },
         ],

@@ -47,6 +47,18 @@ const getNetworkKeys = (silo: Silo, networks: WidgetNetworkType[]): string[] =>
     throw new Error(`Unknown network: ${network}`)
   })
 
+const getNetworkAddress = (
+  address: string | null,
+  symbol: string,
+  nativeCurrencySymbol: string,
+) => {
+  if (symbol.toUpperCase() === nativeCurrencySymbol.toUpperCase()) {
+    return BASE_TOKEN_PLACEHOLDER_ADDRESS
+  }
+
+  return address
+}
+
 const setCustomTokensParam = (
   url: URL,
   {
@@ -67,6 +79,7 @@ const setCustomTokensParam = (
         icon_url,
         ethereum_address,
         aurora_address,
+        silo_address,
         near_address,
       }) => {
         const data = cleanDeep({
@@ -74,13 +87,14 @@ const setCustomTokensParam = (
           name,
           decimals,
           icon: icon_url,
-          ethereum: ethereum_address,
-          aurora: aurora_address,
-          near: near_address,
-          [silo.engine_account]:
-            silo.base_token_symbol.toUpperCase() === symbol.toUpperCase()
-              ? BASE_TOKEN_PLACEHOLDER_ADDRESS
-              : aurora_address,
+          ethereum: getNetworkAddress(ethereum_address, symbol, "ETH"),
+          aurora: getNetworkAddress(aurora_address, symbol, "ETH"),
+          near: getNetworkAddress(near_address, symbol, "NEAR"),
+          [silo.engine_account]: getNetworkAddress(
+            silo_address,
+            symbol,
+            silo.base_token_symbol,
+          ),
         })
 
         return data

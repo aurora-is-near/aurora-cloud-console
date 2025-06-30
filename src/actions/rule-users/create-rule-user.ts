@@ -5,6 +5,7 @@ import { RuleUser } from "@/types/types"
 import { assertValidSupabaseResult } from "@/utils/supabase"
 
 export const createRuleUser = async (inputs: {
+  team_id: number
   userlist_id: number
   eoas: string[]
 }): Promise<RuleUser> => {
@@ -15,6 +16,7 @@ export const createRuleUser = async (inputs: {
     .from("rule_users")
     .insert({
       eoas: inputs.eoas,
+      team_id: inputs.team_id,
     })
     .select()
     .single()

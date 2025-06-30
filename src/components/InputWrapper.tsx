@@ -4,7 +4,7 @@ import { FieldErrors, Path } from "react-hook-form"
 export type InputWrapperProps<Inputs extends Record<string, unknown>> = {
   id: string
   inputName: Path<Inputs>
-  label: string
+  label?: string
   children: ReactNode
   errors?: FieldErrors<Inputs>
   className?: string
@@ -22,12 +22,14 @@ export const InputWrapper = <Inputs extends Record<string, unknown>>({
 
   return (
     <div className={className}>
-      <label
-        htmlFor={id}
-        className="py-2 flex text-sm font-medium leading-none"
-      >
-        {label}
-      </label>
+      {label ? (
+        <label
+          htmlFor={id}
+          className="py-2 flex text-sm font-medium leading-none"
+        >
+          {label}
+        </label>
+      ) : null}
       <div className="w-full">
         {children}
         {!!errorMessage && (

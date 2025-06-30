@@ -1,4 +1,5 @@
 const { withSentryConfig } = require("@sentry/nextjs")
+const { cspHeader } = require("./csp")
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -15,6 +16,19 @@ const nextConfig = {
     })
 
     return config
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: cspHeader.replace(/\n/g, ""),
+          },
+        ],
+      },
+    ]
   },
 }
 

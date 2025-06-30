@@ -12,9 +12,9 @@ export const isBridgedTokenDeployed = async (
     return true
   }
 
-  if (!token.aurora_address) {
+  if (!token.silo_address) {
     return false
   }
 
-  return isTokenContractDeployed(silo, token.aurora_address)
+  return isTokenContractDeployed(silo, token.silo_address)
 }

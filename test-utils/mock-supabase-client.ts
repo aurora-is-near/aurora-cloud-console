@@ -10,6 +10,7 @@ export const createSelect = <T>(data?: T) => ({
   gte: jest.fn().mockReturnThis(),
   lte: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
+  or: jest.fn().mockReturnThis(),
   single: jest.fn(() => ({
     data,
     error: null,
@@ -78,7 +79,9 @@ const tables: Record<TableName, ReturnType<typeof createTableClient>> = {
   silo_bridged_tokens: createTableClient(),
   bridged_tokens: createTableClient(),
   bridged_token_requests: createTableClient(),
-  _prisma_migrations: createTableClient(),
+  deal_changes: createTableClient(),
+  silo_gas_swaps: createTableClient(),
+  integration_requests: createTableClient(),
 }
 
 export const mockSupabaseClient = {

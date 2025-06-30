@@ -1,8 +1,14 @@
 import { useQuery } from "@tanstack/react-query"
 import { getQueryFnAndKey } from "@/utils/api/queries"
 import { getBridgedTokens } from "@/actions/bridged-tokens/get-bridged-tokens"
+import { BASE_TOKEN_PLACEHOLDER_ADDRESS } from "@/constants/base-token"
+import { useTeamKey } from "@/hooks/useTeamKey"
+import { useTeamSilo } from "@/hooks/useTeamSilo"
 
 export const useBridgedTokens = (siloId: number) => {
+  const teamKey = useTeamKey()
+
+  const { data: silo } = useTeamSilo(teamKey, siloId)
   const { data: bridgedSiloTokens, isPending: isSiloTokensPending } = useQuery(
     getQueryFnAndKey("getSiloBridgedTokens", {
       id: siloId,
@@ -26,12 +32,30 @@ export const useBridgedTokens = (siloId: number) => {
       },
     })
 
+  const bridgedSiloTokensSymbols =
+    bridgedSiloTokens?.items.map((token) => token.symbol.toUpperCase()) ?? []
+
+  // List the tokens that can be bridged and have not already been for the given
+  // silo.
+  const bridgeableTokens = supportedTokens.filter((token) => {
+    const canBeAutomaticallyBridged = !!token.aurora_address
+    const isBaseToken =
+      token.silo_address === BASE_TOKEN_PLACEHOLDER_ADDRESS &&
+      silo?.base_token_symbol === token.symbol
+
+    const isAlreadyBridged = bridgedSiloTokensSymbols.includes(
+      token.symbol.toUpperCase(),
+    )
+
+    return (!!canBeAutomaticallyBridged || isBaseToken) && !isAlreadyBridged
+  })
+
   return {
     isPending:
       isSiloTokensPending ||
       isSiloTokenRequestsPending ||
       isSupportedTokensPending,
-    supportedTokens,
+    bridgeableTokens,
     bridgedSiloTokens: bridgedSiloTokens?.items ?? [],
     bridgedSiloTokenRequests: bridgedSiloTokenRequests?.items ?? [],
   }

@@ -28,7 +28,7 @@ export const DeploymentProgressContent = ({
     useState(false)
 
   const canBeAutomated =
-    hasUnassignedSilo &&
+    (silo ?? hasUnassignedSilo) &&
     onboardingForm?.baseToken &&
     AUTOMATED_BASE_TOKENS.includes(onboardingForm.baseToken)
 
@@ -87,7 +87,6 @@ export const DeploymentProgressContent = ({
     <DeploymentSteps
       silo={silo}
       siloTransactionStatuses={siloTransactionStatuses}
-      isPublicChain={onboardingForm?.chainPermission === "public"}
       team={team}
       onDeploymentComplete={() => {
         setIsDeploymentComplete(true)

@@ -12,7 +12,7 @@ import {
   IntegrationIntenseSupport,
   IntegrationOnramp,
   IntegrationOracle,
-} from "../../../../../public/static/v2/images/icons"
+} from "../../../../../public/static/images/icons"
 
 interface IntegrationBoxProps {
   integration: Integration

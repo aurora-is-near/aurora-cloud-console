@@ -19,6 +19,7 @@ export type Teams = {
 
 export type TeamMember = {
   id: number
+  userUuid: string
   name: string | null
   email: string
   isPending: boolean
@@ -98,6 +99,8 @@ export type BridgedToken = Tables<"bridged_tokens">
 
 export type SiloBridgedTokenMetadata = Tables<"silo_bridged_tokens">
 
+export type SiloRelayer = Tables<"silo_relayers">
+
 export type SiloBridgedToken = BridgedToken & {
   is_deployment_pending: boolean
 }
@@ -109,6 +112,8 @@ export type OnboardingForm = Tables<"onboarding_form">
 export type ChartColor = (typeof CHART_COLOURS)[number]
 
 export type SiloWhitelistType = Enums<"address_whitelist_type">
+
+export type IntegrationRequest = Tables<"integration_requests">
 
 type ChartData = {
   label: string

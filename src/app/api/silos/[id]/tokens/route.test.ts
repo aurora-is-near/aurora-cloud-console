@@ -88,6 +88,7 @@ describe("Silo tokens route", () => {
           symbol: mockTokens[index].symbol,
           decimals: mockTokens[index].decimals,
           aurora_address: mockTokens[index].aurora_address,
+          silo_address: mockTokens[index].silo_address,
           near_address: mockTokens[index].near_address,
           ethereum_address: mockTokens[index].ethereum_address,
           isDeploymentPending:

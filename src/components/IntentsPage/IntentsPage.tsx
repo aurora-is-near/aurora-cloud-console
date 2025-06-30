@@ -1,56 +1,24 @@
 "use client"
 
 import Image from "next/image"
+import { useContext } from "react"
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import toast from "react-hot-toast"
-import { useContext, useState } from "react"
-import { CheckIcon } from "@heroicons/react/24/solid"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+
 import Hero from "@/components/Hero/Hero"
 import { DashboardPage } from "@/components/DashboardPage"
 import { Tabs } from "@/components/Tabs/Tabs"
 import { LinkButton } from "@/components/LinkButton"
 import { TabCard } from "@/components/TabCard/TabCard"
-import { Button } from "@/components/Button"
-import { requestIntegration } from "@/actions/silos/request-integration"
-import { RequestReceivedPopup } from "@/components/RequestReceivedPopup"
+import { IntegrationRequestButton } from "@/components/IntegrationRequestButton"
 import { useRequiredContext } from "@/hooks/useRequiredContext"
 import { TeamContext } from "@/providers/TeamProvider"
 import { SiloContext } from "@/providers/SiloProvider"
-import { queryKeys } from "@/actions/query-keys"
-import { NearIntents } from "../../../public/static/v2/images/icons"
+
+import { NearIntents } from "../../../public/static/images/icons"
 
 export const IntentsPage = () => {
   const { team } = useRequiredContext(TeamContext)
   const { silo } = useContext(SiloContext) ?? {}
-  const queryClient = useQueryClient()
-  const [showPopup, setShowPopup] = useState(false)
-
-  const {
-    mutate: mutateIntegrationRequest,
-    isPending: isRequestingIntegration,
-  } = useMutation({
-    mutationFn: async () => {
-      if (!silo) {
-        return null
-      }
-
-      return requestIntegration(team, silo, "intents")
-    },
-    onSuccess: (updatedSilo) => {
-      setShowPopup(true)
-
-      if (updatedSilo) {
-        queryClient.setQueryData(
-          queryKeys.getTeamSiloByKey(team.team_key, updatedSilo.id),
-          updatedSilo.intents_integration_status,
-        )
-      }
-    },
-    onError: () => {
-      toast.error("Failed to request integration")
-    },
-  })
 
   const tabs = [
     {
@@ -94,7 +62,7 @@ export const IntentsPage = () => {
             <Image
               width="48"
               height="48"
-              src="/static/v2/images/icons/marketplace/near_intents.svg"
+              src="/static/images/icons/marketplace/near_intents.svg"
               alt="Near Intents Logo"
             />
             Near Intents
@@ -105,39 +73,20 @@ export const IntentsPage = () => {
           <Image
             width="400"
             height="240"
-            src="/static/v2/images/feature/hero/near_intents.png"
+            src="/static/images/feature/hero/near_intents.png"
             alt="Near Intents Preview"
           />
         }
       >
-        {showPopup && (
-          <RequestReceivedPopup
-            link={`/dashboard/${team.team_key}/silos/${silo?.id}/configuration?tab=brand-assets`}
-            close={() => setShowPopup(false)}
-          />
-        )}
         <div className="flex justify-start gap-2">
-          {silo?.intents_integration_status === "INITIAL" && (
-            <Button
-              onClick={() => mutateIntegrationRequest()}
-              disabled={isRequestingIntegration}
-              size="lg"
-            >
-              {isRequestingIntegration
-                ? "Requesting activation..."
-                : "Activate integration"}
-            </Button>
-          )}
-          {silo?.intents_integration_status === "REQUESTED" && (
-            <Button variant="secondary" size="lg" disabled>
-              <CheckIcon className="w-4 h-4" />
-              Integration requested
-            </Button>
-          )}
-          {silo?.intents_integration_status === "COMPLETED" && (
-            <Button size="lg" disabled>
-              Active
-            </Button>
+          {silo && (
+            <IntegrationRequestButton
+              showUpdateIconPrompt
+              silo={silo}
+              team={team}
+              integrationType="intents"
+              requestReceivedMessage="Your chain will be integrated within 1-2 business days. To enhance your visibility on Near Intents, be sure to upload your blockchain icon."
+            />
           )}
           <LinkButton
             isExternal

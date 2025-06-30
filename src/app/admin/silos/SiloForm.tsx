@@ -1,7 +1,6 @@
 "use client"
 
 import { SubmitHandler } from "react-hook-form"
-import { sentenceCase } from "change-case"
 import { usePathname } from "next/navigation"
 import { BlockscoutDatabase, Silo, SilosTeams, Team } from "@/types/types"
 import { updateSilo } from "@/actions/silos/update-silo"
@@ -23,15 +22,6 @@ type SiloFormProps = {
 
 type Inputs = Omit<Silo, "id" | "created_at"> & { silos_teams: string[] }
 
-const NETWORK_OPTIONS = ["public", "permissioned", "private"] as const
-
-type NetworkOption = (typeof NETWORK_OPTIONS)[number]
-
-const getNetworkOption = (value: NetworkOption): SelectInputOption => ({
-  label: sentenceCase(value),
-  value,
-})
-
 const getBlockscoutDatabaseOption = (
   database: BlockscoutDatabase,
 ): SelectInputOption => ({
@@ -43,9 +33,6 @@ const getTeamOption = (team: Team): SelectInputOption => ({
   label: team.name,
   value: team.id,
 })
-
-const isNetworkOption = (value?: string): value is NetworkOption =>
-  !!value && NETWORK_OPTIONS.includes(value as NetworkOption)
 
 export const SiloForm = ({
   silo,
@@ -97,22 +84,6 @@ export const SiloForm = ({
       defaultValue: silo?.name ?? "",
       autoComplete: "name",
       required: true,
-    },
-    {
-      name: "network",
-      label: "Network",
-      defaultValue:
-        silo && isNetworkOption(silo.network)
-          ? getNetworkOption(silo.network)
-          : getNetworkOption("public"),
-      autoComplete: "network",
-      required: true,
-      getValue: (option?: SelectInputOption) => option?.value ?? "public",
-      options: [
-        getNetworkOption("public"),
-        getNetworkOption("permissioned"),
-        getNetworkOption("private"),
-      ],
     },
     {
       name: "chain_id",
@@ -193,30 +164,6 @@ export const SiloForm = ({
       label: "Base token decimals",
       defaultValue: silo?.base_token_decimals,
       required: true,
-    },
-    {
-      name: "intents_integration_status",
-      label: "Intents integration status",
-      defaultValue: silo?.intents_integration_status ?? "INITIAL",
-      required: true,
-      getValue: (option?: SelectInputOption) => option?.value,
-      options: [
-        { label: "--", value: "INITIAL" },
-        { label: "Requested", value: "REQUESTED" },
-        { label: "Completed", value: "COMPLETED" },
-      ],
-    },
-    {
-      name: "trisolaris_integration_status",
-      label: "Trisolaris integration status",
-      defaultValue: silo?.trisolaris_integration_status ?? "INITIAL",
-      required: true,
-      getValue: (option?: SelectInputOption) => option?.value,
-      options: [
-        { label: "--", value: "INITIAL" },
-        { label: "Requested", value: "REQUESTED" },
-        { label: "Completed", value: "COMPLETED" },
-      ],
     },
     {
       name: "silos_teams",

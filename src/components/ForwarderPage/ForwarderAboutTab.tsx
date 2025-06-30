@@ -1,5 +1,5 @@
 import { TabCard } from "@/components/TabCard/TabCard"
-import { AuroraPlus } from "../../../public/static/v2/images/icons"
+import { AuroraPlus } from "../../../public/static/images/icons"
 
 export const ForwarderAboutTab = () => (
   <TabCard
