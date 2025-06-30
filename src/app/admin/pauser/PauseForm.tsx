@@ -9,7 +9,7 @@ type Inputs = {
   networkId: "ethereum" | "near"
   chainId: string
   accountId: string
-  target?: string
+  target: string
   sender?: string
 }
 
