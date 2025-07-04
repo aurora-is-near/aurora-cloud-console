@@ -18,7 +18,10 @@ const PauseForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
   } = useForm<Inputs>()
+
+  const networkId = watch("networkId")
 
   const submit: SubmitHandler<Inputs> = useCallback(async (inputs) => {
     await pause(inputs)
@@ -102,52 +105,56 @@ const PauseForm = () => {
             )}
           </div>
 
-          <div>
-            <label
-              htmlFor="target"
-              className="block text-sm font-medium leading-none text-gray-900"
-            >
-              Controller Account
-            </label>
-            <input
-              type="text"
-              id="target"
-              className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-              placeholder="controller contract e.g. controller.aurora"
-              required
-              {...register("target", {
-                required: "Please enter a valid account",
-              })}
-            />
-            {!!errors.target?.message && (
-              <p className="mt-1.5 text-sm font-medium text-red-500">
-                {errors.target.message}
-              </p>
-            )}
-          </div>
+          {networkId === "near" && (
+            <>
+              <div>
+                <label
+                  htmlFor="target"
+                  className="block text-sm font-medium leading-none text-gray-900"
+                >
+                  Controller Account
+                </label>
+                <input
+                  type="text"
+                  id="target"
+                  className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  placeholder="controller contract e.g. controller.aurora"
+                  required
+                  {...register("target", {
+                    required: "Please enter a valid account",
+                  })}
+                />
+                {!!errors.target?.message && (
+                  <p className="mt-1.5 text-sm font-medium text-red-500">
+                    {errors.target.message}
+                  </p>
+                )}
+              </div>
 
-          <div>
-            <label
-              htmlFor="sender"
-              className="block text-sm font-medium leading-none text-gray-900"
-            >
-              Signer Account
-            </label>
-            <input
-              type="text"
-              id="sender"
-              className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-              placeholder="leave this blank to sign with implicit account"
-              {...register("sender", {
-                required: false,
-              })}
-            />
-            {!!errors.sender?.message && (
-              <p className="mt-1.5 text-sm font-medium text-red-500">
-                {errors.sender.message}
-              </p>
-            )}
-          </div>
+              <div>
+                <label
+                  htmlFor="sender"
+                  className="block text-sm font-medium leading-none text-gray-900"
+                >
+                  Signer Account
+                </label>
+                <input
+                  type="text"
+                  id="sender"
+                  className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  placeholder="leave this blank to sign with implicit account"
+                  {...register("sender", {
+                    required: false,
+                  })}
+                />
+                {!!errors.sender?.message && (
+                  <p className="mt-1.5 text-sm font-medium text-red-500">
+                    {errors.sender.message}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
 
           <Button loading={isSubmitting} size="lg" type="submit" fullWidth>
             Pause
