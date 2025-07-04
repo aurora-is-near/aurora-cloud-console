@@ -35,16 +35,18 @@ const PauseForm = () => {
             >
               Network
             </label>
-            <input
-              type="text"
+            <select
               id="networkId"
-              className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-              placeholder="near | ethereum"
+              className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
               required
               {...register("networkId", {
-                required: "Please enter a networkId",
+                required: "Please select a network",
               })}
-            />
+            >
+              <option value="">Select network</option>
+              <option value="near">Near</option>
+              <option value="ethereum">Ethereum</option>
+            </select>
             {!!errors.networkId?.message && (
               <p className="mt-1.5 text-sm font-medium text-red-500">
                 {errors.networkId.message}
@@ -136,9 +138,8 @@ const PauseForm = () => {
               id="sender"
               className="block w-full mt-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
               placeholder="leave this blank to sign with implicit account"
-              required
               {...register("sender", {
-                required: "Please enter a valid account",
+                required: false,
               })}
             />
             {!!errors.sender?.message && (
