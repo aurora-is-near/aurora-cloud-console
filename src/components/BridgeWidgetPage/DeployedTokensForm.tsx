@@ -1,7 +1,7 @@
 "use client"
 
 import { useMutation } from "@tanstack/react-query"
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
+import { FormProvider, type SubmitHandler, useForm } from "react-hook-form"
 import { useCallback, useEffect, useMemo } from "react"
 import { CheckIcon, ClockIcon } from "@heroicons/react/20/solid"
 import toast from "react-hot-toast"
@@ -9,10 +9,11 @@ import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
 import { Tag } from "@/components/Tag"
 import { Checkbox } from "@/components/Checkbox"
-import {
+import type {
   SiloBridgedTokenRequestSchema,
   SiloBridgedTokenSchema,
 } from "@/types/api-schemas"
+import TokenDetailsPopoverContent from "@/components/BridgeWidgetPage/TokenDetailsPopoverContent"
 
 type Inputs = Partial<Record<string, boolean>>
 
@@ -88,6 +89,10 @@ const DeployedTokensForm = ({
     id: number
     symbol: string
     isPending: boolean
+    siloAddress: string | null
+    auroraAddress: string | null
+    nearAddress: string | null
+    ethereumAddress: string | null
   }[] => {
     const bridgedSiloTokenSymbols = bridgedSiloTokens.map(
       (token) => token.symbol,
@@ -98,6 +103,10 @@ const DeployedTokensForm = ({
         id: token.id,
         symbol: token.symbol,
         isPending: token.isDeploymentPending,
+        siloAddress: token.silo_address,
+        auroraAddress: token.aurora_address,
+        nearAddress: token.near_address,
+        ethereumAddress: token.ethereum_address,
       })),
       ...bridgedSiloTokenRequests
         .filter((token) => !bridgedSiloTokenSymbols.includes(token.symbol))
@@ -105,6 +114,10 @@ const DeployedTokensForm = ({
           id: token.id,
           symbol: token.symbol,
           isPending: true,
+          siloAddress: null,
+          auroraAddress: null,
+          nearAddress: null,
+          ethereumAddress: null,
         })),
     ]
   }, [bridgedSiloTokens, bridgedSiloTokenRequests])
@@ -121,6 +134,7 @@ const DeployedTokensForm = ({
               name={String(token.id)}
               disabled={isPending || isSubmitting || token.isPending}
               register={register}
+              tooltipContent={<TokenDetailsPopoverContent token={token} />}
               afterLabel={
                 !token.isPending ? (
                   <Tag
