@@ -13,7 +13,7 @@ import type {
   SiloBridgedTokenRequestSchema,
   SiloBridgedTokenSchema,
 } from "@/types/api-schemas"
-import TokenDetailsPopoverContent from "@/components/BridgeWidgetPage/TokenDetailsPopoverContent"
+import { generateTokenDescription } from "@/components/BridgeWidgetPage/TokenDetailsPopoverContent"
 
 type Inputs = Partial<Record<string, boolean>>
 
@@ -89,6 +89,7 @@ const DeployedTokensForm = ({
     id: number
     symbol: string
     isPending: boolean
+    siloAddress: string | null
     auroraAddress: string | null
     nearAddress: string | null
     ethereumAddress: string | null
@@ -102,6 +103,7 @@ const DeployedTokensForm = ({
         id: token.id,
         symbol: token.symbol,
         isPending: token.isDeploymentPending,
+        siloAddress: token.silo_address,
         auroraAddress: token.aurora_address,
         nearAddress: token.near_address,
         ethereumAddress: token.ethereum_address,
@@ -112,48 +114,13 @@ const DeployedTokensForm = ({
           id: token.id,
           symbol: token.symbol,
           isPending: true,
+          siloAddress: null,
           auroraAddress: null,
           nearAddress: null,
           ethereumAddress: null,
         })),
     ]
   }, [bridgedSiloTokens, bridgedSiloTokenRequests])
-
-  const generateTokenDescription = (token: {
-    id: number
-    symbol: string
-    isPending: boolean
-    auroraAddress: string | null
-    nearAddress: string | null
-    ethereumAddress: string | null
-  }) => {
-    if (token.isPending) {
-      return "This token is pending deployment.Addresses will be available after deployment."
-    }
-
-    return (
-      <div className="flex flex-col gap-2">
-        {!!token.auroraAddress && (
-          <TokenDetailsPopoverContent
-            network="Aurora"
-            address={token.auroraAddress}
-          />
-        )}
-        {!!token.nearAddress && (
-          <TokenDetailsPopoverContent
-            network="Near"
-            address={token.nearAddress}
-          />
-        )}
-        {!!token.ethereumAddress && (
-          <TokenDetailsPopoverContent
-            network="Ethereum"
-            address={token.ethereumAddress}
-          />
-        )}
-      </div>
-    )
-  }
 
   return (
     <FormProvider {...methods}>
