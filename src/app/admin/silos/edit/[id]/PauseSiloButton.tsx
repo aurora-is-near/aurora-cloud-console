@@ -29,25 +29,13 @@ export const PauseSiloButton = ({ silo }: PauseSiloButtonProps) => {
     setIsPending(true)
 
     try {
-      if (silo.name === "Devnet") {
-        await pause({
-          networkId: "near",
-          chainId: "testnet",
-          accountId: "demo-pausable.testnet",
-          target: "demo-pauser.testnet",
-          methodName: "pa_pause_feature",
-          methodArgs: { key: "ALL" },
-          sender: "aurealis.testnet",
-        })
-      } else {
-        await pause({
-          networkId: "near",
-          chainId: "mainnet",
-          accountId: silo.engine_account,
-          target: "c.aurora",
-          sender: "security-ops.near",
-        })
-      }
+      await pause({
+        networkId: "near",
+        chainId: "mainnet",
+        accountId: silo.engine_account,
+        target: "c.aurora",
+        sender: "security-ops.near",
+      })
 
       router.push("/admin/silos")
     } catch (error) {
