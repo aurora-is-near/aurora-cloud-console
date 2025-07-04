@@ -13,7 +13,7 @@ import type {
   SiloBridgedTokenRequestSchema,
   SiloBridgedTokenSchema,
 } from "@/types/api-schemas"
-import CopyButton from "@/components/CopyButton"
+import TokenDetailsPopoverContent from "@/components/BridgeWidgetPage/TokenDetailsPopoverContent"
 
 type Inputs = Partial<Record<string, boolean>>
 
@@ -112,9 +112,9 @@ const DeployedTokensForm = ({
           id: token.id,
           symbol: token.symbol,
           isPending: true,
-          auroraAddress: "",
-          nearAddress: "",
-          ethereumAddress: "",
+          auroraAddress: null,
+          nearAddress: null,
+          ethereumAddress: null,
         })),
     ]
   }, [bridgedSiloTokens, bridgedSiloTokenRequests])
@@ -133,39 +133,24 @@ const DeployedTokensForm = ({
 
     return (
       <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-1">
-          <h3 className="text-sm font-medium text-slate-700">Aurora</h3>
-          <div
-            className="flex items-center gap-2 bg-slate-100 rounded-md px-2 py-0"
-            title={token.auroraAddress ?? ""}
-          >
-            {token.auroraAddress?.slice(0, 6)}...
-            {token.auroraAddress?.slice(-4)}
-            <CopyButton value={token.auroraAddress ?? ""} />
-          </div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <h3 className="text-sm font-medium text-slate-700">Near</h3>
-          <div
-            className="flex items-center gap-2 bg-slate-100 rounded-md px-2 py-0"
-            title={token.nearAddress ?? ""}
-          >
-            {token.nearAddress?.slice(0, 6)}...
-            {token.nearAddress?.slice(-4)}
-            <CopyButton value={token.nearAddress ?? ""} />
-          </div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <h3 className="text-sm font-medium text-slate-700">Ethereum</h3>
-          <div
-            className="flex items-center gap-2 bg-slate-100 rounded-md px-2 py-0"
-            title={token.ethereumAddress ?? ""}
-          >
-            {token.ethereumAddress?.slice(0, 6)}...
-            {token.ethereumAddress?.slice(-4)}
-            <CopyButton value={token.ethereumAddress ?? ""} />
-          </div>
-        </div>
+        {!!token.auroraAddress && (
+          <TokenDetailsPopoverContent
+            network="Aurora"
+            address={token.auroraAddress}
+          />
+        )}
+        {!!token.nearAddress && (
+          <TokenDetailsPopoverContent
+            network="Near"
+            address={token.nearAddress}
+          />
+        )}
+        {!!token.ethereumAddress && (
+          <TokenDetailsPopoverContent
+            network="Ethereum"
+            address={token.ethereumAddress}
+          />
+        )}
       </div>
     )
   }
