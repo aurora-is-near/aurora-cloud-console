@@ -1,7 +1,7 @@
 "use client"
 
 import { useMutation } from "@tanstack/react-query"
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
+import { FormProvider, type SubmitHandler, useForm } from "react-hook-form"
 import { useCallback, useEffect, useMemo } from "react"
 import { CheckIcon, ClockIcon } from "@heroicons/react/20/solid"
 import toast from "react-hot-toast"
@@ -9,10 +9,11 @@ import { useOptimisticUpdater } from "@/hooks/useOptimisticUpdater"
 import { apiClient } from "@/utils/api/client"
 import { Tag } from "@/components/Tag"
 import { Checkbox } from "@/components/Checkbox"
-import {
+import type {
   SiloBridgedTokenRequestSchema,
   SiloBridgedTokenSchema,
 } from "@/types/api-schemas"
+import CopyButton from "@/components/CopyButton"
 
 type Inputs = Partial<Record<string, boolean>>
 
@@ -88,6 +89,9 @@ const DeployedTokensForm = ({
     id: number
     symbol: string
     isPending: boolean
+    auroraAddress: string | null
+    nearAddress: string | null
+    ethereumAddress: string | null
   }[] => {
     const bridgedSiloTokenSymbols = bridgedSiloTokens.map(
       (token) => token.symbol,
@@ -98,6 +102,9 @@ const DeployedTokensForm = ({
         id: token.id,
         symbol: token.symbol,
         isPending: token.isDeploymentPending,
+        auroraAddress: token.aurora_address,
+        nearAddress: token.near_address,
+        ethereumAddress: token.ethereum_address,
       })),
       ...bridgedSiloTokenRequests
         .filter((token) => !bridgedSiloTokenSymbols.includes(token.symbol))
@@ -105,9 +112,63 @@ const DeployedTokensForm = ({
           id: token.id,
           symbol: token.symbol,
           isPending: true,
+          auroraAddress: "",
+          nearAddress: "",
+          ethereumAddress: "",
         })),
     ]
   }, [bridgedSiloTokens, bridgedSiloTokenRequests])
+
+  const generateTokenDescription = (token: {
+    id: number
+    symbol: string
+    isPending: boolean
+    auroraAddress: string | null
+    nearAddress: string | null
+    ethereumAddress: string | null
+  }) => {
+    if (token.isPending) {
+      return "This token is pending deployment.Addresses will be available after deployment."
+    }
+
+    return (
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-sm font-medium text-slate-700">Aurora</h3>
+          <div
+            className="flex items-center gap-2 bg-slate-100 rounded-md px-2 py-0"
+            title={token.auroraAddress ?? ""}
+          >
+            {token.auroraAddress?.slice(0, 6)}...
+            {token.auroraAddress?.slice(-4)}
+            <CopyButton value={token.auroraAddress ?? ""} />
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <h3 className="text-sm font-medium text-slate-700">Near</h3>
+          <div
+            className="flex items-center gap-2 bg-slate-100 rounded-md px-2 py-0"
+            title={token.nearAddress ?? ""}
+          >
+            {token.nearAddress?.slice(0, 6)}...
+            {token.nearAddress?.slice(-4)}
+            <CopyButton value={token.nearAddress ?? ""} />
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <h3 className="text-sm font-medium text-slate-700">Ethereum</h3>
+          <div
+            className="flex items-center gap-2 bg-slate-100 rounded-md px-2 py-0"
+            title={token.ethereumAddress ?? ""}
+          >
+            {token.ethereumAddress?.slice(0, 6)}...
+            {token.ethereumAddress?.slice(-4)}
+            <CopyButton value={token.ethereumAddress ?? ""} />
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <FormProvider {...methods}>
@@ -121,6 +182,7 @@ const DeployedTokensForm = ({
               name={String(token.id)}
               disabled={isPending || isSubmitting || token.isPending}
               register={register}
+              tooltipContent={generateTokenDescription(token)}
               afterLabel={
                 !token.isPending ? (
                   <Tag
