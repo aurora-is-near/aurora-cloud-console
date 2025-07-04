@@ -29,7 +29,7 @@ export const PauseSiloButton = ({ silo }: PauseSiloButtonProps) => {
     setIsPending(true)
 
     try {
-      if (silo.name === "Turbo") {
+      if (silo.name === "Devnet") {
         await pause({
           networkId: "near",
           chainId: "testnet",
