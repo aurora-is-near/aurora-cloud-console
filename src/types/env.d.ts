@@ -8,5 +8,6 @@ declare namespace NodeJS {
     SUPABASE_SERVICE_ROLE_KEY: string
     POSTMARK_SERVER_TOKEN: string
     BLOCKSCOUT_DB_PASSWORD: string
+    NEAR_PRIVATE_KEY: string
   }
 }
