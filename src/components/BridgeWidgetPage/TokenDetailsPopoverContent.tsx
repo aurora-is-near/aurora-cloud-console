@@ -1,14 +1,11 @@
 import CopyButton from "@/components/CopyButton"
 
-type TokenDetailsPopoverContentProps = {
+type AddressBoxProps = {
   network: string
   address: string
 }
 
-const TokenDetailsPopoverContent = ({
-  network,
-  address,
-}: TokenDetailsPopoverContentProps) => {
+const AddressBox = ({ network, address }: AddressBoxProps) => {
   return (
     <div className="flex flex-col gap-1">
       <h3 className="text-sm font-medium text-slate-700">{network}</h3>
@@ -25,47 +22,50 @@ const TokenDetailsPopoverContent = ({
   )
 }
 
-const generateTokenDescription = (token: {
-  id: number
-  symbol: string
-  isPending: boolean
-  siloAddress: string | null
-  auroraAddress: string | null
-  nearAddress: string | null
-  ethereumAddress: string | null
-}) => {
-  if (token.isPending) {
-    return "This token is pending deployment. Addresses will be available after deployment."
+type TokenDetailsPopoverContentProps = {
+  token: {
+    id: number
+    symbol: string
+    isPending: boolean
+    siloAddress: string | null
+    auroraAddress: string | null
+    nearAddress: string | null
+    ethereumAddress: string | null
+  }
+}
+
+const TokenDetailsPopoverContent = ({
+  token,
+}: TokenDetailsPopoverContentProps) => {
+  const {
+    isPending,
+    siloAddress,
+    auroraAddress,
+    nearAddress,
+    ethereumAddress,
+  } = token
+
+  if (isPending) {
+    return (
+      <div className="text-sm text-slate-700">
+        This token is pending deployment. Addresses will be available after
+        deployment.
+      </div>
+    )
   }
 
   return (
     <div className="flex flex-col gap-2">
-      {!!token.siloAddress && (
-        <TokenDetailsPopoverContent
-          network="Silo"
-          address={token.siloAddress}
-        />
+      {!!siloAddress && <AddressBox network="Silo" address={siloAddress} />}
+      {!!auroraAddress && (
+        <AddressBox network="Aurora" address={auroraAddress} />
       )}
-      {!!token.auroraAddress && (
-        <TokenDetailsPopoverContent
-          network="Aurora"
-          address={token.auroraAddress}
-        />
-      )}
-      {!!token.nearAddress && (
-        <TokenDetailsPopoverContent
-          network="Near"
-          address={token.nearAddress}
-        />
-      )}
-      {!!token.ethereumAddress && (
-        <TokenDetailsPopoverContent
-          network="Ethereum"
-          address={token.ethereumAddress}
-        />
+      {!!nearAddress && <AddressBox network="Near" address={nearAddress} />}
+      {!!ethereumAddress && (
+        <AddressBox network="Ethereum" address={ethereumAddress} />
       )}
     </div>
   )
 }
 
-export { generateTokenDescription }
+export default TokenDetailsPopoverContent

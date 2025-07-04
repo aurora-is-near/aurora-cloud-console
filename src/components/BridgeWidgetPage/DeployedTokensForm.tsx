@@ -13,7 +13,7 @@ import type {
   SiloBridgedTokenRequestSchema,
   SiloBridgedTokenSchema,
 } from "@/types/api-schemas"
-import { generateTokenDescription } from "@/components/BridgeWidgetPage/TokenDetailsPopoverContent"
+import TokenDetailsPopoverContent from "@/components/BridgeWidgetPage/TokenDetailsPopoverContent"
 
 type Inputs = Partial<Record<string, boolean>>
 
@@ -134,7 +134,7 @@ const DeployedTokensForm = ({
               name={String(token.id)}
               disabled={isPending || isSubmitting || token.isPending}
               register={register}
-              tooltipContent={generateTokenDescription(token)}
+              tooltipContent={<TokenDetailsPopoverContent token={token} />}
               afterLabel={
                 !token.isPending ? (
                   <Tag
