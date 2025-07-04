@@ -6,6 +6,8 @@ import {
   useFormContext,
   UseFormRegister,
 } from "react-hook-form"
+import { InformationCircleIcon } from "@heroicons/react/24/solid"
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react"
 
 export type CheckboxProps<Inputs extends Record<string, unknown>> =
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
@@ -16,6 +18,7 @@ export type CheckboxProps<Inputs extends Record<string, unknown>> =
     register?: UseFormRegister<Inputs>
     registerOptions?: RegisterOptions<Inputs, Path<Inputs>>
     afterLabel?: ReactNode
+    tooltipContent?: ReactNode
   }
 
 export const Checkbox = <Inputs extends Record<string, unknown>>({
@@ -27,6 +30,7 @@ export const Checkbox = <Inputs extends Record<string, unknown>>({
   className,
   afterLabel,
   disabled,
+  tooltipContent,
   ...restProps
 }: CheckboxProps<Inputs>) => {
   const registerProps = register?.(name, registerOptions)
@@ -70,6 +74,25 @@ export const Checkbox = <Inputs extends Record<string, unknown>>({
       </label>
       {!!afterLabel && (
         <div className="flex items-center p-3">{afterLabel}</div>
+      )}
+      {!!tooltipContent && (
+        <div className="flex items-center p-3">
+          <Popover className="relative">
+            <PopoverButton
+              aria-label="Show token details"
+              className="flex items-center justify-center w-6 h-6 text-slate-400 hover:text-slate-600 transition-colors duration-200"
+            >
+              <InformationCircleIcon className="w-6 h-6" />
+            </PopoverButton>
+            <PopoverPanel className="absolute z-10 px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0">
+              <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                <div className="relative bg-white p-4 text-sm text-slate-700">
+                  {tooltipContent}
+                </div>
+              </div>
+            </PopoverPanel>
+          </Popover>
+        </div>
       )}
     </div>
   )
