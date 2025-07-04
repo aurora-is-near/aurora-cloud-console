@@ -38,5 +38,11 @@ export const pause = async ({
       methodArgs,
       derivationPath: "m/44'/397'/0'",
     })
+  } else if (networkId === "ethereum") {
+    await pauseContract({
+      networkId,
+      chainId: parseInt(chainId, 10),
+      accountId,
+    })
   }
 }
